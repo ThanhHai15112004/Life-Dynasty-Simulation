@@ -1,46 +1,51 @@
-// [0] Kiểu dữ liệu của hình vẽ tạm (public/assets/common/placeholder/scene-art.json)
-export interface SceneArt {
-  grid: { width: number; height: number };
-  layout: {
-    sceneHeightRatio: number;
-    /** Chừa chỗ phía trên cho thanh thời gian (tỷ lệ chiều cao màn hình). */
-    topOffsetRatio: number;
-    horizonY: number;
-    groundY: number;
-    houseX: number;
-    peopleX: number;
-    peopleSpacing: number;
-    propsX: number[];
-    bambooX: number[];
-  };
-  skyTop: Record<string, string>;
-  sky: Record<string, string>;
-  hills: Record<string, string>;
-  ground: Record<string, string>;
-  groundStripe: Record<string, string>;
-  path: string;
-  bamboo: string;
-  bambooLight: string;
-  weather: Record<string, { tint: string; alpha: number }>;
-  houses: Record<
-    string,
-    { width: number; wallHeight: number; roofHeight: number; wall: string; wallShade: string; roof: string; roofShade: string; door: string; bays: number; chimneyX: number }
-  >;
-  props: Record<string, { shape: string; w: number; h: number; color: string; accent: string; count?: number }>;
-  people: {
-    heights: Record<string, number>;
-    skin: string;
-    hair: string;
-    elderHair: string;
-    clothes: Record<string, string>;
-    playerMarker: string;
-  };
-  conditions: Record<
-    string,
-    { water?: string; waterLight?: string; level?: number; alpha?: number; ground?: string; stripe?: string; tint?: string; lantern?: string }
-  >;
-  particles: Record<string, { color: string; count: number; speed: number }>;
-  background: string;
+// [0] Kiểu dữ liệu bố cục cảnh (public/assets/common/scene-layout.json) và danh mục sprite (public/assets/sprites.json)
+export interface Place {
+  x: number;
+  /** Đặt theo mép trên… */
+  y?: number;
+  /** …hoặc theo mép dưới (đứng trên mặt đất). */
+  bottom?: number;
 }
 
-export const SCENE_ART_KEY = 'scene-art';
+export interface SceneLayout {
+  width: number;
+  height: number;
+  sceneHeightRatio: number;
+  topOffsetRatio: number;
+  background: string;
+  frameRate: number;
+  terrain: (Place & { key: string; byCondition?: Record<string, string> })[];
+  houses: Record<string, Place & { chimney: [number, number]; lantern: [number, number] }>;
+  props: Record<string, Place[]>;
+  people: {
+    x: number;
+    spacing: number;
+    bottom: number;
+    sprites: Record<string, string>;
+    animBySeason: Record<string, string[]>;
+    fallbackAnim: string;
+    playerMarker: string;
+  };
+  flood: Place & { key: string; alpha: number };
+  weather: { key: string; alpha: number };
+  conditions: Record<string, { tint?: string; alpha?: number; lantern?: string; flood?: boolean }>;
+  particles: Record<string, { color: string; count: number; speed: number }>;
+}
+
+export interface SpriteInfo {
+  url: string;
+  frameWidth: number;
+  frameHeight: number;
+  frames: number;
+}
+
+export interface SpriteManifest {
+  sprites: Record<string, SpriteInfo>;
+  icons: Record<string, SpriteInfo>;
+}
+
+export const SCENE_LAYOUT_KEY = 'scene-layout';
+export const SPRITE_MANIFEST_KEY = 'sprite-manifest';
+
+/** Thay {season}, {weather}... trong khóa sprite. */
+export const fillKey = (key: string, vars: Record<string, string>): string => key.replace(/\{(\w+)\}/g, (_, k: string) => vars[k] ?? k);

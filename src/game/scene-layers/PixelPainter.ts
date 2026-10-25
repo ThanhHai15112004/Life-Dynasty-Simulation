@@ -20,12 +20,4 @@ export class PixelPainter {
       Math.ceil(h * this.unit),
     );
   }
-
-  /** Tam giác mái nhà vẽ bằng các bậc pixel. */
-  roof(x: number, y: number, w: number, h: number, hex: string, shade: string): void {
-    for (let i = 0; i < h; i++) {
-      const inset = Math.round(((h - i) / h) * (w / 4));
-      this.rect(x + inset - 2, y + i, w - inset * 2 + 4, 1, i % 3 === 0 ? shade : hex);
-    }
-  }
 }

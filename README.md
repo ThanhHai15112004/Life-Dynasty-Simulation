@@ -29,7 +29,7 @@ Mục tiêu GĐ0 là trả lời một câu hỏi: ***vòng lặp một năm có
 | Tử vong | Rủi ro theo tháng: tuổi × sức khỏe × modifier; cái chết nào cũng ghi nguyên nhân; có cơ chế chống xui liên tiếp |
 | Công cụ | Mô phỏng headless 1.000 đời với 5 bot, kiểm tra chéo dữ liệu, test tất định |
 
-Đồ họa hiện là **hình khối tạm (placeholder)** vẽ theo `SceneDescriptor`; art thật thay vào sau mà không phải sửa luật chơi.
+Cảnh dùng **pixel art thật** (4 mùa, nhà tranh/nhà gỗ, người theo tuổi và giới tính có animation, trâu, gà, ao, lũ, thời tiết) và 48 icon giao diện. Danh sách asset còn thiếu: [docs/ART_CAN_CHUAN_BI.md](docs/ART_CAN_CHUAN_BI.md).
 
 ### KPI cân bằng hiện tại (200 đời mỗi bot, `npm run simulate`)
 
@@ -65,6 +65,7 @@ npm run dev          # mở http://localhost:5173
 | `npm run simulate -- --lives 200` | Mô phỏng headless, in KPI cân bằng (`--bot toi_uu`, `--start-age 0`, `--seed x`) |
 | `npm run trace -- --bot an_phan --seed x` | In diễn biến từng năm của một đời để chẩn đoán cân bằng |
 | `npm run lint` | ESLint: chặn `src/core` dùng Phaser/React/DOM/`Math.random` |
+| `npm run process-art` | Cắt, tách nền, thu về lưới pixel các ảnh nguồn trong `art-source/` (không commit) → `public/assets/` + `sprites.json`. Vùng cắt khai báo ở `tools/process-art/manifest.json` |
 
 ---
 
@@ -113,8 +114,9 @@ src/
 tools/
 ├─ simulate/        bot + KPI headless
 ├─ validate-content/
+├─ process-art/     xử lý ảnh nguồn → sprite
 └─ shared/          nạp src/data/ trên Node
-public/assets/      hình vẽ tạm của cảnh (scene-art.json) — sau thay bằng sprite thật
+public/assets/      sprite đã xử lý, sprites.json, bố cục cảnh (common/scene-layout.json)
 docs/               bộ GDD 00–09 và phân tích tổng thể
 ```
 

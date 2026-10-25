@@ -5,3 +5,7 @@ dist/
 .DS_Store
 .vite/
 coverage/
+
+# Ảnh gốc (AI, 32 MB) — chỉ giữ trên máy; asset đã xử lý nằm ở public/assets/
+art-source/
+*:Zone.Identifier

@@ -1,5 +1,6 @@
 // [0] Bảng quyết định đầu năm: Trọng tâm (Focus) chính/phụ và Mức sống — hai công cụ lái cuộc đời
 import type { HudView } from '@core/index';
+import { Icon } from '../../components/Icon';
 import { num, useUi } from '../../context';
 
 export function DecisionPanel({ hud }: { hud: HudView }) {
@@ -19,7 +20,10 @@ export function DecisionPanel({ hud }: { hud: HudView }) {
               const isSecondary = f.secondary === o.id;
               return (
                 <div key={o.id} className={`focus ${isPrimary ? 'primary' : ''} ${isSecondary ? 'secondary' : ''}`} title={o.description}>
-                  <div className="focus-name">{o.name}</div>
+                  <div className="focus-name">
+                    <Icon id={o.icon} />
+                    {o.name}
+                  </div>
                   <div className="focus-actions">
                     <button disabled={isPrimary} onClick={() => setFocus(o.id, f.secondary === o.id ? null : f.secondary)}>
                       {isPrimary ? t('focus.is_primary') : t('focus.set_primary')}

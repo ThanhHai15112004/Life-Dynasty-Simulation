@@ -1,6 +1,7 @@
 // [0] Thẻ sự kiện quyết định: bối cảnh, phương án, khoảng xác suất (dừng thời gian — auto-pause)
 import type { HudView } from '@core/index';
 import { useUi } from '../context';
+import { Icon } from './Icon';
 
 const pct = (x: number) => Math.round(x * 100);
 
@@ -10,7 +11,10 @@ export function EventCard({ pending }: { pending: NonNullable<HudView['pending']
     <div className="modal-backdrop">
       <div className="event-card panel">
         <div className="event-kicker">{t('event.kicker')}</div>
-        <h2>{pending.title}</h2>
+        <h2 className="event-title">
+          <Icon id={store.content.index.event.get(pending.eventId)?.icon ?? ''} size="lg" />
+          {pending.title}
+        </h2>
         <p className="event-text">{pending.text}</p>
         <div className="options">
           {pending.options.map((o) => (

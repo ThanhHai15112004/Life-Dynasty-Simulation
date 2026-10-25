@@ -1,0 +1,667 @@
+{
+ "$comment": "Sinh tự động bởi npm run process-art — đừng sửa tay",
+ "sprites": {
+  "bau_troi_xuan": {
+   "url": "assets/common/terrain/bau_troi_xuan.png",
+   "frameWidth": 320,
+   "frameHeight": 100,
+   "frames": 1
+  },
+  "doi_xa_xuan": {
+   "url": "assets/common/terrain/doi_xa_xuan.png",
+   "frameWidth": 320,
+   "frameHeight": 51,
+   "frames": 1
+  },
+  "luy_tre_trai_xuan": {
+   "url": "assets/common/terrain/luy_tre_trai_xuan.png",
+   "frameWidth": 80,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "luy_tre_phai_xuan": {
+   "url": "assets/common/terrain/luy_tre_phai_xuan.png",
+   "frameWidth": 79,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "ruong_lua_xuan": {
+   "url": "assets/common/terrain/ruong_lua_xuan.png",
+   "frameWidth": 320,
+   "frameHeight": 64,
+   "frames": 1
+  },
+  "bau_troi_ha": {
+   "url": "assets/common/terrain/bau_troi_ha.png",
+   "frameWidth": 320,
+   "frameHeight": 100,
+   "frames": 1
+  },
+  "doi_xa_ha": {
+   "url": "assets/common/terrain/doi_xa_ha.png",
+   "frameWidth": 320,
+   "frameHeight": 52,
+   "frames": 1
+  },
+  "luy_tre_trai_ha": {
+   "url": "assets/common/terrain/luy_tre_trai_ha.png",
+   "frameWidth": 79,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "luy_tre_phai_ha": {
+   "url": "assets/common/terrain/luy_tre_phai_ha.png",
+   "frameWidth": 78,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "ruong_lua_ha": {
+   "url": "assets/common/terrain/ruong_lua_ha.png",
+   "frameWidth": 320,
+   "frameHeight": 64,
+   "frames": 1
+  },
+  "bau_troi_thu": {
+   "url": "assets/common/terrain/bau_troi_thu.png",
+   "frameWidth": 320,
+   "frameHeight": 100,
+   "frames": 1
+  },
+  "doi_xa_thu": {
+   "url": "assets/common/terrain/doi_xa_thu.png",
+   "frameWidth": 320,
+   "frameHeight": 54,
+   "frames": 1
+  },
+  "luy_tre_trai_thu": {
+   "url": "assets/common/terrain/luy_tre_trai_thu.png",
+   "frameWidth": 79,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "luy_tre_phai_thu": {
+   "url": "assets/common/terrain/luy_tre_phai_thu.png",
+   "frameWidth": 70,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "ruong_lua_thu": {
+   "url": "assets/common/terrain/ruong_lua_thu.png",
+   "frameWidth": 320,
+   "frameHeight": 64,
+   "frames": 1
+  },
+  "bau_troi_dong": {
+   "url": "assets/common/terrain/bau_troi_dong.png",
+   "frameWidth": 320,
+   "frameHeight": 100,
+   "frames": 1
+  },
+  "doi_xa_dong": {
+   "url": "assets/common/terrain/doi_xa_dong.png",
+   "frameWidth": 320,
+   "frameHeight": 61,
+   "frames": 1
+  },
+  "luy_tre_trai_dong": {
+   "url": "assets/common/terrain/luy_tre_trai_dong.png",
+   "frameWidth": 77,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "luy_tre_phai_dong": {
+   "url": "assets/common/terrain/luy_tre_phai_dong.png",
+   "frameWidth": 77,
+   "frameHeight": 96,
+   "frames": 1
+  },
+  "ruong_lua_dong": {
+   "url": "assets/common/terrain/ruong_lua_dong.png",
+   "frameWidth": 320,
+   "frameHeight": 64,
+   "frames": 1
+  },
+  "ruong_mat_mua": {
+   "url": "assets/common/terrain/ruong_mat_mua.png",
+   "frameWidth": 320,
+   "frameHeight": 64,
+   "frames": 1
+  },
+  "duong_dat": {
+   "url": "assets/common/terrain/duong_dat.png",
+   "frameWidth": 320,
+   "frameHeight": 22,
+   "frames": 1
+  },
+  "nha_tranh": {
+   "url": "assets/civilizations/nho_giao/buildings/nha_tranh.png",
+   "frameWidth": 112,
+   "frameHeight": 59,
+   "frames": 1
+  },
+  "nha_go": {
+   "url": "assets/civilizations/nho_giao/buildings/nha_go.png",
+   "frameWidth": 124,
+   "frameHeight": 66,
+   "frames": 1
+  },
+  "nguoi_tre_nho_m_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_tre_nho_m_dung.png",
+   "frameWidth": 5,
+   "frameHeight": 9,
+   "frames": 2
+  },
+  "nguoi_tre_nho_m_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_tre_nho_m_di.png",
+   "frameWidth": 6,
+   "frameHeight": 10,
+   "frames": 4
+  },
+  "nguoi_tre_nho_m_choi": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_tre_nho_m_choi.png",
+   "frameWidth": 8,
+   "frameHeight": 9,
+   "frames": 4
+  },
+  "nguoi_tre_nho_f_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_tre_nho_f_dung.png",
+   "frameWidth": 6,
+   "frameHeight": 9,
+   "frames": 2
+  },
+  "nguoi_tre_nho_f_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_tre_nho_f_di.png",
+   "frameWidth": 6,
+   "frameHeight": 10,
+   "frames": 4
+  },
+  "nguoi_tre_nho_f_choi": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_tre_nho_f_choi.png",
+   "frameWidth": 8,
+   "frameHeight": 9,
+   "frames": 4
+  },
+  "nguoi_thieu_nien_m_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_thieu_nien_m_dung.png",
+   "frameWidth": 8,
+   "frameHeight": 17,
+   "frames": 2
+  },
+  "nguoi_thieu_nien_m_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_thieu_nien_m_di.png",
+   "frameWidth": 8,
+   "frameHeight": 17,
+   "frames": 4
+  },
+  "nguoi_thieu_nien_m_cuoc": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_thieu_nien_m_cuoc.png",
+   "frameWidth": 13,
+   "frameHeight": 16,
+   "frames": 4
+  },
+  "nguoi_thieu_nien_f_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_thieu_nien_f_dung.png",
+   "frameWidth": 8,
+   "frameHeight": 17,
+   "frames": 2
+  },
+  "nguoi_thieu_nien_f_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_thieu_nien_f_di.png",
+   "frameWidth": 8,
+   "frameHeight": 17,
+   "frames": 4
+  },
+  "nguoi_thieu_nien_f_cuoc": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_thieu_nien_f_cuoc.png",
+   "frameWidth": 13,
+   "frameHeight": 16,
+   "frames": 4
+  },
+  "nguoi_lon_m_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_lon_m_dung.png",
+   "frameWidth": 11,
+   "frameHeight": 22,
+   "frames": 2
+  },
+  "nguoi_lon_m_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_lon_m_di.png",
+   "frameWidth": 11,
+   "frameHeight": 22,
+   "frames": 4
+  },
+  "nguoi_lon_m_cuoc": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_lon_m_cuoc.png",
+   "frameWidth": 14,
+   "frameHeight": 19,
+   "frames": 4
+  },
+  "nguoi_lon_f_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_lon_f_dung.png",
+   "frameWidth": 10,
+   "frameHeight": 22,
+   "frames": 2
+  },
+  "nguoi_lon_f_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_lon_f_di.png",
+   "frameWidth": 11,
+   "frameHeight": 22,
+   "frames": 4
+  },
+  "nguoi_lon_f_cuoc": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_lon_f_cuoc.png",
+   "frameWidth": 13,
+   "frameHeight": 18,
+   "frames": 4
+  },
+  "nguoi_gia_m_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_gia_m_dung.png",
+   "frameWidth": 9,
+   "frameHeight": 18,
+   "frames": 2
+  },
+  "nguoi_gia_m_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_gia_m_di.png",
+   "frameWidth": 10,
+   "frameHeight": 19,
+   "frames": 4
+  },
+  "nguoi_gia_m_cuoc": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_gia_m_cuoc.png",
+   "frameWidth": 12,
+   "frameHeight": 17,
+   "frames": 4
+  },
+  "nguoi_gia_f_dung": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_gia_f_dung.png",
+   "frameWidth": 9,
+   "frameHeight": 17,
+   "frames": 2
+  },
+  "nguoi_gia_f_di": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_gia_f_di.png",
+   "frameWidth": 10,
+   "frameHeight": 18,
+   "frames": 4
+  },
+  "nguoi_gia_f_cuoc": {
+   "url": "assets/civilizations/nho_giao/characters/nguoi_gia_f_cuoc.png",
+   "frameWidth": 14,
+   "frameHeight": 16,
+   "frames": 4
+  },
+  "dau_nguoi_choi": {
+   "url": "assets/civilizations/nho_giao/characters/dau_nguoi_choi.png",
+   "frameWidth": 5,
+   "frameHeight": 5,
+   "frames": 1
+  },
+  "trau": {
+   "url": "assets/civilizations/nho_giao/props/trau.png",
+   "frameWidth": 31,
+   "frameHeight": 17,
+   "frames": 4
+  },
+  "dan_ga": {
+   "url": "assets/civilizations/nho_giao/props/dan_ga.png",
+   "frameWidth": 18,
+   "frameHeight": 9,
+   "frames": 4
+  },
+  "ao_ca": {
+   "url": "assets/civilizations/nho_giao/props/ao_ca.png",
+   "frameWidth": 64,
+   "frameHeight": 15,
+   "frames": 3
+  },
+  "kho_lua": {
+   "url": "assets/civilizations/nho_giao/props/kho_lua.png",
+   "frameWidth": 33,
+   "frameHeight": 34,
+   "frames": 1
+  },
+  "lu_nuoc_ngap": {
+   "url": "assets/common/effects/lu_nuoc_ngap.png",
+   "frameWidth": 320,
+   "frameHeight": 43,
+   "frames": 3
+  },
+  "den_long": {
+   "url": "assets/common/effects/den_long.png",
+   "frameWidth": 5,
+   "frameHeight": 12,
+   "frames": 2
+  },
+  "thoi_tiet_gio_bac": {
+   "url": "assets/common/effects/thoi_tiet_gio_bac.png",
+   "frameWidth": 320,
+   "frameHeight": 180,
+   "frames": 1
+  },
+  "thoi_tiet_han": {
+   "url": "assets/common/effects/thoi_tiet_han.png",
+   "frameWidth": 320,
+   "frameHeight": 180,
+   "frames": 1
+  },
+  "thoi_tiet_mua": {
+   "url": "assets/common/effects/thoi_tiet_mua.png",
+   "frameWidth": 320,
+   "frameHeight": 180,
+   "frames": 1
+  },
+  "thoi_tiet_mua_phun": {
+   "url": "assets/common/effects/thoi_tiet_mua_phun.png",
+   "frameWidth": 320,
+   "frameHeight": 180,
+   "frames": 1
+  },
+  "thoi_tiet_nang": {
+   "url": "assets/common/effects/thoi_tiet_nang.png",
+   "frameWidth": 320,
+   "frameHeight": 180,
+   "frames": 1
+  },
+  "thoi_tiet_suong_mu": {
+   "url": "assets/common/effects/thoi_tiet_suong_mu.png",
+   "frameWidth": 320,
+   "frameHeight": 180,
+   "frames": 1
+  }
+ },
+ "icons": {
+  "tien": {
+   "url": "assets/common/ui/icons/tien.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "sach": {
+   "url": "assets/common/ui/icons/sach.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "lang": {
+   "url": "assets/common/ui/icons/lang.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "gia_dinh": {
+   "url": "assets/common/ui/icons/gia_dinh.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "om": {
+   "url": "assets/common/ui/icons/om.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "lua": {
+   "url": "assets/common/ui/icons/lua.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "ca": {
+   "url": "assets/common/ui/icons/ca.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "tin_don": {
+   "url": "assets/common/ui/icons/tin_don.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "no": {
+   "url": "assets/common/ui/icons/no.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "meo": {
+   "url": "assets/common/ui/icons/meo.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "mat_mua": {
+   "url": "assets/common/ui/icons/mat_mua.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "ga": {
+   "url": "assets/common/ui/icons/ga.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "cuoi": {
+   "url": "assets/common/ui/icons/cuoi.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "cay_phu": {
+   "url": "assets/common/ui/icons/cay_phu.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "cay": {
+   "url": "assets/common/ui/icons/cay.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "binh_yen": {
+   "url": "assets/common/ui/icons/binh_yen.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "tre_em": {
+   "url": "assets/common/ui/icons/tre_em.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "trau": {
+   "url": "assets/common/ui/icons/trau.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "thuoc": {
+   "url": "assets/common/ui/icons/thuoc.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "thue": {
+   "url": "assets/common/ui/icons/thue.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "tet": {
+   "url": "assets/common/ui/icons/tet.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "tang": {
+   "url": "assets/common/ui/icons/tang.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "ruong": {
+   "url": "assets/common/ui/icons/ruong.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "nha": {
+   "url": "assets/common/ui/icons/nha.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "nguoi_la": {
+   "url": "assets/common/ui/icons/nguoi_la.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "nang": {
+   "url": "assets/common/ui/icons/nang.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "kiem": {
+   "url": "assets/common/ui/icons/kiem.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "cho": {
+   "url": "assets/common/ui/icons/cho.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "chen_tra": {
+   "url": "assets/common/ui/icons/chen_tra.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "trang": {
+   "url": "assets/common/ui/icons/trang.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "sinh_nhat": {
+   "url": "assets/common/ui/icons/sinh_nhat.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "sau": {
+   "url": "assets/common/ui/icons/sau.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "phu": {
+   "url": "assets/common/ui/icons/phu.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "mua": {
+   "url": "assets/common/ui/icons/mua.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "moc_doi": {
+   "url": "assets/common/ui/icons/moc_doi.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "lu": {
+   "url": "assets/common/ui/icons/lu.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "la": {
+   "url": "assets/common/ui/icons/la.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "ky_nang": {
+   "url": "assets/common/ui/icons/ky_nang.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "khoi_dau": {
+   "url": "assets/common/ui/icons/khoi_dau.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "kho": {
+   "url": "assets/common/ui/icons/kho.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "hoi": {
+   "url": "assets/common/ui/icons/hoi.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "giac_mo": {
+   "url": "assets/common/ui/icons/giac_mo.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "dieu": {
+   "url": "assets/common/ui/icons/dieu.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "chuot": {
+   "url": "assets/common/ui/icons/chuot.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "cay_lua": {
+   "url": "assets/common/ui/icons/cay_lua.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "bac": {
+   "url": "assets/common/ui/icons/bac.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "su_kien": {
+   "url": "assets/common/ui/icons/su_kien.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "ky_uc": {
+   "url": "assets/common/ui/icons/ky_uc.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  },
+  "tong_hop": {
+   "url": "assets/common/ui/icons/tong_hop.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1
+  }
+ }
+}

@@ -1,0 +1,51 @@
+{
+  "$comment": "[0] Bố cục cảnh pixel 7 lớp (GDD 08 §2) trên khung gốc 320×180. Sprite lấy từ sprites.json (npm run process-art). {season} được thay bằng mùa hiện tại.",
+  "width": 320,
+  "height": 180,
+  "sceneHeightRatio": 0.46,
+  "topOffsetRatio": 0.06,
+  "background": "#0f1419",
+  "frameRate": 4,
+  "terrain": [
+    { "key": "bau_troi_{season}", "x": 0, "y": 0 },
+    { "key": "doi_xa_{season}", "x": 0, "bottom": 116 },
+    { "key": "luy_tre_trai_{season}", "x": -8, "bottom": 128 },
+    { "key": "luy_tre_phai_{season}", "x": 248, "bottom": 128 },
+    { "key": "ruong_lua_{season}", "x": 0, "y": 108, "byCondition": { "mat_mua": "ruong_mat_mua" } },
+    { "key": "duong_dat", "x": 0, "bottom": 182 }
+  ],
+  "houses": {
+    "nha_tranh": { "x": 14, "bottom": 170, "chimney": [92, 6], "lantern": [96, 22] },
+    "nha_go": { "x": 10, "bottom": 172, "chimney": [104, 4], "lantern": [112, 24] }
+  },
+  "props": {
+    "ao_ca": [{ "x": 236, "bottom": 152 }],
+    "kho_lua": [{ "x": 128, "bottom": 164 }],
+    "trau": [{ "x": 214, "bottom": 175 }, { "x": 248, "bottom": 177 }],
+    "dan_ga": [{ "x": 280, "bottom": 178 }]
+  },
+  "people": {
+    "x": 148,
+    "spacing": 13,
+    "bottom": 176,
+    "sprites": { "tre_nho": "nguoi_tre_nho", "thieu_nien": "nguoi_thieu_nien", "nguoi_lon": "nguoi_lon", "nguoi_gia": "nguoi_gia" },
+    "animBySeason": { "xuan": ["cuoc", "choi", "dung"], "ha": ["dung", "di"], "thu": ["cuoc", "choi", "dung"], "dong": ["dung"] },
+    "fallbackAnim": "dung",
+    "playerMarker": "dau_nguoi_choi"
+  },
+  "flood": { "key": "lu_nuoc_ngap", "x": 0, "bottom": 180, "alpha": 0.9 },
+  "weather": { "key": "thoi_tiet_{weather}", "alpha": 1 },
+  "conditions": {
+    "ngheo_doi": { "tint": "#1a1420", "alpha": 0.32 },
+    "thinh_vuong": { "tint": "#ffcc66", "alpha": 0.08, "lantern": "den_long" },
+    "ngap_lut": { "flood": true },
+    "mat_mua": {},
+    "binh_yen": {}
+  },
+  "particles": {
+    "khoi_bep": { "color": "#d8d8d8", "count": 6, "speed": 3 },
+    "la_roi": { "color": "#c96f2c", "count": 12, "speed": 6 },
+    "dom_dom": { "color": "#f5f08a", "count": 12, "speed": 1 },
+    "mua_roi": { "color": "#a9c0d8", "count": 90, "speed": 70 }
+  }
+}

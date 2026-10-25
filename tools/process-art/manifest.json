@@ -1,0 +1,1177 @@
+{
+ "$comment": "Vùng cắt (pixel ảnh nguồn) và kích thước đích (pixel game, cảnh 320×180) của từng asset. Sửa ở đây rồi chạy npm run process-art.",
+ "source": "art-source",
+ "out": "public/assets",
+ "defaults": {
+  "tol": 40,
+  "alphaMin": 160,
+  "minArea": 60,
+  "colors": 48
+ },
+ "items": [
+  {
+   "type": "sprite",
+   "id": "bau_troi_xuan",
+   "file": "Ảnh ChatGPT 16_35_49 25 thg 10, 2026-1.png",
+   "box": [
+    70,
+    118,
+    1382,
+    386
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    100
+   ],
+   "colors": 64,
+   "out": "common/terrain/bau_troi_xuan.png"
+  },
+  {
+   "type": "sprite",
+   "id": "doi_xa_xuan",
+   "file": "Ảnh ChatGPT 16_35_49 25 thg 10, 2026-1.png",
+   "box": [
+    290,
+    490,
+    1162,
+    638
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "width": 320,
+   "colors": 64,
+   "out": "common/terrain/doi_xa_xuan.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_trai_xuan",
+   "file": "Ảnh ChatGPT 16_35_49 25 thg 10, 2026-1.png",
+   "box": [
+    10,
+    418,
+    322,
+    794
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_trai_xuan.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_phai_xuan",
+   "file": "Ảnh ChatGPT 16_35_49 25 thg 10, 2026-1.png",
+   "box": [
+    1130,
+    414,
+    1442,
+    798
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_phai_xuan.png"
+  },
+  {
+   "type": "sprite",
+   "id": "ruong_lua_xuan",
+   "file": "Ảnh ChatGPT 16_35_49 25 thg 10, 2026-1.png",
+   "box": [
+    34,
+    818,
+    1422,
+    1042
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    64
+   ],
+   "colors": 64,
+   "out": "common/terrain/ruong_lua_xuan.png"
+  },
+  {
+   "type": "sprite",
+   "id": "bau_troi_ha",
+   "file": "Ảnh ChatGPT 16_35_51 25 thg 10, 2026-2.png",
+   "box": [
+    34,
+    98,
+    1414,
+    398
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    100
+   ],
+   "colors": 64,
+   "out": "common/terrain/bau_troi_ha.png"
+  },
+  {
+   "type": "sprite",
+   "id": "doi_xa_ha",
+   "file": "Ảnh ChatGPT 16_35_51 25 thg 10, 2026-2.png",
+   "box": [
+    290,
+    506,
+    1162,
+    658
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "width": 320,
+   "colors": 64,
+   "out": "common/terrain/doi_xa_ha.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_trai_ha",
+   "file": "Ảnh ChatGPT 16_35_51 25 thg 10, 2026-2.png",
+   "box": [
+    6,
+    410,
+    334,
+    806
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_trai_ha.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_phai_ha",
+   "file": "Ảnh ChatGPT 16_35_51 25 thg 10, 2026-2.png",
+   "box": [
+    1118,
+    410,
+    1442,
+    806
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_phai_ha.png"
+  },
+  {
+   "type": "sprite",
+   "id": "ruong_lua_ha",
+   "file": "Ảnh ChatGPT 16_35_51 25 thg 10, 2026-2.png",
+   "box": [
+    18,
+    814,
+    1438,
+    1058
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    64
+   ],
+   "colors": 64,
+   "out": "common/terrain/ruong_lua_ha.png"
+  },
+  {
+   "type": "sprite",
+   "id": "bau_troi_thu",
+   "file": "Ảnh ChatGPT 16_35_53 25 thg 10, 2026-3.png",
+   "box": [
+    62,
+    90,
+    1390,
+    398
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    100
+   ],
+   "colors": 64,
+   "out": "common/terrain/bau_troi_thu.png"
+  },
+  {
+   "type": "sprite",
+   "id": "doi_xa_thu",
+   "file": "Ảnh ChatGPT 16_35_53 25 thg 10, 2026-3.png",
+   "box": [
+    286,
+    486,
+    1160,
+    652
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "width": 320,
+   "colors": 64,
+   "out": "common/terrain/doi_xa_thu.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_trai_thu",
+   "file": "Ảnh ChatGPT 16_35_53 25 thg 10, 2026-3.png",
+   "box": [
+    6,
+    414,
+    326,
+    802
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_trai_thu.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_phai_thu",
+   "file": "Ảnh ChatGPT 16_35_53 25 thg 10, 2026-3.png",
+   "box": [
+    1164,
+    402,
+    1446,
+    802
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_phai_thu.png"
+  },
+  {
+   "type": "sprite",
+   "id": "ruong_lua_thu",
+   "file": "Ảnh ChatGPT 16_35_53 25 thg 10, 2026-3.png",
+   "box": [
+    26,
+    818,
+    1430,
+    1054
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    64
+   ],
+   "colors": 64,
+   "out": "common/terrain/ruong_lua_thu.png"
+  },
+  {
+   "type": "sprite",
+   "id": "bau_troi_dong",
+   "file": "Ảnh ChatGPT 16_35_54 25 thg 10, 2026-4.png",
+   "box": [
+    58,
+    118,
+    1394,
+    394
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    100
+   ],
+   "colors": 64,
+   "out": "common/terrain/bau_troi_dong.png"
+  },
+  {
+   "type": "sprite",
+   "id": "doi_xa_dong",
+   "file": "Ảnh ChatGPT 16_35_54 25 thg 10, 2026-4.png",
+   "box": [
+    286,
+    498,
+    1170,
+    678
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "width": 320,
+   "colors": 64,
+   "out": "common/terrain/doi_xa_dong.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_trai_dong",
+   "file": "Ảnh ChatGPT 16_35_54 25 thg 10, 2026-4.png",
+   "box": [
+    6,
+    410,
+    326,
+    806
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_trai_dong.png"
+  },
+  {
+   "type": "sprite",
+   "id": "luy_tre_phai_dong",
+   "file": "Ảnh ChatGPT 16_35_54 25 thg 10, 2026-4.png",
+   "box": [
+    1130,
+    406,
+    1446,
+    806
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "height": 96,
+   "colors": 48,
+   "out": "common/terrain/luy_tre_phai_dong.png"
+  },
+  {
+   "type": "sprite",
+   "id": "ruong_lua_dong",
+   "file": "Ảnh ChatGPT 16_35_54 25 thg 10, 2026-4.png",
+   "box": [
+    18,
+    822,
+    1438,
+    1066
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    64
+   ],
+   "colors": 64,
+   "out": "common/terrain/ruong_lua_dong.png"
+  },
+  {
+   "type": "sprite",
+   "id": "ruong_mat_mua",
+   "file": "Ảnh ChatGPT 16_35_55 25 thg 10, 2026-5.png",
+   "box": [
+    26,
+    340,
+    1430,
+    636
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "cover": [
+    320,
+    64
+   ],
+   "colors": 64,
+   "out": "common/terrain/ruong_mat_mua.png"
+  },
+  {
+   "type": "sprite",
+   "id": "duong_dat",
+   "file": "Ảnh ChatGPT 16_35_55 25 thg 10, 2026-5.png",
+   "box": [
+    26,
+    740,
+    1422,
+    852
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "width": 320,
+   "colors": 32,
+   "out": "common/terrain/duong_dat.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nha_tranh",
+   "file": "Ảnh ChatGPT 16_38_26 25 thg 10, 2026-1.png",
+   "box": [
+    40,
+    60,
+    1416,
+    980
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "width": 112,
+   "colors": 48,
+   "erase": [
+    {
+     "box": [
+      1060,
+      0,
+      1330,
+      290
+     ],
+     "rule": "smoke"
+    }
+   ],
+   "out": "civilizations/nho_giao/buildings/nha_tranh.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nha_go",
+   "file": "Ảnh ChatGPT 16_38_27 25 thg 10, 2026-2.png",
+   "box": [
+    16,
+    220,
+    1440,
+    984
+   ],
+   "bg": "alpha",
+   "pick": "largest",
+   "width": 124,
+   "colors": 48,
+   "out": "civilizations/nho_giao/buildings/nha_go.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_tre_nho_m_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    10,
+    85,
+    200,
+    148
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_tre_nho_m_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_tre_nho_m_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    205,
+    85,
+    535,
+    148
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_tre_nho_m_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_tre_nho_m_choi",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    540,
+    85,
+    830,
+    148
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_tre_nho_m_choi.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_tre_nho_f_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    845,
+    85,
+    1040,
+    148
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_tre_nho_f_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_tre_nho_f_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1045,
+    85,
+    1365,
+    148
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_tre_nho_f_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_tre_nho_f_choi",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1370,
+    85,
+    1665,
+    148
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_tre_nho_f_choi.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_thieu_nien_m_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    10,
+    240,
+    200,
+    348
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_thieu_nien_m_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_thieu_nien_m_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    205,
+    240,
+    500,
+    348
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_thieu_nien_m_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_thieu_nien_m_cuoc",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    505,
+    240,
+    830,
+    348
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_thieu_nien_m_cuoc.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_thieu_nien_f_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    845,
+    240,
+    1040,
+    348
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_thieu_nien_f_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_thieu_nien_f_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1045,
+    240,
+    1335,
+    348
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_thieu_nien_f_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_thieu_nien_f_cuoc",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1340,
+    240,
+    1665,
+    348
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_thieu_nien_f_cuoc.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_lon_m_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    10,
+    445,
+    212,
+    583
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_lon_m_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_lon_m_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    215,
+    445,
+    512,
+    583
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_lon_m_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_lon_m_cuoc",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    515,
+    445,
+    830,
+    583
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_lon_m_cuoc.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_lon_f_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    845,
+    445,
+    1040,
+    583
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_lon_f_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_lon_f_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1045,
+    445,
+    1345,
+    583
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_lon_f_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_lon_f_cuoc",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1350,
+    445,
+    1665,
+    583
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_lon_f_cuoc.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_gia_m_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    10,
+    684,
+    202,
+    792
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_gia_m_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_gia_m_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    205,
+    684,
+    527,
+    792
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_gia_m_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_gia_m_cuoc",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    530,
+    684,
+    830,
+    792
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_gia_m_cuoc.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_gia_f_dung",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    845,
+    684,
+    1075,
+    792
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 2,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_gia_f_dung.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_gia_f_di",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1080,
+    684,
+    1355,
+    792
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_gia_f_di.png"
+  },
+  {
+   "type": "sprite",
+   "id": "nguoi_gia_f_cuoc",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    1360,
+    684,
+    1665,
+    792
+   ],
+   "bg": "flood",
+   "tol": 42,
+   "minArea": 150,
+   "frames": 4,
+   "scale": 0.18,
+   "colors": 32,
+   "out": "civilizations/nho_giao/characters/nguoi_gia_f_cuoc.png"
+  },
+  {
+   "type": "sprite",
+   "id": "dau_nguoi_choi",
+   "file": "Bảng sprite pixel art làng Việt xưa.png",
+   "box": [
+    30,
+    858,
+    90,
+    912
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "pick": "largest",
+   "height": 5,
+   "colors": 16,
+   "out": "civilizations/nho_giao/characters/dau_nguoi_choi.png"
+  },
+  {
+   "type": "sprite",
+   "id": "trau",
+   "file": "Bộ sprite pixel làng quê Việt Nam.png",
+   "box": [
+    15,
+    58,
+    672,
+    152
+   ],
+   "bg": "flood",
+   "tol": 20,
+   "minArea": 150,
+   "frames": 4,
+   "height": 17,
+   "colors": 32,
+   "out": "civilizations/nho_giao/props/trau.png",
+   "erase": [
+    {
+     "box": [
+      0,
+      0,
+      700,
+      100
+     ],
+     "rule": "green"
+    }
+   ]
+  },
+  {
+   "type": "sprite",
+   "id": "dan_ga",
+   "file": "Bộ sprite pixel làng quê Việt Nam.png",
+   "box": [
+    15,
+    222,
+    685,
+    300
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "minArea": 40,
+   "frames": 4,
+   "height": 9,
+   "colors": 32,
+   "out": "civilizations/nho_giao/props/dan_ga.png"
+  },
+  {
+   "type": "sprite",
+   "id": "ao_ca",
+   "file": "Bộ sprite pixel làng quê Việt Nam.png",
+   "box": [
+    12,
+    365,
+    1050,
+    450
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "minArea": 40,
+   "frames": 3,
+   "width": 64,
+   "colors": 32,
+   "out": "civilizations/nho_giao/props/ao_ca.png"
+  },
+  {
+   "type": "sprite",
+   "id": "kho_lua",
+   "file": "Bộ sprite pixel làng quê Việt Nam.png",
+   "box": [
+    20,
+    510,
+    190,
+    690
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "pick": "all",
+   "height": 34,
+   "colors": 32,
+   "out": "civilizations/nho_giao/props/kho_lua.png",
+   "minArea": 40
+  },
+  {
+   "type": "sprite",
+   "id": "lu_nuoc_ngap",
+   "file": "Bảng tài nguyên pixel game Việt Nam.png",
+   "box": [
+    12,
+    52,
+    1662,
+    132
+   ],
+   "bg": "opaque",
+   "frameBoxes": [
+    [
+     4,
+     4,
+     542,
+     76
+    ],
+    [
+     557,
+     4,
+     1095,
+     76
+    ],
+    [
+     1109,
+     4,
+     1647,
+     76
+    ]
+   ],
+   "width": 320,
+   "colors": 48,
+   "out": "common/effects/lu_nuoc_ngap.png"
+  },
+  {
+   "type": "sprite",
+   "id": "den_long",
+   "file": "Bảng tài nguyên pixel game Việt Nam.png",
+   "box": [
+    50,
+    695,
+    305,
+    865
+   ],
+   "bg": "flood",
+   "tol": 45,
+   "minArea": 40,
+   "frames": 2,
+   "height": 12,
+   "colors": 16,
+   "out": "common/effects/den_long.png"
+  },
+  {
+   "type": "copy",
+   "id": "thoi_tiet_gio_bac",
+   "file": "thoi_tiet_gio_bac.png",
+   "out": "common/effects/thoi_tiet_gio_bac.png"
+  },
+  {
+   "type": "copy",
+   "id": "thoi_tiet_han",
+   "file": "thoi_tiet_han.png",
+   "out": "common/effects/thoi_tiet_han.png"
+  },
+  {
+   "type": "copy",
+   "id": "thoi_tiet_mua",
+   "file": "thoi_tiet_mua.png",
+   "out": "common/effects/thoi_tiet_mua.png"
+  },
+  {
+   "type": "copy",
+   "id": "thoi_tiet_mua_phun",
+   "file": "thoi_tiet_mua_phun.png",
+   "out": "common/effects/thoi_tiet_mua_phun.png"
+  },
+  {
+   "type": "copy",
+   "id": "thoi_tiet_nang",
+   "file": "thoi_tiet_nang.png",
+   "out": "common/effects/thoi_tiet_nang.png"
+  },
+  {
+   "type": "copy",
+   "id": "thoi_tiet_suong_mu",
+   "file": "thoi_tiet_suong_mu.png",
+   "out": "common/effects/thoi_tiet_suong_mu.png"
+  },
+  {
+   "type": "icons",
+   "file": "Bộ biểu tượng giao diện pixel Việt Nam-1.png",
+   "box": [
+    12,
+    82,
+    1505,
+    166
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "minArea": 12,
+   "size": 32,
+   "colors": 32,
+   "outDir": "common/ui/icons",
+   "ids": [
+    "tien",
+    "sach",
+    "lang",
+    "gia_dinh",
+    "om",
+    "lua",
+    "ca",
+    "tin_don",
+    "no",
+    "meo",
+    "mat_mua",
+    "ga",
+    "cuoi",
+    "cay_phu",
+    "cay"
+   ]
+  },
+  {
+   "type": "icons",
+   "file": "Bộ biểu tượng giao diện pixel Việt Nam-1.png",
+   "box": [
+    12,
+    207,
+    1445,
+    292
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "minArea": 12,
+   "size": 32,
+   "colors": 32,
+   "outDir": "common/ui/icons",
+   "ids": [
+    "binh_yen",
+    "tre_em",
+    "trau",
+    "thuoc",
+    "thue",
+    "tet",
+    "tang",
+    "ruong",
+    "nha",
+    "nguoi_la",
+    "nang",
+    "kiem",
+    "cho",
+    "chen_tra"
+   ]
+  },
+  {
+   "type": "icons",
+   "file": "Bộ biểu tượng giao diện pixel Việt Nam-1.png",
+   "box": [
+    12,
+    333,
+    1505,
+    418
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "minArea": 12,
+   "size": 32,
+   "colors": 32,
+   "outDir": "common/ui/icons",
+   "ids": [
+    "trang",
+    "sinh_nhat",
+    "sau",
+    "phu",
+    "mua",
+    "moc_doi",
+    "lu",
+    "la",
+    "ky_nang",
+    "khoi_dau",
+    "kho",
+    "hoi",
+    "giac_mo",
+    "dieu"
+   ]
+  },
+  {
+   "type": "icons",
+   "file": "Bộ biểu tượng giao diện pixel Việt Nam-1.png",
+   "box": [
+    12,
+    458,
+    665,
+    552
+   ],
+   "bg": "flood",
+   "tol": 40,
+   "minArea": 12,
+   "size": 32,
+   "colors": 32,
+   "outDir": "common/ui/icons",
+   "ids": [
+    "chuot",
+    "cay_lua",
+    "bac",
+    "su_kien",
+    "ky_uc",
+    "tong_hop"
+   ]
+  }
+ ]
+}

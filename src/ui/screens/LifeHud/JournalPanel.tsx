@@ -1,5 +1,6 @@
 // [0] Nhật ký dòng đời theo năm (GDD 05 §12.3): dòng thường, dòng nổi bật, nhãn tin đồn, tác động nhỏ cuối dòng
 import type { HudView, LogEntry } from '@core/index';
+import { Icon } from '../../components/Icon';
 import { signed, useUi } from '../../context';
 
 function Deltas({ e }: { e: LogEntry }) {
@@ -41,6 +42,7 @@ export function JournalPanel({ hud }: { hud: HudView }) {
             {[...y.entries].reverse().map((e) => (
               <div key={e.id} className={`line ${e.highlight ? 'highlight' : ''} tone-${e.tone}`}>
                 <span className="line-month">{t(`month.short.${e.month}`)}</span>
+                <Icon id={e.icon} />
                 <span className="line-text">
                   {e.text}
                   {e.rumor && <span className="rumor"> {t('journal.rumor')}</span>}

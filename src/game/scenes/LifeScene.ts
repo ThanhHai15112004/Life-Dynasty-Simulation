@@ -2,20 +2,22 @@
 import Phaser from 'phaser';
 import type { GameStore } from '@bridge/GameStore';
 import type { SceneDescriptor } from '@core/index';
-import { SCENE_ART_KEY, type SceneArt } from '../scene-layers/art';
-import { drawBuildings, drawCharacters, drawCondition, drawProps, drawTerrain, drawWeather } from '../scene-layers/layers';
+import { SCENE_LAYOUT_KEY, type SceneLayout } from '../scene-layers/art';
+import { buildScene } from '../scene-layers/layers';
 import { ParticleLayer } from '../scene-layers/particles';
 import { PixelPainter, color } from '../scene-layers/PixelPainter';
 import { STORE_REGISTRY_KEY } from '../registryKeys';
 
 export class LifeScene extends Phaser.Scene {
-  private art!: SceneArt;
+  private layout!: SceneLayout;
   private store!: GameStore;
-  private staticGfx!: Phaser.GameObjects.Graphics;
+  private root!: Phaser.GameObjects.Container;
   private fxGfx!: Phaser.GameObjects.Graphics;
+  private maskGfx!: Phaser.GameObjects.Graphics;
   private particles = new ParticleLayer();
   private descriptor: SceneDescriptor | null = null;
   private descriptorKey = '';
+  private chimney: [number, number] | null = null;
   private unsubscribe?: () => void;
 
   constructor() {
@@ -23,25 +25,34 @@ export class LifeScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.art = this.cache.json.get(SCENE_ART_KEY) as SceneArt;
+    this.layout = this.cache.json.get(SCENE_LAYOUT_KEY) as SceneLayout;
     this.store = this.registry.get(STORE_REGISTRY_KEY) as GameStore;
-    this.cameras.main.setBackgroundColor(color(this.art.background));
-    this.staticGfx = this.add.graphics();
+    this.cameras.main.setBackgroundColor(color(this.layout.background));
+    this.root = this.add.container();
     this.fxGfx = this.add.graphics();
+    // Cắt mọi thứ trong khung cảnh (lũy tre, hạt mưa không tràn ra ngoài)
+    this.maskGfx = this.make.graphics({}, false);
+    const mask = this.maskGfx.createGeometryMask();
+    this.root.setMask(mask);
+    this.fxGfx.setMask(mask);
     this.unsubscribe = this.store.subscribe(() => this.sync());
-    this.scale.on('resize', () => this.redraw());
+    this.scale.on('resize', () => this.fit());
     this.events.once('shutdown', () => this.unsubscribe?.());
+    this.fit();
     this.sync();
   }
 
-  private painter(g: Phaser.GameObjects.Graphics): PixelPainter {
+  /** Co giãn khung 320×180 vào vùng cảnh, giữ tỷ lệ. */
+  private fit(): void {
     const { width, height } = this.scale;
-    const grid = this.art.grid;
-    const sceneH = height * this.art.layout.sceneHeightRatio;
-    const unit = Math.max(1, Math.floor(Math.min(width / grid.width, sceneH / grid.height)));
-    const originX = Math.floor((width - grid.width * unit) / 2);
-    const originY = Math.floor((sceneH - grid.height * unit) / 2) + Math.floor(height * this.art.layout.topOffsetRatio);
-    return new PixelPainter(g, unit, originX, originY);
+    const L = this.layout;
+    const sceneH = height * L.sceneHeightRatio;
+    const scale = Math.max(1, Math.min(width / L.width, sceneH / L.height));
+    const x = Math.floor((width - L.width * scale) / 2);
+    const y = Math.floor((sceneH - L.height * scale) / 2 + height * L.topOffsetRatio);
+    this.root.setPosition(x, y).setScale(scale);
+    this.fxGfx.setPosition(x, y).setScale(scale);
+    this.maskGfx.clear().fillStyle(0xffffff).fillRect(x, y, L.width * scale, L.height * scale);
   }
 
   private sync(): void {
@@ -50,26 +61,17 @@ export class LifeScene extends Phaser.Scene {
     if (key === this.descriptorKey) return;
     this.descriptorKey = key;
     this.descriptor = d;
-    if (d) this.particles.sync(this.art, d);
-    this.redraw();
-  }
-
-  private redraw(): void {
-    this.staticGfx.clear();
-    const d = this.descriptor;
-    if (!d) return;
-    const p = this.painter(this.staticGfx);
-    drawTerrain(p, this.art, d);
-    drawBuildings(p, this.art, d);
-    drawProps(p, this.art, d);
-    drawCharacters(p, this.art, d);
-    drawCondition(p, this.art, d);
-    drawWeather(p, this.art, d);
+    if (!d) {
+      this.root.removeAll(true);
+      return;
+    }
+    this.particles.sync(this.layout, d);
+    this.chimney = buildScene(this, this.root, this.layout, d).chimney;
   }
 
   update(time: number): void {
     this.fxGfx.clear();
     if (!this.descriptor) return;
-    this.particles.draw(this.painter(this.fxGfx), this.art, this.descriptor, time / 1000);
+    this.particles.draw(new PixelPainter(this.fxGfx, 1, 0, 0), this.layout, this.chimney, time / 1000);
   }
 }
