@@ -11,7 +11,13 @@ export interface LifeResult {
   causeId: string | null;
   years: number;
   decisions: number;
+  /** Số lần gặp lại sự kiện quyết định (không tính chuyện nhỏ). */
   repeatedEvents: number;
+  minorDecisions: number;
+  /** Số lần gặp lại chuyện nhỏ. */
+  repeatedMinor: number;
+  /** Người chơi từng lập gia đình. */
+  married: boolean;
   distinctEvents: number;
   ambientLines: number;
   storyLinesPerYear: number;
@@ -40,11 +46,13 @@ export function runLife(
   let years = 0;
   let openLoopsSum = 0;
   let deepDebt = false;
+  let married = false;
   const apply = (cmds: ReturnType<Bot['yearly']>) => cmds.forEach((c) => s.dispatch(c));
 
   apply(bot.yearly(s.read(getHudView)));
   for (let m = 0; m < maxYears * 12 && !s.state.gameOver; m++) {
     const r = s.tickMonth();
+    if (r.minor) s.autoResolveMinor();
     if (r.decision) {
       const v = s.read(getHudView);
       s.dispatch({ type: 'chooseOption', optionId: bot.choose(v) });
@@ -53,6 +61,7 @@ export function runLife(
     const v = s.read(getHudView);
     apply(bot.monthly(v));
     if (v.household.debt > 30) deepDebt = true;
+    if (s.state.characters[s.state.playerId].spouseId) married = true;
     openLoopsSum += v.openLoops.length / 12;
     if (r.newYear) {
       years += 1;
@@ -61,7 +70,11 @@ export function runLife(
   }
 
   const st = s.state;
-  const seen = Object.values(st.stats.eventsSeen);
+  const isMinor = (id: string) => content.index.event.get(id)?.minor === true;
+  const repeats = (minor: boolean) =>
+    Object.entries(st.stats.eventsSeen)
+      .filter(([id, n]) => isMinor(id) === minor && n > 1)
+      .reduce((a, [, n]) => a + n - 1, 0);
   const player = st.characters[st.playerId];
   const story = st.log.flatMap((y) => y.entries).filter((e) => e.kind !== 'he_thong' && e.kind !== 'bao_cao' && e.kind !== 'tong_hop');
   const view = s.read(getHudView);
@@ -74,8 +87,11 @@ export function runLife(
     causeId: st.gameOver?.causeId ?? null,
     years,
     decisions: st.stats.decisions,
-    repeatedEvents: seen.filter((n) => n > 1).reduce((a, n) => a + n - 1, 0),
-    distinctEvents: seen.length,
+    repeatedEvents: repeats(false),
+    minorDecisions: st.stats.minorDecisions,
+    repeatedMinor: repeats(true),
+    married,
+    distinctEvents: Object.keys(st.stats.eventsSeen).length,
     ambientLines: st.log.reduce((a, y) => a + y.entries.length, 0),
     storyLinesPerYear: years > 0 ? story.length / years : 0,
     openLoopsSum,

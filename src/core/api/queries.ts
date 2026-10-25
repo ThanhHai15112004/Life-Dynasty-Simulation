@@ -11,7 +11,7 @@ import type { LogYear, PendingEvent, Resolution } from '../entities/World';
 import type { SimContext } from '../systems/context';
 import { regularIncomeParts } from '../systems/economy';
 import { buyPrice, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
-import { healthCap } from '../systems/life';
+import { healthCap, treatmentBlock } from '../systems/life';
 import { lifeExpectancyAtBirth } from '../systems/life/mortality';
 import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
 import { computeFor } from '../systems/modifiers';
@@ -73,6 +73,19 @@ export interface HudView {
     monthlyMoney: number;
     livingStandard: string;
     members: { id: string; call: string; name: string; relation: string; sex: 'm' | 'f'; ageGroup: string; age: number; healthKey: string; isPlayer: boolean }[];
+    /** [1] Người ốm trong nhà và việc chạy chữa: giá, khả năng khỏi (chữ), chữa được không và vì sao. */
+    sick: {
+      characterId: string;
+      call: string;
+      isPlayer: boolean;
+      diseaseId: string;
+      diseaseName: string;
+      severity: string;
+      cost: number;
+      chanceKey: string;
+      /** null = chữa được; còn lại là mã lỗi (error.<mã>). */
+      block: string | null;
+    }[];
     properties: { id: string; name: string; unit: string; count: number; value: number; sellable: boolean }[];
     harvestYield: ModifierResult;
     /** [1] Nơi hộ sinh sống. */
@@ -97,8 +110,8 @@ export interface HudView {
   };
   /** [1] Ai lo việc nhà: người chơi là chủ hộ thì được chi tiêu, mua bán; không thì nhà tự vận hành. */
   manage: { isHead: boolean; headCall: string; autoLivingStandard: boolean; autoRepayDebt: boolean };
-  /** [1] Chuyện nhỏ đang chờ (không dừng thời gian). */
-  minor: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[]; monthsLeft: number }) | null;
+  /** [1] Chuyện nhỏ đang chờ chọn (dừng thời gian như sự kiện thường). */
+  minor: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[] }) | null;
   ambition: {
     currentId: string | null;
     achievedMilestones: string[];
@@ -124,6 +137,12 @@ export interface HudView {
     name: string;
     description: string;
     icon: string;
+    /** [1] '' khi còn nhỏ (chưa có nghề riêng), nghe = nghề thật, trang_thai = phụ việc nhà / thất nghiệp. */
+    kind: '' | 'nghe' | 'trang_thai';
+    /** [1] Số tháng làm nghề hiện tại (thâm niên). */
+    months: number;
+    /** [1] Nghề nhà (nuôi cả hộ) — có thể khác nghề riêng của người chơi. */
+    household: { id: string; name: string; icon: string };
     components: string[];
     rankIndex: number;
     rankName: string;
@@ -156,6 +175,9 @@ export interface HudView {
       description: string;
       icon: string;
       available: boolean;
+      /** [1] Vốn phải bỏ ra và lời giải thích điều kiện vào nghề. */
+      costMoney: number;
+      hint: string;
     }[];
   };
   livingStandards: { id: string; name: string; description: string; monthlyMoney: number }[];
@@ -313,6 +335,26 @@ export function getHudView(ctx: SimContext): HudView {
         healthKey: pickBand(display.health_bands, c.health).key,
         isPlayer: c.id === me.id,
       })),
+      sick: aliveMembers(ctx, h).flatMap((c) =>
+        c.diseases.flatMap((d) => {
+          const def = content.index.disease.get(d.id);
+          if (!def) return [];
+          const head = householdHead(ctx)?.id === me.id;
+          return [
+            {
+              characterId: c.id,
+              call: callOf(ctx, c),
+              isPlayer: c.id === me.id,
+              diseaseId: def.id,
+              diseaseName: def.name,
+              severity: def.severity,
+              cost: def.cure_cost,
+              chanceKey: chanceKey(ctx, def.cure_chance),
+              block: head ? treatmentBlock(ctx, c, def.id) : 'not_head',
+            },
+          ];
+        }),
+      ),
       properties: holdingsOf(h, content).map((p) => ({
         id: p.type.id,
         name: p.type.name,
@@ -358,7 +400,6 @@ export function getHudView(ctx: SimContext): HudView {
     minor: state.minor
       ? {
           ...state.minor,
-          monthsLeft: Math.max(0, state.minor.expiresAt - state.clock.monthIndex),
           options: state.minor.options.map((o) => ({ ...o, chanceKey: o.chance ? chanceKey(ctx, (o.chance.shown[0] + o.chance.shown[1]) / 2) : undefined })),
         }
       : null,
@@ -393,14 +434,18 @@ export function getHudView(ctx: SimContext): HudView {
       })
       .filter((x): x is NonNullable<typeof x> => x !== null),
     career: (() => {
-      const cDef = content.index.career.get(state.career.id) ?? content.careers[0];
+      const cDef = content.index.career.get(state.career.id);
+      const home = content.index.career.get(state.householdCareer);
       const rank = cDef?.ranks[state.career.rankIndex] ?? cDef?.ranks[0];
       const nextRank = cDef?.ranks[state.career.rankIndex + 1];
       return {
         id: cDef?.id ?? state.career.id,
-        name: cDef?.name ?? state.career.id,
+        name: cDef?.name ?? '',
         description: cDef?.description ?? '',
         icon: cDef?.icon ?? 'focus',
+        kind: cDef?.kind ?? '',
+        months: cDef ? state.clock.monthIndex - state.career.since : 0,
+        household: { id: home?.id ?? state.householdCareer, name: home?.name ?? '', icon: home?.icon ?? 'focus' },
         components: cDef?.components ?? [],
         rankIndex: state.career.rankIndex,
         rankName: rank?.name ?? '',
@@ -432,13 +477,18 @@ export function getHudView(ctx: SimContext): HudView {
           };
         }),
         availableCareers: content.careers
-          .filter((c) => c.id !== state.career.id)
+          .filter((c) => c.id !== state.career.id && c.kind === 'nghe')
           .map((c) => ({
             id: c.id,
             name: c.name,
             description: c.description,
             icon: c.icon,
-            available: careerAvailable(ctx, c.id),
+            // Vào nghề tốn vốn thì tiền nhà phải đủ và người chơi phải là chủ hộ
+            available:
+              careerAvailable(ctx, c.id) &&
+              ((c.join?.cost_money ?? 0) === 0 || (householdHead(ctx)?.id === state.playerId && h.money >= (c.join?.cost_money ?? 0))),
+            costMoney: c.join?.cost_money ?? 0,
+            hint: c.join?.hint ?? '',
           })),
       };
     })(),

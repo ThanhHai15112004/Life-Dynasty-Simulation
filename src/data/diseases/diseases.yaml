@@ -1,4 +1,5 @@
 # [1] Danh sách bệnh tật cụ thể (GDD 03 §2): mức nặng, tiến triển, chi phí chữa, nguyên nhân chết liên kết
+# cure_cost: tiền một lần chạy chữa (quan) · cure_chance: xác suất thuốc đỡ, khỏi ngay
 diseases:
   - id: cam_han
     name: Cảm hàn
@@ -6,6 +7,7 @@ diseases:
     severity: nhe
     duration_months: [1, 2]
     cure_cost: 0.8
+    cure_chance: 0.9
     self_heal_chance_month: 0.55
     mortality_cause: benh
     monthly_chance: 0.005
@@ -23,6 +25,7 @@ diseases:
     severity: nang
     duration_months: [2, 4]
     cure_cost: 2
+    cure_chance: 0.6
     self_heal_chance_month: 0.28
     mortality_cause: sot_ret
     monthly_chance: 0.0025
@@ -41,6 +44,7 @@ diseases:
     severity: nang
     duration_months: [1, 2]
     cure_cost: 1.8
+    cure_chance: 0.65
     self_heal_chance_month: 0.35
     mortality_cause: benh
     monthly_chance: 0.003
@@ -58,6 +62,7 @@ diseases:
     severity: nang
     duration_months: [2, 4]
     cure_cost: 2
+    cure_chance: 0.6
     self_heal_chance_month: 0.3
     mortality_cause: lao_luc
     monthly_chance: 0.004
@@ -75,6 +80,7 @@ diseases:
     severity: nguy_kich
     duration_months: [1, 2]
     cure_cost: 1.5
+    cure_chance: 0.45
     self_heal_chance_month: 0.45
     mortality_cause: soi
     monthly_chance: 0.005
@@ -92,6 +98,7 @@ diseases:
     severity: nhe
     duration_months: [3, 6]
     cure_cost: 1.5
+    cure_chance: 0.7
     self_heal_chance_month: 0.25
     mortality_cause: gia_yeu
     monthly_chance: 0.005

@@ -192,7 +192,7 @@ templates:
   - id: gd_con_doc_bai
     kind: chuyen_vat
     tags: [gia_dinh, hoc_hanh]
-    condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+    condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
     roles: [{ id: con, from: family, relation: child, condition: { var: self.age, op: between, value: [6, 15] } }]
     weight: 5
     cooldown_years: 3
@@ -222,7 +222,7 @@ templates:
   - id: gd_con_ra_sap
     kind: chuyen_vat
     tags: [gia_dinh, buon_ban]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     roles: [{ id: con, from: family, relation: child, condition: { var: self.age, op: between, value: [10, 16] } }]
     weight: 5
     cooldown_years: 3
@@ -321,7 +321,7 @@ templates:
   - id: gd_buon_xa_nho_con
     kind: chuyen_vat
     tags: [gia_dinh, buon_ban]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.children_count, op: '>=', value: 1 }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: player.children_count, op: '>=', value: 1 }] }
     life_stages: [lap_nghiep, trung_nien]
     weight: 4
     cooldown_years: 3

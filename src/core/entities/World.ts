@@ -112,9 +112,15 @@ export interface GameState {
   focus: { primary: string };
   /** [1] Chủ hộ để mô phỏng tự lo: mức sống theo gia cảnh, tự trả nợ khi có dư. Chưa làm chủ hộ thì luôn tự động. */
   autoManage: { livingStandard: boolean; repayDebt: boolean };
-  /** [1] Trạng thái nghề nghiệp hiện tại của người chơi (GDD 04). */
+  /** [1] Nghề nhà: nghề nuôi cả hộ (kinh tế hộ, sự kiện "con nhà buôn"...). Chủ hộ đổi nghề thì nghề nhà đổi theo. */
+  householdCareer: string;
+  /** [1] Người chơi đã làm chủ hộ (để nhận biết lúc vừa tiếp quản nhà). */
+  wasHead: boolean;
+  /** [1] Nghề riêng của người chơi ('' khi còn nhỏ; phụ việc nhà / thất nghiệp là nghề loại trang_thai) (GDD 04). */
   career: {
     id: string;
+    /** Tháng bắt đầu nghề hiện tại (tính thâm niên). */
+    since: number;
     rankIndex: number;
     merit: number;
     wanted: number;
@@ -149,8 +155,8 @@ export interface GameState {
   ambientHistory: Record<string, { lastMonthIndex: number; lastVariant: number; count: number }>;
   scheduled: ScheduledEvent[];
   pending: PendingEvent | null;
-  /** [1] Chuyện nhỏ đang chờ (không dừng thời gian); quá expiresAt thì tự chọn phương án mặc định. */
-  minor: (PendingEvent & { expiresAt: number }) | null;
+  /** [1] Chuyện nhỏ đang chờ người chơi chọn (dừng thời gian như sự kiện thường). */
+  minor: PendingEvent | null;
   lastResolution: Resolution | null;
 
   director: {

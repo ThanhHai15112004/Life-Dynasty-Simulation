@@ -192,6 +192,8 @@ export const diseaseSchema = z
     severity: z.enum(['nhe', 'nang', 'nguy_kich']).default('nhe'),
     duration_months: range,
     cure_cost: z.number().min(0).default(1),
+    /** [1] Xác suất một lần chạy chữa khỏi bệnh ngay (không khỏi thì mất tiền, chờ ít tháng mới chữa lại được). */
+    cure_chance: z.number().min(0).max(1).default(0.6),
     self_heal_chance_month: z.number().min(0).max(1).default(0.1),
     mortality_cause: z.string().optional(),
     /** Xác suất cơ bản mắc phải mỗi tháng khi thỏa điều kiện (biến `self.*`). */
@@ -272,8 +274,16 @@ export const careerSchema = z
     name: z.string(),
     description: z.string(),
     icon: z.string().default('focus'),
-    components: z.array(z.enum(careerComponentTypes)).min(1),
+    /** [1] nghe: nghề thật (bậc, lương, hành động) · trang_thai: chưa có nghề riêng (phụ việc nhà, thất nghiệp). */
+    kind: z.enum(['nghe', 'trang_thai']).default('nghe'),
+    components: z.array(z.enum(careerComponentTypes)).default([]),
+    /** [1] Kinh nghiệm (công trạng) tích mỗi tháng — phụ việc nhà thì mang theo khi tiếp quản nghề nhà. */
+    merit_month: z.number().min(0).default(0),
+    /** [1] Con cái nhà theo nghề này, đến tuổi trưởng thành thì bắt đầu bằng nghề riêng nào (mặc định: life.career_start.helper). */
+    youth_career: z.string().optional(),
     entry_condition: conditionSchema.optional(),
+    /** [1] Tự vào nghề (tìm việc / ra làm riêng): vốn bỏ ra và lời giải thích điều kiện hiện cho người chơi. */
+    join: z.object({ cost_money: z.number().min(0).default(0), hint: z.string() }).strict().optional(),
     duties: z.array(z.string()).default([]),
     ranks: z.array(careerRankSchema).min(1),
     actions: z.array(careerActionSchema).default([]),

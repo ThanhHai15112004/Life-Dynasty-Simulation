@@ -10,7 +10,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: world.trade_index, op: '>=', value: 1.1 }
         - { not: { has_flag: bs_giu_chu_tin } }
     roles:
@@ -62,7 +62,7 @@ events:
     scheduled_only: true
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { has_flag: bs_giu_chu_tin }
     weight: 1
     tension: 2
@@ -109,7 +109,7 @@ events:
     title: Kiện lụa pha sợi gai
     tags: [buon_ban, nghe_nghiep]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 5
     cooldown_years: 5
     tension: 4
@@ -154,7 +154,7 @@ events:
     title: Quả cân non ở sạp bên
     tags: [buon_ban, lang_xa]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     roles:
       - { id: ly, from: village, village_role: ly_truong }
     weight: 5
@@ -205,7 +205,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
     weight: 5
     cooldown_years: 4
@@ -254,7 +254,7 @@ events:
     tags: [buon_ban, lang_xa, quan_he]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [11, 12, 1]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 5
     cooldown_years: 5
     tension: 4
@@ -306,7 +306,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       any:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
     weight: 4
     cooldown_years: 6
@@ -394,7 +394,7 @@ events:
         failure_result: ['Đêm thứ hai, đuốc sai nha sáng rực đầu lạch. Bạn nhảy xuống sông lội vào bờ, mất cả tiền cọc lẫn đôi dép.']
       - id: mua_re
         text: 'Không chở, chỉ mua lại ít muối giá rẻ về bán'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         chance: { base: 0.8, skill: muu_luoc, per_level: 0.02 }
         success:
           - { type: money, value: 3, ledger: buon_ban }
@@ -426,7 +426,7 @@ events:
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: player.mourning_months, op: '==', value: 0 }
     roles:
       - id: con
@@ -479,7 +479,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: household.money, op: '>=', value: 5 }
         - { var: household.property.sap_hang, op: '<', value: 2 }
     weight: 4
@@ -529,7 +529,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: household.money, op: '>=', value: 6 }
         - { not: { has_flag: bs_no_chu_do } }
     weight: 4
@@ -619,7 +619,7 @@ events:
     title: Phường buôn bầu người giữ quỹ
     tags: [buon_ban, quan_he, tin_nguong]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 4
     cooldown_years: 6
     tension: 3
@@ -772,7 +772,7 @@ events:
     months: [9, 10, 11]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: household.money, op: '>=', value: 6 }
         - { not: { has_flag: bs_dang_len_nguoc } }
     weight: 4
@@ -924,7 +924,7 @@ events:
     tags: [buon_ban, thoi_co, kinh_te]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [2, 3]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 4
     weight_modifiers:
       - { condition: { var: world.trade_index, op: '>=', value: 1.2 }, factor: 1.5 }
@@ -982,7 +982,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { not: { has_flag: bs_than_quan_tran } }
     weight: 4
     cooldown_years: 8

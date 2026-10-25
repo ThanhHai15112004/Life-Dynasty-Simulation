@@ -45,9 +45,9 @@ export function ProfileCard({ hud }: { hud: HudView }) {
             <dt>{t('profile.origin')}</dt>
             <dd>{p.originName}</dd>
             <dt>{t('profile.career')}</dt>
-            <dd>
-              {hud.career.name} · {hud.career.rankName}
-            </dd>
+            <dd>{hud.career.kind === '' ? t('profile.no_career_yet') : hud.career.kind === 'nghe' ? `${hud.career.name} · ${hud.career.rankName}` : hud.career.name}</dd>
+            <dt>{t('profile.household_career')}</dt>
+            <dd>{hud.career.household.name}</dd>
             <dt>{t('profile.status')}</dt>
             <dd>
               <Tooltip content={`${p.statusRank.description} (${t('profile.status_ladder', { n: p.statusRank.index + 1, total: p.statusRank.total })})`}>

@@ -17,9 +17,13 @@ export const SystemLog = {
   ChildBorn: 'sys.sinh_con',
   DiseaseCaught: 'sys.mac_benh',
   DiseaseRecovered: 'sys.khoi_benh',
+  TreatmentCured: 'sys.chua_khoi',
+  TreatmentFailed: 'sys.chua_khong_do',
   AmbitionMilestone: 'sys.dat_moc_tham_vong',
   CareerChanged: 'sys.chuyen_nghe',
   CareerPromoted: 'sys.thang_bac_nghe',
+  CareerInherited: 'sys.thua_ke_nghe',
+  CareerStarted: 'sys.bat_dau_tu_lap',
   ExamPassed: 'sys.do_khoa_cu',
   MourningStarted: 'sys.bat_dau_cu_tang',
   StatusRose: 'sys.dia_vi_len',
@@ -48,6 +52,7 @@ export const Ledger = {
   Career: 'luong_nghe',
   Rent: 'thu_to',
   FamilyWork: 'phu_viec',
+  Medicine: 'thuoc_men',
 } as const;
 
 /** Loại dòng nhật ký không đến từ mẫu ambient. */

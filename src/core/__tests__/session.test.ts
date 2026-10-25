@@ -5,7 +5,7 @@ import { GameSession } from '../api/GameSession';
 import { getHudView } from '../api/queries';
 import { marryPlayer } from '../systems/family';
 import { cureCharacter, infectCharacter, kill } from '../systems/life';
-import { player } from '../systems/people';
+import { player, playerHousehold } from '../systems/people';
 import { changeFilialPiety, examStage, setExamDegree } from '../systems/status';
 import { applyEffects } from '../events/effects';
 import { fireMinor } from '../events/decision';
@@ -27,6 +27,7 @@ function makeHead(s: GameSession): void {
 function play(s: GameSession, months: number): void {
   for (let i = 0; i < months && !s.state.gameOver; i++) {
     const r = s.tickMonth();
+    if (r.minor) s.autoResolveMinor();
     if (r.decision) s.dispatch({ type: 'chooseOption', optionId: s.state.pending!.options[0].id });
   }
 }
@@ -127,9 +128,16 @@ describe('GameSession', () => {
     const sThuongNhan = GameSession.create(content, { originId: 'thuong_nhan', seed: 'o2', startAge: 18 });
     const sQuyToc = GameSession.create(content, { originId: 'quy_toc_nho', seed: 'o3', startAge: 18 });
 
-    expect(sNongDan.state.career.id).toBe('nong_dan');
-    expect(sThuongNhan.state.career.id).toBe('thuong_nhan');
+    // Nghề nhà theo xuất thân; nghề riêng lúc 18 tuổi: phụ việc nhà (nhà nho thì đi học — Nho sinh)
+    expect(sNongDan.state.householdCareer).toBe('nong_dan');
+    expect(sThuongNhan.state.householdCareer).toBe('thuong_nhan');
+    expect(sQuyToc.state.householdCareer).toBe('si_tu');
+    expect(sNongDan.state.career.id).toBe('phu_gia_dinh');
+    expect(sThuongNhan.state.career.id).toBe('phu_gia_dinh');
     expect(sQuyToc.state.career.id).toBe('si_tu');
+    // Phụ việc nhà chưa có hành động nghề; tự ra làm nghề nông thì có
+    expect(sNongDan.dispatch({ type: 'doCareerAction', actionId: 'khan_hoang_bai_boi' }).ok).toBe(false);
+    expect(sNongDan.dispatch({ type: 'joinCareer', careerId: 'nong_dan' }).ok).toBe(true);
     expect(sQuyToc.read(getHudView).household.properties.some((p) => p.id === 'phu_nho')).toBe(true);
 
     // Thực hiện hoạt động nghề nghiệp của Nông dân ("Khẩn hoang bãi bồi", tốn 2 thóc)
@@ -216,6 +224,7 @@ describe('GameSession', () => {
       const s = GameSession.create(content, { originId, seed: `eco-${originId}`, startAge: 16 });
       for (let i = 0; i < 12 && !s.state.gameOver; i++) {
         const r = s.tickMonth();
+        if (r.minor) s.autoResolveMinor();
         if (r.decision) s.dispatch({ type: 'chooseOption', optionId: s.state.pending!.options[0].id });
       }
       const hist = s.state.ledgerHistory.flatMap((y) => y.entries);
@@ -346,24 +355,114 @@ describe('GameSession', () => {
     expect(s.state.ambition.id).toBeNull();
     for (let m = 0; m < 12 * 6 && !s.state.ambition.id && !s.state.gameOver; m++) {
       const r = s.tickMonth();
+      if (r.minor) s.autoResolveMinor();
       if (r.decision) s.dispatch({ type: 'chooseOption', optionId: s.state.pending!.options[0].id });
     }
     expect(s.state.ambition.id).not.toBeNull();
     expect(Object.keys(s.state.stats.eventsSeen).some((id) => id.startsWith('ch_truong_thanh'))).toBe(true);
   });
 
-  it('Chuyện nhỏ không dừng thời gian, bỏ qua quá hạn thì tự chọn phương án mặc định', () => {
+  it('Chuyện nhỏ dừng thời gian chờ chọn; tự quyết thì chọn phương án mặc định', () => {
     const s = GameSession.create(content, { originId: 'nong_dan', seed: 'minor', startAge: 16 });
-    const ev = content.events.find((e) => e.minor && e.roles.length === 0);
+    const ev = content.events.find((e) => e.minor && e.roles.length === 0)!;
     expect(ev).toBeDefined();
-    s.read((ctx) => fireMinor(ctx, ev!, {}));
-    expect(s.state.minor?.eventId).toBe(ev!.id);
+    s.read((ctx) => fireMinor(ctx, ev, {}));
+    expect(s.state.minor?.eventId).toBe(ev.id);
     const month = s.state.clock.monthIndex;
+    expect(s.tickMonth().minor).toBe(true);
+    expect(s.state.clock.monthIndex).toBe(month);
+    s.autoResolveMinor();
+    expect(s.state.minor).toBeNull();
+    expect(s.state.stats.minorDecisions).toBe(1);
+    const def = ev.options.find((o) => o.default) ?? ev.options[0];
+    expect(s.state.log.flatMap((y) => y.entries).some((e) => e.sourceId === ev.id)).toBe(true);
+    expect(def).toBeDefined();
     s.tickMonth();
     expect(s.state.clock.monthIndex).toBe(month + 1);
-    for (let i = 0; i < content.balance.director.minor.expire_months + 1; i++) s.tickMonth();
-    expect(s.state.stats.minorDecisions).toBeGreaterThanOrEqual(1);
-    expect(s.state.log.flatMap((y) => y.entries).some((e) => e.sourceId === ev!.id)).toBe(true);
+  });
+
+  it('Nghề riêng tách khỏi nghề nhà: phụ việc nhà tích kinh nghiệm, làm chủ hộ thì thừa kế nghề nhà', () => {
+    const s = GameSession.create(content, { originId: 'thuong_nhan', seed: 'inherit', startAge: 16 });
+    expect(s.state.career.id).toBe('phu_gia_dinh');
+    expect(s.read(getHudView).career.kind).toBe('trang_thai');
+    play(s, 6);
+    expect(s.state.career.merit).toBeGreaterThan(0);
+    // Đủ kinh nghiệm và tay nghề cho bậc "Chủ sạp" rồi mới làm chủ hộ
+    s.read((ctx) => {
+      player(ctx).skills['thuong_mai'] = { level: 3, xp: 0 };
+      ctx.state.career.merit = 30;
+    });
+    makeHead(s);
+    s.tickMonth();
+    expect(s.state.career.id).toBe('thuong_nhan');
+    expect(s.state.career.rankIndex).toBeGreaterThanOrEqual(1);
+    expect(s.state.log.flatMap((y) => y.entries).some((e) => e.sourceId === 'sys.thua_ke_nghe')).toBe(true);
+  });
+
+  it('Nhà không có nghề để phụ thì đến tuổi là thất nghiệp; chủ hộ đổi nghề thì nghề nhà đổi theo', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'jobless', startAge: 6 });
+    s.read((ctx) => {
+      ctx.state.householdCareer = 'that_nghiep';
+    });
+    // Chơi tới đúng lúc bắt đầu tự lập (sau đó sự kiện mời nghề có thể đổi nghề, không thuộc phạm vi kiểm tra này)
+    for (let m = 0; m < 12 * 12 && !s.state.gameOver && !s.state.career.id; m++) play(s, 1);
+    if (s.state.gameOver) return;
+    expect(s.state.career.id).toBe('that_nghiep');
+    makeHead(s);
+    expect(s.dispatch({ type: 'joinCareer', careerId: 'linh' }).ok || s.read(getHudView).career.availableCareers.every((c) => c.id !== 'linh' || !c.available)).toBe(true);
+    if (s.state.career.id === 'linh') expect(s.state.householdCareer).toBe('linh');
+  });
+
+  it('Sự kiện nào hiện ra cũng có ít nhất 2 lựa chọn (kể cả chuyện nhỏ)', () => {
+    for (const originId of ['nong_dan', 'thuong_nhan', 'quy_toc_nho']) {
+      const s = GameSession.create(content, { originId, seed: `options-${originId}`, startAge: 6 });
+      for (let m = 0; m < 12 * 40 && !s.state.gameOver; m++) {
+        const r = s.tickMonth();
+        if (r.minor) {
+          expect(s.state.minor!.options.length).toBeGreaterThanOrEqual(2);
+          s.autoResolveMinor();
+        }
+        if (r.decision) {
+          expect(s.state.pending!.options.length).toBeGreaterThanOrEqual(2);
+          s.dispatch({ type: 'chooseOption', optionId: s.state.pending!.options[0].id });
+        }
+      }
+    }
+  });
+
+  it('Chạy chữa: chỉ chủ hộ được bỏ tiền; chữa xong thì khỏi, hoặc phải chờ mới chữa lại', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'treat', startAge: 20 });
+    const meId = s.state.playerId;
+    s.read((ctx) => infectCharacter(ctx, player(ctx), 'sot_ret', true));
+    const cmd = { type: 'treatDisease', characterId: meId, diseaseId: 'sot_ret' } as const;
+    expect(s.dispatch(cmd)).toEqual({ ok: false, error: 'not_head' });
+    makeHead(s);
+    s.read((ctx) => {
+      playerHousehold(ctx).money = 50;
+    });
+    const sick = s.read(getHudView).household.sick.find((x) => x.diseaseId === 'sot_ret');
+    expect(sick?.block).toBeNull();
+    expect(s.dispatch(cmd).ok).toBe(true);
+    const cost = content.index.disease.get('sot_ret')!.cure_cost;
+    expect(s.read((ctx) => playerHousehold(ctx).money)).toBeCloseTo(50 - cost);
+    const still = s.state.characters[meId].diseases.find((d) => d.id === 'sot_ret');
+    if (still) expect(s.dispatch(cmd)).toEqual({ ok: false, error: 'treated_recently' });
+  });
+
+  it('Mốc cưới hỏi bảo đảm: quá tuổi chưa lập gia đình thì bà mối chắc chắn tìm đến', () => {
+    for (const originId of ['nong_dan', 'thuong_nhan', 'quy_toc_nho']) {
+      const s = GameSession.create(content, { originId, seed: `wed-${originId}`, startAge: 22 });
+      let asked = false;
+      for (let m = 0; m < 24 && !s.state.gameOver && !asked; m++) {
+        const r = s.tickMonth();
+        if (r.minor) s.autoResolveMinor();
+        if (r.decision) {
+          asked = s.state.pending!.eventId === 'gd_den_tuoi_lap_gia_that' || !!s.state.characters[s.state.playerId].spouseId;
+          s.dispatch({ type: 'chooseOption', optionId: s.state.pending!.options[0].id });
+        }
+        if (s.state.characters[s.state.playerId].spouseId) asked = true;
+      }
+      if (!s.state.gameOver && s.state.civilization.mourningMonthsLeft === 0) expect(asked).toBe(true);
+    }
   });
 });
-

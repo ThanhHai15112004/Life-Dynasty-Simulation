@@ -631,6 +631,12 @@ h4 {
 .people-list .portrait {
   padding: 2px;
 }
+.sick-list {
+  margin-top: 10px;
+}
+.sick-list .person-main {
+  flex: 1;
+}
 .relation-list li {
   display: flex;
   justify-content: space-between;
@@ -922,31 +928,17 @@ h4 {
   width: auto;
 }
 
-/* ── [1] Chuyện nhỏ trong nhật ký ── */
-.minor-card {
-  border: 1px solid var(--gold);
-  background: #fffaf0;
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 10px;
-}
-.minor-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-.minor-card p {
-  margin: 4px 0 8px;
-  font-size: 13px;
-}
-.minor-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* ── [1] Chuyện nhỏ: cùng cửa sổ với sự kiện, gọn hơn ── */
+.event-card.minor {
+  width: min(520px, 100%);
+  border-top: 4px solid var(--gold);
 }
 
 /* Cuộn tới thẻ thì không bị thanh tiêu đề dính trên cùng che mất */
-.card,
-.minor-card {
+.card {
   scroll-margin-top: 160px;
+}
+
+.focus.locked {
+  opacity: 0.6;
 }

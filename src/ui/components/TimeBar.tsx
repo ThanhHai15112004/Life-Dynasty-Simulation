@@ -39,7 +39,7 @@ export function TimeBar({ hud }: { hud: HudView }) {
   const msPerMonth = time.ms_per_month_at_1x / speed;
   const secondsPerYear = Math.round((msPerMonth * hud.date.monthsPerYear) / 1000);
   const d = hud.date;
-  const blocked = !!hud.pending || !!hud.gameOver;
+  const blocked = !!hud.pending || !!hud.minor || !!hud.gameOver;
   return (
     <header className="topbar">
       <div className="topbar-inner">
@@ -71,6 +71,9 @@ export function TimeBar({ hud }: { hud: HudView }) {
               {t('time.speed', { x: s })}
             </button>
           ))}
+          <button className={snap.autoMinor ? 'active' : ''} onClick={() => store.toggleAutoMinor()} title={t('time.auto_minor_hint')}>
+            {t('time.auto_minor')}
+          </button>
           <span className="spacer" />
           <button onClick={() => void store.save()} title={t('time.save')}>
             <Save size={15} /> {t('time.save')}

@@ -299,4 +299,38 @@ templates:
     variants:
       - 'Tá điền gánh thóc tô đến nộp: được {amount} thúng từ {sao} sào ruộng phát canh.'
       - 'Mùa gặt, ruộng cho cấy rẽ nộp về {amount} thúng thóc tô.'
+  - id: sys.chua_khoi
+    kind: bao_cao
+    importance: 4
+    tone: vui
+    icon: binh_yen
+    short: 'chạy thuốc cho {call}, khỏi {title}'
+    variants:
+      - 'Bỏ ra {money} quan mời thầy bốc thuốc cho {call}. Mấy thang thuốc đắng, cơn {title} lui hẳn.'
+      - 'Thầy lang bắt mạch, kê đơn, lấy {money} quan tiền thuốc. Chẳng bao lâu {call} đã khỏi {title}.'
+  - id: sys.chua_khong_do
+    kind: bao_cao
+    importance: 4
+    tone: buon
+    icon: om
+    short: 'chạy thuốc cho {call} mà chưa đỡ'
+    variants:
+      - 'Tốn {money} quan tiền thuốc mà bệnh {title} của {call} vẫn chưa thuyên giảm. Đành chờ thêm ít lâu.'
+      - 'Thang thuốc {money} quan sắc đi sắc lại, {call} vẫn chưa dứt cơn {title}.'
+  - id: sys.thua_ke_nghe
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: moc_doi
+    variants:
+      - 'Từ nay bạn đứng ra gánh vác nhà cửa, tiếp quản nghề nhà: {title}, bậc "{stage}".'
+      - 'Bao năm phụ việc nay thành người cầm trịch: bạn tiếp quản nghề {title} ({stage}).'
+  - id: sys.bat_dau_tu_lap
+    kind: he_thong
+    importance: 6
+    highlight: true
+    icon: moc_doi
+    variants:
+      - 'Bạn đã đến tuổi tự lo cho mình. Chưa có nghề riêng, bạn bắt đầu bằng việc: {title}.'
+      - 'Lớn rồi, bạn bắt đầu tự lập. Việc của bạn lúc này: {title}; nghề nhà vẫn là {stage}.'
 

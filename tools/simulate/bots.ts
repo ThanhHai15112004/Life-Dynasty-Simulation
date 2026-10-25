@@ -40,6 +40,18 @@ function workFocus(view: HudView): string {
   return view.career.components.includes('exam_ladder') ? 'hoc_tap' : 'kinh_doanh';
 }
 
+/** Chạy chữa người ốm khi là chủ hộ: chỉ các mức bệnh đã chọn, và còn giữ lại ít nhất `reserve` quan. */
+function treatCmds(view: HudView, severities: string[], reserve: number): Command[] {
+  let money = view.household.money;
+  const cmds: Command[] = [];
+  for (const s of view.household.sick) {
+    if (s.block !== null || !severities.includes(s.severity) || money - s.cost < reserve) continue;
+    money -= s.cost;
+    cmds.push({ type: 'treatDisease', characterId: s.characterId, diseaseId: s.diseaseId });
+  }
+  return cmds;
+}
+
 /** Làm hành động nghề đầu tiên đang khả dụng (đủ tuổi, hết hồi, đủ vốn). */
 function careerActions(view: HudView): Command[] {
   const act = view.career.actions.find((a) => a.available);
@@ -59,7 +71,7 @@ export function makeBot(name: string, seed: string): Bot {
           if (h.debt > 0 && h.money > 5) cmds.push({ type: 'repayDebt', amount: Math.min(h.debt, h.money - 3) });
           return cmds;
         },
-        monthly: () => [],
+        monthly: (v) => treatCmds(v, ['nang', 'nguy_kich'], 2),
         choose: (v) => {
           const opts = v.pending!.options;
           return (opts.find((o) => !o.chance) ?? opts[opts.length - 1]).id;
@@ -69,7 +81,7 @@ export function makeBot(name: string, seed: string): Bot {
       return {
         name,
         yearly: (v) => [...focusCmd(v, 'kinh_doanh'), { type: 'setLivingStandard', id: v.household.money > 5 ? 'du_day' : 'dam_bac' }],
-        monthly: (v) => [...reserveTrading(v, 1, 0), ...careerActions(v)],
+        monthly: (v) => [...treatCmds(v, ['nguy_kich'], 0), ...reserveTrading(v, 1, 0), ...careerActions(v)],
         choose: (v) => {
           const opts = v.pending!.options;
           const risky = opts.filter((o) => o.chance).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];
@@ -85,7 +97,7 @@ export function makeBot(name: string, seed: string): Bot {
           if (v.household.money > 25) cmds.push({ type: 'buyProperty', id: 'ruong' });
           return cmds;
         },
-        monthly: (v) => [...reserveTrading(v, 4, v.market.sellPrice > 0 ? 0.55 : 0), ...careerActions(v)],
+        monthly: (v) => [...treatCmds(v, ['nang', 'nguy_kich'], 3), ...reserveTrading(v, 4, v.market.sellPrice > 0 ? 0.55 : 0), ...careerActions(v)],
         choose: (v) => {
           const opts = v.pending!.options;
           const good = opts.filter((o) => (mid(o) ?? 0) >= 0.45).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];
@@ -105,7 +117,7 @@ export function makeBot(name: string, seed: string): Bot {
           if (!h.properties.some((p) => p.id === 'trau') && h.money > 20) cmds.push({ type: 'buyProperty', id: 'trau' });
           return cmds;
         },
-        monthly: (v) => [...reserveTrading(v, 6, 0.6), ...careerActions(v)],
+        monthly: (v) => [...treatCmds(v, ['nhe', 'nang', 'nguy_kich'], 1), ...reserveTrading(v, 6, 0.6), ...careerActions(v)],
         choose: (v) => {
           const opts = v.pending!.options;
           const best = opts.filter((o) => (mid(o) ?? 0) >= 0.55).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];
@@ -121,7 +133,7 @@ export function makeBot(name: string, seed: string): Bot {
           cmds.push({ type: 'setLivingStandard', id: rng.pick(v.livingStandards).id });
           return cmds;
         },
-        monthly: (v) => (rng.chance(0.05) ? reserveTrading(v, rng.int(0, 6), 0) : []),
+        monthly: (v) => [...(rng.chance(0.3) ? treatCmds(v, ['nhe', 'nang', 'nguy_kich'], 0) : []), ...(rng.chance(0.05) ? reserveTrading(v, rng.int(0, 6), 0) : [])],
         choose: (v) => rng.pick(v.pending!.options).id,
       };
   }

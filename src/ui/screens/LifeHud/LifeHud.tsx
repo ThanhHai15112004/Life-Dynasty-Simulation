@@ -42,7 +42,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
           <RelationsCard hud={hud} />
         </div>
       </main>
-      {hud.pending && <EventCard pending={hud.pending} />}
+      {hud.pending ? <EventCard pending={hud.pending} /> : hud.minor && <EventCard pending={hud.minor} minor />}
       {hud.gameOver && <LifeSummary summary={hud.gameOver} />}
     </div>
   );

@@ -5,12 +5,12 @@ import { spawnVillageNpc } from '../../world/generate';
 import { RngStream, type SimContext } from '../context';
 import { ageNow, callOf, lifeStageOf, player } from '../people';
 import { monthlyHealth } from './health';
-import { monthlyDiseases, infectCharacter, cureCharacter } from './disease';
+import { autoTreatment, monthlyDiseases, infectCharacter, cureCharacter } from './disease';
 import { annualNpcDeathRisk, monthlyMortality, pickCause } from './mortality';
 
 export { kill, monthlyDeathRisk } from './mortality';
 export { healthCap } from './health';
-export { monthlyDiseases, infectCharacter, cureCharacter } from './disease';
+export { monthlyDiseases, infectCharacter, cureCharacter, treatDisease, treatmentBlock, type TreatmentBlock } from './disease';
 
 function birthdays(ctx: SimContext): void {
   const me = player(ctx);
@@ -24,6 +24,7 @@ function birthdays(ctx: SimContext): void {
 export function monthlyLife(ctx: SimContext): void {
   birthdays(ctx);
   monthlyDiseases(ctx);
+  autoTreatment(ctx);
   monthlyHealth(ctx);
   monthlyMortality(ctx);
 }

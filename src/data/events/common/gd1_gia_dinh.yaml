@@ -32,7 +32,7 @@ events:
         hint: 'Hiếu đạo và danh giá nhà nho tăng, lòng mình thì nặng'
         condition:
           all:
-            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
             - { var: household.money, op: '>=', value: 6 }
         trait_stress: { tu_do: 6 }
         effects:
@@ -46,7 +46,7 @@ events:
       - id: theo_y_nha_buon
         text: 'Vâng lời, nhận mối nhà buôn muối bến dưới, hai nhà gộp mối hàng'
         hint: 'Có của hồi môn và mối hàng, lòng mình thì nặng'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         trait_stress: { tu_do: 6 }
         effects:
           - { type: marry }
@@ -60,7 +60,7 @@ events:
         text: 'Vâng lời, nhận mối con nhà chịu thương chịu khó ở xóm trên'
         hint: 'Cha mẹ lo sính lễ, nhà có thêm thóc hồi môn'
         condition:
-          not: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }, { var: player.career, op: '==', value: thuong_nhan }] }
+          not: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }, { var: household.career, op: '==', value: thuong_nhan }] }
         trait_stress: { tu_do: 6 }
         effects:
           - { type: marry }
@@ -89,6 +89,65 @@ events:
           - { type: opinion, role: cm, value: -4 }
           - { type: stress, value: 3 }
         result: ['{role.cm.call} thở dài, cho người sang nhà kia khất lại. Mối ấy chờ được bao lâu thì chẳng ai dám chắc.']
+
+  # Mốc đời bảo đảm: quá tuổi mà chưa yên bề gia thất thì chắc chắn được hỏi (priority), từ chối thì vài năm sau hỏi lại
+  - id: gd_den_tuoi_lap_gia_that
+    title: Đến tuổi lập gia thất
+    tags: [gia_dinh, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.age, op: between, value: [21, 40] }
+        - { var: player.married, op: '==', value: false }
+        - { var: player.mourning_months, op: '==', value: 0 }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 10
+    priority: true
+    cooldown_years: 3
+    tension: 4
+    importance: 7
+    icon: cuoi
+    text:
+      - 'Bạn đã {player.age} tuổi mà vẫn chưa yên bề gia thất. Bà mối trong xóm sang ngồi mãi bên ấm chè: "Ngần này tuổi rồi, để lâu nữa thì người ta lại bảo nhà có chuyện gì." Bà đã nhắm sẵn một mối, chỉ chờ bạn gật đầu.'
+      - 'Tết vừa rồi họ hàng ai cũng hỏi: "Bao giờ cho ăn cỗ?" Nay bà mối trong xóm tìm đến tận nhà, nói có một nhà nết na, chịu thương chịu khó, cũng đang tìm nơi gửi gắm.'
+    options:
+      - id: cuoi_dang_hoang
+        text: 'Nhận lời, sắm lễ đàng hoàng (4 quan, 6 thúng thóc)'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 4 }
+            - { var: household.food, op: '>=', value: 6 }
+        effects:
+          - { type: money, value: -4 }
+          - { type: food, value: -6 }
+          - { type: marry }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: opinion, role: hx, value: 6 }
+        result: ['Cỗ cưới bày kín sân, bà mối ngồi mâm trên cười không ngớt. Từ nay nhà thêm một người sớm hôm có nhau.']
+      - id: cuoi_don_gian
+        text: 'Nhận lời, lễ mọn lòng thành (1 quan, 2 thúng thóc)'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 1 }
+            - { var: household.food, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: -1 }
+          - { type: food, value: -2 }
+          - { type: marry }
+        result: ['Không kèn không trống, chỉ một mâm cơm cúng tổ tiên và mấy người hàng xóm. Vậy mà tối ấy căn nhà ấm hẳn lên.']
+      - id: vay_cuoi
+        text: 'Nhận lời, vay 3 quan lo sính lễ'
+        effects:
+          - { type: debt, value: 3 }
+          - { type: marry }
+          - { type: stress, value: 3 }
+        result: ['Cưới xong thì cũng gánh thêm món nợ. Nhưng nhìn người mới về lúi húi bên bếp, bạn thấy cũng đáng.']
+      - id: o_vay
+        text: 'Từ chối, chưa muốn ràng buộc'
+        effects:
+          - { type: opinion, role: hx, value: -4 }
+        result: ['Bà mối lắc đầu ra về, vừa đi vừa bảo "rồi lại tiếc". Bạn đóng cổng, nhà lại vắng như cũ.']
 
   - id: gd_chon_vo_chong_lam_lanh
     title: Mâm cơm làm lành
@@ -357,7 +416,7 @@ events:
           all:
             - { role: thay, exists: true }
             - { var: household.money, op: '>=', value: 1 }
-            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
         effects:
           - { type: money, value: -1, ledger: su_kien }
           - { type: scholarly_prestige, value: 3 }
@@ -368,7 +427,7 @@ events:
         text: 'Cúng mụ xong, mua cho con đôi vòng bạc ở phố (1,5 quan)'
         condition:
           all:
-            - { var: player.career, op: '==', value: thuong_nhan }
+            - { var: household.career, op: '==', value: thuong_nhan }
             - { var: household.money, op: '>=', value: 1.5 }
         effects:
           - { type: money, value: -1.5, ledger: su_kien }
@@ -407,7 +466,7 @@ events:
         text: 'Gửi con lên trấn trọ học thầy giỏi, theo nghiệp bút nghiên (4 quan)'
         condition:
           all:
-            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
             - { var: household.money, op: '>=', value: 4 }
         effects:
           - { type: money, value: -4, ledger: su_kien }
@@ -417,7 +476,7 @@ events:
         result: ['Bạn gói cho con mấy bộ áo, một bao gạo và chiếc nghiên cũ của nhà. Con đi rồi, gian học vắng hẳn tiếng đọc bài.']
       - id: theo_thuyen_hang
         text: 'Cho con theo thuyền hàng xuôi một chuyến, học nghề buôn'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         effects:
           - { type: skill_xp, who: con, skill: thuong_mai, value: 25 }
           - { type: skill_xp, who: con, skill: ngoai_giao, value: 10 }
@@ -486,7 +545,7 @@ events:
         result: ['Con cúi đầu hứa. Bạn tin, vì muốn tin.']
       - id: chep_sach
         text: 'Giam con trong thư phòng, bắt chép trăm lượt sách Hiếu'
-        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
         effects:
           - { type: skill_xp, who: con, skill: hoc_van, value: 20 }
           - { type: opinion, role: con, value: -8 }
@@ -494,7 +553,7 @@ events:
         result: ['Ba tháng ngồi chép, chữ {role.con.call} đẹp lên trông thấy. Còn lòng con có đổi không thì bạn chưa biết.']
       - id: theo_thuyen_xa
         text: 'Giao con theo thuyền hàng đi xa nửa năm cho rời bạn xấu'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         effects:
           - { type: skill_xp, who: con, skill: thuong_mai, value: 20 }
           - { type: chance, p: 0.35, then: [{ type: schedule_event, event: gd_con_no_bac, months: 36, label: 'Con trai còn dây dưa cờ bạc' }] }
@@ -825,7 +884,7 @@ events:
         text: 'Thuê một bà vú già về hầu {role.cm.call} (5 quan)'
         condition:
           all:
-            - { var: player.career, op: '==', value: thuong_nhan }
+            - { var: household.career, op: '==', value: thuong_nhan }
             - { var: household.money, op: '>=', value: 5 }
         effects:
           - { type: money, value: -5, ledger: su_kien }
@@ -835,7 +894,7 @@ events:
         result: ['Bà vú chăm khéo, {role.cm.call} khỏe lên. Có điều trong xóm lại có câu: con nhà buôn, đến hầu cha mẹ cũng thuê.']
       - id: doc_sach_ben_giuong
         text: 'Sớm thăm tối viếng, đọc sách cho {role.cm.call} nghe'
-        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
         effects:
           - { type: filial_piety, value: 6 }
           - { type: scholarly_prestige, value: 2 }
@@ -1001,7 +1060,7 @@ events:
         result: ['Con chọn một chàng trai nghèo ở xóm chài. Cỗ cưới đơn sơ, nhưng hôm ấy {role.con.call} cười suốt.']
       - id: ken_re_hoc_tro
         text: 'Kén rể là anh học trò nghèo có chữ, mong ngày đỗ đạt'
-        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
         effects:
           - { type: money, value: -1, ledger: su_kien }
           - { type: scholarly_prestige, value: 3 }
@@ -1010,7 +1069,7 @@ events:
         result: ['Người làng cười nhà bạn gả con cho anh học trò ăn chực nằm chờ. Bạn chỉ đáp: nhà có chữ thì không nghèo mãi.']
       - id: ga_nha_buon_vai
         text: 'Gả cho nhà buôn vải trên phố, hai nhà kết mối hàng'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         effects:
           - { type: money, value: 2, ledger: thu_khac }
           - { type: modifier, target: xp.thuong_mai, value: 1.1, op: mul, months: 36, label: 'Thông gia nhà buôn vải' }
@@ -1045,7 +1104,7 @@ events:
         text: 'Tin quẻ, hoãn chuyến hàng đầu xuân, bù tiền cọc cho chủ thuyền'
         condition:
           all:
-            - { var: player.career, op: '==', value: thuong_nhan }
+            - { var: household.career, op: '==', value: thuong_nhan }
             - { var: household.money, op: '>=', value: 2 }
         effects:
           - { type: money, value: -2, ledger: su_kien }
@@ -1212,7 +1271,7 @@ events:
         result: ['Cụ trưởng họ chau mày, bảo không đúng lệ. Bạn đáp: con nào cũng là con. Rồi bạn thấy người nhẹ hẳn.']
       - id: giao_sap
         text: 'Giao sạp hàng và sổ nợ cho đứa con giỏi buôn nhất'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         effects:
           - { type: opinion, role: ca, value: 8 }
           - { type: opinion, role: ut, value: -5 }
@@ -1220,7 +1279,7 @@ events:
         result: ['Bạn trao cuốn sổ nợ đã sờn gáy, dặn từng mối hàng, từng người nợ. Bàn tính lạch cạch, con ghi chép không sót chữ nào.']
       - id: tu_sach
         text: 'Để lại tủ sách và lời dặn: con cháu giữ nếp đèn sách'
-        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: household.career, op: '==', value: si_tu }] }
         effects:
           - { type: scholarly_prestige, value: 4 }
           - { type: skill_xp, who: ca, skill: hoc_van, value: 15 }

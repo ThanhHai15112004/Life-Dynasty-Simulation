@@ -24,6 +24,7 @@ s.read(getHudView) && bot.yearly(s.read(getHudView)).forEach((c) => s.dispatch(c
 row();
 while (!s.state.gameOver && s.state.clock.year < content.balance.time.start_year + 100) {
   const r = s.tickMonth();
+  if (r.minor) s.autoResolveMinor();
   if (r.decision) s.dispatch({ type: 'chooseOption', optionId: bot.choose(s.read(getHudView)) });
   if (s.state.gameOver) break;
   bot.monthly(s.read(getHudView)).forEach((c) => s.dispatch(c));

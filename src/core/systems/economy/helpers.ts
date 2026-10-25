@@ -48,7 +48,7 @@ export function localTradeFactor(ctx: SimContext): number {
 
 /** [1] Cách hộ mưu sinh theo nghề của nhà (nghề người chơi, hoặc nghề xuất thân khi còn nhỏ). */
 export function careerEconomy(ctx: SimContext) {
-  return ctx.content.index.career.get(ctx.state.career.id)?.economy ?? { self_farm: true };
+  return ctx.content.index.career.get(ctx.state.householdCareer)?.economy ?? { self_farm: true };
 }
 
 /** [1] Hộ có tự cày ruộng không (không thì ruộng phát canh thu tô). */

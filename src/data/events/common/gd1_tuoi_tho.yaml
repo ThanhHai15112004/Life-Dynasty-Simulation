@@ -10,7 +10,7 @@ events:
     months: [1, 2, 6, 7]
     condition:
       all:
-        - { var: player.career, op: '==', value: nong_dan }
+        - { var: household.career, op: '==', value: nong_dan }
         - { var: household.self_farms, op: '==', value: true }
         - { var: player.age, op: between, value: [7, 10] }
     roles:
@@ -52,7 +52,7 @@ events:
     life_stages: [thieu_thoi]
     condition:
       all:
-        - { var: player.career, op: '==', value: nong_dan }
+        - { var: household.career, op: '==', value: nong_dan }
         - { has_property: trau }
         - { var: player.age, op: between, value: [7, 13] }
     roles:
@@ -105,7 +105,7 @@ events:
     life_stages: [thieu_thoi]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: player.age, op: between, value: [9, 14] }
     roles:
       - { id: cha, from: family, relation: parent }
@@ -153,7 +153,7 @@ events:
     months: [3, 4, 9, 10, 11]
     condition:
       all:
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
         - { var: player.age, op: between, value: [11, 15] }
     roles:
       - { id: cha, from: family, relation: father }
@@ -203,7 +203,7 @@ events:
     months: [1, 2]
     condition:
       all:
-        - { var: player.career, op: '==', value: si_tu }
+        - { var: household.career, op: '==', value: si_tu }
         - { var: player.age, op: between, value: [6, 8] }
     roles:
       - { id: cha, from: family, relation: father }
@@ -249,7 +249,7 @@ events:
     months: [12, 1]
     condition:
       all:
-        - { var: player.career, op: '==', value: si_tu }
+        - { var: household.career, op: '==', value: si_tu }
         - { var: player.age, op: between, value: [11, 15] }
         - { var: household.money, op: '<', value: 6 }
         - { var: player.skill.hoc_van, op: '>=', value: 1 }
@@ -297,7 +297,7 @@ events:
     condition:
       any:
         - { has_flag: di_hoc }
-        - { var: player.career, op: '==', value: si_tu }
+        - { var: household.career, op: '==', value: si_tu }
     roles:
       - { id: thay, from: village, village_role: thay_do }
     weight: 7
@@ -310,7 +310,7 @@ events:
     options:
       - id: doc_tam_tu_kinh
         text: 'Đứng dậy đọc thuộc mấy câu Tam tự kinh cha đã dạy'
-        condition: { var: player.career, op: '==', value: si_tu }
+        condition: { var: household.career, op: '==', value: si_tu }
         effects:
           - { type: skill_xp, skill: hoc_van, value: 18 }
           - { type: opinion, role: thay, value: 10 }
@@ -326,7 +326,7 @@ events:
         result: ['{role.thay.call} nhận quà, xếp cho bạn chỗ ngồi gần án thư. Tiếng cười sau lưng tắt dần.']
       - id: tinh_so_hoc_phi
         text: 'Xin giúp thầy tính sổ thóc học phí của cả lớp'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         effects:
           - { type: skill_xp, skill: thuong_mai, value: 12 }
           - { type: skill_xp, skill: hoc_van, value: 10 }
@@ -387,7 +387,7 @@ events:
         result: ['Bạn chui qua giữa tiếng cười hô hố. Đêm ấy bạn nằm thao thức, nhớ mặt từng đứa.']
       - id: mua_chuoc
         text: 'Lấy mấy viên kẹo mạch nha ở sạp nhà ra chia cho cả bọn'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         effects:
           - { type: money, value: -1, ledger: su_kien }
           - { type: skill_xp, skill: ngoai_giao, value: 16 }
@@ -395,7 +395,7 @@ events:
         result: ['Đứa nào cũng mút kẹo, quên luôn chuyện chặn đường. Thằng con bá hộ còn rủ bạn chiều mai ra bãi thả diều.']
       - id: doc_sach_rang
         text: 'Đứng thẳng đọc câu sách: "Kẻ cậy giàu hiếp yếu, quân tử chẳng làm"'
-        condition: { var: player.career, op: '==', value: si_tu }
+        condition: { var: household.career, op: '==', value: si_tu }
         chance: { base: 0.45, skill: hoc_van, per_level: 0.07 }
         success:
           - { type: scholarly_prestige, value: 3 }
@@ -643,7 +643,7 @@ events:
         result: ['Bạn thuộc dần tên từng vị thuốc: cam thảo, ngải cứu, bạc hà. {role.lang.call} bảo bạn tay nhẹ, có duyên với nghề.']
       - id: day_tre_ranh
         text: 'Không học nghề, nhận dạy chữ vỡ lòng cho lũ trẻ trong xóm'
-        condition: { var: player.career, op: '==', value: si_tu }
+        condition: { var: household.career, op: '==', value: si_tu }
         effects:
           - { type: skill_xp, skill: hoc_van, value: 14 }
           - { type: skill_xp, skill: ngoai_giao, value: 8 }
@@ -697,7 +697,7 @@ events:
         text: 'Xin ghi tên vào hàng văn thân vì nhà có nghiệp học'
         condition:
           all:
-            - { var: player.career, op: '==', value: si_tu }
+            - { var: household.career, op: '==', value: si_tu }
             - { var: player.skill.hoc_van, op: '>=', value: 2 }
         chance: { base: 0.5, skill: hoc_van, per_level: 0.06 }
         success:
@@ -757,7 +757,7 @@ events:
         result: ['Tích Quan Âm Thị Kính làm bạn rơm rớm nước mắt. Đêm ấy về, bạn còn ngâm nga mãi câu hát của anh hề.']
       - id: phu_ban_quan
         text: 'Phụ mẹ dọn hàng quà bánh ở cổng hội'
-        condition: { var: player.career, op: '==', value: thuong_nhan }
+        condition: { var: household.career, op: '==', value: thuong_nhan }
         effects:
           - { type: money, value: 1, ledger: buon_ban }
           - { type: skill_xp, skill: thuong_mai, value: 12 }
@@ -765,7 +765,7 @@ events:
         result: ['Bánh gai, kẹo kéo bán hết từ trưa. Hội chưa kịp xem, nhưng túi tiền nhà nặng thêm.']
       - id: theo_cha_le_than
         text: 'Theo cha vào hậu cung xem các cụ tế thần'
-        condition: { var: player.career, op: '==', value: si_tu }
+        condition: { var: household.career, op: '==', value: si_tu }
         effects:
           - { type: skill_xp, skill: hoc_van, value: 10 }
           - { type: filial_piety, value: 3 }

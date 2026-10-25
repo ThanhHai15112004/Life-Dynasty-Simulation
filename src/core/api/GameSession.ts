@@ -4,10 +4,11 @@ import { tickMonth as clockTick } from '../engine/GameClock';
 import { deserialize, serialize } from '../engine/SaveSystem';
 import type { GameState } from '../entities/World';
 import { directorMonthly, directorYearEnd, directorYearStart } from '../events/Director';
+import { autoResolveMinor } from '../events/decision';
 import { writeTemplate } from '../events/journal';
 import { SystemLog } from '../events/systemLogKeys';
 import { buildSceneDescriptor, type SceneDescriptor } from '../scene-descriptor';
-import { monthlyCareer } from '../systems/career';
+import { ensureIndependentLife, monthlyCareer } from '../systems/career';
 import { yearlyChronicle } from '../systems/chronicle';
 import { createContext, type SimContext } from '../systems/context';
 import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy, yearlyHousehold } from '../systems/economy';
@@ -33,6 +34,8 @@ export interface TickReport {
   deaths: string[];
   /** Hoạt cảnh (micro-cutscene) phát sinh trong tháng, theo thứ tự. */
   cutscenes: string[];
+  /** [1] Có chuyện nhỏ đang chờ chọn → bridge dừng thời gian (trừ khi bật tự quyết). */
+  minor: boolean;
 }
 
 export class GameSession {
@@ -46,9 +49,10 @@ export class GameSession {
     const session = new GameSession(content, state);
     session.withContext((ctx) => {
       ctx.state.civilization.statusRank = computeStatusRank(ctx).id;
-      ensureFocus(ctx);
       yearStart(ctx);
       writeTemplate(ctx, content.index.origin.get(ctx.state.originId)?.start_log ?? SystemLog.GameStart);
+      ensureIndependentLife(ctx);
+      ensureFocus(ctx);
     });
     return session;
   }
@@ -61,8 +65,14 @@ export class GameSession {
     return this._state;
   }
 
+  /** Đang chờ người chơi chọn (sự kiện hoặc chuyện nhỏ) hoặc đã hết đời: không tick được. */
   get blocked(): boolean {
-    return this._state.pending !== null || this._state.gameOver !== null;
+    return this._state.pending !== null || this._state.minor !== null || this._state.gameOver !== null;
+  }
+
+  /** [1] Tự quyết chuyện nhỏ đang chờ bằng phương án mặc định. */
+  autoResolveMinor(): void {
+    this.withContext((ctx) => autoResolveMinor(ctx));
   }
 
   private withContext<T>(fn: (ctx: SimContext) => T): T {
@@ -74,8 +84,8 @@ export class GameSession {
 
   /** Chạy một tháng mô phỏng. Không chạy khi đang chờ quyết định hoặc đã hết đời. */
   tickMonth(): TickReport {
-    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutscenes: [] };
-    if (this.blocked) return { ...empty, decision: this._state.pending !== null };
+    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutscenes: [], minor: false };
+    if (this.blocked) return { ...empty, decision: this._state.pending !== null, minor: this._state.minor !== null };
     const aliveBefore = new Set(Object.values(this._state.characters).filter((c) => c.alive).map((c) => c.id));
 
     const info = this.withContext((ctx) =>
@@ -96,6 +106,7 @@ export class GameSession {
       gameOver: this._state.gameOver !== null,
       deaths,
       cutscenes: this.consumeCutscenes(),
+      minor: this._state.minor !== null,
     };
   }
 

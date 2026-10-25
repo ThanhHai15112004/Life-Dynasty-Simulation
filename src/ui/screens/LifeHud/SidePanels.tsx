@@ -1,12 +1,12 @@
-// [1] Cột phải: Gia đình, Người quanh đời, Bản đồ cuộc đời (1 ô = 1 năm), Biên niên thiên hạ
+// [1] Cột phải: Gia đình (kèm chạy chữa người ốm), Người quanh đời, Bản đồ cuộc đời (1 ô = 1 năm), Biên niên thiên hạ
 import type { HudView } from '@core/index';
 import { Icon } from '../../components/Icon';
 import { Portrait } from '../../components/Portrait';
 import { Tooltip } from '../../components/Tooltip';
-import { useSnapshot, useUi } from '../../context';
+import { num, useSnapshot, useUi } from '../../context';
 
 export function FamilyCard({ hud }: { hud: HudView }) {
-  const { t } = useUi();
+  const { t, store } = useUi();
   const scene = useSnapshot().scene;
   const others = hud.household.members.filter((m) => !m.isPlayer);
   // Nhãn theo giới tính nếu lang có (relation.spouse.m = "Chồng"), không thì nhãn chung
@@ -36,6 +36,34 @@ export function FamilyCard({ hud }: { hud: HudView }) {
           </li>
         ))}
       </ul>
+      {hud.household.sick.length > 0 && (
+        <div className="sick-list">
+          <h4>{t('treat.title')}</h4>
+          {!hud.manage.isHead && <p className="muted small">{t('treat.not_head')}</p>}
+          <ul className="people-list">
+            {hud.household.sick.map((s) => (
+              <li key={`${s.characterId}:${s.diseaseId}`}>
+                <div className="person-main">
+                  <div>
+                    <b>{s.isPlayer ? t('treat.self') : s.call}</b> <span className="chip disease-chip">{s.diseaseName}</span>{' '}
+                    <span className="muted small">({t(`severity.${s.severity}`)})</span>
+                  </div>
+                  <div className="muted small">{t('treat.chance', { chance: t(s.chanceKey) })}</div>
+                </div>
+                {hud.manage.isHead && (
+                  <button
+                    disabled={s.block !== null}
+                    title={s.block ? t(`error.${s.block}`) : undefined}
+                    onClick={() => store.dispatch({ type: 'treatDisease', characterId: s.characterId, diseaseId: s.diseaseId })}
+                  >
+                    {t('treat.button', { money: num(s.cost) })}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   );
 }

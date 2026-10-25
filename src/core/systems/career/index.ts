@@ -8,13 +8,19 @@ import { applyEffects } from '../../events/effects';
 import { pushLog, writeTemplate } from '../../events/journal';
 import { Ledger, LogKind, SystemLog } from '../../events/systemLogKeys';
 import { RngStream, type SimContext } from '../context';
+import { isPlayerHead } from '../economy';
 import { ageNow, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 
-/** Kiểm tra xem người chơi có đủ điều kiện chuyển sang một nghề không. */
+/** Nghề hiện tại có phải nghề thật (có bậc, lương, hành động) không — phụ việc nhà, thất nghiệp thì không. */
+export function hasRealCareer(ctx: SimContext): boolean {
+  return ctx.content.index.career.get(ctx.state.career.id)?.kind === 'nghe';
+}
+
+/** Kiểm tra người chơi có tự vào được một nghề không (tìm việc / ra làm riêng); nghề trạng thái chỉ đến qua sự kiện. */
 export function careerAvailable(ctx: SimContext, careerId: string): boolean {
   const c = ctx.content.index.career.get(careerId);
-  if (!c) return false;
+  if (!c || c.kind !== 'nghe' || careerId === ctx.state.career.id) return false;
   if (ageNow(ctx, player(ctx)) < ctx.content.balance.life.adult_age) return false;
   return evaluate(c.entry_condition, createResolver(ctx));
 }
@@ -25,8 +31,11 @@ export function changeCareer(ctx: SimContext, careerId: string, rankIndex = 0, s
   if (!def) return false;
   const clampedRank = clamp(rankIndex, 0, def.ranks.length - 1);
   ctx.state.career.id = careerId;
+  ctx.state.career.since = ctx.state.clock.monthIndex;
   ctx.state.career.rankIndex = clampedRank;
   ctx.state.career.merit = def.ranks[clampedRank]?.min_merit ?? 0;
+  // Chủ hộ theo nghề nào thì nghề nhà là nghề ấy
+  if (def.kind === 'nghe' && isPlayerHead(ctx)) ctx.state.householdCareer = careerId;
 
   if (!silent) {
     writeTemplate(ctx, SystemLog.CareerChanged, {
@@ -126,13 +135,62 @@ export function executeCareerAction(ctx: SimContext, actionId: string): boolean 
   return true;
 }
 
-/** Hàng tháng: chi trả lương bổng theo bậc nghề, giảm nhẹ mức truy nã và xét thăng bậc. */
+/** [1] Đến tuổi tự lập: con nhà có nghề thì phụ việc nhà (nhà nho thì đi học), nhà không có nghề thì thất nghiệp. */
+function startIndependentLife(ctx: SimContext): void {
+  const { state, content } = ctx;
+  const start = content.balance.life.career_start;
+  const home = content.index.career.get(state.householdCareer);
+  const first = home?.youth_career ?? (home?.kind === 'nghe' ? start.helper : start.jobless);
+  changeCareer(ctx, first, 0, true);
+  const def = content.index.career.get(first);
+  writeTemplate(ctx, SystemLog.CareerStarted, { params: { title: def?.name ?? first, stage: home?.name ?? '' } });
+}
+
+/** [1] Tạo ván / tải ván: người chơi đã đủ tuổi mà chưa có nghề riêng thì bắt đầu tự lập ngay. */
+export function ensureIndependentLife(ctx: SimContext): void {
+  const me = player(ctx);
+  if (ctx.state.career.id || ageNow(ctx, me) < ctx.content.balance.life.adult_age) return;
+  startIndependentLife(ctx);
+  ctx.state.wasHead = isPlayerHead(ctx);
+}
+
+/** [1] Vừa làm chủ hộ: chưa có nghề riêng thì thừa kế nghề nhà (kinh nghiệm phụ việc được tính); có nghề riêng thì nghề nhà đổi theo. */
+function onBecomeHead(ctx: SimContext): void {
+  const { state, content } = ctx;
+  const cur = content.index.career.get(state.career.id);
+  if (cur?.kind === 'nghe') {
+    state.householdCareer = cur.id;
+    return;
+  }
+  const home = content.index.career.get(state.householdCareer);
+  if (home?.kind !== 'nghe') {
+    changeCareer(ctx, content.balance.life.career_start.jobless, 0);
+    return;
+  }
+  const carried = state.career.merit * content.balance.life.career_start.inherit_merit_factor;
+  changeCareer(ctx, home.id, 0, true);
+  state.career.merit = carried;
+  while (checkPromotion(ctx)) {
+    /* thăng tới bậc mà kinh nghiệm phụ việc đã đủ */
+  }
+  writeTemplate(ctx, SystemLog.CareerInherited, { params: { title: home.name, stage: home.ranks[state.career.rankIndex]?.name ?? home.name } });
+}
+
+/** Hàng tháng: bắt đầu tự lập, tiếp quản nghề nhà, chi trả lương bổng theo bậc nghề, giảm nhẹ mức truy nã và xét thăng bậc. */
 export function monthlyCareer(ctx: SimContext): void {
   const { state, content } = ctx;
   const me = player(ctx);
   if (!me.alive || ageNow(ctx, me) < content.balance.life.adult_age) return;
+  if (!state.career.id) startIndependentLife(ctx);
+  const head = isPlayerHead(ctx);
+  if (head && !state.wasHead) onBecomeHead(ctx);
+  state.wasHead = head;
   const def = content.index.career.get(state.career.id);
   if (!def) return;
+  if (def.kind === 'trang_thai') {
+    state.career.merit += def.merit_month;
+    return;
+  }
   const rank = def.ranks[state.career.rankIndex] ?? def.ranks[0];
   const h = playerHousehold(ctx);
 

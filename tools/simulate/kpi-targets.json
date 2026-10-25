@@ -1,5 +1,5 @@
 {
-  "$comment": "Ngưỡng KPI cân bằng (GDD 09 §3). Chỉnh ở đây, không sửa code. 25/10/2026: story_lines_per_year nâng từ 2–6 lên 4–12 theo phản hồi người chơi muốn nhật ký dày, đúng hoàn cảnh hơn (kiểu 1in8b).",
+  "$comment": "Ngưỡng KPI cân bằng (GDD 09 §3). Chỉnh ở đây, không sửa code. 25/10/2026: story_lines_per_year nâng từ 2–6 lên 4–12 theo phản hồi người chơi muốn nhật ký dày, đúng hoàn cảnh hơn (kiểu 1in8b). 25/10/2026 (tối): event_repeat_rate chỉ tính sự kiện quyết định; chuyện nhỏ đo riêng (minor_repeat_rate). Chuyện nhỏ nay dừng thời gian nên đo tổng số lần dừng (pauses_per_year). married_rate: tỷ lệ đời có lập gia đình.",
   "lifespan_mean": [
     50,
     65
@@ -12,9 +12,17 @@
     1,
     2
   ],
+  "pauses_per_year": [
+    1.5,
+    2.5
+  ],
   "event_repeat_rate": [
     0,
     0.15
+  ],
+  "minor_repeat_rate": [
+    0,
+    0.3
   ],
   "unexpected_death_rate": [
     0,
@@ -33,5 +41,9 @@
     40
   ],
   "seconds_per_decision": 12,
-  "max_years": 100
+  "max_years": 100,
+  "married_rate": [
+    0.8,
+    1
+  ]
 }

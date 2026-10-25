@@ -56,7 +56,8 @@ Toán tử: `==` `!=` `>` `>=` `<` `<=` `between` `in`.
 | `world.trade_index` · `world.military_alert` · `world.patrol_level` | Thời cơ buôn bán, tình hình quân sự (`binh_yen`/`tuan_tra`/`chien_dich`), mức tuần tiễu (0–100) |
 | `world.exam_stage` · `world.is_exam_year` | Khoa thi năm nay: `huong` (thi Hương), `hoi` (thi Hội – Đình, năm sau thi Hương), `none`; `is_exam_year` = năm thi Hương |
 | `world.settlement_type` · `world.local_trade_factor` | Loại khu định cư nơi hộ sống, hệ số buôn bán của nơi đó |
-| `player.career` · `player.career_rank` · `player.merit` · `player.wanted` | Nghề của nhà (lúc nhỏ là nghề xuất thân), chỉ số bậc nghề, công trạng nghề, mức truy nã |
+| `player.career` · `player.career_rank` · `player.career_months` · `player.merit` · `player.wanted` | **Nghề riêng** của người chơi ('' khi còn nhỏ; `phu_gia_dinh` / `that_nghiep` khi chưa có nghề), bậc nghề, số tháng làm nghề, công trạng, mức truy nã |
+| `household.career` | **Nghề nhà** — nghề nuôi cả hộ (theo xuất thân, đổi khi chủ hộ đổi nghề). Sự kiện "con nhà buôn", "nhà nông" dùng biến này |
 | `player.filial_piety` · `player.scholarly_prestige` · `player.exam_degree` · `player.mourning_months` | Hiếu đạo, Danh vọng sĩ phu, Học vị Khoa cử (`none`/`sinh_do`/`huong_cong`/`tien_si`), số tháng đang cư tang |
 | `player.status_rank` · `player.origin` | Bậc thang địa vị (`dan_ngheo`…`quan_lai`), xuất thân |
 | `player.best_skill` · `player.favor_total` · `player.ambition_progress` | Bậc kỹ năng cao nhất, tổng ân tình, tỷ lệ mốc tham vọng đã đạt (0–1) |
@@ -181,4 +182,21 @@ Chỉ chủ hộ mới chỉnh mức sống, mua bán, trả nợ. Đầu mỗi 
 
 ## Chuyện nhỏ (`minor: true`)
 
-Sự kiện có `minor: true` không bật thẻ dừng game mà hiện trong nhật ký; quá `director.yaml › minor.expire_months` tháng không chọn thì game chọn phương án có `default: true` (không có thì phương án đầu). Nhịp xuất hiện ở `director.yaml › minor`. Mỗi chuyện nhỏ nên có 2–3 phương án ngắn, đúng một phương án `default`.
+Sự kiện có `minor: true` hiện thành thẻ nhỏ dưới cảnh và **dừng thời gian chờ chọn** như sự kiện thường; bật "Tự quyết chuyện nhỏ" thì game chọn phương án có `default: true` (không có thì phương án đầu). Nhịp xuất hiện ở `director.yaml › minor`: `max_per_year`, `min_months_between`, `min_months_after_decision` (giãn sau một quyết định), `max_repeats_per_life` (một chuyện gặp tối đa bao nhiêu lần mỗi đời). Chuyện của một người cụ thể (bạn cưới vợ, ông lão trong xóm mất…) đặt `once_per_life: true`. Mỗi chuyện nhỏ nên có 2–3 phương án ngắn, đúng một phương án `default`.
+
+## Nghề riêng và nghề nhà
+
+- `careers/*.yaml › kind`: `nghe` (nghề thật: bậc, lương, hành động) hoặc `trang_thai` (chưa có nghề riêng: `phu_gia_dinh`, `that_nghiep`). Người chơi không tự vào được nghề trạng thái, chỉ qua sự kiện / vòng đời.
+- Đến tuổi trưởng thành: nghề nhà có `youth_career` thì bắt đầu bằng nghề đó (nhà nho: Nho sinh), không thì `life.yaml › career_start.helper` (phụ việc nhà) hoặc `.jobless` nếu nhà không có nghề.
+- Phụ việc nhà tích `merit_month` công trạng mỗi tháng; làm chủ hộ thì **thừa kế** nghề nhà, công trạng nhân `inherit_merit_factor` rồi xét thăng bậc. Đã có nghề riêng thì nghề nhà đổi theo nghề của chủ hộ.
+- Sự kiện chỉ hiện khi lọc xong còn ít nhất 2 phương án.
+
+## Mốc đời bảo đảm (`priority: true`)
+
+Sự kiện có `priority: true` đủ điều kiện là phát ngay ở lượt quyết định kế tiếp, không chờ may rủi (vẫn tôn trọng `min_months_between`). Dùng cho mốc đời ai cũng phải trải qua: chọn chí hướng, `gd_den_tuoi_lap_gia_that` (quá 21 tuổi chưa lập gia đình thì bà mối tìm đến; từ chối thì `cooldown_years` sau hỏi lại).
+
+## Chạy chữa bệnh
+
+- `diseases.yaml`: `cure_cost` (quan mỗi lần chữa), `cure_chance` (xác suất khỏi ngay).
+- `life.yaml › treatment`: `retry_months` (chữa không khỏi thì chờ bao lâu mới chữa lại), `auto_severities` + `auto_keep_months` (chưa làm chủ hộ thì nhà tự bỏ tiền chữa bệnh mức nào, miễn còn đủ tiêu chừng ấy tháng).
+- Chủ hộ chữa qua lệnh `treatDisease` (nút "Chạy chữa" ở thẻ Gia đình); tiền ghi sổ mục `thuoc_men`.

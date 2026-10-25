@@ -35,7 +35,7 @@ events:
     title: Con mèo mướp ở sạp
     tags: [buon_ban, gia_dinh]
     life_stages: [thieu_thoi]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 4
     cooldown_years: 6
     minor: true
@@ -196,7 +196,7 @@ events:
         result: ['Bánh rán nóng, mật mía chảy ròng ròng. Xâu tiền hết lúc nào không biết.']
       - id: mua_but_muc
         text: 'Mua một thỏi mực, một tập giấy bản'
-        condition: { any: [{ var: focus.primary, op: '==', value: hoc_chu }, { var: player.career, op: '==', value: si_tu }] }
+        condition: { any: [{ var: focus.primary, op: '==', value: hoc_chu }, { var: household.career, op: '==', value: si_tu }] }
         effects: [{ type: skill_xp, skill: hoc_van, value: 7 }]
         result: ['Bạn mài mực viết lại mấy chữ thầy dạy, giữ tờ đẹp nhất dán lên vách.']
 
@@ -236,7 +236,7 @@ events:
     title: Xâu tiền cho cha
     tags: [buon_ban, gia_dinh]
     life_stages: [thieu_thoi]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.age, op: between, value: [7, 13] }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: player.age, op: between, value: [7, 13] }] }
     roles:
       - { id: cha, from: family, relation: father }
     weight: 4
@@ -268,7 +268,7 @@ events:
     title: Tờ giấy bản thừa
     tags: [hoc_hanh]
     life_stages: [thieu_thoi]
-    condition: { any: [{ var: player.career, op: '==', value: si_tu }, { var: player.origin, op: '==', value: quy_toc_nho }] }
+    condition: { any: [{ var: household.career, op: '==', value: si_tu }, { var: player.origin, op: '==', value: quy_toc_nho }] }
     weight: 4
     cooldown_years: 4
     minor: true
@@ -403,7 +403,7 @@ events:
     title: Mượn thuyền chở hàng
     tags: [buon_ban, quan_he]
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
-    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: player.career, op: '==', value: thuong_nhan }] }
+    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: household.career, op: '==', value: thuong_nhan }] }
     roles:
       - { id: hx, from: village, village_role: hang_xom }
     weight: 4
@@ -437,7 +437,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep]
     condition: { var: player.mourning_months, op: '==', value: 0 }
     weight: 4
-    cooldown_years: 4
+    once_per_life: true          # chuyện của một người cụ thể, không lặp lại
     minor: true
     tension: 1
     importance: 2
@@ -580,7 +580,7 @@ events:
     life_stages: [lap_nghiep, trung_nien]
     condition: { not: { has_flag: cn_nuoi_cho } }
     weight: 3
-    cooldown_years: 8
+    once_per_life: true          # chuyện của một người cụ thể, không lặp lại
     minor: true
     tension: 1
     importance: 2
@@ -1060,7 +1060,7 @@ events:
     tags: [lang_xa, quan_he]
     life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     weight: 3
-    cooldown_years: 6
+    once_per_life: true          # chuyện của một người cụ thể, không lặp lại
     minor: true
     tension: 1
     importance: 3

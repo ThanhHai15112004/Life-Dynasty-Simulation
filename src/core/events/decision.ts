@@ -30,6 +30,12 @@ function shownRange(ctx: SimContext, p: number, skill: string | undefined): [num
   return [clamp(p - spread * u, 0, 1), clamp(p + spread * (1 - u), 0, 1)];
 }
 
+/** [1] Số phương án người chơi thấy được lúc này — dưới 2 thì sự kiện không cho chọn thật, không được hiện. */
+export function shownOptionCount(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): number {
+  const r = createResolver(ctx, { roles });
+  return ev.options.filter((o) => evaluate(o.condition, r)).length;
+}
+
 /** Dựng thẻ sự kiện (lời kể, phương án khả dụng, khoảng xác suất) và ghi lịch sử đã gặp. */
 function buildPending(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): PendingEvent {
   const { state } = ctx;
@@ -71,10 +77,10 @@ export function fireDecision(ctx: SimContext, ev: DecisionEvent, roles: Record<s
   return pending;
 }
 
-/** [1] Chuyện nhỏ: hiện trong nhật ký, không dừng thời gian, hết hạn thì tự chọn phương án mặc định. */
+/** [1] Chuyện nhỏ: hiện ngay trong nhật ký, dừng thời gian chờ chọn như sự kiện thường (trừ khi bật tự quyết). */
 export function fireMinor(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): void {
-  const { state, content } = ctx;
-  state.minor = { ...buildPending(ctx, ev, roles), expiresAt: state.clock.monthIndex + content.balance.director.minor.expire_months };
+  const { state } = ctx;
+  state.minor = buildPending(ctx, ev, roles);
   state.director.minorThisYear += 1;
   state.director.lastMinorMonthIndex = state.clock.monthIndex;
 }
@@ -100,11 +106,11 @@ export function resolveMinor(ctx: SimContext, optionId: string): boolean {
   return true;
 }
 
-/** [1] Chuyện nhỏ quá hạn: tự chọn phương án đánh dấu default (không có thì phương án đầu). */
-export function expireMinor(ctx: SimContext): void {
+/** [1] Tự quyết chuyện nhỏ (người chơi bật "tự quyết", hoặc bot): chọn phương án default, không có thì phương án đầu. */
+export function autoResolveMinor(ctx: SimContext): void {
   const { state, content } = ctx;
   const m = state.minor;
-  if (!m || state.clock.monthIndex < m.expiresAt) return;
+  if (!m) return;
   const ev = content.index.event.get(m.eventId);
   const preferred = ev?.options.find((o) => o.default && m.options.some((x) => x.id === o.id))?.id ?? m.options[0]?.id;
   if (!preferred || !resolveMinor(ctx, preferred)) state.minor = null;

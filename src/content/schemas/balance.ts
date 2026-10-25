@@ -99,6 +99,26 @@ export const lifeBalanceSchema = z
     adult_age: z.number().int(),
     /** Xác suất sinh con trai khi xuất thân không chỉ định giới tính. */
     male_ratio: z.number().min(0).max(1),
+    /** [1] Nghề riêng lúc bắt đầu tự lập: trẻ nhà có nghề thì phụ việc nhà, không thì thất nghiệp; làm chủ hộ thì thừa kế nghề nhà. */
+    career_start: z
+      .object({
+        helper: z.string(),
+        jobless: z.string(),
+        /** Phần kinh nghiệm phụ việc nhà được tính khi tiếp quản nghề nhà. */
+        inherit_merit_factor: z.number().min(0),
+      })
+      .strict(),
+    /** [1] Chạy chữa bệnh: chủ hộ tự quyết; chưa làm chủ hộ thì nhà tự lo cho bệnh nặng khi đủ tiền. */
+    treatment: z
+      .object({
+        /** Chữa không khỏi thì chờ chừng này tháng mới chữa lại cùng bệnh ấy. */
+        retry_months: z.number().int().min(1),
+        /** Nhà tự lo: những mức bệnh sẽ tự bỏ tiền chữa. */
+        auto_severities: z.array(z.enum(['nhe', 'nang', 'nguy_kich'])),
+        /** Nhà tự lo: chữa xong vẫn phải còn ít nhất chừng này tháng chi tiêu. */
+        auto_keep_months: z.number().min(0),
+      })
+      .strict(),
     /** Số tính cách của NPC (người nhà, người làng) khi sinh ra. */
     npc_trait_count: z.number().int().min(0),
     /** [1] Cấu hình hôn nhân & sinh con (GDD 03 §7). */
@@ -304,13 +324,16 @@ export const directorBalanceSchema = z
     /** Mỗi lần đã gặp, trọng số sự kiện/mẫu nhật ký nhân thêm hệ số này (ưu tiên chuyện chưa gặp). */
     repeat_weight_factor: z.number().min(0).max(1).default(1),
     ambient_repeat_weight_factor: z.number().min(0).max(1).default(1),
-    /** [1] Chuyện nhỏ: hiện ngay trong nhật ký, không dừng thời gian; bỏ qua quá hạn thì tự chọn phương án mặc định. */
+    /** [1] Chuyện nhỏ: hiện ngay trong nhật ký, dừng thời gian chờ chọn (bật "tự quyết" thì game chọn phương án mặc định). */
     minor: z
       .object({
         monthly_chance: z.number().min(0).max(1),
         max_per_year: z.number().int().min(0),
         min_months_between: z.number().int().min(0),
-        expire_months: z.number().int().positive(),
+        /** Giãn sau một sự kiện quyết định: chưa đủ số tháng này thì không bật chuyện nhỏ (tránh dừng dồn dập). */
+        min_months_after_decision: z.number().int().min(0).default(0),
+        /** Một chuyện nhỏ gặp tối đa chừng này lần mỗi đời (0 = không giới hạn). */
+        max_repeats_per_life: z.number().int().min(0).default(0),
       })
       .strict(),
     /** Bù khi cả năm chưa có quyết định nào: cộng thêm mỗi tháng trôi qua. */

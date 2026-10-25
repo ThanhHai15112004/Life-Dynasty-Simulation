@@ -7,7 +7,7 @@ templates:
     kind: bao_cao
     tags: [buon_ban, le_hoi]
     months: [1, 2]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
     weight: 4
     cooldown_years: 3
     importance: 2
@@ -23,7 +23,7 @@ templates:
     kind: bao_cao
     tags: [buon_ban, thoi_co]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.25 }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.25 }] }
     weight: 5
     cooldown_years: 2
     importance: 2
@@ -40,7 +40,7 @@ templates:
     kind: bao_cao
     tags: [buon_ban, kinh_te]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '<', value: 0.85 }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '<', value: 0.85 }] }
     weight: 5
     cooldown_years: 2
     importance: 2
@@ -103,7 +103,7 @@ templates:
     kind: bao_cao
     tags: [buon_ban, le_hoi]
     months: [12]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: between, value: [0.85, 1.15] }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: between, value: [0.85, 1.15] }] }
     weight: 4
     cooldown_years: 2
     importance: 1
@@ -117,7 +117,7 @@ templates:
     kind: bao_cao
     tags: [buon_ban, thoi_co]
     months: [9, 10, 11]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.1 }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.1 }] }
     weight: 3
     cooldown_years: 3
     importance: 2
@@ -133,7 +133,7 @@ templates:
     tags: [buon_ban, gia_dinh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [12]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: household.money, op: '>=', value: 12 }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: household.money, op: '>=', value: 12 }] }
     weight: 4
     cooldown_years: 3
     importance: 2
@@ -150,7 +150,7 @@ templates:
     tags: [buon_ban, no_nan]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [12]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: household.money, op: '<', value: 3 }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: household.money, op: '<', value: 3 }] }
     weight: 4
     cooldown_years: 3
     importance: 2
@@ -241,7 +241,7 @@ templates:
     tags: [buon_ban, lao_dong]
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     months: [3, 4]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -568,7 +568,7 @@ templates:
   - id: bs_vo_chong_tinh_so
     kind: nguoi_quanh
     tags: [gia_dinh, buon_ban]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     roles: [{ id: vc, from: family, relation: spouse }]
     weight: 4
     cooldown_years: 3
@@ -583,7 +583,7 @@ templates:
   - id: bs_day_con_dem_tien
     kind: nguoi_quanh
     tags: [gia_dinh, buon_ban]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     roles:
       - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [6, 12] }, { var: self.in_household, op: '==', value: true }] } }
     weight: 4
@@ -599,7 +599,7 @@ templates:
   - id: bs_cha_me_gia_ngoi_sap
     kind: nguoi_quanh
     tags: [gia_dinh]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     roles:
       - { id: gia, from: family, relation: parent, condition: { all: [{ var: self.age, op: '>=', value: 60 }, { var: self.in_household, op: '==', value: true }] } }
     weight: 3
@@ -615,7 +615,7 @@ templates:
   - id: bs_than_tai_dau_thang
     kind: chuyen_vat
     tags: [tin_nguong, buon_ban]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -629,7 +629,7 @@ templates:
   - id: bs_con_theo_thuyen_chuyen_dau
     kind: nguoi_quanh
     tags: [gia_dinh, buon_ban]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     roles:
       - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [13, 18] }, { var: self.in_household, op: '==', value: true }] } }
     weight: 3
@@ -658,7 +658,7 @@ templates:
   - id: bs_may_ao_moi_cho_con
     kind: chuyen_vat
     tags: [gia_dinh, buon_ban]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.15 }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.15 }] }
     roles:
       - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [3, 14] }, { var: self.in_household, op: '==', value: true }] } }
     weight: 3
@@ -711,7 +711,7 @@ templates:
     kind: bao_cao
     tags: [le_hoi, buon_ban]
     months: [4, 5]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
     weight: 3
     cooldown_years: 4
     importance: 1
@@ -757,7 +757,7 @@ templates:
     kind: chuyen_vat
     tags: [tin_nguong, buon_ban]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
+    condition: { all: [{ var: household.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
     weight: 3
     cooldown_years: 4
     importance: 1

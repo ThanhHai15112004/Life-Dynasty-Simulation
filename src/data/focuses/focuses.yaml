@@ -28,7 +28,7 @@ focuses:
     description: Ngồi sạp chợ phụ cân hàng, gảy bàn tính, nghe người lớn mặc cả.
     icon: tien
     life_stages: [thieu_thoi]
-    condition: { var: player.career, op: '==', value: thuong_nhan }
+    condition: { var: household.career, op: '==', value: thuong_nhan }
     skill_xp: { thuong_mai: 5, ngoai_giao: 1 }
     event_weights: { buon_ban: 2, thoi_co: 1.3 }
   - id: giup_viec_nha
@@ -81,7 +81,7 @@ focuses:
     condition:
       any:
         - { var: player.life_stage, op: '!=', value: tuoi_gia }
-        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.career, op: '==', value: thuong_nhan }
     skill_xp: { thuong_mai: 6, ngoai_giao: 1 }
     modifiers:
       - { target: harvest.yield, value: 0.95, op: mul }
@@ -97,6 +97,7 @@ focuses:
       any:
         - { var: player.life_stage, op: '==', value: thanh_nien }
         - { var: player.career, op: '==', value: si_tu }
+        - { var: household.career, op: '==', value: si_tu }
         - { var: player.skill.hoc_van, op: '>=', value: 3 }
     skill_xp: { hoc_van: 7, muu_luoc: 1 }
     modifiers:

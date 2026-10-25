@@ -1,5 +1,6 @@
 // [1] Bù các trường mới cho save cũ bằng giá trị mặc định đọc từ data (SaveSystem không biết content)
 import type { ContentBundle } from '@content/ContentLoader';
+import { ageOf } from '../entities/Character';
 import type { GameState } from '../entities/World';
 
 export function migrateState(raw: Partial<GameState>, content: ContentBundle): GameState {
@@ -11,7 +12,7 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
   raw.reputation = raw.reputation ?? {};
   raw.happiness = raw.happiness ?? { mood: happy.start, satisfaction: happy.start, baselineWealth: 0, ambitionBonus: 0 };
-  raw.career = raw.career ?? { id: origin.default_career, rankIndex: 0, merit: 0, wanted: 0, actionCooldowns: {} };
+  raw.career = raw.career ?? { id: origin.default_career, since: 0, rankIndex: 0, merit: 0, wanted: 0, actionCooldowns: {} };
   raw.civilization = {
     id: civ.id,
     filialPiety: origin.start_status.filial_piety ?? civ.start.filial_piety,
@@ -22,8 +23,19 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
     ...raw.civilization,
   };
   raw.cutscenes = raw.cutscenes ?? [];
+  // Save trước khi tách nghề riêng / nghề nhà: career.id là nghề nhà. Nếu người chơi còn nhỏ thì chưa có nghề riêng.
+  const legacyCareer = raw.householdCareer === undefined;
+  raw.householdCareer = raw.householdCareer ?? raw.career?.id ?? origin.default_career;
+  raw.wasHead = raw.wasHead ?? false;
+  if (raw.career) raw.career.since = raw.career.since ?? 0;
+  const me = raw.characters?.[raw.playerId ?? ''];
+  if (legacyCareer && raw.career && me && raw.clock && ageOf(me, raw.clock.year, raw.clock.month) < content.balance.life.adult_age) {
+    raw.career = { ...raw.career, id: '', rankIndex: 0, merit: 0 };
+  }
   raw.focus = { primary: raw.focus?.primary ?? '' };
   raw.autoManage = raw.autoManage ?? { livingStandard: true, repayDebt: true };
+  // Chuyện nhỏ của save cũ có hạn tự chọn (expiresAt); nay chờ người chơi chọn như sự kiện thường
+  if (raw.minor) delete (raw.minor as { expiresAt?: number }).expiresAt;
   raw.minor = raw.minor ?? null;
   if (raw.director) {
     raw.director.minorThisYear = raw.director.minorThisYear ?? 0;

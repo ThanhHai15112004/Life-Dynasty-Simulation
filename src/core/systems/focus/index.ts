@@ -19,6 +19,7 @@ export function defaultFocus(ctx: SimContext): string {
   if (!stage.can_choose_focus) return '';
   const prefs = [
     content.index.career.get(state.career.id)?.default_focus,
+    content.index.career.get(state.householdCareer)?.default_focus,
     content.index.origin.get(state.originId)?.default_focus,
     ...stage.default_focuses,
     ...content.focuses.map((f) => f.id),

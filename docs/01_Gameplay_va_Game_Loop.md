@@ -71,7 +71,7 @@ Chủ hộ: nhà tự lo mức sống, trả nợ theo gia cảnh; muốn thì c
 [TRONG NĂM]  Mô phỏng chạy 12 tick tháng (ẩn)
 → kỹ năng tăng, thu chi, quan hệ thay đổi, NPC hành động
 → Event Director chọn 0–3 sự kiện → tự dừng khi cần quyết định
-→ 0–4 "chuyện nhỏ" hiện trong nhật ký, không dừng thời gian (bỏ qua thì tự chọn mặc định)
+→ 0–2 "chuyện nhỏ" (thẻ nhỏ, dừng thời gian chờ chọn; bật "Tự quyết chuyện nhỏ" thì game chọn phương án mặc định)
 ↓
 [CUỐI NĂM]   Tổng kết: thu chi, thay đổi lớn, ký ức mới
 Cảnh pixel cập nhật

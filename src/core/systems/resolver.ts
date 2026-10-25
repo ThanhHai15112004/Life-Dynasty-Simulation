@@ -82,6 +82,8 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return state.ambition.id ?? '';
       case 'career':
         return state.career.id;
+      case 'career_months':
+        return state.clock.monthIndex - state.career.since;
       case 'career_rank':
         return state.career.rankIndex;
       case 'merit':
@@ -171,6 +173,8 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
             return farmlandOf(h, content);
           case 'net_worth':
             return householdNetWorth(ctx);
+          case 'career':
+            return state.householdCareer;
           case 'self_farms':
             return selfFarms(ctx);
           case 'food_months': {

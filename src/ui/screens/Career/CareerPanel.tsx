@@ -7,11 +7,22 @@ export function CareerPanel({ hud }: { hud: HudView }) {
   const { store, t } = useUi();
   const c = hud.career;
 
-  if (!hud.focus.canChoose) {
+  // Thâm niên: "3 năm 2 tháng"
+  const months = store.content.balance.calendar.months_per_year;
+  const tenure = c.months >= months ? t('career.tenure_years', { y: Math.floor(c.months / months), m: c.months % months }) : t('career.tenure_months', { m: c.months });
+  const household = (
+    <div className="muted small">
+      {t('career.household', { name: c.household.name })}
+      {c.household.id !== c.id && c.kind !== '' ? ` · ${hud.manage.isHead ? t('career.household_yours') : t('career.household_parents', { who: hud.manage.headCall })}` : ''}
+    </div>
+  );
+
+  if (c.kind === '') {
     return (
       <div className="decisions">
         <h4>{t('career.current')}</h4>
         <div className="muted">{t('career.too_young')}</div>
+        {household}
       </div>
     );
   }
@@ -31,11 +42,13 @@ export function CareerPanel({ hud }: { hud: HudView }) {
           <Icon id={c.icon} />
           <span>{c.name}</span>
           <span className="chip">{c.rankName}</span>
+          <span className="muted small">{tenure}</span>
         </div>
         <p className="muted small">{c.description}</p>
+        {household}
         <div className="small">
-          <div>{t('career.merit', { merit: num(c.merit) })}</div>
-          {c.nextRankName ? (
+          <div>{c.kind === 'trang_thai' ? t('career.helper_merit', { merit: num(c.merit) }) : t('career.merit', { merit: num(c.merit) })}</div>
+          {c.kind === 'trang_thai' ? null : c.nextRankName ? (
             <div className="muted">
               {t('career.next_rank', { name: c.nextRankName, merit: c.nextRankMerit ?? 0 })}
             </div>
@@ -75,7 +88,7 @@ export function CareerPanel({ hud }: { hud: HudView }) {
         </div>
       </div>
 
-      <h4>{t('career.actions')}</h4>
+      {c.actions.length > 0 && <h4>{t('career.actions')}</h4>}
       <div className="ambition-list">
         {c.actions.map((act) => {
           const costStr = costs(act.costMoney, act.costFood);
@@ -107,22 +120,22 @@ export function CareerPanel({ hud }: { hud: HudView }) {
 
       <h4>{t('career.switch')}</h4>
       <div className="ambition-list">
-        {c.availableCareers
-          .filter((opt) => opt.id !== c.id && opt.available)
-          .map((opt) => (
-            <div key={opt.id} className="focus" title={opt.description}>
-              <div className="focus-name">
-                <Icon id={opt.icon} />
-                <span>{opt.name}</span>
-              </div>
-              <p className="muted small">{opt.description}</p>
-              <div className="focus-actions">
-                <button onClick={() => store.dispatch({ type: 'joinCareer', careerId: opt.id })}>
-                  {t('career.switch_btn')}
-                </button>
-              </div>
+        {c.availableCareers.map((opt) => (
+          <div key={opt.id} className={`focus ${opt.available ? '' : 'locked'}`} title={opt.description}>
+            <div className="focus-name">
+              <Icon id={opt.icon} />
+              <span>{opt.name}</span>
+              {opt.costMoney > 0 && <span className="muted small">· {t('career.join_cost', { money: num(opt.costMoney) })}</span>}
             </div>
-          ))}
+            <p className="muted small">{opt.description}</p>
+            {opt.hint && <p className="small">{opt.hint}</p>}
+            <div className="focus-actions">
+              <button disabled={!opt.available} onClick={() => store.dispatch({ type: 'joinCareer', careerId: opt.id })}>
+                {opt.available ? t('career.switch_btn') : t('career.join_locked')}
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

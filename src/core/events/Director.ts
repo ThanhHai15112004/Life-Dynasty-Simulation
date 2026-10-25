@@ -5,7 +5,7 @@ import { fillTemplate } from '@shared/template';
 import type { LogEntry } from '../entities/World';
 import { RngStream, type SimContext } from '../systems/context';
 import { ageNow, lifeStageOf, player } from '../systems/people';
-import { expireMinor, fireDecision, fireMinor } from './decision';
+import { fireDecision, fireMinor, shownOptionCount } from './decision';
 import { currentLogYear, pushLog, writeTemplate } from './journal';
 import { eligibleRoles, onCooldown, weightOf } from './selection';
 import { LogKind } from './systemLogKeys';
@@ -38,7 +38,7 @@ function fireScheduled(ctx: SimContext): boolean {
     const ev = content.index.event.get(s.eventId);
     if (!ev) continue;
     const roles = eligibleRoles(ctx, { ...ev, months: undefined }, s.roles);
-    if (!roles) continue;
+    if (!roles || shownOptionCount(ctx, ev, roles) < 2) continue;
     fireDecision(ctx, ev, roles);
     return true;
   }
@@ -53,6 +53,16 @@ function tryRandomDecision(ctx: SimContext): void {
   if (dir.decisionsThisYear >= d.max_decisions_per_year) return;
   if (state.clock.monthIndex - dir.lastDecisionMonthIndex < d.min_months_between) return;
 
+  // Mốc đời đủ điều kiện thì phát ngay (vẫn tôn trọng khoảng cách tối thiểu giữa hai quyết định)
+  const urgent = content.events
+    .filter((ev) => ev.priority && !ev.minor && !onCooldown(ctx, ev, state.eventHistory))
+    .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
+    .find((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
+  if (urgent) {
+    fireDecision(ctx, urgent.ev, urgent.roles);
+    return;
+  }
+
   const rng = ctx.rng.get(RngStream.Director);
   let chance = d.base_monthly_chance;
   if (dir.decisionsThisYear === 0) chance += d.drought_bonus_per_month * (state.clock.month - 1);
@@ -62,27 +72,30 @@ function tryRandomDecision(ctx: SimContext): void {
   const pool = content.events
     .filter((ev) => !ev.scheduled_only && !ev.minor && !onCooldown(ctx, ev, state.eventHistory))
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
-    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null);
+    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
   const repeat = (id: string) => Math.pow(d.repeat_weight_factor, state.eventHistory[id]?.count ?? 0);
   const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
   if (pick) fireDecision(ctx, pick.ev, pick.roles);
 }
 
-/** [1] Chuyện nhỏ: chọn riêng, không dừng thời gian, mỗi lúc chỉ một chuyện đang chờ. */
+/** [1] Chuyện nhỏ: chọn riêng, dừng thời gian chờ chọn; giãn cách với sự kiện quyết định và giới hạn số lần lặp mỗi đời. */
 function tryMinor(ctx: SimContext): void {
   const { state, content } = ctx;
   const m = content.balance.director.minor;
   const dir = state.director;
-  if (state.minor || !stageOfPlayer(ctx).decisions) return;
+  if (!stageOfPlayer(ctx).decisions) return;
   if (dir.minorThisYear >= m.max_per_year) return;
   if (state.clock.monthIndex - dir.lastMinorMonthIndex < m.min_months_between) return;
+  if (state.clock.monthIndex - dir.lastDecisionMonthIndex < m.min_months_after_decision) return;
   const rng = ctx.rng.get(RngStream.Director);
   if (!rng.chance(m.monthly_chance)) return;
-  const repeat = (id: string) => Math.pow(content.balance.director.repeat_weight_factor, state.eventHistory[id]?.count ?? 0);
+  const seen = (id: string) => state.eventHistory[id]?.count ?? 0;
+  const repeat = (id: string) => Math.pow(content.balance.director.repeat_weight_factor, seen(id));
   const pool = content.events
     .filter((ev) => ev.minor && !onCooldown(ctx, ev, state.eventHistory))
+    .filter((ev) => m.max_repeats_per_life === 0 || seen(ev.id) < m.max_repeats_per_life)
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
-    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null);
+    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
   const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
   if (pick) fireMinor(ctx, pick.ev, pick.roles);
 }
@@ -111,9 +124,9 @@ export function directorMonthly(ctx: SimContext): void {
   state.director.tension = Math.max(0, state.director.tension - content.balance.director.tension.decay_per_month);
   if (state.gameOver) return;
   if (state.director.ambientSlots.includes(state.clock.month)) writeAmbient(ctx);
-  expireMinor(ctx);
-  tryMinor(ctx);
   if (state.pending) return;
+  tryMinor(ctx);
+  if (state.minor) return;
   if (!fireScheduled(ctx)) tryRandomDecision(ctx);
 }
 

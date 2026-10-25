@@ -44,6 +44,10 @@ for (const originId of origins) for (const b of bots) {
   const lifespan = mean(dead.map((r) => r.deathAge!));
   const decisionsPerYear = totalYears ? results.reduce((a, r) => a + r.decisions, 0) / totalYears : 0;
   const repeatRate = results.reduce((a, r) => a + r.repeatedEvents, 0) / Math.max(1, results.reduce((a, r) => a + r.decisions, 0));
+  const minorPerYear = totalYears ? results.reduce((a, r) => a + r.minorDecisions, 0) / totalYears : 0;
+  const minorRepeatRate = results.reduce((a, r) => a + r.repeatedMinor, 0) / Math.max(1, results.reduce((a, r) => a + r.minorDecisions, 0));
+  const pausesPerYear = decisionsPerYear + minorPerYear;
+  const marriedRate = results.filter((r) => r.married).length / Math.max(1, results.length);
   const unexpected = dead.filter((r) => r.causeId === 'tai_nan').length / Math.max(1, dead.length);
   const story = mean(results.map((r) => r.storyLinesPerYear));
   const loops = totalYears ? results.reduce((a, r) => a + r.openLoopsSum, 0) / totalYears : 0;
@@ -56,7 +60,10 @@ for (const originId of origins) for (const b of bots) {
   console.log(`\n══ Xuất thân: ${originId} · Bot: ${b} · ${lives} đời ══`);
   console.log(`Tuổi thọ TB (người chơi):     ${lifespan.toFixed(1)}${mark('lifespan_mean', lifespan)}`);
   console.log(`Quyết định / năm:             ${decisionsPerYear.toFixed(2)}${mark('decisions_per_year', decisionsPerYear)}`);
-  console.log(`Tỷ lệ sự kiện lặp trong đời:  ${pct(repeatRate)}${mark('event_repeat_rate', repeatRate)}`);
+  console.log(`Tỷ lệ quyết định lặp:         ${pct(repeatRate)}${mark('event_repeat_rate', repeatRate)}`);
+  console.log(`Chuyện nhỏ / năm:             ${minorPerYear.toFixed(2)} · lặp ${pct(minorRepeatRate)}${mark('minor_repeat_rate', minorRepeatRate)}`);
+  console.log(`Lần dừng thời gian / năm:     ${pausesPerYear.toFixed(2)}${mark('pauses_per_year', pausesPerYear)}`);
+  console.log(`Từng lập gia đình:            ${pct(marriedRate)}${mark('married_rate', marriedRate)}`);
   console.log(`Chết hoàn toàn bất ngờ:       ${pct(unexpected)}${mark('unexpected_death_rate', unexpected)}`);
   console.log(`Dòng chuyện kể / năm:         ${story.toFixed(2)}${mark('story_lines_per_year', story)}`);
   console.log(`Việc dang dở TB:              ${loops.toFixed(2)}${mark('open_loops_mean', loops)}`);

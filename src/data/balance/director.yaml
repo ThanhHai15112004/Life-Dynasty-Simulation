@@ -5,12 +5,14 @@ base_monthly_chance: 0.14
 repeat_weight_factor: 0.15
 ambient_repeat_weight_factor: 0.5
 min_months_between: 2
-# [1] Chuyện nhỏ: hiện ngay trong nhật ký, thời gian vẫn trôi; bỏ qua quá hạn thì tự chọn phương án mặc định
+# [1] Chuyện nhỏ: hiện ngay trong nhật ký, dừng thời gian chờ chọn (bật "Tự quyết chuyện nhỏ" thì game chọn phương án default)
+# Nhịp mục tiêu: quyết định + chuyện nhỏ ≈ 1,5–2,5 lần dừng/năm (KPI pauses_per_year)
 minor:
-  monthly_chance: 0.2
-  max_per_year: 4
-  min_months_between: 2
-  expire_months: 3
+  monthly_chance: 0.12
+  max_per_year: 2
+  min_months_between: 4
+  min_months_after_decision: 2     # vừa có quyết định thì để người chơi thở vài tháng
+  max_repeats_per_life: 2          # một chuyện nhỏ gặp tối đa 2 lần mỗi đời
 # Năm chưa có quyết định nào: mỗi tháng trôi qua cộng thêm xác suất (KPI 1–2 quyết định/năm)
 drought_bonus_per_month: 0.015
 tension:

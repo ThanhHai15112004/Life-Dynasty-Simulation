@@ -113,8 +113,11 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     village: {},
     focus: { primary: '' },
     autoManage: { livingStandard: true, repayDebt: true },
+    householdCareer: origin.default_career,
+    wasHead: false,
     career: {
-      id: origin.default_career,
+      id: '',
+      since: 0,
       rankIndex: 0,
       merit: 0,
       wanted: 0,

@@ -117,6 +117,19 @@ marriage:
 
 max_concurrent_diseases: 2
 
+# [1] Chạy chữa bệnh (giá và xác suất khỏi ở diseases.yaml). Chưa làm chủ hộ thì nhà tự lo cho bệnh nặng.
+treatment:
+  retry_months: 2
+  auto_severities: [nang, nguy_kich]
+  auto_keep_months: 2
+
+# [1] Nghề riêng khi bắt đầu tự lập (đến tuổi trưởng thành): nhà có nghề thì phụ việc nhà, không thì thất nghiệp.
+# Làm chủ hộ thì thừa kế nghề nhà, kinh nghiệm phụ việc được tính theo hệ số dưới.
+career_start:
+  helper: phu_gia_dinh
+  jobless: that_nghiep
+  inherit_merit_factor: 1
+
 happiness:
   start: 50
   min: 0

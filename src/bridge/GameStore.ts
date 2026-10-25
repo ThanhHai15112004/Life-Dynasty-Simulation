@@ -14,6 +14,8 @@ export interface StoreSnapshot {
   running: boolean;
   speedIndex: number;
   hasSave: boolean;
+  /** [1] Tự quyết chuyện nhỏ (chọn phương án mặc định, không dừng thời gian) — như "Tự động quyết định" của 1in8b. */
+  autoMinor: boolean;
   /** Khóa lỗi (error.<mã>) của lệnh vừa thất bại, để UI báo. */
   lastError: string | null;
 }
@@ -26,6 +28,8 @@ export class GameStore {
   private timer: ReturnType<typeof setInterval> | null = null;
   private listeners = new Set<() => void>();
   private yearsSinceSave = 0;
+  /** Thời gian đang chạy thì bị dừng vì sự kiện/chuyện nhỏ: chọn xong tự chạy tiếp. */
+  private resumeAfterChoice = false;
   private snapshot: StoreSnapshot;
 
   constructor(
@@ -39,6 +43,7 @@ export class GameStore {
       running: false,
       speedIndex: content.balance.time.default_speed_index,
       hasSave: false,
+      autoMinor: false,
       lastError: null,
     };
     void this.saves.load(SLOT).then(
@@ -115,6 +120,15 @@ export class GameStore {
     if (this.snapshot.running) this.patch({ running: false });
   }
 
+  /** [1] Bật/tắt tự quyết chuyện nhỏ; đang có chuyện nhỏ chờ thì quyết luôn. */
+  toggleAutoMinor(): void {
+    this.patch({ autoMinor: !this.snapshot.autoMinor });
+    if (this.snapshot.autoMinor && this.session?.state.minor) {
+      this.session.autoResolveMinor();
+      this.refresh();
+    }
+  }
+
   toggle(): void {
     if (this.timer) this.pause();
     else this.play();
@@ -148,7 +162,11 @@ export class GameStore {
   private tick(): void {
     const s = this.session;
     if (!s) return;
-    const r = s.tickMonth();
+    let r = s.tickMonth();
+    if (r.minor && this.snapshot.autoMinor) {
+      s.autoResolveMinor();
+      r = { ...r, minor: false };
+    }
     this.emitCutscenes(r.cutscenes);
     if (r.deaths.length) this.notifications.emit('death', { characterIds: r.deaths });
     if (r.newYear) {
@@ -157,7 +175,10 @@ export class GameStore {
       const every = this.content.balance.time.autosave_every_years;
       if (every > 0 && this.yearsSinceSave >= every) void this.save();
     }
-    if (r.decision || r.gameOver) this.pause();
+    if (r.decision || r.minor || r.gameOver) {
+      if (!r.gameOver && this.timer) this.resumeAfterChoice = true;
+      this.pause();
+    }
     if (r.decision && s.state.pending) this.notifications.emit('decision', { eventId: s.state.pending.eventId });
     if (r.gameOver) {
       this.notifications.emit('gameOver', {});
@@ -171,6 +192,11 @@ export class GameStore {
     if (!this.session) return false;
     const res = this.session.dispatch(cmd);
     this.emitCutscenes(this.session.consumeCutscenes());
+    // Chọn xong sự kiện / chuyện nhỏ: nếu trước đó thời gian đang chạy thì chạy tiếp
+    if (res.ok && (cmd.type === 'chooseOption' || cmd.type === 'chooseMinor') && this.resumeAfterChoice && !this.session.blocked) {
+      this.resumeAfterChoice = false;
+      queueMicrotask(() => this.play());
+    }
     const lastError = res.ok ? null : `error.${res.error}`;
     if (!res.ok) this.notifications.emit('commandFailed', { error: res.error });
     this.refresh({ lastError });

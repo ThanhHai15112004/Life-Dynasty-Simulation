@@ -10,6 +10,11 @@ careers:
     event_weights: { ruong_dong: 1.4, lao_dong: 1.3, buon_ban: 0.6 }
     economy:
       self_farm: true
+    entry_condition:
+      any:
+        - { var: household.farmland, op: '>=', value: 1 }
+        - { var: player.career, op: '==', value: that_nghiep }
+    join: { cost_money: 0, hint: 'Nhà có ruộng thì tự cày; chưa có việc thì đi làm thuê cấy hái.' }
     duties:
       - Canh tác ruộng đồng và nộp thuế đinh, thuế điền mỗi năm
       - Gánh vác việc sưu dịch, hộ đê cùng dân làng
@@ -102,10 +107,12 @@ careers:
       family_wage_month: 0.4
       income: { money_month: 0.2, skill: thuong_mai, per_level: 0.045, trade_scaled: true, ledger: buon_ban }
     entry_condition:
-      any:
-        - { var: household.money, op: '>=', value: 12 }
-        - { has_property: sap_hang }
+      all:
         - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+        - any:
+            - { var: household.money, op: '>=', value: 5 }
+            - { has_property: sap_hang }
+    join: { cost_money: 5, hint: 'Cần biết buôn bán (Thương mại từ bậc 2) và 5 quan làm vốn.' }
     duties:
       - Giữ chữ tín với thương hội và bạn hàng các bến
       - Nộp thuế thương chính và phí bến bãi
@@ -206,6 +213,7 @@ careers:
       all:
         - { var: player.health, op: '>=', value: 55 }
         - { var: player.wanted, op: '==', value: 0 }
+    join: { cost_money: 0, hint: 'Cần sức khỏe tốt và không vướng truy nã. Vào lính là xa nhà, nhiều hiểm nguy.' }
     duties:
       - Tuân lệnh điều động tuần biên, dẹp loạn
       - Rèn luyện võ nghệ và giữ kỷ luật quân ngũ
@@ -315,11 +323,16 @@ careers:
     economy:
       self_farm: true
     entry_condition:
-      any:
-        - { var: household.debt, op: '>=', value: 15 }
-        - { var: player.wanted, op: '>', value: 0 }
-        - { has_trait: can_dam }
-        - { has_trait: tu_do }
+      all:
+        - any:
+            - { var: household.debt, op: '>=', value: 25 }
+            - { var: player.wanted, op: '>', value: 0 }
+            - { var: player.status_rank, op: '==', value: dan_ngheo }
+        - any:
+            - { has_trait: can_dam }
+            - { has_trait: tu_do }
+            - { has_trait: tan_nhan }
+    join: { cost_money: 0, hint: 'Chỉ khi cùng đường (nợ nặng, bị truy nã hoặc nghèo khổ) và đủ gan. Mất tiếng lương thiện.' }
     duties:
       - Giữ uy tín và chia chiến lợi phẩm công bằng cho anh em trong trại
       - Tránh tai mắt tuần tiễu của quan quân trên trấn
@@ -410,20 +423,22 @@ careers:
     description: Dùi mài kinh sử, lều chõng đi thi. Đỗ đạt thì được bổ làm quan, rạng danh tông tộc; lận đận thì làm thầy đồ dạy chữ nuôi thân.
     icon: sach
     components: [exam_ladder]
+    youth_career: si_tu          # con nhà nho đến tuổi thì làm Nho sinh (đi học), không phụ việc nhà
     default_focus: hoc_tap
     event_weights: { hoc_hanh: 2.0, van_minh: 1.6, ruong_dong: 0.4, lao_dong: 0.5 }
     entry_condition:
       any:
-        - { var: player.skill.hoc_van, op: '>=', value: 2 }
+        - { var: player.skill.hoc_van, op: '>=', value: 3 }
         - { var: player.exam_degree, op: '!=', value: none }
+    join: { cost_money: 1, hint: 'Cần Học vấn từ bậc 3 và 1 quan giấy bút. Nhà bớt một tay làm.' }
     duties:
       - Dùi mài kinh sử, ứng thí mỗi khoa thi
       - Giữ lễ nghĩa, làm gương cho dân làng và con cháu
     # Nhà nho không cầm cày: ruộng phát canh thu tô, sống bằng nghề chữ; người nhà chỉ dệt vải, chép sách kiếm thêm
     economy:
       self_farm: false
-      family_wage_month: 0.25
-      income: { money_month: 0.3, skill: hoc_van, per_level: 0.07, ledger: day_hoc }
+      family_wage_month: 0.3
+      income: { money_month: 0.4, skill: hoc_van, per_level: 0.07, ledger: day_hoc }
     ranks:
       - id: nho_sinh
         name: Nho sinh dùi mài kinh sử
@@ -518,3 +533,29 @@ careers:
           - 'Nét chữ rồng bay phượng múa, khách cầm văn khế về còn biếu thêm buồng cau.'
         failure_log:
           - 'Viết sót một chữ trong văn tự, hai bên kiện cáo nhau rồi đổ lỗi cho bạn.'
+
+  # ── Chưa có nghề riêng (kind: trang_thai) — không có lương, hành động, thăng bậc ──
+  - id: phu_gia_dinh
+    name: Phụ việc nhà
+    kind: trang_thai
+    description: Chưa có nghề riêng, phụ cha mẹ trong nghề nhà. Mỗi tháng thêm chút kinh nghiệm — khi làm chủ hộ sẽ tiếp quản nghề nhà, hoặc đủ điều kiện thì ra làm riêng.
+    icon: nha
+    merit_month: 1
+    duties:
+      - Phụ giúp nghề nhà, nghe lời cha mẹ
+    ranks:
+      - id: phu_viec
+        name: Phụ giúp nghề nhà
+  - id: that_nghiep
+    name: Thất nghiệp
+    kind: trang_thai
+    description: Chưa có việc làm. Có thể tìm việc, theo người học nghề, đi lính — hoặc chờ một cơ hội.
+    icon: su_kien
+    duties:
+      - Tìm việc làm, kiếm bữa qua ngày
+    ranks:
+      - id: khong_viec
+        name: Chưa có việc
+        modifiers:
+          - { target: stress.monthly, value: 0.15 }
+

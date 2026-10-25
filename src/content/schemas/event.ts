@@ -71,7 +71,9 @@ export const decisionEventSchema = z
     once_per_life: z.boolean().default(false),
     /** Chỉ xuất hiện khi được hẹn bởi effect schedule_event (chuỗi sự kiện). */
     scheduled_only: z.boolean().default(false),
-    /** [1] Chuyện nhỏ: hiện trong nhật ký, không dừng game, quá hạn thì tự chọn phương án mặc định. */
+    /** [1] Mốc đời (trưởng thành, chọn chí hướng...): đủ điều kiện là phát ngay ở lượt quyết định kế tiếp, không chờ may rủi. */
+    priority: z.boolean().default(false),
+    /** [1] Chuyện nhỏ: thẻ nhỏ, dừng thời gian chờ chọn như sự kiện thường; bật "tự quyết" thì game chọn phương án default. */
     minor: z.boolean().default(false),
     tension: z.number().min(0).default(3),
     importance: z.number().min(0).default(5),

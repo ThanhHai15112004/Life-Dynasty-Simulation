@@ -9,6 +9,7 @@ import type { SimContext } from '../systems/context';
 import { isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
 import { focusAvailable } from '../systems/focus';
+import { treatDisease, treatmentBlock } from '../systems/life';
 import { playerHousehold } from '../systems/people';
 import { createResolver } from '../systems/resolver';
 
@@ -26,7 +27,8 @@ export type Command =
   | { type: 'buyFood'; amount: number }
   | { type: 'buyProperty'; id: string }
   | { type: 'sellProperty'; id: string }
-  | { type: 'repayDebt'; amount: number };
+  | { type: 'repayDebt'; amount: number }
+  | { type: 'treatDisease'; characterId: string; diseaseId: string };
 
 /** Mã lỗi là khóa tra chữ trong data/lang (error.<mã>). */
 export type CommandError =
@@ -43,7 +45,9 @@ export type CommandError =
   | 'not_enough_food'
   | 'not_owned'
   | 'not_tradeable'
-  | 'no_debt';
+  | 'no_debt'
+  | 'not_sick'
+  | 'treated_recently';
 
 export type CommandResult = { ok: true } | { ok: false; error: CommandError };
 
@@ -59,10 +63,10 @@ export function ambitionAvailable(ctx: SimContext, ambitionId: string): boolean 
 export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
   const { state, content } = ctx;
   if (state.gameOver) return fail('game_over');
-  if (state.pending && cmd.type !== 'chooseOption') return fail('event_pending');
+  if (state.pending && cmd.type !== 'chooseOption' && cmd.type !== 'chooseMinor') return fail('event_pending');
   const h = playerHousehold(ctx);
   // Việc chi tiêu, mua bán của cả nhà chỉ chủ hộ mới quyết
-  const householdOnly = ['setLivingStandard', 'setAutoManage', 'sellFood', 'buyFood', 'buyProperty', 'sellProperty', 'repayDebt'];
+  const householdOnly = ['setLivingStandard', 'setAutoManage', 'sellFood', 'buyFood', 'buyProperty', 'sellProperty', 'repayDebt', 'treatDisease'];
   if (householdOnly.includes(cmd.type) && !isPlayerHead(ctx)) return fail('not_head');
 
   switch (cmd.type) {
@@ -86,6 +90,14 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
 
     case 'joinCareer': {
       if (state.career.id === cmd.careerId || !careerAvailable(ctx, cmd.careerId)) return fail('career_unavailable');
+      const cost = content.index.career.get(cmd.careerId)?.join?.cost_money ?? 0;
+      // Vốn vào nghề lấy từ tiền nhà: chỉ chủ hộ mới được bỏ ra
+      if (cost > 0 && !isPlayerHead(ctx)) return fail('not_head');
+      if (cost > h.money) return fail('not_enough_money');
+      if (cost > 0) {
+        h.money -= cost;
+        addLedger(h, Ledger.Event, -cost, 0);
+      }
       return changeCareer(ctx, cmd.careerId, 0) ? ok : fail('career_unavailable');
     }
 
@@ -139,6 +151,14 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
       h.money += money;
       addLedger(h, Ledger.SellProperty, money, 0);
       return ok;
+    }
+
+    case 'treatDisease': {
+      const c = state.characters[cmd.characterId];
+      if (!c) return fail('not_sick');
+      const block = treatmentBlock(ctx, c, cmd.diseaseId);
+      if (block) return fail(block);
+      return treatDisease(ctx, c, cmd.diseaseId) ? ok : fail('not_sick');
     }
 
     case 'repayDebt': {

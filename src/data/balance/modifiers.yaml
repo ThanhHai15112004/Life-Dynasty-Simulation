@@ -30,9 +30,15 @@ conditional:
     value: -0.25
   - id: co_the_hoi_phuc
     label: Cơ thể tự hồi phục
-    condition: { var: self.health, op: '<', value: 50 }
+    condition: { var: self.health, op: '<', value: 60 }
     target: health.monthly
-    value: 0.25
+    value: 0.3
+  - id: tuoi_tre_lai_suc
+    label: Tuổi trẻ mau lại sức
+    # Chỉ người lớn: trẻ nhỏ không được bù (giữ tử vong trẻ em đúng KPI 15–25%)
+    condition: { all: [{ var: self.age, op: between, value: [16, 39] }, { var: self.health, op: '<', value: 70 }] }
+    target: health.monthly
+    value: 0.15
   - id: no_nan
     label: Nợ nần đè nặng
     condition: { var: household.debt, op: '>', value: 20 }
@@ -67,6 +73,11 @@ conditional:
     condition: { var: self.stress, op: '>=', value: 25 }
     target: stress.monthly
     value: -0.35
+  - id: chai_san
+    label: Khổ mãi rồi cũng quen
+    condition: { var: self.stress, op: '>=', value: 70 }
+    target: stress.monthly
+    value: -0.3
   - id: suy_sup
     label: Tinh thần suy sụp
     condition: { var: self.stress, op: '>=', value: 80 }

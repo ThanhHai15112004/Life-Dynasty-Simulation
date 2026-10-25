@@ -11,6 +11,8 @@ export interface SkillState {
 export interface ActiveDisease {
   id: string;
   remainingMonths: number;
+  /** [1] Tháng chạy chữa gần nhất (chữa không khỏi thì phải chờ mới chữa lại). */
+  treatedAt?: number;
 }
 
 export interface Character {
