@@ -39,14 +39,20 @@ export function deserialize(text: string): GameState {
   }
   if (raw.version === 1) {
     raw.version = SAVE_VERSION;
-    raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
-    raw.reputation = raw.reputation ?? { dan_lang: 0 };
-    raw.happiness = raw.happiness ?? { mood: 50, satisfaction: 50, baselineWealth: 100, ambitionBonus: 0 };
-    for (const c of Object.values(raw.characters ?? {})) {
-      c.diseases = c.diseases ?? [];
-      c.opinionModifiers = c.opinionModifiers ?? [];
-      c.favorWithPlayer = c.favorWithPlayer ?? 0;
-    }
+  }
+  raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
+  raw.reputation = raw.reputation ?? { dan_lang: 0 };
+  raw.happiness = raw.happiness ?? { mood: 50, satisfaction: 50, baselineWealth: 100, ambitionBonus: 0 };
+  raw.career = raw.career ?? { id: 'nong_dan', rankIndex: 0, merit: 0, wanted: 0, actionCooldowns: {} };
+  if (raw.world) {
+    raw.world.tradeIndex = raw.world.tradeIndex ?? 1.0;
+    raw.world.militaryAlert = raw.world.militaryAlert ?? 'binh_yen';
+    raw.world.patrolLevel = raw.world.patrolLevel ?? 20;
+  }
+  for (const c of Object.values(raw.characters ?? {})) {
+    c.diseases = c.diseases ?? [];
+    c.opinionModifiers = c.opinionModifiers ?? [];
+    c.favorWithPlayer = c.favorWithPlayer ?? 0;
   }
   return raw as GameState;
 }

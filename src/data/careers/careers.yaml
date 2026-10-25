@@ -1,0 +1,384 @@
+# [1] Bốn Hợp đồng nghề sâu (GDD 04 §5, §15): Nông dân · Thương nhân · Lính→Tướng · Thảo khấu
+careers:
+  - id: nong_dan
+    name: Nông dân
+    description: Bám đất bám làng, trông trời trông đất trông mây. Chậm mà chắc, tích lũy ruộng vườn qua từng mùa gặt.
+    icon: lua
+    components: [farmland]
+    duties:
+      - Canh tác ruộng đồng và nộp thuế đinh, thuế điền mỗi năm
+      - Gánh vác việc sưu dịch, hộ đê cùng dân làng
+    ranks:
+      - id: ta_dien
+        name: Dân cày nghèo
+        min_merit: 0
+        condition: { var: household.farmland, op: '<', value: 3 }
+      - id: nong_dan_tu_canh
+        name: Nông phu tự canh
+        min_merit: 15
+        condition: { var: household.farmland, op: '>=', value: 3 }
+        modifiers:
+          - { target: harvest.yield, value: 1.05, op: mul }
+      - id: phu_nong
+        name: Phú nông có của
+        min_merit: 45
+        condition:
+          all:
+            - { var: household.farmland, op: '>=', value: 7 }
+            - { has_property: trau }
+        stipend_money_month: 0.4
+        modifiers:
+          - { target: harvest.yield, value: 1.12, op: mul }
+      - id: dien_chu
+        name: Điền chủ trong vùng
+        min_merit: 90
+        condition:
+          all:
+            - { var: household.farmland, op: '>=', value: 11 }
+            - { var: player.reputation, op: '>=', value: 15 }
+        stipend_money_month: 1.2
+        modifiers:
+          - { target: harvest.yield, value: 1.2, op: mul }
+    actions:
+      - id: khan_hoang_bai_boi
+        name: Khẩn hoang bãi bồi
+        description: Tranh thủ lúc nông nhàn ra bãi sông cuốc đất, cải tạo thêm vạt ruộng màu mỡ.
+        hint: 'Thuận lợi hơn vào mùa xuân/thu, tăng năng suất và công trạng nghề nông'
+        cooldown_months: 6
+        cost_food: 2
+        chance:
+          base: 0.55
+          skill: sinh_ton
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: world.season, op: 'in', value: [xuan, thu] }, add: 0.15 }
+        success:
+          - { type: career_merit, value: 12 }
+          - { type: food, value: 6, ledger: thu_hoach }
+          - { type: skill_xp, skill: sinh_ton, value: 18 }
+        failure:
+          - { type: health, value: -4 }
+          - { type: stress, value: 3 }
+        success_log:
+          - 'Vạt đất bãi bồi tơi xốp, gieo thử một lứa khoai đậu thu về đầy bồ.'
+        failure_log:
+          - 'Đất lẫn toàn sỏi đá, cuốc rộp cả tay mà chẳng trồng trọt được gì.'
+      - id: giup_viec_dinh_lang
+        name: Đứng ra lo việc đình đám
+        description: Bỏ công sức giúp làng tu sửa đình miếu, kênh mương để gây dựng uy tín.
+        hint: 'Tăng danh tiếng làng xã và điểm thăng tiến điền chủ'
+        cooldown_months: 8
+        cost_money: 1
+        chance:
+          base: 0.6
+          skill: quan_tri
+          per_level: 0.05
+        success:
+          - { type: career_merit, value: 15 }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: skill_xp, skill: quan_tri, value: 15 }
+        failure:
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Kênh mương thông suốt, các cụ bô lão ngoài đình gật gù khen ngợi.'
+        failure_log:
+          - 'Chín người mười ý, việc làng vừa mệt người vừa chẳng ai khen.'
+
+  - id: thuong_nhan
+    name: Thương nhân
+    description: Mua nơi thừa, bán nơi thiếu. Đọc thời cơ giá cả và lèo lái những chuyến hàng vượt sông, qua đèo.
+    icon: tien
+    components: [trade_route]
+    entry_condition:
+      any:
+        - { var: household.money, op: '>=', value: 12 }
+        - { has_property: sap_hang }
+        - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+    duties:
+      - Giữ chữ tín với thương hội và bạn hàng các bến
+      - Nộp thuế thương chính và phí bến bãi
+    ranks:
+      - id: hang_xao
+        name: Tiểu thương gánh chợ
+        min_merit: 0
+        stipend_money_month: 0.5
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.15, op: mul }
+      - id: chu_sap
+        name: Chủ sạp bến sông
+        min_merit: 25
+        condition: { var: player.skill.thuong_mai, op: '>=', value: 3 }
+        stipend_money_month: 1.2
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.2, op: mul }
+          - { target: xp.ngoai_giao, value: 1.1, op: mul }
+      - id: lai_buon_duong_dai
+        name: Thương khách đường dài
+        min_merit: 60
+        condition: { var: player.skill.thuong_mai, op: '>=', value: 5 }
+        stipend_money_month: 2.2
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.25, op: mul }
+      - id: phu_thuong_hoi_chu
+        name: Đại chưởng quỹ thương hội
+        min_merit: 110
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 7 }
+            - { var: household.money, op: '>=', value: 60 }
+        stipend_money_month: 4.0
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.3, op: mul }
+          - { target: living.cost, value: 0.9, op: mul }
+    actions:
+      - id: chuyen_buon_len_tran
+        name: Đánh chuyến hàng lên trấn
+        description: Gom nông sản, vải vóc chở thuyền lên chợ trấn bán kiếm lời theo thời giá.
+        hint: 'Lời to khi Chỉ số giá buôn >= 1.1; coi chừng thảo khấu khi tuần tra thấp'
+        cooldown_months: 5
+        cost_money: 4
+        chance:
+          base: 0.5
+          skill: thuong_mai
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: world.trade_index, op: '>=', value: 1.12 }, add: 0.2 }
+            - { condition: { var: world.trade_index, op: '<', value: 0.9 }, add: -0.15 }
+        success:
+          - { type: money, value: { var: world.trade_index, factor: 9, round: true }, ledger: thu_khac }
+          - { type: career_merit, value: 15 }
+          - { type: skill_xp, skill: thuong_mai, value: 20 }
+        failure:
+          - { type: stress, value: 5 }
+          - { type: career_merit, value: 3 }
+        success_log:
+          - 'Đúng lúc trên trấn khan hàng! Chuyến buôn bán đắt như tôm tươi, thu lời đậm.'
+        failure_log:
+          - 'Hàng ế ẩm lại gặp mưa ẩm mốc, chuyến đi chỉ vừa đủ bù chi phí.'
+      - id: dau_co_mua_giap_hat
+        name: Thu gom hàng hiếm chờ thời
+        description: Bỏ vốn lớn gom muối mắm và lụa tốt, đợi tháng khan hiếm tung ra thị trường.
+        hint: 'Cần vốn 8 quan, thắng lớn khi giá buôn cao'
+        cooldown_months: 8
+        cost_money: 8
+        chance:
+          base: 0.45
+          skill: thuong_mai
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: world.trade_index, op: '>=', value: 1.15 }, add: 0.25 }
+        success:
+          - { type: money, value: 18, ledger: thu_khac }
+          - { type: career_merit, value: 22 }
+          - { type: skill_xp, skill: thuong_mai, value: 25 }
+        failure:
+          - { type: money, value: 3, ledger: thu_khac }
+          - { type: stress, value: 6 }
+        success_log:
+          - 'Con mắt nhìn xa trông rộng giúp bạn thắng lớn, tiền bạc chảy đầy tay nải.'
+        failure_log:
+          - 'Thuyền hàng nơi khác ập về phá giá, đành bán tháo thu hồi một phần vốn.'
+
+  - id: linh
+    name: Lính → Tướng
+    description: Khoác áo lính, cầm giáo giữ biên cương. Đổi mồ hôi và máu trên chiến trường lấy quân công, bổng lộc và chức tước.
+    icon: phu
+    components: [military_rank]
+    entry_condition:
+      all:
+        - { var: player.health, op: '>=', value: 55 }
+        - { var: player.wanted, op: '==', value: 0 }
+    duties:
+      - Tuân lệnh điều động tuần biên, dẹp loạn
+      - Rèn luyện võ nghệ và giữ kỷ luật quân ngũ
+    ranks:
+      - id: tan_binh
+        name: Binh đinh
+        min_merit: 0
+        stipend_money_month: 0.8
+        stipend_food_month: 1.5
+        modifiers:
+          - { target: xp.quan_su, value: 1.2, op: mul }
+          - { target: death_risk, value: 1.1, op: mul }
+      - id: ngu_truong
+        name: Ngũ trưởng
+        min_merit: 25
+        condition: { var: player.skill.quan_su, op: '>=', value: 2 }
+        stipend_money_month: 1.4
+        stipend_food_month: 2.0
+        modifiers:
+          - { target: xp.quan_su, value: 1.25, op: mul }
+          - { target: death_risk, value: 1.12, op: mul }
+      - id: doi_truong
+        name: Đội trưởng cấm vệ
+        min_merit: 55
+        condition: { var: player.skill.quan_su, op: '>=', value: 4 }
+        stipend_money_month: 2.4
+        stipend_food_month: 3.0
+        modifiers:
+          - { target: xp.quan_su, value: 1.3, op: mul }
+          - { target: xp.quan_tri, value: 1.15, op: mul }
+      - id: do_uy
+        name: Đô úy thống binh
+        min_merit: 95
+        condition: { var: player.skill.quan_su, op: '>=', value: 6 }
+        stipend_money_month: 4.0
+        stipend_food_month: 4.0
+        modifiers:
+          - { target: xp.quan_su, value: 1.35, op: mul }
+      - id: tuong_quan
+        name: Trấn thủ Tướng quân
+        min_merit: 150
+        condition:
+          all:
+            - { var: player.skill.quan_su, op: '>=', value: 8 }
+            - { var: player.reputation, op: '>=', value: 20 }
+        stipend_money_month: 6.5
+        stipend_food_month: 6.0
+        modifiers:
+          - { target: xp.quan_su, value: 1.4, op: mul }
+          - { target: living.cost, value: 0.85, op: mul }
+    actions:
+      - id: tuan_tra_anh_ai
+        name: Tuần tiễu đường đèo
+        description: Dẫn toán lính tuần tra đường đèo, truy quét trộm cướp bảo vệ dân lành.
+        hint: 'Lập công nhanh khi biên ải đang mức Tuần tra hoặc Chiến dịch'
+        cooldown_months: 5
+        chance:
+          base: 0.55
+          skill: quan_su
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: world.military_alert, op: 'in', value: [tuan_tra, chien_dich] }, add: 0.15 }
+        success:
+          - { type: career_merit, value: 16 }
+          - { type: money, value: 3, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: skill_xp, skill: quan_su, value: 20 }
+        failure:
+          - { type: health, value: -7 }
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Bắt gọn toán cướp cỏ trên đèo, quan trên ban thưởng tiền và ghi sổ quân công.'
+        failure_log:
+          - 'Đường rừng hiểm trở lại gặp mưa tên phục kích, bạn bị xây xát nhẹ khi rút quân.'
+      - id: xung_phong_chien_dich
+        name: Xung phong lập chiến công
+        description: Tình nguyện đi mũi tiên phong trong đợt tập kích sào huyệt địch.
+        hint: 'Rủi ro bị thương cao, nhưng thắng lợi sẽ thăng tiến vượt bậc'
+        cooldown_months: 8
+        chance:
+          base: 0.45
+          skill: quan_su
+          per_level: 0.06
+          modifiers:
+            - { condition: { var: world.military_alert, op: '==', value: chien_dich }, add: 0.2 }
+        success:
+          - { type: career_merit, value: 28 }
+          - { type: money, value: 8, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: quan_su, value: 30 }
+        failure:
+          - { type: health, value: -14 }
+          - { type: stress, value: 7 }
+          - { type: career_merit, value: 5 }
+        success_log:
+          - 'Cờ tiên phong cắm trên lũy giặc! Tiếng reo hò vang dậy, tên bạn được tâu lên trấn phủ.'
+        failure_log:
+          - 'Trận đánh ác liệt hơn dự tính, bạn mang thương tích mở đường máu rút về.'
+
+  - id: thao_khau
+    name: Thảo khấu
+    description: Sống ngoài vòng pháp luật nơi rừng xanh núi đỏ. Tự do tự tại, lấy của nhà giàu chia cho anh em, nhưng luôn đối mặt lệnh truy nã của quan phủ.
+    icon: nguy_hiem
+    components: [outlaw_band]
+    entry_condition:
+      any:
+        - { var: household.debt, op: '>=', value: 15 }
+        - { var: player.wanted, op: '>', value: 0 }
+        - { has_trait: can_dam }
+        - { has_trait: tu_do }
+    duties:
+      - Giữ uy tín và chia chiến lợi phẩm công bằng cho anh em trong trại
+      - Tránh tai mắt tuần tiễu của quan quân trên trấn
+    ranks:
+      - id: tot_do
+        name: Tốt đỏ rừng xanh
+        min_merit: 0
+        modifiers:
+          - { target: xp.muu_luoc, value: 1.15, op: mul }
+          - { target: xp.quan_su, value: 1.15, op: mul }
+          - { target: death_risk, value: 1.12, op: mul }
+      - id: dau_muc
+        name: Đầu mục tuần sơn
+        min_merit: 25
+        stipend_money_month: 0.8
+        modifiers:
+          - { target: xp.muu_luoc, value: 1.2, op: mul }
+          - { target: xp.quan_su, value: 1.2, op: mul }
+      - id: nhi_duong_gia
+        name: Nhị đương gia sơn trại
+        min_merit: 60
+        condition: { var: player.skill.muu_luoc, op: '>=', value: 4 }
+        stipend_money_month: 1.8
+        modifiers:
+          - { target: xp.muu_luoc, value: 1.25, op: mul }
+          - { target: xp.quan_su, value: 1.25, op: mul }
+      - id: dai_duong_gia
+        name: Đại đương gia một cõi
+        min_merit: 110
+        condition:
+          all:
+            - { var: player.skill.quan_su, op: '>=', value: 6 }
+            - { var: player.skill.muu_luoc, op: '>=', value: 5 }
+        stipend_money_month: 3.5
+        modifiers:
+          - { target: xp.muu_luoc, value: 1.3, op: mul }
+          - { target: xp.quan_su, value: 1.3, op: mul }
+    actions:
+      - id: chan_duong_thuong_khach
+        name: Thu mãi lộ trên đèo
+        description: Đón lõng các đoàn xe buôn qua đèo vắng để thu tiền mãi lộ.
+        hint: 'Dễ thành công khi Mức tuần tra quan phủ < 40; tăng mức truy nã'
+        cooldown_months: 5
+        chance:
+          base: 0.55
+          skill: muu_luoc
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: world.patrol_level, op: '<', value: 35 }, add: 0.2 }
+            - { condition: { var: world.patrol_level, op: '>=', value: 55 }, add: -0.25 }
+        success:
+          - { type: money, value: 9, ledger: su_kien }
+          - { type: food, value: 8, ledger: su_kien }
+          - { type: career_merit, value: 16 }
+          - { type: wanted, value: 8 }
+          - { type: skill_xp, skill: muu_luoc, value: 18 }
+        failure:
+          - { type: health, value: -9 }
+          - { type: wanted, value: 12 }
+          - { type: stress, value: 5 }
+        success_log:
+          - 'Đoàn xe buôn vội vã nộp tiền mãi lộ rồi chạy biến. Anh em trong trại mở tiệc lớn.'
+        failure_log:
+          - 'Ngờ đâu gặp phải đoàn hộ tống có lính trấn đi kèm! Cả toán phải lẩn vào rừng sâu.'
+      - id: an_nau_xoa_dau_vet
+        name: Ẩn mình xóa dấu vết
+        description: Tạm đóng cửa sơn trại, tung tin giả để làm nguội lệnh truy nã của quan phủ.
+        hint: 'Giảm mạnh mức truy nã và căng thẳng'
+        cooldown_months: 6
+        cost_money: 2
+        chance:
+          base: 0.65
+          skill: muu_luoc
+          per_level: 0.05
+        success:
+          - { type: wanted, value: -18 }
+          - { type: stress, value: -5 }
+          - { type: skill_xp, skill: muu_luoc, value: 15 }
+        failure:
+          - { type: wanted, value: -5 }
+        success_log:
+          - 'Quan quân tưởng toán cướp đã dạt sang xứ khác, lệnh truy tầm lắng xuống hẳn.'
+        failure_log:
+          - 'Mấy tên tuần đinh vẫn lảng vảng dưới chân núi, chỉ giảm được chút ít nghi ngờ.'

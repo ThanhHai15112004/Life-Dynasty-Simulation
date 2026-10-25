@@ -224,3 +224,20 @@ templates:
     variants:
       - 'Một bước tiến lớn trên đường đời: bạn đạt được mốc "{title}".'
       - 'Nhìn lại công sức bỏ ra, lòng bạn mãn nguyện khi đạt mốc "{title}".'
+  - id: sys.chuyen_nghe
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: moc_doi
+    variants:
+      - 'Bạn rẽ sang con đường mới: theo nghề {title} ({stage}).'
+      - 'Một ngã rẽ cuộc đời: từ nay bạn bước vào nghề {title}, bậc {stage}.'
+  - id: sys.thang_bac_nghe
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Nhờ công trạng tích lũy, bạn được thăng lên bậc "{stage}" trong nghề {title}!'
+      - 'Tiếng tăm và bản lĩnh được ghi nhận: bạn bước lên bậc "{stage}" ({title}).'

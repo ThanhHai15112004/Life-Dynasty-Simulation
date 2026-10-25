@@ -1,6 +1,8 @@
 // [0] Dữ liệu gameplay: kỹ năng, tính cách, Focus, tài sản, xuất thân, văn hóa
 import { z } from 'zod';
 import { conditionSchema } from './condition';
+import { effectSchema } from './effect';
+import { chanceSchema } from './event';
 import { modifierDefSchema } from './modifier';
 
 const range = z.tuple([z.number(), z.number()]);
@@ -122,6 +124,7 @@ export const originSchema = z
       .strict(),
     village_npcs: z.array(villageNpcSchema),
     default_focus: z.string(),
+    default_career: z.string().default('nong_dan'),
   })
   .strict();
 export type Origin = z.infer<typeof originSchema>;
@@ -200,3 +203,55 @@ export const ambitionSchema = z
   .strict();
 export const ambitionFileSchema = z.object({ ambitions: z.array(ambitionSchema).min(1) }).strict();
 export type Ambition = z.infer<typeof ambitionSchema>;
+
+/** [1] Hợp đồng nghề & Thành phần lắp ghép (GDD 04 §4–5). */
+export const careerComponentTypes = ['farmland', 'trade_route', 'military_rank', 'outlaw_band'] as const;
+export type CareerComponentType = (typeof careerComponentTypes)[number];
+
+export const careerRankSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    min_merit: z.number().min(0).default(0),
+    condition: conditionSchema.optional(),
+    stipend_money_month: z.number().default(0),
+    stipend_food_month: z.number().default(0),
+    modifiers: z.array(modifierDefSchema).default([]),
+  })
+  .strict();
+export type CareerRank = z.infer<typeof careerRankSchema>;
+
+export const careerActionSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    hint: z.string().optional(),
+    cooldown_months: z.number().int().positive().default(6),
+    cost_money: z.number().min(0).default(0),
+    cost_food: z.number().min(0).default(0),
+    condition: conditionSchema.optional(),
+    chance: chanceSchema,
+    success: z.array(effectSchema).default([]),
+    failure: z.array(effectSchema).default([]),
+    success_log: z.array(z.string()).min(1),
+    failure_log: z.array(z.string()).min(1),
+  })
+  .strict();
+export type CareerAction = z.infer<typeof careerActionSchema>;
+
+export const careerSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    icon: z.string().default('focus'),
+    components: z.array(z.enum(careerComponentTypes)).min(1),
+    entry_condition: conditionSchema.optional(),
+    duties: z.array(z.string()).default([]),
+    ranks: z.array(careerRankSchema).min(1),
+    actions: z.array(careerActionSchema).default([]),
+  })
+  .strict();
+export const careerFileSchema = z.object({ careers: z.array(careerSchema).min(1) }).strict();
+export type Career = z.infer<typeof careerSchema>;

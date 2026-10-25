@@ -79,6 +79,14 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return state.happiness.mood;
       case 'ambition':
         return state.ambition.id ?? '';
+      case 'career':
+        return state.career.id;
+      case 'career_rank':
+        return state.career.rankIndex;
+      case 'merit':
+        return state.career.merit;
+      case 'wanted':
+        return state.career.wanted;
       default:
         throw new UnknownVariableError(path);
     }
@@ -100,6 +108,9 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'food_price') return state.world.foodPrice;
         if (key === 'last_harvest') return state.world.lastHarvest;
         if (key === 'months_to_harvest') return monthsToHarvest(ctx);
+        if (key === 'trade_index') return state.world.tradeIndex;
+        if (key === 'military_alert') return state.world.militaryAlert;
+        if (key === 'patrol_level') return state.world.patrolLevel;
         throw new UnknownVariableError(path);
       }
       case 'player':

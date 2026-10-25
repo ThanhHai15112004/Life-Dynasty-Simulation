@@ -50,6 +50,9 @@ export type Effect =
   | { type: 'cure_disease'; disease?: string; who: string }
   | { type: 'reputation'; group: string; value: number }
   | { type: 'favor'; role: string; value: number }
+  | { type: 'set_career'; career: string; rank?: number }
+  | { type: 'career_merit'; value: number }
+  | { type: 'wanted'; value: number }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -101,6 +104,9 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
     z.object({ type: z.literal('cure_disease'), disease: z.string().optional(), who }).strict(),
     z.object({ type: z.literal('reputation'), group: z.string().default('dan_lang'), value: z.number() }).strict(),
     z.object({ type: z.literal('favor'), role: z.string(), value: z.number() }).strict(),
+    z.object({ type: z.literal('set_career'), career: z.string(), rank: z.number().int().min(0).optional() }).strict(),
+    z.object({ type: z.literal('career_merit'), value: z.number() }).strict(),
+    z.object({ type: z.literal('wanted'), value: z.number() }).strict(),
     z
       .object({
         type: z.literal('log'),

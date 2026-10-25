@@ -33,6 +33,7 @@ export function validateContent(content: ContentBundle): ValidationReport {
   const trait = (t: string, where: string) => need(idx.trait.has(t), `${where}: tính cách lạ "${t}"`);
   const property = (p: string, where: string) => need(idx.property.has(p), `${where}: tài sản lạ "${p}"`);
   const disease = (d: string, where: string) => need(idx.disease.has(d), `${where}: bệnh lạ "${d}"`);
+  const career = (c: string, where: string) => need(idx.career.has(c), `${where}: nghề lạ "${c}"`);
   const template = (id: string, where: string) => need(idx.ambient.has(id), `${where}: thiếu mẫu nhật ký "${id}"`);
 
   // ── Id tham chiếu ──
@@ -78,6 +79,7 @@ export function validateContent(content: ContentBundle): ValidationReport {
   for (const o of content.origins) {
     need(idx.culture.has(o.culture), `origins.${o.id}: văn hóa lạ "${o.culture}"`);
     need(idx.focus.has(o.default_focus), `origins.${o.id}: default_focus lạ`);
+    career(o.default_career, `origins.${o.id}.default_career`);
     need(idx.livingStandard.has(o.household.living_standard), `origins.${o.id}: mức sống lạ`);
     o.household.properties.forEach((p) => property(p.id, `origins.${o.id}.household`));
     Object.keys(o.player.skills).forEach((s) => skill(s, `origins.${o.id}.player.skills`));
@@ -97,6 +99,7 @@ export function validateContent(content: ContentBundle): ValidationReport {
       if (e.type === 'marry' && e.role && !roles.has(e.role)) errors.push(`${w}: vai trò lạ "${e.role}"`);
       if (e.type === 'add_disease') disease(e.disease, w);
       if (e.type === 'cure_disease' && e.disease) disease(e.disease, w);
+      if (e.type === 'set_career') career(e.career, w);
       if (e.type === 'skill_xp') skill(e.skill, w);
       if (e.type === 'modifier') target(e.target, w);
       if (e.type === 'property_add' || e.type === 'property_remove') property(e.property, w);
@@ -130,6 +133,16 @@ export function validateContent(content: ContentBundle): ValidationReport {
     t.life_stages?.forEach((s) => need(stageIds.has(s), `ambient.${t.id}: giai đoạn đời lạ "${s}"`));
     Object.keys(t.trait_reactions).forEach((x) => trait(x, `ambient.${t.id}.trait_reactions`));
     checkEffects(t.effects, `ambient.${t.id}`, roles);
+  }
+  for (const c of content.careers) {
+    for (const r of c.ranks) {
+      r.modifiers.forEach((m) => target(m.target, `careers.${c.id}.ranks.${r.id}`));
+    }
+    for (const act of c.actions) {
+      const w = `careers.${c.id}.actions.${act.id}`;
+      if (act.chance?.skill) skill(act.chance.skill, `${w}.chance`);
+      checkEffects([...act.success, ...act.failure], w, new Set());
+    }
   }
 
   // ── Chạy thử điều kiện DSL và token văn bản trên một ván thật ──
@@ -185,6 +198,16 @@ export function validateContent(content: ContentBundle): ValidationReport {
     for (const a of content.ambitions) {
       tryCond(a.condition, `ambitions.${a.id}`, []);
       a.milestones.forEach((m) => tryCond(m.condition, `ambitions.${a.id}.${m.id}`, []));
+    }
+    for (const c of content.careers) {
+      tryCond(c.entry_condition, `careers.${c.id}.entry_condition`, []);
+      c.ranks.forEach((r) => tryCond(r.condition, `careers.${c.id}.ranks.${r.id}`, []));
+      for (const act of c.actions) {
+        const w = `careers.${c.id}.actions.${act.id}`;
+        tryCond(act.condition, w, []);
+        act.chance?.modifiers.forEach((m) => tryCond(m.condition, `${w}.chance`, []));
+        [...act.success_log, ...act.failure_log].forEach((t) => tryText(t, w, [], false));
+      }
     }
     for (const [i, r] of [...content.balance.scene.condition_rules, ...content.balance.scene.particle_rules].entries()) {
       tryCond(r.condition, `scene.rules[${i}]`, []);

@@ -10,6 +10,7 @@ import { createResolver, type Bindings, type StateResolver } from '../systems/re
 import { addSkillXp } from '../systems/skills';
 import { cureCharacter, infectCharacter } from '../systems/life';
 import { healthCap } from '../systems/life/health';
+import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
 import { marryPlayer } from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
 import { Ledger, LogKind } from './systemLogKeys';
@@ -130,6 +131,15 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           if (c) changeFavor(c, e.value);
           break;
         }
+        case 'set_career':
+          changeCareer(ctx, e.career, e.rank ?? 0);
+          break;
+        case 'career_merit':
+          addCareerMerit(ctx, e.value);
+          break;
+        case 'wanted':
+          addWanted(ctx, e.value);
+          break;
         case 'property_add':
           h.properties[e.property] = (h.properties[e.property] ?? 0) + e.count;
           break;

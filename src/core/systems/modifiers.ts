@@ -49,6 +49,10 @@ export function gatherModifiers(ctx: SimContext, characterId: string): Modifier[
     const secondary = state.focus.secondary ? content.index.focus.get(state.focus.secondary) : undefined;
     const f = content.balance.skills.secondary_focus_factor;
     secondary?.modifiers.forEach((m) => out.push(fromDef(m, `focus2:${secondary.id}`, secondary.name, 1, f)));
+
+    const career = content.index.career.get(state.career.id);
+    const rank = career?.ranks[state.career.rankIndex];
+    rank?.modifiers.forEach((m) => out.push(fromDef(m, `career:${career!.id}:${rank.id}`, `${career!.name} (${rank.name})`)));
   }
 
   if (inPlayerHousehold) {

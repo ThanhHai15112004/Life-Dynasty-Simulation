@@ -9,7 +9,8 @@ try {
   for (const w of warnings) console.warn(`⚠  ${w}`);
   for (const e of errors) console.error(`✖  ${e}`);
   console.log(
-    `\nNội dung: ${content.events.length} sự kiện quyết định, ${content.ambient.length} mẫu nhật ký, ` +
+    `\nNội dung: ${content.origins.length} xuất thân, ${content.careers.length} nghề, ` +
+      `${content.events.length} sự kiện quyết định, ${content.ambient.length} mẫu nhật ký, ` +
       `${content.focuses.length} Focus, ${content.ambitions.length} tham vọng, ${content.diseases.length} bệnh, ` +
       `${content.properties.length} tài sản, ${content.traits.length} tính cách.`,
   );

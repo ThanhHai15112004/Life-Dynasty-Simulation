@@ -20,7 +20,7 @@ export const roleSpecSchema = z
   .strict();
 export type RoleSpec = z.infer<typeof roleSpecSchema>;
 
-const chanceSchema = z
+export const chanceSchema = z
   .object({
     base: z.number().min(0).max(1),
     skill: z.string().optional(),

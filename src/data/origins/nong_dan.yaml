@@ -6,6 +6,7 @@ culture: viet
 start_age_options: [16, 6, 0]
 default_start_age: 16
 default_focus: lam_an
+default_career: nong_dan
 player:
   sex: any
   health: [65, 85]

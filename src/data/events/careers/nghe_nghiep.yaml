@@ -1,0 +1,312 @@
+# [1] Sự kiện quyết định theo nghề nghiệp & thời cơ (Thương nhân, Lính → Tướng, Thảo khấu)
+events:
+  - id: thuong_nhan_con_sot_hang_hoa
+    title: Cơn sốt hàng lụa và muối trên trấn
+    tags: [kinh_te, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: world.trade_index, op: '>=', value: 1.05 }
+    weight: 6
+    cooldown_years: 3
+    tension: 5
+    importance: 6
+    icon: tien
+    text:
+      - 'Tin từ bến sông báo về: thuyền buôn miền xuôi cập bến tấp nập, giá lụa và muối đang nhích lên từng ngày. Các nhà buôn trong vùng đều rục rịch gom vốn đánh quả lớn.'
+    options:
+      - id: gom_von_danh_lon
+        text: 'Dốc 8 quan tiền ôm trọn lô hàng đầu bến'
+        hint: 'Thời cơ đang thuận, lời đậm và tăng mạnh uy tín nghề buôn'
+        condition: { var: household.money, op: '>=', value: 8 }
+        chance:
+          base: 0.55
+          skill: thuong_mai
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: world.trade_index, op: '>=', value: 1.2 }, add: 0.15 }
+        effects:
+          - { type: money, value: -8, ledger: su_kien }
+        success:
+          - { type: money, value: 17, ledger: luong_nghe }
+          - { type: career_merit, value: 16 }
+          - { type: skill_xp, skill: thuong_mai, value: 22 }
+        failure:
+          - { type: money, value: 4, ledger: luong_nghe }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Lô hàng bán vèo trong hai buổi chợ! Bạn thu vốn lẫn lời rủng rỉnh, các chủ thuyền đều nể mắt.'
+        failure_result:
+          - 'Hàng vừa nhập kho thì mưa dầm làm ẩm một nửa, đành bán tháo thu hồi chút vốn còm.'
+      - id: moi_phu_ho_gop_von
+        text: 'Rủ thêm bạn buôn chung vốn chia lời (cần 3 quan)'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: 3.5, ledger: luong_nghe }
+          - { type: career_merit, value: 8 }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        result:
+          - 'Lời lãi chia đôi tuy không quá lớn nhưng chắc ăn, lại kết thêm mối thâm giao ngoài chợ.'
+      - id: giu_von_quan_sat
+        text: 'Giữ chặt hầu bao, chỉ bán lẻ hàng sẵn trong sạp'
+        trait_stress: { tham_vong: 3 }
+        effects:
+          - { type: money, value: 1.2, ledger: luong_nghe }
+          - { type: career_merit, value: 3 }
+        result:
+          - 'Bạn đứng nhìn người ta tất bật ôm hàng, tuy tiếc rẻ nhưng túi tiền nhà mình vẫn an toàn.'
+
+  - id: thuong_nhan_quan_thu_thue_ep
+    title: Lệ phí qua trạm tăng đột ngột
+    tags: [kinh_te, nghe_nghiep, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+    weight: 5
+    cooldown_years: 3
+    tension: 5
+    importance: 5
+    icon: thue
+    text:
+      - 'Viên lại giữ trạm đầu huyện dựng thêm rào chắn, đòi mỗi xe hàng qua lại phải nộp thêm "tiền trà nước" gấp đôi thường lệ, nếu không sẽ giữ hàng khám xét cả tuần.'
+    options:
+      - id: dut_lot_qua_tram
+        text: 'Ấn vào tay viên lại 2 quan tiền cho êm chuyện'
+        condition: { var: household.money, op: '>=', value: 2 }
+        trait_stress: { nong_nay: 4 }
+        effects:
+          - { type: money, value: -2, ledger: thue }
+          - { type: career_merit, value: 6 }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+        result:
+          - 'Viên lại cười khẩy khoát tay mở rào. Hàng của bạn kịp phiên chợ sớm, bán được giá cao.'
+      - id: ly_le_so_sach
+        text: 'Đem sắc chỉ thuế khóa của triều đình ra đối chất'
+        hint: 'Cần Học vấn và Quản trị để không bị bắt bẻ'
+        chance:
+          base: 0.45
+          skill: hoc_van
+          per_level: 0.06
+        success:
+          - { type: career_merit, value: 12 }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: skill_xp, skill: quan_tri, value: 15 }
+        failure:
+          - { type: money, value: -3, ledger: thue }
+          - { type: stress, value: 7 }
+        success_result:
+          - 'Thấy bạn đọc vanh vách điều luật của bộ Hộ, viên lại sợ đến tai quan huyện nên vội vàng cho xe đi.'
+        failure_result:
+          - 'Viên lại thẹn quá hóa giận, bắt dỡ tung cả xe hàng ra kiểm rồi phạt thêm tội cản trở công vụ.'
+      - id: di_duong_vong
+        text: 'Cho xe đi đường mòn vòng qua sườn đồi'
+        effects:
+          - { type: health, value: -4 }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        result:
+          - 'Đường đồi gập ghềnh làm bạn mỏi nhừ cả lưng, nhưng giữ nguyên được số hàng.'
+
+  - id: linh_lenh_khan_bien_ai
+    title: Trống lệnh nơi doanh trại
+    tags: [quan_su, nghe_nghiep, nguy_hiem]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: linh }
+    weight: 6
+    weight_modifiers:
+      - { condition: { var: world.military_alert, op: 'in', value: [tuan_tra, chien_dich] }, factor: 2 }
+    cooldown_years: 3
+    tension: 7
+    importance: 7
+    icon: nguy_hiem
+    text:
+      - 'Ba hồi trống lệnh dồn dập vang lên giữa đêm. Đô úy triệu tập toàn doanh: có toán giặc cỏ vừa đốt kho lương ở giáp ranh, cần một toán quân tinh nhuệ truy kích ngay trong đêm.'
+    options:
+      - id: xin_dan_dau
+        text: 'Bước ra khỏi hàng xin lĩnh ấn tiên phong'
+        hint: 'Cơ hội lập đại công thăng chức, nhưng nguy hiểm tính mạng'
+        trait_stress: { than_trong: 5 }
+        chance:
+          base: 0.5
+          skill: quan_su
+          per_level: 0.06
+        success:
+          - { type: career_merit, value: 24 }
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: skill_xp, skill: quan_su, value: 25 }
+        failure:
+          - { type: health, value: -14 }
+          - { type: career_merit, value: 6 }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Bạn dẫn toán quân đánh úp khi giặc đang chia của, đoạt lại phân nửa số lương thảo. Đô úy đích thân rót rượu thưởng công!'
+        failure_result:
+          - 'Giặc đặt sẵn bẫy chông nơi hẻm núi. Bạn bị thương ở bả vai nhưng vẫn giữ vững đội hình rút lui.'
+      - id: giu_canh_dong_hai_canh
+        text: 'Xin đi toán bọc hậu giữ đường lương thảo'
+        effects:
+          - { type: career_merit, value: 10 }
+          - { type: money, value: 1.5, ledger: luong_nghe }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        result:
+          - 'Đoàn xe lương được bảo vệ chu toàn suốt chiến dịch, bạn được ghi nhận là người điềm tĩnh, chắc chắn.'
+      - id: cao_benh_o_lai
+        text: 'Than đau bụng dữ dội để xin ở lại giữ doanh trại'
+        trait_stress: { can_dam: 6, trung_thanh: 4 }
+        effects:
+          - { type: career_merit, value: -6 }
+          - { type: reputation, group: dan_lang, value: -3 }
+        result:
+          - 'Bạn thoát được đêm mưa gió hiểm nguy, nhưng đám đồng ngũ nhìn bạn bằng ánh mắt khinh khỉnh.'
+
+  - id: linh_khao_thi_vo_nghe
+    title: Hội thao khảo hiệu mùa thu
+    tags: [quan_su, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: linh }
+    weight: 5
+    cooldown_years: 3
+    tension: 4
+    importance: 5
+    icon: ky_nang
+    text:
+      - 'Mùa thu gió heo may thổi rợp cờ xí trên bãi tập. Quan trấn thủ mở hội khảo hiệu cung kiếm và bày binh bố trận để chọn người bổ sung vào hàng ngũ chỉ huy.'
+    options:
+      - id: thi_dau_ung_chien
+        text: 'Bước lên đài tỉ thí trường thương và cưỡi ngựa bắn tên'
+        chance:
+          base: 0.5
+          skill: quan_su
+          per_level: 0.06
+        success:
+          - { type: career_merit, value: 18 }
+          - { type: money, value: 3, ledger: luong_nghe }
+          - { type: skill_xp, skill: quan_su, value: 20 }
+        failure:
+          - { type: health, value: -5 }
+          - { type: career_merit, value: 4 }
+          - { type: skill_xp, skill: quan_su, value: 10 }
+        success_result:
+          - 'Ba mũi tên trúng hồng tâm, đường thương sắc bén khiến cả trường tập reo hò vang dội!'
+        failure_result:
+          - 'Bạn chỉ vào được vòng hai rồi trượt chân trước một tay giáo kỳ cựu, nhưng vẫn được khen là có chí.'
+      - id: ban_ve_binh_phap
+        text: 'Dâng bản vẽ địa thế phòng thủ cửa sông lên quan giám khảo'
+        chance:
+          base: 0.5
+          skill: muu_luoc
+          per_level: 0.06
+        success:
+          - { type: career_merit, value: 16 }
+          - { type: skill_xp, skill: muu_luoc, value: 18 }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+        failure:
+          - { type: career_merit, value: 3 }
+          - { type: stress, value: 3 }
+        success_result:
+          - 'Quan trấn thủ gật gù khen bạn tuy ở hàng ngũ binh sĩ mà có tầm nhìn của bậc mưu sĩ.'
+        failure_result:
+          - 'Bản vẽ bị chê là còn sách vở, chưa sát thực tế nước chảy mùa lũ.'
+
+  - id: thao_khau_chia_chien_loi_pham
+    title: Đêm chia của trên sơn trại
+    tags: [nguy_hiem, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thao_khau }
+    weight: 6
+    cooldown_years: 3
+    tension: 6
+    importance: 6
+    icon: tien
+    text:
+      - 'Đuốc nhựa thông cháy bập bùng giữa sảnh trại. Sau một phi vụ lớn, rương bạc và lụa là được đổ ra chiếu. Đám huynh đệ mắt sáng rực đang chờ xem phần chia đêm nay.'
+    options:
+      - id: nhuong_phan_anh_em
+        text: 'Chỉ lấy phần nhỏ, nhường bạc cho anh em bị thương và lo việc trại'
+        trait_stress: { tham_lam: 6 }
+        effects:
+          - { type: money, value: 2, ledger: luong_nghe }
+          - { type: career_merit, value: 20 }
+          - { type: skill_xp, skill: ngoai_giao, value: 15 }
+        result:
+          - 'Cả sảnh trại nâng bát rượu hô vang tên bạn! Uy tín của bạn trong đám huynh đệ tăng vọt.'
+      - id: chia_dung_cong_lao
+        text: 'Chiếu theo công trạng ai đánh đầu hưởng nhiều, chia sòng phẳng'
+        effects:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 10 }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        result:
+          - 'Tiền bạc phân minh, không ai tị hiềm được lời nào. Bạn mang về nhà một túi bạc nặng trĩu.'
+      - id: om_phan_lon
+        text: 'Dùng uy vũ áp chế để lấy phần lớn nhất về mình'
+        trait_stress: { nhan_tu: 5, hao_phong: 5 }
+        effects:
+          - { type: money, value: 9, ledger: luong_nghe }
+          - { type: career_merit, value: -8 }
+          - { type: stress, value: 5 }
+        result:
+          - 'Túi bạc đầy ắp nhưng mấy gã đầu mục lầm lì bỏ rượu đứng dậy, lòng người trong trại bắt đầu rạn nứt.'
+
+  - id: thao_khau_quan_phu_vay_quet
+    title: Khói báo hiệu dưới chân núi
+    tags: [nguy_hiem, nghe_nghiep, quan_su]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thao_khau }
+        - { var: world.patrol_level, op: '>=', value: 30 }
+    weight: 6
+    weight_modifiers:
+      - { condition: { var: player.wanted, op: '>=', value: 25 }, factor: 2 }
+    cooldown_years: 3
+    tension: 8
+    importance: 7
+    icon: nguy_hiem
+    text:
+      - 'Vọng gác trên đỉnh đèo đốt khói đen báo động! Quân tuần tiễu của huyện nha đang chia làm hai ngả tiến vào đường mòn lên sơn trại.'
+    options:
+      - id: bay_tran_nghi_binh
+        text: 'Dựng cờ giả và đốt pháo trong khe núi để lừa quan quân đi lạc'
+        chance:
+          base: 0.5
+          skill: muu_luoc
+          per_level: 0.06
+        success:
+          - { type: career_merit, value: 20 }
+          - { type: wanted, value: -10 }
+          - { type: skill_xp, skill: muu_luoc, value: 20 }
+        failure:
+          - { type: health, value: -10 }
+          - { type: wanted, value: 8 }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Quan quân tưởng có phục binh lớn nên vội vã rút lui. Cả trại bình an vô sự!'
+        failure_result:
+          - 'Mưu kế bị lộ, bạn phải vừa đánh vừa mở đường máu đưa anh em lùi sâu vào rừng già.'
+      - id: chia_nho_an_nap
+        text: 'Giấu vũ khí, cải trang làm tiều phu tản vào các xóm ven rừng'
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: wanted, value: -8 }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+        result:
+          - 'Mất ít tiền mua rượu thịt nhờ dân xóm che chở, đợt truy quét trôi qua mà không ai bị bắt.'
+      - id: quy_hang_hoan_luong
+        text: 'Nhân dịp có tờ cáo thị chiêu an, nộp vũ khí xin về quê làm ruộng'
+        hint: 'Rời bỏ nghề Thảo khấu, xóa bớt truy nã để trở về làm Nông dân'
+        trait_stress: { tu_do: 6 }
+        effects:
+          - { type: set_career, career: nong_dan, rank: 0 }
+          - { type: wanted, value: -40 }
+          - { type: money, value: -3, ledger: thue }
+        result:
+          - 'Nộp khoản tiền chuộc tội ở công đường, bạn rũ bỏ kiếp giang hồ đẫm máu để quay về với ruộng vườn.'

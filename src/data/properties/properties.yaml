@@ -66,3 +66,24 @@ properties:
       - { target: health.monthly, value: 0.12 }
       - { target: stress.monthly, value: -0.1 }
     scene: { layer: buildings, sprite: nha_go }
+  - id: sap_hang
+    name: Sạp hàng chợ huyện
+    category: other
+    unit: sạp
+    description: Một sạp bán vải vóc, muối mắm và nông sản nơi bến chợ. Đều đặn sinh lời mỗi năm.
+    value: 28
+    income_money_year: 4.5
+    upkeep_money_year: 0.6
+    modifiers: [{ target: xp.thuong_mai, value: 1.1, op: mul }]
+  - id: phu_nho
+    name: Tư dinh ngói cổ
+    category: house
+    unit: tòa
+    description: Ngôi nhà năm gian cột lim của dòng dõi hương hào cũ, bề thế nhưng tốn kém tu sửa.
+    value: 130
+    house_tier: 3
+    upkeep_money_year: 1.2
+    modifiers:
+      - { target: health.monthly, value: 0.18 }
+      - { target: stress.monthly, value: -0.15 }
+    scene: { layer: buildings, sprite: nha_go }

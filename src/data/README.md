@@ -20,8 +20,9 @@ npm run simulate     # xem KPI cân bằng có lệch không
 | `balance/display.yaml` | Dải chữ (sức khỏe "Khá"...), luật "Việc dang dở", ngôn ngữ mặc định |
 | `balance/scene.yaml` | Luật suy ra tình trạng cảnh và hiệu ứng hạt |
 | `focuses/`, `skills/`, `traits/`, `properties/` | Focus, 7 kỹ năng, 16 tính cách, loại tài sản |
-| `origins/`, `cultures/` | Xuất thân (hộ, người làng), văn hóa (tên, cách xưng hô) |
-| `events/common/` | Sự kiện quyết định (storylet) |
+| `origins/`, `cultures/` | 3 Xuất thân (`nong_dan`, `thuong_nhan`, `quy_toc_nho`), văn hóa (tên, cách xưng hô) |
+| `careers/`, `ambitions/`, `diseases/` | 4 Nghề lắp ghép (`nong_dan`, `thuong_nhan`, `linh`, `thao_khau`), tham vọng cả đời, bệnh tật |
+| `events/common/`, `events/careers/`, `events/crossover/` | Sự kiện quyết định (làng xã, theo nghề, giao thoa nghề) |
 | `events/ambient/` | Mẫu nhật ký dòng đời; `he_thong.yaml` là mẫu do mô phỏng tự gọi (đừng đổi id) |
 | `lang/vi.json` | Chữ giao diện |
 
@@ -49,6 +50,8 @@ Toán tử: `==` `!=` `>` `>=` `<` `<=` `between` `in`.
 | `world.season` · `world.weather` | Mùa, thời tiết hiện tại (id trong `calendar.yaml`) |
 | `world.harvest_quality` | Trời định năm nay (`duoc_mua`, `binh_thuong`, `kem`, `mat_mua`), ẩn với người chơi |
 | `world.food_price` · `world.last_harvest` · `world.months_to_harvest` | Giá thóc, sản lượng vụ trước, số tháng tới vụ gặt |
+| `world.trade_index` · `world.military_alert` · `world.patrol_level` | Thời cơ buôn bán, tình hình quân sự (`binh_yen`/`tuan_tra`/`chien_dich`), mức tuần tiễu (0–100) |
+| `player.career` · `player.career_rank` · `player.merit` · `player.wanted` | Nghề hiện tại, chỉ số bậc nghề, công trạng nghề, mức truy nã |
 | `player.<f>` · `self.<f>` · `role.<id>.<f>` · `village.<vai_trò>.<f>` | Thuộc tính nhân vật (xem bảng dưới) |
 | `village.<vai_trò>.exists` | Làng có người giữ vai trò đó (còn sống) |
 | `household.money` · `food` · `debt` · `living_standard` | Sổ sách hộ |
@@ -87,6 +90,8 @@ roles:
 | `schedule_event` | `event`, `months`, `keep_roles?`, `label?` | Chuỗi sự kiện: vài năm sau mới xảy ra |
 | `leave_household` | `who` | Người đó rời hộ thật (lấy chồng, ra ở riêng) |
 | `add_trait` | `trait`, `who?` | Bỏ qua nếu đã có tính cách đối lập |
+| `set_career` | `career`, `rank?` | Chuyển sang nghề mới (mặc định bậc `0`) |
+| `career_merit` / `wanted` | `value` | Cộng/trừ công trạng nghề hoặc mức truy nã |
 | `log` | `text: [..]`, `importance` | Ghi một dòng ký ức |
 | `chance` | `p`, `then: [..]`, `else: [..]` | Gieo mầm ngẫu nhiên |
 

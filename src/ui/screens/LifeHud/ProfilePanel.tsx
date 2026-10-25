@@ -16,6 +16,9 @@ export function ProfilePanel({ hud }: { hud: HudView }) {
         {t('profile.age', { age: p.age })} · {p.lifeStage}
         {p.isHead ? ` · ${t('profile.head')}` : ''}
       </div>
+      <div className="muted small">
+        {hud.career.name} · {hud.career.rankName}
+      </div>
       <StatBar
         label={t('stat.health')}
         value={p.health}

@@ -5,13 +5,14 @@ import { EventCard } from '../../components/EventCard';
 import { TimeBar } from '../../components/TimeBar';
 import { useUi } from '../../context';
 import { LifeSummary } from '../LifeSummary/LifeSummary';
+import { CareerPanel } from '../Career/CareerPanel';
 import { DecisionPanel } from './DecisionPanel';
 import { JournalPanel } from './JournalPanel';
 import { LedgerPanel } from './LedgerPanel';
 import { MarketPanel } from './MarketPanel';
 import { ProfilePanel } from './ProfilePanel';
 
-const TABS = ['decisions', 'ledger', 'market'] as const;
+const TABS = ['decisions', 'career', 'ledger', 'market'] as const;
 type Tab = (typeof TABS)[number];
 
 export function LifeHud({ hud }: { hud: HudView }) {
@@ -46,6 +47,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
           </div>
           <div className="tab-body">
             {tab === 'decisions' && <DecisionPanel hud={hud} />}
+            {tab === 'career' && <CareerPanel hud={hud} />}
             {tab === 'ledger' && <LedgerPanel hud={hud} />}
             {tab === 'market' && <MarketPanel hud={hud} />}
           </div>

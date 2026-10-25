@@ -7,11 +7,13 @@ import { directorMonthly, directorYearEnd, directorYearStart } from '../events/D
 import { writeTemplate } from '../events/journal';
 import { SystemLog } from '../events/systemLogKeys';
 import { buildSceneDescriptor, type SceneDescriptor } from '../scene-descriptor';
+import { monthlyCareer } from '../systems/career';
 import { createContext, type SimContext } from '../systems/context';
 import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy } from '../systems/economy';
 import { monthlyFamily } from '../systems/family';
 import { monthlyHappiness, yearlyHappiness } from '../systems/happiness';
 import { monthlyLife, yearlyVillage } from '../systems/life';
+import { monthlyOpportunity, yearlyOpportunity } from '../systems/opportunity';
 import { monthlySkills } from '../systems/skills';
 import { monthlySocial } from '../systems/social';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
@@ -109,10 +111,12 @@ export class GameSession {
 
 function monthly(ctx: SimContext): void {
   monthlyWorld(ctx);
+  monthlyOpportunity(ctx);
   monthlyLife(ctx);
   if (ctx.state.gameOver) return;
   monthlyFamily(ctx);
   monthlySkills(ctx);
+  monthlyCareer(ctx);
   monthlyEconomy(ctx);
   monthlySocial(ctx);
   monthlyHappiness(ctx);
@@ -129,6 +133,7 @@ function yearEnd(ctx: SimContext): void {
 
 function yearStart(ctx: SimContext): void {
   rollHarvestQuality(ctx);
+  yearlyOpportunity(ctx);
   directorYearStart(ctx);
 }
 

@@ -81,6 +81,12 @@ export interface GameState {
     foodPrice: number;
     weather: string;
     lastHarvest: number;
+    /** [1] Chỉ số giá hàng buôn đường dài (0.7..1.5, cao khi thị trấn khan hàng). */
+    tradeIndex: number;
+    /** [1] Động tĩnh quân sự / biên ải: 'binh_yen' | 'tuan_tra' | 'chien_dich'. */
+    militaryAlert: string;
+    /** [1] Mức gắt gao của quan quân tuần tra thảo khấu (0..100). */
+    patrolLevel: number;
   };
 
   characters: Record<string, Character>;
@@ -91,6 +97,14 @@ export interface GameState {
   village: Record<string, string>;
 
   focus: { primary: string; secondary: string | null };
+  /** [1] Trạng thái nghề nghiệp hiện tại của người chơi (GDD 04). */
+  career: {
+    id: string;
+    rankIndex: number;
+    merit: number;
+    wanted: number;
+    actionCooldowns: Record<string, number>;
+  };
   /** [1] Tham vọng cả đời đang theo đuổi và các mốc phụ đã đạt. */
   ambition: { id: string | null; achievedMilestones: string[] };
   /** [1] Danh tiếng theo nhóm xã hội (mặc định: dan_lang). */

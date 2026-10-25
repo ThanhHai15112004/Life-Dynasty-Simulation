@@ -96,6 +96,9 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
       foodPrice: content.balance.economy.price.base,
       weather: content.balance.calendar.weathers[0].id,
       lastHarvest: 0,
+      tradeIndex: 1.0,
+      militaryAlert: 'binh_yen',
+      patrolLevel: 20,
     },
     characters: {},
     households: {},
@@ -103,6 +106,13 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     householdId: '',
     village: {},
     focus: { primary: origin.default_focus, secondary: null },
+    career: {
+      id: origin.default_career,
+      rankIndex: 0,
+      merit: 0,
+      wanted: 0,
+      actionCooldowns: {},
+    },
     ambition: { id: content.ambitions[0]?.id ?? null, achievedMilestones: [] },
     reputation: { dan_lang: 0 },
     happiness: {

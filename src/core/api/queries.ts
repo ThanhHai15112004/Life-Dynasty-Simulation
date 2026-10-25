@@ -16,6 +16,7 @@ import { ageNow, aliveMembers, callOf, householdHead, lifeStageOf, player, playe
 import { createResolver, seasonOf } from '../systems/resolver';
 import { evaluate } from '../engine/RuleEvaluator';
 import { fillTemplate } from '@shared/template';
+import { actionChance, canExecuteCareerAction, careerAvailable } from '../systems/career';
 import { computeSummaryAxes, type SummaryAxisView } from '../systems/happiness';
 import { xpToNext } from '../systems/skills';
 import { ambitionAvailable, focusAvailable } from './commands';
@@ -92,6 +93,45 @@ export interface HudView {
     opinion: number;
     favor: number;
   }[];
+  career: {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    components: string[];
+    rankIndex: number;
+    rankName: string;
+    nextRankName: string | null;
+    nextRankMerit: number | null;
+    merit: number;
+    wanted: number;
+    stipendMoney: number;
+    stipendFood: number;
+    duties: string[];
+    opportunity: {
+      tradeIndex: number;
+      militaryAlert: string;
+      patrolLevel: number;
+    };
+    actions: {
+      id: string;
+      name: string;
+      description: string;
+      hint?: string;
+      costMoney: number;
+      costFood: number;
+      chanceKey: string;
+      available: boolean;
+      cooldownLeft: number;
+    }[];
+    availableCareers: {
+      id: string;
+      name: string;
+      description: string;
+      icon: string;
+      available: boolean;
+    }[];
+  };
   livingStandards: { id: string; name: string; description: string; monthlyMoney: number }[];
   openLoops: { text: string; monthsLeft: number | null }[];
   log: LogYear[];
@@ -266,6 +306,56 @@ export function getHudView(ctx: SimContext): HudView {
         };
       })
       .filter((x): x is NonNullable<typeof x> => x !== null),
+    career: (() => {
+      const cDef = content.index.career.get(state.career.id) ?? content.careers[0];
+      const rank = cDef?.ranks[state.career.rankIndex] ?? cDef?.ranks[0];
+      const nextRank = cDef?.ranks[state.career.rankIndex + 1];
+      return {
+        id: cDef?.id ?? state.career.id,
+        name: cDef?.name ?? state.career.id,
+        description: cDef?.description ?? '',
+        icon: cDef?.icon ?? 'focus',
+        components: cDef?.components ?? [],
+        rankIndex: state.career.rankIndex,
+        rankName: rank?.name ?? '',
+        nextRankName: nextRank?.name ?? null,
+        nextRankMerit: nextRank?.min_merit ?? null,
+        merit: state.career.merit,
+        wanted: state.career.wanted,
+        stipendMoney: rank?.stipend_money_month ?? 0,
+        stipendFood: rank?.stipend_food_month ?? 0,
+        duties: cDef?.duties ?? [],
+        opportunity: {
+          tradeIndex: state.world.tradeIndex,
+          militaryAlert: state.world.militaryAlert,
+          patrolLevel: state.world.patrolLevel,
+        },
+        actions: (cDef?.actions ?? []).map((act) => {
+          const check = canExecuteCareerAction(ctx, act);
+          const p = actionChance(ctx, act.chance);
+          return {
+            id: act.id,
+            name: act.name,
+            description: act.description,
+            hint: act.hint,
+            costMoney: act.cost_money,
+            costFood: act.cost_food,
+            chanceKey: chanceKey(ctx, p),
+            available: check.ok,
+            cooldownLeft: check.cooldownLeft,
+          };
+        }),
+        availableCareers: content.careers
+          .filter((c) => c.id !== state.career.id)
+          .map((c) => ({
+            id: c.id,
+            name: c.name,
+            description: c.description,
+            icon: c.icon,
+            available: careerAvailable(ctx, c.id),
+          })),
+      };
+    })(),
     livingStandards: content.balance.living_standards.levels.map((l) => ({
       id: l.id,
       name: l.name,

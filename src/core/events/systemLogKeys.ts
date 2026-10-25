@@ -18,6 +18,8 @@ export const SystemLog = {
   DiseaseCaught: 'sys.mac_benh',
   DiseaseRecovered: 'sys.khoi_benh',
   AmbitionMilestone: 'sys.dat_moc_tham_vong',
+  CareerChanged: 'sys.chuyen_nghe',
+  CareerPromoted: 'sys.thang_bac_nghe',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */
@@ -38,6 +40,7 @@ export const Ledger = {
   SellProperty: 'ban_tai_san',
   Event: 'su_kien',
   Wages: 'lam_thue',
+  Career: 'luong_nghe',
 } as const;
 
 /** Loại dòng nhật ký không đến từ mẫu ambient. */

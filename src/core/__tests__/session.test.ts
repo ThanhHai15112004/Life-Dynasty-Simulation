@@ -103,4 +103,33 @@ describe('GameSession', () => {
       ]);
     }
   });
+
+  it('GĐ1 (Gói 1B): khởi tạo đủ 3 xuất thân, hoạt động nghề nghiệp, chuyển nghề và thăng bậc', () => {
+    const sNongDan = GameSession.create(content, { originId: 'nong_dan', seed: 'o1', startAge: 18 });
+    const sThuongNhan = GameSession.create(content, { originId: 'thuong_nhan', seed: 'o2', startAge: 18 });
+    const sQuyToc = GameSession.create(content, { originId: 'quy_toc_nho', seed: 'o3', startAge: 18 });
+
+    expect(sNongDan.state.career.id).toBe('nong_dan');
+    expect(sThuongNhan.state.career.id).toBe('thuong_nhan');
+    expect(sQuyToc.state.career.id).toBe('nong_dan');
+    expect(sQuyToc.read(getHudView).household.properties.some((p) => p.id === 'phu_nho')).toBe(true);
+
+    // Thực hiện hoạt động nghề nghiệp của Nông dân ("Khẩn hoang bãi bồi", tốn 2 thóc)
+    const actionRes = sNongDan.dispatch({ type: 'doCareerAction', actionId: 'khan_hoang_bai_boi' });
+    expect(actionRes.ok).toBe(true);
+    expect(sNongDan.state.career.actionCooldowns['khan_hoang_bai_boi']).toBeGreaterThan(0);
+
+    // Chuyển sang nghề Lính và kiểm tra thăng bậc khi tích lũy đủ công trạng
+    expect(sNongDan.dispatch({ type: 'joinCareer', careerId: 'linh' }).ok).toBe(true);
+    expect(sNongDan.state.career.id).toBe('linh');
+    expect(sNongDan.state.career.rankIndex).toBe(0);
+
+    // Cộng công trạng và kỹ năng Quân sự để thăng lên bậc Ngũ trưởng (min_merit: 25, quan_su >= 2)
+    sNongDan.read((ctx) => {
+      player(ctx).skills['quan_su'] = { level: 2, xp: 0 };
+    });
+    sNongDan.state.career.merit = 30;
+    sNongDan.tickMonth();
+    expect(sNongDan.state.career.rankIndex).toBeGreaterThanOrEqual(1);
+  });
 });

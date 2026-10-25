@@ -6,6 +6,7 @@ import {
   ambitionFileSchema,
   ambientFileSchema,
   balanceSchemas,
+  careerFileSchema,
   cultureSchema,
   decisionEventFileSchema,
   diseaseFileSchema,
@@ -18,6 +19,7 @@ import {
   type Ambition,
   type AmbientTemplate,
   type Balance,
+  type Career,
   type Culture,
   type DecisionEvent,
   type Disease,
@@ -43,6 +45,7 @@ export interface ContentBundle {
   properties: PropertyType[];
   diseases: Disease[];
   ambitions: Ambition[];
+  careers: Career[];
   origins: Origin[];
   cultures: Culture[];
   events: DecisionEvent[];
@@ -56,6 +59,7 @@ export interface ContentBundle {
     property: Map<string, PropertyType>;
     disease: Map<string, Disease>;
     ambition: Map<string, Ambition>;
+    career: Map<string, Career>;
     origin: Map<string, Origin>;
     culture: Map<string, Culture>;
     event: Map<string, DecisionEvent>;
@@ -148,7 +152,12 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const properties = collect('properties', propertyFileSchema, 'properties');
   const diseases = collect('diseases', diseaseFileSchema, 'diseases');
   const ambitions = collect('ambitions', ambitionFileSchema, 'ambitions');
-  const events = collect('events/common', decisionEventFileSchema, 'events');
+  const careers = collect('careers', careerFileSchema, 'careers');
+  const events = [
+    ...collect('events/common', decisionEventFileSchema, 'events'),
+    ...collect('events/careers', decisionEventFileSchema, 'events'),
+    ...collect('events/crossover', decisionEventFileSchema, 'events'),
+  ];
   const ambient = collect('events/ambient', ambientFileSchema, 'templates');
   const origins = single('origins', originSchema);
   const cultures = single('cultures', cultureSchema);
@@ -175,6 +184,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     property: indexBy(properties, 'properties'),
     disease: indexBy(diseases, 'diseases'),
     ambition: indexBy(ambitions, 'ambitions'),
+    career: indexBy(careers, 'careers'),
     origin: indexBy(origins, 'origins'),
     culture: indexBy(cultures, 'cultures'),
     event: indexBy(events, 'events'),
@@ -194,6 +204,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     properties,
     diseases,
     ambitions,
+    careers,
     origins,
     cultures,
     events,
