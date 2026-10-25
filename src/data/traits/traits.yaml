@@ -1,0 +1,78 @@
+# [0] Tám cặp tính cách đối lập (GDD 03 §4). Mỗi tính cách: modifier + trọng số sự kiện + stress khi làm trái
+traits:
+  - id: tham_vong
+    name: Tham vọng
+    opposite: an_phan
+    description: Không chịu cảnh bình thường, luôn muốn hơn người.
+    modifiers: [{ target: xp.all, value: 1.05, op: mul }, { target: stress.monthly, value: 0.05 }]
+  - id: an_phan
+    name: An phận
+    opposite: tham_vong
+    description: Biết đủ là đủ, ít khi bứt rứt.
+    modifiers: [{ target: stress.monthly, value: -0.1 }]
+  - id: nhan_tu
+    name: Nhân từ
+    opposite: tan_nhan
+    description: Thương người, khó làm điều ác dù có lợi.
+  - id: tan_nhan
+    name: Tàn nhẫn
+    opposite: nhan_tu
+    description: Việc cần thì làm, chẳng nể ai.
+  - id: kien_nhan
+    name: Kiên nhẫn
+    opposite: nong_nay
+    description: Chờ được thời, học được lâu.
+    modifiers: [{ target: xp.hoc_van, value: 1.1, op: mul }]
+  - id: nong_nay
+    name: Nóng nảy
+    opposite: kien_nhan
+    description: Bốc đồng, dễ xô xát.
+    modifiers: [{ target: stress.monthly, value: 0.1 }, { target: xp.quan_su, value: 1.1, op: mul }]
+  - id: trung_thanh
+    name: Trung thành
+    opposite: co_hoi
+    description: Đã hứa là giữ, đã theo là theo đến cùng.
+  - id: co_hoi
+    name: Cơ hội
+    opposite: trung_thanh
+    description: Gió chiều nào che chiều ấy.
+    modifiers: [{ target: xp.muu_luoc, value: 1.1, op: mul }]
+  - id: hao_phong
+    name: Hào phóng
+    opposite: tham_lam
+    description: Rộng tay với người, hay bị vay mượn.
+    modifiers: [{ target: living.cost, value: 1.05, op: mul }]
+  - id: tham_lam
+    name: Tham lam
+    opposite: hao_phong
+    description: Đồng nào cũng tiếc, của ai cũng muốn.
+    modifiers: [{ target: xp.thuong_mai, value: 1.1, op: mul }]
+  - id: can_dam
+    name: Can đảm
+    opposite: than_trong
+    description: Dám liều, dám đứng ra.
+    modifiers: [{ target: xp.quan_su, value: 1.05, op: mul }]
+  - id: than_trong
+    name: Thận trọng
+    opposite: can_dam
+    description: Ăn chắc mặc bền, ít khi gặp họa.
+    modifiers: [{ target: death_risk, value: 0.95, op: mul }]
+  - id: trong_gia_dinh
+    name: Coi trọng gia đình
+    opposite: tu_do
+    description: Cha mẹ, anh em là trên hết.
+    modifiers: [{ target: stress.monthly, value: -0.05 }]
+  - id: tu_do
+    name: Tự do
+    opposite: trong_gia_dinh
+    description: Không chịu ràng buộc, thích đi đây đi đó.
+  - id: mo_dao
+    name: Mộ đạo
+    opposite: hoai_nghi
+    description: Tin trời Phật, lễ bái đều đặn.
+    modifiers: [{ target: stress.monthly, value: -0.1 }]
+  - id: hoai_nghi
+    name: Hoài nghi
+    opposite: mo_dao
+    description: Chẳng tin điều gì chưa tận mắt thấy.
+    modifiers: [{ target: xp.muu_luoc, value: 1.1, op: mul }]

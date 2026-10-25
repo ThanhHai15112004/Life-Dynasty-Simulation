@@ -1,0 +1,24 @@
+# [0] Luật suy ra cảnh pixel từ trạng thái (GDD 08 §2). Renderer chỉ đọc kết quả.
+location: lang_nong
+culture_set: dong_a_nho_giao
+default_condition: binh_yen
+# Lớp 6 — tình trạng: luật đầu tiên đúng được chọn
+condition_rules:
+  - condition: { has_flag: lu_lut }
+    value: ngap_lut
+  - condition: { all: [{ var: world.harvest_quality, op: '==', value: mat_mua }, { var: world.month, op: '>=', value: 5 }] }
+    value: mat_mua
+  - condition: { any: [{ var: household.living_standard, op: '==', value: kho_cuc }, { var: household.food_months, op: '<', value: 1 }] }
+    value: ngheo_doi
+  - condition: { var: household.living_standard, op: 'in', value: [sung_tuc, xa_hoa] }
+    value: thinh_vuong
+# Lớp 7 — hiệu ứng hạt: mọi luật đúng đều thêm
+particle_rules:
+  - condition: { var: household.food, op: '>', value: 0 }
+    value: khoi_bep
+  - condition: { var: world.season, op: '==', value: thu }
+    value: la_roi
+  - condition: { var: world.season, op: '==', value: ha }
+    value: dom_dom
+  - condition: { var: world.weather, op: 'in', value: [mua, mua_phun] }
+    value: mua_roi

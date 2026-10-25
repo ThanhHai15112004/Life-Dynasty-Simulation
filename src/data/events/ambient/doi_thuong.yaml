@@ -1,0 +1,454 @@
+# [0] Nhật ký dòng đời: chuyện vặt, tuổi thơ, gia đình (nguồn b, d — GDD 05 §12)
+# Quy tắc: R1 điều kiện phải khớp trạng thái thật · R5 cooldown + nhiều cách viết · R9 tác động ±1–3
+templates:
+  # ── Ấu thơ ──
+  - id: be_tap_di
+    kind: chuyen_vat
+    life_stages: [au_tho]
+    condition: { var: player.age, op: between, value: [1, 2] }
+    weight: 8
+    once_per_life: true
+    importance: 3
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Bạn chập chững những bước đầu tiên, cả nhà vỗ tay cười.'
+      - 'Bạn tập đi, ngã chổng vó giữa sân rồi lại lồm cồm bò dậy.'
+  - id: be_om_sot
+    kind: bao_cao
+    life_stages: [au_tho]
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: om
+    variants:
+      - 'Bạn lên cơn sốt mấy đêm liền, mẹ thức trắng chườm khăn.'
+      - 'Bạn quấy khóc vì mọc răng, sốt hầm hập cả tuần.'
+    effects: [{ type: health, value: -3 }]
+  - id: be_duoc_ba_cung
+    kind: chuyen_vat
+    life_stages: [au_tho]
+    roles: [{ id: me, from: family, relation: mother }]
+    weight: 5
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - '{role.me.call} ru bạn ngủ bằng câu hát "cái cò cái vạc cái nông".'
+      - 'Bạn được {role.me.call} địu ra đồng, ngủ ngon lành dưới bóng tre.'
+
+  # ── Thiếu thời ──
+  - id: cho_nha_ba_ho_duoi
+    kind: chuyen_vat
+    tags: [lang_xa]
+    condition: { var: player.age, op: between, value: [5, 13] }
+    roles: [{ id: ba_ho, from: village, village_role: ba_ho }]
+    weight: 6
+    cooldown_years: 5
+    importance: 2
+    tone: vui
+    icon: cho
+    short: 'bị chó nhà bá hộ đuổi'
+    variants:
+      - 'Bạn bị chó nhà {role.ba_ho.call} đuổi, té xuống ruộng.'
+      - 'Đi ngang nhà {role.ba_ho.call}, bạn bị con chó vện đuổi chạy mất dép.'
+      - 'Con chó nhà {role.ba_ho.call} đuổi bạn chạy một mạch về nhà.'
+    trait_reactions:
+      can_dam: 'Bạn nhặt cục đất ném lại nó.'
+      than_trong: 'Từ đó bạn không dám đi đường ấy nữa.'
+    effects:
+      - { type: stress, value: 1 }
+      - { type: chance, p: 0.15, then: [{ type: add_trait, trait: than_trong }] }
+  - id: tha_dieu
+    kind: chuyen_vat
+    life_stages: [au_tho, thieu_thoi]
+    months: [4, 5, 6]
+    condition: { var: player.age, op: '>=', value: 5 }
+    weight: 6
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: dieu
+    short: 'thả diều trên đê'
+    variants:
+      - 'Chiều hè, bạn thả diều trên đê, cánh diều no gió vi vu.'
+      - 'Bạn tự vót tre làm diều, bay cao hơn diều của cả xóm.'
+    effects: [{ type: stress, value: -1 }]
+  - id: chan_trau
+    kind: chuyen_vat
+    tags: [ruong_dong]
+    condition: { all: [{ var: player.age, op: between, value: [6, 15] }, { has_property: trau }] }
+    weight: 7
+    cooldown_years: 2
+    importance: 1
+    icon: trau
+    short: 'chăn trâu ngoài bãi'
+    variants:
+      - 'Bạn dắt trâu ra bãi, nằm trên lưng trâu thổi sáo lá.'
+      - 'Chăn trâu ngoài bãi sông, bạn với lũ bạn đánh khăng đến tối mịt.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 5 }, { type: stress, value: -1 }]
+  - id: bat_ca_cung_anh_em
+    kind: chuyen_vat
+    condition: { var: player.age, op: between, value: [6, 18] }
+    roles:
+      - { id: anh_em, from: family, relation: sibling, condition: { var: self.age, op: between, value: [6, 22] } }
+    weight: 6
+    cooldown_years: 3
+    importance: 2
+    tone: vui
+    icon: ca
+    short: 'đi bắt cá với {role.anh_em.call}'
+    variants:
+      - 'Bạn cùng {role.anh_em.call} ra mương tát cá, được mớ cá rô về kho.'
+      - '{role.anh_em.call} rủ bạn đi đặt lờ, sáng ra được mấy con trê.'
+    effects: [{ type: stress, value: -1 }]
+  - id: hoc_chu_duoc_khen
+    kind: chuyen_vat
+    tags: [hoc_hanh]
+    condition: { var: focus.primary, op: '==', value: hoc_tap }
+    roles: [{ id: thay, from: village, village_role: thay_do }]
+    weight: 7
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: sach
+    variants:
+      - '{role.thay.call} khen bạn viết chữ ngay ngắn.'
+      - 'Bạn thuộc lòng một trang sách, {role.thay.call} gật gù.'
+    effects: [{ type: skill_xp, skill: hoc_van, value: 10 }]
+  - id: bi_thay_phat
+    kind: chuyen_vat
+    tags: [hoc_hanh]
+    condition: { var: focus.primary, op: '==', value: hoc_tap }
+    roles: [{ id: thay, from: village, village_role: thay_do }]
+    weight: 5
+    cooldown_years: 3
+    importance: 1
+    icon: sach
+    variants:
+      - 'Mải chơi quên bài, bạn bị {role.thay.call} phạt đứng góc lớp.'
+      - 'Bạn ngủ gật trong giờ học, bị {role.thay.call} khẽ thước vào tay.'
+    trait_reactions:
+      nong_nay: 'Bạn ấm ức cả buổi chiều.'
+      kien_nhan: 'Tối đó bạn ôn bài đến khuya.'
+    effects: [{ type: stress, value: 1 }]
+  - id: cha_day_cay
+    kind: chuyen_vat
+    tags: [ruong_dong, gia_dinh]
+    condition: { var: player.age, op: between, value: [10, 20] }
+    roles: [{ id: cha, from: family, relation: father }]
+    weight: 6
+    once_per_life: true
+    importance: 3
+    icon: cay
+    variants:
+      - '{role.cha.call} dạy bạn cách giữ cày cho thẳng luống.'
+      - 'Lần đầu bạn tự cày nguyên một thửa, {role.cha.call} đứng bờ gật đầu.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 12 }]
+  - id: o_an_quan
+    kind: chuyen_vat
+    life_stages: [au_tho, thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 4 }
+    weight: 5
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: tre_em
+    short: 'chơi ô ăn quan với lũ trẻ'
+    variants:
+      - 'Bạn chơi ô ăn quan với lũ trẻ trong xóm, thắng được một vốc sỏi.'
+      - 'Cả buổi trưa bạn trốn ngủ đi chơi đánh đáo đầu ngõ.'
+  - id: meo_con
+    kind: chuyen_vat
+    condition: { var: player.age, op: between, value: [5, 12] }
+    weight: 3
+    once_per_life: true
+    importance: 3
+    tone: vui
+    icon: meo
+    variants:
+      - 'Bạn nhặt được một con mèo mướp ướt sũng ngoài ngõ, đem về nuôi.'
+    effects: [{ type: set_flag, flag: nuoi_meo }]
+  - id: meo_bat_chuot
+    kind: chuyen_vat
+    condition: { has_flag: nuoi_meo }
+    weight: 6
+    once_per_life: true
+    importance: 2
+    tone: vui
+    icon: meo
+    variants:
+      - 'Con mèo mướp bắt được con chuột đầu tiên, tha về khoe bạn.'
+  - id: meo_gia_chet
+    kind: chuyen_vat
+    condition: { all: [{ has_flag: nuoi_meo }, { var: player.age, op: '>=', value: 15 }] }
+    weight: 4
+    once_per_life: true
+    importance: 4
+    tone: buon
+    icon: meo
+    variants:
+      - 'Con mèo mướp già rồi, một sáng nằm im dưới gốc khế. Bạn chôn nó ở đó.'
+    effects: [{ type: clear_flag, flag: nuoi_meo }, { type: stress, value: 2 }]
+
+  # ── Gia đình ──
+  - id: me_nau_chao
+    kind: chuyen_vat
+    tags: [gia_dinh]
+    roles: [{ id: me, from: family, relation: mother }]
+    weight: 4
+    cooldown_years: 3
+    importance: 1
+    tone: an_ui
+    icon: gia_dinh
+    short: 'quây quần bên nồi cháo của {role.me.call}'
+    variants:
+      - '{role.me.call} nấu nồi cháo hành, cả nhà quây quần bên bếp.'
+      - 'Tối mưa, {role.me.call} rang nồi ngô, cả nhà ngồi nhặt ăn.'
+    effects: [{ type: stress, value: -2 }]
+  - id: chi_lay_chong
+    kind: nguoi_quanh
+    tags: [gia_dinh]
+    roles:
+      - { id: chi_em, from: family, relation: sibling, condition: { all: [{ var: self.sex, op: '==', value: f }, { var: self.age, op: between, value: [17, 26] }] } }
+    weight: 5
+    cooldown_years: 2
+    importance: 6
+    highlight: true
+    tone: vui
+    icon: cuoi
+    variants:
+      - '{role.chi_em.call} đi lấy chồng ở làng bên.'
+      - 'Nhà rộn tiếng pháo: {role.chi_em.call} theo chồng về làng khác.'
+    effects: [{ type: leave_household, who: chi_em }]
+  - id: anh_ra_o_rieng
+    kind: nguoi_quanh
+    tags: [gia_dinh]
+    roles:
+      - { id: anh_em, from: family, relation: sibling, condition: { all: [{ var: self.sex, op: '==', value: m }, { var: self.age, op: between, value: [20, 30] }] } }
+    condition: { var: household.members, op: '>=', value: 4 }
+    weight: 3
+    cooldown_years: 3
+    importance: 6
+    highlight: true
+    icon: cuoi
+    variants:
+      - '{role.anh_em.call} cưới vợ rồi dọn ra ở riêng cuối xóm.'
+      - '{role.anh_em.call} lấy vợ, xin cha mẹ ra dựng túp lều riêng.'
+    effects: [{ type: leave_household, who: anh_em }]
+  - id: cha_me_cai_nhau
+    kind: chuyen_vat
+    tags: [gia_dinh]
+    condition: { any: [{ var: household.debt, op: '>', value: 15 }, { var: household.food_months, op: '<', value: 2 }] }
+    roles: [{ id: cha, from: family, relation: father }, { id: me, from: family, relation: mother }]
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: gia_dinh
+    variants:
+      - 'Đêm qua {role.cha.call} và {role.me.call} to tiếng với nhau vì chuyện tiền nợ.'
+      - '{role.me.call} ngồi khóc bên bếp, {role.cha.call} ra hiên hút thuốc lào mãi không vào.'
+    effects: [{ type: stress, value: 2 }]
+  - id: an_ui_sau_tang
+    kind: chuyen_vat
+    tags: [gia_dinh]
+    condition: { var: year.mourning, op: '==', value: true }
+    weight: 2
+    cooldown_years: 1
+    importance: 2
+    tone: an_ui
+    icon: gia_dinh
+    variants:
+      - 'Nhà vắng đi một người, bữa cơm chẳng ai muốn nói nhiều.'
+      - 'Đêm đêm bạn vẫn nhớ người đã khuất, thắp nén hương lên bàn thờ.'
+    effects: [{ type: stress, value: -1 }]
+
+  # ── Chuyện vặt, đời thường ──
+  - id: mo_ran_vang
+    kind: chuyen_vat
+    roles: [{ id: me, from: family, relation: mother }]
+    weight: 2
+    once_per_life: true
+    importance: 2
+    tone: vui
+    icon: giac_mo
+    variants:
+      - 'Bạn mơ thấy con rắn vàng, {role.me.call} bảo là điềm lành.'
+    effects: [{ type: stress, value: -1 }]
+  - id: nhat_tien_cho
+    kind: chuyen_vat
+    weight: 2
+    cooldown_years: 6
+    importance: 1
+    tone: vui
+    icon: tien
+    short: 'nhặt được đồng tiền ở chợ'
+    variants:
+      - 'Bạn nhặt được một đồng tiền rơi ở chợ phiên.'
+      - 'Đi chợ về, bạn thấy đồng tiền kẹt giữa kẽ gạch.'
+    effects: [{ type: money, value: 0.1 }]
+  - id: ca_chep_do
+    kind: chuyen_vat
+    condition: { var: player.age, op: '>=', value: 8 }
+    weight: 0.4
+    once_per_life: true
+    importance: 5
+    tone: vui
+    icon: ca
+    variants:
+      - 'Bạn câu được con cá chép đỏ to bằng bắp chân, cả làng kéo đến xem.'
+    effects: [{ type: stress, value: -3 }]
+  - id: dem_trang
+    kind: chuyen_vat
+    months: [6, 7, 8]
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: trang
+    short: 'nằm ổ rơm ngắm trăng'
+    variants:
+      - 'Đêm trăng, bạn nằm trên ổ rơm nghe ếch nhái kêu ngoài ruộng.'
+      - 'Trăng rằm sáng vằng vặc, cả xóm ra ngõ ngồi hóng mát.'
+    effects: [{ type: stress, value: -1 }]
+  - id: bi_cam_lanh
+    kind: bao_cao
+    tags: [benh_tat]
+    months: [10, 11, 12, 1]
+    weight: 4
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: om
+    short: 'cảm lạnh mấy hôm'
+    variants:
+      - 'Bạn bị cảm mấy hôm, nằm đắp chăn uống nước gừng.'
+      - 'Gió bấc tràn về, bạn ho sù sụ cả tuần.'
+    effects: [{ type: health, value: -3 }]
+  - id: dau_lung
+    kind: bao_cao
+    tags: [benh_tat]
+    condition: { var: player.age, op: '>=', value: 45 }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: om
+    short: 'trở trời đau lưng'
+    variants:
+      - 'Trở trời, lưng bạn lại đau nhức.'
+      - 'Gối mỏi chân run, bạn thấy mình không còn trẻ nữa.'
+    effects: [{ type: health, value: -1 }]
+  - id: ga_de
+    kind: chuyen_vat
+    condition: { has_property: dan_ga }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: ga
+    short: 'gà đẻ được rổ trứng'
+    variants:
+      - 'Đàn gà đẻ được rổ trứng, đem ra chợ đổi được ít tiền.'
+      - 'Gà mái ấp nở một ổ gà con lông vàng.'
+    effects: [{ type: money, value: 0.3 }]
+  - id: cao_bat_ga
+    kind: chuyen_vat
+    condition: { has_property: dan_ga }
+    weight: 2
+    cooldown_years: 3
+    importance: 1
+    tone: buon
+    icon: ga
+    variants:
+      - 'Đêm qua cáo lẻn vào chuồng tha mất một con gà.'
+    effects: [{ type: stress, value: 1 }]
+  - id: trau_om
+    kind: chuyen_vat
+    tags: [ruong_dong]
+    condition: { has_property: trau }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    tone: buon
+    icon: trau
+    variants:
+      - 'Con trâu bỏ cỏ mấy hôm, cả nhà lo sốt vó.'
+      - 'Trâu bị sa chân xuống mương, cả xóm xúm vào kéo lên.'
+    effects: [{ type: stress, value: 2 }]
+  - id: quan_quat_ngoai_dong
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    condition: { all: [{ var: focus.primary, op: '==', value: lam_an }, { var: player.age, op: '>=', value: 12 }] }
+    weight: 5
+    cooldown_years: 1
+    importance: 1
+    icon: cay
+    short: 'quần quật ngoài đồng'
+    variants:
+      - 'Bạn quần quật ngoài đồng từ tinh mơ đến tối mịt.'
+      - 'Tay bạn chai sần sau mùa cấy, lưng đen nhẻm vì nắng.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 5 }]
+  - id: cho_phien_hoc_mac_ca
+    kind: chuyen_vat
+    tags: [buon_ban]
+    condition: { var: focus.primary, op: '==', value: kinh_doanh }
+    weight: 6
+    cooldown_years: 1
+    importance: 2
+    icon: cho
+    variants:
+      - 'Bạn ra chợ phiên, học cách người ta mặc cả từng đồng.'
+      - 'Bạn ngồi hàng nước nghe các lái buôn bàn giá thóc ở trấn.'
+    effects: [{ type: skill_xp, skill: thuong_mai, value: 8 }]
+  - id: tap_vat_bai_song
+    kind: chuyen_vat
+    tags: [vo_nghe]
+    condition: { var: focus.primary, op: '==', value: ren_luyen }
+    weight: 6
+    cooldown_years: 1
+    importance: 2
+    icon: kiem
+    variants:
+      - 'Bạn theo đám trai làng tập vật ở bãi sông, quật ngã được hai đứa.'
+      - 'Sáng nào bạn cũng gánh đá chạy quanh ao, vai rắn lại như gỗ.'
+    effects: [{ type: skill_xp, skill: quan_su, value: 8 }]
+  - id: ngoi_quan_nuoc
+    kind: chuyen_vat
+    tags: [lang_xa, tin_don]
+    condition: { var: focus.primary, op: '==', value: giao_luu }
+    weight: 6
+    cooldown_years: 1
+    importance: 2
+    icon: chen_tra
+    variants:
+      - 'Bạn ngồi quán nước đầu làng, nghe đủ chuyện thiên hạ.'
+      - 'Bạn sang đình chơi tổ tôm với các bác trung niên, quen thêm được mấy người.'
+    effects: [{ type: skill_xp, skill: ngoai_giao, value: 6 }]
+  - id: cau_ca_thong_tha
+    kind: chuyen_vat
+    condition: { var: focus.primary, op: '==', value: nghi_ngoi }
+    weight: 6
+    cooldown_years: 1
+    importance: 1
+    tone: vui
+    icon: ca
+    short: 'thong thả câu cá'
+    variants:
+      - 'Bạn thong thả ngồi câu cá bên bờ ao, chẳng nghĩ ngợi gì.'
+      - 'Bạn ngủ một giấc trưa dài dưới gốc đa, tỉnh dậy thấy người nhẹ hẳn.'
+    effects: [{ type: stress, value: -2 }]
+  - id: ke_chuyen_xua
+    kind: chuyen_vat
+    life_stages: [tuoi_gia]
+    weight: 6
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Bạn ngồi đầu ngõ kể chuyện ngày xưa cho bọn trẻ nghe.'
+      - 'Lũ cháu trong xóm xúm quanh nghe bạn kể chuyện năm lụt lớn.'
+    effects: [{ type: stress, value: -1 }]

@@ -1,0 +1,13 @@
+{
+  "$comment": "Ngưỡng KPI cân bằng (GDD 09 §3). Chỉnh ở đây, không sửa code.",
+  "lifespan_mean": [50, 65],
+  "child_mortality": [0.15, 0.25],
+  "decisions_per_year": [1, 2],
+  "event_repeat_rate": [0, 0.15],
+  "unexpected_death_rate": [0, 0.05],
+  "story_lines_per_year": [2, 6],
+  "open_loops_mean": [0.5, 3],
+  "minutes_per_life": [20, 40],
+  "seconds_per_decision": 12,
+  "max_years": 100
+}

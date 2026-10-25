@@ -1,0 +1,68 @@
+# [0] Tài sản là object (GDD 03 §5.1): giá, thu nhập, chi phí, modifier, lớp cảnh pixel
+properties:
+  - id: ruong
+    name: Ruộng lúa
+    category: land
+    unit: sào
+    description: Mỗi sào cho hai vụ mỗi năm. Cần đủ người làm. Tấc đất tấc vàng — dành dụm nhiều năm mới mua nổi.
+    value: 35
+    farmland: true
+  - id: trau
+    name: Trâu cày
+    category: livestock
+    unit: con
+    description: Con trâu là đầu cơ nghiệp. Cày nhanh, gặt nhiều hơn; ăn rơm cỏ và chút thóc.
+    value: 20
+    upkeep_food_month: 0.3
+    modifiers: [{ target: harvest.yield, value: 1.15, op: mul }]
+    scene: { layer: props, sprite: trau, max_draw: 2 }
+  - id: dan_ga
+    name: Đàn gà
+    category: livestock
+    unit: đàn
+    description: Trứng gà bán chợ phiên, thêm chút tiền tiêu vặt.
+    value: 2
+    income_money_year: 1.2
+    upkeep_food_month: 0.12
+    scene: { layer: props, sprite: dan_ga, max_draw: 1 }
+  - id: ao_ca
+    name: Ao cá
+    category: other
+    unit: ao
+    description: Đào ao thả cá, cuối năm tát ao bán được tiền.
+    value: 10
+    income_money_year: 1.8
+    upkeep_money_year: 0.2
+    scene: { layer: props, sprite: ao_ca, max_draw: 1 }
+  - id: kho_lua
+    name: Kho lúa
+    category: other
+    unit: gian
+    description: Kho kín, thóc ít hao vì chuột mọt và ẩm.
+    value: 8
+    upkeep_money_year: 0.1
+    modifiers: [{ target: food.consumption, value: 0.96, op: mul }]
+    scene: { layer: props, sprite: kho_lua, max_draw: 1 }
+  - id: nha_tranh
+    name: Nhà tranh vách đất
+    category: house
+    unit: căn
+    description: Mái rạ dột mùa mưa, gió lùa mùa đông.
+    value: 5
+    buyable: false
+    sellable: false
+    house_tier: 1
+    modifiers: [{ target: health.monthly, value: -0.03 }]
+    scene: { layer: buildings, sprite: nha_tranh }
+  - id: nha_go
+    name: Nhà gỗ ba gian
+    category: house
+    unit: căn
+    description: Cột gỗ, mái ngói, nền cao ráo. Cả làng nhìn vào biết nhà đã khá.
+    value: 90
+    house_tier: 2
+    upkeep_money_year: 0.5
+    modifiers:
+      - { target: health.monthly, value: 0.12 }
+      - { target: stress.monthly, value: -0.1 }
+    scene: { layer: buildings, sprite: nha_go }

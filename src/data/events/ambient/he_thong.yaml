@@ -1,0 +1,178 @@
+# [0] Mẫu nhật ký do mô phỏng tự sinh (nguồn a — GDD 05 §12.2). Code gọi theo id, chữ nằm ở đây.
+# Token tham số: {age}, {amount}, {sao}, {food}, {money}, {skill}, {level}, {stage}, {call}, {cause}, {title}, {items}
+templates:
+  - id: sys.khoi_dau
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con nhà nông ở làng {world.settlement}. Nhà có {household.farmland} sào ruộng, kho còn {household.food} thúng thóc.'
+  - id: sys.sinh_nhat
+    kind: bao_cao
+    importance: 1
+    icon: sinh_nhat
+    short: 'tròn {age} tuổi'
+    variants:
+      - 'Bạn tròn {age} tuổi.'
+      - 'Thêm một tuổi: bạn đã {age}.'
+      - 'Mẹ đếm trên đầu ngón tay: bạn vừa tròn {age}.'
+  - id: sys.giai_doan_doi
+    kind: he_thong
+    importance: 6
+    highlight: true
+    icon: moc_doi
+    variants:
+      - 'Bạn bước vào tuổi {stage}.'
+      - 'Một chặng đời mới bắt đầu: {stage}.'
+  - id: sys.ky_nang_tang
+    kind: bao_cao
+    importance: 2
+    icon: ky_nang
+    short: '{skill} lên bậc {level}'
+    variants:
+      - 'Kỹ năng {skill} của bạn lên bậc {level}.'
+      - 'Bạn thấy mình khá hơn hẳn về {skill} (bậc {level}).'
+  - id: sys.nop_thue
+    kind: bao_cao
+    importance: 1
+    icon: thue
+    short: 'nộp thuế {food} thúng, {money} quan sưu'
+    variants:
+      - 'Mõ làng gọi nộp thuế: nhà nộp {food} thúng thóc và {money} quan tiền sưu.'
+      - 'Đến kỳ thuế, nhà gánh {food} thúng thóc ra đình và nộp {money} quan sưu.'
+  - id: sys.vay_nang_lai
+    kind: bao_cao
+    importance: 4
+    tone: buon
+    icon: no
+    variants:
+      - 'Nhà hết tiền, phải vay nặng lãi {amount} quan để xoay xở.'
+      - 'Túng quá, cha mẹ đành đi vay {amount} quan, lãi cắt cổ.'
+  - id: sys.ban_thoc_tieu
+    kind: bao_cao
+    importance: 1
+    icon: tien
+    short: 'bán {amount} thúng thóc lấy tiền tiêu'
+    variants:
+      - 'Hết tiền tiêu, nhà gánh {amount} thúng thóc ra chợ bán.'
+      - 'Túi cạn, mẹ đem bán {amount} thúng thóc đổi lấy mắm muối.'
+  - id: sys.bi_xiet_no
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: buon
+    icon: no
+    variants:
+      - 'Nợ chồng chất quá hạn. Chủ nợ xiết mất một {title}, trừ {amount} quan vào sổ nợ.'
+      - 'Người của chủ nợ đến cắm cọc: một {title} không còn là của nhà nữa. Nợ chỉ bớt được {amount} quan.'
+    effects:
+      - { type: stress, value: 8 }
+  - id: sys.doi_kem
+    kind: he_thong
+    importance: 6
+    highlight: true
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Kho trống, chẳng ai cho vay thêm. Cả nhà đói lả, ăn rau má cầm hơi.'
+      - 'Nợ ngập đầu, không còn ai cho vay. Bữa cơm chỉ còn nồi cháo cám.'
+    effects:
+      - { type: stress, value: 6 }
+  - id: sys.nguoi_than_mat
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: buon
+    icon: tang
+    variants:
+      - '{call} qua đời ở tuổi {age} vì {cause}.'
+      - 'Nhà có tang: {call} đã mất vì {cause}, hưởng dương {age} tuổi.'
+    effects:
+      - { type: stress, value: 12 }
+  - id: sys.nguoi_lang_mat
+    kind: nguoi_quanh
+    importance: 3
+    tone: buon
+    icon: tang
+    variants:
+      - '{call} trong làng qua đời ở tuổi {age}.'
+      - 'Làng có đám tang: {call} mất vì {cause}, thọ {age} tuổi.'
+  - id: sys.nguoi_lang_moi
+    kind: nguoi_quanh
+    importance: 2
+    icon: lang
+    variants:
+      - '{call} lên làm {title} của làng.'
+  - id: sys.lam_chu_ho
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: nha
+    variants:
+      - 'Từ nay bạn là chủ hộ, gánh vác cả nhà.'
+  - id: sys.thu_hoach_duoc_mua
+    kind: bao_cao
+    importance: 3
+    tone: vui
+    icon: lua
+    variants:
+      - 'Được mùa! {sao} sào ruộng cho {amount} thúng thóc, sân phơi vàng óng.'
+      - 'Lúa trĩu bông. Nhà gặt được {amount} thúng, ai cũng rạng rỡ.'
+  - id: sys.thu_hoach_binh_thuong
+    kind: bao_cao
+    importance: 2
+    icon: lua
+    short: 'gặt {amount} thúng thóc'
+    variants:
+      - 'Vụ này nhà gặt được {amount} thúng thóc.'
+      - 'Gặt xong, nhà thu về {amount} thúng thóc.'
+  - id: sys.thu_hoach_kem
+    kind: bao_cao
+    importance: 3
+    tone: buon
+    icon: lua
+    variants:
+      - 'Lúa lép nhiều, vụ này chỉ được {amount} thúng.'
+      - 'Mùa kém: {sao} sào ruộng chỉ cho {amount} thúng thóc.'
+  - id: sys.thu_hoach_mat_mua
+    kind: bao_cao
+    importance: 5
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Mất mùa. Cả nhà ra đồng mót mãi được {amount} thúng thóc.'
+      - 'Ruộng xơ xác, vụ này chỉ được {amount} thúng. Mẹ thở dài nhìn kho.'
+  - id: sys.nam_yen_duoc_mua
+    kind: he_thong
+    importance: 2
+    tone: vui
+    icon: binh_yen
+    variants:
+      - 'Một năm bình yên. Lúa trổ đều, cả nhà no đủ.'
+  - id: sys.nam_yen_binh_thuong
+    kind: he_thong
+    importance: 2
+    icon: binh_yen
+    variants:
+      - 'Một năm trôi qua lặng lẽ, ngày ra đồng, tối về bên bếp lửa.'
+  - id: sys.nam_yen_kem
+    kind: he_thong
+    importance: 2
+    tone: buon
+    icon: binh_yen
+    variants:
+      - 'Năm nay chẳng có chuyện gì lớn, chỉ có lúa kém, bữa cơm độn thêm khoai.'
+  - id: sys.nam_yen_mat_mua
+    kind: he_thong
+    importance: 2
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Một năm đói kém. Cả làng thắt lưng buộc bụng chờ mùa sau.'
+  - id: sys.tong_hop_nam
+    kind: he_thong
+    importance: 2
+    icon: tong_hop
+    variants:
+      - 'Năm nay: {items}.'

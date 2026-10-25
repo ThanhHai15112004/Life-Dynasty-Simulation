@@ -1,0 +1,63 @@
+{
+  "$comment": "[0] Hình vẽ tạm cho cảnh pixel 7 lớp (GDD 08 §2). Tọa độ tính theo lưới ảo; thay bằng sprite thật thì giữ nguyên khóa id.",
+  "grid": { "width": 160, "height": 90 },
+  "layout": {
+    "sceneHeightRatio": 0.46,
+    "topOffsetRatio": 0.06,
+    "horizonY": 50,
+    "groundY": 64,
+    "houseX": 30,
+    "peopleX": 74,
+    "peopleSpacing": 7,
+    "propsX": [96, 116, 134, 58],
+    "bambooX": [2, 12, 136, 146]
+  },
+  "skyTop": { "xuan": "#7fa6c4", "ha": "#5d9bd1", "thu": "#d49a6a", "dong": "#5b6478" },
+  "sky": { "xuan": "#c9dfe6", "ha": "#a9d4ef", "thu": "#f0c58e", "dong": "#9aa3b2" },
+  "hills": { "xuan": "#5f806a", "ha": "#4a7258", "thu": "#7b6a4e", "dong": "#565d66" },
+  "ground": { "xuan": "#7aa64a", "ha": "#4f8a2e", "thu": "#c9a43c", "dong": "#7d6a45" },
+  "groundStripe": { "xuan": "#8fbc5a", "ha": "#5f9c38", "thu": "#d9b851", "dong": "#6e5d3c" },
+  "path": "#a88a5c",
+  "bamboo": "#2f4a32",
+  "bambooLight": "#45663f",
+  "weather": {
+    "nang": { "tint": "#fff2c0", "alpha": 0.04 },
+    "mua": { "tint": "#2c3a52", "alpha": 0.3 },
+    "mua_phun": { "tint": "#5c6a7a", "alpha": 0.18 },
+    "han": { "tint": "#e8a040", "alpha": 0.16 },
+    "suong_mu": { "tint": "#d4dae0", "alpha": 0.38 },
+    "gio_bac": { "tint": "#9fb0c8", "alpha": 0.14 }
+  },
+  "houses": {
+    "nha_tranh": { "width": 26, "wallHeight": 10, "roofHeight": 9, "wall": "#8a6a48", "wallShade": "#6e5238", "roof": "#c9a75a", "roofShade": "#9c7f3e", "door": "#3a2a1e", "bays": 1, "chimneyX": 18 },
+    "nha_go": { "width": 36, "wallHeight": 12, "roofHeight": 10, "wall": "#7a4e2e", "wallShade": "#5a3820", "roof": "#8a3a2a", "roofShade": "#5e2619", "door": "#2a1a10", "bays": 3, "chimneyX": 28 }
+  },
+  "props": {
+    "trau": { "shape": "buffalo", "w": 12, "h": 6, "color": "#3d3a38", "accent": "#bdb5a5" },
+    "dan_ga": { "shape": "flock", "w": 10, "h": 2, "color": "#e8dcc0", "accent": "#c0392b", "count": 4 },
+    "ao_ca": { "shape": "pond", "w": 20, "h": 4, "color": "#3f6f8f", "accent": "#8fc0d8" },
+    "kho_lua": { "shape": "granary", "w": 9, "h": 10, "color": "#7a5a3a", "accent": "#d8b55a" }
+  },
+  "people": {
+    "heights": { "tre_nho": 4, "thieu_nien": 6, "nguoi_lon": 8, "nguoi_gia": 7 },
+    "skin": "#d9a77a",
+    "hair": "#1e1a18",
+    "elderHair": "#cfcac0",
+    "clothes": { "m": "#4a4036", "f": "#6b3b3b" },
+    "playerMarker": "#ffd166"
+  },
+  "conditions": {
+    "binh_yen": {},
+    "ngap_lut": { "water": "#4a6f8f", "waterLight": "#7aa0bf", "level": 9, "alpha": 0.8 },
+    "mat_mua": { "ground": "#8a7550", "stripe": "#76633f" },
+    "ngheo_doi": { "tint": "#1a1420", "alpha": 0.28 },
+    "thinh_vuong": { "tint": "#ffcc66", "alpha": 0.08, "lantern": "#ff7043" }
+  },
+  "particles": {
+    "khoi_bep": { "color": "#d8d8d8", "count": 6, "speed": 3 },
+    "la_roi": { "color": "#c96f2c", "count": 10, "speed": 6 },
+    "dom_dom": { "color": "#f5f08a", "count": 10, "speed": 1 },
+    "mua_roi": { "color": "#a9c0d8", "count": 70, "speed": 60 }
+  },
+  "background": "#0f1419"
+}

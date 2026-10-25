@@ -1,0 +1,46 @@
+# [0] Năm bậc mức sống (GDD 03 §5.2): một lựa chọn đầu năm chạm cùng lúc chi tiêu, sức khỏe, tinh thần và cảnh pixel
+default: dam_bac
+levels:
+  - id: kho_cuc
+    name: Khổ cực
+    description: Ăn độn khoai sắn, áo vá, tiết kiệm từng đồng. Sức khỏe hao mòn.
+    food_per_member: 0.72      # thúng/tháng/người lớn
+    money_per_member: 0.02     # quan/tháng/người
+    modifiers:
+      - { target: health.monthly, value: -0.5 }
+      - { target: stress.monthly, value: 0.6 }
+      - { target: death_risk, value: 1.4, op: mul }
+  - id: dam_bac
+    name: Đạm bạc
+    description: Cơm rau dưa, đủ no nhưng chẳng dư. Như phần đông nhà trong làng.
+    food_per_member: 0.88
+    money_per_member: 0.06
+    modifiers:
+      - { target: health.monthly, value: -0.04 }
+      - { target: stress.monthly, value: 0.1 }
+  - id: du_day
+    name: Đủ đầy
+    description: Có cá thịt ngày rằm, áo lành, thuốc men khi ốm.
+    food_per_member: 1.0
+    money_per_member: 0.16
+    modifiers:
+      - { target: health.monthly, value: 0.15 }
+      - { target: stress.monthly, value: -0.25 }
+  - id: sung_tuc
+    name: Sung túc
+    description: Ăn ngon mặc đẹp, có người giúp việc mùa vụ. Hàng xóm để ý.
+    food_per_member: 1.15
+    money_per_member: 0.42
+    modifiers:
+      - { target: health.monthly, value: 0.28 }
+      - { target: stress.monthly, value: -0.5 }
+      - { target: death_risk, value: 0.9, op: mul }
+  - id: xa_hoa
+    name: Xa hoa
+    description: Tiêu như nhà bá hộ. Vui thì vui, nhưng kho cạn rất nhanh.
+    food_per_member: 1.3
+    money_per_member: 1.2
+    modifiers:
+      - { target: health.monthly, value: 0.22 }
+      - { target: stress.monthly, value: -0.7 }
+      - { target: death_risk, value: 0.92, op: mul }

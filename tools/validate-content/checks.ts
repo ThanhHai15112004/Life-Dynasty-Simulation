@@ -1,0 +1,173 @@
+// Kiểm tra chéo toàn bộ src/data/ sau khi qua Zod: id tham chiếu, biến DSL, token văn bản, chỉ số modifier
+import type { ContentBundle } from '@content/ContentLoader';
+import type { Condition, Effect, RoleSpec } from '@content/schemas';
+import { GameSession } from '@core/api/GameSession';
+import { evaluate, UnknownVariableError } from '@core/engine/RuleEvaluator';
+import { isKnownTarget } from '@core/engine/statTargets';
+import { SystemLog } from '@core/events/systemLogKeys';
+import { createResolver } from '@core/systems/resolver';
+import { templateTokens } from '@shared/template';
+
+/** Tham số hệ thống truyền vào mẫu nhật ký (xem các lời gọi writeTemplate trong src/core). */
+const SYSTEM_PARAMS = new Set(['age', 'amount', 'sao', 'food', 'money', 'skill', 'level', 'stage', 'call', 'cause', 'title', 'items']);
+
+export interface ValidationReport {
+  errors: string[];
+  warnings: string[];
+}
+
+export function validateContent(content: ContentBundle): ValidationReport {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  const idx = content.index;
+  const skillIds = [...idx.skill.keys()];
+  const origin = content.origins[0];
+  const villageRoles = new Set(content.origins.flatMap((o) => o.village_npcs.map((n) => n.role)));
+  const stageIds = new Set(idx.lifeStage.keys());
+
+  const need = (ok: boolean, msg: string) => {
+    if (!ok) errors.push(msg);
+  };
+  const target = (t: string, where: string) => need(isKnownTarget(t, skillIds), `${where}: chỉ số modifier lạ "${t}"`);
+  const skill = (s: string, where: string) => need(idx.skill.has(s), `${where}: kỹ năng lạ "${s}"`);
+  const trait = (t: string, where: string) => need(idx.trait.has(t), `${where}: tính cách lạ "${t}"`);
+  const property = (p: string, where: string) => need(idx.property.has(p), `${where}: tài sản lạ "${p}"`);
+  const template = (id: string, where: string) => need(idx.ambient.has(id), `${where}: thiếu mẫu nhật ký "${id}"`);
+
+  // ── Id tham chiếu ──
+  for (const t of content.traits) trait(t.opposite, `traits.${t.id}.opposite`);
+  for (const t of content.traits) t.modifiers.forEach((m) => target(m.target, `traits.${t.id}`));
+  for (const f of content.focuses) {
+    Object.keys(f.skill_xp).forEach((s) => skill(s, `focuses.${f.id}.skill_xp`));
+    f.modifiers.forEach((m) => target(m.target, `focuses.${f.id}`));
+  }
+  for (const p of content.properties) p.modifiers.forEach((m) => target(m.target, `properties.${p.id}`));
+  for (const l of content.balance.living_standards.levels) l.modifiers.forEach((m) => target(m.target, `living_standards.${l.id}`));
+  for (const c of content.balance.modifiers.conditional) target(c.target, `modifiers.${c.id}`);
+  need(idx.livingStandard.has(content.balance.living_standards.default), 'living_standards.default: mức sống lạ');
+  skill(content.balance.economy.harvest.skill, 'economy.harvest.skill');
+  for (const q of content.balance.economy.harvest_qualities) {
+    template(q.harvest_log, `harvest_qualities.${q.id}.harvest_log`);
+    template(q.quiet_year_log, `harvest_qualities.${q.id}.quiet_year_log`);
+  }
+  template(content.balance.director.ambient.digest_template, 'director.ambient.digest_template');
+  Object.values(SystemLog).forEach((id) => template(id, 'systemLogKeys'));
+  for (const g of content.balance.life.age_groups) {
+    need(g.id in content.balance.economy.consumption_by_age_group, `economy.consumption_by_age_group: thiếu nhóm tuổi "${g.id}"`);
+  }
+  for (const m of content.balance.calendar.months) {
+    need(content.balance.calendar.seasons.some((s) => s.id === m.season), `calendar.months.${m.month}: mùa lạ "${m.season}"`);
+    m.weather.forEach((w) => need(content.balance.calendar.weathers.some((x) => x.id === w.id), `calendar.months.${m.month}: thời tiết lạ "${w.id}"`));
+  }
+  need(content.balance.calendar.months.length === content.balance.calendar.months_per_year, 'calendar: số tháng khai báo khác months_per_year');
+  need(content.balance.economy.price.monthly_factor.length === content.balance.calendar.months_per_year, 'economy.price.monthly_factor: phải đủ số tháng');
+
+  for (const o of content.origins) {
+    need(idx.culture.has(o.culture), `origins.${o.id}: văn hóa lạ "${o.culture}"`);
+    need(idx.focus.has(o.default_focus), `origins.${o.id}: default_focus lạ`);
+    need(idx.livingStandard.has(o.household.living_standard), `origins.${o.id}: mức sống lạ`);
+    o.household.properties.forEach((p) => property(p.id, `origins.${o.id}.household`));
+    Object.keys(o.player.skills).forEach((s) => skill(s, `origins.${o.id}.player.skills`));
+    const culture = idx.culture.get(o.culture);
+    o.village_npcs.forEach((n) => need(!!culture?.village_roles[n.role], `cultures.${o.culture}: thiếu cách gọi vai trò "${n.role}"`));
+  }
+
+  const checkRole = (r: RoleSpec, where: string) => {
+    if (r.from === 'village') need(!!r.village_role && villageRoles.has(r.village_role), `${where}: vai trò làng lạ "${r.village_role}"`);
+  };
+  const checkEffects = (list: readonly Effect[], where: string, roles: Set<string>) => {
+    for (const e of list) {
+      const w = `${where}.${e.type}`;
+      if ('who' in e && !['player', 'household'].includes(e.who) && !roles.has(e.who)) errors.push(`${w}: "${e.who}" không phải vai trò của sự kiện`);
+      if (e.type === 'opinion' && !roles.has(e.role)) errors.push(`${w}: vai trò lạ "${e.role}"`);
+      if (e.type === 'skill_xp') skill(e.skill, w);
+      if (e.type === 'modifier') target(e.target, w);
+      if (e.type === 'property_add' || e.type === 'property_remove') property(e.property, w);
+      if (e.type === 'add_trait') trait(e.trait, w);
+      if (e.type === 'schedule_event') need(idx.event.has(e.event), `${w}: sự kiện lạ "${e.event}"`);
+      if (e.type === 'chance') {
+        checkEffects(e.then, where, roles);
+        checkEffects(e.else, where, roles);
+      }
+    }
+  };
+
+  for (const ev of content.events) {
+    const roles = new Set(ev.roles.map((r) => r.id));
+    ev.roles.forEach((r) => checkRole(r, `events.${ev.id}`));
+    ev.life_stages?.forEach((s) => need(stageIds.has(s), `events.${ev.id}: giai đoạn đời lạ "${s}"`));
+    for (const o of ev.options) {
+      const w = `events.${ev.id}.${o.id}`;
+      checkEffects([...o.effects, ...o.success, ...o.failure], w, roles);
+      Object.keys(o.trait_stress).forEach((t) => trait(t, `${w}.trait_stress`));
+      if (o.chance?.skill) skill(o.chance.skill, `${w}.chance`);
+      if (o.chance && o.success.length + o.failure.length + o.success_result.length === 0) warnings.push(`${w}: có chance nhưng không có hậu quả thành/bại`);
+    }
+    if (ev.scheduled_only && !content.events.some((x) => x.options.some((o) => [...o.effects, ...o.success, ...o.failure].some((e) => e.type === 'schedule_event' && e.event === ev.id)))) {
+      warnings.push(`events.${ev.id}: scheduled_only nhưng không sự kiện nào hẹn tới`);
+    }
+  }
+  for (const t of content.ambient) {
+    const roles = new Set(t.roles.map((r) => r.id));
+    t.roles.forEach((r) => checkRole(r, `ambient.${t.id}`));
+    t.life_stages?.forEach((s) => need(stageIds.has(s), `ambient.${t.id}: giai đoạn đời lạ "${s}"`));
+    Object.keys(t.trait_reactions).forEach((x) => trait(x, `ambient.${t.id}.trait_reactions`));
+    checkEffects(t.effects, `ambient.${t.id}`, roles);
+  }
+
+  // ── Chạy thử điều kiện DSL và token văn bản trên một ván thật ──
+  if (!origin) return { errors: [...errors, 'Không có xuất thân nào'], warnings };
+  const session = GameSession.create(content, { seed: 'validate' });
+  session.read((ctx) => {
+    const tryCond = (cond: Condition | undefined, where: string, roleIds: string[]) => {
+      if (!cond) return;
+      const roles = Object.fromEntries(roleIds.map((r) => [r, ctx.state.playerId]));
+      try {
+        evaluate(cond, createResolver(ctx, { self: ctx.state.playerId, roles }));
+      } catch (e) {
+        if (e instanceof UnknownVariableError) errors.push(`${where}: biến DSL lạ "${e.path}"`);
+        else throw e;
+      }
+    };
+    const tryText = (text: string, where: string, roleIds: string[], allowParams: boolean) => {
+      const roles = Object.fromEntries(roleIds.map((r) => [r, ctx.state.playerId]));
+      const r = createResolver(ctx, { self: ctx.state.playerId, roles });
+      for (const tok of templateTokens(text)) {
+        if (allowParams && SYSTEM_PARAMS.has(tok)) continue;
+        if (r.token(tok) === undefined) warnings.push(`${where}: token không phân giải được "{${tok}}"`);
+      }
+    };
+
+    for (const ev of content.events) {
+      const ids = ev.roles.map((r) => r.id);
+      tryCond(ev.condition, `events.${ev.id}`, ids);
+      ev.weight_modifiers.forEach((m, i) => tryCond(m.condition, `events.${ev.id}.weight_modifiers[${i}]`, ids));
+      ev.roles.forEach((r) => tryCond(r.condition, `events.${ev.id}.roles.${r.id}`, ids));
+      [ev.title, ...ev.text].forEach((t) => tryText(t, `events.${ev.id}`, ids, false));
+      for (const o of ev.options) {
+        tryCond(o.condition, `events.${ev.id}.${o.id}`, ids);
+        o.chance?.modifiers.forEach((m) => tryCond(m.condition, `events.${ev.id}.${o.id}.chance`, ids));
+        [o.text, o.hint ?? '', ...o.result, ...o.success_result, ...o.failure_result].forEach((t) => tryText(t, `events.${ev.id}.${o.id}`, ids, false));
+      }
+    }
+    for (const t of content.ambient) {
+      const ids = t.roles.map((r) => r.id);
+      const sys = t.kind === 'he_thong' || t.id.startsWith('sys.');
+      tryCond(t.condition, `ambient.${t.id}`, ids);
+      t.weight_modifiers.forEach((m, i) => tryCond(m.condition, `ambient.${t.id}.weight_modifiers[${i}]`, ids));
+      t.roles.forEach((r) => tryCond(r.condition, `ambient.${t.id}.roles.${r.id}`, ids));
+      [...t.variants, t.short ?? '', ...Object.values(t.trait_reactions)].forEach((x) => tryText(x, `ambient.${t.id}`, ids, sys));
+    }
+    for (const c of content.balance.modifiers.conditional) tryCond(c.condition, `modifiers.${c.id}`, []);
+    for (const c of content.balance.life.mortality.causes) {
+      tryCond(c.condition, `mortality.${c.id}`, []);
+      c.weight_modifiers.forEach((m, i) => tryCond(m.condition, `mortality.${c.id}.weight_modifiers[${i}]`, []));
+    }
+    for (const f of content.focuses) tryCond(f.condition, `focuses.${f.id}`, []);
+    for (const [i, r] of [...content.balance.scene.condition_rules, ...content.balance.scene.particle_rules].entries()) {
+      tryCond(r.condition, `scene.rules[${i}]`, []);
+    }
+  });
+
+  return { errors, warnings };
+}

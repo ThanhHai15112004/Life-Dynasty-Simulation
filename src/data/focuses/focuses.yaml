@@ -1,0 +1,80 @@
+# [0] Trọng tâm (GDD 01 §5): mỗi Focus đồng thời tăng XP, đổi bộ lọc sự kiện và mức phơi nhiễm.
+# skill_xp: XP mỗi tháng khi là Focus chính. event_weights: nhân trọng số sự kiện có thẻ tương ứng.
+focuses:
+  - id: lam_an
+    name: Làm lụng
+    description: Dồn sức cho ruộng đồng. Thu hoạch khá hơn, nhưng thân thể hao mòn.
+    icon: cay_lua
+    condition: { var: player.age, op: '>=', value: 10 }
+    skill_xp: { sinh_ton: 6 }
+    modifiers:
+      - { target: harvest.yield, value: 1.12, op: mul }
+      - { target: health.monthly, value: -0.05 }
+      - { target: stress.monthly, value: 0.1 }
+    event_weights: { ruong_dong: 1.8, lao_dong: 1.5 }
+  - id: hoc_tap
+    name: Học tập
+    description: Theo thầy đồ học chữ. Mở đường khoa cử về sau, nhưng nhà bớt một tay làm và tốn giấy bút.
+    icon: sach
+    condition: { var: player.age, op: '>=', value: 6 }
+    skill_xp: { hoc_van: 7, muu_luoc: 1 }
+    modifiers:
+      - { target: harvest.yield, value: 0.93, op: mul }
+      - { target: living.cost, value: 1.12, op: mul }
+    event_weights: { hoc_hanh: 2.5 }
+  - id: ren_luyen
+    name: Rèn luyện
+    description: Tập vật, tập võ ở bãi sông. Khỏe người, nhưng dễ dính vào xô xát.
+    icon: kiem
+    condition: { var: player.age, op: '>=', value: 10 }
+    skill_xp: { quan_su: 5, sinh_ton: 1 }
+    modifiers:
+      - { target: health.monthly, value: 0.15 }
+    event_weights: { vo_nghe: 2, nguy_hiem: 1.3 }
+  - id: suc_khoe
+    name: Giữ sức khỏe
+    description: Ăn ngủ điều độ, thuốc thang khi ốm. Sống lâu hơn, nhưng tốn kém.
+    icon: thuoc
+    skill_xp: { sinh_ton: 1 }
+    modifiers:
+      - { target: health.monthly, value: 0.35 }
+      - { target: stress.monthly, value: -0.2 }
+      - { target: death_risk, value: 0.85, op: mul }
+      - { target: living.cost, value: 1.08, op: mul }
+    event_weights: { benh_tat: 0.6 }
+  - id: gia_dinh
+    name: Vun vén gia đình
+    description: Ở bên cha mẹ, anh em. Nhà êm ấm, biết tằn tiện hơn.
+    icon: nha
+    skill_xp: { quan_tri: 3, ngoai_giao: 1 }
+    modifiers:
+      - { target: stress.monthly, value: -0.3 }
+      - { target: food.consumption, value: 0.95, op: mul }
+    event_weights: { gia_dinh: 2.2 }
+  - id: giao_luu
+    name: Giao lưu
+    description: Ngồi quán nước, ra đình, kết bạn. Nghe được nhiều tin, nhưng tốn tiền trầu nước.
+    icon: chen_tra
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { ngoai_giao: 5, muu_luoc: 2 }
+    modifiers:
+      - { target: stress.monthly, value: -0.2 }
+      - { target: living.cost, value: 1.1, op: mul }
+    event_weights: { lang_xa: 2, tin_don: 1.8, quan_he: 2 }
+  - id: kinh_doanh
+    name: Buôn bán nhỏ
+    description: Ra chợ phiên, đổi chác. Đọc được giá thóc, gặp nhiều mối làm ăn.
+    icon: tien
+    condition: { var: player.age, op: '>=', value: 14 }
+    skill_xp: { thuong_mai: 6, ngoai_giao: 1 }
+    modifiers:
+      - { target: harvest.yield, value: 0.95, op: mul }
+    event_weights: { buon_ban: 2.5, thoi_co: 1.8 }
+  - id: nghi_ngoi
+    name: Nghỉ ngơi
+    description: Thong thả, câu cá, ngủ trưa. Tinh thần hồi lại, ruộng thì kém chăm.
+    icon: la
+    modifiers:
+      - { target: stress.monthly, value: -1.0 }
+      - { target: health.monthly, value: 0.1 }
+      - { target: harvest.yield, value: 0.9, op: mul }

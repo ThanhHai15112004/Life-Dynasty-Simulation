@@ -1,0 +1,35 @@
+# [0] Văn hóa Việt (giả tưởng lấy cảm hứng Đại Việt thế kỷ 11) — tên người, tên làng, cách xưng hô (R11)
+id: viet
+name: Việt
+family_names:
+  - { name: Nguyễn, weight: 30 }
+  - { name: Trần, weight: 11 }
+  - { name: Lê, weight: 10 }
+  - { name: Phạm, weight: 7 }
+  - { name: Hoàng, weight: 5 }
+  - { name: Đỗ, weight: 4 }
+  - { name: Vũ, weight: 4 }
+  - { name: Đặng, weight: 3 }
+  - { name: Bùi, weight: 3 }
+  - { name: Ngô, weight: 2 }
+  - { name: Dương, weight: 2 }
+  - { name: Lý, weight: 2 }
+  - { name: Đinh, weight: 1 }
+given_names:
+  m: [Tí, Sửu, Dần, Mão, Thìn, Tỵ, Bình, Hòa, Sơn, Tùng, Lâm, Phúc, Đức, Khang, Mạnh, Cường, Lộc, Quý, Thành, Bảo, Chính, Hiếu, Trung, Nghĩa]
+  f: [Mận, Đào, Lan, Cúc, Huệ, Hồng, Thắm, Nụ, Hoa, Liên, Mai, Xuân, Thơm, Nhài, Gấm, Lụa, Bưởi, Na, Hằng, Thảo]
+village_names: [Phú Giang, Đông Hòa, Yên Thôn, Thượng Liệt, Hạ Trạch, An Lạc, Vân Hà, Kim Lũ, Bình Vọng, Đại Lộc]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: bá hộ, call: 'bá hộ {given}' }
+  ly_truong: { title: lý trưởng, call: 'ông lý {given}' }
+  thay_do: { title: thầy đồ, call: 'thầy đồ {family}' }
+  thay_lang: { title: thầy lang, call: 'thầy lang {given}' }
+  hang_xom: { title: hàng xóm, call: '{given} nhà bên' }
+  lai_buon: { title: lái buôn, call: 'lái buôn {given}' }

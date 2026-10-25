@@ -1,0 +1,101 @@
+# [0] Đời sống: giai đoạn đời, sức khỏe, tử vong (GDD 01 §4, §8)
+life_stages:
+  # ambient_lines: số dòng nhật ký thường mỗi năm [tối thiểu, tối đa] (R3)
+  - { id: au_tho, name: Ấu thơ, min_age: 0, ambient_lines: [1, 3], decisions: false, can_choose_focus: false, can_have_secondary_focus: false }
+  - { id: thieu_thoi, name: Thiếu thời, min_age: 6, ambient_lines: [3, 5], decisions: true, can_choose_focus: true, can_have_secondary_focus: false }
+  - { id: thanh_nien, name: Thanh niên, min_age: 16, ambient_lines: [3, 6], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  - { id: lap_nghiep, name: Lập nghiệp, min_age: 26, ambient_lines: [3, 6], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  - { id: trung_nien, name: Trung niên, min_age: 41, ambient_lines: [3, 6], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  - { id: tuoi_gia, name: Tuổi già, min_age: 56, ambient_lines: [2, 5], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+
+health:
+  max: 100
+  # Trần sức khỏe theo tuổi: người già không thể khỏe như trai tráng
+  cap_by_age:
+    - { age: 0, cap: 90 }
+    - { age: 18, cap: 100 }
+    - { age: 40, cap: 95 }
+    - { age: 55, cap: 85 }
+    - { age: 70, cap: 70 }
+    - { age: 85, cap: 55 }
+  npc_default: 70
+
+stress:
+  max: 100
+  start: 20
+
+mortality:
+  # Tỷ lệ chết mỗi NĂM theo tuổi khi sức khỏe bình thường; engine tự quy ra tháng.
+  # Mục tiêu KPI: tử vong trẻ em 0–5 tuổi ~15–25%, tuổi thọ người chơi 50–65.
+  annual_by_age:
+    - { age: 0, rate: 0.08 }
+    - { age: 1, rate: 0.055 }
+    - { age: 3, rate: 0.03 }
+    - { age: 5, rate: 0.012 }
+    - { age: 10, rate: 0.004 }
+    - { age: 16, rate: 0.005 }
+    - { age: 30, rate: 0.007 }
+    - { age: 40, rate: 0.011 }
+    - { age: 50, rate: 0.02 }
+    - { age: 60, rate: 0.04 }
+    - { age: 70, rate: 0.085 }
+    - { age: 80, rate: 0.18 }
+    - { age: 90, rate: 0.4 }
+  # Hệ số nhân theo sức khỏe hiện tại
+  health_factor:
+    - { health: 0, factor: 500 }
+    - { health: 10, factor: 60 }
+    - { health: 25, factor: 6 }
+    - { health: 40, factor: 2 }
+    - { health: 60, factor: 1.1 }
+    - { health: 75, factor: 0.9 }
+    - { health: 100, factor: 0.7 }
+  max_monthly: 0.5
+  # Nguyên nhân chết: chọn theo trọng số trong số nguyên nhân hợp điều kiện (biến self.*)
+  causes:
+    - id: benh
+      name: bạo bệnh
+      weight: 4
+      weight_modifiers:
+        - { condition: { var: self.health, op: '<', value: 40 }, factor: 3 }
+    - id: sot_ret
+      name: sốt rét
+      weight: 1
+      weight_modifiers:
+        - { condition: { var: world.season, op: 'in', value: [ha, thu] }, factor: 2.5 }
+    - id: soi
+      name: lên sởi
+      weight: 6
+      condition: { var: self.age, op: '<', value: 10 }
+    - id: gia_yeu
+      name: tuổi già sức yếu
+      weight: 1
+      condition: { var: self.age, op: '>=', value: 55 }
+      weight_modifiers:
+        - { condition: { var: self.age, op: '>=', value: 65 }, factor: 6 }
+    - id: doi_ret
+      name: đói rét
+      weight: 0.2
+      weight_modifiers:
+        - { condition: { var: household.living_standard, op: '==', value: kho_cuc }, factor: 10 }
+        - { condition: { var: world.season, op: '==', value: dong }, factor: 2 }
+    - id: lao_luc
+      name: lao lực kiệt sức
+      weight: 0.3
+      weight_modifiers:
+        - { condition: { var: self.stress, op: '>=', value: 80 }, factor: 8 }
+    - id: tai_nan
+      name: tai nạn bất ngờ
+      weight: 0.35
+      unexpected: true
+  # Bad-luck protection: tối đa số cái chết hoàn toàn bất ngờ trong hộ mỗi năm
+  max_unexpected_household_deaths_per_year: 1
+
+age_groups:
+  - { id: tre_nho, max_age: 5 }
+  - { id: thieu_nien, max_age: 15 }
+  - { id: nguoi_lon, max_age: 55 }
+  - { id: nguoi_gia, max_age: 999 }
+adult_age: 16
+male_ratio: 0.5
+npc_trait_count: 1

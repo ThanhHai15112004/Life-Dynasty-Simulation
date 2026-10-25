@@ -1,0 +1,13 @@
+# [0] Tăng trưởng kỹ năng (GDD 03 §3): học nhanh 8–25 tuổi, chậm dần sau 40, bậc cao rất chậm
+max_level: 20
+# XP để lên bậc kế tiếp = xp_base × xp_growth ^ bậc_hiện_tại
+xp_base: 60
+xp_growth: 1.18
+learning_by_age:
+  - { age: 0, factor: 0.3 }
+  - { age: 8, factor: 1.2 }
+  - { age: 25, factor: 1.0 }
+  - { age: 40, factor: 0.6 }
+  - { age: 60, factor: 0.35 }
+# Focus phụ có hiệu lực bằng phần này của Focus chính
+secondary_focus_factor: 0.5

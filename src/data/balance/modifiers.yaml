@@ -1,0 +1,80 @@
+# [0] Modifier có điều kiện: hoàn cảnh tự sinh tác động, mỗi dòng hiện trong tooltip "vì sao".
+# applies_to: household = mọi người trong hộ (điều kiện dùng self.* cho từng người); player = chỉ người chơi.
+conditional:
+  - id: mua_dong
+    label: Mùa đông giá rét
+    condition: { var: world.season, op: '==', value: dong }
+    target: health.monthly
+    value: -0.15
+  - id: mua_dong_tu_vong
+    label: Mùa đông giá rét
+    condition: { var: world.season, op: '==', value: dong }
+    target: death_risk
+    value: 1.15
+    op: mul
+  - id: nang_nong_dich_sot
+    label: Mùa nóng, dịch sốt
+    condition: { var: world.season, op: '==', value: ha }
+    target: death_risk
+    value: 1.05
+    op: mul
+  - id: tuoi_tac
+    label: Tuổi tác
+    condition: { var: self.age, op: '>=', value: 50 }
+    target: health.monthly
+    value: -0.15
+  - id: tuoi_cao
+    label: Tuổi cao sức yếu
+    condition: { var: self.age, op: '>=', value: 65 }
+    target: health.monthly
+    value: -0.25
+  - id: co_the_hoi_phuc
+    label: Cơ thể tự hồi phục
+    condition: { var: self.health, op: '<', value: 50 }
+    target: health.monthly
+    value: 0.25
+  - id: no_nan
+    label: Nợ nần đè nặng
+    condition: { var: household.debt, op: '>', value: 20 }
+    target: stress.monthly
+    value: 0.25
+    applies_to: player
+  - id: no_nan_nang
+    label: Nợ chồng chất
+    condition: { var: household.debt, op: '>', value: 60 }
+    target: stress.monthly
+    value: 0.35
+    applies_to: player
+  - id: kho_thoc_can
+    label: Kho thóc sắp cạn
+    condition: { var: household.food_months, op: '<', value: 1 }
+    target: health.monthly
+    value: -0.4
+  - id: kho_thoc_can_lo
+    label: Lo cái ăn từng bữa
+    condition: { var: household.food_months, op: '<', value: 1 }
+    target: stress.monthly
+    value: 0.5
+    applies_to: player
+  - id: kho_thoc_day
+    label: Kho thóc đầy, yên tâm
+    condition: { var: household.food_months, op: '>=', value: 8 }
+    target: stress.monthly
+    value: -0.2
+    applies_to: player
+  - id: nguoi_ngoai
+    label: Thời gian làm nguôi ngoai
+    condition: { var: self.stress, op: '>=', value: 25 }
+    target: stress.monthly
+    value: -0.35
+  - id: suy_sup
+    label: Tinh thần suy sụp
+    condition: { var: self.stress, op: '>=', value: 80 }
+    target: health.monthly
+    value: -0.2
+  - id: chu_ho_ganh_vac
+    label: Gánh vác cả nhà
+    condition: { var: player.is_head, op: '==', value: true }
+    target: stress.monthly
+    value: 0.1
+    applies_to: player

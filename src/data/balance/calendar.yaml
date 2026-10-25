@@ -1,0 +1,27 @@
+# [0] Lịch, mùa và thời tiết theo tháng (âm lịch, đồng bằng nhiệt đới gió mùa)
+months_per_year: 12
+seasons:
+  - { id: xuan, name: Xuân }
+  - { id: ha, name: Hạ }
+  - { id: thu, name: Thu }
+  - { id: dong, name: Đông }
+weathers:
+  - { id: nang, name: Nắng ráo }
+  - { id: mua, name: Mưa }
+  - { id: mua_phun, name: Mưa phùn }
+  - { id: han, name: Nắng hạn }
+  - { id: suong_mu, name: Sương mù }
+  - { id: gio_bac, name: Gió bấc }
+months:
+  - { month: 1, season: xuan, weather: [{ id: mua_phun, weight: 5 }, { id: suong_mu, weight: 2 }, { id: nang, weight: 2 }] }
+  - { month: 2, season: xuan, weather: [{ id: mua_phun, weight: 4 }, { id: nang, weight: 3 }, { id: han, weight: 1 }] }
+  - { month: 3, season: xuan, weather: [{ id: nang, weight: 4 }, { id: mua, weight: 2 }, { id: han, weight: 1 }] }
+  - { month: 4, season: ha, weather: [{ id: nang, weight: 4 }, { id: mua, weight: 3 }, { id: han, weight: 2 }] }
+  - { month: 5, season: ha, weather: [{ id: nang, weight: 3 }, { id: mua, weight: 4 }, { id: han, weight: 2 }] }
+  - { month: 6, season: ha, weather: [{ id: mua, weight: 5 }, { id: nang, weight: 3 }, { id: han, weight: 1 }] }
+  - { month: 7, season: thu, weather: [{ id: mua, weight: 6 }, { id: nang, weight: 3 }] }
+  - { month: 8, season: thu, weather: [{ id: mua, weight: 5 }, { id: nang, weight: 3 }, { id: han, weight: 1 }] }
+  - { month: 9, season: thu, weather: [{ id: nang, weight: 4 }, { id: mua, weight: 3 }] }
+  - { month: 10, season: dong, weather: [{ id: nang, weight: 4 }, { id: gio_bac, weight: 2 }, { id: suong_mu, weight: 1 }] }
+  - { month: 11, season: dong, weather: [{ id: gio_bac, weight: 4 }, { id: suong_mu, weight: 2 }, { id: nang, weight: 2 }] }
+  - { month: 12, season: dong, weather: [{ id: gio_bac, weight: 5 }, { id: mua_phun, weight: 2 }, { id: suong_mu, weight: 2 }] }

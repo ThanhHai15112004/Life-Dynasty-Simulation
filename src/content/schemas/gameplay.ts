@@ -1,0 +1,151 @@
+// [0] Dữ liệu gameplay: kỹ năng, tính cách, Focus, tài sản, xuất thân, văn hóa
+import { z } from 'zod';
+import { conditionSchema } from './condition';
+import { modifierDefSchema } from './modifier';
+
+const range = z.tuple([z.number(), z.number()]);
+
+export const skillSchema = z
+  .object({ id: z.string(), name: z.string(), description: z.string().default('') })
+  .strict();
+export const skillFileSchema = z.object({ skills: z.array(skillSchema).min(1) }).strict();
+export type Skill = z.infer<typeof skillSchema>;
+
+export const traitSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    opposite: z.string(),
+    description: z.string().default(''),
+    modifiers: z.array(modifierDefSchema).default([]),
+    start_weight: z.number().min(0).default(1),
+  })
+  .strict();
+export const traitFileSchema = z.object({ traits: z.array(traitSchema).min(1) }).strict();
+export type Trait = z.infer<typeof traitSchema>;
+
+export const focusSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    icon: z.string().default('focus'),
+    /** Điều kiện khả dụng (tuổi, giai đoạn đời, địa vị) — biến `player.*`. */
+    condition: conditionSchema.optional(),
+    /** XP mỗi tháng cho từng kỹ năng khi là Focus chính. */
+    skill_xp: z.record(z.string(), z.number()).default({}),
+    modifiers: z.array(modifierDefSchema).default([]),
+    /** Bộ lọc sự kiện: nhân trọng số sự kiện có thẻ tương ứng. */
+    event_weights: z.record(z.string(), z.number()).default({}),
+    allow_secondary: z.boolean().default(true),
+  })
+  .strict();
+export const focusFileSchema = z.object({ focuses: z.array(focusSchema).min(1) }).strict();
+export type Focus = z.infer<typeof focusSchema>;
+
+export const propertySchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    category: z.enum(['land', 'livestock', 'house', 'other']),
+    unit: z.string(),
+    description: z.string().default(''),
+    value: z.number().min(0),
+    buyable: z.boolean().default(true),
+    sellable: z.boolean().default(true),
+    upkeep_money_year: z.number().min(0).default(0),
+    upkeep_food_month: z.number().min(0).default(0),
+    income_money_year: z.number().min(0).default(0),
+    /** Với ruộng: mỗi đơn vị là một sào canh tác được. */
+    farmland: z.boolean().default(false),
+    /** Với nhà: bậc nhà, nhà bậc cao nhất được vẽ lên cảnh. */
+    house_tier: z.number().int().optional(),
+    modifiers: z.array(modifierDefSchema).default([]),
+    scene: z
+      .object({ layer: z.enum(['buildings', 'props']), sprite: z.string(), max_draw: z.number().int().default(1) })
+      .strict()
+      .optional(),
+  })
+  .strict();
+export const propertyFileSchema = z.object({ properties: z.array(propertySchema).min(1) }).strict();
+export type PropertyType = z.infer<typeof propertySchema>;
+
+const memberSpecSchema = z
+  .object({
+    relation: z.enum(['father', 'mother', 'sibling']),
+    sex: z.enum(['m', 'f', 'any']).default('any'),
+    /** Tuổi tuyệt đối (cha mẹ) hoặc độ lệch so với người chơi (anh chị em). */
+    age: range.optional(),
+    age_offset: range.optional(),
+    count: range.default([1, 1]),
+    health: range.default([60, 80]),
+    skills: z.record(z.string(), range).default({}),
+  })
+  .strict();
+
+const villageNpcSchema = z
+  .object({
+    role: z.string(),
+    sex: z.enum(['m', 'f', 'any']).default('m'),
+    age: range,
+    opinion: range.default([0, 0]),
+    /** Khi người giữ vai trò qua đời, làng có người mới thay. */
+    refill: z.boolean().default(true),
+  })
+  .strict();
+
+export const originSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    culture: z.string(),
+    start_age_options: z.array(z.number().int().min(0)).min(1),
+    default_start_age: z.number().int().min(0),
+    player: z
+      .object({
+        sex: z.enum(['m', 'f', 'any']).default('any'),
+        health: range,
+        skills: z.record(z.string(), range).default({}),
+        trait_count: z.number().int().min(0).default(2),
+      })
+      .strict(),
+    household: z
+      .object({
+        money: range,
+        food: range,
+        debt: range.default([0, 0]),
+        living_standard: z.string(),
+        properties: z.array(z.object({ id: z.string(), count: range }).strict()),
+        members: z.array(memberSpecSchema),
+      })
+      .strict(),
+    village_npcs: z.array(villageNpcSchema),
+    default_focus: z.string(),
+  })
+  .strict();
+export type Origin = z.infer<typeof originSchema>;
+
+export const cultureSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    family_names: z.array(z.object({ name: z.string(), weight: z.number().positive() }).strict()).min(1),
+    given_names: z.object({ m: z.array(z.string()).min(1), f: z.array(z.string()).min(1) }).strict(),
+    village_names: z.array(z.string()).min(1),
+    /** Cách người chơi gọi người thân: token {given}, {family}. */
+    kin_calls: z
+      .object({
+        father: z.string(),
+        mother: z.string(),
+        older_m: z.string(),
+        older_f: z.string(),
+        younger: z.string(),
+        other: z.string(),
+      })
+      .strict(),
+    /** Cách gọi người giữ vai trò trong làng: token {given}, {family}. */
+    village_roles: z.record(z.string(), z.object({ title: z.string(), call: z.string() }).strict()),
+  })
+  .strict();
+export type Culture = z.infer<typeof cultureSchema>;

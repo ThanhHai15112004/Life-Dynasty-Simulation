@@ -1,0 +1,9 @@
+# [0] Bảy kỹ năng (GDD 03 §3) — kỹ năng cũng là "kính lúp thông tin"
+skills:
+  - { id: quan_su, name: Quân sự, description: 'Chỉ huy, võ nghệ, sức vóc khi xô xát.' }
+  - { id: ngoai_giao, name: Ngoại giao, description: 'Ăn nói, thương lượng, xin khất, thuyết phục.' }
+  - { id: quan_tri, name: Quản trị, description: 'Liệu cơm gắp mắm, sắp xếp việc nhà, việc làng.' }
+  - { id: muu_luoc, name: Mưu lược, description: 'Đọc lòng người, nghe tin đồn mà biết thật giả.' }
+  - { id: thuong_mai, name: Thương mại, description: 'Mua bán, mặc cả, đoán giá thóc lên xuống.' }
+  - { id: hoc_van, name: Học vấn, description: 'Đọc viết chữ Nho, hiểu sách thánh hiền.' }
+  - { id: sinh_ton, name: Sinh tồn / Nghề nông, description: 'Cày cấy, chăn nuôi, xem trời, chịu thương chịu khó.' }

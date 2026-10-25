@@ -1,0 +1,22 @@
+# [0] Event Director (GDD 05 §5): điều nhịp, không gian lận xúc xắc
+max_decisions_per_year: 3
+base_monthly_chance: 0.11
+min_months_between: 2
+# Năm chưa có quyết định nào: mỗi tháng trôi qua cộng thêm xác suất (KPI 1–2 quyết định/năm)
+drought_bonus_per_month: 0.015
+tension:
+  decay_per_month: 0.4
+  high_threshold: 8
+  high_factor: 0.35        # căng thẳng cao → bớt sự kiện, cho người chơi thở
+ambient:
+  # Năm có tang (R6): nhân trọng số mẫu nhật ký theo tông
+  mourning_tone_factor: { vui: 0.15, an_ui: 4 }
+  merge_importance_max: 2  # dòng có điểm quan trọng ≤ mức này được gộp (R4)
+  digest_template: sys.tong_hop_nam
+  digest_separator: ', '
+decision_log_template: '{title} — {result}'
+chance_display:
+  # Khoảng xác suất hiển thị = p ± độ rộng; kỹ năng cao → khoảng hẹp (kính lúp thông tin)
+  base_spread: 0.3
+  spread_per_level: 0.02
+  min_spread: 0.06
