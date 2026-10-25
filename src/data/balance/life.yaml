@@ -29,9 +29,9 @@ mortality:
   # Tỷ lệ chết mỗi NĂM theo tuổi khi sức khỏe bình thường; engine tự quy ra tháng.
   # Mục tiêu KPI: tử vong trẻ em 0–5 tuổi ~15–25%, tuổi thọ người chơi 50–65.
   annual_by_age:
-    - { age: 0, rate: 0.08 }
-    - { age: 1, rate: 0.055 }
-    - { age: 3, rate: 0.03 }
+    - { age: 0, rate: 0.09 }
+    - { age: 1, rate: 0.065 }
+    - { age: 3, rate: 0.036 }
     - { age: 5, rate: 0.012 }
     - { age: 10, rate: 0.004 }
     - { age: 16, rate: 0.005 }

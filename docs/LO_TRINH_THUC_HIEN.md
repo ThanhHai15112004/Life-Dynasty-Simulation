@@ -35,7 +35,7 @@ Cập nhật 25/10/2026. ✅ xong · 🟡 làm một phần · ⬜ chưa làm. P
 | Cảnh vẽ bằng code từ bộ phận lắp ghép | ✅ | `public/assets/common/scene-kit.json`: bộ phận pixel + bảng màu theo văn hóa và mùa; làng nông và thị trấn bến sông; chân dung dùng chung bộ phận người |
 | Biên niên vương triều | ✅ | Đổi vua/niên hiệu, chiến tranh, nạn đói, dịch, chính sự — `src/data/chronicle/` |
 | Giao diện kiểu 1in8b | ✅ | Tuổi làm trung tâm, thanh năm trượt liên tục, hồ sơ có chân dung, cảnh có chú thích, nhật ký theo tuổi, gia đình, bản đồ cuộc đời, biên niên |
-| KPI cân bằng | 🟡 | Xem mục KPI trong README; tỷ lệ gặp lại sự kiện còn ~20% (mục tiêu 15%), cần thêm nội dung riêng cho nhà buôn |
+| KPI cân bằng | 🟡 | Đo 25/10/2026 (30 đời × 5 bot × 3 xuất thân): ✔ tuổi thọ TB 54–56 (chỉ bot ngẫu nhiên ~49) · ✔ dừng thời gian ~1,9–2,1 lần/năm · ✔ 95–99% đời có lập gia đình · ✔ tử vong trẻ em ~20%. ✖ Quyết định lặp 21–31% (mục tiêu 15%) và chuyện nhỏ lặp ~36% (mục tiêu 30%): cần thêm nội dung, nhất là cho nhà nho và nhà buôn |
 | Chơi thử trả lời "một đời người có hấp dẫn không?" | ⬜ | cần người chơi thật |
 
 ## Kế hoạch GĐ4 — Hệ Nghề nghiệp v2 (chốt 25/10/2026)
