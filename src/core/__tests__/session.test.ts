@@ -3,6 +3,9 @@ import { describe, expect, it } from 'vitest';
 import { loadNodeContent } from '../../../tools/shared/nodeContent';
 import { GameSession } from '../api/GameSession';
 import { getHudView } from '../api/queries';
+import { marryPlayer } from '../systems/family';
+import { cureCharacter, infectCharacter } from '../systems/life';
+import { player } from '../systems/people';
 
 const content = loadNodeContent();
 
@@ -65,5 +68,39 @@ describe('GameSession', () => {
     expect(after.food).toBe(before.food - 5);
     expect(after.money).toBeCloseTo(before.money + 5 * s.read(getHudView).market.sellPrice);
     expect(s.dispatch({ type: 'sellFood', amount: 99999 })).toEqual({ ok: false, error: 'not_enough_food' });
+  });
+
+  it('GĐ1: kết hôn, sinh con, mắc/chữa bệnh, đổi tham vọng và xuất tổng kết đời 5 trục', () => {
+    const s = GameSession.create(content, { seed: 'phase1-test', startAge: 18 });
+    // Đổi tham vọng cả đời
+    expect(s.dispatch({ type: 'setAmbition', id: 'gia_dinh_am_em' }).ok).toBe(true);
+    expect(s.read(getHudView).ambition.currentId).toBe('gia_dinh_am_em');
+
+    // Kết hôn & kiểm tra mốc tham vọng đầu tiên ("thanh_gia")
+    s.read((ctx) => {
+      const spouse = marryPlayer(ctx);
+      expect(spouse).not.toBeNull();
+      // Mắc bệnh & chữa bệnh
+      const me = player(ctx);
+      expect(infectCharacter(ctx, me, 'cam_han')).toBe(true);
+      expect(me.diseases.length).toBe(1);
+      expect(cureCharacter(ctx, me, 'cam_han')).toBe(true);
+      expect(me.diseases.length).toBe(0);
+    });
+
+    // Chạy đến khi đạt mốc kết hôn và kết thúc đời để kiểm tra 5 trục tổng kết
+    play(s, 900);
+    const v = s.read(getHudView);
+    expect(v.ambition.achievedMilestones).toContain('thanh_gia');
+    if (v.gameOver) {
+      expect(v.gameOver.axes).toHaveLength(5);
+      expect(v.gameOver.axes.map((a) => a.id)).toEqual([
+        'man_nguyen',
+        'di_san',
+        'dau_an',
+        'gia_dinh',
+        'tham_vong',
+      ]);
+    }
   });
 });

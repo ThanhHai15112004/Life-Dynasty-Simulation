@@ -127,6 +127,25 @@ h4 {
   font-size: 12px;
   cursor: help;
 }
+.chip.disease-chip {
+  border-color: var(--red);
+  background: #361b1f;
+  color: #f8b4aa;
+}
+.ambition-list {
+  display: grid;
+  gap: 6px;
+}
+.milestones {
+  list-style: none;
+  margin: 4px 0 6px;
+  padding-left: 2px;
+}
+.summary-axes {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 8px;
+}
 .error {
   color: var(--red);
   margin-top: 8px;

@@ -1,0 +1,108 @@
+# [1] Tham vọng cả đời & các mốc phụ (GDD 01 §6): la bàn mềm dẫn dắt cuộc đời người chơi
+ambitions:
+  - id: gia_dinh_am_em
+    name: Gia đình ấm êm
+    description: Xây một mái ấm yên bình, vợ chồng hòa thuận, con cái khỏe mạnh nối dõi tông đường.
+    icon: nha
+    traits: [trong_gia_dinh, an_phan, nhan_tu]
+    milestones:
+      - id: thanh_gia
+        name: Nên duyên vợ chồng
+        condition: { var: player.married, op: '==', value: true }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: con_dau_long
+        name: Đón đứa con đầu lòng
+        condition: { var: player.children_count, op: '>=', value: 1 }
+        stress_relief: 6
+        satisfaction_bonus: 10
+      - id: sum_vay_no_du
+        name: Đông con cái và kho thóc đủ ăn
+        condition:
+          all:
+            - { var: player.children_count, op: '>=', value: 2 }
+            - { var: household.debt, op: '==', value: 0 }
+            - { var: household.food_months, op: '>=', value: 4 }
+        stress_relief: 8
+        satisfaction_bonus: 14
+
+  - id: ruong_co_trau_day
+    name: Ruộng cò bay thẳng cánh
+    description: Vươn lên từ hai bàn tay trắng, gây dựng cơ ngơi ruộng vườn, trâu cày và mái nhà gỗ vững chãi.
+    icon: ruong
+    traits: [tham_vong, kien_nhan, tham_lam]
+    milestones:
+      - id: sach_no_du_an
+        name: Sạch nợ và tích được 25 quan
+        condition:
+          all:
+            - { var: household.debt, op: '==', value: 0 }
+            - { var: household.money, op: '>=', value: 25 }
+        stress_relief: 5
+        satisfaction_bonus: 8
+      - id: tau_trau_them_ruong
+        name: Có trâu cày và từ 7 sào ruộng trở lên
+        condition:
+          all:
+            - { has_property: trau }
+            - { var: household.farmland, op: '>=', value: 7 }
+        stress_relief: 7
+        satisfaction_bonus: 12
+      - id: nha_go_sung_tuc
+        name: Dựng nhà gỗ ba gian, sống đời sung túc
+        condition:
+          all:
+            - { has_property: nha_go }
+            - { var: household.farmland, op: '>=', value: 10 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  - id: tieng_thom_trong_lang
+    name: Tiếng thơm trong làng
+    description: Ăn ở có trước có sau, cứu giúp người ngặt nghèo để cả làng kính trọng.
+    icon: lang
+    traits: [hao_phong, nhan_tu, trung_thanh]
+    milestones:
+      - id: duoc_long_xom_gieng
+        name: Có tiếng tốt trong thôn xóm
+        condition: { var: player.reputation, op: '>=', value: 12 }
+        stress_relief: 5
+        satisfaction_bonus: 8
+      - id: tai_ung_xu
+        name: Tài ăn nói, thu xếp việc làng (Ngoại giao bậc 4)
+        condition: { var: player.skill.ngoai_giao, op: '>=', value: 4 }
+        stress_relief: 6
+        satisfaction_bonus: 10
+      - id: danh_tieng_vang_xa
+        name: Được cả làng vị nể, trọng vọng
+        condition:
+          all:
+            - { var: player.reputation, op: '>=', value: 30 }
+            - { var: household.debt, op: '==', value: 0 }
+        stress_relief: 8
+        satisfaction_bonus: 14
+
+  - id: hay_chu_biet_nghia
+    name: Hay chữ biết nghĩa
+    description: Dùi mài kinh sử, thông hiểu chữ nghĩa và đạo lý giữa chốn quê nghèo.
+    icon: sach
+    traits: [kien_nhan, hoai_nghi, tu_do]
+    milestones:
+      - id: biet_doc_biet_viet
+        name: Thông mặt chữ (Học vấn bậc 3)
+        condition: { var: player.skill.hoc_van, op: '>=', value: 3 }
+        stress_relief: 5
+        satisfaction_bonus: 8
+      - id: thong_su_ly
+        name: Hiểu rộng biết nhiều (Học vấn bậc 6)
+        condition: { var: player.skill.hoc_van, op: '>=', value: 6 }
+        stress_relief: 7
+        satisfaction_bonus: 12
+      - id: bac_thay_lang_que
+        name: Bậc thức giả trong vùng (Học vấn bậc 8 & Quản trị bậc 4)
+        condition:
+          all:
+            - { var: player.skill.hoc_van, op: '>=', value: 8 }
+            - { var: player.skill.quan_tri, op: '>=', value: 4 }
+        stress_relief: 10
+        satisfaction_bonus: 16

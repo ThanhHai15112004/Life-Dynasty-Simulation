@@ -158,6 +158,8 @@ Danh sách biến DSL, loại hậu quả và token văn bản xem ở [src/data
 | 4 | Living World: nhiều vùng, LOD đầy đủ, thiên tai, dịch bệnh | Thế giới có đáng khám phá khi không làm vua? |
 | 5 | Legacy of Ages: hệ thống thời đại, các mốc lịch sử | Chiến dịch nhiều thế kỷ có giữ được hứng thú? |
 
+Theo dõi tiến độ từng hạng mục (đã xong / làm dở / chưa làm): [docs/LO_TRINH_THUC_HIEN.md](docs/LO_TRINH_THUC_HIEN.md).
+
 Chi tiết thiết kế: [docs/00_Tong_Quan_GDD.md](docs/00_Tong_Quan_GDD.md) → [docs/09_Lo_Trinh_Can_Bang_Rui_Ro.md](docs/09_Lo_Trinh_Can_Bang_Rui_Ro.md), tổng hợp ở [docs/PHAN_TICH_TONG_THE_GDD.md](docs/PHAN_TICH_TONG_THE_GDD.md).
 
 ## Quy tắc đóng góp

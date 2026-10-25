@@ -34,8 +34,19 @@ export function serialize(state: GameState): string {
 
 export function deserialize(text: string): GameState {
   const raw = JSON.parse(text) as Partial<GameState>;
-  if (raw.version !== SAVE_VERSION) {
+  if (raw.version !== SAVE_VERSION && raw.version !== 1) {
     throw new SaveError(`Phiên bản save ${raw.version} không khớp ${SAVE_VERSION}`);
+  }
+  if (raw.version === 1) {
+    raw.version = SAVE_VERSION;
+    raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
+    raw.reputation = raw.reputation ?? { dan_lang: 0 };
+    raw.happiness = raw.happiness ?? { mood: 50, satisfaction: 50, baselineWealth: 100, ambitionBonus: 0 };
+    for (const c of Object.values(raw.characters ?? {})) {
+      c.diseases = c.diseases ?? [];
+      c.opinionModifiers = c.opinionModifiers ?? [];
+      c.favorWithPlayer = c.favorWithPlayer ?? 0;
+    }
   }
   return raw as GameState;
 }

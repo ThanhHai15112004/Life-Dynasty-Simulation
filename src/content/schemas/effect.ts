@@ -45,6 +45,11 @@ export type Effect =
   | { type: 'schedule_event'; event: string; months: number; keep_roles: boolean; label?: string }
   | { type: 'leave_household'; who: string }
   | { type: 'add_trait'; trait: string; who: string }
+  | { type: 'marry'; role?: string }
+  | { type: 'add_disease'; disease: string; who: string }
+  | { type: 'cure_disease'; disease?: string; who: string }
+  | { type: 'reputation'; group: string; value: number }
+  | { type: 'favor'; role: string; value: number }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -91,6 +96,11 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
       .strict(),
     z.object({ type: z.literal('leave_household'), who: z.string() }).strict(),
     z.object({ type: z.literal('add_trait'), trait: z.string(), who }).strict(),
+    z.object({ type: z.literal('marry'), role: z.string().optional() }).strict(),
+    z.object({ type: z.literal('add_disease'), disease: z.string(), who }).strict(),
+    z.object({ type: z.literal('cure_disease'), disease: z.string().optional(), who }).strict(),
+    z.object({ type: z.literal('reputation'), group: z.string().default('dan_lang'), value: z.number() }).strict(),
+    z.object({ type: z.literal('favor'), role: z.string(), value: z.number() }).strict(),
     z
       .object({
         type: z.literal('log'),

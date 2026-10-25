@@ -58,7 +58,7 @@ Toán tử: `==` `!=` `>` `>=` `<` `<=` `between` `in`.
 | `flag.<id>` | Cờ đang bật (true/false) |
 | `year.decisions` · `year.mourning` | Số quyết định năm nay, năm nay có tang |
 
-Thuộc tính nhân vật `<f>`: `age`, `sex` (`m`/`f`), `health`, `stress`, `alive`, `opinion` (thiện cảm với người chơi), `life_stage`, `in_household`, `is_head`, `trait_count`, `skill.<id>`.
+Thuộc tính nhân vật `<f>`: `age`, `sex` (`m`/`f`), `health`, `stress`, `alive`, `opinion` (thiện cảm với người chơi), `favor` (ân tình với người chơi), `life_stage`, `in_household`, `is_head`, `trait_count`, `married` (`true`/`false`), `children_count`, `sick` (`true`/`false`), `disease_count`, `reputation`, `satisfaction`, `mood`, `ambition`, `skill.<id>`.
 
 `self` là nhân vật đang xét: ứng viên vai trò, người chịu modifier có điều kiện, người chết (khi chọn nguyên nhân).
 

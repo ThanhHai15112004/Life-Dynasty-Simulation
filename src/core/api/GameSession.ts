@@ -9,8 +9,11 @@ import { SystemLog } from '../events/systemLogKeys';
 import { buildSceneDescriptor, type SceneDescriptor } from '../scene-descriptor';
 import { createContext, type SimContext } from '../systems/context';
 import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy } from '../systems/economy';
+import { monthlyFamily } from '../systems/family';
+import { monthlyHappiness, yearlyHappiness } from '../systems/happiness';
 import { monthlyLife, yearlyVillage } from '../systems/life';
 import { monthlySkills } from '../systems/skills';
+import { monthlySocial } from '../systems/social';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
 import { executeCommand, type Command, type CommandResult } from './commands';
 
@@ -108,8 +111,11 @@ function monthly(ctx: SimContext): void {
   monthlyWorld(ctx);
   monthlyLife(ctx);
   if (ctx.state.gameOver) return;
+  monthlyFamily(ctx);
   monthlySkills(ctx);
   monthlyEconomy(ctx);
+  monthlySocial(ctx);
+  monthlyHappiness(ctx);
   expireFlags(ctx);
   directorMonthly(ctx);
 }
@@ -117,6 +123,7 @@ function monthly(ctx: SimContext): void {
 function yearEnd(ctx: SimContext): void {
   yearlyEconomy(ctx);
   yearlyVillage(ctx);
+  yearlyHappiness(ctx);
   directorYearEnd(ctx);
 }
 

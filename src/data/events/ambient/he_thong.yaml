@@ -176,3 +176,51 @@ templates:
     icon: tong_hop
     variants:
       - 'Năm nay: {items}.'
+  - id: sys.ket_hon
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: cuoi
+    variants:
+      - 'Trầu cau đưa lối: bạn nên duyên vợ chồng với {call} ({age} tuổi).'
+      - 'Mâm cỗ đón dâu ấm cúng, từ nay {call} về chung một mái nhà với bạn.'
+    effects:
+      - { type: stress, value: -6 }
+  - id: sys.sinh_con
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: sinh_nhat
+    variants:
+      - 'Tiếng khóc chào đời vang trong gian nhà: bạn đón thêm một {title} — {call}.'
+      - 'Tin mừng trong nhà: {call} vừa chào đời khỏe mạnh.'
+    effects:
+      - { type: stress, value: -4 }
+  - id: sys.mac_benh
+    kind: he_thong
+    importance: 5
+    tone: buon
+    icon: om
+    variants:
+      - '{call} phát bệnh {title}, người mệt mỏi rã rời.'
+      - 'Trái gió trở trời, {call} mắc chứng {title}.'
+  - id: sys.khoi_benh
+    kind: bao_cao
+    importance: 3
+    tone: vui
+    icon: binh_yen
+    short: '{call} khỏi bệnh {title}'
+    variants:
+      - 'Sau những ngày thuốc thang nghỉ ngơi, {call} đã khỏi chứng {title}.'
+      - 'Sắc mặt hồng hào trở lại: {call} đã vượt qua cơn {title}.'
+  - id: sys.dat_moc_tham_vong
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Một bước tiến lớn trên đường đời: bạn đạt được mốc "{title}".'
+      - 'Nhìn lại công sức bỏ ra, lòng bạn mãn nguyện khi đạt mốc "{title}".'

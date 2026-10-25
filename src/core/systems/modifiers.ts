@@ -26,6 +26,11 @@ export function gatherModifiers(ctx: SimContext, characterId: string): Modifier[
     t?.modifiers.forEach((m) => out.push(fromDef(m, `trait:${t.id}`, t.name)));
   }
 
+  for (const d of c.diseases ?? []) {
+    const def = content.index.disease.get(d.id);
+    def?.modifiers.forEach((m) => out.push(fromDef(m, `disease:${def.id}`, def.name)));
+  }
+
   const inPlayerHousehold = c.householdId === state.householdId;
   const isPlayer = c.id === state.playerId;
 

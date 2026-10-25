@@ -25,6 +25,10 @@ kin_calls:
   older_m: anh {given}
   older_f: chị {given}
   younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
   other: '{given}'
 village_roles:
   ba_ho: { title: bá hộ, call: 'bá hộ {given}' }

@@ -40,11 +40,22 @@ export function householdHead(ctx: SimContext, h: Household = playerHousehold(ct
   return pool.sort((a, b) => ageNow(ctx, b) - ageNow(ctx, a))[0];
 }
 
-export type Relation = 'self' | 'father' | 'mother' | 'older_sibling' | 'younger_sibling' | 'village' | 'other';
+export type Relation =
+  | 'self'
+  | 'father'
+  | 'mother'
+  | 'older_sibling'
+  | 'younger_sibling'
+  | 'spouse'
+  | 'child'
+  | 'village'
+  | 'other';
 
 export function relationToPlayer(ctx: SimContext, c: Character): Relation {
   const p = player(ctx);
   if (c.id === p.id) return 'self';
+  if (p.spouseId === c.id || c.spouseId === p.id) return 'spouse';
+  if (c.fatherId === p.id || c.motherId === p.id) return 'child';
   if (p.fatherId === c.id) return 'father';
   if (p.motherId === c.id) return 'mother';
   const sameParents = (c.fatherId && c.fatherId === p.fatherId) || (c.motherId && c.motherId === p.motherId);
@@ -74,6 +85,10 @@ export function callOf(ctx: SimContext, c: Character): string {
       return fillTemplate(c.sex === 'm' ? k.older_m : k.older_f, tokens);
     case 'younger_sibling':
       return fillTemplate(k.younger, tokens);
+    case 'spouse':
+      return fillTemplate(c.sex === 'm' ? k.husband : k.wife, tokens);
+    case 'child':
+      return fillTemplate(c.sex === 'm' ? k.son : k.daughter, tokens);
     case 'village': {
       const role = culture.village_roles[c.villageRole ?? ''];
       return role ? fillTemplate(role.call, tokens) : fullName(c);

@@ -8,12 +8,15 @@ import { RngStream, type SimContext } from '../systems/context';
 import { aliveMembers, playerHousehold } from '../systems/people';
 import { createResolver, type Bindings, type StateResolver } from '../systems/resolver';
 import { addSkillXp } from '../systems/skills';
+import { cureCharacter, infectCharacter } from '../systems/life';
 import { healthCap } from '../systems/life/health';
+import { marryPlayer } from '../systems/family';
+import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
 import { Ledger, LogKind } from './systemLogKeys';
 import { pushLog } from './journal';
 
 /** Khóa tác động hiển thị cuối dòng nhật ký (nhãn ở data/lang: delta.<khóa>). */
-export type DeltaKey = 'money' | 'food' | 'debt' | 'health' | 'stress';
+export type DeltaKey = 'money' | 'food' | 'debt' | 'health' | 'stress' | 'reputation';
 
 export function evalNumber(expr: NumberExpr, r: StateResolver): number {
   if (typeof expr === 'number') return expr;
@@ -104,7 +107,27 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           break;
         case 'opinion': {
           const c = r.character(e.role);
-          if (c) c.opinionOfPlayer = clamp(c.opinionOfPlayer + e.value, -100, 100);
+          if (c) addOpinionChange(ctx, c, e.value, `opinion:${ctx.state.clock.year}`);
+          break;
+        }
+        case 'marry': {
+          const partner = e.role ? r.character(e.role) : undefined;
+          marryPlayer(ctx, partner);
+          break;
+        }
+        case 'add_disease':
+          for (const c of targets(ctx, e.who, r)) infectCharacter(ctx, c, e.disease);
+          break;
+        case 'cure_disease':
+          for (const c of targets(ctx, e.who, r)) cureCharacter(ctx, c, e.disease);
+          break;
+        case 'reputation':
+          changeReputation(ctx, e.group, e.value);
+          bump(deltas, 'reputation', e.value);
+          break;
+        case 'favor': {
+          const c = r.character(e.role);
+          if (c) changeFavor(c, e.value);
           break;
         }
         case 'property_add':

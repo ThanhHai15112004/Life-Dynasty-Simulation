@@ -58,8 +58,11 @@ export function createCharacter(
     skills: spec.skills ?? {},
     traits: spec.traits ?? pickTraits(ctx, rng, ctx.content.balance.life.npc_trait_count),
     modifiers: [],
+    diseases: [],
     householdId: null,
     opinionOfPlayer: 0,
+    opinionModifiers: [],
+    favorWithPlayer: 0,
   };
 }
 
@@ -100,6 +103,14 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     householdId: '',
     village: {},
     focus: { primary: origin.default_focus, secondary: null },
+    ambition: { id: content.ambitions[0]?.id ?? null, achievedMilestones: [] },
+    reputation: { dan_lang: 0 },
+    happiness: {
+      mood: content.balance.life.happiness.start,
+      satisfaction: content.balance.life.happiness.start,
+      baselineWealth: 0,
+      ambitionBonus: 0,
+    },
     flags: {},
     eventHistory: {},
     ambientHistory: {},
@@ -192,6 +203,17 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
   }
 
   for (const npc of origin.village_npcs) spawnVillageNpc(ctx, npc);
+
+  // Khởi tạo kỳ vọng tài sản ban đầu theo giá trị hộ lúc bắt đầu (GDD 01 §7.2)
+  const initialPropVal = Object.entries(household.properties).reduce(
+    (sum, [id, cnt]) => sum + (content.index.property.get(id)?.value ?? 0) * cnt,
+    0,
+  );
+  state.happiness.baselineWealth = household.money + initialPropVal - household.debt;
+
+  // Chọn tham vọng mặc định khớp tính cách người chơi nếu có
+  const matchedAmbition = content.ambitions.find((a) => a.traits.some((t) => me.traits.includes(t)));
+  if (matchedAmbition) state.ambition.id = matchedAmbition.id;
 
   ctx.rng.flush();
   return state;

@@ -32,11 +32,24 @@ export function validateContent(content: ContentBundle): ValidationReport {
   const skill = (s: string, where: string) => need(idx.skill.has(s), `${where}: kỹ năng lạ "${s}"`);
   const trait = (t: string, where: string) => need(idx.trait.has(t), `${where}: tính cách lạ "${t}"`);
   const property = (p: string, where: string) => need(idx.property.has(p), `${where}: tài sản lạ "${p}"`);
+  const disease = (d: string, where: string) => need(idx.disease.has(d), `${where}: bệnh lạ "${d}"`);
   const template = (id: string, where: string) => need(idx.ambient.has(id), `${where}: thiếu mẫu nhật ký "${id}"`);
 
   // ── Id tham chiếu ──
   for (const t of content.traits) trait(t.opposite, `traits.${t.id}.opposite`);
   for (const t of content.traits) t.modifiers.forEach((m) => target(m.target, `traits.${t.id}`));
+  for (const d of content.diseases) {
+    d.modifiers.forEach((m) => target(m.target, `diseases.${d.id}`));
+    if (d.mortality_cause) {
+      need(
+        content.balance.life.mortality.causes.some((c) => c.id === d.mortality_cause),
+        `diseases.${d.id}: mortality_cause lạ "${d.mortality_cause}"`,
+      );
+    }
+  }
+  for (const a of content.ambitions) {
+    a.traits.forEach((t) => trait(t, `ambitions.${a.id}.traits`));
+  }
   for (const f of content.focuses) {
     Object.keys(f.skill_xp).forEach((s) => skill(s, `focuses.${f.id}.skill_xp`));
     f.modifiers.forEach((m) => target(m.target, `focuses.${f.id}`));
@@ -80,6 +93,10 @@ export function validateContent(content: ContentBundle): ValidationReport {
       const w = `${where}.${e.type}`;
       if ('who' in e && !['player', 'household'].includes(e.who) && !roles.has(e.who)) errors.push(`${w}: "${e.who}" không phải vai trò của sự kiện`);
       if (e.type === 'opinion' && !roles.has(e.role)) errors.push(`${w}: vai trò lạ "${e.role}"`);
+      if (e.type === 'favor' && !roles.has(e.role)) errors.push(`${w}: vai trò lạ "${e.role}"`);
+      if (e.type === 'marry' && e.role && !roles.has(e.role)) errors.push(`${w}: vai trò lạ "${e.role}"`);
+      if (e.type === 'add_disease') disease(e.disease, w);
+      if (e.type === 'cure_disease' && e.disease) disease(e.disease, w);
       if (e.type === 'skill_xp') skill(e.skill, w);
       if (e.type === 'modifier') target(e.target, w);
       if (e.type === 'property_add' || e.type === 'property_remove') property(e.property, w);
@@ -164,6 +181,11 @@ export function validateContent(content: ContentBundle): ValidationReport {
       c.weight_modifiers.forEach((m, i) => tryCond(m.condition, `mortality.${c.id}.weight_modifiers[${i}]`, []));
     }
     for (const f of content.focuses) tryCond(f.condition, `focuses.${f.id}`, []);
+    for (const d of content.diseases) tryCond(d.condition, `diseases.${d.id}`, []);
+    for (const a of content.ambitions) {
+      tryCond(a.condition, `ambitions.${a.id}`, []);
+      a.milestones.forEach((m) => tryCond(m.condition, `ambitions.${a.id}.${m.id}`, []));
+    }
     for (const [i, r] of [...content.balance.scene.condition_rules, ...content.balance.scene.particle_rules].entries()) {
       tryCond(r.condition, `scene.rules[${i}]`, []);
     }

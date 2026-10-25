@@ -3,20 +3,24 @@
 import { parse as parseYaml } from 'yaml';
 import type { ZodType, ZodTypeDef } from 'zod';
 import {
+  ambitionFileSchema,
   ambientFileSchema,
   balanceSchemas,
   cultureSchema,
   decisionEventFileSchema,
+  diseaseFileSchema,
   focusFileSchema,
   langSchema,
   originSchema,
   propertyFileSchema,
   skillFileSchema,
   traitFileSchema,
+  type Ambition,
   type AmbientTemplate,
   type Balance,
   type Culture,
   type DecisionEvent,
+  type Disease,
   type Focus,
   type LangPack,
   type Origin,
@@ -37,6 +41,8 @@ export interface ContentBundle {
   traits: Trait[];
   focuses: Focus[];
   properties: PropertyType[];
+  diseases: Disease[];
+  ambitions: Ambition[];
   origins: Origin[];
   cultures: Culture[];
   events: DecisionEvent[];
@@ -48,6 +54,8 @@ export interface ContentBundle {
     trait: Map<string, Trait>;
     focus: Map<string, Focus>;
     property: Map<string, PropertyType>;
+    disease: Map<string, Disease>;
+    ambition: Map<string, Ambition>;
     origin: Map<string, Origin>;
     culture: Map<string, Culture>;
     event: Map<string, DecisionEvent>;
@@ -138,6 +146,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const traits = collect('traits', traitFileSchema, 'traits');
   const focuses = collect('focuses', focusFileSchema, 'focuses');
   const properties = collect('properties', propertyFileSchema, 'properties');
+  const diseases = collect('diseases', diseaseFileSchema, 'diseases');
+  const ambitions = collect('ambitions', ambitionFileSchema, 'ambitions');
   const events = collect('events/common', decisionEventFileSchema, 'events');
   const ambient = collect('events/ambient', ambientFileSchema, 'templates');
   const origins = single('origins', originSchema);
@@ -163,6 +173,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
     trait: indexBy(traits, 'traits'),
     focus: indexBy(focuses, 'focuses'),
     property: indexBy(properties, 'properties'),
+    disease: indexBy(diseases, 'diseases'),
+    ambition: indexBy(ambitions, 'ambitions'),
     origin: indexBy(origins, 'origins'),
     culture: indexBy(cultures, 'cultures'),
     event: indexBy(events, 'events'),
@@ -180,6 +192,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
     traits,
     focuses,
     properties,
+    diseases,
+    ambitions,
     origins,
     cultures,
     events,

@@ -99,3 +99,23 @@ age_groups:
 adult_age: 16
 male_ratio: 0.5
 npc_trait_count: 1
+
+marriage:
+  min_age: 16
+  fertility_age_f: [17, 42]
+  base_conception_chance_month: 0.03
+  pregnancy_months: 9
+  max_children_in_household: 5
+  spouse_age_offset: [-3, 3]
+  spouse_health: [65, 85]
+
+happiness:
+  start: 50
+  min: 0
+  max: 100
+  adaptation_rate_year: 0.3
+  wealth_factor: 0.4
+  stress_penalty_factor: 0.25
+  family_death_penalty: 8
+  marriage_bonus: 6
+  child_bonus: 4

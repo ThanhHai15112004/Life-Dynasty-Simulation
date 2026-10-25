@@ -100,6 +100,35 @@ export const lifeBalanceSchema = z
     male_ratio: z.number().min(0).max(1),
     /** Số tính cách của NPC (người nhà, người làng) khi sinh ra. */
     npc_trait_count: z.number().int().min(0),
+    /** [1] Cấu hình hôn nhân & sinh con (GDD 03 §7). */
+    marriage: z
+      .object({
+        min_age: z.number().int().min(14).default(16),
+        fertility_age_f: range.default([17, 42]),
+        base_conception_chance_month: z.number().min(0).max(1).default(0.03),
+        pregnancy_months: z.number().int().positive().default(9),
+        max_children_in_household: z.number().int().min(1).default(5),
+        spouse_age_offset: range.default([-3, 3]),
+        spouse_health: range.default([65, 85]),
+      })
+      .strict()
+      .default({}),
+    /** [1] Cấu hình mô hình Hạnh phúc tâm lý 3 tầng (GDD 01 §7). */
+    happiness: z
+      .object({
+        start: z.number().default(50),
+        min: z.number().default(0),
+        max: z.number().default(100),
+        /** Tốc độ thích nghi (hedonic adaptation) mỗi năm với tài sản/mức sống (0..1). */
+        adaptation_rate_year: z.number().min(0).max(1).default(0.3),
+        wealth_factor: z.number().default(0.4),
+        stress_penalty_factor: z.number().default(0.25),
+        family_death_penalty: z.number().default(8),
+        marriage_bonus: z.number().default(6),
+        child_bonus: z.number().default(4),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 
@@ -258,6 +287,33 @@ export const displayBalanceSchema = z
     health_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),
     stress_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),
     chance_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),
+    reputation_bands: z
+      .array(z.object({ min: z.number(), key: z.string() }).strict())
+      .default([
+        { min: 40, key: 'reputation.revered' },
+        { min: 15, key: 'reputation.respected' },
+        { min: -10, key: 'reputation.normal' },
+        { min: -30, key: 'reputation.disliked' },
+        { min: -999, key: 'reputation.shunned' },
+      ]),
+    satisfaction_bands: z
+      .array(z.object({ min: z.number(), key: z.string() }).strict())
+      .default([
+        { min: 80, key: 'satisfaction.fulfilled' },
+        { min: 60, key: 'satisfaction.content' },
+        { min: 40, key: 'satisfaction.ordinary' },
+        { min: 20, key: 'satisfaction.unfulfilled' },
+        { min: 0, key: 'satisfaction.bitter' },
+      ]),
+    summary_axis_bands: z
+      .array(z.object({ min: z.number(), key: z.string() }).strict())
+      .default([
+        { min: 80, key: 'axis.band.very_high' },
+        { min: 60, key: 'axis.band.high' },
+        { min: 40, key: 'axis.band.mid' },
+        { min: 20, key: 'axis.band.low' },
+        { min: 0, key: 'axis.band.very_low' },
+      ]),
     food_months_warning: z.number(),
     /** Việc dang dở suy ra từ trạng thái (GDD 01 §10.1): mọi luật đúng đều hiện, chữ có token. */
     open_loop_rules: z.array(z.object({ condition: conditionSchema, text: z.string() }).strict()),

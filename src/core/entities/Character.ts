@@ -8,6 +8,11 @@ export interface SkillState {
   xp: number;
 }
 
+export interface ActiveDisease {
+  id: string;
+  remainingMonths: number;
+}
+
 export interface Character {
   id: string;
   familyName: string;
@@ -24,14 +29,24 @@ export interface Character {
   skills: Record<string, SkillState>;
   traits: string[];
   modifiers: StoredModifier[];
+  /** [1] Danh sách bệnh đang mắc và thời gian còn lại. */
+  diseases: ActiveDisease[];
 
   householdId: string | null;
   fatherId?: string;
   motherId?: string;
+  /** [1] ID vợ hoặc chồng. */
+  spouseId?: string;
+  /** [1] Trạng thái mang thai (chỉ áp dụng với nữ). */
+  pregnancy?: { monthsLeft: number; fatherId: string } | null;
   /** Vai trò trong làng (ba_ho, ly_truong...) nếu là NPC làng. */
   villageRole?: string;
-  /** Thiện cảm của nhân vật này với người chơi (GĐ0: một con số; GĐ1 tách thành danh sách modifier). */
+  /** Thiện cảm tổng với người chơi (-100..100). */
   opinionOfPlayer: number;
+  /** [1] Các nguồn thiện cảm có thời hạn để giải thích trong UI. */
+  opinionModifiers?: StoredModifier[];
+  /** [1] Ân tình với người chơi (>0: nợ ân tình người chơi; <0: người chơi nợ họ). */
+  favorWithPlayer?: number;
 }
 
 /** Tuổi tính theo tháng sinh: qua tháng sinh của năm nay mới tăng tuổi. */

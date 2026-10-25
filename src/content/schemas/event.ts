@@ -9,7 +9,7 @@ export const roleSpecSchema = z
     id: z.string(),
     from: z.enum(['family', 'village']),
     /** Với 'family': quan hệ với người chơi. */
-    relation: z.enum(['father', 'mother', 'sibling', 'parent', 'member']).optional(),
+    relation: z.enum(['father', 'mother', 'sibling', 'parent', 'spouse', 'child', 'member']).optional(),
     /** Với 'village': vai trò trong làng (ba_ho, ly_truong...). */
     village_role: z.string().optional(),
     /** Lọc ứng viên; trong điều kiện dùng biến `self.*` cho ứng viên. */

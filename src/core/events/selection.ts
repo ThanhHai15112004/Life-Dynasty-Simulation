@@ -40,6 +40,10 @@ function candidates(ctx: SimContext, spec: RoleSpec): Character[] {
         return rel === 'father' || rel === 'mother';
       case 'sibling':
         return rel === 'older_sibling' || rel === 'younger_sibling';
+      case 'spouse':
+        return rel === 'spouse';
+      case 'child':
+        return rel === 'child';
       default:
         return true;
     }

@@ -1,0 +1,105 @@
+# [1] Danh sách bệnh tật cụ thể (GDD 03 §2): mức nặng, tiến triển, chi phí chữa, nguyên nhân chết liên kết
+diseases:
+  - id: cam_han
+    name: Cảm hàn
+    description: Nhiễm lạnh vì dầm mưa hoặc gió bấc mùa đông. Sốt nhẹ, ho khan, người mệt mỏi.
+    severity: nhe
+    duration_months: [1, 2]
+    cure_cost: 0.8
+    self_heal_chance_month: 0.55
+    mortality_cause: benh
+    monthly_chance: 0.005
+    condition:
+      all:
+        - { var: world.season, op: 'in', value: [dong, xuan] }
+        - { var: self.health, op: '<', value: 60 }
+    modifiers:
+      - { target: health.monthly, value: -0.7, op: add }
+      - { target: stress.monthly, value: 0.4, op: add }
+
+  - id: sot_ret
+    name: Sốt rét rừng
+    description: Những cơn sốt nóng lạnh thất thường, vắt kiệt sức lực qua từng tháng.
+    severity: nang
+    duration_months: [2, 4]
+    cure_cost: 2
+    self_heal_chance_month: 0.28
+    mortality_cause: sot_ret
+    monthly_chance: 0.0025
+    condition:
+      all:
+        - { var: world.season, op: 'in', value: [ha, thu] }
+        - { var: self.health, op: '<', value: 50 }
+    modifiers:
+      - { target: health.monthly, value: -1.4, op: add }
+      - { target: stress.monthly, value: 0.8, op: add }
+      - { target: death_risk, value: 1.2, op: mul }
+
+  - id: ta_ly
+    name: Tả lỵ
+    description: Đau bụng, tiêu chảy dữ dội do nguồn nước ô nhiễm sau mùa mưa lụt hoặc ăn uống kham khổ.
+    severity: nang
+    duration_months: [1, 2]
+    cure_cost: 1.8
+    self_heal_chance_month: 0.35
+    mortality_cause: benh
+    monthly_chance: 0.003
+    condition:
+      all:
+        - { any: [{ has_flag: lu_lut }, { var: household.living_standard, op: '==', value: kho_cuc }] }
+        - { var: self.health, op: '<', value: 55 }
+    modifiers:
+      - { target: health.monthly, value: -1.8, op: add }
+      - { target: death_risk, value: 1.25, op: mul }
+
+  - id: lao_luc_benh
+    name: Hao tổn khí huyết
+    description: Làm lụng quá sức trong cảnh lo âu kéo dài khiến cơ thể suy nhược, thở dốc.
+    severity: nang
+    duration_months: [2, 4]
+    cure_cost: 2
+    self_heal_chance_month: 0.3
+    mortality_cause: lao_luc
+    monthly_chance: 0.004
+    condition:
+      all:
+        - { var: self.stress, op: '>=', value: 78 }
+        - { var: self.health, op: '<', value: 50 }
+    modifiers:
+      - { target: health.monthly, value: -1.2, op: add }
+      - { target: stress.monthly, value: 0.6, op: add }
+
+  - id: dau_mua_soi
+    name: Lên sởi
+    description: Sốt cao kèm ban đỏ khắp người, rất nguy hiểm với trẻ nhỏ nếu không được chăm kỹ.
+    severity: nguy_kich
+    duration_months: [1, 2]
+    cure_cost: 1.5
+    self_heal_chance_month: 0.45
+    mortality_cause: soi
+    monthly_chance: 0.005
+    condition:
+      all:
+        - { var: self.age, op: '<', value: 8 }
+        - { var: self.health, op: '<', value: 65 }
+    modifiers:
+      - { target: health.monthly, value: -2.0, op: add }
+      - { target: death_risk, value: 1.25, op: mul }
+
+  - id: phong_thap
+    name: Phong thấp tuổi già
+    description: Xương khớp đau nhức mỗi khi trái gió trở trời, đi lại khó khăn.
+    severity: nhe
+    duration_months: [3, 6]
+    cure_cost: 1.5
+    self_heal_chance_month: 0.25
+    mortality_cause: gia_yeu
+    monthly_chance: 0.005
+    condition:
+      all:
+        - { var: self.age, op: '>=', value: 55 }
+        - { var: world.season, op: '==', value: dong }
+    modifiers:
+      - { target: health.monthly, value: -0.7, op: add }
+      - { target: stress.monthly, value: 0.5, op: add }
+

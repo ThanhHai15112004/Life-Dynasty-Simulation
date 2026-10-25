@@ -141,6 +141,10 @@ export const cultureSchema = z
         older_m: z.string(),
         older_f: z.string(),
         younger: z.string(),
+        husband: z.string().default('{given}'),
+        wife: z.string().default('{given}'),
+        son: z.string().default('{given}'),
+        daughter: z.string().default('{given}'),
         other: z.string(),
       })
       .strict(),
@@ -149,3 +153,50 @@ export const cultureSchema = z
   })
   .strict();
 export type Culture = z.infer<typeof cultureSchema>;
+
+/** [1] Bệnh tật cụ thể (GDD 03 §2): mức nặng, tiến triển, chi phí chữa, nguyên nhân tử vong liên kết. */
+export const diseaseSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    severity: z.enum(['nhe', 'nang', 'nguy_kich']).default('nhe'),
+    duration_months: range,
+    cure_cost: z.number().min(0).default(1),
+    self_heal_chance_month: z.number().min(0).max(1).default(0.1),
+    mortality_cause: z.string().optional(),
+    /** Xác suất cơ bản mắc phải mỗi tháng khi thỏa điều kiện (biến `self.*`). */
+    monthly_chance: z.number().min(0).max(1).default(0),
+    condition: conditionSchema.optional(),
+    modifiers: z.array(modifierDefSchema).default([]),
+  })
+  .strict();
+export const diseaseFileSchema = z.object({ diseases: z.array(diseaseSchema).min(1) }).strict();
+export type Disease = z.infer<typeof diseaseSchema>;
+
+/** [1] Tham vọng cả đời & các mốc phụ (GDD 01 §6). */
+export const ambitionMilestoneSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    condition: conditionSchema,
+    stress_relief: z.number().min(0).default(4),
+    satisfaction_bonus: z.number().default(10),
+  })
+  .strict();
+export type AmbitionMilestone = z.infer<typeof ambitionMilestoneSchema>;
+
+export const ambitionSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    icon: z.string().default('moc_doi'),
+    condition: conditionSchema.optional(),
+    /** Tính cách ưu tiên chọn tham vọng này (hoặc cộng thêm mãn nguyện khi hoàn thành). */
+    traits: z.array(z.string()).default([]),
+    milestones: z.array(ambitionMilestoneSchema).min(2).max(5),
+  })
+  .strict();
+export const ambitionFileSchema = z.object({ ambitions: z.array(ambitionSchema).min(1) }).strict();
+export type Ambition = z.infer<typeof ambitionSchema>;

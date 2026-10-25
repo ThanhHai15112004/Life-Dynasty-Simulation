@@ -2,7 +2,7 @@
 import type { Character } from './Character';
 import type { Household, LedgerYear } from './Household';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 export interface LogEntry {
   id: number;
@@ -91,6 +91,17 @@ export interface GameState {
   village: Record<string, string>;
 
   focus: { primary: string; secondary: string | null };
+  /** [1] Tham vọng cả đời đang theo đuổi và các mốc phụ đã đạt. */
+  ambition: { id: string | null; achievedMilestones: string[] };
+  /** [1] Danh tiếng theo nhóm xã hội (mặc định: dan_lang). */
+  reputation: Record<string, number>;
+  /** [1] Trạng thái Hạnh phúc tâm lý 3 tầng (Mood, Mãn nguyện đời, Kỳ vọng thích nghi). */
+  happiness: {
+    mood: number;
+    satisfaction: number;
+    baselineWealth: number;
+    ambitionBonus: number;
+  };
   flags: Record<string, FlagState>;
 
   eventHistory: Record<string, { lastMonthIndex: number; count: number }>;

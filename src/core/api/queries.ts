@@ -16,8 +16,9 @@ import { ageNow, aliveMembers, callOf, householdHead, lifeStageOf, player, playe
 import { createResolver, seasonOf } from '../systems/resolver';
 import { evaluate } from '../engine/RuleEvaluator';
 import { fillTemplate } from '@shared/template';
+import { computeSummaryAxes, type SummaryAxisView } from '../systems/happiness';
 import { xpToNext } from '../systems/skills';
-import { focusAvailable } from './commands';
+import { ambitionAvailable, focusAvailable } from './commands';
 
 export interface HudView {
   date: { year: number; month: number; can: number; chi: number; seasonName: string; weatherName: string };
@@ -27,6 +28,7 @@ export interface HudView {
     sex: 'm' | 'f';
     lifeStage: string;
     isHead: boolean;
+    married: boolean;
     health: number;
     healthMax: number;
     healthKey: string;
@@ -34,7 +36,12 @@ export interface HudView {
     stress: number;
     stressKey: string;
     stressTrend: ModifierResult;
+    satisfaction: number;
+    satisfactionKey: string;
+    reputation: number;
+    reputationKey: string;
     deathRiskMod: ModifierResult;
+    diseases: { id: string; name: string; description: string; severity: string; remainingMonths: number }[];
     traits: { id: string; name: string; description: string }[];
     skills: { id: string; name: string; level: number; xp: number; next: number }[];
   };
@@ -65,6 +72,26 @@ export interface HudView {
     canSecondary: boolean;
     options: { id: string; name: string; description: string; icon: string; available: boolean; allowSecondary: boolean }[];
   };
+  ambition: {
+    currentId: string | null;
+    achievedMilestones: string[];
+    options: {
+      id: string;
+      name: string;
+      description: string;
+      icon: string;
+      available: boolean;
+      milestones: { id: string; name: string; achieved: boolean }[];
+    }[];
+  };
+  relations: {
+    id: string;
+    role: string;
+    call: string;
+    age: number;
+    opinion: number;
+    favor: number;
+  }[];
   livingStandards: { id: string; name: string; description: string; monthlyMoney: number }[];
   openLoops: { text: string; monthsLeft: number | null }[];
   log: LogYear[];
@@ -82,6 +109,7 @@ export interface LifeSummaryView {
   yearsPlayed: number;
   decisions: number;
   closing: { money: number; food: number; debt: number; farmland: number };
+  axes: SummaryAxisView[];
   highlights: { year: number; text: string }[];
 }
 
@@ -129,6 +157,7 @@ export function getHudView(ctx: SimContext): HudView {
       sex: me.sex,
       lifeStage: stage.name,
       isHead: householdHead(ctx)?.id === me.id,
+      married: !!(me.spouseId && state.characters[me.spouseId]?.alive),
       health: me.health,
       healthMax: healthCap(ctx, me),
       healthKey: pickBand(display.health_bands, me.health).key,
@@ -136,7 +165,19 @@ export function getHudView(ctx: SimContext): HudView {
       stress: me.stress,
       stressKey: pickBand(display.stress_bands, me.stress).key,
       stressTrend: computeFor(ctx, me.id, StatTarget.StressMonthly, 0),
+      satisfaction: state.happiness.satisfaction,
+      satisfactionKey: pickBand(display.satisfaction_bands, state.happiness.satisfaction).key,
+      reputation: state.reputation.dan_lang ?? 0,
+      reputationKey: pickBand(display.reputation_bands, state.reputation.dan_lang ?? 0).key,
       deathRiskMod: computeFor(ctx, me.id, StatTarget.DeathRisk, 1),
+      diseases: (me.diseases ?? [])
+        .map((d) => {
+          const def = content.index.disease.get(d.id);
+          return def
+            ? { id: def.id, name: def.name, description: def.description, severity: def.severity, remainingMonths: d.remainingMonths }
+            : null;
+        })
+        .filter((d): d is NonNullable<typeof d> => d !== null),
       traits: me.traits.map((id) => content.index.trait.get(id)).filter((t) => !!t).map((t) => ({ id: t!.id, name: t!.name, description: t!.description })),
       skills: content.skills.map((s) => ({
         id: s.id,
@@ -195,6 +236,36 @@ export function getHudView(ctx: SimContext): HudView {
         allowSecondary: f.allow_secondary,
       })),
     },
+    ambition: {
+      currentId: state.ambition.id,
+      achievedMilestones: state.ambition.achievedMilestones,
+      options: content.ambitions.map((a) => ({
+        id: a.id,
+        name: a.name,
+        description: a.description,
+        icon: a.icon,
+        available: ambitionAvailable(ctx, a.id),
+        milestones: a.milestones.map((m) => ({
+          id: m.id,
+          name: m.name,
+          achieved: state.ambition.achievedMilestones.includes(m.id),
+        })),
+      })),
+    },
+    relations: Object.entries(state.village)
+      .map(([role, id]) => {
+        const c = state.characters[id];
+        if (!c?.alive) return null;
+        return {
+          id: c.id,
+          role,
+          call: callOf(ctx, c),
+          age: ageNow(ctx, c),
+          opinion: c.opinionOfPlayer,
+          favor: c.favorWithPlayer ?? 0,
+        };
+      })
+      .filter((x): x is NonNullable<typeof x> => x !== null),
     livingStandards: content.balance.living_standards.levels.map((l) => ({
       id: l.id,
       name: l.name,
@@ -230,6 +301,7 @@ export function getLifeSummary(ctx: SimContext): LifeSummaryView | null {
     yearsPlayed: state.gameOver.year - content.balance.time.start_year,
     decisions: state.stats.decisions,
     closing: { money: h.money, food: h.food, debt: h.debt, farmland },
+    axes: computeSummaryAxes(ctx),
     highlights: state.log.flatMap((y) => y.entries.filter((e) => e.importance >= threshold).map((e) => ({ year: y.year, text: e.text }))),
   };
 }

@@ -6,6 +6,7 @@ import { fullName, type Character } from '../entities/Character';
 import { farmlandOf } from '../entities/Property';
 import type { SimContext } from './context';
 import { monthlyFoodNeed, workerCount } from './economy/helpers';
+import { aliveChildrenOf } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
 
 export interface Bindings {
@@ -60,6 +61,24 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return householdHead(ctx)?.id === c.id;
       case 'trait_count':
         return c.traits.length;
+      case 'married':
+        return !!(c.spouseId && state.characters[c.spouseId]?.alive);
+      case 'children_count':
+        return aliveChildrenOf(ctx, c.id).length;
+      case 'sick':
+        return (c.diseases?.length ?? 0) > 0;
+      case 'disease_count':
+        return c.diseases?.length ?? 0;
+      case 'favor':
+        return c.favorWithPlayer ?? 0;
+      case 'reputation':
+        return state.reputation.dan_lang ?? 0;
+      case 'satisfaction':
+        return state.happiness.satisfaction;
+      case 'mood':
+        return state.happiness.mood;
+      case 'ambition':
+        return state.ambition.id ?? '';
       default:
         throw new UnknownVariableError(path);
     }

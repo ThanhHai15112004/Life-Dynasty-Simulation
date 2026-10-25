@@ -32,6 +32,28 @@ export function ProfilePanel({ hud }: { hud: HudView }) {
         tone="bad"
         detail={<ModifierList result={p.stressTrend} title={t('mods.stress_per_year')} perYear={months} />}
       />
+      <StatBar
+        label={t('stat.satisfaction')}
+        value={p.satisfaction}
+        max={100}
+        word={t(p.satisfactionKey)}
+        tone="good"
+      />
+      <div className="stat-head small">
+        <span>{t('stat.reputation')}</span>
+        <span className="stat-word">
+          {t(p.reputationKey)} ({p.reputation >= 0 ? `+${p.reputation}` : p.reputation})
+        </span>
+      </div>
+      {p.diseases.length > 0 && (
+        <div className="traits">
+          {p.diseases.map((d) => (
+            <Tooltip key={d.id} content={`${d.description} (${t('disease.remaining', { n: d.remainingMonths })})`}>
+              <span className="chip disease-chip">{d.name}</span>
+            </Tooltip>
+          ))}
+        </div>
+      )}
       <div className="traits">
         {p.traits.map((tr) => (
           <Tooltip key={tr.id} content={tr.description}>

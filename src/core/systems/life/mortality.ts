@@ -29,6 +29,14 @@ export function annualNpcDeathRisk(ctx: SimContext, c: Character): number {
 }
 
 export function pickCause(ctx: SimContext, c: Character) {
+  // Nếu nhân vật đang mắc bệnh cụ thể có liên kết nguyên nhân chết thì ưu tiên nguyên nhân đó
+  for (const d of c.diseases ?? []) {
+    const def = ctx.content.index.disease.get(d.id);
+    if (def?.mortality_cause) {
+      const matched = ctx.content.balance.life.mortality.causes.find((x) => x.id === def.mortality_cause);
+      if (matched) return matched;
+    }
+  }
   const r = createResolver(ctx, { self: c.id });
   const causes = ctx.content.balance.life.mortality.causes.filter((cause) => evaluate(cause.condition, r));
   return ctx.rng.get(RngStream.Life).weighted(causes, (cause) =>

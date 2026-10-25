@@ -10,6 +10,7 @@ import { createResolver } from '../systems/resolver';
 
 export type Command =
   | { type: 'setFocus'; primary: string; secondary: string | null }
+  | { type: 'setAmbition'; id: string }
   | { type: 'setLivingStandard'; id: string }
   | { type: 'chooseOption'; optionId: string }
   | { type: 'sellFood'; amount: number }
@@ -25,6 +26,7 @@ export type CommandError =
   | 'no_event'
   | 'invalid_option'
   | 'focus_unavailable'
+  | 'ambition_unavailable'
   | 'no_secondary_focus'
   | 'unknown_living_standard'
   | 'not_enough_money'
@@ -43,6 +45,12 @@ export function focusAvailable(ctx: SimContext, focusId: string): boolean {
   if (!f) return false;
   const stage = lifeStageOf(ctx, ageNow(ctx, player(ctx)));
   return stage.can_choose_focus && evaluate(f.condition, createResolver(ctx));
+}
+
+export function ambitionAvailable(ctx: SimContext, ambitionId: string): boolean {
+  const a = ctx.content.index.ambition.get(ambitionId);
+  if (!a) return false;
+  return evaluate(a.condition, createResolver(ctx));
 }
 
 export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
@@ -67,6 +75,12 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
         if (!focusAvailable(ctx, cmd.secondary)) return fail('focus_unavailable');
       }
       state.focus = { primary: cmd.primary, secondary: cmd.secondary };
+      return ok;
+    }
+
+    case 'setAmbition': {
+      if (!ambitionAvailable(ctx, cmd.id)) return fail('ambition_unavailable');
+      state.ambition.id = cmd.id;
       return ok;
     }
 

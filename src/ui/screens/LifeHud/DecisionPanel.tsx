@@ -56,6 +56,50 @@ export function DecisionPanel({ hud }: { hud: HudView }) {
         ))}
       </div>
       <p className="muted small">{hud.livingStandards.find((l) => l.id === hud.household.livingStandard)?.description}</p>
+
+      <h4>{t('ambition.title')}</h4>
+      <div className="ambition-list">
+        {hud.ambition.options
+          .filter((a) => a.available)
+          .map((a) => {
+            const isCurrent = hud.ambition.currentId === a.id;
+            return (
+              <div key={a.id} className={`focus ${isCurrent ? 'primary' : ''}`} title={a.description}>
+                <div className="focus-name">
+                  <Icon id={a.icon} />
+                  <span>{a.name}</span>
+                </div>
+                <ul className="milestones small">
+                  {a.milestones.map((m) => (
+                    <li key={m.id} className={m.achieved ? 'up' : 'muted'}>
+                      {m.achieved ? '✓ ' : '○ '}
+                      {m.name}
+                    </li>
+                  ))}
+                </ul>
+                <div className="focus-actions">
+                  <button disabled={isCurrent} onClick={() => store.dispatch({ type: 'setAmbition', id: a.id })}>
+                    {isCurrent ? t('ambition.active') : t('ambition.select')}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+
+      <h4>{t('relations.title')}</h4>
+      <ul className="members">
+        {hud.relations.map((r) => (
+          <li key={r.id}>
+            <span>{r.call}</span>
+            <span className="muted small">
+              {t('relations.opinion', { n: r.opinion >= 0 ? `+${r.opinion}` : r.opinion })}
+              {r.favor > 0 ? ` · ${t('relations.favor_owed', { n: r.favor })}` : ''}
+              {r.favor < 0 ? ` · ${t('relations.favor_debt', { n: -r.favor })}` : ''}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -13,6 +13,11 @@ export const SystemLog = {
   AutoSellFood: 'sys.ban_thoc_tieu',
   Seized: 'sys.bi_xiet_no',
   Starving: 'sys.doi_kem',
+  Married: 'sys.ket_hon',
+  ChildBorn: 'sys.sinh_con',
+  DiseaseCaught: 'sys.mac_benh',
+  DiseaseRecovered: 'sys.khoi_benh',
+  AmbitionMilestone: 'sys.dat_moc_tham_vong',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */

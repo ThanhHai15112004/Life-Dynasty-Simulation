@@ -1,5 +1,6 @@
-// [0] Tổng kết đời (bản GĐ0): tuổi, nguyên nhân, của cải để lại, những mốc đáng nhớ. Năm trục đầy đủ để GĐ1.
+// [1] Bản tổng kết đời 5 trục độc lập (GDD 01 §7.3): Mãn nguyện, Di sản, Dấu ấn, Gia đình, Tham vọng
 import type { LifeSummaryView } from '@core/index';
+import { StatBar } from '../../components/StatBar';
 import { num, useUi } from '../../context';
 
 export function LifeSummary({ summary }: { summary: LifeSummaryView }) {
@@ -16,6 +17,19 @@ export function LifeSummary({ summary }: { summary: LifeSummaryView }) {
           <div>{t('summary.farmland', { n: summary.closing.farmland })}</div>
           <div>{t('summary.money', { money: num(summary.closing.money), food: num(summary.closing.food) })}</div>
           <div>{t('summary.debt', { debt: num(summary.closing.debt) })}</div>
+        </div>
+        <h4>{t('summary.axes_title')}</h4>
+        <div className="summary-axes">
+          {summary.axes.map((ax) => (
+            <StatBar
+              key={ax.id}
+              label={t(`axis.${ax.id}`)}
+              value={ax.score}
+              max={100}
+              word={t(ax.bandKey)}
+              tone="good"
+            />
+          ))}
         </div>
         <h4>{t('summary.highlights')}</h4>
         <ul className="highlights">

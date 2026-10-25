@@ -17,6 +17,24 @@ chance_bands:
   - { min: 0.45, key: chance.mid }
   - { min: 0.25, key: chance.low }
   - { min: 0, key: chance.very_low }
+reputation_bands:
+  - { min: 40, key: reputation.revered }
+  - { min: 15, key: reputation.respected }
+  - { min: -10, key: reputation.normal }
+  - { min: -30, key: reputation.disliked }
+  - { min: -999, key: reputation.shunned }
+satisfaction_bands:
+  - { min: 80, key: satisfaction.fulfilled }
+  - { min: 60, key: satisfaction.content }
+  - { min: 40, key: satisfaction.ordinary }
+  - { min: 20, key: satisfaction.unfulfilled }
+  - { min: 0, key: satisfaction.bitter }
+summary_axis_bands:
+  - { min: 80, key: axis.band.very_high }
+  - { min: 60, key: axis.band.high }
+  - { min: 40, key: axis.band.mid }
+  - { min: 20, key: axis.band.low }
+  - { min: 0, key: axis.band.very_low }
 # Kho thóc đủ ăn ít hơn chừng này tháng thì cảnh báo
 food_months_warning: 2
 # Việc dang dở (GDD 01 §10.1) — luôn có vài việc chờ để "chơi thêm một năm nữa"
@@ -35,6 +53,13 @@ open_loop_rules:
     text: 'Sắp đến tuổi trưởng thành'
   - condition: { var: player.health, op: '<', value: 40 }
     text: 'Sức khỏe đang sa sút'
+  - condition: { var: player.sick, op: '==', value: true }
+    text: 'Đang mang bệnh trong người, cần nghỉ ngơi hoặc chạy chữa'
+  - condition:
+      all:
+        - { var: player.age, op: between, value: [18, 32] }
+        - { var: player.married, op: '==', value: false }
+    text: 'Đã đến tuổi dựng vợ gả chồng'
 # Dòng nhật ký có điểm quan trọng từ mức này trở lên được in đậm và vào bản tổng kết đời
 highlight_importance: 6
 default_language: vi
