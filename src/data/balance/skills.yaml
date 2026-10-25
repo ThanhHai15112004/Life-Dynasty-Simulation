@@ -9,5 +9,3 @@ learning_by_age:
   - { age: 25, factor: 1.0 }
   - { age: 40, factor: 0.6 }
   - { age: 60, factor: 0.35 }
-# Focus phụ có hiệu lực bằng phần này của Focus chính
-secondary_focus_factor: 0.5

@@ -64,12 +64,14 @@ Game không có một vòng lặp duy nhất mà là các vòng lồng nhau. M�
 
 ### 2.1 Một năm trong game (Meso loop)
 [ĐẦU NĂM]    Báo cáo: tuổi, sức khỏe, tài chính, việc đang làm
-Chọn / giữ Trọng tâm
-Quyết định chi tiêu: mức sống, đầu tư, học phí, chữa bệnh...
+Chọn / giữ Trọng tâm (một lựa chọn, theo giai đoạn đời)
+Chủ hộ: nhà tự lo mức sống, trả nợ theo gia cảnh; muốn thì can thiệp ở "Chi tiêu · đầu tư"
+(chưa làm chủ hộ thì cha mẹ / người lớn trong nhà lo)
 ↓
 [TRONG NĂM]  Mô phỏng chạy 12 tick tháng (ẩn)
 → kỹ năng tăng, thu chi, quan hệ thay đổi, NPC hành động
 → Event Director chọn 0–3 sự kiện → tự dừng khi cần quyết định
+→ 0–4 "chuyện nhỏ" hiện trong nhật ký, không dừng thời gian (bỏ qua thì tự chọn mặc định)
 ↓
 [CUỐI NĂM]   Tổng kết: thu chi, thay đổi lớn, ký ức mới
 Cảnh pixel cập nhật
@@ -134,7 +136,7 @@ Focus là cách lái cuộc đời mà không quản lý vi mô. Mỗi Focus tá
 | Nghỉ ngơi | Giảm stress, phục hồi |
 
 Focus khả dụng thay đổi theo giai đoạn đời, địa vị và nghề. Trẻ 8 tuổi không chọn “Chính trị”; nông dân không có “Quản trị lãnh địa”.
-Khi trưởng thành có thể có 1 Focus chính + 1 Focus phụ.
+**Chốt 25/10/2026 (thay bản cũ "1 chính + 1 phụ"):** mỗi lúc chỉ **một** Focus. Mỗi giai đoạn đời có bộ 4–6 lựa chọn riêng, lọc theo nghề nhà và nơi ở (con nhà buôn có "Theo cha ra sạp", con nhà nông có "Chăn trâu, phụ việc đồng", tuổi già có "Dạy dỗ con cháu", "Lễ chùa"). 0–5 tuổi chưa có Focus. Lớn sang giai đoạn mới hoặc đổi nghề mà Focus cũ không còn hợp thì tự chọn lại. Mỗi lựa chọn hiện gợi ý tác động (vd. "Học vấn↑ Chi tiêu↑").
 Focus không bảo đảm phần thưởng cố định.
 
 ## 6. Tham vọng cả đời
@@ -142,6 +144,7 @@ Mỗi nhân vật có thể đặt một tham vọng: giàu có, gia đình hạ
 Mỗi tham vọng có 3–5 mốc phụ. Ví dụ “Danh tướng”: nhập ngũ → chỉ huy đội nhỏ → thắng trận lớn → được phong tướng.
 Đạt mốc: tinh thần tăng, câu chuyện ghi vào biên niên sử.
 Có thể đổi tham vọng khi hoàn cảnh đổi (mất chân trong chiến tranh → “Gia đình hạnh phúc”).
+**Chốt 25/10/2026:** không ai sinh ra đã có tham vọng. Chí hướng hình thành qua **sự kiện trưởng thành** (khoảng 16 tuổi), lựa chọn tùy nghề nhà và những gì đã trải qua; về sau chỉ đổi qua biến cố (tang cha mẹ, sa sút, nửa đời lận đận), không đổi bằng nút bấm.
 Tham vọng là la bàn mềm giúp người chơi mới không lạc lối trong sandbox.
 
 ## 7. Mô hình Hạnh phúc tâm lý

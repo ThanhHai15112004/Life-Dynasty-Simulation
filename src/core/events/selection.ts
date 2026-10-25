@@ -109,7 +109,6 @@ export function weightOf(ctx: SimContext, item: Selectable, roles: Record<string
     }
   };
   scaleFocus(state.focus.primary, 1);
-  scaleFocus(state.focus.secondary, content.balance.skills.secondary_focus_factor);
   const scaleTags = (weights: Record<string, number> | undefined) => {
     if (weights) for (const tag of item.tags) w *= weights[tag] ?? 1;
   };

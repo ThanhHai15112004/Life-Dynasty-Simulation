@@ -154,6 +154,12 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
         case 'cutscene':
           queueCutscene(ctx, e.id);
           break;
+        case 'set_ambition':
+          // Đổi chí hướng thì các mốc của chí hướng cũ không còn tính
+          if (state.ambition.id !== e.ambition && ctx.content.index.ambition.has(e.ambition)) {
+            state.ambition = { id: e.ambition, achievedMilestones: [] };
+          }
+          break;
         case 'property_add':
           h.properties[e.property] = (h.properties[e.property] ?? 0) + e.count;
           break;

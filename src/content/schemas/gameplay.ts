@@ -46,14 +46,15 @@ export const focusSchema = z
     name: z.string(),
     description: z.string(),
     icon: z.string().default('focus'),
-    /** Điều kiện khả dụng (tuổi, giai đoạn đời, địa vị) — biến `player.*`. */
+    /** [1] Giai đoạn đời có trọng tâm này (mỗi giai đoạn một bộ lựa chọn riêng). */
+    life_stages: z.array(z.string()).min(1),
+    /** Điều kiện khả dụng (nghề nhà, nơi ở, tuổi...) — biến `player.*`, `household.*`. */
     condition: conditionSchema.optional(),
     /** XP mỗi tháng cho từng kỹ năng khi là Focus chính. */
     skill_xp: z.record(z.string(), z.number()).default({}),
     modifiers: z.array(modifierDefSchema).default([]),
     /** Bộ lọc sự kiện: nhân trọng số sự kiện có thẻ tương ứng. */
     event_weights: z.record(z.string(), z.number()).default({}),
-    allow_secondary: z.boolean().default(true),
     /** [1] Thu nhập khi là Focus chính (kỹ năng tính theo người chơi). */
     income: incomeSpecSchema.optional(),
   })
@@ -276,6 +277,8 @@ export const careerSchema = z
     duties: z.array(z.string()).default([]),
     ranks: z.array(careerRankSchema).min(1),
     actions: z.array(careerActionSchema).default([]),
+    /** [1] Trọng tâm ưu tiên khi người theo nghề này cần đổi trọng tâm (vd. lớn lên sang giai đoạn mới). */
+    default_focus: z.string().optional(),
     /** [1] Bộ lọc sự kiện theo nghề nhà: nhân trọng số sự kiện/nhật ký có thẻ tương ứng. */
     event_weights: z.record(z.string(), z.number().min(0)).default({}),
     /** [1] Cách hộ mưu sinh khi theo nghề này (cả lúc người chơi còn nhỏ — nghề của nhà). */

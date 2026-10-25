@@ -44,3 +44,17 @@ levels:
       - { target: health.monthly, value: 0.22 }
       - { target: stress.monthly, value: -0.7 }
       - { target: death_risk, value: 0.92, op: mul }
+
+# [1] Mức sống tự chọn theo gia cảnh (xét đầu năm khi để tự động, và luôn luôn khi bạn chưa làm chủ hộ).
+# Luật đầu tiên đúng thắng; luật cuối không điều kiện là mặc định. Xa hoa chỉ khi tự chọn tay.
+auto_rules:
+  - level: sung_tuc
+    condition: { all: [{ var: household.money, op: '>=', value: 60 }, { var: household.food_months, op: '>=', value: 6 }, { var: household.debt, op: '<=', value: 0 }] }
+  - level: du_day
+    condition: { all: [{ var: household.money, op: '>=', value: 15 }, { var: household.food_months, op: '>=', value: 3 }, { var: household.debt, op: '<=', value: 8 }] }
+  - level: dam_bac
+    condition: { any: [{ var: household.money, op: '>=', value: 2 }, { var: household.food_months, op: '>=', value: 1.5 }] }
+  - level: kho_cuc
+# Đầu năm tự trả nợ khi có dư, giữ lại tiền đủ tiêu chừng này tháng
+auto_repay_keep_months: 6
+

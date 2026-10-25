@@ -61,7 +61,7 @@ export interface HudView {
     deathRiskMod: ModifierResult;
     diseases: { id: string; name: string; description: string; severity: string; remainingMonths: number }[];
     traits: { id: string; name: string; description: string }[];
-    skills: { id: string; name: string; level: number; xp: number; next: number }[];
+    skills: { id: string; name: string; level: number; xp: number; next: number; bandKey: string }[];
   };
   household: {
     money: number;
@@ -91,11 +91,14 @@ export interface HudView {
   };
   focus: {
     primary: string;
-    secondary: string | null;
     canChoose: boolean;
-    canSecondary: boolean;
-    options: { id: string; name: string; description: string; icon: string; available: boolean; allowSecondary: boolean }[];
+    /** [1] Chỉ các trọng tâm của giai đoạn đời hiện tại (đã lọc theo nghề nhà, nơi ở). */
+    options: { id: string; name: string; description: string; icon: string; hints: { label: string; up: boolean; good: boolean }[] }[];
   };
+  /** [1] Ai lo việc nhà: người chơi là chủ hộ thì được chi tiêu, mua bán; không thì nhà tự vận hành. */
+  manage: { isHead: boolean; headCall: string; autoLivingStandard: boolean; autoRepayDebt: boolean };
+  /** [1] Chuyện nhỏ đang chờ (không dừng thời gian). */
+  minor: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[]; monthsLeft: number }) | null;
   ambition: {
     currentId: string | null;
     achievedMilestones: string[];
@@ -178,6 +181,25 @@ export interface LifeSummaryView {
   closing: { money: number; food: number; debt: number; farmland: number };
   axes: SummaryAxisView[];
   highlights: { year: number; text: string }[];
+}
+
+/** [1] Gợi ý tác động của một trọng tâm, đọc từ data: kỹ năng được XP, thu nhập, rồi các chỉ số modifier. */
+function focusHints(ctx: SimContext, focusId: string): { label: string; up: boolean; good: boolean }[] {
+  const { content } = ctx;
+  const f = content.index.focus.get(focusId);
+  if (!f) return [];
+  const display = content.balance.display;
+  const lang = content.lang[display.default_language] ?? {};
+  const out: { label: string; up: boolean; good: boolean }[] = [];
+  for (const skill of Object.keys(f.skill_xp)) out.push({ label: content.index.skill.get(skill)?.name ?? skill, up: true, good: true });
+  if (f.income) out.push({ label: lang['hint.money'] ?? 'hint.money', up: true, good: true });
+  for (const h of display.focus_hints) {
+    const m = f.modifiers.find((x) => x.target === h.target);
+    if (!m) continue;
+    const up = m.op === 'mul' ? m.value > 1 : m.value > 0;
+    out.push({ label: lang[h.key] ?? h.key, up, good: up === h.higher_is_good });
+  }
+  return out.slice(0, display.focus_hints_max);
 }
 
 function chanceKey(ctx: SimContext, p: number): string {
@@ -268,6 +290,7 @@ export function getHudView(ctx: SimContext): HudView {
         level: me.skills[s.id]?.level ?? 0,
         xp: me.skills[s.id]?.xp ?? 0,
         next: xpToNext(ctx, me.skills[s.id]?.level ?? 0),
+        bandKey: pickBand(display.skill_bands, me.skills[s.id]?.level ?? 0).key,
       })),
     },
     household: {
@@ -318,18 +341,27 @@ export function getHudView(ctx: SimContext): HudView {
     },
     focus: {
       primary: state.focus.primary,
-      secondary: state.focus.secondary,
       canChoose: stage.can_choose_focus,
-      canSecondary: stage.can_have_secondary_focus,
-      options: content.focuses.map((f) => ({
-        id: f.id,
-        name: f.name,
-        description: f.description,
-        icon: f.icon,
-        available: focusAvailable(ctx, f.id),
-        allowSecondary: f.allow_secondary,
-      })),
+      options: content.focuses
+        .filter((f) => focusAvailable(ctx, f.id))
+        .map((f) => ({ id: f.id, name: f.name, description: f.description, icon: f.icon, hints: focusHints(ctx, f.id) })),
     },
+    manage: (() => {
+      const head = householdHead(ctx);
+      return {
+        isHead: head?.id === me.id,
+        headCall: head && head.id !== me.id ? callOf(ctx, head) : '',
+        autoLivingStandard: state.autoManage.livingStandard,
+        autoRepayDebt: state.autoManage.repayDebt,
+      };
+    })(),
+    minor: state.minor
+      ? {
+          ...state.minor,
+          monthsLeft: Math.max(0, state.minor.expiresAt - state.clock.monthIndex),
+          options: state.minor.options.map((o) => ({ ...o, chanceKey: o.chance ? chanceKey(ctx, (o.chance.shown[0] + o.chance.shown[1]) / 2) : undefined })),
+        }
+      : null,
     ambition: {
       currentId: state.ambition.id,
       achievedMilestones: state.ambition.achievedMilestones,

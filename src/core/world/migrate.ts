@@ -22,6 +22,14 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
     ...raw.civilization,
   };
   raw.cutscenes = raw.cutscenes ?? [];
+  raw.focus = { primary: raw.focus?.primary ?? '' };
+  raw.autoManage = raw.autoManage ?? { livingStandard: true, repayDebt: true };
+  raw.minor = raw.minor ?? null;
+  if (raw.director) {
+    raw.director.minorThisYear = raw.director.minorThisYear ?? 0;
+    raw.director.lastMinorMonthIndex = raw.director.lastMinorMonthIndex ?? -999;
+  }
+  if (raw.stats) raw.stats.minorDecisions = raw.stats.minorDecisions ?? 0;
   raw.chronicle = raw.chronicle ?? {};
   raw.lifeMap = raw.lifeMap ?? [];
   delete (raw as Record<string, unknown>).lastCutsceneId;

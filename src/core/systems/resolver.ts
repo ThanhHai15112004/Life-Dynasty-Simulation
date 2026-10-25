@@ -183,7 +183,6 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
       }
       case 'focus':
         if (rest[0] === 'primary') return state.focus.primary;
-        if (rest[0] === 'secondary') return state.focus.secondary ?? '';
         throw new UnknownVariableError(path);
       case 'flag':
         return hasFlag(rest.join('.'));

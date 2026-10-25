@@ -106,3 +106,98 @@ ambitions:
             - { var: player.skill.quan_tri, op: '>=', value: 4 }
         stress_relief: 10
         satisfaction_bonus: 16
+
+  # ── Chí hướng theo xuất thân (hình thành ở sự kiện trưởng thành) ──
+  - id: khoa_bang_vinh_quy
+    name: Bảng vàng vinh quy
+    description: Lều chõng đi thi, đỗ đạt làm rạng danh tổ tông, được ngồi chiếu trên nơi đình trung.
+    icon: sach
+    traits: [kien_nhan, tham_vong]
+    milestones:
+      - id: do_sinh_do
+        name: Đỗ Sinh đồ
+        condition: { var: player.exam_degree, op: 'in', value: [sinh_do, huong_cong, tien_si] }
+        stress_relief: 6
+        satisfaction_bonus: 10
+      - id: do_huong_cong
+        name: Đỗ Hương cống
+        condition: { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }
+        stress_relief: 8
+        satisfaction_bonus: 14
+      - id: lam_quan
+        name: Đỗ Tiến sĩ hoặc được bổ làm quan
+        condition:
+          any:
+            - { var: player.exam_degree, op: '==', value: tien_si }
+            - { var: player.status_rank, op: '==', value: quan_lai }
+        stress_relief: 12
+        satisfaction_bonus: 20
+
+  - id: phu_thuong_mot_vung
+    name: Giàu nức một vùng
+    description: Từ gánh hàng rong thành nhà buôn có tiếng, thuyền hàng xuôi ngược, tiền của đầy kho.
+    icon: tien
+    traits: [tham_vong, tham_lam, co_hoi]
+    milestones:
+      - id: von_lieng_dau_tien
+        name: Sạch nợ và có 40 quan vốn
+        condition:
+          all:
+            - { var: household.debt, op: '<=', value: 0 }
+            - { var: household.money, op: '>=', value: 40 }
+        stress_relief: 5
+        satisfaction_bonus: 8
+      - id: phu_ho_trong_vung
+        name: Được xếp vào hàng phú hộ
+        condition: { var: player.status_rank, op: 'in', value: [phu_ho, si_phu, quan_lai] }
+        stress_relief: 7
+        satisfaction_bonus: 12
+      - id: co_nghiep_lon
+        name: Cơ nghiệp trên 600 quan
+        condition: { var: household.net_worth, op: '>=', value: 600 }
+        stress_relief: 10
+        satisfaction_bonus: 18
+
+  - id: cong_danh_tran_mac
+    name: Công danh nơi trận mạc
+    description: Khoác áo chiến, lập công nơi biên ải, từ binh đinh lên tướng lĩnh.
+    icon: kiem
+    traits: [can_dam, trung_thanh, nong_nay]
+    milestones:
+      - id: vao_quan_ngu
+        name: Khoác áo lính
+        condition: { var: player.career, op: '==', value: linh }
+        stress_relief: 4
+        satisfaction_bonus: 6
+      - id: len_doi_truong
+        name: Lên bậc chỉ huy (bậc 2 trong quân)
+        condition: { all: [{ var: player.career, op: '==', value: linh }, { var: player.career_rank, op: '>=', value: 2 }] }
+        stress_relief: 8
+        satisfaction_bonus: 14
+      - id: thanh_tuong
+        name: Thành tướng lĩnh
+        condition: { all: [{ var: player.career, op: '==', value: linh }, { var: player.career_rank, op: '>=', value: 4 }] }
+        stress_relief: 12
+        satisfaction_bonus: 20
+
+  - id: tron_dao_hieu
+    name: Trọn đạo hiếu
+    description: Phụng dưỡng cha mẹ, giữ nếp nhà, hương khói tổ tiên không bao giờ tắt.
+    icon: gia_dinh
+    traits: [trong_gia_dinh, trung_thanh, nhan_tu]
+    milestones:
+      - id: con_ngoan
+        name: Hiếu đạo từ 80 trở lên
+        condition: { var: player.filial_piety, op: '>=', value: 80 }
+        stress_relief: 5
+        satisfaction_bonus: 8
+      - id: dung_vo_ga_chong_dung_le
+        name: Thành gia đúng lễ, Hiếu đạo từ 85
+        condition: { all: [{ var: player.married, op: '==', value: true }, { var: player.filial_piety, op: '>=', value: 85 }] }
+        stress_relief: 7
+        satisfaction_bonus: 12
+      - id: noi_doi_tong_duong
+        name: Con cháu nối dõi, Hiếu đạo từ 90
+        condition: { all: [{ var: player.children_count, op: '>=', value: 2 }, { var: player.filial_piety, op: '>=', value: 90 }] }
+        stress_relief: 10
+        satisfaction_bonus: 18

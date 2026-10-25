@@ -60,6 +60,7 @@ export type Effect =
   | { type: 'scholarly_prestige'; value: number }
   | { type: 'set_exam_degree'; degree: ExamDegreeId }
   | { type: 'cutscene'; id: string }
+  | { type: 'set_ambition'; ambition: string }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -118,6 +119,7 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
     z.object({ type: z.literal('scholarly_prestige'), value: z.number() }).strict(),
     z.object({ type: z.literal('set_exam_degree'), degree: z.enum(examDegreeIds) }).strict(),
     z.object({ type: z.literal('cutscene'), id: z.string() }).strict(),
+    z.object({ type: z.literal('set_ambition'), ambition: z.string() }).strict(),
     z
       .object({
         type: z.literal('log'),

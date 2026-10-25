@@ -108,7 +108,10 @@ export interface GameState {
   /** Vai trò làng → id nhân vật đang giữ. */
   village: Record<string, string>;
 
-  focus: { primary: string; secondary: string | null };
+  /** [1] Trọng tâm năm nay (một lựa chọn; '' khi còn quá nhỏ để chọn). */
+  focus: { primary: string };
+  /** [1] Chủ hộ để mô phỏng tự lo: mức sống theo gia cảnh, tự trả nợ khi có dư. Chưa làm chủ hộ thì luôn tự động. */
+  autoManage: { livingStandard: boolean; repayDebt: boolean };
   /** [1] Trạng thái nghề nghiệp hiện tại của người chơi (GDD 04). */
   career: {
     id: string;
@@ -146,6 +149,8 @@ export interface GameState {
   ambientHistory: Record<string, { lastMonthIndex: number; lastVariant: number; count: number }>;
   scheduled: ScheduledEvent[];
   pending: PendingEvent | null;
+  /** [1] Chuyện nhỏ đang chờ (không dừng thời gian); quá expiresAt thì tự chọn phương án mặc định. */
+  minor: (PendingEvent & { expiresAt: number }) | null;
   lastResolution: Resolution | null;
 
   director: {
@@ -155,10 +160,13 @@ export interface GameState {
     ambientSlots: number[];
     unexpectedDeathsThisYear: number;
     mourningThisYear: boolean;
+    /** [1] Số chuyện nhỏ năm nay và tháng của chuyện nhỏ gần nhất. */
+    minorThisYear: number;
+    lastMinorMonthIndex: number;
   };
 
   log: LogYear[];
   ledgerHistory: LedgerYear[];
-  stats: { decisions: number; eventsSeen: Record<string, number> };
+  stats: { decisions: number; minorDecisions: number; eventsSeen: Record<string, number> };
   gameOver: { year: number; age: number; causeId: string } | null;
 }

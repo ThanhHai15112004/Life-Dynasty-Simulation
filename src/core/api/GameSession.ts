@@ -10,7 +10,8 @@ import { buildSceneDescriptor, type SceneDescriptor } from '../scene-descriptor'
 import { monthlyCareer } from '../systems/career';
 import { yearlyChronicle } from '../systems/chronicle';
 import { createContext, type SimContext } from '../systems/context';
-import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy } from '../systems/economy';
+import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy, yearlyHousehold } from '../systems/economy';
+import { ensureFocus } from '../systems/focus';
 import { monthlyFamily } from '../systems/family';
 import { monthlyHappiness, recordLifeYear, yearlyHappiness } from '../systems/happiness';
 import { monthlyLife, yearlyVillage } from '../systems/life';
@@ -45,6 +46,7 @@ export class GameSession {
     const session = new GameSession(content, state);
     session.withContext((ctx) => {
       ctx.state.civilization.statusRank = computeStatusRank(ctx).id;
+      ensureFocus(ctx);
       yearStart(ctx);
       writeTemplate(ctx, content.index.origin.get(ctx.state.originId)?.start_log ?? SystemLog.GameStart);
     });
@@ -127,6 +129,7 @@ function monthly(ctx: SimContext): void {
   monthlyLife(ctx);
   if (ctx.state.gameOver) return;
   monthlyFamily(ctx);
+  ensureFocus(ctx);
   monthlySkills(ctx);
   monthlyCareer(ctx);
   monthlyStatus(ctx);
@@ -149,6 +152,7 @@ function yearStart(ctx: SimContext): void {
   rollHarvestQuality(ctx);
   yearlyOpportunity(ctx);
   yearlyChronicle(ctx);
+  yearlyHousehold(ctx);
   directorYearStart(ctx);
 }
 

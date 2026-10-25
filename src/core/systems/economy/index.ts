@@ -10,7 +10,7 @@ import { queueCutscene } from '../../events/cutscene';
 import { writeTemplate } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
 import { computeHousehold } from '../modifiers';
-import { ageNow, aliveMembers, player, playerHousehold } from '../people';
+import { ageNow, aliveMembers, householdHead, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 import { buyPrice, careerEconomy, incomeOf, monthlyFoodNeed, monthlyMoneyNeed, sellPrice, workers } from './helpers';
 
@@ -218,6 +218,35 @@ export function monthlyEconomy(ctx: SimContext): void {
   if (eco.harvest.months.includes(state.clock.month)) (ce.self_farm ? harvest : collectRent)(ctx);
   if (eco.tax.month === state.clock.month) tax(ctx);
   settle(ctx);
+}
+
+/** [1] Người chơi có đang là chủ hộ (người quyết chi tiêu, mua bán của nhà) không. */
+export function isPlayerHead(ctx: SimContext): boolean {
+  return householdHead(ctx)?.id === ctx.state.playerId;
+}
+
+/** [1] Mức sống hợp gia cảnh theo luật trong data (luật đầu tiên đúng thắng). */
+export function autoLivingStandard(ctx: SimContext): string {
+  const ls = ctx.content.balance.living_standards;
+  const r = createResolver(ctx);
+  return ls.auto_rules.find((rule) => evaluate(rule.condition, r))?.level ?? ls.default;
+}
+
+/** [1] Đầu năm: nhà tự lo (chủ hộ là NPC, hoặc chủ hộ để tự động) — chọn mức sống theo gia cảnh, trả nợ khi có dư. */
+export function yearlyHousehold(ctx: SimContext): void {
+  const { state, content } = ctx;
+  const h = playerHousehold(ctx);
+  const head = isPlayerHead(ctx);
+  if (!head || state.autoManage.livingStandard) h.livingStandard = autoLivingStandard(ctx);
+  if ((!head || state.autoManage.repayDebt) && h.debt > 0) {
+    const keep = monthlyMoneyNeed(ctx) * content.balance.living_standards.auto_repay_keep_months;
+    const amount = Math.min(h.debt, Math.max(0, h.money - keep));
+    if (amount > 0) {
+      h.money -= amount;
+      h.debt -= amount;
+      addLedger(h, Ledger.RepayDebt, -amount, 0);
+    }
+  }
 }
 
 /** Cuối năm: lãi nợ, bảo trì và thu nhập phụ của tài sản, chốt sổ. */

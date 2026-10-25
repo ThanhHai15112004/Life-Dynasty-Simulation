@@ -1,40 +1,150 @@
-# [0] Trọng tâm (GDD 01 §5): mỗi Focus đồng thời tăng XP, đổi bộ lọc sự kiện và mức phơi nhiễm.
-# skill_xp: XP mỗi tháng khi là Focus chính. event_weights: nhân trọng số sự kiện có thẻ tương ứng.
+# [1] Trọng tâm (GDD 01 §5): mỗi năm chọn MỘT việc dồn sức — tăng XP, đổi bộ lọc sự kiện và mức phơi nhiễm.
+# Mỗi giai đoạn đời có bộ lựa chọn riêng (life_stages), lọc thêm theo nghề nhà / nơi ở (condition).
+# skill_xp: XP mỗi tháng · event_weights: nhân trọng số sự kiện có thẻ tương ứng · income: thu nhập khi làm trọng tâm này.
 focuses:
+  # ── Thiếu thời (6–15) ──
+  - id: hoc_chu
+    name: Học chữ
+    description: Theo thầy đồ học Tam tự kinh, tập viết. Mở đường khoa cử về sau, nhưng tốn giấy bút.
+    icon: sach
+    life_stages: [thieu_thoi]
+    skill_xp: { hoc_van: 7, muu_luoc: 1 }
+    modifiers:
+      - { target: living.cost, value: 1.05, op: mul }
+    event_weights: { hoc_hanh: 2.5 }
+  - id: phu_viec_dong
+    name: Chăn trâu, phụ việc đồng
+    description: Theo cha mẹ ra đồng, cắt cỏ, chăn trâu. Nhà thêm tay làm, người dạn nắng gió.
+    icon: trau
+    life_stages: [thieu_thoi]
+    condition: { var: household.self_farms, op: '==', value: true }
+    skill_xp: { sinh_ton: 5 }
+    modifiers:
+      - { target: harvest.yield, value: 1.04, op: mul }
+      - { target: health.monthly, value: -0.02 }
+    event_weights: { ruong_dong: 1.6, lao_dong: 1.5 }
+  - id: phu_sap
+    name: Theo cha ra sạp
+    description: Ngồi sạp chợ phụ cân hàng, gảy bàn tính, nghe người lớn mặc cả.
+    icon: tien
+    life_stages: [thieu_thoi]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    skill_xp: { thuong_mai: 5, ngoai_giao: 1 }
+    event_weights: { buon_ban: 2, thoi_co: 1.3 }
+  - id: giup_viec_nha
+    name: Giúp việc nhà
+    description: Trông em, nấu cơm, gánh nước. Nhà đỡ vất, biết tằn tiện từ bé.
+    icon: nha
+    life_stages: [thieu_thoi]
+    skill_xp: { quan_tri: 2, sinh_ton: 2 }
+    modifiers:
+      - { target: food.consumption, value: 0.97, op: mul }
+    event_weights: { gia_dinh: 2 }
+  - id: choi_voi_ban
+    name: Chơi với bạn
+    description: Thả diều, đánh khăng, tắm sông với lũ trẻ trong xóm. Vui, dạn dĩ, nhiều bạn.
+    icon: dieu
+    life_stages: [thieu_thoi]
+    skill_xp: { ngoai_giao: 4, muu_luoc: 1 }
+    modifiers:
+      - { target: stress.monthly, value: -0.4 }
+    event_weights: { quan_he: 2, lang_xa: 1.5 }
+  - id: tap_vo
+    name: Tập võ, vật
+    description: Tập vật ở bãi sông, múa côn với các anh lớn. Khỏe người, dễ xô xát.
+    icon: kiem
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 10 }
+    skill_xp: { quan_su: 4, sinh_ton: 1 }
+    modifiers:
+      - { target: health.monthly, value: 0.12 }
+    event_weights: { vo_nghe: 2, nguy_hiem: 1.3 }
+
+  # ── Người lớn (16–55) ──
   - id: lam_an
     name: Làm lụng
     description: Dồn sức cho ruộng đồng. Thu hoạch khá hơn, nhưng thân thể hao mòn.
     icon: cay_lua
-    condition: { var: player.age, op: '>=', value: 10 }
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: household.self_farms, op: '==', value: true }
     skill_xp: { sinh_ton: 6 }
     modifiers:
       - { target: harvest.yield, value: 1.12, op: mul }
       - { target: health.monthly, value: -0.05 }
       - { target: stress.monthly, value: 0.1 }
     event_weights: { ruong_dong: 1.8, lao_dong: 1.5 }
+  - id: kinh_doanh
+    name: Buôn bán
+    description: Ra chợ phiên, đổi chác, theo thuyền hàng. Kiếm lãi theo thời giá, gặp nhiều mối làm ăn.
+    icon: tien
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      any:
+        - { var: player.life_stage, op: '!=', value: tuoi_gia }
+        - { var: player.career, op: '==', value: thuong_nhan }
+    skill_xp: { thuong_mai: 6, ngoai_giao: 1 }
+    modifiers:
+      - { target: harvest.yield, value: 0.95, op: mul }
+    event_weights: { buon_ban: 2.5, thoi_co: 1.8 }
+    # Tự mình ra chợ đổi chác: lãi nhỏ theo tay nghề và thời giá
+    income: { money_month: 0.1, skill: thuong_mai, per_level: 0.03, trade_scaled: true, ledger: buon_ban }
   - id: hoc_tap
-    name: Học tập
-    description: Theo thầy đồ học chữ. Mở đường khoa cử về sau, nhưng nhà bớt một tay làm và tốn giấy bút.
+    name: Đèn sách
+    description: Dùi mài kinh sử chờ khoa thi. Học vấn tiến nhanh, nhưng nhà bớt một tay làm và tốn giấy bút.
     icon: sach
-    condition: { var: player.age, op: '>=', value: 6 }
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      any:
+        - { var: player.life_stage, op: '==', value: thanh_nien }
+        - { var: player.career, op: '==', value: si_tu }
+        - { var: player.skill.hoc_van, op: '>=', value: 3 }
     skill_xp: { hoc_van: 7, muu_luoc: 1 }
     modifiers:
       - { target: harvest.yield, value: 0.93, op: mul }
       - { target: living.cost, value: 1.12, op: mul }
-    event_weights: { hoc_hanh: 2.5 }
+    event_weights: { hoc_hanh: 2.5, van_minh: 1.4 }
   - id: ren_luyen
-    name: Rèn luyện
-    description: Tập vật, tập võ ở bãi sông. Khỏe người, nhưng dễ dính vào xô xát.
+    name: Rèn luyện võ nghệ
+    description: Tập võ, cưỡi ngựa bắn cung. Khỏe người, dễ dính vào xô xát, hợp người theo nghiệp binh đao.
     icon: kiem
-    condition: { var: player.age, op: '>=', value: 10 }
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      any:
+        - { var: player.life_stage, op: '==', value: thanh_nien }
+        - { var: player.career, op: 'in', value: [linh, thao_khau] }
     skill_xp: { quan_su: 5, sinh_ton: 1 }
     modifiers:
       - { target: health.monthly, value: 0.15 }
-    event_weights: { vo_nghe: 2, nguy_hiem: 1.3 }
+    event_weights: { vo_nghe: 2, nguy_hiem: 1.3, quan_su: 1.5 }
+  - id: giao_luu
+    name: Giao lưu
+    description: Ngồi quán nước, ra đình, kết bạn. Nghe được nhiều tin, nhưng tốn tiền trầu nước.
+    icon: chen_tra
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    skill_xp: { ngoai_giao: 5, muu_luoc: 2 }
+    modifiers:
+      - { target: stress.monthly, value: -0.2 }
+      - { target: living.cost, value: 1.1, op: mul }
+    event_weights: { lang_xa: 2, tin_don: 1.8, quan_he: 2 }
+  - id: gia_dinh
+    name: Vun vén gia đình
+    description: Ở bên vợ chồng con cái, cha mẹ. Nhà êm ấm, biết tằn tiện hơn.
+    icon: nha
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      any:
+        - { var: player.married, op: '==', value: true }
+        - { var: player.life_stage, op: '!=', value: thanh_nien }
+    skill_xp: { quan_tri: 3, ngoai_giao: 1 }
+    modifiers:
+      - { target: stress.monthly, value: -0.3 }
+      - { target: food.consumption, value: 0.95, op: mul }
+    event_weights: { gia_dinh: 2.2 }
   - id: suc_khoe
     name: Giữ sức khỏe
     description: Ăn ngủ điều độ, thuốc thang khi ốm. Sống lâu hơn, nhưng tốn kém.
     icon: thuoc
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     skill_xp: { sinh_ton: 1 }
     modifiers:
       - { target: health.monthly, value: 0.35 }
@@ -42,41 +152,32 @@ focuses:
       - { target: death_risk, value: 0.85, op: mul }
       - { target: living.cost, value: 1.08, op: mul }
     event_weights: { benh_tat: 0.6 }
-  - id: gia_dinh
-    name: Vun vén gia đình
-    description: Ở bên cha mẹ, anh em. Nhà êm ấm, biết tằn tiện hơn.
-    icon: nha
-    skill_xp: { quan_tri: 3, ngoai_giao: 1 }
-    modifiers:
-      - { target: stress.monthly, value: -0.3 }
-      - { target: food.consumption, value: 0.95, op: mul }
-    event_weights: { gia_dinh: 2.2 }
-  - id: giao_luu
-    name: Giao lưu
-    description: Ngồi quán nước, ra đình, kết bạn. Nghe được nhiều tin, nhưng tốn tiền trầu nước.
-    icon: chen_tra
-    condition: { var: player.age, op: '>=', value: 12 }
-    skill_xp: { ngoai_giao: 5, muu_luoc: 2 }
+
+  # ── Tuổi già (56+) ──
+  - id: day_con_chau
+    name: Dạy dỗ con cháu
+    description: Kể chuyện xưa, dạy con cháu nếp nhà, lo việc họ. Nhà có nền nếp, lòng thanh thản.
+    icon: gia_dinh
+    life_stages: [tuoi_gia]
+    skill_xp: { ngoai_giao: 2, quan_tri: 2 }
     modifiers:
       - { target: stress.monthly, value: -0.2 }
-      - { target: living.cost, value: 1.1, op: mul }
-    event_weights: { lang_xa: 2, tin_don: 1.8, quan_he: 2 }
-  - id: kinh_doanh
-    name: Buôn bán nhỏ
-    description: Ra chợ phiên, đổi chác. Kiếm chút lãi theo thời giá, đọc được giá thóc, gặp nhiều mối làm ăn.
-    icon: tien
-    condition: { var: player.age, op: '>=', value: 14 }
-    skill_xp: { thuong_mai: 6, ngoai_giao: 1 }
+    event_weights: { gia_dinh: 2, hoc_hanh: 1.3 }
+  - id: le_chua
+    name: Lễ chùa, làm phúc
+    description: Rằm mồng một lên chùa, góp gạo làm phúc. Tâm an, được làng quý, nhưng tốn chút tiền.
+    icon: hoi
+    life_stages: [tuoi_gia]
     modifiers:
-      - { target: harvest.yield, value: 0.95, op: mul }
-    event_weights: { buon_ban: 2.5, thoi_co: 1.8 }
-    # Tự mình ra chợ đổi chác: lãi nhỏ theo tay nghề và thời giá
-    income: { money_month: 0.1, skill: thuong_mai, per_level: 0.03, trade_scaled: true, ledger: buon_ban }
+      - { target: stress.monthly, value: -0.5 }
+      - { target: living.cost, value: 1.05, op: mul }
+    event_weights: { tin_nguong: 2.2, le_hoi: 1.5 }
   - id: nghi_ngoi
-    name: Nghỉ ngơi
-    description: Thong thả, câu cá, ngủ trưa. Tinh thần hồi lại, ruộng thì kém chăm.
+    name: Thong thả tuổi già
+    description: Câu cá, uống trà, ngủ trưa. Tinh thần hồi lại, việc nhà để con cháu lo.
     icon: la
+    life_stages: [tuoi_gia]
     modifiers:
       - { target: stress.monthly, value: -1.0 }
       - { target: health.monthly, value: 0.1 }
-      - { target: harvest.yield, value: 0.9, op: mul }
+      - { target: harvest.yield, value: 0.95, op: mul }

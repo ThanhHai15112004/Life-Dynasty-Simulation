@@ -6,6 +6,7 @@ careers:
     description: Bám đất bám làng, trông trời trông đất trông mây. Chậm mà chắc, tích lũy ruộng vườn qua từng mùa gặt.
     icon: lua
     components: [farmland]
+    default_focus: lam_an
     event_weights: { ruong_dong: 1.4, lao_dong: 1.3, buon_ban: 0.6 }
     economy:
       self_farm: true
@@ -93,6 +94,7 @@ careers:
     description: Mua nơi thừa, bán nơi thiếu. Đọc thời cơ giá cả và lèo lái những chuyến hàng vượt sông, qua đèo.
     icon: tien
     components: [trade_route]
+    default_focus: kinh_doanh
     event_weights: { buon_ban: 2.0, thoi_co: 1.5, ruong_dong: 0.3, lao_dong: 0.5 }
     # Nhà buôn không tự cày: ruộng phát canh thu tô, người nhà phụ sạp hàng, tiền lời theo Thời cơ giá buôn
     economy:
@@ -196,6 +198,7 @@ careers:
     description: Khoác áo lính, cầm giáo giữ biên cương. Đổi mồ hôi và máu trên chiến trường lấy quân công, bổng lộc và chức tước.
     icon: phu
     components: [military_rank]
+    default_focus: ren_luyen
     event_weights: { quan_su: 2.0, vo_nghe: 1.6, nguy_hiem: 1.3 }
     economy:
       self_farm: true
@@ -307,6 +310,7 @@ careers:
     description: Sống ngoài vòng pháp luật nơi rừng xanh núi đỏ. Tự do tự tại, lấy của nhà giàu chia cho anh em, nhưng luôn đối mặt lệnh truy nã của quan phủ.
     icon: nguy_hiem
     components: [outlaw_band]
+    default_focus: ren_luyen
     event_weights: { nguy_hiem: 1.8, quan_su: 1.3, lang_xa: 0.7 }
     economy:
       self_farm: true
@@ -406,6 +410,7 @@ careers:
     description: Dùi mài kinh sử, lều chõng đi thi. Đỗ đạt thì được bổ làm quan, rạng danh tông tộc; lận đận thì làm thầy đồ dạy chữ nuôi thân.
     icon: sach
     components: [exam_ladder]
+    default_focus: hoc_tap
     event_weights: { hoc_hanh: 2.0, van_minh: 1.6, ruong_dong: 0.4, lao_dong: 0.5 }
     entry_condition:
       any:

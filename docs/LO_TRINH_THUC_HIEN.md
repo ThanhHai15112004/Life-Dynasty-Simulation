@@ -38,6 +38,22 @@ Cập nhật 25/10/2026. ✅ xong · 🟡 làm một phần · ⬜ chưa làm. P
 | KPI cân bằng | 🟡 | Xem mục KPI trong README; tỷ lệ gặp lại sự kiện còn ~20% (mục tiêu 15%), cần thêm nội dung riêng cho nhà buôn |
 | Chơi thử trả lời "một đời người có hấp dẫn không?" | ⬜ | cần người chơi thật |
 
+## Kế hoạch GĐ4 — Hệ Nghề nghiệp v2 (chốt 25/10/2026)
+
+Mục tiêu: đời người đa dạng như thật — nông dân không chỉ cày ruộng; mỗi nghề có thâm niên, kinh nghiệm, thăng tiến; kinh doanh là một cơ nghiệp có bậc. Toàn bộ là **dữ liệu**, khung đã thiết kế ở GDD 04 §4, §5, §11, §13–14.
+
+| Hạng mục | Nội dung |
+| :--- | :--- |
+| Ngành → Nghề → Bậc | Mỗi nghề một khối data: ngành, độ sâu (Nhẹ/Vừa/Sâu), nơi có nghề, cổng vào, kỹ năng dùng, các bậc (số năm, kỹ năng, uy tín, thu nhập theo khoảng), tác động khi làm (sức khỏe, stress, XP), lối ra, thẻ sự kiện |
+| Thâm niên, kinh nghiệm | Đếm tháng làm nghề và tổng thâm niên trong ngành; thăng bậc theo năm + kỹ năng + uy tín; thu nhập tăng theo thâm niên; lý lịch nghề hiện trong hồ sơ và tổng kết đời |
+| Nghề tay trái theo mùa | Nghề chính + việc nông nhàn (đan lát, đánh cá, chở đò, buôn chuyến) |
+| Nghề của người nhà | Mỗi người lớn trong hộ có nghề riêng, tự đổi theo đời họ; thu nhập hộ = tổng các nghề |
+| Cơ nghiệp (kinh doanh) | `src/data/ventures/`: sạp → cửa hiệu → hiệu buôn; lò gốm, xưởng mộc, thuyền buôn, quán rượu; vốn, người làm, doanh thu theo Thời cơ và danh tiếng; mở rộng, sa sút, phá sản, truyền đời |
+| Tìm việc, chuyển nghề | Danh sách việc mở theo nơi ở (điều kiện + thu nhập dự kiến); lời mời qua sự kiện (thầy nhận học việc, người quen giới thiệu, bắt lính); bị đẩy vào do biến cố; mỗi đường là mũi tên dữ liệu của bản đồ chuyển nghề |
+| Kỹ năng sâu | Cây chuyên môn theo nghề (GDD 04 §5) |
+| Danh mục (~30 nghề) | Sâu: Nông dân, Thương nhân, Lính → Tướng, Thảo khấu, Sĩ tử → Quan văn · Vừa: Thợ mộc, Thợ rèn, Thợ gốm, Thợ dệt / nuôi tằm, Thầy lang, Ngư dân, Chủ thuyền đò, Nha lại, Tăng ni, Chủ quán · Nhẹ: Tá điền, Làm thuê, Ở đợ, Chăn vịt, Bán rong, Phu khuân vác, Làm muối, Kiếm củi, Nấu rượu, Đồ tể, Bà đỡ, Thầy bói, Thầy địa lý, Hát rong, Mõ làng |
+| Nội dung đi kèm | Nghề Nhẹ 5–10 sự kiện, Vừa 20–30, Sâu 50+ (tổng ước 250–350 sự kiện mới) |
+
 ## Giai đoạn 2 trở đi
 
 Chưa bắt đầu. Nền móng đã có: thực thể `Settlement`, loại khu định cư, thang địa vị, `set_career` cho chuyển nghề — xem [09_Lo_Trinh_Can_Bang_Rui_Ro.md](09_Lo_Trinh_Can_Bang_Rui_Ro.md) §2.

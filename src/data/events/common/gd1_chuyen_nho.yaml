@@ -1,0 +1,1146 @@
+# [1] Chuyện nhỏ (minor: true): hiện ngay trong nhật ký, không dừng thời gian.
+# Người chơi bấm chọn hoặc bỏ qua; quá hạn thì game tự chọn phương án có default: true.
+# Mỗi chuyện 2–3 phương án một dòng, hậu quả nhỏ. Tiền tố id: cn_ (cn_tt_ thiếu thời, cn_nl_ người lớn, cn_g_ tuổi già, cn_c_ chung).
+# Phương án default luôn không có condition và không tốn tiền, để lúc nào cũng tự chọn được.
+events:
+  # ── Thiếu thời (6–15) ──
+  - id: cn_tt_cho_con_theo_ve
+    title: Con chó con theo về
+    tags: [gia_dinh]
+    life_stages: [thieu_thoi]
+    condition: { all: [{ var: player.age, op: between, value: [6, 12] }, { not: { has_flag: cn_nuoi_cho } }] }
+    weight: 5
+    once_per_life: true
+    minor: true
+    tension: 1
+    importance: 3
+    icon: cho
+    text:
+      - 'Một con chó con lông vàng cứ lẽo đẽo theo bạn từ bờ ao về tận ngõ, đuôi ve vẩy không thôi.'
+    options:
+      - id: xin_nuoi
+        text: 'Xin mẹ cho nuôi, chia nó nửa bát cơm'
+        effects:
+          - { type: food, value: -0.5 }
+          - { type: stress, value: -3 }
+          - { type: set_flag, flag: cn_nuoi_cho, years: 12 }
+        result: ['Bạn đặt tên nó là Vện. Từ hôm ấy đi đâu cũng có nó chạy theo.']
+      - id: duoi_ve
+        text: 'Đuổi nó về đầu ngõ'
+        default: true
+        effects: [{ type: stress, value: 1 }]
+        result: ['Con chó đứng ở đầu ngõ nhìn theo một lúc rồi bỏ đi.']
+
+  - id: cn_tt_meo_hoang_o_sap
+    title: Con mèo mướp ở sạp
+    tags: [buon_ban, gia_dinh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    weight: 4
+    cooldown_years: 6
+    minor: true
+    tension: 1
+    importance: 2
+    icon: meo
+    text:
+      - 'Có con mèo mướp hoang hay lẻn vào gầm sạp nhà rình chuột. Mấy bao gạo đêm qua không bị cắn thủng.'
+    options:
+      - id: de_com_thua
+        text: 'Để dành cơm thừa cho nó'
+        effects:
+          - { type: food, value: -0.3 }
+          - { type: money, value: 0.5, ledger: buon_ban }
+          - { type: stress, value: -1 }
+        result: ['Con mèo ở lại. Cả mùa ấy hàng trong sạp không còn vết chuột gặm.']
+      - id: mac_ke
+        text: 'Mặc kệ nó'
+        default: true
+        result: ['Con mèo đến rồi đi, chẳng ai để ý.']
+
+  - id: cn_tt_chim_sao_non
+    title: Tổ sáo trên cây gạo
+    tags: [lang_xa]
+    life_stages: [thieu_thoi]
+    months: [4, 5, 6]
+    condition: { var: player.age, op: between, value: [8, 15] }
+    weight: 4
+    cooldown_years: 5
+    minor: true
+    tension: 1
+    importance: 3
+    icon: cay
+    text:
+      - 'Trên cành cây gạo đầu đình có tổ sáo non kêu chiêm chiếp. Lũ bạn bảo bắt về dạy nói được.'
+    options:
+      - id: treo_bat
+        text: 'Trèo lên bắt một con'
+        chance: { base: 0.55, skill: sinh_ton, per_level: 0.05 }
+        success:
+          - { type: stress, value: -3 }
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+        failure:
+          - { type: health, value: -3 }
+        success_result: ['Bạn mang về được một con sáo mỏ vàng, ngày nào cũng tập cho nó nói.']
+        failure_result: ['Cành gãy, bạn rơi xuống bụi, xước hết hai đầu gối.']
+      - id: de_yen
+        text: 'Để chim mẹ nuôi con'
+        default: true
+        result: ['Bạn đứng dưới gốc nghe đàn sáo non kêu một lúc rồi về.']
+
+  - id: cn_tt_doi_con_quay
+    title: Đổi con quay gỗ
+    tags: [quan_he]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: between, value: [6, 11] }
+    weight: 4
+    cooldown_years: 5
+    minor: true
+    tension: 1
+    importance: 2
+    icon: tre_em
+    text:
+      - 'Thằng bạn cùng xóm có con quay gỗ mít quay tít. Nó gạ đổi lấy cái ống sáo trúc cha làm cho bạn.'
+    options:
+      - id: doi
+        text: 'Đổi luôn'
+        effects:
+          - { type: stress, value: -2 }
+          - { type: skill_xp, skill: ngoai_giao, value: 5 }
+        result: ['Con quay chạy vo vo trên sân gạch. Mấy hôm sau bạn lại tiếc ống sáo.']
+      - id: giu_sao
+        text: 'Giữ lại ống sáo của cha'
+        default: true
+        effects: [{ type: filial_piety, value: 1 }]
+        result: ['Bạn lắc đầu. Ống sáo vẫn cài sau lưng mỗi lần ra đồng.']
+
+  - id: cn_tt_tron_hoc_tam_song
+    title: Rủ trốn học
+    tags: [hoc_hanh, quan_he]
+    life_stages: [thieu_thoi]
+    condition: { all: [{ var: focus.primary, op: '==', value: hoc_chu }, { var: player.age, op: between, value: [7, 14] }] }
+    weight: 5
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: sach
+    text:
+      - 'Trưa hè nóng như nung, lũ bạn rủ bạn giấu thầy đồ trốn ra sông tắm, chiều lại về ngồi như không có gì.'
+    options:
+      - id: tron_di
+        text: 'Trốn đi một buổi'
+        effects:
+          - { type: stress, value: -3 }
+          - { type: skill_xp, skill: ngoai_giao, value: 5 }
+          - { type: filial_piety, value: -2 }
+        result: ['Nước sông mát rượi. Tối về bạn không dám nhìn mặt cha.']
+      - id: ngoi_chep_bai
+        text: 'Ngồi lại chép bài'
+        default: true
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 8 }
+          - { type: stress, value: 1 }
+        result: ['Lớp vắng tanh. Thầy liếc bạn một cái, không nói gì, nhưng gật gù.']
+
+  - id: cn_tt_bat_de_choi
+    title: Đi bắt dế chọi
+    tags: [quan_he, lang_xa]
+    life_stages: [thieu_thoi]
+    months: [7, 8, 9]
+    condition: { var: player.age, op: between, value: [7, 14] }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 2
+    icon: tre_em
+    text:
+      - 'Đêm tháng bảy dế gáy ran ngoài bờ ruộng. Mấy đứa trong xóm hẹn nhau cầm đuốc đi bắt dế về chọi.'
+    options:
+      - id: di_bat
+        text: 'Cầm đuốc đi theo'
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 6 }
+          - { type: stress, value: -2 }
+          - { type: health, value: -1 }
+        result: ['Bạn bắt được một con dế than cánh bóng, đặt tên là Tướng Quân.']
+      - id: o_nha
+        text: 'Ở nhà đi ngủ'
+        default: true
+        result: ['Nằm trong nhà vẫn nghe tiếng lũ bạn gọi nhau ngoài ruộng.']
+
+  - id: cn_tt_tien_mung_tuoi
+    title: Tiền mừng tuổi
+    tags: [gia_dinh, le_hoi]
+    life_stages: [thieu_thoi]
+    months: [1, 2]
+    weight: 5
+    cooldown_years: 3
+    minor: true
+    tension: 1
+    importance: 2
+    icon: tet
+    text:
+      - 'Sáng mồng một, ông bà và mấy bác trong họ dúi cho bạn một xâu tiền đồng mừng tuổi.'
+    options:
+      - id: dua_me_cat
+        text: 'Đưa mẹ cất hộ'
+        default: true
+        effects:
+          - { type: money, value: 0.5, ledger: thu_khac }
+          - { type: filial_piety, value: 2 }
+        result: ['Mẹ cười, bỏ xâu tiền vào cái ống tre treo trên cột.']
+      - id: an_qua
+        text: 'Ra chợ Tết ăn bánh rán với bạn'
+        effects: [{ type: stress, value: -3 }]
+        result: ['Bánh rán nóng, mật mía chảy ròng ròng. Xâu tiền hết lúc nào không biết.']
+      - id: mua_but_muc
+        text: 'Mua một thỏi mực, một tập giấy bản'
+        condition: { any: [{ var: focus.primary, op: '==', value: hoc_chu }, { var: player.career, op: '==', value: si_tu }] }
+        effects: [{ type: skill_xp, skill: hoc_van, value: 7 }]
+        result: ['Bạn mài mực viết lại mấy chữ thầy dạy, giữ tờ đẹp nhất dán lên vách.']
+
+  - id: cn_tt_cuoi_trau_thi
+    title: Cưỡi trâu thi
+    tags: [ruong_dong, quan_he]
+    life_stages: [thieu_thoi]
+    condition: { all: [{ has_property: trau }, { var: household.self_farms, op: '==', value: true }, { var: player.age, op: between, value: [7, 14] }] }
+    weight: 5
+    weight_modifiers:
+      - { condition: { var: focus.primary, op: '==', value: phu_viec_dong }, factor: 2 }
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: trau
+    text:
+      - 'Chiều chăn trâu ở bãi sông, lũ trẻ rủ nhau cưỡi trâu thi xem con nào về tới gốc đa trước.'
+    options:
+      - id: cuoi_thi
+        text: 'Lên lưng trâu, thúc nó chạy'
+        chance: { base: 0.5, skill: sinh_ton, per_level: 0.05 }
+        success:
+          - { type: stress, value: -3 }
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+        failure:
+          - { type: health, value: -3 }
+        success_result: ['Trâu nhà bạn về nhất. Cả bãi sông reo ầm lên.']
+        failure_result: ['Trâu chồm qua mương, bạn ngã sấp xuống bùn, đau ê ẩm mấy ngày.']
+      - id: cho_trau_an
+        text: 'Dắt trâu ra bãi xa cho ăn cỏ'
+        default: true
+        effects: [{ type: skill_xp, skill: sinh_ton, value: 5 }]
+        result: ['Trâu no căng bụng. Tối về cha khen trâu béo.']
+
+  - id: cn_tt_xau_tien_dong
+    title: Xâu tiền cho cha
+    tags: [buon_ban, gia_dinh]
+    life_stages: [thieu_thoi]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.age, op: between, value: [7, 13] }] }
+    roles:
+      - { id: cha, from: family, relation: father }
+    weight: 4
+    cooldown_years: 5
+    minor: true
+    tension: 1
+    importance: 2
+    icon: tien
+    text:
+      - 'Tan phiên chợ, {role.cha.call} đổ ra chiếu một đống tiền đồng, bảo bạn xâu lại từng chuỗi cho đủ.'
+    options:
+      - id: xau_du
+        text: 'Ngồi đếm, xâu cho đủ'
+        default: true
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 7 }
+          - { type: opinion, role: cha, value: 3 }
+        result: ['Đếm đến mỏi tay mới xong. Cha cầm từng xâu lên ước, không thiếu đồng nào.']
+      - id: bot_mot_dong
+        text: 'Bớt lại vài đồng mua kẹo'
+        condition: { var: household.money, op: '>=', value: 0.5 }
+        trait_stress: { trung_thanh: 2 }
+        effects:
+          - { type: money, value: -0.5 }
+          - { type: stress, value: -2 }
+        result: ['Kẹo mạch nha ngọt lịm. Cha đếm lại, nhíu mày nhưng không hỏi.']
+
+  - id: cn_tt_to_giay_ban_thua
+    title: Tờ giấy bản thừa
+    tags: [hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { any: [{ var: player.career, op: '==', value: si_tu }, { var: player.origin, op: '==', value: quy_toc_nho }] }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 2
+    icon: sach
+    text:
+      - 'Cha chép xong bài để lại mấy tờ giấy bản còn trắng một mặt.'
+    options:
+      - id: tap_viet
+        text: 'Lấy ra tập viết chữ'
+        default: true
+        effects: [{ type: skill_xp, skill: hoc_van, value: 7 }]
+        result: ['Bạn viết kín cả hai tờ. Nét chữ còn run, nhưng đã thẳng hơn hôm trước.']
+      - id: gap_thuyen
+        text: 'Gấp thuyền thả xuống mương'
+        effects: [{ type: stress, value: -3 }]
+        result: ['Thuyền giấy trôi một đoạn rồi ngấm nước chìm. Bạn chạy theo đến tận cống.']
+
+  - id: cn_tt_nuoi_ga_con
+    title: Mẹ giao nuôi gà
+    tags: [gia_dinh, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { all: [{ var: household.self_farms, op: '==', value: true }, { var: player.age, op: between, value: [7, 13] }] }
+    roles:
+      - { id: me, from: family, relation: mother }
+    weight: 4
+    once_per_life: true
+    minor: true
+    tension: 1
+    importance: 3
+    icon: ga
+    text:
+      - '{role.me.call} đổi được mấy con gà con, bảo bạn nhận lấy mà nuôi, lớn lên bán được thì cho bạn may áo.'
+    options:
+      - id: nhan_nuoi
+        text: 'Nhận nuôi, ngày ngày bắt giun cho gà'
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 6 }
+          - { type: opinion, role: me, value: 4 }
+          - { type: chance, p: 0.25, then: [{ type: property_add, property: dan_ga, count: 1 }] }
+        result: ['Đàn gà lớn nhanh. Sáng nào bạn cũng dậy sớm cho chúng ăn trước khi đi chăn trâu.']
+      - id: de_me_nuoi
+        text: 'Để mẹ nuôi, mình còn mải chơi'
+        default: true
+        effects: [{ type: opinion, role: me, value: -3 }]
+        result: ['Mẹ thở dài, quây đàn gà vào góc bếp.']
+
+  - id: cn_tt_ban_nha_chai
+    title: Đứa trẻ nhà chài
+    tags: [quan_he, lang_xa]
+    life_stages: [thieu_thoi]
+    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: player.age, op: between, value: [6, 13] }] }
+    weight: 4
+    once_per_life: true
+    minor: true
+    tension: 1
+    importance: 3
+    icon: ca
+    text:
+      - 'Có đứa trẻ nhà chài neo thuyền dưới bến, đen nhẻm, ngày nào cũng ngồi đầu mũi thuyền nhìn lũ trẻ trên bờ chơi đánh khăng.'
+    options:
+      - id: ru_choi
+        text: 'Gọi nó lên bờ chơi cùng'
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 6 }
+          - { type: stress, value: -2 }
+        result: ['Nó bơi giỏi như rái cá, chỉ cho bạn cách lặn mò hến dưới chân bến.']
+      - id: mac_ke
+        text: 'Kệ nó, chơi với bạn quen'
+        default: true
+        result: ['Mấy hôm sau thuyền nhà chài nhổ neo đi đâu mất.']
+
+  # ── Người lớn (16–55) ──
+  - id: cn_nl_non_ba_tam
+    title: Chiếc nón mới
+    tags: [buon_ban]
+    life_stages: [thanh_nien]
+    condition: { var: household.money, op: '>=', value: 2 }
+    weight: 4
+    cooldown_years: 6
+    minor: true
+    tension: 1
+    importance: 2
+    icon: tien
+    text:
+      - 'Phiên chợ có bà hàng bán nón ba tầm quai thao, lòng nón dán giấy hoa. Cái nón cũ của bạn đã thủng hai chỗ.'
+    options:
+      - id: mua_non
+        text: 'Mua một chiếc (0.5 quan)'
+        condition: { var: household.money, op: '>=', value: 0.5 }
+        effects:
+          - { type: money, value: -0.5 }
+          - { type: stress, value: -2 }
+          - { type: reputation, value: 1 }
+        result: ['Đội nón mới đi qua cổng làng, mấy cô gái đứng giếng ngoảnh lại nhìn.']
+      - id: va_non_cu
+        text: 'Lấy lá vá lại nón cũ'
+        default: true
+        result: ['Nón vá xong vẫn che được nắng. Tiết kiệm được đồng nào hay đồng ấy.']
+
+  - id: cn_nl_hang_xom_muon_trau
+    title: Hàng xóm mượn trâu
+    tags: [ruong_dong, lang_xa, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [1, 2, 6, 7]
+    condition: { has_property: trau }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 5
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: trau
+    text:
+      - 'Trâu nhà {role.hx.call} ốm giữa vụ. Người ta sang xin mượn trâu nhà bạn cày nốt hai sào.'
+    options:
+      - id: cho_muon
+        text: 'Cho mượn, dặn cày nhẹ tay'
+        effects:
+          - { type: opinion, role: hx, value: 6 }
+          - { type: stress, value: 1 }
+        result: ['Ba hôm sau trâu về, gầy đi một chút. Hàng xóm biếu lại một rổ khoai.']
+      - id: tu_choi_kheo
+        text: 'Từ chối khéo, trâu nhà còn phải cày'
+        default: true
+        effects: [{ type: opinion, role: hx, value: -4 }]
+        result: ['Người ta gật đầu đi về, nhưng mấy hôm liền gặp nhau không chào.']
+
+  - id: cn_nl_muon_thuyen_nan
+    title: Mượn thuyền chở hàng
+    tags: [buon_ban, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: player.career, op: '==', value: thuong_nhan }] }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 4
+    cooldown_years: 5
+    minor: true
+    tension: 1
+    importance: 3
+    icon: ca
+    text:
+      - '{role.hx.call} có mấy bao vôi cần chở lên bến trên, sang hỏi mượn chiếc thuyền nan nhà bạn hai ngày.'
+    options:
+      - id: cho_muon
+        text: 'Cho mượn không lấy tiền'
+        effects: [{ type: opinion, role: hx, value: 5 }]
+        result: ['Thuyền về sạch sẽ, mạn còn được trát lại chỗ rò.']
+      - id: cho_thue
+        text: 'Lấy chút tiền thuê (1 quan)'
+        effects:
+          - { type: money, value: 1, ledger: buon_ban }
+          - { type: opinion, role: hx, value: -3 }
+        result: ['Người ta trả đủ tiền, nhưng ra về vẫn lẩm bẩm "chỗ hàng xóm cả".']
+      - id: tu_choi
+        text: 'Bảo thuyền đang phải dùng'
+        default: true
+        effects: [{ type: opinion, role: hx, value: -2 }]
+        result: ['Người ta sang thuê thuyền nhà khác.']
+
+  - id: cn_nl_mung_cuoi_ban
+    title: Bạn cùng xóm cưới vợ
+    tags: [quan_he, le_hoi]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.mourning_months, op: '==', value: 0 }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 2
+    icon: cuoi
+    text:
+      - 'Thằng bạn chăn trâu với bạn từ bé nay cưới vợ. Nhà trai dựng rạp lá chuối, mời bạn sang ăn cỗ.'
+    options:
+      - id: mung_tien
+        text: 'Mừng một quan tiền'
+        condition: { var: household.money, op: '>=', value: 1 }
+        effects:
+          - { type: money, value: -1 }
+          - { type: reputation, value: 2 }
+          - { type: stress, value: -2 }
+        result: ['Bạn được xếp ngồi mâm trên. Chú rể rót rượu mời đến ba lần.']
+      - id: mung_gao
+        text: 'Mang thúng gạo nếp sang mừng'
+        default: true
+        effects:
+          - { type: food, value: -0.5 }
+          - { type: reputation, value: 1 }
+        result: ['Quà quê mộc mạc, nhà trai vẫn vui vẻ nhận.']
+
+  - id: cn_nl_ganh_cheo_ve_dinh
+    title: Gánh chèo về đình
+    tags: [le_hoi, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [1, 2, 3, 8]
+    condition: { var: player.mourning_months, op: '==', value: 0 }
+    weight: 4
+    cooldown_years: 3
+    minor: true
+    tension: 1
+    importance: 2
+    icon: hoi
+    text:
+      - 'Có gánh chèo về dựng chiếu ở sân đình, tối nay diễn tích người con hiếu thảo bị oan. Tiếng trống đã thùng thùng từ chiều.'
+    options:
+      - id: di_xem
+        text: 'Đi xem đến khuya'
+        condition: { var: household.money, op: '>=', value: 0.3 }
+        effects:
+          - { type: money, value: -0.3 }
+          - { type: stress, value: -4 }
+        result: ['Đến đoạn người con bị đuổi khỏi nhà, cả sân đình lặng đi. Bạn về nhà lúc gà gáy.']
+      - id: ngu_som
+        text: 'Ở nhà ngủ sớm, mai còn dậy sớm'
+        default: true
+        result: ['Nằm trong nhà vẫn nghe tiếng trống chèo vọng lại đến nửa đêm.']
+
+  - id: cn_nl_chau_sanh_the
+    title: Chậu sanh thế ở chợ huyện
+    tags: [buon_ban]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: household.money, op: '>=', value: 4 }
+    weight: 3
+    cooldown_years: 8
+    minor: true
+    tension: 1
+    importance: 2
+    icon: cay
+    text:
+      - 'Ông lão ở chợ huyện bày bán một chậu sanh uốn thế rồng chầu, rễ ôm đá, xin một quan rưỡi.'
+    options:
+      - id: mua_chau
+        text: 'Mua về đặt trước hiên (1.5 quan)'
+        effects:
+          - { type: money, value: -1.5 }
+          - { type: stress, value: -3 }
+          - { type: reputation, value: 1 }
+        result: ['Chiều chiều bạn ra tỉa lá, ngắm thế cây, thấy lòng nhẹ hẳn.']
+      - id: thoi
+        text: 'Ngắm một lúc rồi đi'
+        default: true
+        result: ['Tiền ấy đủ đong thóc cho cả nhà mấy tuần. Bạn quay đi.']
+
+  - id: cn_nl_qua_cho_cha_me
+    title: Quà chợ cho cha mẹ
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { var: household.money, op: '>=', value: 1 }
+    roles:
+      - { id: cm, from: family, relation: parent, condition: { var: self.age, op: '>=', value: 50 } }
+    weight: 5
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: gia_dinh
+    text:
+      - 'Đi chợ về qua hàng trầu, bạn chợt nhớ {role.cm.call} dạo này ăn trầu không còn nhai được miếng cau già.'
+    options:
+      - id: mua_qua
+        text: 'Mua buồng cau non, gói chè ngon (0.5 quan)'
+        effects:
+          - { type: money, value: -0.5 }
+          - { type: filial_piety, value: 3 }
+          - { type: opinion, role: cm, value: 5 }
+        result: ['Ngồi têm trầu, {role.cm.call} cười móm mém, bảo con lớn thật rồi.']
+      - id: de_danh
+        text: 'Thôi, để dành tiền lo việc khác'
+        default: true
+        result: ['Bạn đi thẳng qua hàng trầu.']
+
+  - id: cn_nl_van_co_goc_da
+    title: Ván cờ dưới gốc đa
+    tags: [quan_he, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { var: household.money, op: '>=', value: 2 }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 2
+    icon: chen_tra
+    text:
+      - 'Dưới gốc đa đầu làng, mấy ông bày bàn cờ vẽ trên chiếu, mỗi ván đặt một quan.'
+    options:
+      - id: ngoi_danh
+        text: 'Ngồi vào đánh một ván'
+        trait_stress: { than_trong: 2 }
+        chance: { base: 0.4, skill: muu_luoc, per_level: 0.05 }
+        success:
+          - { type: money, value: 1, ledger: thu_khac }
+          - { type: skill_xp, skill: muu_luoc, value: 8 }
+        failure:
+          - { type: money, value: -1 }
+          - { type: stress, value: 2 }
+        success_result: ['Bạn chiếu tướng nước cuối. Ông kia vỗ đùi, móc tiền trả.']
+        failure_result: ['Mải ăn quân, bạn hở mất tướng. Một quan tiền đi tong.']
+      - id: dung_xem
+        text: 'Đứng xem, học nước đi'
+        default: true
+        effects: [{ type: skill_xp, skill: muu_luoc, value: 5 }]
+        result: ['Xem hết buổi chiều, bạn nhớ được mấy thế cờ hay.']
+
+  - id: cn_nl_cho_vang_truoc_cong
+    title: Chó lạc trước cổng
+    tags: [gia_dinh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { not: { has_flag: cn_nuoi_cho } }
+    weight: 3
+    cooldown_years: 8
+    minor: true
+    tension: 1
+    importance: 2
+    icon: cho
+    text:
+      - 'Sáng ra có con chó vện gầy trơ xương nằm ngay trước cổng, thấy người thì cụp đuôi nhưng không chạy.'
+    options:
+      - id: nuoi_giu_nha
+        text: 'Cho ăn, giữ lại trông nhà'
+        effects:
+          - { type: food, value: -0.5 }
+          - { type: stress, value: -2 }
+          - { type: set_flag, flag: cn_nuoi_cho, years: 10 }
+        result: ['Được mấy bữa cơm, con vện béo lên trông thấy. Đêm có tiếng động là nó sủa vang.']
+      - id: xua_di
+        text: 'Xua nó đi chỗ khác'
+        default: true
+        result: ['Con chó lững thững đi sang xóm khác.']
+
+  - id: cn_nl_khuc_vai_cho_vo
+    title: Khúc vải ở phiên chợ
+    tags: [gia_dinh, buon_ban]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { all: [{ var: player.married, op: '==', value: true }, { var: household.money, op: '>=', value: 2 }] }
+    roles:
+      - { id: vc, from: family, relation: spouse }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 2
+    icon: gia_dinh
+    text:
+      - 'Phiên chợ có lái vải bày khúc lụa màu hồ thủy. Bạn chợt nghĩ đến {role.vc.call}, mấy năm nay chưa sắm được gì mới.'
+    options:
+      - id: mua_vai
+        text: 'Mua một khúc (1 quan)'
+        effects:
+          - { type: money, value: -1 }
+          - { type: opinion, role: vc, value: 6 }
+          - { type: stress, value: -1 }
+        result: ['Cầm khúc vải, {role.vc.call} lườm bạn tiêu hoang, nhưng tối ấy cứ ướm đi ướm lại.']
+      - id: thoi
+        text: 'Thôi, để dành tiền'
+        default: true
+        result: ['Bạn mua nắm kẹo lạc thay vào, cả nhà chia nhau ăn.']
+
+  - id: cn_nl_con_doi_lam_dieu
+    title: Con đòi làm diều
+    tags: [gia_dinh]
+    life_stages: [lap_nghiep, trung_nien]
+    months: [4, 5, 6]
+    roles:
+      - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [5, 11] }, { var: self.in_household, op: '==', value: true }] } }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: dieu
+    text:
+      - 'Gió nồm thổi lồng lộng. {role.con.call} níu áo bạn, đòi làm một cái diều to như diều nhà bên.'
+    options:
+      - id: lam_cung_con
+        text: 'Chẻ tre, dán giấy làm cùng con'
+        effects:
+          - { type: opinion, role: con, value: 6 }
+          - { type: stress, value: -3 }
+        result: ['Diều lên cao, sáo diều vi vu. Con chạy theo dây, cười không ngớt.']
+      - id: bao_tu_lam
+        text: 'Bảo con tự làm lấy'
+        default: true
+        effects: [{ type: opinion, role: con, value: -3 }]
+        result: ['Con hì hục cả buổi, diều méo xệch, bay được một đoạn thì cắm đầu xuống ruộng.']
+
+  - id: cn_nl_thoi_muc_thom
+    title: Thỏi mực thơm
+    tags: [hoc_hanh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: household.money, op: '>=', value: 2 }] }
+    weight: 4
+    cooldown_years: 5
+    minor: true
+    tension: 1
+    importance: 2
+    icon: sach
+    text:
+      - 'Người bán rong qua làng có mấy thỏi mực thơm mùi xạ, mài ra đen nhánh, xin một quan một thỏi.'
+    options:
+      - id: mua_muc
+        text: 'Mua một thỏi (1 quan)'
+        effects:
+          - { type: money, value: -1 }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+          - { type: stress, value: -1 }
+        result: ['Mực tốt làm nét chữ có thần. Bạn chép lại cả quyển văn sách cho đẹp.']
+      - id: dung_muc_cu
+        text: 'Dùng nốt thỏi mực cũ'
+        default: true
+        effects: [{ type: skill_xp, skill: hoc_van, value: 4 }]
+        result: ['Mực cũ nhạt màu, nhưng chữ là ở tay người viết.']
+
+  - id: cn_nl_mai_luoi_dao
+    title: Mài lại lưỡi đao
+    tags: [vo_nghe, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { var: player.career, op: '==', value: linh }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 2
+    icon: kiem
+    text:
+      - 'Lưỡi đao đã mẻ hai chỗ sau đợt tập. Lò rèn ngoài chợ nhận mài lại, lấy nửa quan.'
+    options:
+      - id: mang_ra_lo
+        text: 'Mang ra lò rèn (0.5 quan)'
+        condition: { var: household.money, op: '>=', value: 0.5 }
+        effects:
+          - { type: money, value: -0.5 }
+          - { type: skill_xp, skill: quan_su, value: 7 }
+        result: ['Lưỡi đao về sáng loáng, chém đứt cây tre cỡ cổ tay.']
+      - id: tu_mai
+        text: 'Tự ngồi mài bên giếng'
+        default: true
+        effects:
+          - { type: skill_xp, skill: quan_su, value: 3 }
+          - { type: stress, value: 1 }
+        result: ['Mài cả buổi tối mới hết vết mẻ. Đao không sắc bằng, nhưng dùng được.']
+
+  - id: cn_nl_dua_chan_de
+    title: Đứa trẻ chăn dê
+    tags: [nguy_hiem, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { var: player.career, op: '==', value: thao_khau }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: nguoi_la
+    text:
+      - 'Trên đường mòn về trại, bạn chạm mặt một đứa trẻ chăn dê. Nó nhìn bạn chằm chằm rồi lùi dần về phía bản.'
+    options:
+      - id: cho_tien
+        text: 'Dúi cho nó ít tiền, dặn đừng nói gì'
+        condition: { var: household.money, op: '>=', value: 0.5 }
+        effects: [{ type: money, value: -0.5 }]
+        result: ['Đứa bé nắm chặt mấy đồng tiền, gật đầu lia lịa rồi chạy biến.']
+      - id: doa_no
+        text: 'Trợn mắt dọa cho nó sợ'
+        trait_stress: { nhan_tu: 3 }
+        effects: [{ type: chance, p: 0.15, then: [{ type: wanted, value: 2 }] }]
+        result: ['Đứa bé khóc thét, bỏ cả đàn dê mà chạy.']
+      - id: mac_ke
+        text: 'Mặc kệ, đi tiếp'
+        default: true
+        effects: [{ type: chance, p: 0.3, then: [{ type: wanted, value: 2 }] }]
+        result: ['Bạn kéo vành nón thấp xuống, rẽ sang lối khác.']
+
+  - id: cn_nl_chan_bong_ngay_ret
+    title: Chăn bông ngày rét
+    tags: [gia_dinh, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [11, 12, 1]
+    condition: { var: household.money, op: '>=', value: 3 }
+    weight: 4
+    cooldown_years: 5
+    minor: true
+    tension: 1
+    importance: 2
+    icon: tien
+    text:
+      - 'Gió bấc thổi rát mặt. Ngoài chợ có người bán chăn bông mới bật, ấm sực, một quan rưỡi một chiếc.'
+    options:
+      - id: mua_chan
+        text: 'Mua một chiếc (1.5 quan)'
+        effects:
+          - { type: money, value: -1.5 }
+          - { type: modifier, target: health.monthly, value: 0.1, months: 3, label: 'Chăn bông mới' }
+          - { type: stress, value: -1 }
+        result: ['Đêm ấy cả nhà rúc chung một chăn, không ai bị rét cóng.']
+      - id: o_rom
+        text: 'Lót thêm ổ rơm cho qua mùa'
+        default: true
+        effects: [{ type: stress, value: 1 }]
+        result: ['Ổ rơm sột soạt, cũng đủ ấm qua những đêm rét nhất.']
+
+  - id: cn_nl_viet_thu_ho
+    title: Nhờ viết thư
+    tags: [lang_xa, hoc_hanh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { all: [{ var: player.skill.hoc_van, op: '>=', value: 2 }, { var: world.military_alert, op: '!=', value: binh_yen }] }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: sach
+    text:
+      - 'Bà cụ góa cuối xóm có con trai đi lính thú biên ải. Bà biết bạn có chữ, đến nhờ viết hộ lá thư.'
+    options:
+      - id: viet_khong_lay
+        text: 'Viết giúp, không lấy tiền'
+        effects:
+          - { type: reputation, value: 2 }
+          - { type: skill_xp, skill: hoc_van, value: 5 }
+        result: ['Bà cụ đọc từng câu cho bạn chép, đến đoạn dặn con mặc ấm thì nghẹn lại.']
+      - id: lay_tien_cong
+        text: 'Viết, lấy chút tiền giấy mực'
+        effects:
+          - { type: money, value: 0.5, ledger: thu_khac }
+          - { type: reputation, value: -1 }
+        result: ['Bà cụ móc túi trả từng đồng, không kêu ca gì.']
+      - id: ban_viec
+        text: 'Đang bận, hẹn bà hôm khác'
+        default: true
+        result: ['Bà cụ chống gậy sang nhờ ông đồ làng bên.']
+
+  # ── Tuổi già (56+) ──
+  - id: cn_g_trong_cay_cho_chau
+    title: Trồng cây cho cháu
+    tags: [gia_dinh]
+    life_stages: [tuoi_gia]
+    weight: 4
+    once_per_life: true
+    minor: true
+    tension: 1
+    importance: 4
+    icon: cay
+    text:
+      - 'Góc vườn còn khoảnh đất trống. Bạn nghĩ trồng một cây nhãn thì phải mười năm mới có quả, khi ấy mình còn đâu.'
+    options:
+      - id: trong_cay
+        text: 'Cứ trồng, để cháu chắt sau này hái'
+        effects:
+          - { type: stress, value: -3 }
+          - { type: health, value: -1 }
+          - { type: set_flag, flag: cn_cay_nhan_trong_cho_chau }
+        result: ['Bạn tự tay đào hố, vun gốc. Lũ cháu đứng quanh hỏi bao giờ có nhãn ăn.']
+      - id: thoi
+        text: 'Thôi, già rồi, để đất trồng rau'
+        default: true
+        result: ['Khoảnh đất ấy năm nào cũng xanh rau cải.']
+
+  - id: cn_g_chep_kinh_nghiem
+    title: Chép lại kinh nghiệm
+    tags: [gia_dinh, hoc_hanh]
+    life_stages: [tuoi_gia]
+    condition: { var: player.skill.hoc_van, op: '>=', value: 1 }
+    roles:
+      - { id: con, from: family, relation: child, condition: { var: self.age, op: '>=', value: 16 }, optional: true }
+    weight: 4
+    once_per_life: true
+    minor: true
+    tension: 1
+    importance: 4
+    icon: sach
+    text:
+      - 'Đêm dài khó ngủ, bạn nghĩ nên chép lại những điều cả đời học được: xem trời, chọn giống, mấy bài thuốc nam.'
+    options:
+      - id: chep_lai
+        text: 'Thắp đèn chép thành một tập'
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 6 }
+          - { type: stress, value: -1 }
+          - { type: set_flag, flag: cn_tap_kinh_nghiem }
+        result: ['Tập giấy dày dần qua mấy mùa. Bạn khâu gáy cẩn thận, cất vào rương.']
+      - id: ke_mieng
+        text: 'Kể miệng cho con cháu nghe là đủ'
+        default: true
+        effects: [{ type: opinion, role: con, value: 3 }]
+        result: ['Con cháu nghe, nhớ được chuyện nào thì nhớ.']
+
+  - id: cn_g_tho_de_vach
+    title: Bài thơ chiều thu
+    tags: [hoc_hanh, van_minh]
+    life_stages: [tuoi_gia]
+    months: [9, 10]
+    condition: { any: [{ var: player.exam_degree, op: '!=', value: none }, { var: player.skill.hoc_van, op: '>=', value: 3 }] }
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 3
+    icon: la
+    text:
+      - 'Chiều cuối thu, khói rơm bay ngang ngõ, lá bàng đỏ rụng đầy sân. Trong lòng bạn có mấy câu thơ chực thành lời.'
+    options:
+      - id: de_tho
+        text: 'Mài mực đề thơ lên vách'
+        effects:
+          - { type: scholarly_prestige, value: 2 }
+          - { type: stress, value: -2 }
+        result: ['Bài thơ tứ tuyệt viết xong, mấy ông đồ trong làng ghé sang đọc, gật gù.']
+      - id: uong_tra
+        text: 'Ngồi uống chén trà, để câu thơ trôi đi'
+        default: true
+        effects: [{ type: stress, value: -1 }]
+        result: ['Trà nguội lúc nào không hay. Câu thơ cũng quên mất.']
+
+  - id: cn_g_dat_sinh_phan
+    title: Xem đất sinh phần
+    tags: [tin_nguong, gia_dinh]
+    life_stages: [tuoi_gia]
+    condition: { all: [{ var: player.age, op: '>=', value: 62 }, { var: household.money, op: '>=', value: 4 }] }
+    weight: 3
+    once_per_life: true
+    minor: true
+    tension: 1
+    importance: 4
+    icon: tang
+    text:
+      - 'Có thầy địa lý đi qua làng, ngỏ ý xem giúp một thế đất sinh phần cho bạn, lấy hai quan tiền công.'
+    options:
+      - id: nho_xem
+        text: 'Nhờ thầy xem, đặt sẵn chỗ nằm (2 quan)'
+        trait_stress: { hoai_nghi: 2 }
+        effects:
+          - { type: money, value: -2 }
+          - { type: stress, value: -3 }
+          - { type: set_flag, flag: cn_co_dat_sinh_phan }
+        result: ['Thầy cắm cọc trên gò đất cao, quay mặt ra sông. Bạn đứng đó lâu, lòng thanh thản lạ.']
+      - id: de_con_chau
+        text: 'Để con cháu lo sau'
+        default: true
+        result: ['Sống chết có số, lo trước làm gì. Bạn tiễn thầy ra ngõ.']
+
+  - id: cn_g_chau_doi_qua
+    title: Cháu đòi quà
+    tags: [gia_dinh]
+    life_stages: [tuoi_gia]
+    roles:
+      - { id: chau, from: family, relation: member, condition: { all: [{ var: self.age, op: between, value: [3, 10] }, { var: self.in_household, op: '==', value: true }] } }
+    weight: 5
+    cooldown_years: 3
+    minor: true
+    tension: 1
+    importance: 2
+    icon: tre_em
+    text:
+      - 'Cháu {role.chau.given} chạy ra níu tay bạn, đòi tiền mua kẹo kéo của bà hàng rong đang rao ngoài ngõ.'
+    options:
+      - id: cho_tien
+        text: 'Lần túi cho cháu mấy đồng'
+        condition: { var: household.money, op: '>=', value: 0.5 }
+        effects:
+          - { type: money, value: -0.3 }
+          - { type: opinion, role: chau, value: 6 }
+        result: ['Cháu chạy vụt ra ngõ, lát sau mang về chia cho ông một mẩu kẹo.']
+      - id: ke_chuyen
+        text: 'Bế cháu lên, kể chuyện cổ tích'
+        default: true
+        effects:
+          - { type: opinion, role: chau, value: 3 }
+          - { type: stress, value: -1 }
+        result: ['Đến đoạn Thạch Sanh chém chằn tinh, cháu quên luôn kẹo kéo.']
+
+  - id: cn_g_cau_ca_ao_lang
+    title: Rủ đi câu
+    tags: [lang_xa, quan_he]
+    life_stages: [tuoi_gia]
+    months: [3, 4, 5, 9, 10]
+    weight: 4
+    cooldown_years: 4
+    minor: true
+    tension: 1
+    importance: 2
+    icon: ca
+    text:
+      - 'Ông bạn già cùng xóm vác cần trúc qua ngõ, rủ bạn chiều nay ra ao đình ngồi câu cho vui.'
+    options:
+      - id: di_cau
+        text: 'Vác cần đi cùng'
+        effects:
+          - { type: stress, value: -3 }
+          - { type: food, value: 0.3, ledger: thu_khac }
+        result: ['Câu được dăm con rô đồng. Hai ông già ngồi đến tối kể chuyện ngày xưa.']
+      - id: o_nha
+        text: 'Ở nhà trông cháu'
+        default: true
+        result: ['Bạn ngồi đầu hiên, nhìn ông bạn khuất sau lũy tre.']
+
+  # ── Chung mọi giai đoạn (từ 6 tuổi) ──
+  - id: cn_c_cay_xoan_gay
+    title: Cành xoan gãy
+    tags: [lang_xa, lao_dong]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [6, 7, 8, 9]
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 4
+    cooldown_years: 5
+    minor: true
+    tension: 1
+    importance: 2
+    icon: mua
+    text:
+      - 'Sau trận gió đêm qua, một cành xoan to gãy chắn ngang lối ngõ giữa nhà bạn và nhà {role.hx.call}.'
+    options:
+      - id: keo_ve
+        text: 'Kéo về chặt làm củi'
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 5 }
+          - { type: stress, value: 1 }
+        result: ['Củi xoan chất được nửa góc bếp, đủ đun cả tháng.']
+      - id: goi_hx
+        text: 'Gọi hàng xóm cùng dọn, chia đôi củi'
+        effects: [{ type: opinion, role: hx, value: 4 }]
+        result: ['Hai nhà cưa xẻ một buổi sáng là xong, trưa còn ngồi uống bát nước chè.']
+      - id: de_do
+        text: 'Để đấy, ai cần thì dọn'
+        default: true
+        effects: [{ type: reputation, value: -1 }]
+        result: ['Ba hôm sau cành xoan vẫn nằm đó. Người qua ngõ phải lách mình.']
+
+  - id: cn_c_ram_thang_gieng
+    title: Rằm tháng Giêng
+    tags: [tin_nguong, le_hoi]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [1, 2]
+    weight: 4
+    cooldown_years: 3
+    minor: true
+    tension: 1
+    importance: 2
+    icon: trang
+    text:
+      - 'Rằm tháng Giêng, người làng nườm nượp lên chùa thắp hương. Mẹt xôi, nải chuối xếp đầy hiên.'
+    options:
+      - id: len_chua
+        text: 'Lên chùa thắp nén hương'
+        condition: { var: household.money, op: '>=', value: 0.3 }
+        trait_stress: { hoai_nghi: 1 }
+        effects:
+          - { type: money, value: -0.3 }
+          - { type: stress, value: -3 }
+        result: ['Khói hương thơm ngát. Tiếng chuông chùa ngân xa đến tận bến sông.']
+      - id: o_nha
+        text: 'Ở nhà làm việc'
+        default: true
+        trait_stress: { mo_dao: 2 }
+        result: ['Bạn đứng ở ngõ nhìn người đi lễ qua, rồi quay vào.']
+
+  - id: cn_c_dem_trung_thu
+    title: Đêm rằm tháng Tám
+    tags: [le_hoi, gia_dinh]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [8, 9]
+    condition: { var: player.mourning_months, op: '==', value: 0 }
+    weight: 4
+    cooldown_years: 3
+    minor: true
+    tension: 1
+    importance: 2
+    icon: trang
+    text:
+      - 'Trăng rằm tháng Tám tròn vành vạnh. Trẻ con trong xóm cầm đèn giấy chạy rước khắp ngõ.'
+    options:
+      - id: lam_den
+        text: 'Chẻ nan, dán một chiếc đèn ông sao'
+        condition: { var: household.money, op: '>=', value: 0.3 }
+        effects:
+          - { type: money, value: -0.3 }
+          - { type: stress, value: -2 }
+          - { type: skill_xp, skill: sinh_ton, value: 5 }
+        result: ['Đèn ông sao đỏ rực năm cánh. Ánh nến lung linh suốt đêm.']
+      - id: ngam_trang
+        text: 'Ngồi ngoài sân ngắm trăng'
+        default: true
+        effects: [{ type: stress, value: -1 }]
+        result: ['Trăng sáng soi rõ từng ngọn tre. Đêm yên như tờ.']
+
+  - id: cn_c_dam_ma_xom_ngheo
+    title: Đám ma nhà nghèo
+    tags: [lang_xa, quan_he]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3
+    cooldown_years: 6
+    minor: true
+    tension: 1
+    importance: 3
+    icon: tang
+    text:
+      - 'Ông lão neo đơn cuối xóm vừa mất. Nhà chẳng còn ai, đám ma vắng người đưa.'
+    options:
+      - id: ra_khieng
+        text: 'Ra ghé vai khiêng đòn'
+        condition: { var: player.age, op: between, value: [16, 60] }
+        effects:
+          - { type: reputation, value: 3 }
+          - { type: health, value: -1 }
+        result: ['Đường ra đồng xa, vai bạn hằn đỏ. Mấy cụ trong làng nhìn bạn gật đầu.']
+      - id: gui_gao
+        text: 'Gửi nắm gạo, nén hương phúng viếng'
+        effects:
+          - { type: food, value: -0.5 }
+          - { type: reputation, value: 1 }
+        result: ['Bạn thắp nén hương trước linh sàng đơn sơ, khấn vài câu rồi về.']
+      - id: dong_cua
+        text: 'Đóng cửa ở nhà'
+        default: true
+        result: ['Tiếng kèn đám ma xa dần về phía cánh đồng.']
+
+  - id: cn_c_ran_nuoc_trong_bep
+    title: Rắn nước trong bếp
+    tags: [gia_dinh, nguy_hiem]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 6, 7, 8]
+    weight: 3
+    cooldown_years: 6
+    minor: true
+    tension: 1
+    importance: 2
+    icon: nha
+    text:
+      - 'Đang nhóm bếp, bạn giật mình thấy một con rắn nước cuộn tròn trong đống rơm khô.'
+    options:
+      - id: lay_gay_bat
+        text: 'Cầm gậy bắt nó'
+        chance: { base: 0.6, skill: sinh_ton, per_level: 0.05 }
+        success:
+          - { type: skill_xp, skill: sinh_ton, value: 6 }
+          - { type: food, value: 0.2, ledger: thu_khac }
+        failure:
+          - { type: health, value: -2 }
+          - { type: stress, value: 2 }
+        success_result: ['Một gậy trúng đầu. Bữa tối có thêm bát cháo rắn.']
+        failure_result: ['Rắn quay lại đớp trúng mu bàn tay. May không có nọc, nhưng sưng mấy ngày.']
+      - id: de_no_di
+        text: 'Lấy que gạt nó ra vườn'
+        default: true
+        result: ['Con rắn trườn qua bậc cửa, mất hút vào bụi chuối.']
+
+  - id: cn_c_to_ong_mai_hien
+    title: Tổ ong dưới mái hiên
+    tags: [gia_dinh]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [3, 4, 5, 6]
+    weight: 3
+    cooldown_years: 7
+    minor: true
+    tension: 1
+    importance: 2
+    icon: nha
+    text:
+      - 'Đàn ong mật về làm tổ dưới mái hiên, tổ đã to bằng cái nón.'
+    options:
+      - id: hun_khoi
+        text: 'Đêm xuống hun khói lấy mật'
+        chance: { base: 0.5, skill: sinh_ton, per_level: 0.05 }
+        success:
+          - { type: money, value: 0.8, ledger: thu_khac }
+          - { type: stress, value: -1 }
+        failure:
+          - { type: health, value: -3 }
+        success_result: ['Được hai bát mật vàng óng, đem ra chợ bán được tiền.']
+        failure_result: ['Đàn ong vỡ tổ, đốt sưng vù cả mặt.']
+      - id: de_yen
+        text: 'Để yên, ong không động thì không đốt'
+        default: true
+        result: ['Đàn ong ở lại cả mùa, sáng sáng bay ra vườn bưởi.']

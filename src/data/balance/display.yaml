@@ -65,5 +65,22 @@ highlight_importance: 6
 life_map_marks_per_year: 2   # số biểu tượng dấu mốc trên một ô Bản đồ cuộc đời
 chronicle_shown: 6           # số biến cố biên niên gần nhất hiện trên màn hình
 life_map_extra_rows: 1       # bản đồ cuộc đời vẽ thêm chừng này hàng sau tuổi thọ kỳ vọng
+# [1] Gợi ý tác động dưới mỗi trọng tâm (kỹ năng được XP luôn hiện trước, rồi tới các chỉ số này)
+focus_hints:
+  - { target: harvest.yield, key: hint.harvest, higher_is_good: true }
+  - { target: health.monthly, key: hint.health, higher_is_good: true }
+  - { target: stress.monthly, key: hint.stress, higher_is_good: false }
+  - { target: living.cost, key: hint.cost, higher_is_good: false }
+  - { target: food.consumption, key: hint.food, higher_is_good: false }
+  - { target: death_risk, key: hint.death_risk, higher_is_good: false }
+focus_hints_max: 3
+# [1] Bậc kỹ năng hiện bằng chữ (bậc 0 = chưa biết, ẩn khỏi bảng)
+skill_bands:
+  - { min: 15, key: skill.band.lao_luyen }
+  - { min: 10, key: skill.band.tinh_thong }
+  - { min: 6, key: skill.band.gioi }
+  - { min: 3, key: skill.band.kha }
+  - { min: 1, key: skill.band.moi_hoc }
+  - { min: 0, key: skill.band.chua_biet }
 default_language: vi
 journal_years_shown: 8

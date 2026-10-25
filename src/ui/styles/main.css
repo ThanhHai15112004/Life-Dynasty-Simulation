@@ -873,3 +873,80 @@ h4 {
   white-space: pre-wrap;
   color: var(--red);
 }
+
+/* ── [1] Trọng tâm dạng viên có gợi ý tác động ── */
+.focus-pill {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  border-radius: 999px;
+  padding: 7px 16px;
+}
+.focus-pill-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.focus-pill-hints {
+  display: inline-flex;
+  gap: 6px;
+  font-size: 11px;
+}
+.focus-pill.primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.focus-pill.primary .up,
+.focus-pill.primary .down {
+  color: #e6f4ec;
+}
+
+/* ── [1] Nhà mình, chi tiêu ── */
+.manage-note {
+  font-size: 13px;
+  background: #f6f2e8;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin: 4px 0 8px;
+}
+.toggle input {
+  width: auto;
+}
+
+/* ── [1] Chuyện nhỏ trong nhật ký ── */
+.minor-card {
+  border: 1px solid var(--gold);
+  background: #fffaf0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.minor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.minor-card p {
+  margin: 4px 0 8px;
+  font-size: 13px;
+}
+.minor-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Cuộn tới thẻ thì không bị thanh tiêu đề dính trên cùng che mất */
+.card,
+.minor-card {
+  scroll-margin-top: 160px;
+}

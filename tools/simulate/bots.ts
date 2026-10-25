@@ -14,13 +14,10 @@ export interface Bot {
 
 const mid = (o: NonNullable<HudView['pending']>['options'][number]) => (o.chance ? (o.chance.shown[0] + o.chance.shown[1]) / 2 : undefined);
 
-function focusCmd(view: HudView, primary: string, secondary: string | null = null): Command[] {
-  if (!view.focus.canChoose) return [];
-  const ok = (id: string | null) => !!id && view.focus.options.some((o) => o.id === id && o.available);
-  const p = ok(primary) ? primary : view.focus.options.find((o) => o.available)?.id;
-  if (!p) return [];
-  const s = view.focus.canSecondary && ok(secondary) && secondary !== p ? secondary : null;
-  return [{ type: 'setFocus', primary: p, secondary: s }];
+/** Chọn trọng tâm nếu nó có trong bộ lựa chọn của giai đoạn hiện tại; không có thì để mô phỏng tự chọn. */
+function focusCmd(view: HudView, focusId: string): Command[] {
+  if (!view.focus.canChoose || view.focus.primary === focusId) return [];
+  return view.focus.options.some((o) => o.id === focusId) ? [{ type: 'setFocus', focusId }] : [];
 }
 
 /** Giữ đủ thóc ăn N tháng, bán phần dư khi giá cao. */
@@ -57,7 +54,7 @@ export function makeBot(name: string, seed: string): Bot {
         name,
         yearly: (v) => {
           const h = v.household;
-          const cmds: Command[] = [...focusCmd(v, v.player.health < 50 ? 'suc_khoe' : workFocus(v), 'gia_dinh'), { type: 'setLivingStandard', id: 'dam_bac' }];
+          const cmds: Command[] = [...focusCmd(v, v.player.health < 50 ? 'suc_khoe' : workFocus(v)), { type: 'setLivingStandard', id: 'dam_bac' }];
           // Người cẩn trọng có dư là trả nợ ngay
           if (h.debt > 0 && h.money > 5) cmds.push({ type: 'repayDebt', amount: Math.min(h.debt, h.money - 3) });
           return cmds;
@@ -71,7 +68,7 @@ export function makeBot(name: string, seed: string): Bot {
     case 'lieu_linh':
       return {
         name,
-        yearly: (v) => [...focusCmd(v, 'kinh_doanh', 'ren_luyen'), { type: 'setLivingStandard', id: v.household.money > 5 ? 'du_day' : 'dam_bac' }],
+        yearly: (v) => [...focusCmd(v, 'kinh_doanh'), { type: 'setLivingStandard', id: v.household.money > 5 ? 'du_day' : 'dam_bac' }],
         monthly: (v) => [...reserveTrading(v, 1, 0), ...careerActions(v)],
         choose: (v) => {
           const opts = v.pending!.options;
@@ -83,7 +80,7 @@ export function makeBot(name: string, seed: string): Bot {
       return {
         name,
         yearly: (v) => {
-          const cmds: Command[] = [...focusCmd(v, v.player.age < 20 ? 'hoc_tap' : workFocus(v) === 'lam_an' ? 'kinh_doanh' : workFocus(v), 'lam_an')];
+          const cmds: Command[] = [...focusCmd(v, v.player.age < 20 ? 'hoc_tap' : workFocus(v) === 'lam_an' ? 'kinh_doanh' : workFocus(v))];
           cmds.push({ type: 'setLivingStandard', id: v.household.money > 15 ? 'du_day' : 'dam_bac' });
           if (v.household.money > 25) cmds.push({ type: 'buyProperty', id: 'ruong' });
           return cmds;
@@ -100,7 +97,7 @@ export function makeBot(name: string, seed: string): Bot {
         name,
         yearly: (v) => {
           const h = v.household;
-          const cmds: Command[] = [...focusCmd(v, v.player.health < 55 ? 'suc_khoe' : workFocus(v), 'kinh_doanh')];
+          const cmds: Command[] = [...focusCmd(v, v.player.health < 55 ? 'suc_khoe' : workFocus(v))];
           cmds.push({ type: 'setLivingStandard', id: h.money > 12 && h.foodMonths > 4 ? 'du_day' : 'dam_bac' });
           if (h.debt > 0 && h.money > 3) cmds.push({ type: 'repayDebt', amount: Math.min(h.debt, h.money - 2) });
           const ruong = v.market.buyable.find((p) => p.id === 'ruong');
@@ -119,7 +116,7 @@ export function makeBot(name: string, seed: string): Bot {
       return {
         name: 'ngau_nhien',
         yearly: (v) => {
-          const avail = v.focus.options.filter((o) => o.available).map((o) => o.id);
+          const avail = v.focus.options.map((o) => o.id);
           const cmds: Command[] = avail.length ? focusCmd(v, rng.pick(avail)) : [];
           cmds.push({ type: 'setLivingStandard', id: rng.pick(v.livingStandards).id });
           return cmds;

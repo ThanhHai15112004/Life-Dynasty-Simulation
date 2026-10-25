@@ -73,6 +73,7 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     Object.keys(f.skill_xp).forEach((s) => skill(s, `focuses.${f.id}.skill_xp`));
     f.modifiers.forEach((m) => target(m.target, `focuses.${f.id}`));
     income(f.income, `focuses.${f.id}.income`);
+    f.life_stages.forEach((st) => need(stageIds.has(st), `focuses.${f.id}: giai đoạn đời lạ "${st}"`));
   }
   for (const p of content.properties) p.modifiers.forEach((m) => target(m.target, `properties.${p.id}`));
   for (const l of content.balance.living_standards.levels) l.modifiers.forEach((m) => target(m.target, `living_standards.${l.id}`));
@@ -104,6 +105,13 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
   }
   template(content.balance.director.ambient.digest_template, 'director.ambient.digest_template');
   Object.values(SystemLog).forEach((id) => template(id, 'systemLogKeys'));
+  for (const st of content.balance.life.life_stages) {
+    st.default_focuses.forEach((f) => need(idx.focus.has(f), `life.life_stages.${st.id}.default_focuses: trọng tâm lạ "${f}"`));
+  }
+  const autoRules = content.balance.living_standards.auto_rules;
+  for (const r of autoRules) need(idx.livingStandard.has(r.level), `living_standards.auto_rules: mức sống lạ "${r.level}"`);
+  need(!autoRules[autoRules.length - 1].condition, 'living_standards.auto_rules: luật cuối phải không có điều kiện (mặc định)');
+  content.balance.display.focus_hints.forEach((h) => target(h.target, 'display.focus_hints'));
   for (const g of content.balance.life.age_groups) {
     need(g.id in content.balance.economy.consumption_by_age_group, `economy.consumption_by_age_group: thiếu nhóm tuổi "${g.id}"`);
   }
@@ -146,6 +154,7 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       if (e.type === 'add_trait') trait(e.trait, w);
       if (e.type === 'schedule_event') need(idx.event.has(e.event), `${w}: sự kiện lạ "${e.event}"`);
       if (e.type === 'cutscene') cutscene(e.id, w);
+      if (e.type === 'set_ambition') need(idx.ambition.has(e.ambition), `${w}: chí hướng lạ "${e.ambition}"`);
       if ((e.type === 'money' || e.type === 'food' || e.type === 'debt') && e.ledger) ledger(e.ledger, w);
       if (e.type === 'chance') {
         checkEffects(e.then, where, roles);
@@ -178,6 +187,7 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
   }
   for (const c of content.careers) {
     income(c.economy.income, `careers.${c.id}.economy.income`);
+    if (c.default_focus) need(idx.focus.has(c.default_focus), `careers.${c.id}.default_focus: trọng tâm lạ "${c.default_focus}"`);
     for (const r of c.ranks) {
       r.modifiers.forEach((m) => target(m.target, `careers.${c.id}.ranks.${r.id}`));
     }
@@ -254,6 +264,7 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       c.weight_modifiers.forEach((m, i) => tryCond(m.condition, `mortality.${c.id}.weight_modifiers[${i}]`, []));
     }
     for (const f of content.focuses) tryCond(f.condition, `focuses.${f.id}`, []);
+    content.balance.living_standards.auto_rules.forEach((r, i) => tryCond(r.condition, `living_standards.auto_rules[${i}]`, []));
     for (const d of content.diseases) tryCond(d.condition, `diseases.${d.id}`, []);
     for (const a of content.ambitions) {
       tryCond(a.condition, `ambitions.${a.id}`, []);

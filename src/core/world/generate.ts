@@ -111,7 +111,8 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     playerId: '',
     householdId: '',
     village: {},
-    focus: { primary: origin.default_focus, secondary: null },
+    focus: { primary: '' },
+    autoManage: { livingStandard: true, repayDebt: true },
     career: {
       id: origin.default_career,
       rankIndex: 0,
@@ -119,7 +120,7 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
       wanted: 0,
       actionCooldowns: {},
     },
-    ambition: { id: content.ambitions[0]?.id ?? null, achievedMilestones: [] },
+    ambition: { id: null, achievedMilestones: [] },
     reputation: { dan_lang: 0 },
     happiness: {
       mood: content.balance.life.happiness.start,
@@ -143,6 +144,7 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     ambientHistory: {},
     scheduled: [],
     pending: null,
+    minor: null,
     lastResolution: null,
     director: {
       tension: 0,
@@ -151,10 +153,12 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
       ambientSlots: [],
       unexpectedDeathsThisYear: 0,
       mourningThisYear: false,
+      minorThisYear: 0,
+      lastMinorMonthIndex: -999,
     },
     log: [],
     ledgerHistory: [],
-    stats: { decisions: 0, eventsSeen: {} },
+    stats: { decisions: 0, minorDecisions: 0, eventsSeen: {} },
     gameOver: null,
   };
 }
@@ -238,9 +242,7 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
   );
   state.happiness.baselineWealth = household.money + initialPropVal - household.debt;
 
-  // Chọn tham vọng mặc định khớp tính cách người chơi nếu có
-  const matchedAmbition = content.ambitions.find((a) => a.traits.some((t) => me.traits.includes(t)));
-  if (matchedAmbition) state.ambition.id = matchedAmbition.id;
+  // Tham vọng không gán lúc sinh: chí hướng hình thành qua sự kiện khi trưởng thành (data/events)
 
   ctx.rng.flush();
   return state;

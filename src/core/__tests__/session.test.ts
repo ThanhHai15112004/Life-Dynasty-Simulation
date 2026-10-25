@@ -7,9 +7,21 @@ import { marryPlayer } from '../systems/family';
 import { cureCharacter, infectCharacter, kill } from '../systems/life';
 import { player } from '../systems/people';
 import { changeFilialPiety, examStage, setExamDegree } from '../systems/status';
+import { applyEffects } from '../events/effects';
+import { fireMinor } from '../events/decision';
 import { deserialize, serialize } from '../engine/SaveSystem';
 
 const content = loadNodeContent();
+
+/** Cho người chơi làm chủ hộ: người lớn tuổi hơn trong nhà qua đời. */
+function makeHead(s: GameSession): void {
+  s.read((ctx) => {
+    const me = player(ctx);
+    for (const c of Object.values(ctx.state.characters)) {
+      if (c.alive && c.householdId === me.householdId && c.id !== me.id && c.birthYear * 12 + c.birthMonth <= me.birthYear * 12 + me.birthMonth) kill(ctx, c, 'benh');
+    }
+  });
+}
 
 /** Chơi n tháng, luôn chọn phương án đầu tiên khi có sự kiện. */
 function play(s: GameSession, months: number): void {
@@ -62,8 +74,11 @@ describe('GameSession', () => {
     expect(scene.people.some((p) => p.isPlayer)).toBe(true);
   });
 
-  it('bán thóc tăng tiền theo giá chợ, không bán quá số đang có', () => {
+  it('bán thóc tăng tiền theo giá chợ, không bán quá số đang có (chỉ chủ hộ mới được)', () => {
     const s = GameSession.create(content, { seed: 'trade' });
+    // Còn ở với cha mẹ: việc mua bán của nhà do chủ hộ lo
+    expect(s.dispatch({ type: 'sellFood', amount: 5 })).toEqual({ ok: false, error: 'not_head' });
+    makeHead(s);
     const before = s.read(getHudView).household;
     expect(s.dispatch({ type: 'sellFood', amount: 5 }).ok).toBe(true);
     const after = s.read(getHudView).household;
@@ -74,8 +89,9 @@ describe('GameSession', () => {
 
   it('GĐ1: kết hôn, sinh con, mắc/chữa bệnh, đổi tham vọng và xuất tổng kết đời 5 trục', () => {
     const s = GameSession.create(content, { seed: 'phase1-test', startAge: 18 });
-    // Đổi tham vọng cả đời
-    expect(s.dispatch({ type: 'setAmbition', id: 'gia_dinh_am_em' }).ok).toBe(true);
+    // Chưa có chí hướng lúc bắt đầu; chí hướng đến từ sự kiện (effect set_ambition)
+    expect(s.read(getHudView).ambition.currentId).toBeNull();
+    s.read((ctx) => applyEffects(ctx, [{ type: 'set_ambition', ambition: 'gia_dinh_am_em' }]));
     expect(s.read(getHudView).ambition.currentId).toBe('gia_dinh_am_em');
 
     // Kết hôn & kiểm tra mốc tham vọng đầu tiên ("thanh_gia")
@@ -293,6 +309,61 @@ describe('GameSession', () => {
     const merchant = content.index.career.get('thuong_nhan')!;
     expect(merchant.event_weights.buon_ban).toBeGreaterThan(1);
     expect(merchant.event_weights.ruong_dong).toBeLessThan(1);
+  });
+
+  it('Trọng tâm theo giai đoạn đời: sơ sinh không có, lớn lên tự chọn theo giai đoạn và nghề nhà', () => {
+    const s = GameSession.create(content, { originId: 'thuong_nhan', seed: 'focus-stage', startAge: 0 });
+    expect(s.state.focus.primary).toBe('');
+    expect(s.read(getHudView).focus.options).toEqual([]);
+    play(s, 12 * 7);
+    const kid = s.read(getHudView);
+    expect(kid.focus.canChoose).toBe(true);
+    // Con nhà buôn: có "Theo cha ra sạp", không có việc đồng
+    const ids = kid.focus.options.map((o) => o.id);
+    expect(ids).toContain('phu_sap');
+    expect(ids).not.toContain('phu_viec_dong');
+    expect(ids).toContain(s.state.focus.primary);
+    expect(kid.focus.options.every((o) => o.hints.length > 0 || o.id === 'le_chua')).toBe(true);
+    // Chọn trọng tâm không thuộc giai đoạn thì bị từ chối
+    expect(s.dispatch({ type: 'setFocus', focusId: 'lam_an' })).toEqual({ ok: false, error: 'focus_unavailable' });
+  });
+
+  it('Chưa làm chủ hộ thì nhà tự lo: mức sống theo gia cảnh, không tự mua bán được', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'household', startAge: 16 });
+    expect(s.read(getHudView).manage.isHead).toBe(false);
+    expect(s.dispatch({ type: 'setLivingStandard', id: 'xa_hoa' })).toEqual({ ok: false, error: 'not_head' });
+    play(s, 12);
+    const level = s.read(getHudView).household.livingStandard;
+    expect(content.balance.living_standards.auto_rules.map((r) => r.level)).toContain(level);
+    makeHead(s);
+    expect(s.read(getHudView).manage.isHead).toBe(true);
+    expect(s.dispatch({ type: 'setLivingStandard', id: 'du_day' }).ok).toBe(true);
+    expect(s.state.autoManage.livingStandard).toBe(false);
+  });
+
+  it('Chí hướng không có lúc sinh, hình thành qua sự kiện trưởng thành', () => {
+    const s = GameSession.create(content, { originId: 'quy_toc_nho', seed: 'ambition-event', startAge: 16 });
+    expect(s.state.ambition.id).toBeNull();
+    for (let m = 0; m < 12 * 6 && !s.state.ambition.id && !s.state.gameOver; m++) {
+      const r = s.tickMonth();
+      if (r.decision) s.dispatch({ type: 'chooseOption', optionId: s.state.pending!.options[0].id });
+    }
+    expect(s.state.ambition.id).not.toBeNull();
+    expect(Object.keys(s.state.stats.eventsSeen).some((id) => id.startsWith('ch_truong_thanh'))).toBe(true);
+  });
+
+  it('Chuyện nhỏ không dừng thời gian, bỏ qua quá hạn thì tự chọn phương án mặc định', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'minor', startAge: 16 });
+    const ev = content.events.find((e) => e.minor && e.roles.length === 0);
+    expect(ev).toBeDefined();
+    s.read((ctx) => fireMinor(ctx, ev!, {}));
+    expect(s.state.minor?.eventId).toBe(ev!.id);
+    const month = s.state.clock.monthIndex;
+    s.tickMonth();
+    expect(s.state.clock.monthIndex).toBe(month + 1);
+    for (let i = 0; i < content.balance.director.minor.expire_months + 1; i++) s.tickMonth();
+    expect(s.state.stats.minorDecisions).toBeGreaterThanOrEqual(1);
+    expect(s.state.log.flatMap((y) => y.entries).some((e) => e.sourceId === ev!.id)).toBe(true);
   });
 });
 

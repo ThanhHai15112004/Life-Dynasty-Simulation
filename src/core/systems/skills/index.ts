@@ -29,7 +29,7 @@ export function addSkillXp(ctx: SimContext, c: Character, skillId: string, amoun
   }
 }
 
-/** XP mỗi tháng của người chơi từ Focus chính và phụ. */
+/** XP mỗi tháng của người chơi từ trọng tâm đang chọn. */
 export function monthlySkills(ctx: SimContext): void {
   const { state, content } = ctx;
   const me = player(ctx);
@@ -46,7 +46,6 @@ export function monthlySkills(ctx: SimContext): void {
     for (const [skill, xp] of Object.entries(f.skill_xp)) gains.set(skill, (gains.get(skill) ?? 0) + xp * scale);
   };
   addFrom(state.focus.primary, 1);
-  if (stage.can_have_secondary_focus) addFrom(state.focus.secondary, content.balance.skills.secondary_focus_factor);
 
   for (const [skill, base] of gains) {
     const perSkill = computeFor(ctx, me.id, xpTarget(skill), 1).value;

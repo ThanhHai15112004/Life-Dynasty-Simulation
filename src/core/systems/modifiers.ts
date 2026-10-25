@@ -46,9 +46,6 @@ export function gatherModifiers(ctx: SimContext, characterId: string): Modifier[
   if (isPlayer) {
     const primary = content.index.focus.get(state.focus.primary);
     primary?.modifiers.forEach((m) => out.push(fromDef(m, `focus:${primary.id}`, primary.name)));
-    const secondary = state.focus.secondary ? content.index.focus.get(state.focus.secondary) : undefined;
-    const f = content.balance.skills.secondary_focus_factor;
-    secondary?.modifiers.forEach((m) => out.push(fromDef(m, `focus2:${secondary.id}`, secondary.name, 1, f)));
 
     const career = content.index.career.get(state.career.id);
     const rank = career?.ranks[state.career.rankIndex];

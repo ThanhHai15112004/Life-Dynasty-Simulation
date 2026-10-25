@@ -3,15 +3,21 @@ import { addLedger } from '../entities/Household';
 import { evaluate } from '../engine/RuleEvaluator';
 import { resolveDecision } from '../events/decision';
 import { Ledger } from '../events/systemLogKeys';
+import { resolveMinor } from '../events/decision';
 import { careerAvailable, changeCareer, executeCareerAction } from '../systems/career';
 import type { SimContext } from '../systems/context';
+import { isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
-import { ageNow, lifeStageOf, player, playerHousehold } from '../systems/people';
+import { focusAvailable } from '../systems/focus';
+import { playerHousehold } from '../systems/people';
 import { createResolver } from '../systems/resolver';
 
+export { focusAvailable };
+
 export type Command =
-  | { type: 'setFocus'; primary: string; secondary: string | null }
-  | { type: 'setAmbition'; id: string }
+  | { type: 'setFocus'; focusId: string }
+  | { type: 'setAutoManage'; key: 'livingStandard' | 'repayDebt'; value: boolean }
+  | { type: 'chooseMinor'; optionId: string }
   | { type: 'joinCareer'; careerId: string }
   | { type: 'doCareerAction'; actionId: string }
   | { type: 'setLivingStandard'; id: string }
@@ -29,10 +35,9 @@ export type CommandError =
   | 'no_event'
   | 'invalid_option'
   | 'focus_unavailable'
-  | 'ambition_unavailable'
+  | 'not_head'
   | 'career_unavailable'
   | 'action_unavailable'
-  | 'no_secondary_focus'
   | 'unknown_living_standard'
   | 'not_enough_money'
   | 'not_enough_food'
@@ -45,13 +50,6 @@ export type CommandResult = { ok: true } | { ok: false; error: CommandError };
 const ok: CommandResult = { ok: true };
 const fail = (error: CommandError): CommandResult => ({ ok: false, error });
 
-export function focusAvailable(ctx: SimContext, focusId: string): boolean {
-  const f = ctx.content.index.focus.get(focusId);
-  if (!f) return false;
-  const stage = lifeStageOf(ctx, ageNow(ctx, player(ctx)));
-  return stage.can_choose_focus && evaluate(f.condition, createResolver(ctx));
-}
-
 export function ambitionAvailable(ctx: SimContext, ambitionId: string): boolean {
   const a = ctx.content.index.ambition.get(ambitionId);
   if (!a) return false;
@@ -63,31 +61,28 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
   if (state.gameOver) return fail('game_over');
   if (state.pending && cmd.type !== 'chooseOption') return fail('event_pending');
   const h = playerHousehold(ctx);
+  // Việc chi tiêu, mua bán của cả nhà chỉ chủ hộ mới quyết
+  const householdOnly = ['setLivingStandard', 'setAutoManage', 'sellFood', 'buyFood', 'buyProperty', 'sellProperty', 'repayDebt'];
+  if (householdOnly.includes(cmd.type) && !isPlayerHead(ctx)) return fail('not_head');
 
   switch (cmd.type) {
     case 'chooseOption':
       if (!state.pending) return fail('no_event');
       return resolveDecision(ctx, cmd.optionId) ? ok : fail('invalid_option');
 
+    case 'chooseMinor':
+      if (!state.minor) return fail('no_event');
+      return resolveMinor(ctx, cmd.optionId) ? ok : fail('invalid_option');
+
     case 'setFocus': {
-      if (!focusAvailable(ctx, cmd.primary)) return fail('focus_unavailable');
-      if (cmd.secondary !== null) {
-        const stage = lifeStageOf(ctx, ageNow(ctx, player(ctx)));
-        const sec = content.index.focus.get(cmd.secondary);
-        if (!stage.can_have_secondary_focus || !sec?.allow_secondary || cmd.secondary === cmd.primary) {
-          return fail('no_secondary_focus');
-        }
-        if (!focusAvailable(ctx, cmd.secondary)) return fail('focus_unavailable');
-      }
-      state.focus = { primary: cmd.primary, secondary: cmd.secondary };
+      if (!focusAvailable(ctx, cmd.focusId)) return fail('focus_unavailable');
+      state.focus.primary = cmd.focusId;
       return ok;
     }
 
-    case 'setAmbition': {
-      if (!ambitionAvailable(ctx, cmd.id)) return fail('ambition_unavailable');
-      state.ambition.id = cmd.id;
+    case 'setAutoManage':
+      state.autoManage[cmd.key] = cmd.value;
       return ok;
-    }
 
     case 'joinCareer': {
       if (state.career.id === cmd.careerId || !careerAvailable(ctx, cmd.careerId)) return fail('career_unavailable');
@@ -100,7 +95,9 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
 
     case 'setLivingStandard':
       if (!content.index.livingStandard.has(cmd.id)) return fail('unknown_living_standard');
+      // Chọn tay thì thôi tự động theo gia cảnh
       h.livingStandard = cmd.id;
+      state.autoManage.livingStandard = false;
       return ok;
 
     case 'sellFood': {

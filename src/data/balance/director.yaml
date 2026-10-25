@@ -5,6 +5,12 @@ base_monthly_chance: 0.14
 repeat_weight_factor: 0.15
 ambient_repeat_weight_factor: 0.5
 min_months_between: 2
+# [1] Chuyện nhỏ: hiện ngay trong nhật ký, thời gian vẫn trôi; bỏ qua quá hạn thì tự chọn phương án mặc định
+minor:
+  monthly_chance: 0.2
+  max_per_year: 4
+  min_months_between: 2
+  expire_months: 3
 # Năm chưa có quyết định nào: mỗi tháng trôi qua cộng thêm xác suất (KPI 1–2 quyết định/năm)
 drought_bonus_per_month: 0.015
 tension:

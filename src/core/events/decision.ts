@@ -2,7 +2,7 @@
 import type { DecisionEvent, EventOption } from '@content/schemas';
 import { clamp } from '@shared/curve';
 import { fillTemplate } from '@shared/template';
-import type { PendingEvent } from '../entities/World';
+import type { PendingEvent, Resolution } from '../entities/World';
 import { evaluate } from '../engine/RuleEvaluator';
 import { RngStream, type SimContext } from '../systems/context';
 import { player } from '../systems/people';
@@ -30,7 +30,8 @@ function shownRange(ctx: SimContext, p: number, skill: string | undefined): [num
   return [clamp(p - spread * u, 0, 1), clamp(p + spread * (1 - u), 0, 1)];
 }
 
-export function fireDecision(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): PendingEvent {
+/** Dựng thẻ sự kiện (lời kể, phương án khả dụng, khoảng xác suất) và ghi lịch sử đã gặp. */
+function buildPending(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): PendingEvent {
   const { state } = ctx;
   const r = createResolver(ctx, { roles });
   const rng = ctx.rng.get(RngStream.Events);
@@ -54,25 +55,68 @@ export function fireDecision(ctx: SimContext, ev: DecisionEvent, roles: Record<s
     text: fillTemplate(rng.pick(ev.text), r.token),
     options,
   };
-  state.pending = pending;
   const prev = state.eventHistory[ev.id];
   state.eventHistory[ev.id] = { lastMonthIndex: state.clock.monthIndex, count: (prev?.count ?? 0) + 1 };
   state.stats.eventsSeen[ev.id] = (state.stats.eventsSeen[ev.id] ?? 0) + 1;
+  return pending;
+}
+
+export function fireDecision(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): PendingEvent {
+  const { state } = ctx;
+  const pending = buildPending(ctx, ev, roles);
+  state.pending = pending;
   state.director.decisionsThisYear += 1;
   state.director.lastDecisionMonthIndex = state.clock.monthIndex;
   state.director.tension += ev.tension;
   return pending;
 }
 
-/** Áp lựa chọn của người chơi. Trả false nếu lựa chọn không hợp lệ. */
-export function resolveDecision(ctx: SimContext, optionId: string): boolean {
+/** [1] Chuyện nhỏ: hiện trong nhật ký, không dừng thời gian, hết hạn thì tự chọn phương án mặc định. */
+export function fireMinor(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): void {
   const { state, content } = ctx;
-  const pending = state.pending;
-  if (!pending) return false;
+  state.minor = { ...buildPending(ctx, ev, roles), expiresAt: state.clock.monthIndex + content.balance.director.minor.expire_months };
+  state.director.minorThisYear += 1;
+  state.director.lastMinorMonthIndex = state.clock.monthIndex;
+}
+
+/** Áp lựa chọn của người chơi cho sự kiện quyết định đang chờ. Trả false nếu lựa chọn không hợp lệ. */
+export function resolveDecision(ctx: SimContext, optionId: string): boolean {
+  const { state } = ctx;
+  if (!state.pending) return false;
+  const res = applyChoice(ctx, state.pending, optionId);
+  if (!res) return false;
+  state.lastResolution = res;
+  state.pending = null;
+  state.stats.decisions += 1;
+  return true;
+}
+
+/** [1] Áp lựa chọn cho chuyện nhỏ đang chờ. */
+export function resolveMinor(ctx: SimContext, optionId: string): boolean {
+  const { state } = ctx;
+  if (!state.minor || !applyChoice(ctx, state.minor, optionId)) return false;
+  state.minor = null;
+  state.stats.minorDecisions += 1;
+  return true;
+}
+
+/** [1] Chuyện nhỏ quá hạn: tự chọn phương án đánh dấu default (không có thì phương án đầu). */
+export function expireMinor(ctx: SimContext): void {
+  const { state, content } = ctx;
+  const m = state.minor;
+  if (!m || state.clock.monthIndex < m.expiresAt) return;
+  const ev = content.index.event.get(m.eventId);
+  const preferred = ev?.options.find((o) => o.default && m.options.some((x) => x.id === o.id))?.id ?? m.options[0]?.id;
+  if (!preferred || !resolveMinor(ctx, preferred)) state.minor = null;
+}
+
+/** Áp hậu quả một phương án (stress trái tính cách, effect, gieo xác suất, hoãn), ghi nhật ký. */
+function applyChoice(ctx: SimContext, pending: PendingEvent, optionId: string): Resolution | null {
+  const { state, content } = ctx;
   const ev = content.index.event.get(pending.eventId);
   const opt = ev?.options.find((o) => o.id === optionId);
   const shown = pending.options.find((o) => o.id === optionId);
-  if (!ev || !opt || !shown) return false;
+  if (!ev || !opt || !shown) return null;
 
   const b = { roles: pending.roles };
   const r = createResolver(ctx, b);
@@ -119,8 +163,5 @@ export function resolveDecision(ctx: SimContext, optionId: string): boolean {
     highlight: ev.importance >= content.balance.display.highlight_importance,
     deltas,
   });
-  state.lastResolution = { eventId: ev.id, title: pending.title, optionText: shown.text, resultText, success, deltas };
-  state.pending = null;
-  state.stats.decisions += 1;
-  return true;
+  return { eventId: ev.id, title: pending.title, optionText: shown.text, resultText, success, deltas };
 }

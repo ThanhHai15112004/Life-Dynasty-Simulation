@@ -56,7 +56,8 @@ export const lifeBalanceSchema = z
             ambient_lines: range,
             decisions: z.boolean(),
             can_choose_focus: z.boolean(),
-            can_have_secondary_focus: z.boolean(),
+            /** [1] Thứ tự trọng tâm tự chọn khi bước vào giai đoạn này (lấy cái đầu tiên khả dụng). */
+            default_focuses: z.array(z.string()).default([]),
           })
           .strict(),
       )
@@ -171,7 +172,6 @@ export const skillsBalanceSchema = z
     xp_base: z.number().positive(),
     xp_growth: z.number().min(1),
     learning_by_age: curve('age', 'factor'),
-    secondary_focus_factor: z.number().min(0).max(1),
   })
   .strict();
 
@@ -289,6 +289,10 @@ export const livingStandardsSchema = z
           .strict(),
       )
       .min(1),
+    /** [1] Mức sống tự chọn theo gia cảnh (đầu năm): luật đầu tiên đúng thắng, luật không điều kiện là mặc định. */
+    auto_rules: z.array(z.object({ level: z.string(), condition: conditionSchema.optional() }).strict()).min(1),
+    /** [1] Tự trả nợ đầu năm, giữ lại tiền đủ tiêu chừng này tháng. */
+    auto_repay_keep_months: z.number().min(0),
   })
   .strict();
 
@@ -300,6 +304,15 @@ export const directorBalanceSchema = z
     /** Mỗi lần đã gặp, trọng số sự kiện/mẫu nhật ký nhân thêm hệ số này (ưu tiên chuyện chưa gặp). */
     repeat_weight_factor: z.number().min(0).max(1).default(1),
     ambient_repeat_weight_factor: z.number().min(0).max(1).default(1),
+    /** [1] Chuyện nhỏ: hiện ngay trong nhật ký, không dừng thời gian; bỏ qua quá hạn thì tự chọn phương án mặc định. */
+    minor: z
+      .object({
+        monthly_chance: z.number().min(0).max(1),
+        max_per_year: z.number().int().min(0),
+        min_months_between: z.number().int().min(0),
+        expire_months: z.number().int().positive(),
+      })
+      .strict(),
     /** Bù khi cả năm chưa có quyết định nào: cộng thêm mỗi tháng trôi qua. */
     drought_bonus_per_month: z.number().min(0),
     tension: z
@@ -402,6 +415,12 @@ export const displayBalanceSchema = z
     /** Việc dang dở suy ra từ trạng thái (GDD 01 §10.1): mọi luật đúng đều hiện, chữ có token. */
     open_loop_rules: z.array(z.object({ condition: conditionSchema, text: z.string() }).strict()),
     highlight_importance: z.number(),
+    /** [1] Gợi ý tác động của trọng tâm: chỉ số modifier → nhãn (lang) và chiều nào là tốt. */
+    focus_hints: z.array(z.object({ target: z.string(), key: z.string(), higher_is_good: z.boolean() }).strict()).default([]),
+    /** Số gợi ý tối đa dưới mỗi trọng tâm. */
+    focus_hints_max: z.number().int().min(1).default(3),
+    /** [1] Dải chữ cho bậc kỹ năng (Mới học, Khá, Giỏi...). */
+    skill_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),
     /** Bản đồ cuộc đời vẽ thêm chừng này hàng (10 ô/hàng) sau tuổi thọ kỳ vọng. */
     life_map_extra_rows: z.number().int().min(0).default(1),
     /** Số biến cố biên niên gần nhất hiện trên màn hình. */

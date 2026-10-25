@@ -66,7 +66,7 @@ Toán tử: `==` `!=` `>` `>=` `<` `<=` `between` `in`.
 | `household.members` · `workers` · `farmland` · `food_months` | Số người, người làm được, số sào, thóc đủ ăn mấy tháng |
 | `household.net_worth` · `household.self_farms` | Giá trị ròng (tiền + tài sản − nợ), hộ có tự cày không (`false`: phát canh thu tô) |
 | `household.property.<id>` | Số lượng một loại tài sản |
-| `focus.primary` · `focus.secondary` | Focus đang chọn |
+| `focus.primary` | Trọng tâm đang chọn ('' khi còn quá nhỏ) |
 | `flag.<id>` | Cờ đang bật (true/false) |
 | `year.decisions` · `year.mourning` | Số quyết định năm nay, năm nay có tang |
 
@@ -102,6 +102,7 @@ roles:
 | `set_career` | `career`, `rank?` | Chuyển sang nghề mới (mặc định bậc `0`) |
 | `career_merit` / `wanted` | `value` | Cộng/trừ công trạng nghề hoặc mức truy nã |
 | `filial_piety` / `scholarly_prestige` | `value` | Cộng/trừ điểm Hiếu đạo hoặc Danh vọng sĩ phu |
+| `set_ambition` | `ambition` | Đặt chí hướng (sự kiện trưởng thành, biến cố); đổi chí hướng thì mốc cũ không còn tính |
 | `set_exam_degree` | `degree` | Đạt học vị Khoa cử. Không bao giờ hạ học vị; Học vấn chưa đủ `min_hoc_van` thì chỉ nhận bậc vừa sức. Phát hoạt cảnh `cutscenes.exam_passed` của khuôn văn minh |
 | `cutscene` | `id` | Phát hoạt cảnh (id phải có chủ đề trong `public/assets/common/placeholder/cutscenes.json` và chữ `cutscene.<id>.title/subtitle` trong lang) |
 | `log` | `text: [..]`, `importance` | Ghi một dòng ký ức |
@@ -169,3 +170,15 @@ entries:
 ```
 
 Token thêm: `{world.reign}` (niên hiệu), `{world.reign_year}` (năm thứ mấy của triều). Biên niên là **giả tưởng**, không trình bày như sử thật.
+
+## Trọng tâm theo giai đoạn đời (`focuses/focuses.yaml`)
+
+Mỗi trọng tâm khai báo `life_stages` (giai đoạn có lựa chọn này) và `condition` (lọc theo nghề nhà, nơi ở...). Mỗi lúc chỉ một trọng tâm. `life.yaml › life_stages[].default_focuses` và `careers/*.yaml › default_focus` quyết định trọng tâm tự chọn khi lớn sang giai đoạn mới. Gợi ý tác động dưới mỗi lựa chọn sinh tự động từ `skill_xp`, `income` và các chỉ số trong `display.yaml › focus_hints`.
+
+## Nhà tự lo và chủ hộ
+
+Chỉ chủ hộ mới chỉnh mức sống, mua bán, trả nợ. Đầu mỗi năm, nếu người chơi chưa làm chủ hộ (hoặc chủ hộ để tự động), mức sống chọn theo `living_standards.yaml › auto_rules` và có dư thì trả nợ (giữ lại `auto_repay_keep_months` tháng tiền tiêu).
+
+## Chuyện nhỏ (`minor: true`)
+
+Sự kiện có `minor: true` không bật thẻ dừng game mà hiện trong nhật ký; quá `director.yaml › minor.expire_months` tháng không chọn thì game chọn phương án có `default: true` (không có thì phương án đầu). Nhịp xuất hiện ở `director.yaml › minor`. Mỗi chuyện nhỏ nên có 2–3 phương án ngắn, đúng một phương án `default`.

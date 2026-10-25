@@ -5,7 +5,7 @@ import { fillTemplate } from '@shared/template';
 import type { LogEntry } from '../entities/World';
 import { RngStream, type SimContext } from '../systems/context';
 import { ageNow, lifeStageOf, player } from '../systems/people';
-import { fireDecision } from './decision';
+import { expireMinor, fireDecision, fireMinor } from './decision';
 import { currentLogYear, pushLog, writeTemplate } from './journal';
 import { eligibleRoles, onCooldown, weightOf } from './selection';
 import { LogKind } from './systemLogKeys';
@@ -23,6 +23,7 @@ export function directorYearStart(ctx: SimContext): void {
   const months = Array.from({ length: content.balance.calendar.months_per_year }, (_, i) => i + 1);
   state.director.ambientSlots = rng.sample(months, count).sort((a, b) => a - b);
   state.director.decisionsThisYear = 0;
+  state.director.minorThisYear = 0;
   state.director.unexpectedDeathsThisYear = 0;
   state.director.mourningThisYear = false;
   currentLogYear(ctx);
@@ -59,12 +60,31 @@ function tryRandomDecision(ctx: SimContext): void {
   if (!rng.chance(chance)) return;
 
   const pool = content.events
-    .filter((ev) => !ev.scheduled_only && !onCooldown(ctx, ev, state.eventHistory))
+    .filter((ev) => !ev.scheduled_only && !ev.minor && !onCooldown(ctx, ev, state.eventHistory))
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
     .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null);
   const repeat = (id: string) => Math.pow(d.repeat_weight_factor, state.eventHistory[id]?.count ?? 0);
   const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
   if (pick) fireDecision(ctx, pick.ev, pick.roles);
+}
+
+/** [1] Chuyện nhỏ: chọn riêng, không dừng thời gian, mỗi lúc chỉ một chuyện đang chờ. */
+function tryMinor(ctx: SimContext): void {
+  const { state, content } = ctx;
+  const m = content.balance.director.minor;
+  const dir = state.director;
+  if (state.minor || !stageOfPlayer(ctx).decisions) return;
+  if (dir.minorThisYear >= m.max_per_year) return;
+  if (state.clock.monthIndex - dir.lastMinorMonthIndex < m.min_months_between) return;
+  const rng = ctx.rng.get(RngStream.Director);
+  if (!rng.chance(m.monthly_chance)) return;
+  const repeat = (id: string) => Math.pow(content.balance.director.repeat_weight_factor, state.eventHistory[id]?.count ?? 0);
+  const pool = content.events
+    .filter((ev) => ev.minor && !onCooldown(ctx, ev, state.eventHistory))
+    .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
+    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null);
+  const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
+  if (pick) fireMinor(ctx, pick.ev, pick.roles);
 }
 
 function ambientWeight(ctx: SimContext, t: AmbientTemplate, roles: Record<string, string>): number {
@@ -91,6 +111,8 @@ export function directorMonthly(ctx: SimContext): void {
   state.director.tension = Math.max(0, state.director.tension - content.balance.director.tension.decay_per_month);
   if (state.gameOver) return;
   if (state.director.ambientSlots.includes(state.clock.month)) writeAmbient(ctx);
+  expireMinor(ctx);
+  tryMinor(ctx);
   if (state.pending) return;
   if (!fireScheduled(ctx)) tryRandomDecision(ctx);
 }

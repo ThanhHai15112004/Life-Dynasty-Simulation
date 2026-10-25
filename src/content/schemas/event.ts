@@ -47,6 +47,8 @@ export const eventOptionSchema = z
     result: z.array(z.string()).default([]),
     success_result: z.array(z.string()).default([]),
     failure_result: z.array(z.string()).default([]),
+    /** [1] Với chuyện nhỏ: phương án tự chọn khi người chơi bỏ qua quá hạn (không có thì lấy phương án đầu). */
+    default: z.boolean().default(false),
     /** Phương án "Chưa phải lúc": hoãn, sự kiện quay lại sau N tháng với cùng vai trò. */
     defer: z.object({ months: z.number().int().positive() }).strict().optional(),
   })
@@ -69,6 +71,8 @@ export const decisionEventSchema = z
     once_per_life: z.boolean().default(false),
     /** Chỉ xuất hiện khi được hẹn bởi effect schedule_event (chuỗi sự kiện). */
     scheduled_only: z.boolean().default(false),
+    /** [1] Chuyện nhỏ: hiện trong nhật ký, không dừng game, quá hạn thì tự chọn phương án mặc định. */
+    minor: z.boolean().default(false),
     tension: z.number().min(0).default(3),
     importance: z.number().min(0).default(5),
     icon: z.string().default('su_kien'),

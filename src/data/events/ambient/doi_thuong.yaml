@@ -107,7 +107,7 @@ templates:
   - id: hoc_chu_duoc_khen
     kind: chuyen_vat
     tags: [hoc_hanh]
-    condition: { var: focus.primary, op: '==', value: hoc_tap }
+    condition: { var: focus.primary, op: 'in', value: [hoc_tap, hoc_chu] }
     roles: [{ id: thay, from: village, village_role: thay_do }]
     weight: 7
     cooldown_years: 2
@@ -121,7 +121,7 @@ templates:
   - id: bi_thay_phat
     kind: chuyen_vat
     tags: [hoc_hanh]
-    condition: { var: focus.primary, op: '==', value: hoc_tap }
+    condition: { var: focus.primary, op: 'in', value: [hoc_tap, hoc_chu] }
     roles: [{ id: thay, from: village, village_role: thay_do }]
     weight: 5
     cooldown_years: 3
@@ -381,7 +381,7 @@ templates:
   - id: quan_quat_ngoai_dong
     kind: bao_cao
     tags: [ruong_dong, lao_dong]
-    condition: { all: [{ var: focus.primary, op: '==', value: lam_an }, { var: player.age, op: '>=', value: 12 }, { var: household.self_farms, op: '==', value: true }] }
+    condition: { all: [{ var: focus.primary, op: 'in', value: [lam_an, phu_viec_dong] }, { var: player.age, op: '>=', value: 12 }, { var: household.self_farms, op: '==', value: true }] }
     weight: 5
     cooldown_years: 1
     importance: 1
@@ -394,7 +394,7 @@ templates:
   - id: cho_phien_hoc_mac_ca
     kind: chuyen_vat
     tags: [buon_ban]
-    condition: { var: focus.primary, op: '==', value: kinh_doanh }
+    condition: { var: focus.primary, op: 'in', value: [kinh_doanh, phu_sap] }
     weight: 6
     cooldown_years: 1
     importance: 2
@@ -406,7 +406,7 @@ templates:
   - id: tap_vat_bai_song
     kind: chuyen_vat
     tags: [vo_nghe]
-    condition: { var: focus.primary, op: '==', value: ren_luyen }
+    condition: { var: focus.primary, op: 'in', value: [ren_luyen, tap_vo] }
     weight: 6
     cooldown_years: 1
     importance: 2
@@ -418,7 +418,7 @@ templates:
   - id: ngoi_quan_nuoc
     kind: chuyen_vat
     tags: [lang_xa, tin_don]
-    condition: { var: focus.primary, op: '==', value: giao_luu }
+    condition: { var: focus.primary, op: 'in', value: [giao_luu, choi_voi_ban] }
     weight: 6
     cooldown_years: 1
     importance: 2

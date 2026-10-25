@@ -1,12 +1,13 @@
 # [0] Đời sống: giai đoạn đời, sức khỏe, tử vong (GDD 01 §4, §8)
 life_stages:
   # ambient_lines: số dòng nhật ký thường mỗi năm [tối thiểu, tối đa] (R3)
-  - { id: au_tho, name: Ấu thơ, min_age: 0, ambient_lines: [2, 4], decisions: false, can_choose_focus: false, can_have_secondary_focus: false }
-  - { id: thieu_thoi, name: Thiếu thời, min_age: 6, ambient_lines: [4, 7], decisions: true, can_choose_focus: true, can_have_secondary_focus: false }
-  - { id: thanh_nien, name: Thanh niên, min_age: 16, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
-  - { id: lap_nghiep, name: Lập nghiệp, min_age: 26, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
-  - { id: trung_nien, name: Trung niên, min_age: 41, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
-  - { id: tuoi_gia, name: Tuổi già, min_age: 56, ambient_lines: [3, 7], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  # default_focuses: lớn sang giai đoạn này thì tự chọn trọng tâm đầu tiên khả dụng (nghề nhà có default_focus thì ưu tiên)
+  - { id: au_tho, name: Ấu thơ, min_age: 0, ambient_lines: [2, 4], decisions: false, can_choose_focus: false, default_focuses: [] }
+  - { id: thieu_thoi, name: Thiếu thời, min_age: 6, ambient_lines: [4, 7], decisions: true, can_choose_focus: true, default_focuses: [phu_viec_dong, phu_sap, hoc_chu, giup_viec_nha] }
+  - { id: thanh_nien, name: Thanh niên, min_age: 16, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, default_focuses: [lam_an, kinh_doanh, hoc_tap, giao_luu] }
+  - { id: lap_nghiep, name: Lập nghiệp, min_age: 26, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, default_focuses: [lam_an, kinh_doanh, hoc_tap, gia_dinh] }
+  - { id: trung_nien, name: Trung niên, min_age: 41, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, default_focuses: [lam_an, kinh_doanh, gia_dinh, suc_khoe] }
+  - { id: tuoi_gia, name: Tuổi già, min_age: 56, ambient_lines: [3, 7], decisions: true, can_choose_focus: true, default_focuses: [day_con_chau, suc_khoe, le_chua] }
 
 health:
   max: 100

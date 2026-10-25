@@ -112,13 +112,15 @@ export function StatusCard({ hud }: { hud: HudView }) {
 export function WealthCard({ hud }: { hud: HudView }) {
   const { t } = useUi();
   const h = hud.household;
-  const [open, setOpen] = useState<'ledger' | 'market' | null>(null);
+  const m = hud.manage;
+  const [open, setOpen] = useState<'ledger' | 'spend' | null>(null);
   return (
     <section className="card">
       <div className="card-head">
         <h3>{t('wealth.title')}</h3>
         <span className="muted small">{t(`living.short.${h.livingStandard}`)}</span>
       </div>
+      {!m.isHead && <p className="manage-note">{t('wealth.not_head', { who: m.headCall })}</p>}
       <div className="wealth-grid">
         <div>
           <div className="muted small">{t('ledger.money')}</div>
@@ -138,27 +140,58 @@ export function WealthCard({ hud }: { hud: HudView }) {
           <div className="big-num">{h.regularIncome > 0 ? `+${num(h.regularIncome)}` : '—'} <small>{t('wealth.per_month')}</small></div>
         </div>
       </div>
-      <div className="muted small">{t('ledger.monthly_need', { food: num(h.monthlyFood), money: num(h.monthlyMoney) })}</div>
-      <div className="muted small">{h.selfFarm ? t('ledger.harvest_factor', { x: h.harvestYield.value.toFixed(2) }) : t('ledger.tenancy_note')}</div>
       <div className="row">
         <button className="wide-btn" onClick={() => setOpen('ledger')}>
           {t('wealth.open_ledger')}
         </button>
-        <button className="wide-btn" onClick={() => setOpen('market')}>
-          {t('wealth.open_market')}
-        </button>
+        {m.isHead && (
+          <button className="wide-btn" onClick={() => setOpen('spend')}>
+            {t('wealth.open_spend')}
+          </button>
+        )}
       </div>
       {open === 'ledger' && (
         <Modal title={t('tab.ledger')} onClose={() => setOpen(null)}>
           <LedgerPanel hud={hud} />
         </Modal>
       )}
-      {open === 'market' && (
-        <Modal title={t('tab.market')} onClose={() => setOpen(null)}>
-          <MarketPanel hud={hud} />
+      {open === 'spend' && (
+        <Modal title={t('wealth.open_spend')} onClose={() => setOpen(null)}>
+          <SpendPanel hud={hud} />
         </Modal>
       )}
     </section>
+  );
+}
+
+/** [1] Chi tiêu · đầu tư (chỉ chủ hộ): mức sống tự động hay chọn tay, tự trả nợ, chợ và tài sản. */
+function SpendPanel({ hud }: { hud: HudView }) {
+  const { store, t } = useUi();
+  const m = hud.manage;
+  return (
+    <div>
+      <p className="muted small">{t('spend.intro')}</p>
+      <h4>{t('living.title')}</h4>
+      <label className="toggle">
+        <input type="checkbox" checked={m.autoLivingStandard} onChange={(e) => store.dispatch({ type: 'setAutoManage', key: 'livingStandard', value: e.target.checked })} />
+        {t('spend.auto_living')}
+      </label>
+      <div className="living">
+        {hud.livingStandards.map((l) => (
+          <button key={l.id} className={`living-opt ${hud.household.livingStandard === l.id ? 'active' : ''}`} title={l.description} onClick={() => store.dispatch({ type: 'setLivingStandard', id: l.id })}>
+            <span>{l.name}</span>
+            <span className="small">{t('living.cost', { money: num(l.monthlyMoney) })}</span>
+          </button>
+        ))}
+      </div>
+      <h4>{t('spend.debt_title')}</h4>
+      <label className="toggle">
+        <input type="checkbox" checked={m.autoRepayDebt} onChange={(e) => store.dispatch({ type: 'setAutoManage', key: 'repayDebt', value: e.target.checked })} />
+        {t('spend.auto_repay')}
+      </label>
+      <h4>{t('tab.market')}</h4>
+      <MarketPanel hud={hud} />
+    </div>
   );
 }
 
@@ -169,15 +202,18 @@ export function SkillsCard({ hud }: { hud: HudView }) {
       <div className="card-head">
         <h3>{t('skills.title')}</h3>
       </div>
+      {hud.player.skills.every((s) => s.level === 0) && <p className="muted small">{t('skills.none_yet')}</p>}
       <div className="skills">
-        {hud.player.skills.map((s) => (
-          <Tooltip key={s.id} content={t('profile.skill_xp', { xp: Math.floor(s.xp), next: Math.ceil(s.next) })}>
-            <div className="skill">
-              <span>{s.name}</span>
-              <b>{s.level}</b>
-            </div>
-          </Tooltip>
-        ))}
+        {hud.player.skills
+          .filter((s) => s.level > 0)
+          .map((s) => (
+            <Tooltip key={s.id} content={t('profile.skill_level', { level: s.level, xp: Math.floor(s.xp), next: Math.ceil(s.next) })}>
+              <div className="skill">
+                <span>{s.name}</span>
+                <b>{t(s.bandKey)}</b>
+              </div>
+            </Tooltip>
+          ))}
       </div>
     </section>
   );

@@ -1,0 +1,503 @@
+# [1] Chí hướng và đổi nghề qua sự kiện (không còn nút bấm đổi tham vọng):
+# - Trưởng thành (16–22 tuổi): chọn chí hướng theo nghề nhà và những gì đã trải qua
+# - Biến cố lớn (tang cha mẹ, sa sút, nửa đời lận đận) khiến nghĩ lại chí hướng
+# - Lời mời và biến cố mở đường sang nghề khác
+events:
+  # ── Trưởng thành: chọn chí hướng ──
+  - id: ch_truong_thanh_nha_nong
+    title: Lễ vào đinh, nghĩ chuyện cả đời
+    tags: [gia_dinh, lang_xa]
+    life_stages: [thanh_nien]
+    condition:
+      all:
+        - { var: player.ambition, op: '==', value: '' }
+        - { var: player.age, op: between, value: [16, 22] }
+        - { var: player.career, op: 'in', value: [nong_dan, linh, thao_khau] }
+    weight: 40
+    once_per_life: true
+    tension: 3
+    importance: 8
+    icon: moc_doi
+    text:
+      - 'Ngày ghi tên vào sổ đinh, ông lý vỗ vai bạn: "Từ nay là trai tráng của làng rồi." Đêm ấy nằm nghe ếch kêu ngoài đồng, bạn nghĩ mãi: đời mình rồi sẽ đi về đâu?'
+    options:
+      - id: lam_giau_tu_ruong
+        text: 'Gây dựng ruộng vườn, có trâu cày, dựng nhà gỗ'
+        effects:
+          - { type: set_ambition, ambition: ruong_co_trau_day }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        result: ['Bạn tự nhủ: mỗi mùa gặt thêm một sào, rồi sẽ có ngày nhà mình ruộng cò bay thẳng cánh.']
+      - id: mai_am_yen
+        text: 'Lấy vợ lấy chồng, con cái đề huề, nhà êm cửa ấm'
+        effects:
+          - { type: set_ambition, ambition: gia_dinh_am_em }
+        result: ['Bạn chẳng mong gì cao xa, chỉ mong một mái nhà có tiếng cười trẻ con.']
+      - id: tieng_thom
+        text: 'Sống sao cho cả làng kính nể'
+        effects:
+          - { type: set_ambition, ambition: tieng_thom_trong_lang }
+          - { type: reputation, group: dan_lang, value: 2 }
+        result: ['Bạn nhớ lời bà: "Giàu đâu bằng tiếng thơm". Từ nay việc làng việc xóm bạn đều xắn tay.']
+      - id: tong_quan
+        text: 'Khoác áo lính, lập công danh nơi biên ải'
+        condition:
+          any:
+            - { has_trait: can_dam }
+            - { var: player.skill.quan_su, op: '>=', value: 1 }
+            - { var: player.career, op: '==', value: linh }
+        effects:
+          - { type: set_ambition, ambition: cong_danh_tran_mac }
+          - { type: skill_xp, skill: quan_su, value: 10 }
+        result: ['Nghe tin quân triều đình đóng đồn trên thượng du, lòng bạn rạo rực như có trống trận.']
+      - id: hoc_chu
+        text: 'Học cho thông chữ nghĩa, làm người hiểu biết'
+        condition: { var: player.skill.hoc_van, op: '>=', value: 2 }
+        effects:
+          - { type: set_ambition, ambition: hay_chu_biet_nghia }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+        result: ['Bạn xin thầy đồ cho mượn thêm sách, tối tối thắp đèn dầu đọc đến khuya.']
+
+  - id: ch_truong_thanh_nha_buon
+    title: Đứng trước sạp hàng của cha
+    tags: [buon_ban, gia_dinh]
+    life_stages: [thanh_nien]
+    condition:
+      all:
+        - { var: player.ambition, op: '==', value: '' }
+        - { var: player.age, op: between, value: [16, 22] }
+        - { var: player.career, op: '==', value: thuong_nhan }
+    weight: 40
+    once_per_life: true
+    tension: 3
+    importance: 8
+    icon: moc_doi
+    text:
+      - 'Cha giao cho bạn chùm chìa khóa kho hàng: "Lớn rồi, tự mà tính." Đứng giữa bến chợ ồn ã, bạn tự hỏi mình muốn gì ở cuộc đời này.'
+    options:
+      - id: giau_nuc_vung
+        text: 'Buôn to bán lớn, giàu nức một vùng'
+        effects:
+          - { type: set_ambition, ambition: phu_thuong_mot_vung }
+          - { type: skill_xp, skill: thuong_mai, value: 10 }
+        result: ['Bạn nhìn những chiếc thuyền buồm cập bến mà thầm hứa: một ngày nào đó, thuyền ấy mang tên nhà mình.']
+      - id: mai_am_yen
+        text: 'Đủ ăn đủ tiêu, lo cho vợ con ấm êm'
+        effects:
+          - { type: set_ambition, ambition: gia_dinh_am_em }
+        result: ['Tiền nhiều để làm gì, bạn nghĩ, khi cơm chiều chẳng có ai ngồi cùng.']
+      - id: tieng_thom
+        text: 'Làm ăn có chữ tín, được cả bến kính nể'
+        effects:
+          - { type: set_ambition, ambition: tieng_thom_trong_lang }
+          - { type: reputation, group: dan_lang, value: 2 }
+        result: ['Bạn nhớ cái cân của cha chưa từng non một lạng. Bạn sẽ giữ nếp ấy.']
+      - id: doi_doi_bang_chu
+        text: 'Bỏ "giàu mà chưa sang", theo đèn sách đi thi'
+        condition: { var: player.skill.hoc_van, op: '>=', value: 3 }
+        effects:
+          - { type: set_ambition, ambition: khoa_bang_vinh_quy }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+        result: ['Người ta bảo con nhà buôn thì chỉ biết đồng tiền. Bạn muốn chứng minh điều ngược lại.']
+
+  - id: ch_truong_thanh_nha_nho
+    title: Trước bàn thờ tổ, nghĩ về nếp nhà
+    tags: [hoc_hanh, gia_dinh, van_minh]
+    life_stages: [thanh_nien]
+    condition:
+      all:
+        - { var: player.ambition, op: '==', value: '' }
+        - { var: player.age, op: between, value: [16, 22] }
+        - { var: player.career, op: '==', value: si_tu }
+    weight: 40
+    once_per_life: true
+    tension: 3
+    importance: 8
+    icon: moc_doi
+    text:
+      - 'Ngày giỗ tổ, nhìn tấm biển "Khoa bảng truyền gia" đã bạc màu trên xà nhà, bạn chợt hiểu cả họ đang trông vào mình.'
+    options:
+      - id: vinh_quy
+        text: 'Đỗ đạt vinh quy, dựng lại cơ đồ tổ tông'
+        effects:
+          - { type: set_ambition, ambition: khoa_bang_vinh_quy }
+          - { type: scholarly_prestige, value: 2 }
+        result: ['Bạn quỳ trước bàn thờ, thắp ba nén hương, khấn rằng sẽ có ngày cờ biển vinh quy treo trước cổng.']
+      - id: tron_hieu
+        text: 'Giữ trọn đạo hiếu, phụng dưỡng cha mẹ'
+        effects:
+          - { type: set_ambition, ambition: tron_dao_hieu }
+          - { type: filial_piety, value: 4 }
+        result: ['Danh lợi rồi cũng qua, bạn nghĩ. Chỉ có hương khói tổ tiên là không được phép tắt.']
+      - id: hieu_dao_ly
+        text: 'Học để hiểu đạo lý, không màng quan trường'
+        effects:
+          - { type: set_ambition, ambition: hay_chu_biet_nghia }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+        result: ['Bạn mơ một túp lều bên suối, một tủ sách, và những người học trò ngoan.']
+      - id: mai_am_yen
+        text: 'Một mái nhà ấm êm là đủ'
+        effects:
+          - { type: set_ambition, ambition: gia_dinh_am_em }
+        result: ['Bạn biết cha sẽ buồn, nhưng đời người ngắn ngủi, bạn muốn được sống bình yên.']
+      - id: buon_ban_cuu_nha
+        text: 'Bỏ sách theo buôn, cứu cái nhà đang sa sút'
+        condition: { var: player.skill.thuong_mai, op: '>=', value: 1 }
+        trait_stress: { trong_gia_dinh: 3 }
+        effects:
+          - { type: set_ambition, ambition: phu_thuong_mot_vung }
+          - { type: filial_piety, value: -3 }
+        result: ['Cha giận tím mặt khi nghe bạn nói. Nhưng nợ cũ chồng chất, ai đó trong nhà phải biết kiếm tiền.']
+
+  # ── Biến cố khiến nghĩ lại chí hướng ──
+  - id: ch_nghi_lai_sau_tang
+    title: Bên mộ cha mẹ, nghĩ lại một đời
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.ambition, op: '!=', value: '' }
+        - { var: player.mourning_months, op: between, value: [12, 24] }
+    weight: 8
+    once_per_life: true
+    tension: 3
+    importance: 7
+    icon: tang
+    text:
+      - 'Cỏ trên mộ đã xanh lại. Ngồi một mình bên nấm đất, bạn tự hỏi những điều mình vẫn đuổi theo có còn đáng nữa không.'
+    options:
+      - id: giu_chi_huong
+        text: 'Giữ chí hướng cũ — cha mẹ cũng muốn mình thành người'
+        effects:
+          - { type: stress, value: -3 }
+        result: ['Bạn đứng dậy phủi đất, thấy lòng nhẹ hơn. Đường còn dài, phải đi tiếp.']
+      - id: sang_dao_hieu
+        text: 'Từ nay lo hương khói, giữ nếp nhà'
+        effects:
+          - { type: set_ambition, ambition: tron_dao_hieu }
+          - { type: filial_piety, value: 6 }
+        result: ['Bạn sửa lại bàn thờ, chép lại gia phả. Nếp nhà từ nay trên vai bạn.']
+      - id: sang_gia_dinh
+        text: 'Thôi danh lợi, ở bên vợ con nhiều hơn'
+        effects:
+          - { type: set_ambition, ambition: gia_dinh_am_em }
+          - { type: stress, value: -4 }
+        result: ['Bữa cơm chiều hôm ấy, lần đầu sau nhiều năm, bạn về nhà sớm.']
+
+  - id: ch_nghi_lai_khi_sa_sut
+    title: Nợ nần chồng chất, nghĩ lại đường đi
+    tags: [no_nan, gia_dinh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.ambition, op: '!=', value: '' }
+        - { var: household.debt, op: '>=', value: 35 }
+        - { var: household.money, op: '<', value: 5 }
+    weight: 7
+    cooldown_years: 15
+    tension: 5
+    importance: 7
+    icon: no
+    text:
+      - 'Chủ nợ đến lần thứ ba trong tháng. Đêm ấy bạn không ngủ được, ngồi tính lại từng đồng — và tính lại cả những gì mình từng mơ.'
+    options:
+      - id: lam_lai
+        text: 'Cắn răng làm lại, phải giàu cho bằng được'
+        effects:
+          - { type: set_ambition, ambition: phu_thuong_mot_vung }
+          - { type: stress, value: 4 }
+        result: ['Bạn viết lên vách mấy chữ: "Có chí thì nên." Sáng ra, bạn dậy sớm hơn cả gà.']
+      - id: an_phan
+        text: 'Thôi mộng lớn, giữ lấy cái nhà là đủ'
+        effects:
+          - { type: set_ambition, ambition: gia_dinh_am_em }
+          - { type: stress, value: -5 }
+        result: ['Bỏ được gánh nặng trong lòng, bạn thấy cơm rau cũng ngon.']
+      - id: giu_nguyen
+        text: 'Không đổi gì — vận rủi rồi cũng qua'
+        effects:
+          - { type: stress, value: 2 }
+        result: ['Bạn tự nhủ ai cũng có lúc thất cơ. Chỉ cần còn sức là còn gỡ được.']
+
+  - id: ch_nghi_lai_nua_doi
+    title: Nửa đời người nhìn lại
+    tags: [gia_dinh, lang_xa]
+    life_stages: [trung_nien]
+    condition:
+      all:
+        - { var: player.ambition, op: '!=', value: '' }
+        - { var: player.ambition_progress, op: '<', value: 0.34 }
+    weight: 6
+    once_per_life: true
+    tension: 3
+    importance: 6
+    icon: moc_doi
+    text:
+      - 'Tóc đã điểm bạc. Bạn chợt nhận ra những điều mình hằng mong vẫn còn xa tít, còn ngày tháng thì cứ trôi.'
+    options:
+      - id: van_theo
+        text: 'Vẫn theo đuổi — muộn còn hơn không'
+        effects:
+          - { type: stress, value: 2 }
+        result: ['Người xưa có ông Khương Tử Nha tám mươi tuổi mới gặp thời. Bạn còn trẻ chán.']
+      - id: lam_viec_thien
+        text: 'Quay sang làm việc thiện, giữ tiếng thơm cho con cháu'
+        effects:
+          - { type: set_ambition, ambition: tieng_thom_trong_lang }
+          - { type: reputation, group: dan_lang, value: 3 }
+        result: ['Bạn góp tiền đắp lại con đường ra bến. Người qua lại ai cũng nhắc tên nhà bạn.']
+      - id: lo_cho_con
+        text: 'Dồn sức lo cho con cái, nếp nhà'
+        effects:
+          - { type: set_ambition, ambition: tron_dao_hieu }
+          - { type: filial_piety, value: 3 }
+        result: ['Những gì mình chưa làm được, bạn mong con cháu sẽ làm được.']
+
+  # ── Lời mời và biến cố đổi nghề ──
+  - id: nn_thay_do_tien_cu
+    title: Thầy đồ muốn tiến cử đi thi
+    tags: [hoc_hanh, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.career, op: 'in', value: [nong_dan, thuong_nhan] }
+        - { var: player.skill.hoc_van, op: '>=', value: 4 }
+        - { var: player.exam_degree, op: '==', value: none }
+    roles:
+      - { id: do, from: village, village_role: thay_do }
+    weight: 6
+    once_per_life: true
+    tension: 4
+    importance: 7
+    icon: sach
+    text:
+      - '{role.do.call} tìm đến tận nhà: "Chữ nghĩa của anh khá lắm, bỏ phí thì tiếc. Khoa tới tôi xin tiến cử, nhưng phải dồn hết sức cho đèn sách."'
+    options:
+      - id: theo_den_sach
+        text: 'Gác việc nhà, theo nghiệp đèn sách'
+        effects:
+          - { type: set_career, career: si_tu }
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: opinion, role: do, value: 10 }
+        result: ['Bạn sắm nghiên bút mới. Cả nhà bớt một tay làm, nhưng ai cũng mong ngày bạn đỗ đạt.']
+      - id: hoc_them_khong_bo_nghe
+        text: 'Học thêm buổi tối, nhưng không bỏ nghề nhà'
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 18 }
+          - { type: stress, value: 3 }
+        result: ['Ngày làm, đêm học. Mệt, nhưng chữ nghĩa vẫn tiến đều.']
+      - id: tu_choi
+        text: 'Cảm ơn thầy, nhà cần người làm'
+        effects:
+          - { type: opinion, role: do, value: -4 }
+        result: ['{role.do.call} lắc đầu tiếc rẻ, nhưng không nói gì thêm.']
+
+  - id: nn_lai_buon_ru_theo
+    title: Lái buôn rủ theo thuyền hàng
+    tags: [buon_ban, nghe_nghiep, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.career, op: 'in', value: [nong_dan, si_tu] }
+        - any:
+            - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 12 }
+    roles:
+      - { id: lb, from: village, village_role: lai_buon }
+    weight: 5
+    cooldown_years: 10
+    tension: 4
+    importance: 7
+    icon: tien
+    text:
+      - '{role.lb.call} ghé chơi, rót chén rượu rồi bảo: "Ở mãi xó làng thì bao giờ khá? Theo tôi một chuyến xuôi, tôi chỉ cho cách buôn."'
+    options:
+      - id: theo_buon
+        text: 'Bỏ nghề cũ, theo nghiệp buôn bán'
+        effects:
+          - { type: set_career, career: thuong_nhan }
+          - { type: opinion, role: lb, value: 10 }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+        result: ['Bạn khăn gói xuống thuyền. Bến làng xa dần, trước mặt là sông nước mênh mông.']
+      - id: gop_von_nho
+        text: 'Góp ba quan vốn, ở nhà chờ chia lời'
+        condition: { var: household.money, op: '>=', value: 3 }
+        chance: { base: 0.55, skill: thuong_mai, per_level: 0.05 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+        success:
+          - { type: money, value: 6, ledger: buon_ban }
+          - { type: opinion, role: lb, value: 6 }
+        failure:
+          - { type: stress, value: 3 }
+        success_result: ['Mấy tháng sau {role.lb.call} quay lại, trả bạn gấp đôi số vốn.']
+        failure_result: ['Thuyền gặp bão, hàng mất quá nửa. {role.lb.call} chỉ trả lại được ít tiền lẻ.']
+      - id: tu_choi
+        text: 'Đất lề quê thói, không ham'
+        effects:
+          - { type: stress, value: -1 }
+        result: ['Bạn cười trừ. Ruộng đất tuy chậm mà chắc.']
+
+  - id: nn_pha_san_ve_que
+    title: Phá sản, về đâu bây giờ
+    tags: [buon_ban, no_nan, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.debt, op: '>=', value: 35 }
+        - { var: household.money, op: '<', value: 5 }
+    weight: 7
+    cooldown_years: 10
+    tension: 6
+    importance: 8
+    icon: no
+    text:
+      - 'Hàng ế, nợ đòi, bạn hàng bỏ đi hết. Sạp hàng nhà bạn giờ chỉ còn mấy tấm phên rách. Người ta bảo: buôn thất bát thì về quê cấy hái.'
+    options:
+      - id: ve_lam_ruong
+        text: 'Về làm ruộng, chậm mà chắc'
+        effects:
+          - { type: set_career, career: nong_dan }
+          - { type: stress, value: -3 }
+        result: ['Lần đầu cầm cày, tay bạn phồng rộp. Nhưng đêm về ngủ ngon, không ai đến đòi nợ giữa khuya.']
+      - id: vay_guong
+        text: 'Vay thêm, gượng dậy làm lại'
+        chance: { base: 0.35, skill: thuong_mai, per_level: 0.05 }
+        effects:
+          - { type: debt, value: 10 }
+        success:
+          - { type: money, value: 14, ledger: buon_ban }
+          - { type: career_merit, value: 10 }
+        failure:
+          - { type: stress, value: 8 }
+          - { type: reputation, group: dan_lang, value: -4 }
+        success_result: ['Liều ăn nhiều: chuyến hàng cứu vãn được tất cả, bạn đứng lại được trên bến chợ.']
+        failure_result: ['Chuyến hàng lại lỗ. Món nợ giờ đã thành gánh nặng cả đời.']
+      - id: vao_rung
+        text: 'Trốn nợ vào rừng, theo đám người ngoài vòng pháp luật'
+        trait_stress: { trung_thanh: 6, than_trong: 5 }
+        effects:
+          - { type: set_career, career: thao_khau }
+          - { type: wanted, value: 15 }
+          - { type: reputation, group: dan_lang, value: -10 }
+        result: ['Một đêm không trăng, bạn lặng lẽ rời nhà. Từ nay tên bạn chỉ còn trên tờ cáo thị.']
+
+  - id: nn_truot_thi_mai
+    title: Bao khoa thi vẫn trượt
+    tags: [hoc_hanh, nghe_nghiep]
+    life_stages: [lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: si_tu }
+        - { var: player.exam_degree, op: '==', value: none }
+        - { var: player.age, op: '>=', value: 32 }
+    weight: 6
+    once_per_life: true
+    tension: 5
+    importance: 7
+    icon: sach
+    text:
+      - 'Lại một khoa thi trượt. Bạn bè cùng học người làm quan, người đã có cháu bế. Vợ con bạn vẫn ăn độn khoai. Có lẽ đã đến lúc chọn đường khác.'
+    options:
+      - id: van_den_sach
+        text: 'Chưa đỗ chưa thôi — khoa sau nhất định đỗ'
+        effects:
+          - { type: stress, value: 5 }
+          - { type: skill_xp, skill: hoc_van, value: 15 }
+        result: ['Bạn treo tóc lên xà nhà, đêm đêm đọc sách. Người làng bảo bạn gàn, bạn mặc kệ.']
+      - id: mo_truong
+        text: 'Mở trường dạy học, làm thầy đồ cả đời'
+        effects:
+          - { type: career_merit, value: 20 }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: stress, value: -4 }
+        result: ['Không làm quan thì làm thầy. Tiếng trẻ con ê a đọc bài làm bạn thấy đời mình vẫn có ích.']
+      - id: sang_buon
+        text: 'Bỏ sách, theo nghề buôn nuôi vợ con'
+        effects:
+          - { type: set_career, career: thuong_nhan }
+          - { type: scholarly_prestige, value: -5 }
+        result: ['Gác nghiên bút lên gác, bạn ra chợ học cân đong. Lúc đầu ngượng, sau quen dần.']
+      - id: ve_lam_ruong
+        text: 'Về cầy cấy như ông cha'
+        condition: { var: household.farmland, op: '>=', value: 1 }
+        effects:
+          - { type: set_career, career: nong_dan }
+          - { type: stress, value: -3 }
+        result: ['Ruộng hương hỏa thôi phát canh, bạn tự cày lấy. Nắng gió, nhưng bụng no.']
+
+  - id: nn_giai_ngu
+    title: Xin giải ngũ về làng
+    tags: [quan_su, nghe_nghiep]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: linh }
+        - any:
+            - { var: player.age, op: '>=', value: 45 }
+            - { var: player.health, op: '<', value: 45 }
+    weight: 6
+    once_per_life: true
+    tension: 4
+    importance: 7
+    icon: kiem
+    text:
+      - 'Vết thương cũ trở chứng mỗi khi trời trở gió. Quan chỉ huy bảo nếu muốn, bạn có thể xin về làng, triều đình sẽ cấp ít tiền làm vốn.'
+    options:
+      - id: ve_lang
+        text: 'Xin giải ngũ, về làng làm ruộng'
+        effects:
+          - { type: set_career, career: nong_dan }
+          - { type: money, value: 8, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 4 }
+        result: ['Bạn về làng giữa mùa gặt. Lũ trẻ chạy theo xem "ông lính về", người già mời bạn uống nước chè.']
+      - id: o_lai
+        text: 'Ở lại quân ngũ đến cùng'
+        effects:
+          - { type: career_merit, value: 10 }
+          - { type: stress, value: 4 }
+          - { type: health, value: -3 }
+        result: ['Bạn buộc chặt vết thương, ra thao trường như mọi ngày. Đời lính, chết cũng phải chết nơi đồn.']
+
+  - id: nn_tinh_nguyen_tong_quan
+    title: Chiếu mộ binh, làng phải nộp người
+    tags: [quan_su, lang_xa, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: world.military_alert, op: '==', value: chien_dich }
+        - { var: player.career, op: 'in', value: [nong_dan, thuong_nhan] }
+        - { var: player.sex, op: '==', value: m }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 7
+    cooldown_years: 6
+    tension: 6
+    importance: 7
+    icon: kiem
+    text:
+      - 'Có chiếu mộ binh đánh giặc. {role.ly.call} đánh trống họp làng: mỗi xóm phải nộp hai suất đinh, nhà nào không đi thì nộp tiền thay.'
+    options:
+      - id: tinh_nguyen
+        text: 'Tình nguyện tòng quân'
+        effects:
+          - { type: set_career, career: linh }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: opinion, role: ly, value: 8 }
+        result: ['Mẹ khóc suốt đêm. Sáng ra, bạn khoác tay nải theo đoàn trai tráng lên đường.']
+      - id: nop_tien
+        text: 'Nộp 4 quan thay suất đinh'
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+        result: ['Tiền mất, nhưng người còn ở nhà. Có kẻ lén chê bạn nhát, bạn giả vờ không nghe.']
+      - id: tron_sang_lang_ben
+        text: 'Trốn sang làng bên ít hôm'
+        chance: { base: 0.5, skill: muu_luoc, per_level: 0.05 }
+        success:
+          - { type: stress, value: 2 }
+        failure:
+          - { type: set_career, career: linh }
+          - { type: reputation, group: dan_lang, value: -6 }
+        success_result: ['Đợt mộ binh qua đi, bạn lặng lẽ trở về như chưa có gì.']
+        failure_result: ['Tuần đinh bắt được bạn ở đầu đê, giải thẳng lên đồn, bị ghi tên làm lính.']
