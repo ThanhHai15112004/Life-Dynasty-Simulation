@@ -20,6 +20,8 @@ export const SystemLog = {
   AmbitionMilestone: 'sys.dat_moc_tham_vong',
   CareerChanged: 'sys.chuyen_nghe',
   CareerPromoted: 'sys.thang_bac_nghe',
+  ExamPassed: 'sys.do_khoa_cu',
+  MourningStarted: 'sys.bat_dau_cu_tang',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */

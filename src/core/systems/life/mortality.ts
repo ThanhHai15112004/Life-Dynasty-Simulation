@@ -7,8 +7,9 @@ import { SystemLog } from '../../events/systemLogKeys';
 import { writeTemplate } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
 import { computeFor } from '../modifiers';
-import { ageNow, aliveMembers, callOf, householdHead, playerHousehold } from '../people';
+import { ageNow, aliveMembers, callOf, householdHead, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
+import { startMourning } from '../status';
 
 /** Xác suất chết trong một tháng của một nhân vật trong hộ người chơi. */
 export function monthlyDeathRisk(ctx: SimContext, c: Character): number {
@@ -61,6 +62,10 @@ export function kill(ctx: SimContext, c: Character, causeId: string): void {
   if (c.householdId === state.householdId) {
     state.director.mourningThisYear = true;
     writeTemplate(ctx, SystemLog.FamilyDeath, { self: c.id, params: { call, age, cause: causeName } });
+    const me = player(ctx);
+    if (c.id === me.fatherId || c.id === me.motherId) {
+      startMourning(ctx, call);
+    }
     const newHead = householdHead(ctx);
     if (wasHead === c.id && newHead?.id === state.playerId) writeTemplate(ctx, SystemLog.BecameHead, {});
   }

@@ -54,6 +54,7 @@ function harvest(ctx: SimContext): void {
   h.food += amount;
   addLedger(h, Ledger.Harvest, 0, amount);
   state.world.lastHarvest = amount;
+  if (q.id === 'duoc_mua') state.lastCutsceneId = 'thu_hoach_lon';
   writeTemplate(ctx, q.harvest_log, { params: { amount, sao } });
 }
 

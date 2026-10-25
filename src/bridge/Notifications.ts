@@ -3,6 +3,7 @@ export type NotificationMap = {
   newYear: { year: number };
   decision: { eventId: string };
   death: { characterIds: string[] };
+  cutscene: { id: string; title: string; subtitle: string };
   gameOver: Record<string, never>;
   saved: Record<string, never>;
   commandFailed: { error: string };

@@ -53,6 +53,10 @@ export function gatherModifiers(ctx: SimContext, characterId: string): Modifier[
     const career = content.index.career.get(state.career.id);
     const rank = career?.ranks[state.career.rankIndex];
     rank?.modifiers.forEach((m) => out.push(fromDef(m, `career:${career!.id}:${rank.id}`, `${career!.name} (${rank.name})`)));
+
+    const civ = content.index.civilization.get(state.civilization.id) ?? content.civilizations[0];
+    const deg = civ?.exam_degrees.find((d) => d.id === state.civilization.examDegree);
+    deg?.modifiers.forEach((m) => out.push(fromDef(m, `degree:${deg.id}`, deg.name)));
   }
 
   if (inPlayerHousehold) {

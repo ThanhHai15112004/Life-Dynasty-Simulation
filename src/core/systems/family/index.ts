@@ -47,6 +47,7 @@ export function marryPlayer(ctx: SimContext, partner?: Character): Character | n
     self: spouse.id,
     params: { call: fullName(spouse), age: ageNow(ctx, spouse) },
   });
+  ctx.state.lastCutsceneId = 'ket_hon';
   return spouse;
 }
 
@@ -91,6 +92,7 @@ export function monthlyFamily(ctx: SimContext): void {
         self: child.id,
         params: { call: callOf(ctx, child), title: genderTitle.replace(/\s*\{given\}/g, '') },
       });
+      ctx.state.lastCutsceneId = 'sinh_con';
     }
     return;
   }

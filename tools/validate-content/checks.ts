@@ -144,6 +144,11 @@ export function validateContent(content: ContentBundle): ValidationReport {
       checkEffects([...act.success, ...act.failure], w, new Set());
     }
   }
+  for (const civ of content.civilizations) {
+    for (const deg of civ.exam_degrees) {
+      deg.modifiers.forEach((m) => target(m.target, `civilizations.${civ.id}.exam_degrees.${deg.id}`));
+    }
+  }
 
   // ── Chạy thử điều kiện DSL và token văn bản trên một ván thật ──
   if (!origin) return { errors: [...errors, 'Không có xuất thân nào'], warnings };

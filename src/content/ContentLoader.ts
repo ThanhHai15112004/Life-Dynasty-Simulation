@@ -7,6 +7,7 @@ import {
   ambientFileSchema,
   balanceSchemas,
   careerFileSchema,
+  civilizationSchema,
   cultureSchema,
   decisionEventFileSchema,
   diseaseFileSchema,
@@ -14,12 +15,14 @@ import {
   langSchema,
   originSchema,
   propertyFileSchema,
+  settlementTypeFileSchema,
   skillFileSchema,
   traitFileSchema,
   type Ambition,
   type AmbientTemplate,
   type Balance,
   type Career,
+  type Civilization,
   type Culture,
   type DecisionEvent,
   type Disease,
@@ -27,6 +30,7 @@ import {
   type LangPack,
   type Origin,
   type PropertyType,
+  type SettlementType,
   type Skill,
   type Trait,
 } from './schemas';
@@ -46,6 +50,8 @@ export interface ContentBundle {
   diseases: Disease[];
   ambitions: Ambition[];
   careers: Career[];
+  civilizations: Civilization[];
+  settlementTypes: SettlementType[];
   origins: Origin[];
   cultures: Culture[];
   events: DecisionEvent[];
@@ -60,6 +66,8 @@ export interface ContentBundle {
     disease: Map<string, Disease>;
     ambition: Map<string, Ambition>;
     career: Map<string, Career>;
+    civilization: Map<string, Civilization>;
+    settlementType: Map<string, SettlementType>;
     origin: Map<string, Origin>;
     culture: Map<string, Culture>;
     event: Map<string, DecisionEvent>;
@@ -153,10 +161,13 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const diseases = collect('diseases', diseaseFileSchema, 'diseases');
   const ambitions = collect('ambitions', ambitionFileSchema, 'ambitions');
   const careers = collect('careers', careerFileSchema, 'careers');
+  const civilizations = single('civilizations', civilizationSchema);
+  const settlementTypes = collect('world', settlementTypeFileSchema, 'settlement_types');
   const events = [
     ...collect('events/common', decisionEventFileSchema, 'events'),
     ...collect('events/careers', decisionEventFileSchema, 'events'),
     ...collect('events/crossover', decisionEventFileSchema, 'events'),
+    ...collect('events/civilizations', decisionEventFileSchema, 'events'),
   ];
   const ambient = collect('events/ambient', ambientFileSchema, 'templates');
   const origins = single('origins', originSchema);
@@ -185,6 +196,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
     disease: indexBy(diseases, 'diseases'),
     ambition: indexBy(ambitions, 'ambitions'),
     career: indexBy(careers, 'careers'),
+    civilization: indexBy(civilizations, 'civilizations'),
+    settlementType: indexBy(settlementTypes, 'world/settlement_types'),
     origin: indexBy(origins, 'origins'),
     culture: indexBy(cultures, 'cultures'),
     event: indexBy(events, 'events'),
@@ -205,6 +218,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
     diseases,
     ambitions,
     careers,
+    civilizations,
+    settlementTypes,
     origins,
     cultures,
     events,

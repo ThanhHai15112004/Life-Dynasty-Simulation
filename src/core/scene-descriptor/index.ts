@@ -31,6 +31,8 @@ export interface SceneDescriptor {
   /** Lớp 7 — hiệu ứng hạt. */
   particles: string[];
   wealth: string;
+  career: string;
+  examDegree: string;
 }
 
 export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
@@ -59,5 +61,7 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
     condition: sc.condition_rules.find((rule) => evaluate(rule.condition, r))?.value ?? sc.default_condition,
     particles: sc.particle_rules.filter((rule) => evaluate(rule.condition, r)).map((rule) => rule.value),
     wealth: h.livingStandard,
+    career: state.career.id,
+    examDegree: state.civilization.examDegree,
   };
 }

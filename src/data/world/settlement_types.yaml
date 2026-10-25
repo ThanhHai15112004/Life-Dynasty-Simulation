@@ -1,2 +1,22 @@
-# Loại khu định cư: kinh thành, làng nông, cảng... [1]
-settlement_types: []
+# [1] Loại khu định cư (GDD 06 & Cấu trúc thư mục chuẩn)
+settlement_types:
+  - id: lang_nong
+    name: Làng nông nghiệp
+    description: Ngôi làng bao quanh bởi lũy tre xanh, ruộng lúa và đình làng tự quản.
+    population_band: [200, 800]
+    trade_factor: 0.9
+  - id: thi_tran_ben_song
+    name: Thị trấn bến sông
+    description: Nơi thuyền bè neo đậu, chợ phiên họp dày và các thương hội tụ họp.
+    population_band: [800, 3000]
+    trade_factor: 1.25
+  - id: huyen_ly
+    name: Huyện lỵ
+    description: Nơi đặt nha môn quan huyện, trường học hàng huyện và kho lương.
+    population_band: [1500, 5000]
+    trade_factor: 1.15
+  - id: kinh_thanh
+    name: Kinh thành
+    description: Trung tâm quyền lực của vương triều, nơi mở khoa thi Hội – Đình và tụ hội trăm nghề.
+    population_band: [15000, 60000]
+    trade_factor: 1.5

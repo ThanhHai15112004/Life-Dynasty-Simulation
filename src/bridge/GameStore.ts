@@ -132,10 +132,19 @@ export class GameStore {
     if (!this.timer) this.tick();
   }
 
+  private emitCutsceneIfAny(cutsceneId: string | null): void {
+    if (!cutsceneId) return;
+    const pack = this.content.lang[this.content.balance.display.default_language] ?? {};
+    const title = pack[`cutscene.${cutsceneId}.title`] ?? cutsceneId;
+    const subtitle = pack[`cutscene.${cutsceneId}.subtitle`] ?? '';
+    this.notifications.emit('cutscene', { id: cutsceneId, title, subtitle });
+  }
+
   private tick(): void {
     const s = this.session;
     if (!s) return;
     const r = s.tickMonth();
+    this.emitCutsceneIfAny(r.cutsceneId);
     if (r.deaths.length) this.notifications.emit('death', { characterIds: r.deaths });
     if (r.newYear) {
       this.notifications.emit('newYear', { year: s.state.clock.year });
@@ -156,6 +165,7 @@ export class GameStore {
   dispatch(cmd: Command): boolean {
     if (!this.session) return false;
     const res = this.session.dispatch(cmd);
+    this.emitCutsceneIfAny(this.session.consumeCutscene());
     const lastError = res.ok ? null : `error.${res.error}`;
     if (!res.ok) this.notifications.emit('commandFailed', { error: res.error });
     this.refresh({ lastError });

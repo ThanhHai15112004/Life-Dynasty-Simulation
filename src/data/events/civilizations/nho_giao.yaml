@@ -1,0 +1,282 @@
+# [1] Sự kiện quyết định đặc trưng Khuôn văn minh Quan liêu Nho giáo (GDD 07 §4.5–4.7)
+events:
+  - id: nho_giao_khoa_thi_huong
+    title: Trống trường thi Hương mở hội
+    tags: [hoc_hanh, van_minh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: world.is_exam_year, op: '==', value: true }
+        - { var: player.exam_degree, op: 'in', value: [none, sinh_do] }
+        - { var: player.skill.hoc_van, op: '>=', value: 2 }
+        - { var: player.mourning_months, op: '==', value: 0 }
+    weight: 8
+    cooldown_years: 3
+    tension: 6
+    importance: 7
+    icon: sach
+    text:
+      - 'Cáo thị yết trước cổng đình: mùa thu năm nay triều đình mở khoa thi Hương tại trấn. Khắp các ngả đường, sĩ tử vai mang lều chõng, ống quyển nườm nượp kéo về trường thi.'
+    options:
+      - id: ung_thi_tam_huyet
+        text: 'Sắm sửa lều chõng, nộp lệ phí đi thi Hương (2 quan)'
+        hint: 'Học vấn càng cao càng dễ đỗ Sinh đồ hoặc Hương cống'
+        condition: { var: household.money, op: '>=', value: 2 }
+        chance:
+          base: 0.35
+          skill: hoc_van
+          per_level: 0.08
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: stress, value: 4 }
+        success:
+          - { type: set_exam_degree, degree: huong_cong }
+          - { type: skill_xp, skill: hoc_van, value: 25 }
+        failure:
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: stress, value: 5 }
+        success_result:
+          - 'Tên bạn được xướng vang trên bảng vàng trường Hương! Cả làng mang cờ lọng ra đầu đường đón tân Hương cống vinh quy bái tổ.'
+        failure_result:
+          - 'Chữ nghĩa trong bài tam trường chưa hợp ý quan chấm thi, bạn ngậm ngùi cuốn lều chõng hẹn khoa sau.'
+      - id: thi_lay_sinh_do
+        text: 'Chỉ sức vừa phải, giữ bài cẩn trọng cầu đỗ bậc Sinh đồ (1 quan)'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 1 }
+            - { var: player.exam_degree, op: '==', value: none }
+        chance:
+          base: 0.55
+          skill: hoc_van
+          per_level: 0.07
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+        success:
+          - { type: set_exam_degree, degree: sinh_do }
+          - { type: skill_xp, skill: hoc_van, value: 15 }
+        failure:
+          - { type: skill_xp, skill: hoc_van, value: 8 }
+          - { type: stress, value: 4 }
+        success_result:
+          - 'Bài văn chắc chắn không phạm húy, bạn đỗ bậc Sinh đồ, từ nay được miễn sưu dịch và có chỗ ngồi nơi đình trung!'
+        failure_result:
+          - 'Thiếu một chút sắc sảo ở kỳ phúc hạch, bạn đành quay về ôn luyện thêm.'
+      - id: hoan_khoa_nay
+        text: 'Tự thấy chữ nghĩa chưa chín, ở nhà dùi mài kinh sử chờ khoa sau'
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 15 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Bạn đóng cửa đọc sách thánh hiền, lòng tự nhủ ba năm nữa sẽ thử sức.'
+
+  - id: nho_giao_khoa_thi_hoi_dinh
+    title: Đường lên Kinh kỳ ứng thí Hội – Đình
+    tags: [hoc_hanh, van_minh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: world.is_exam_year, op: '==', value: true }
+        - { var: player.exam_degree, op: '==', value: huong_cong }
+        - { var: player.skill.hoc_van, op: '>=', value: 5 }
+        - { var: player.mourning_months, op: '==', value: 0 }
+    weight: 8
+    cooldown_years: 3
+    tension: 8
+    importance: 8
+    icon: sach
+    text:
+      - 'Đã có học vị Hương cống trong tay, mùa xuân năm nay triều đình mở đại khoa thi Hội và thi Đình tại Kinh thành để kén chọn bậc đại khoa Tiến sĩ.'
+    options:
+      - id: len_kinh_ung_thi
+        text: 'Hành trang lên Kinh thành dự thi Hội – Đình (5 quan lộ phí)'
+        hint: 'Cổng thăng tiến cao quý nhất của bậc sĩ phu Nho giáo'
+        condition: { var: household.money, op: '>=', value: 5 }
+        chance:
+          base: 0.3
+          skill: hoc_van
+          per_level: 0.07
+        effects:
+          - { type: money, value: -5, ledger: su_kien }
+          - { type: stress, value: 6 }
+        success:
+          - { type: set_exam_degree, degree: tien_si }
+          - { type: money, value: 15, ledger: luong_nghe }
+          - { type: filial_piety, value: 15 }
+        failure:
+          - { type: scholarly_prestige, value: 5 }
+          - { type: skill_xp, skill: hoc_van, value: 20 }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Kim bảng đề danh! Bạn đỗ Tiến sĩ, được ban mũ áo đại khoa và cờ biển Vinh quy bái tổ làm rạng danh tổ tiên!'
+        failure_result:
+          - 'Đề văn sách hỏi sâu về trị thủy và biên phòng, bạn chỉ vào tới kỳ thi Hội nhưng tiếng tăm học rộng đã vang khắp vùng.'
+      - id: o_que_day_hoc
+        text: 'Không màng chốn quan trường xa xôi, ở quê mở trường dạy học trò'
+        effects:
+          - { type: money, value: 3, ledger: luong_nghe }
+          - { type: scholarly_prestige, value: 8 }
+          - { type: reputation, group: dan_lang, value: 6 }
+        result:
+          - 'Học trò quanh vùng tìm đến thụ giáo ngày một đông, ai cũng kính trọng bậc Hương cống thanh cao.'
+
+  - id: nho_giao_xung_dot_cu_tang
+    title: Chữ Hiếu và thời cơ giữa lúc tang gia
+    tags: [gia_dinh, van_minh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.mourning_months, op: '>', value: 0 }
+    weight: 7
+    cooldown_years: 3
+    tension: 7
+    importance: 7
+    icon: tang
+    text:
+      - 'Khăn tang trắng vẫn còn quấn trên đầu, hương trên bàn thờ đấng sinh thành chưa tàn. Đúng lúc ấy, có người mang tới một cơ hội hội họp làm ăn và tiến thân hiếm có trên huyện, nhưng lệ Nho giáo buộc người con hiếu thảo phải kiêng tiệc tùng, danh lợi trong suốt kỳ cư tang.'
+    options:
+      - id: giu_tron_le_tang
+        text: 'Từ chối thẳng, ở nhà dựng lều cỏ bên mộ giữ trọn đạo hiếu'
+        trait_stress: { tham_vong: 5, co_hoi: 5 }
+        effects:
+          - { type: filial_piety, value: 16 }
+          - { type: scholarly_prestige, value: 8 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: stress, value: -4 }
+        result:
+          - 'Cả làng từ trẻ đến già đều tấm tắc khen bạn là người con chí hiếu, giữ vẹn nền nếp gia phong.'
+      - id: len_di_lo_viec
+        text: 'Cởi áo tang đi trong đêm để không lỡ mối lợi lớn'
+        trait_stress: { trong_gia_dinh: 6, trung_thanh: 5 }
+        effects:
+          - { type: money, value: 6, ledger: su_kien }
+          - { type: filial_piety, value: -18 }
+          - { type: reputation, group: dan_lang, value: -10 }
+          - { type: stress, value: 6 }
+        result:
+          - 'Túi có thêm mấy quan tiền, nhưng tin bạn bỏ lễ cư tang đi cầu lợi chẳng mấy chốc đã truyền khắp đầu làng cuối xóm.'
+
+  - id: nho_giao_ngoi_thu_dinh_lang
+    title: Chiếu trên, chiếu dưới nơi đình trung
+    tags: [lang_xa, van_minh, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+      - { id: do, from: village, village_role: thay_do }
+    weight: 5
+    cooldown_years: 4
+    tension: 5
+    importance: 6
+    icon: lang
+    text:
+      - 'Ngày hội kỳ phúc đầu xuân, trống đình thúc giục mọi người vào dự cỗ. Theo lệ tứ dân "Sĩ – Nông – Công – Thương", chiếu giữa dành cho người có chữ nghĩa và chức sắc, còn người buôn bán dù giàu có vẫn phải ngồi chiếu dưới.'
+    options:
+      - id: dung_hoc_vi_ngoi_chieu_tren
+        text: 'Ung dung bước lên chiếu trên theo đúng học vị và danh vọng sĩ phu'
+        condition:
+          any:
+            - { var: player.exam_degree, op: '!=', value: none }
+            - { var: player.scholarly_prestige, op: '>=', value: 20 }
+        effects:
+          - { type: scholarly_prestige, value: 6 }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: stress, value: -4 }
+        result:
+          - '{role.do.call} và {role.ly.call} đều đứng dậy chắp tay mời bạn ngồi vào chiếu danh dự giữa đình.'
+      - id: cung_tien_ung_ho_dinh
+        text: 'Quyên góp 4 quan tiền sửa mái đình để được mời lên chiếu khách quý'
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 9 }
+          - { type: opinion, role: ly, value: 15 }
+        result:
+          - 'Nhờ khoản tiền công đức hậu hĩnh, {role.ly.call} trịnh trọng đọc tên bạn trước toàn dân và mời ngồi chiếu trên.'
+      - id: khiem_nhuong_chieu_duoi
+        text: 'Mỉm cười ngồi đúng chỗ của mình, giữ hòa khí với bà con'
+        trait_stress: { tham_vong: 4 }
+        effects:
+          - { type: filial_piety, value: 4 }
+          - { type: opinion, role: do, value: 10 }
+        result:
+          - 'Sự khiêm nhường biết giữ lễ của bạn khiến {role.do.call} gật đầu quý mến.'
+
+  - id: nho_giao_tu_sua_tu_duong
+    title: Tu sửa từ đường và cuốn gia phả họ tộc
+    tags: [gia_dinh, van_minh]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    weight: 5
+    cooldown_years: 5
+    tension: 4
+    importance: 6
+    icon: nha
+    text:
+      - 'Mùa mưa năm ngoái làm dột mái nhà thờ họ, cuốn gia phả chép tay bằng giấy dó cũng đã ố vàng. Các bậc trưởng lão trong tộc họp bàn chuyện góp công góp của tu bổ.'
+    options:
+      - id: dung_ra_chu_tri
+        text: 'Đứng ra góp 3 quan tiền và tự tay sao chép lại gia phả'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: filial_piety, value: 12 }
+          - { type: scholarly_prestige, value: 6 }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+        result:
+          - 'Mái ngói từ đường mới tinh tươm, nét chữ Nho ngay ngắn trong cuốn gia phả mới khiến cả họ tự hào.'
+      - id: gop_cong_suc
+        text: 'Nhà hẹp tiền, xin góp ngày công đắp nền và dọn vườn từ đường'
+        effects:
+          - { type: filial_piety, value: 6 }
+          - { type: health, value: -3 }
+          - { type: reputation, group: dan_lang, value: 2 }
+        result:
+          - 'Dù không dư dả tiền bạc, tấm lòng thành kính với tổ tiên của bạn vẫn được các cụ trong họ ghi nhận.'
+      - id: khong_tham_gia
+        text: 'Viện cớ bận việc nhà không đến họp họ'
+        trait_stress: { trong_gia_dinh: 5 }
+        effects:
+          - { type: filial_piety, value: -10 }
+          - { type: reputation, group: dan_lang, value: -4 }
+        result:
+          - 'Trưởng tộc thở dài nhắc nhở chuyện con cháu quên nguồn cội.'
+
+  - id: nho_giao_thay_do_khao_bai
+    title: Buổi khảo bài kinh sử bên hiên trường làng
+    tags: [hoc_hanh, van_minh]
+    life_stages: [thieu_thoi, thanh_nien]
+    roles:
+      - { id: do, from: village, village_role: thay_do }
+    weight: 6
+    cooldown_years: 3
+    tension: 4
+    importance: 5
+    icon: sach
+    text:
+      - '{role.do.call} vuốt chòm râu bạc, gõ thước gỗ xuống án thư rồi ra một vế đối lấy điển tích về đạo Trung – Hiếu để thử sức đám học trò trong làng.'
+    options:
+      - id: ung_doi_xuat_sac
+        text: 'Trầm ngâm suy nghĩ rồi đọc vế đối chỉnh từng chữ'
+        chance:
+          base: 0.45
+          skill: hoc_van
+          per_level: 0.08
+        success:
+          - { type: scholarly_prestige, value: 8 }
+          - { type: filial_piety, value: 5 }
+          - { type: skill_xp, skill: hoc_van, value: 18 }
+          - { type: opinion, role: do, value: 15 }
+        failure:
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+          - { type: stress, value: 3 }
+        success_result:
+          - '{role.do.call} vỗ đùi khen hay, thưởng riêng cho bạn một thỏi mực tàu thơm phức!'
+        failure_result:
+          - 'Vế đối hơi gượng ép về luật bằng trắc, thầy chỉnh lại giúp bạn nhớ kỹ hơn.'
+      - id: hoi_them_nghia_sach
+        text: 'Khiêm tốn thưa thầy xin giảng kỹ thêm đạo nghĩa trong sách'
+        effects:
+          - { type: filial_piety, value: 6 }
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: opinion, role: do, value: 8 }
+        result:
+          - 'Thầy hài lòng vì tính hiếu học, tận tình giảng giải suốt cả buổi chiều.'

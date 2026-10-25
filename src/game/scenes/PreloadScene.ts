@@ -18,7 +18,10 @@ export class PreloadScene extends Phaser.Scene {
       if (s.frames > 1) this.load.spritesheet(key, s.url, { frameWidth: s.frameWidth, frameHeight: s.frameHeight });
       else this.load.image(key, s.url);
     }
-    this.load.once(Phaser.Loader.Events.COMPLETE, () => this.scene.start('LifeScene'));
+    this.load.once(Phaser.Loader.Events.COMPLETE, () => {
+      this.scene.start('LifeScene');
+      this.scene.launch('CutsceneScene');
+    });
     this.load.start();
   }
 }

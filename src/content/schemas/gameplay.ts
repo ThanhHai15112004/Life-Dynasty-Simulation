@@ -1,7 +1,7 @@
 // [0] Dữ liệu gameplay: kỹ năng, tính cách, Focus, tài sản, xuất thân, văn hóa
 import { z } from 'zod';
 import { conditionSchema } from './condition';
-import { effectSchema } from './effect';
+import { effectSchema, examDegreeIds } from './effect';
 import { chanceSchema } from './event';
 import { modifierDefSchema } from './modifier';
 
@@ -255,3 +255,51 @@ export const careerSchema = z
   .strict();
 export const careerFileSchema = z.object({ careers: z.array(careerSchema).min(1) }).strict();
 export type Career = z.infer<typeof careerSchema>;
+
+/** [1] Khuôn văn minh (GDD 07) & Loại khu định cư (GDD 06). */
+export const examDegreeDefSchema = z
+  .object({
+    id: z.enum(examDegreeIds),
+    name: z.string(),
+    min_hoc_van: z.number().int().min(0).default(0),
+    prestige_gain: z.number().min(0).default(0),
+    stipend_money_month: z.number().min(0).default(0),
+    modifiers: z.array(modifierDefSchema).default([]),
+  })
+  .strict();
+export type ExamDegreeDef = z.infer<typeof examDegreeDefSchema>;
+
+export const statusRankSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+  })
+  .strict();
+export type StatusRank = z.infer<typeof statusRankSchema>;
+
+export const civilizationSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    culture_set: z.string(),
+    mourning_months: z.number().int().positive().default(27),
+    exam_interval_years: z.number().int().positive().default(3),
+    exam_degrees: z.array(examDegreeDefSchema).min(1),
+    status_ranks: z.array(statusRankSchema).min(1),
+  })
+  .strict();
+export type Civilization = z.infer<typeof civilizationSchema>;
+
+export const settlementTypeSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    population_band: z.tuple([z.number(), z.number()]),
+    trade_factor: z.number().positive().default(1),
+  })
+  .strict();
+export const settlementTypeFileSchema = z.object({ settlement_types: z.array(settlementTypeSchema).min(1) }).strict();
+export type SettlementType = z.infer<typeof settlementTypeSchema>;

@@ -22,7 +22,8 @@ npm run simulate     # xem KPI cân bằng có lệch không
 | `focuses/`, `skills/`, `traits/`, `properties/` | Focus, 7 kỹ năng, 16 tính cách, loại tài sản |
 | `origins/`, `cultures/` | 3 Xuất thân (`nong_dan`, `thuong_nhan`, `quy_toc_nho`), văn hóa (tên, cách xưng hô) |
 | `careers/`, `ambitions/`, `diseases/` | 4 Nghề lắp ghép (`nong_dan`, `thuong_nhan`, `linh`, `thao_khau`), tham vọng cả đời, bệnh tật |
-| `events/common/`, `events/careers/`, `events/crossover/` | Sự kiện quyết định (làng xã, theo nghề, giao thoa nghề) |
+| `civilizations/`, `world/` | Khuôn văn minh (`nho_giao.yaml`), loại khu định cư (`settlement_types.yaml`) |
+| `events/common/`, `events/careers/`, `events/crossover/`, `events/civilizations/` | Sự kiện quyết định (làng xã, theo nghề, giao thoa nghề, khuôn văn minh) |
 | `events/ambient/` | Mẫu nhật ký dòng đời; `he_thong.yaml` là mẫu do mô phỏng tự gọi (đừng đổi id) |
 | `lang/vi.json` | Chữ giao diện |
 
@@ -51,7 +52,9 @@ Toán tử: `==` `!=` `>` `>=` `<` `<=` `between` `in`.
 | `world.harvest_quality` | Trời định năm nay (`duoc_mua`, `binh_thuong`, `kem`, `mat_mua`), ẩn với người chơi |
 | `world.food_price` · `world.last_harvest` · `world.months_to_harvest` | Giá thóc, sản lượng vụ trước, số tháng tới vụ gặt |
 | `world.trade_index` · `world.military_alert` · `world.patrol_level` | Thời cơ buôn bán, tình hình quân sự (`binh_yen`/`tuan_tra`/`chien_dich`), mức tuần tiễu (0–100) |
+| `world.is_exam_year` | Năm mở khoa thi (`true`/`false`) theo chu kỳ của khuôn văn minh |
 | `player.career` · `player.career_rank` · `player.merit` · `player.wanted` | Nghề hiện tại, chỉ số bậc nghề, công trạng nghề, mức truy nã |
+| `player.filial_piety` · `player.scholarly_prestige` · `player.exam_degree` · `player.mourning_months` | Hiếu đạo, Danh vọng sĩ phu, Học vị Khoa cử (`none`/`sinh_do`/`huong_cong`/`tien_si`), số tháng đang cư tang |
 | `player.<f>` · `self.<f>` · `role.<id>.<f>` · `village.<vai_trò>.<f>` | Thuộc tính nhân vật (xem bảng dưới) |
 | `village.<vai_trò>.exists` | Làng có người giữ vai trò đó (còn sống) |
 | `household.money` · `food` · `debt` · `living_standard` | Sổ sách hộ |
@@ -92,6 +95,9 @@ roles:
 | `add_trait` | `trait`, `who?` | Bỏ qua nếu đã có tính cách đối lập |
 | `set_career` | `career`, `rank?` | Chuyển sang nghề mới (mặc định bậc `0`) |
 | `career_merit` / `wanted` | `value` | Cộng/trừ công trạng nghề hoặc mức truy nã |
+| `filial_piety` / `scholarly_prestige` | `value` | Cộng/trừ điểm Hiếu đạo hoặc Danh vọng sĩ phu |
+| `set_exam_degree` | `degree` | Đạt học vị Khoa cử (`none` / `sinh_do` / `huong_cong` / `tien_si`), phát cutscene `vinh_quy_bai_to` |
+| `cutscene` | `id` | Phát hoạt cảnh micro-cutscene (`vinh_quy_bai_to`, `ket_hon`, `sinh_con`, `tang_le`...) |
 | `log` | `text: [..]`, `importance` | Ghi một dòng ký ức |
 | `chance` | `p`, `then: [..]`, `else: [..]` | Gieo mầm ngẫu nhiên |
 

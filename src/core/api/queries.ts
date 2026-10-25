@@ -41,6 +41,11 @@ export interface HudView {
     satisfactionKey: string;
     reputation: number;
     reputationKey: string;
+    filialPiety: number;
+    scholarlyPrestige: number;
+    examDegreeId: string;
+    examDegreeName: string;
+    mourningMonthsLeft: number;
     deathRiskMod: ModifierResult;
     diseases: { id: string; name: string; description: string; severity: string; remainingMonths: number }[];
     traits: { id: string; name: string; description: string }[];
@@ -209,6 +214,14 @@ export function getHudView(ctx: SimContext): HudView {
       satisfactionKey: pickBand(display.satisfaction_bands, state.happiness.satisfaction).key,
       reputation: state.reputation.dan_lang ?? 0,
       reputationKey: pickBand(display.reputation_bands, state.reputation.dan_lang ?? 0).key,
+      filialPiety: state.civilization.filialPiety,
+      scholarlyPrestige: state.civilization.scholarlyPrestige,
+      examDegreeId: state.civilization.examDegree,
+      examDegreeName:
+        (content.index.civilization.get(state.civilization.id) ?? content.civilizations[0])?.exam_degrees.find(
+          (d) => d.id === state.civilization.examDegree,
+        )?.name ?? '',
+      mourningMonthsLeft: state.civilization.mourningMonthsLeft,
       deathRiskMod: computeFor(ctx, me.id, StatTarget.DeathRisk, 1),
       diseases: (me.diseases ?? [])
         .map((d) => {

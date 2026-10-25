@@ -18,7 +18,13 @@ export function ProfilePanel({ hud }: { hud: HudView }) {
       </div>
       <div className="muted small">
         {hud.career.name} · {hud.career.rankName}
+        {p.examDegreeId !== 'none' ? ` · ${p.examDegreeName}` : ''}
       </div>
+      {p.mourningMonthsLeft > 0 && (
+        <div className="muted small">
+          {t('profile.mourning', { n: p.mourningMonthsLeft })}
+        </div>
+      )}
       <StatBar
         label={t('stat.health')}
         value={p.health}
@@ -48,6 +54,16 @@ export function ProfilePanel({ hud }: { hud: HudView }) {
           {t(p.reputationKey)} ({p.reputation >= 0 ? `+${p.reputation}` : p.reputation})
         </span>
       </div>
+      <div className="stat-head small">
+        <span>{t('stat.filial_piety')}</span>
+        <span className="stat-word">{p.filialPiety}/100</span>
+      </div>
+      {p.scholarlyPrestige > 0 && (
+        <div className="stat-head small">
+          <span>{t('stat.scholarly_prestige')}</span>
+          <span className="stat-word">{p.scholarlyPrestige}/100</span>
+        </div>
+      )}
       {p.diseases.length > 0 && (
         <div className="traits">
           {p.diseases.map((d) => (

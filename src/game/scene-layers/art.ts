@@ -46,6 +46,7 @@ export interface SpriteManifest {
 
 export const SCENE_LAYOUT_KEY = 'scene-layout';
 export const SPRITE_MANIFEST_KEY = 'sprite-manifest';
+export const CUTSCENE_CONFIG_KEY = 'cutscene-config';
 
 /** Thay {season}, {weather}... trong khóa sprite. */
 export const fillKey = (key: string, vars: Record<string, string>): string => key.replace(/\{(\w+)\}/g, (_, k: string) => vars[k] ?? k);

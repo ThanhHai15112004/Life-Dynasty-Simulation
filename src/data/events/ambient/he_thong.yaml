@@ -241,3 +241,21 @@ templates:
     variants:
       - 'Nhờ công trạng tích lũy, bạn được thăng lên bậc "{stage}" trong nghề {title}!'
       - 'Tiếng tăm và bản lĩnh được ghi nhận: bạn bước lên bậc "{stage}" ({title}).'
+  - id: sys.do_khoa_cu
+    kind: he_thong
+    importance: 9
+    highlight: true
+    tone: vui
+    icon: sach
+    variants:
+      - 'Bảng vàng xướng tên! Bạn thi đỗ học vị "{title}", cờ lọng rợp đường vinh quy bái tổ.'
+      - 'Sau bao năm đèn sách, bạn chính thức đỗ "{title}", rạng danh tông tộc!'
+  - id: sys.bat_dau_cu_tang
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: buon
+    icon: tang
+    variants:
+      - 'Theo lễ Nho giáo, bạn bước vào kỳ cư tang {call} trong {amount} tháng.'
+      - 'Nhà có đại tang {call}: bạn giữ lễ cư tang {amount} tháng để trọn đạo hiếu.'

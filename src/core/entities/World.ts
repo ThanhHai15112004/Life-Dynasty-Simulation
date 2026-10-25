@@ -1,4 +1,5 @@
 // [0] Trạng thái tổng của một ván chơi — toàn bộ là dữ liệu thuần (JSON được) để lưu/tải và chạy headless
+import type { ExamDegreeId } from '@content/schemas';
 import type { Character } from './Character';
 import type { Household, LedgerYear } from './Household';
 
@@ -116,6 +117,16 @@ export interface GameState {
     baselineWealth: number;
     ambitionBonus: number;
   };
+  /** [1] Trạng thái Khuôn văn minh (Quan liêu Nho giáo: Hiếu đạo, Danh vọng sĩ phu, Khoa cử, Cư tang). */
+  civilization: {
+    id: string;
+    filialPiety: number;
+    scholarlyPrestige: number;
+    examDegree: ExamDegreeId;
+    mourningMonthsLeft: number;
+  };
+  /** [1] Mã hoạt cảnh (micro-cutscene) vừa phát sinh để @bridge chuyển cho Phaser vẽ. */
+  lastCutsceneId?: string | null;
   flags: Record<string, FlagState>;
 
   eventHistory: Record<string, { lastMonthIndex: number; count: number }>;

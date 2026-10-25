@@ -21,6 +21,9 @@ export type NumberExpr = z.infer<typeof numberExprSchema>;
 /** Ai chịu tác động: 'player', id vai trò của sự kiện, hoặc 'household' (mọi thành viên). */
 const who = z.string().default('player');
 
+export const examDegreeIds = ['none', 'sinh_do', 'huong_cong', 'tien_si'] as const;
+export type ExamDegreeId = (typeof examDegreeIds)[number];
+
 export type Effect =
   | { type: 'money'; value: NumberExpr; ledger?: string }
   | { type: 'food'; value: NumberExpr; ledger?: string }
@@ -53,6 +56,10 @@ export type Effect =
   | { type: 'set_career'; career: string; rank?: number }
   | { type: 'career_merit'; value: number }
   | { type: 'wanted'; value: number }
+  | { type: 'filial_piety'; value: number }
+  | { type: 'scholarly_prestige'; value: number }
+  | { type: 'set_exam_degree'; degree: ExamDegreeId }
+  | { type: 'cutscene'; id: string }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -107,6 +114,10 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
     z.object({ type: z.literal('set_career'), career: z.string(), rank: z.number().int().min(0).optional() }).strict(),
     z.object({ type: z.literal('career_merit'), value: z.number() }).strict(),
     z.object({ type: z.literal('wanted'), value: z.number() }).strict(),
+    z.object({ type: z.literal('filial_piety'), value: z.number() }).strict(),
+    z.object({ type: z.literal('scholarly_prestige'), value: z.number() }).strict(),
+    z.object({ type: z.literal('set_exam_degree'), degree: z.enum(examDegreeIds) }).strict(),
+    z.object({ type: z.literal('cutscene'), id: z.string() }).strict(),
     z
       .object({
         type: z.literal('log'),

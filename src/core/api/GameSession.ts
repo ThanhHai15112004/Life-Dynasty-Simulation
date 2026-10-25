@@ -16,6 +16,7 @@ import { monthlyLife, yearlyVillage } from '../systems/life';
 import { monthlyOpportunity, yearlyOpportunity } from '../systems/opportunity';
 import { monthlySkills } from '../systems/skills';
 import { monthlySocial } from '../systems/social';
+import { monthlyStatus } from '../systems/status';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
 import { executeCommand, type Command, type CommandResult } from './commands';
 
@@ -27,6 +28,8 @@ export interface TickReport {
   gameOver: boolean;
   /** Người nhà vừa qua đời trong tháng này. */
   deaths: string[];
+  /** Mã hoạt cảnh (micro-cutscene) vừa phát sinh. */
+  cutsceneId: string | null;
 }
 
 export class GameSession {
@@ -66,9 +69,10 @@ export class GameSession {
 
   /** Chạy một tháng mô phỏng. Không chạy khi đang chờ quyết định hoặc đã hết đời. */
   tickMonth(): TickReport {
-    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [] };
+    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutsceneId: null };
     if (this.blocked) return { ...empty, decision: this._state.pending !== null };
     const aliveBefore = new Set(Object.values(this._state.characters).filter((c) => c.alive).map((c) => c.id));
+    this._state.lastCutsceneId = null;
 
     const info = this.withContext((ctx) =>
       clockTick(ctx.state.clock, this.content.balance.calendar.months_per_year, {
@@ -82,16 +86,26 @@ export class GameSession {
     const deaths = [...aliveBefore].filter(
       (id) => !this._state.characters[id].alive && this._state.characters[id].householdId === this._state.householdId,
     );
+    const cutsceneId = this._state.lastCutsceneId ?? null;
+    this._state.lastCutsceneId = null;
     return {
       newYear: info.yearEnded && !this._state.gameOver,
       decision: this._state.pending !== null,
       gameOver: this._state.gameOver !== null,
       deaths,
+      cutsceneId,
     };
   }
 
   dispatch(cmd: Command): CommandResult {
+    this._state.lastCutsceneId = null;
     return this.withContext((ctx) => executeCommand(ctx, cmd));
+  }
+
+  consumeCutscene(): string | null {
+    const id = this._state.lastCutsceneId ?? null;
+    this._state.lastCutsceneId = null;
+    return id;
   }
 
   /** Đọc dữ liệu qua ngữ cảnh chỉ đọc (dùng cho queries). */
@@ -117,6 +131,7 @@ function monthly(ctx: SimContext): void {
   monthlyFamily(ctx);
   monthlySkills(ctx);
   monthlyCareer(ctx);
+  monthlyStatus(ctx);
   monthlyEconomy(ctx);
   monthlySocial(ctx);
   monthlyHappiness(ctx);

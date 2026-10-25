@@ -4,8 +4,9 @@ import { loadNodeContent } from '../../../tools/shared/nodeContent';
 import { GameSession } from '../api/GameSession';
 import { getHudView } from '../api/queries';
 import { marryPlayer } from '../systems/family';
-import { cureCharacter, infectCharacter } from '../systems/life';
+import { cureCharacter, infectCharacter, kill } from '../systems/life';
 import { player } from '../systems/people';
+import { changeFilialPiety, setExamDegree } from '../systems/status';
 
 const content = loadNodeContent();
 
@@ -131,5 +132,33 @@ describe('GameSession', () => {
     sNongDan.state.career.merit = 30;
     sNongDan.tickMonth();
     expect(sNongDan.state.career.rankIndex).toBeGreaterThanOrEqual(1);
+  });
+
+  it('GĐ1 (Gói 1C): Khuôn văn minh Nho giáo, Khoa cử, Cư tang 27 tháng và Cảnh 7 lớp', () => {
+    const s = GameSession.create(content, { originId: 'quy_toc_nho', seed: 'civ-test', startAge: 18 });
+    expect(s.state.civilization.id).toBe('nho_giao');
+    expect(s.state.civilization.scholarlyPrestige).toBe(15);
+
+    // Đỗ Khoa cử bậc Hương cống → tăng Danh vọng sĩ phu và kích hoạt hoạt cảnh Vinh quy bái tổ
+    s.read((ctx) => {
+      setExamDegree(ctx, 'huong_cong');
+      changeFilialPiety(ctx, 10);
+    });
+    expect(s.state.civilization.examDegree).toBe('huong_cong');
+    expect(s.state.civilization.scholarlyPrestige).toBe(50);
+    expect(s.state.civilization.filialPiety).toBe(75);
+    expect(s.consumeCutscene()).toBe('vinh_quy_bai_to');
+    expect(s.sceneDescriptor().examDegree).toBe('huong_cong');
+
+    // Khi cha hoặc mẹ qua đời → kích hoạt Cư tang 27 tháng và đổi tình trạng Cảnh 7 lớp sang 'cu_tang'
+    s.read((ctx) => {
+      const me = player(ctx);
+      const father = me.fatherId ? ctx.state.characters[me.fatherId] : undefined;
+      expect(father).toBeDefined();
+      kill(ctx, father!, 'benh');
+    });
+    expect(s.state.civilization.mourningMonthsLeft).toBe(27);
+    expect(s.consumeCutscene()).toBe('tang_le');
+    expect(s.sceneDescriptor().condition).toBe('cu_tang');
   });
 });

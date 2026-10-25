@@ -13,6 +13,7 @@ import { healthCap } from '../systems/life/health';
 import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
 import { marryPlayer } from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
+import { changeFilialPiety, changeScholarlyPrestige, setExamDegree } from '../systems/status';
 import { Ledger, LogKind } from './systemLogKeys';
 import { pushLog } from './journal';
 
@@ -139,6 +140,18 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           break;
         case 'wanted':
           addWanted(ctx, e.value);
+          break;
+        case 'filial_piety':
+          changeFilialPiety(ctx, e.value);
+          break;
+        case 'scholarly_prestige':
+          changeScholarlyPrestige(ctx, e.value);
+          break;
+        case 'set_exam_degree':
+          setExamDegree(ctx, e.degree);
+          break;
+        case 'cutscene':
+          state.lastCutsceneId = e.id;
           break;
         case 'property_add':
           h.properties[e.property] = (h.properties[e.property] ?? 0) + e.count;

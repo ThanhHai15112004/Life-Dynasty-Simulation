@@ -44,6 +44,13 @@ export function deserialize(text: string): GameState {
   raw.reputation = raw.reputation ?? { dan_lang: 0 };
   raw.happiness = raw.happiness ?? { mood: 50, satisfaction: 50, baselineWealth: 100, ambitionBonus: 0 };
   raw.career = raw.career ?? { id: 'nong_dan', rankIndex: 0, merit: 0, wanted: 0, actionCooldowns: {} };
+  raw.civilization = raw.civilization ?? {
+    id: 'nho_giao',
+    filialPiety: 60,
+    scholarlyPrestige: 0,
+    examDegree: 'none',
+    mourningMonthsLeft: 0,
+  };
   if (raw.world) {
     raw.world.tradeIndex = raw.world.tradeIndex ?? 1.0;
     raw.world.militaryAlert = raw.world.militaryAlert ?? 'binh_yen';

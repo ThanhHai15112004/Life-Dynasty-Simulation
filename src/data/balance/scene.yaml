@@ -6,6 +6,8 @@ default_condition: binh_yen
 condition_rules:
   - condition: { has_flag: lu_lut }
     value: ngap_lut
+  - condition: { var: player.mourning_months, op: '>', value: 0 }
+    value: cu_tang
   - condition: { all: [{ var: world.harvest_quality, op: '==', value: mat_mua }, { var: world.month, op: '>=', value: 5 }] }
     value: mat_mua
   - condition: { any: [{ var: household.living_standard, op: '==', value: kho_cuc }, { var: household.food_months, op: '<', value: 1 }] }

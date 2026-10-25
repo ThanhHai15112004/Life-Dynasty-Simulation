@@ -1,6 +1,7 @@
 // [0] Cấu hình Phaser: kích thước, chế độ pixel art
 import Phaser from 'phaser';
 import { BootScene } from './scenes/BootScene';
+import { CutsceneScene } from './scenes/CutsceneScene';
 import { LifeScene } from './scenes/LifeScene';
 import { PreloadScene } from './scenes/PreloadScene';
 
@@ -14,5 +15,5 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     width: '100%',
     height: '100%',
   },
-  scene: [BootScene, PreloadScene, LifeScene],
+  scene: [BootScene, PreloadScene, LifeScene, CutsceneScene],
 };

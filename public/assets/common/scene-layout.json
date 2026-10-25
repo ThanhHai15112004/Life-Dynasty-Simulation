@@ -38,6 +38,7 @@
   "conditions": {
     "ngheo_doi": { "tint": "#1a1420", "alpha": 0.32 },
     "thinh_vuong": { "tint": "#ffcc66", "alpha": 0.08, "lantern": "den_long" },
+    "cu_tang": { "tint": "#cfd6df", "alpha": 0.22 },
     "ngap_lut": { "flood": true },
     "mat_mua": {},
     "binh_yen": {}

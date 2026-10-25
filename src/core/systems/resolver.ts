@@ -8,6 +8,7 @@ import type { SimContext } from './context';
 import { monthlyFoodNeed, workerCount } from './economy/helpers';
 import { aliveChildrenOf } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
+import { isExamYear } from './status';
 
 export interface Bindings {
   /** Nhân vật đang xét (ứng viên vai trò, người chịu modifier có điều kiện...). */
@@ -87,6 +88,14 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return state.career.merit;
       case 'wanted':
         return state.career.wanted;
+      case 'filial_piety':
+        return state.civilization.filialPiety;
+      case 'scholarly_prestige':
+        return state.civilization.scholarlyPrestige;
+      case 'exam_degree':
+        return state.civilization.examDegree;
+      case 'mourning_months':
+        return state.civilization.mourningMonthsLeft;
       default:
         throw new UnknownVariableError(path);
     }
@@ -111,6 +120,7 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'trade_index') return state.world.tradeIndex;
         if (key === 'military_alert') return state.world.militaryAlert;
         if (key === 'patrol_level') return state.world.patrolLevel;
+        if (key === 'is_exam_year') return isExamYear(ctx);
         throw new UnknownVariableError(path);
       }
       case 'player':
