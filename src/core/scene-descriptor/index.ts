@@ -33,6 +33,7 @@ export interface SceneDescriptor {
   wealth: string;
   career: string;
   examDegree: string;
+  statusRank: string;
 }
 
 export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
@@ -46,7 +47,7 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
     .map((p) => ({ sprite: p.type.scene!.sprite, count: Math.min(p.count, p.type.scene!.max_draw) }));
 
   return {
-    location: sc.location,
+    location: content.index.settlementType.get(state.world.settlementType)?.scene_location ?? sc.location,
     cultureSet: sc.culture_set,
     house: house?.scene?.sprite ?? null,
     season: seasonOf(ctx),
@@ -63,5 +64,6 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
     wealth: h.livingStandard,
     career: state.career.id,
     examDegree: state.civilization.examDegree,
+    statusRank: state.civilization.statusRank,
   };
 }

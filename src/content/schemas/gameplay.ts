@@ -2,10 +2,24 @@
 import { z } from 'zod';
 import { conditionSchema } from './condition';
 import { effectSchema, examDegreeIds } from './effect';
-import { chanceSchema } from './event';
+import { ambientTones, chanceSchema } from './event';
 import { modifierDefSchema } from './modifier';
 
 const range = z.tuple([z.number(), z.number()]);
+
+/** [1] Nguồn thu đều đặn mỗi tháng (nghề, Focus): base + bậc kỹ năng × per_level, có thể nhân Thời cơ buôn bán. */
+export const incomeSpecSchema = z
+  .object({
+    money_month: z.number().default(0),
+    skill: z.string().optional(),
+    per_level: z.number().default(0),
+    /** Nhân chỉ số giá buôn (world.trade_index) × hệ số buôn bán của khu định cư. */
+    trade_scaled: z.boolean().default(false),
+    /** Danh mục sổ sách (khóa ledger.<id> trong lang). */
+    ledger: z.string(),
+  })
+  .strict();
+export type IncomeSpec = z.infer<typeof incomeSpecSchema>;
 
 export const skillSchema = z
   .object({ id: z.string(), name: z.string(), description: z.string().default('') })
@@ -40,6 +54,8 @@ export const focusSchema = z
     /** Bộ lọc sự kiện: nhân trọng số sự kiện có thẻ tương ứng. */
     event_weights: z.record(z.string(), z.number()).default({}),
     allow_secondary: z.boolean().default(true),
+    /** [1] Thu nhập khi là Focus chính (kỹ năng tính theo người chơi). */
+    income: incomeSpecSchema.optional(),
   })
   .strict();
 export const focusFileSchema = z.object({ focuses: z.array(focusSchema).min(1) }).strict();
@@ -125,6 +141,15 @@ export const originSchema = z
     village_npcs: z.array(villageNpcSchema),
     default_focus: z.string(),
     default_career: z.string().default('nong_dan'),
+    /** [1] Mẫu nhật ký mở đầu đời (id trong events/ambient); bỏ trống thì dùng sys.khoi_dau. */
+    start_log: z.string().optional(),
+    /** [1] Loại khu định cư nơi hộ sinh sống (data/world/settlement_types.yaml). */
+    settlement: z.string(),
+    /** [1] Chỉ số khuôn văn minh lúc bắt đầu, ghi đè giá trị mặc định của khuôn. */
+    start_status: z
+      .object({ filial_piety: z.number().optional(), scholarly_prestige: z.number().optional() })
+      .strict()
+      .default({}),
   })
   .strict();
 export type Origin = z.infer<typeof originSchema>;
@@ -205,7 +230,7 @@ export const ambitionFileSchema = z.object({ ambitions: z.array(ambitionSchema).
 export type Ambition = z.infer<typeof ambitionSchema>;
 
 /** [1] Hợp đồng nghề & Thành phần lắp ghép (GDD 04 §4–5). */
-export const careerComponentTypes = ['farmland', 'trade_route', 'military_rank', 'outlaw_band'] as const;
+export const careerComponentTypes = ['farmland', 'trade_route', 'military_rank', 'outlaw_band', 'exam_ladder'] as const;
 export type CareerComponentType = (typeof careerComponentTypes)[number];
 
 export const careerRankSchema = z
@@ -251,6 +276,20 @@ export const careerSchema = z
     duties: z.array(z.string()).default([]),
     ranks: z.array(careerRankSchema).min(1),
     actions: z.array(careerActionSchema).default([]),
+    /** [1] Bộ lọc sự kiện theo nghề nhà: nhân trọng số sự kiện/nhật ký có thẻ tương ứng. */
+    event_weights: z.record(z.string(), z.number().min(0)).default({}),
+    /** [1] Cách hộ mưu sinh khi theo nghề này (cả lúc người chơi còn nhỏ — nghề của nhà). */
+    economy: z
+      .object({
+        /** Hộ tự cày ruộng; false thì ruộng phát canh thu tô (balance.economy.tenancy). */
+        self_farm: z.boolean().default(true),
+        /** Tiền công mỗi tháng của một người nhà dư sức (mặc định: làm thuê theo balance). */
+        family_wage_month: z.number().min(0).optional(),
+        /** Thu nhập của nghề nhà (kỹ năng tính theo người giỏi nhất trong hộ). */
+        income: incomeSpecSchema.optional(),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 export const careerFileSchema = z.object({ careers: z.array(careerSchema).min(1) }).strict();
@@ -269,11 +308,14 @@ export const examDegreeDefSchema = z
   .strict();
 export type ExamDegreeDef = z.infer<typeof examDegreeDefSchema>;
 
+/** Bậc thang địa vị: bậc cao nhất có điều kiện đúng là bậc hiện tại (bậc đầu là mặc định). */
 export const statusRankSchema = z
   .object({
     id: z.string(),
     name: z.string(),
     description: z.string(),
+    condition: conditionSchema.optional(),
+    modifiers: z.array(modifierDefSchema).default([]),
   })
   .strict();
 export type StatusRank = z.infer<typeof statusRankSchema>;
@@ -286,6 +328,17 @@ export const civilizationSchema = z
     culture_set: z.string(),
     mourning_months: z.number().int().positive().default(27),
     exam_interval_years: z.number().int().positive().default(3),
+    /** Thi Hội – Đình mở sau thi Hương chừng này năm (trong cùng chu kỳ). */
+    metropolitan_exam_offset_years: z.number().int().min(1).default(1),
+    /** Kỹ năng xét điều kiện min_hoc_van của học vị. */
+    exam_skill: z.string(),
+    /** Nhóm danh tiếng được cộng khi đỗ đạt. */
+    reputation_group: z.string(),
+    /** Chỉ số lúc bắt đầu (xuất thân có thể ghi đè bằng start_status). */
+    start: z.object({ filial_piety: z.number(), scholarly_prestige: z.number() }).strict(),
+    /** Đỗ đạt: danh tiếng làng tăng thêm = prestige_gain × hệ số này. */
+    prestige_reputation_factor: z.number().min(0).default(0),
+    cutscenes: z.object({ exam_passed: z.string().optional(), mourning: z.string().optional() }).strict().default({}),
     exam_degrees: z.array(examDegreeDefSchema).min(1),
     status_ranks: z.array(statusRankSchema).min(1),
   })
@@ -299,7 +352,46 @@ export const settlementTypeSchema = z
     description: z.string(),
     population_band: z.tuple([z.number(), z.number()]),
     trade_factor: z.number().positive().default(1),
+    /** Bộ lọc sự kiện theo nơi ở: nhân trọng số sự kiện/nhật ký có thẻ tương ứng. */
+    event_weights: z.record(z.string(), z.number().min(0)).default({}),
+    /** Địa điểm cảnh pixel (scene-layout.json › locations); bỏ trống thì dùng balance.scene.location. */
+    scene_location: z.string().optional(),
   })
   .strict();
 export const settlementTypeFileSchema = z.object({ settlement_types: z.array(settlementTypeSchema).min(1) }).strict();
 export type SettlementType = z.infer<typeof settlementTypeSchema>;
+
+/** [1] Biên niên vương triều (giả tưởng): biến cố thế giới chạy song song với đời nhân vật. */
+export const chronicleEntrySchema = z
+  .object({
+    id: z.string(),
+    /** Khoảng năm (tính từ năm bắt đầu ván) biến cố có thể xảy ra. */
+    years: range.default([0, 9999]),
+    /** Xác suất mỗi đầu năm khi đủ điều kiện. */
+    chance_per_year: z.number().min(0).max(1),
+    /** Mỗi ván chỉ xảy ra một lần; false thì xét cooldown_years. */
+    once: z.boolean().default(true),
+    cooldown_years: z.number().min(0).default(0),
+    condition: conditionSchema.optional(),
+    /** Lời kể (chọn ngẫu nhiên một), có token như mẫu nhật ký. */
+    text: z.array(z.string()).min(1),
+    importance: z.number().min(0).max(10).default(6),
+    icon: z.string().default('tin_don'),
+    tone: z.enum(ambientTones).default('trung_tinh'),
+    /** Khóa động tĩnh quân sự (id trong balance/opportunity.yaml) trong chừng ấy năm. */
+    military_alert: z.object({ id: z.string(), years: z.number().int().positive() }).strict().optional(),
+    /** Ép trời định năm nay (id chất lượng mùa). */
+    harvest_quality: z.string().optional(),
+    /** Đổi niên hiệu (vua mới lên ngôi). */
+    reign: z.string().optional(),
+    effects: z.array(effectSchema).default([]),
+  })
+  .strict();
+export type ChronicleEntry = z.infer<typeof chronicleEntrySchema>;
+export const chronicleFileSchema = z
+  .object({
+    /** Niên hiệu lúc bắt đầu ván (file đầu tiên có trường này được dùng). */
+    start_reign: z.string().optional(),
+    entries: z.array(chronicleEntrySchema).min(1),
+  })
+  .strict();

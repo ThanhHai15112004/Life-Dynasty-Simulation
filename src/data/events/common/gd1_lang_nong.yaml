@@ -1,0 +1,1141 @@
+# [1] Sự kiện quyết định — nhà nông & đời sống làng xã (16 tuổi trở lên). Tiền tố id: ln_
+# Lịch nông vụ theo tháng âm: tháng 11–12 cày ải, gieo mạ chiêm; tháng 5 gặt chiêm; tháng 6 cấy mùa; tháng 10 gặt mùa.
+# Chuỗi nhiều hồi:
+#   - Tranh lối nước: ln_tranh_nuoc_hoi1 → ln_tranh_nuoc_hoi2 → ln_tranh_nuoc_hoi3 (cờ ln_hiem_khich_nuoc)
+#   - Cầm cố ruộng: ln_cam_co_ruong → ln_chuoc_ruong (có thể khất một lần, hẹn lại chính nó) (cờ ln_ruong_cam_co)
+#   - Khai hoang: ln_khai_hoang_bai_boi → ln_khai_hoang_thanh_ruong (cờ ln_dang_khai_hoang)
+events:
+  # ── Mùa vụ ──
+  - id: ln_doi_cong_cay_ai
+    title: Đổi công cày ải
+    tags: [ruong_dong, lao_dong, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [11, 12]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.farmland, op: '>=', value: 1 }
+        - { not: { has_property: trau } }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 6
+    cooldown_years: 4
+    tension: 3
+    importance: 4
+    icon: trau
+    text:
+      - 'Gió bấc vừa về, ruộng nào cũng phải cày ải cho kịp phơi đất trước Tết. Nhà bạn không có trâu.'
+      - '{role.hx.call} có con trâu cái khỏe, ngỏ ý cho mượn cày ba buổi. Đổi lại, bạn sang gặt giúp nhà họ trọn vụ chiêm tới.'
+    options:
+      - id: doi_cong
+        text: 'Nhận lời đổi công với {role.hx.call}'
+        hint: 'Được đất ải tốt, nhưng mùa gặt sẽ phải làm hai nhà'
+        effects:
+          - { type: opinion, role: hx, value: 8 }
+          - { type: health, value: -3 }
+          - { type: modifier, target: harvest.yield, value: 1.05, op: mul, months: 6, label: 'Ruộng cày ải kỹ' }
+        result: ['Ba buổi sáng, bạn dắt trâu nhà bên ra đồng từ lúc sương còn đặc. Đất lật lên thành từng tảng nâu sẫm, phơi nắng chờ Tết.']
+      - id: thue_trau
+        text: 'Thuê trâu nhà bá hộ, trả 2 quan cho gọn'
+        condition: { var: household.money, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: modifier, target: harvest.yield, value: 1.05, op: mul, months: 6, label: 'Ruộng cày ải kỹ' }
+        result: ['Tiền trao, trâu cày. Không nợ ai ân tình, nhưng túi nhẹ hẳn đi trước mùa Tết.']
+      - id: cuoc_tay
+        text: 'Cả nhà vác cuốc ra cuốc tay'
+        hint: 'Không tốn tiền, không nợ ai, chỉ tốn sức'
+        effects:
+          - { type: health, value: -6 }
+          - { type: stress, value: 4 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+          - { type: modifier, target: harvest.yield, value: 0.98, op: mul, months: 6, label: 'Đất cuốc tay chưa ải' }
+        result: ['Nửa tháng trời, tay bạn phồng rộp rồi chai cứng. Ruộng cũng xong, dù đất lật chưa sâu bằng trâu cày.']
+
+  - id: ln_tat_nuoc_chong_han
+    title: Ruộng nứt chân chim
+    tags: [ruong_dong, thien_tai, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [3, 4, 5, 8]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.farmland, op: '>=', value: 1 }
+        - { var: world.weather, op: '==', value: han }
+    weight: 6
+    weight_modifiers:
+      - { condition: { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }, factor: 1.5 }
+    cooldown_years: 4
+    tension: 5
+    importance: 6
+    icon: nang
+    text:
+      - 'Nắng hạn đã hơn một tuần trăng. Ruộng chân cao nứt nẻ chân chim, lá lúa bắt đầu quắt lại.'
+      - 'Dưới lạch chỉ còn một vũng nước đục, nhà nào cũng nhòm ngó.'
+    options:
+      - id: tat_dem
+        text: 'Thức đêm tát gầu sòng đưa nước lên ruộng'
+        hint: 'Mất sức, nhưng giữ được phần lớn lúa'
+        effects:
+          - { type: health, value: -5 }
+          - { type: stress, value: 3 }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 4, label: 'Lúa khát nước' }
+        result: ['Đêm nào cũng hai người một gầu, nhịp tát đều như tiếng giã gạo. Sáng ra, chân ruộng lấp xấp nước.']
+      - id: dao_muong_chung
+        text: 'Rủ cả xóm đào mương nối ra sông'
+        hint: 'Cần người ta chịu nghe mình'
+        chance: { base: 0.4, skill: ngoai_giao, per_level: 0.05 }
+        effects: [{ type: health, value: -2 }]
+        success:
+          - { type: modifier, target: harvest.yield, value: 0.98, op: mul, months: 4, label: 'Mương mới dẫn nước' }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+        failure:
+          - { type: modifier, target: harvest.yield, value: 0.85, op: mul, months: 4, label: 'Ruộng chết khát' }
+          - { type: stress, value: 4 }
+        success_result: ['Mười mấy nhà cùng ra đồng, ba ngày thông con mương. Nước sông chảy vào, cả xóm reo lên.']
+        failure_result: ['Nhà nào cũng bảo bận. Bạn đào được nửa con mương thì đất cứng như đá, đành bỏ dở.']
+      - id: cau_dao
+        text: 'Góp tiền làm lễ cầu đảo ở đình'
+        trait_stress: { hoai_nghi: 4 }
+        chance:
+          base: 0.35
+          modifiers: [{ condition: { has_trait: mo_dao }, add: 0.1 }]
+        effects: [{ type: money, value: -1, ledger: su_kien }]
+        success:
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 4, label: 'Lúa khát nước' }
+          - { type: stress, value: -3 }
+        failure:
+          - { type: modifier, target: harvest.yield, value: 0.82, op: mul, months: 4, label: 'Ruộng chết khát' }
+          - { type: stress, value: 3 }
+        success_result: ['Hai hôm sau trời đổ mưa rào. Các cụ bảo thành hoàng linh ứng, ai nấy thắp hương tạ ơn.']
+        failure_result: ['Khói hương bay thẳng lên trời xanh ngắt. Không một gợn mây.']
+
+  # ── Chuỗi: tranh lối nước ──
+  - id: ln_tranh_nuoc_hoi1
+    title: Bờ chặn lối nước
+    tags: [lang_xa, quan_he, ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [4, 5, 6, 7]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.farmland, op: '>=', value: 1 }
+        - { not: { has_flag: ln_hiem_khich_nuoc } }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+      - { id: ly, from: village, village_role: ly_truong, optional: true }
+    weight: 5
+    cooldown_years: 6
+    tension: 5
+    importance: 6
+    icon: ruong
+    text:
+      - 'Đang mùa cấy, nước từ mương làng phải chảy qua ruộng {role.hx.call} mới tới ruộng nhà bạn.'
+      - 'Sáng nay bạn thấy họ đã đắp một con bờ chắn ngang lối nước. Mạ nhà bạn cắm trên bùn khô.'
+    options:
+      - id: pha_bo
+        text: 'Vác mai ra phá bờ, lấy lại lối nước'
+        trait_stress: { than_trong: 3, nhan_tu: 2 }
+        effects:
+          - { type: opinion, role: hx, value: -15 }
+          - { type: set_flag, flag: ln_hiem_khich_nuoc, years: 5, label: 'Hiềm khích lối nước với nhà hàng xóm' }
+          - { type: schedule_event, event: ln_tranh_nuoc_hoi2, months: 14, label: 'Mối hiềm khích lối nước còn đó' }
+        result: ['Nước ào vào ruộng nhà bạn. {role.hx.call} đứng trên bờ chửi vống lên, cả xóm nghe thấy.']
+      - id: ra_dinh
+        text: 'Đưa chuyện ra đình nhờ {role.ly.call} xử'
+        hint: 'Phải nộp lễ, được thì có lý, nhưng nhà kia sẽ để bụng'
+        condition: { role: ly, exists: true }
+        chance:
+          base: 0.45
+          skill: ngoai_giao
+          per_level: 0.04
+          modifiers: [{ condition: { var: role.ly.opinion, op: '>', value: 10 }, add: 0.15 }]
+        effects: [{ type: money, value: -0.5, ledger: su_kien }]
+        success:
+          - { type: opinion, role: hx, value: -8 }
+          - { type: opinion, role: ly, value: 3 }
+          - { type: set_flag, flag: ln_hiem_khich_nuoc, years: 5, label: 'Hiềm khích lối nước với nhà hàng xóm' }
+          - { type: schedule_event, event: ln_tranh_nuoc_hoi2, months: 18, label: 'Mối hiềm khích lối nước còn đó' }
+        failure:
+          - { type: modifier, target: harvest.yield, value: 0.93, op: mul, months: 5, label: 'Thiếu nước cấy' }
+          - { type: stress, value: 4 }
+        success_result: ['{role.ly.call} phán lối nước là của chung, bắt phá bờ. {role.hx.call} cúi đầu vâng dạ, nhưng mắt không nhìn bạn.']
+        failure_result: ['{role.ly.call} bảo việc nhỏ, hai nhà tự liệu. Mất lễ mà nước vẫn không về.']
+      - id: ganh_nuoc
+        text: 'Nhịn, gánh nước từ ao làng tưới mạ'
+        trait_stress: { nong_nay: 4, tham_vong: 2 }
+        effects:
+          - { type: health, value: -4 }
+          - { type: stress, value: 3 }
+          - { type: opinion, role: hx, value: 5 }
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 5, label: 'Mạ thiếu nước' }
+        result: ['Mỗi sáng hai mươi đôi nước, vai bạn sưng tấy. Mạ sống được, dù thưa hơn ruộng người.']
+      - id: thuong_luong
+        text: 'Xách chai rượu sang nói chuyện, xin chia nước mỗi bên nửa ngày'
+        chance: { base: 0.5, skill: ngoai_giao, per_level: 0.04 }
+        effects: [{ type: money, value: -0.5, ledger: su_kien }]
+        success:
+          - { type: opinion, role: hx, value: 6 }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+        failure:
+          - { type: opinion, role: hx, value: -5 }
+          - { type: modifier, target: harvest.yield, value: 0.93, op: mul, months: 5, label: 'Thiếu nước cấy' }
+          - { type: set_flag, flag: ln_hiem_khich_nuoc, years: 5, label: 'Hiềm khích lối nước với nhà hàng xóm' }
+          - { type: schedule_event, event: ln_tranh_nuoc_hoi2, months: 14, label: 'Mối hiềm khích lối nước còn đó' }
+        success_result: ['Hai người ngồi bên bờ ruộng, rượu hết nửa chai thì chuyện cũng xong. Sáng tháo, chiều đắp, nước chia đều.']
+        failure_result: ['{role.hx.call} nhận rượu nhưng không nhận lời. Bạn ra về, nghe tiếng cười khẩy sau lưng.']
+
+  - id: ln_tranh_nuoc_hoi2
+    title: Lúa bị thả vịt phá
+    tags: [lang_xa, quan_he, ruong_dong]
+    scheduled_only: true
+    condition: { has_flag: ln_hiem_khich_nuoc }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 1
+    tension: 6
+    importance: 7
+    icon: ruong
+    text:
+      - 'Từ dạo tranh lối nước, nhà bạn và nhà {role.hx.call} không nhìn mặt nhau.'
+      - 'Sáng nay cả một góc ruộng lúa đang làm đòng bị đàn vịt giẫm nát. Đàn vịt ấy của nhà nào, cả xóm đều biết.'
+    options:
+      - id: kien_huyen
+        text: 'Nhờ người viết đơn kiện lên huyện (3 quan)'
+        hint: 'Tốn tiền, kéo dài, nhưng có thể đòi được bồi thường'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: stress, value: 4 }
+          - { type: opinion, role: hx, value: -10 }
+          - { type: set_flag, flag: ln_da_kien_huyen, years: 3 }
+          - { type: schedule_event, event: ln_tranh_nuoc_hoi3, months: 10, label: 'Đơn kiện ở huyện chờ xử' }
+        result: ['Ông đồ xóm trên viết hộ lá đơn, nha lại nhận lễ rồi hẹn sau mùa gặt mới xét.']
+      - id: lam_lanh
+        text: 'Sang tận nhà nói cho ra nhẽ, rồi làm lành'
+        trait_stress: { nong_nay: 4 }
+        chance:
+          base: 0.4
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers: [{ condition: { has_trait: nhan_tu }, add: 0.1 }]
+        success:
+          - { type: opinion, role: hx, value: 20 }
+          - { type: food, value: 3, ledger: thu_khac }
+          - { type: stress, value: -3 }
+          - { type: clear_flag, flag: ln_hiem_khich_nuoc }
+        failure:
+          - { type: opinion, role: hx, value: -5 }
+          - { type: stress, value: 3 }
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 4, label: 'Góc ruộng bị phá' }
+        success_result: ['{role.hx.call} lúng túng nhận lỗi, đền ba thúng thóc. Hai nhà uống chén nước chè, chuyện cũ coi như xong.']
+        failure_result: ['Lời qua tiếng lại, rốt cuộc hai bên đóng cổng. Góc ruộng bị phá thì vẫn phải dặm lại.']
+      - id: tra_dua
+        text: 'Đêm xuống, tháo cạn nước ruộng nhà họ'
+        trait_stress: { nhan_tu: 6, trung_thanh: 2 }
+        chance: { base: 0.55, skill: muu_luoc, per_level: 0.04 }
+        effects:
+          - { type: schedule_event, event: ln_tranh_nuoc_hoi3, months: 12, label: 'Mối hiềm khích lối nước còn đó' }
+        success:
+          - { type: opinion, role: hx, value: -10 }
+          - { type: stress, value: -2 }
+        failure:
+          - { type: reputation, group: dan_lang, value: -8 }
+          - { type: opinion, role: hx, value: -15 }
+          - { type: stress, value: 5 }
+        success_result: ['Sáng ra ruộng nhà bên cạn trơ. Không ai biết ai làm, chỉ có bạn biết.']
+        failure_result: ['Tuần đinh đi đêm bắt gặp bạn đang phá bờ. Chuyện lan khắp làng trước bữa trưa.']
+      - id: nuot_gian
+        text: 'Nuốt giận, dặm lại lúa cho xong'
+        trait_stress: { nong_nay: 5 }
+        effects:
+          - { type: modifier, target: harvest.yield, value: 0.94, op: mul, months: 4, label: 'Góc ruộng bị phá' }
+          - { type: stress, value: 4 }
+          - { type: clear_flag, flag: ln_hiem_khich_nuoc }
+        result: ['Bạn lội ruộng dặm từng khóm lúa, không nói một lời. Lâu dần, hai nhà cũng thôi để ý nhau.']
+
+  - id: ln_tranh_nuoc_hoi3
+    title: Nước lớn xói bờ chung
+    tags: [lang_xa, quan_he, ruong_dong]
+    scheduled_only: true
+    condition: { has_flag: ln_hiem_khich_nuoc }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 1
+    tension: 5
+    importance: 7
+    icon: lu
+    text:
+      - 'Mối hiềm khích hai nhà đã kéo qua mấy mùa lúa. Năm nay nước lên to, con bờ chung giữa ruộng nhà bạn và nhà {role.hx.call} bị xói lở một quãng dài.'
+      - 'Một mình nhà nào đắp cũng không xuể. Sáng nay hai người đứng ở hai đầu bờ, cùng nhìn xuống chỗ đất lở.'
+    options:
+      - id: cung_dap
+        text: 'Gác chuyện cũ, rủ {role.hx.call} cùng đắp bờ'
+        trait_stress: { tham_vong: 2, nong_nay: 3 }
+        effects:
+          - { type: health, value: -4 }
+          - { type: opinion, role: hx, value: 25 }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: modifier, target: harvest.yield, value: 1.03, op: mul, months: 12, label: 'Bờ chung vững chãi' }
+          - { type: clear_flag, flag: ln_hiem_khich_nuoc }
+        result: ['Hai nhà cùng gánh đất suốt ba ngày. Chiều cuối, {role.hx.call} rót cho bạn bát rượu, nói một câu "thôi, hàng xóm cả".']
+      - id: mot_minh
+        text: 'Tự đắp phần bờ nhà mình, mặc kệ bên kia'
+        effects:
+          - { type: health, value: -6 }
+          - { type: stress, value: 3 }
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 6, label: 'Bờ lở chưa liền' }
+          - { type: clear_flag, flag: ln_hiem_khich_nuoc }
+        result: ['Nửa con bờ của bạn cao và chắc, nửa kia vẫn lở. Nước rỉ sang suốt mùa, hai nhà vẫn không ai nhìn ai.']
+      - id: cho_huyen_xu
+        text: 'Đợi huyện xử cho dứt điểm'
+        hint: 'Chỉ khi đã nộp đơn kiện'
+        condition: { has_flag: ln_da_kien_huyen }
+        chance: { base: 0.45, skill: ngoai_giao, per_level: 0.04 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: clear_flag, flag: ln_hiem_khich_nuoc }
+          - { type: clear_flag, flag: ln_da_kien_huyen }
+        success:
+          - { type: food, value: 6, ledger: thu_khac }
+          - { type: reputation, group: dan_lang, value: 3 }
+          - { type: opinion, role: hx, value: -10 }
+        failure:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: stress, value: 5 }
+        success_result: ['Quan huyện xử nhà bạn có lý, bắt bên kia đền sáu thúng thóc và đắp lại bờ.']
+        failure_result: ['Lệ phí nộp hết lần này đến lần khác. Cuối cùng huyện xử hòa, ai về nhà nấy.']
+
+  # ── Chuỗi: cầm cố ruộng ──
+  - id: ln_cam_co_ruong
+    title: Cầm cố một sào ruộng
+    tags: [ruong_dong, no_nan, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { has_property: ruong, min: 2 }
+        - { not: { has_flag: ln_ruong_cam_co } }
+        - any:
+            - { var: household.debt, op: '>=', value: 8 }
+            - { all: [{ var: household.money, op: '<', value: 1.5 }, { var: household.food_months, op: '<', value: 3 }] }
+    roles:
+      - { id: bh, from: village, village_role: ba_ho }
+    weight: 5
+    weight_modifiers:
+      - { condition: { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }, factor: 1.5 }
+    cooldown_years: 6
+    tension: 7
+    importance: 8
+    icon: no
+    text:
+      - 'Nợ cũ chưa trả, thóc trong bồ đã vơi. {role.bh.call} cho người đến nhắn: nhà bạn chịu cầm cố một sào ruộng đầu làng thì bá hộ đưa ngay 10 quan.'
+      - 'Ba năm sau mang đủ 13 quan đến chuộc, ruộng lại về tay. Quá hạn thì ruộng thuộc về bá hộ.'
+    options:
+      - id: cam_co
+        text: 'Cầm cố, nhận 10 quan'
+        hint: 'Ba năm sau phải có 13 quan để chuộc'
+        effects:
+          - { type: property_remove, property: ruong, count: 1 }
+          - { type: money, value: 10, ledger: su_kien }
+          - { type: filial_piety, value: -3 }
+          - { type: stress, value: 3 }
+          - { type: set_flag, flag: ln_ruong_cam_co, years: 6, label: 'Một sào ruộng đang cầm cố cho bá hộ' }
+          - { type: schedule_event, event: ln_chuoc_ruong, months: 36, label: 'Hạn chuộc ruộng cầm cố' }
+        result: ['Bạn điểm chỉ vào văn tự. Mười quan tiền nặng trong tay, nhưng chiều ấy đi qua đầu làng, bạn không dám nhìn sang thửa ruộng.']
+      - id: ban_dut
+        text: 'Bán đứt sào ruộng ấy lấy 18 quan'
+        hint: 'Được nhiều tiền hơn, nhưng mất hẳn'
+        trait_stress: { trong_gia_dinh: 4 }
+        effects:
+          - { type: property_remove, property: ruong, count: 1 }
+          - { type: money, value: 18, ledger: su_kien }
+          - { type: filial_piety, value: -6 }
+          - { type: stress, value: 4 }
+        result: ['Văn tự bán ruộng ký xong. Các cụ trong họ lắc đầu: "Đất hương hỏa ông cha để lại, bán thì dễ, mua lại thì khó."']
+      - id: that_lung
+        text: 'Không đụng đến ruộng, cả nhà thắt lưng buộc bụng'
+        trait_stress: { hao_phong: 3 }
+        effects:
+          - { type: modifier, target: health.monthly, value: -0.3, months: 12, label: 'Ăn độn khoai sắn', who: household }
+          - { type: stress, value: 5 }
+          - { type: filial_piety, value: 2 }
+        result: ['Bữa cơm độn khoai nhiều hơn gạo. Ruộng vẫn còn đó, nhưng bụng ai cũng lép.']
+
+  - id: ln_chuoc_ruong
+    title: Hạn chuộc ruộng
+    tags: [ruong_dong, no_nan, kinh_te]
+    scheduled_only: true
+    condition: { has_flag: ln_ruong_cam_co }
+    roles:
+      - { id: bh, from: village, village_role: ba_ho }
+    weight: 1
+    tension: 7
+    importance: 8
+    icon: no
+    text:
+      - 'Đã đến hạn chuộc sào ruộng cầm cố. {role.bh.call} cho gọi bạn lên nhà, văn tự để sẵn trên án thư.'
+      - 'Muốn lấy lại ruộng phải đặt đủ 13 quan.'
+    options:
+      - id: chuoc
+        text: 'Đặt đủ 13 quan, chuộc ruộng về'
+        condition: { var: household.money, op: '>=', value: 13 }
+        effects:
+          - { type: money, value: -13, ledger: su_kien }
+          - { type: property_add, property: ruong, count: 1 }
+          - { type: clear_flag, flag: ln_ruong_cam_co }
+          - { type: filial_piety, value: 4 }
+          - { type: stress, value: -4 }
+        result: ['Bá hộ đếm tiền ba lần mới chịu xé văn tự. Sáng hôm sau bạn ra đồng sớm, đứng mãi trên bờ thửa ruộng của nhà mình.']
+      - id: vay_chuoc
+        text: 'Vay chỗ khác để chuộc cho kịp hạn'
+        hint: 'Ruộng về, nợ ở lại'
+        condition: { var: household.money, op: '<', value: 13 }
+        effects:
+          - { type: debt, value: 15, ledger: vay }
+          - { type: property_add, property: ruong, count: 1 }
+          - { type: clear_flag, flag: ln_ruong_cam_co }
+          - { type: filial_piety, value: 2 }
+          - { type: stress, value: 4 }
+        result: ['Ruộng về tay, nhưng món nợ mới còn nặng hơn món cũ. Đêm ấy bạn nằm tính lãi đến gà gáy.']
+      - id: xin_khat
+        text: 'Xin {role.bh.call} khất thêm một năm'
+        condition: { not: { has_flag: ln_da_khat_chuoc } }
+        chance:
+          base: 0.45
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers: [{ condition: { var: role.bh.opinion, op: '>', value: 10 }, add: 0.15 }]
+        success:
+          - { type: set_flag, flag: ln_da_khat_chuoc, years: 3 }
+          - { type: opinion, role: bh, value: -3 }
+          - { type: schedule_event, event: ln_chuoc_ruong, months: 12, label: 'Hạn chuộc ruộng (đã khất một năm)' }
+        failure:
+          - { type: clear_flag, flag: ln_ruong_cam_co }
+          - { type: filial_piety, value: -5 }
+          - { type: stress, value: 6 }
+        success_result: ['Bá hộ vê râu một lúc rồi gật: "Một năm nữa thôi đấy. Lần sau không có chuyện khất."']
+        failure_result: ['"Văn tự giấy trắng mực đen," bá hộ nói, rồi sai người cắm cọc ngay chiều hôm ấy.']
+      - id: de_mat
+        text: 'Đành để ruộng thuộc về bá hộ'
+        effects:
+          - { type: clear_flag, flag: ln_ruong_cam_co }
+          - { type: filial_piety, value: -5 }
+          - { type: stress, value: 5 }
+        result: ['Thửa ruộng đầu làng đổi chủ. Mùa cấy năm ấy, bạn đi đường vòng để khỏi phải nhìn người khác cấy trên đất nhà mình.']
+
+  # ── Chuỗi: khai hoang ──
+  - id: ln_khai_hoang_bai_boi
+    title: Bãi bồi ven sông
+    tags: [ruong_dong, lao_dong, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [11, 12, 1, 2]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+        - { not: { has_flag: ln_dang_khai_hoang } }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 4
+    cooldown_years: 8
+    tension: 4
+    importance: 6
+    icon: ruong
+    text:
+      - 'Mấy mùa lũ bồi lên một doi đất phù sa ở khúc sông dưới làng, lau sậy mọc cao quá đầu người.'
+      - '{role.ly.call} nói ai chịu bỏ công vỡ hoang thì làng ghi tên cho cày cấy, ba năm đầu chưa phải đóng thuế.'
+    options:
+      - id: tu_khai
+        text: 'Xin phần, cả nhà ra phát lau vỡ đất'
+        hint: 'Mấy mùa đông vất vả, may ra thêm được ruộng'
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: health, value: -5 }
+          - { type: stress, value: 3 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+          - { type: set_flag, flag: ln_dang_khai_hoang, years: 5, label: 'Đang vỡ hoang bãi bồi ven sông' }
+          - { type: schedule_event, event: ln_khai_hoang_thanh_ruong, months: 30, label: 'Chờ bãi bồi thành ruộng' }
+        result: ['Cả mùa đông, bạn phát lau, đốt gốc, đào rễ sậy. Tay chân xước chằng chịt, nhưng doi đất đã lộ màu nâu.']
+      - id: thue_nguoi
+        text: 'Thuê người phát lau, mình chỉ trông coi (4 quan)'
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: set_flag, flag: ln_dang_khai_hoang, years: 5, label: 'Đang vỡ hoang bãi bồi ven sông' }
+          - { type: schedule_event, event: ln_khai_hoang_thanh_ruong, months: 24, label: 'Chờ bãi bồi thành ruộng' }
+        result: ['Năm sáu người làm thuê ra bãi từ sớm. Bạn đứng trên bờ đê chỉ chỗ, tính công, phát cơm trưa.']
+      - id: bo_qua
+        text: 'Đất lũ cho rồi lũ lấy, không dây vào'
+        trait_stress: { tham_vong: 4 }
+        result: ['Mùa xuân năm sau, mấy nhà khác đã cắm cọc khắp doi đất. Bạn đứng nhìn một lúc rồi đi.']
+
+  - id: ln_khai_hoang_thanh_ruong
+    title: Cọc lạ trên đất khai hoang
+    tags: [ruong_dong, quan_he, kinh_te]
+    scheduled_only: true
+    condition: { has_flag: ln_dang_khai_hoang }
+    roles:
+      - { id: bh, from: village, village_role: ba_ho }
+    weight: 1
+    tension: 6
+    importance: 7
+    icon: ruong
+    text:
+      - 'Doi đất bãi bồi sau mấy mùa vỡ đã thành ruộng ra ruộng, lúa lên xanh mướt.'
+      - 'Đúng lúc ấy {role.bh.call} cho người cắm cọc, nói khúc sông ấy xưa kia là đất nhà mình.'
+    options:
+      - id: xin_so
+        text: 'Lên huyện xin ghi vào sổ điền (3 quan)'
+        hint: 'Có giấy tờ thì chắc, nhưng nha lại ăn lễ cả hai bên'
+        condition: { var: household.money, op: '>=', value: 3 }
+        chance: { base: 0.55, skill: hoc_van, per_level: 0.04 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: clear_flag, flag: ln_dang_khai_hoang }
+          - { type: opinion, role: bh, value: -10 }
+        success:
+          - { type: property_add, property: ruong, count: 1 }
+          - { type: stress, value: -3 }
+        failure:
+          - { type: stress, value: 6 }
+        success_result: ['Sổ điền ghi rõ tên bạn, có triện son của huyện. Bá hộ nhổ cọc, không nói thêm câu nào.']
+        failure_result: ['Huyện xử đất về bá hộ. Mấy mùa đông vỡ hoang của bạn thành công không.']
+      - id: bieu_ba_ho
+        text: 'Biếu {role.bh.call} 5 quan để ông ấy rút cọc'
+        condition: { var: household.money, op: '>=', value: 5 }
+        trait_stress: { tham_lam: 4, tham_vong: 2 }
+        effects:
+          - { type: money, value: -5, ledger: su_kien }
+          - { type: property_add, property: ruong, count: 1 }
+          - { type: opinion, role: bh, value: 5 }
+          - { type: clear_flag, flag: ln_dang_khai_hoang }
+        result: ['Bá hộ nhận tiền, cười bảo "chỗ hàng xóm cả". Cọc nhổ đi ngay chiều hôm ấy.']
+      - id: nhuong
+        text: 'Nhường lại, xin cày rẽ cho bá hộ một mùa lấy công'
+        trait_stress: { tham_vong: 5, nong_nay: 3 }
+        effects:
+          - { type: food, value: 4, ledger: thu_hoach }
+          - { type: stress, value: 5 }
+          - { type: clear_flag, flag: ln_dang_khai_hoang }
+        result: ['Bạn cấy lúa trên chính mảnh đất mình vỡ, rồi gánh phần tô vào sân nhà bá hộ.']
+
+  # ── Sưu thuế, việc làng ──
+  - id: ln_suu_dich_ho_de
+    title: Sưu dịch hộ đê
+    tags: [lang_xa, lao_dong, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [1, 2, 6, 7]
+    condition:
+      all:
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+        - { var: player.sex, op: '==', value: m }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+      - id: ae
+        from: family
+        relation: sibling
+        optional: true
+        condition: { all: [{ var: self.sex, op: '==', value: m }, { var: self.age, op: between, value: [16, 50] }, { var: self.in_household, op: '==', value: true }] }
+    weight: 6
+    cooldown_years: 4
+    tension: 4
+    importance: 5
+    icon: lu
+    text:
+      - 'Mõ làng rao khắp xóm: quan trên bắt mỗi suất đinh đi phu đắp đê một tháng, tự mang cơm nắm và mai cuốc.'
+      - '{role.ly.call} cầm sổ đinh đọc tên. Đến tên bạn thì ông dừng lại, nhìn lên.'
+    options:
+      - id: di_phu
+        text: 'Vác mai đi phu như mọi người'
+        effects:
+          - { type: health, value: -5 }
+          - { type: stress, value: 3 }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: modifier, target: harvest.yield, value: 0.97, op: mul, months: 4, label: 'Vắng người làm đồng' }
+        result: ['Một tháng gánh đất trên đê, ngủ lán tre, ăn cơm nắm muối vừng. Về nhà, bạn đen sạm và gầy rộc.']
+      - id: nop_the
+        text: 'Nộp 3 quan tiền thế phu'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+        result: ['Tiền nộp xong, tên bạn được gạch khỏi sổ phu. Ruộng nhà không thiếu người.']
+      - id: dut_lot
+        text: 'Dúi cho {role.ly.call} ít tiền để được gạch tên'
+        trait_stress: { trung_thanh: 3 }
+        chance: { base: 0.6, skill: muu_luoc, per_level: 0.03 }
+        effects: [{ type: money, value: -1.5, ledger: su_kien }]
+        success:
+          - { type: opinion, role: ly, value: 3 }
+        failure:
+          - { type: reputation, group: dan_lang, value: -6 }
+          - { type: health, value: -5 }
+          - { type: stress, value: 4 }
+        success_result: ['Ông lý nhận tiền, ho một tiếng, rồi đọc sang tên người khác.']
+        failure_result: ['Có người trông thấy. Tiền mất, tiếng mang, cuối cùng bạn vẫn phải vác mai lên đê.']
+      - id: nguoi_nha_di_thay
+        text: 'Để {role.ae.call} đi phu thay'
+        condition: { role: ae, exists: true }
+        trait_stress: { trong_gia_dinh: 4 }
+        effects:
+          - { type: health, value: -5, who: ae }
+          - { type: opinion, role: ae, value: -6 }
+        result: ['{role.ae.call} lẳng lặng gói cơm nắm lên đường. Cả tháng ấy bạn làm đồng một mình, lòng không yên.']
+
+  - id: ln_thue_dien_nam_kem
+    title: Thuế điền năm mất mùa
+    tags: [ruong_dong, kinh_te, no_nan]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [10, 11]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.farmland, op: '>=', value: 1 }
+        - { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 6
+    cooldown_years: 4
+    tension: 6
+    importance: 6
+    icon: thue
+    text:
+      - 'Vụ mùa kém, thóc gặt về chưa đầy bồ thì {role.ly.call} đã cho tuần đinh đến giục nộp thuế điền.'
+      - 'Sổ làng vẫn ghi số sào như năm được mùa, chẳng ai trừ cho phần lúa lép.'
+    options:
+      - id: nop_du
+        text: 'Nộp đủ bằng thóc'
+        effects:
+          - { type: food, value: { var: household.farmland, factor: -1.5, min: -12, max: -2 }, ledger: thu_khac }
+          - { type: stress, value: 2 }
+        result: ['Thóc đong đầy đấu, đổ vào bồ làng. Nhìn bồ nhà vơi đi, cả nhà im lặng.']
+      - id: xin_giam
+        text: 'Cùng mấy nhà nghèo lên đình xin giảm'
+        chance:
+          base: 0.4
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers: [{ condition: { var: role.ly.opinion, op: '>', value: 10 }, add: 0.1 }]
+        success:
+          - { type: food, value: -2, ledger: thu_khac }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+        failure:
+          - { type: food, value: { var: household.farmland, factor: -1.5, min: -12, max: -2 }, ledger: thu_khac }
+          - { type: opinion, role: ly, value: -8 }
+          - { type: stress, value: 3 }
+        success_result: ['Hội đồng kỳ mục bàn một hồi rồi cho các nhà ruộng chân cao nộp một nửa. Bà con về khen bạn ăn nói được.']
+        failure_result: ['{role.ly.call} đập bàn: "Thuế vua, ai dám bớt?" Thóc vẫn phải nộp đủ, lại thêm mất lòng.']
+      - id: khai_man
+        text: 'Lén khai bớt số sào với tuần đinh'
+        trait_stress: { trung_thanh: 4 }
+        chance: { base: 0.5, skill: muu_luoc, per_level: 0.04 }
+        success:
+          - { type: food, value: -2, ledger: thu_khac }
+        failure:
+          - { type: food, value: { var: household.farmland, factor: -1.5, min: -12, max: -2 }, ledger: thu_khac }
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -6 }
+          - { type: stress, value: 5 }
+        success_result: ['Tuần đinh ghi chép qua loa, chẳng ai ra đồng đo lại. Bồ thóc nhà bạn còn được kha khá.']
+        failure_result: ['Có người tố giác. Nộp đủ thuế, lại bị phạt tiền, bị đọc tên giữa đình.']
+      - id: vay_nop
+        text: 'Vay tiền bá hộ nộp thay thóc, giữ thóc để ăn'
+        effects:
+          - { type: debt, value: 4, ledger: vay }
+          - { type: stress, value: 2 }
+        result: ['Bồ thóc còn nguyên, nhưng sổ nợ nhà bá hộ thêm một dòng tên bạn.']
+
+  - id: ln_bo_bo_dau_sua_dinh
+    title: Bổ tiền sửa đình
+    tags: [lang_xa, kinh_te, tin_nguong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 4
+    cooldown_years: 6
+    tension: 4
+    importance: 5
+    icon: lang
+    text:
+      - 'Mái đình làng dột nát sau mùa bão. Hội đồng kỳ mục họp, {role.ly.call} đứng ra bổ bổ đầu: mỗi suất đinh góp một quan rưỡi để thay ngói, sơn lại cột.'
+      - 'Nhà nào góp nhiều sẽ được khắc tên lên bia đá dựng trước sân đình.'
+    options:
+      - id: gop_du
+        text: 'Góp đúng phần (1,5 quan)'
+        condition: { var: household.money, op: '>=', value: 1.5 }
+        effects:
+          - { type: money, value: -1.5, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 2 }
+        result: ['Bạn nộp tiền, thủ quỹ ghi tên vào sổ. Việc làng, ai cũng như ai.']
+      - id: gop_nhieu
+        text: 'Góp hẳn 5 quan, xin khắc tên lên bia'
+        condition: { var: household.money, op: '>=', value: 5 }
+        trait_stress: { tham_lam: 4 }
+        effects:
+          - { type: money, value: -5, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 10 }
+          - { type: stress, value: -2 }
+        result: ['Ngày khánh thành, tên nhà bạn đứng hàng thứ ba trên bia. Các cụ gật gù khi đi ngang.']
+      - id: gop_cong
+        text: 'Xin góp bằng công: ra đình khiêng ngói, đục gỗ'
+        effects:
+          - { type: health, value: -3 }
+          - { type: reputation, group: dan_lang, value: 3 }
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+        result: ['Nửa tháng bạn trèo lên mái đình lợp ngói. Dân làng đi qua đều nhìn thấy.']
+      - id: tron
+        text: 'Viện cớ nghèo, không góp'
+        trait_stress: { mo_dao: 3 }
+        effects:
+          - { type: reputation, group: dan_lang, value: -6 }
+          - { type: opinion, role: ly, value: -6 }
+        result: ['Tên bạn bị khoanh đỏ trong sổ. Ngày tế thần, chỗ ngồi của bạn ở mãi cuối chiếu.']
+
+  - id: ln_chia_cong_dien
+    title: Chia ruộng công điền
+    tags: [lang_xa, ruong_dong, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [11, 12, 1]
+    condition:
+      all:
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+        - { var: household.self_farms, op: '==', value: true }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 4
+    cooldown_years: 6
+    tension: 5
+    importance: 6
+    icon: ruong
+    text:
+      - 'Mấy năm một lần, làng chia lại ruộng công cho các suất đinh. Phần tốt gần mương, phần xấu chân cao khô cằn, đều phải bốc thăm.'
+      - 'Nhưng ai cũng biết ống thăm nằm trong tay {role.ly.call}.'
+    options:
+      - id: boc_tham
+        text: 'Bốc thăm ngay thẳng, được đâu hay đó'
+        chance: { base: 0.5 }
+        success:
+          - { type: modifier, target: harvest.yield, value: 1.05, op: mul, months: 36, label: 'Được phần công điền tốt' }
+        failure:
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 36, label: 'Phải phần công điền chân cao' }
+        success_result: ['Bạn bốc được thửa gần mương, đất thịt mềm. Mấy người đứng sau tặc lưỡi.']
+        failure_result: ['Thửa của bạn nằm trên gò, cách mương nửa dặm. Ba năm tới lại gánh nước mỏi vai.']
+      - id: biet_le
+        text: 'Đêm trước mang lễ đến nhà {role.ly.call} (2 quan)'
+        condition: { var: household.money, op: '>=', value: 2 }
+        trait_stress: { trung_thanh: 3 }
+        chance: { base: 0.75, skill: muu_luoc, per_level: 0.02 }
+        effects: [{ type: money, value: -2, ledger: su_kien }]
+        success:
+          - { type: modifier, target: harvest.yield, value: 1.06, op: mul, months: 36, label: 'Được phần công điền tốt' }
+          - { type: opinion, role: ly, value: 5 }
+        failure:
+          - { type: reputation, group: dan_lang, value: -5 }
+          - { type: stress, value: 3 }
+        success_result: ['Sáng hôm chia, thăm bạn rút ra đúng thửa đất thịt gần mương. Ông lý không nhìn bạn lấy một lần.']
+        failure_result: ['Nhà khác lễ to hơn. Bạn mất tiền mà vẫn bốc phải thửa thường, lại còn bị người ta xì xào.']
+      - id: len_tieng
+        text: 'Đứng giữa đình đòi bốc thăm công khai, không ai được ăn gian'
+        trait_stress: { than_trong: 4 }
+        chance: { base: 0.4, skill: ngoai_giao, per_level: 0.05 }
+        success:
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: opinion, role: ly, value: -8 }
+          - { type: modifier, target: harvest.yield, value: 1.03, op: mul, months: 36, label: 'Công điền chia công bằng' }
+        failure:
+          - { type: opinion, role: ly, value: -12 }
+          - { type: modifier, target: harvest.yield, value: 0.94, op: mul, months: 36, label: 'Phải phần công điền chân cao' }
+          - { type: stress, value: 4 }
+        success_result: ['Dân đinh hùa theo bạn. Ống thăm được lắc ngay giữa sân đình, ai cũng thấy.']
+        failure_result: ['Kỳ mục mắng bạn hỗn hào. Thửa xấu nhất năm ấy, chẳng hiểu sao, lại về tay nhà bạn.']
+
+  # ── Nghề phụ, gia súc, chợ phiên ──
+  - id: ln_nuoi_tam_det_vai
+    title: Nong tằm đầu xuân
+    tags: [lao_dong, kinh_te, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [2, 3, 4]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 5
+    tension: 2
+    importance: 4
+    icon: la
+    text:
+      - 'Bãi dâu ven sông vừa đâm lộc non. Đàn bà trong xóm rủ nhau mua trứng tằm về nuôi, kéo tơ dệt lụa bán cho lái buôn trên trấn.'
+      - 'Một nong tằm cần người thức đêm cho ăn, giữ ấm, canh chuột.'
+    options:
+      - id: nuoi_nhieu
+        text: 'Mua hẳn ba nong trứng tằm, thuê thêm bãi dâu (2 quan)'
+        condition: { var: household.money, op: '>=', value: 2 }
+        chance:
+          base: 0.5
+          skill: quan_tri
+          per_level: 0.04
+          modifiers: [{ condition: { has_trait: kien_nhan }, add: 0.15 }]
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: health, value: -2 }
+          - { type: stress, value: 2 }
+        success:
+          - { type: money, value: 6, ledger: buon_ban }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        failure:
+          - { type: stress, value: 4 }
+        success_result: ['Tằm lên né trắng như bông. Lụa dệt xong, lái buôn trả giá cao vì sợi mịn.']
+        failure_result: ['Trời nồm, tằm nhiễm bệnh trắng bụng, chết cả nong. Bạn đổ tằm chết xuống ao cho cá.']
+      - id: nuoi_it
+        text: 'Nuôi một nong, dệt vải mặc trong nhà'
+        effects:
+          - { type: money, value: -0.5, ledger: su_kien }
+          - { type: modifier, target: living.cost, value: 0.95, op: mul, months: 12, label: 'Tự dệt vải mặc' }
+          - { type: skill_xp, skill: quan_tri, value: 6 }
+        result: ['Khung cửi kẽo kẹt dưới hiên mỗi tối. Cuối mùa, cả nhà có áo mới mà chẳng tốn đồng nào ra chợ.']
+      - id: khong_nuoi
+        text: 'Việc đồng còn chưa xuể, thôi'
+        trait_stress: { tham_vong: 2 }
+        effects:
+          - { type: stress, value: -1 }
+        result: ['Nhà bên cạnh tối nào cũng sáng đèn canh tằm. Nhà bạn đi ngủ sớm.']
+
+  - id: ln_trau_om
+    title: Trâu bỏ cỏ
+    tags: [ruong_dong, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { has_property: trau }
+    weight: 5
+    weight_modifiers:
+      - { condition: { var: world.season, op: '==', value: dong }, factor: 2 }
+    cooldown_years: 5
+    tension: 5
+    importance: 6
+    icon: trau
+    text:
+      - 'Con trâu nằm lì trong chuồng, mũi khô, mắt đục, cỏ non đặt tận miệng cũng không ăn.'
+      - 'Trong làng đã có hai con trâu lăn ra chết từ đầu tháng.'
+    options:
+      - id: moi_thay
+        text: 'Mời ông lang trâu xóm trên về bốc thuốc (2 quan)'
+        condition: { var: household.money, op: '>=', value: 2 }
+        chance: { base: 0.7, skill: sinh_ton, per_level: 0.02 }
+        effects: [{ type: money, value: -2, ledger: su_kien }]
+        success:
+          - { type: stress, value: -2 }
+        failure:
+          - { type: property_remove, property: trau, count: 1 }
+          - { type: stress, value: 5 }
+        success_result: ['Ông lang đổ cho trâu mấy bát thuốc sắc, châm kim sau tai. Ba hôm sau trâu đứng dậy gặm rơm.']
+        failure_result: ['Thuốc thang đủ cả, nhưng sáng thứ tư con trâu không dậy nữa. Cả nhà đứng lặng trước chuồng.']
+      - id: tu_chua
+        text: 'Tự sắc lá thuốc nam, đốt rơm hun chuồng cho ấm'
+        chance: { base: 0.45, skill: sinh_ton, per_level: 0.05 }
+        effects:
+          - { type: health, value: -2 }
+          - { type: stress, value: 3 }
+        success:
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        failure:
+          - { type: property_remove, property: trau, count: 1 }
+          - { type: stress, value: 6 }
+        success_result: ['Ba đêm bạn ngủ ngoài chuồng, lấy bao tải đắp cho trâu. Đến sáng thứ ba, nó khịt mũi đòi ăn.']
+        failure_result: ['Lá thuốc không ăn thua. Con trâu chết trong một đêm gió bấc.']
+      - id: ban_tho
+        text: 'Bán vội cho lái thịt khi trâu còn đứng được'
+        hint: 'Chắc được ít tiền, mất trâu cày'
+        trait_stress: { nhan_tu: 3 }
+        effects:
+          - { type: property_remove, property: trau, count: 1 }
+          - { type: money, value: 8, ledger: su_kien }
+          - { type: stress, value: 4 }
+        result: ['Lái thịt dắt trâu đi, nó ngoái lại nhìn chuồng. Tiền cầm tay, nhưng vụ tới lại phải đi mượn trâu.']
+      - id: khan_tho_cong
+        text: 'Thắp hương khấn thổ công, buộc bùa vào sừng trâu'
+        trait_stress: { hoai_nghi: 4 }
+        chance:
+          base: 0.35
+          modifiers: [{ condition: { has_trait: mo_dao }, add: 0.1 }]
+        effects: [{ type: money, value: -0.3, ledger: su_kien }]
+        success:
+          - { type: stress, value: -2 }
+        failure:
+          - { type: property_remove, property: trau, count: 1 }
+          - { type: stress, value: 6 }
+        success_result: ['Chẳng biết nhờ thần hay nhờ trời, con trâu qua được cơn bệnh.']
+        failure_result: ['Lá bùa đỏ vẫn buộc trên sừng khi người ta khiêng con trâu ra bãi.']
+
+  - id: ln_cho_phien_ban_thoc
+    title: Phiên chợ sau mùa gặt
+    tags: [buon_ban, ruong_dong, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 6, 10, 11]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.food, op: '>=', value: 20 }
+    roles:
+      - { id: lb, from: village, village_role: lai_buon }
+    weight: 5
+    cooldown_years: 4
+    tension: 3
+    importance: 4
+    icon: cho
+    text:
+      - 'Gặt xong, thóc đầy bồ. {role.lb.call} đánh thuyền về tận bến làng, hỏi mua mười thúng thóc với giá chỉ bằng hai phần ba chợ huyện.'
+      - 'Đường lên chợ huyện thì xa, gánh nặng, lại phải nộp tiền chỗ ngồi.'
+    options:
+      - id: ban_tai_ben
+        text: 'Bán luôn cho {role.lb.call} tại bến'
+        effects:
+          - { type: food, value: -10, ledger: ban_thoc }
+          - { type: money, value: 4, ledger: buon_ban }
+        result: ['Thóc đổ xuống khoang thuyền, tiền đếm trên mạn. Nhanh gọn, chỉ tiếc mấy đồng chênh lệch.']
+      - id: ganh_cho_huyen
+        text: 'Gánh lên chợ huyện bán lẻ'
+        hint: 'Mất sức, được giá hay không tùy tài buôn'
+        chance: { base: 0.55, skill: thuong_mai, per_level: 0.05 }
+        effects:
+          - { type: health, value: -3 }
+          - { type: food, value: -10, ledger: ban_thoc }
+        success:
+          - { type: money, value: 6.5, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 12 }
+        failure:
+          - { type: money, value: 4.5, ledger: buon_ban }
+          - { type: stress, value: 3 }
+        success_result: ['Phiên chợ huyện đông người, thóc nhà bạn hạt mẩy, bán hết trước trưa.']
+        failure_result: ['Chợ ngập thóc mới, ai cũng hạ giá. Gánh nặng cả chặng đường mà chỉ hơn bán ở bến chút ít.']
+      - id: mac_ca
+        text: 'Mặc cả, dọa mang lên huyện bán'
+        chance: { base: 0.45, skill: thuong_mai, per_level: 0.05 }
+        effects:
+          - { type: food, value: -10, ledger: ban_thoc }
+        success:
+          - { type: money, value: 5.5, ledger: buon_ban }
+          - { type: opinion, role: lb, value: 3 }
+        failure:
+          - { type: money, value: 3.5, ledger: buon_ban }
+          - { type: opinion, role: lb, value: -5 }
+        success_result: ['{role.lb.call} chép miệng, rồi cũng thêm tiền. "Nhà này khó tính thật."']
+        failure_result: ['{role.lb.call} nhổ neo làm bộ đi. Bạn gọi lại, phải bán rẻ hơn cả lúc đầu.']
+      - id: tru_thoc
+        text: 'Không bán, trữ thóc chờ giáp hạt giá lên'
+        trait_stress: { nong_nay: 3 }
+        effects:
+          - { type: stress, value: 1 }
+        result: ['Bạn đậy kín bồ, rắc vôi quanh chân để chống chuột. Mấy tháng nữa xem giá.']
+
+  # ── Hội làng, lệ làng, an ninh ──
+  - id: ln_hoi_lang_ngoi_thu
+    title: Ngôi thứ chốn đình trung
+    tags: [lang_xa, le_hoi, quan_he]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    months: [1, 2]
+    condition:
+      all:
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+        - { var: player.age, op: '>=', value: 30 }
+        - { not: { has_flag: ln_co_ngoi_dinh } }
+        - { var: player.mourning_months, op: '<=', value: 0 }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 4
+    cooldown_years: 6
+    tension: 4
+    importance: 6
+    icon: hoi
+    text:
+      - 'Hội làng mùa xuân, mâm cỗ ngoài đình xếp theo ngôi thứ: kỳ mục chiếu trên, bạch đinh ngồi chiếu dưới sát cổng.'
+      - '{role.ly.call} ngỏ ý: nhà bạn chịu khao vọng một chầu cỗ cho cả làng thì được ghi tên vào hàng chức sắc, có chỗ ở chiếu giữa.'
+    options:
+      - id: khao_vong
+        text: 'Làm cỗ khao vọng cả làng (6 quan)'
+        condition: { var: household.money, op: '>=', value: 6 }
+        trait_stress: { tham_lam: 4 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 12 }
+          - { type: stress, value: -3 }
+          - { type: set_flag, flag: ln_co_ngoi_dinh, label: 'Có ngôi thứ chốn đình trung' }
+        result: ['Ba con lợn, mười mâm xôi, rượu nút lá chuối. Từ hội năm sau, bạn ngồi chiếu giữa, được chia phần thủ lợn.']
+      - id: vay_khao
+        text: 'Vay tiền làm cỗ, thể diện là trên hết'
+        condition: { var: household.money, op: '<', value: 6 }
+        trait_stress: { than_trong: 4 }
+        effects:
+          - { type: debt, value: 7, ledger: vay }
+          - { type: reputation, group: dan_lang, value: 12 }
+          - { type: stress, value: 3 }
+          - { type: set_flag, flag: ln_co_ngoi_dinh, label: 'Có ngôi thứ chốn đình trung' }
+        result: ['Cỗ bày linh đình, cả làng no say. Món nợ thì cả nhà gánh mấy mùa sau.']
+      - id: tu_choi
+        text: 'Ngồi chiếu dưới cũng được, tiền để lo ruộng'
+        trait_stress: { tham_vong: 5 }
+        effects:
+          - { type: reputation, group: dan_lang, value: -2 }
+          - { type: stress, value: 1 }
+        result: ['Hội năm ấy bạn vẫn ngồi chiếu dưới, gắp miếng thịt mỡ sau cùng. Về nhà, bạn ra thăm ruộng.']
+
+  - id: ln_le_lang_phat_va
+    title: Lệ làng phạt vạ
+    tags: [lang_xa, gia_dinh, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    roles:
+      - { id: ng, from: family, relation: member, condition: { all: [{ var: self.age, op: between, value: [10, 25] }, { var: self.in_household, op: '==', value: true }] } }
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 4
+    cooldown_years: 5
+    tension: 4
+    importance: 5
+    icon: lang
+    text:
+      - '{role.ng.call} trèo vào vườn nhãn của đình hái trộm, bị tuần đinh bắt được.'
+      - 'Lệ làng: phạt vạ hai quan, nộp tại đình, lại phải đứng giữa sân chịu kỳ mục mắng trước mặt dân làng.'
+    options:
+      - id: nop_va
+        text: 'Nộp đủ 2 quan, dẫn {role.ng.call} ra đình xin lỗi'
+        condition: { var: household.money, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 2 }
+          - { type: opinion, role: ng, value: -3 }
+        result: ['{role.ng.call} cúi gằm mặt đứng giữa sân đình. Về nhà, cả bữa cơm không ai nhắc lại chuyện ấy.']
+      - id: xin_giam
+        text: 'Xin {role.ly.call} giảm vạ vì nhà túng'
+        chance: { base: 0.45, skill: ngoai_giao, per_level: 0.05 }
+        success:
+          - { type: money, value: -0.5, ledger: su_kien }
+        failure:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -3 }
+          - { type: stress, value: 3 }
+        success_result: ['Ông lý phẩy tay: "Thôi, nộp năm tiền cho có lệ."']
+        failure_result: ['"Lệ làng có từ đời các cụ," ông lý nói to cho cả đình nghe. Vạ vẫn đủ hai quan.']
+      - id: cai_lai
+        text: 'Cãi rằng chuyện trẻ dại, không đáng phạt'
+        trait_stress: { than_trong: 3 }
+        chance: { base: 0.3, skill: muu_luoc, per_level: 0.04 }
+        success:
+          - { type: opinion, role: ng, value: 5 }
+          - { type: reputation, group: dan_lang, value: -2 }
+        failure:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -8 }
+          - { type: opinion, role: ly, value: -10 }
+        success_result: ['Kỳ mục bàn ra tán vào, cuối cùng cho qua. {role.ng.call} nhìn bạn đầy biết ơn.']
+        failure_result: ['Cãi lệ làng là tội nặng hơn hái trộm. Vạ tăng lên ba quan, cả làng nhìn nhà bạn khác đi.']
+
+  - id: ln_cuop_dem
+    title: Cướp đêm sau mùa gặt
+    tags: [nguy_hiem, lang_xa, ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 6, 10, 11, 12]
+    condition:
+      all:
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+        - { var: household.food, op: '>=', value: 20 }
+    weight: 3
+    weight_modifiers:
+      - { condition: { var: world.military_alert, op: '==', value: chien_dich }, factor: 2 }
+      - { condition: { var: world.harvest_quality, op: '==', value: mat_mua }, factor: 1.5 }
+    cooldown_years: 6
+    tension: 7
+    importance: 7
+    icon: nguoi_la
+    text:
+      - 'Nửa đêm, chó cả xóm sủa dồn. Bạn hé cửa, thấy mấy bóng người bịt mặt cầm đuốc đang phá cửa kho thóc nhà bên.'
+      - 'Ánh đuốc đã quay sang phía nhà bạn.'
+    options:
+      - id: go_mo
+        text: 'Gõ mõ, hô hoán cả làng'
+        chance:
+          base: 0.5
+          skill: quan_su
+          per_level: 0.05
+          modifiers: [{ condition: { has_trait: can_dam }, add: 0.1 }]
+        success:
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: quan_su, value: 10 }
+        failure:
+          - { type: food, value: -8, ledger: su_kien }
+          - { type: health, value: -6 }
+        success_result: ['Tiếng mõ dồn dập, đuốc các nhà bừng lên khắp ngõ. Bọn cướp vứt bao thóc, chạy tháo ra phía bãi sông.']
+        failure_result: ['Mõ vừa vang, một tên quay lại đạp bạn ngã. Đến khi trai làng kéo tới, bồ thóc đã vơi.']
+      - id: chong_cu
+        text: 'Cầm đòn gánh ra chặn ở cổng'
+        trait_stress: { than_trong: 5 }
+        chance: { base: 0.4, skill: quan_su, per_level: 0.06 }
+        success:
+          - { type: reputation, group: dan_lang, value: 10 }
+          - { type: skill_xp, skill: quan_su, value: 15 }
+          - { type: stress, value: -2 }
+        failure:
+          - { type: health, value: -8 }
+          - { type: food, value: -10, ledger: su_kien }
+          - { type: stress, value: 5 }
+        success_result: ['Đòn gánh vụt trúng tay một tên, cây đuốc rơi xuống sân. Cả bọn bỏ chạy. Sáng ra cả xóm kéo đến hỏi chuyện.']
+        failure_result: ['Bạn bị đánh ngã sóng soài ngoài cổng. Bọn cướp khuân thóc đi ngay trước mặt.']
+      - id: nap
+        text: 'Tắt đèn, cả nhà nấp sau bồ thóc'
+        trait_stress: { can_dam: 4 }
+        effects:
+          - { type: food, value: -8, ledger: su_kien }
+          - { type: stress, value: 6 }
+        result: ['Bọn cướp khuân đi mấy thúng thóc rồi biến vào bóng tre. Cả nhà ôm nhau ngồi đến sáng.']
+
+  - id: ln_giong_lua_chiem_thanh
+    title: Giống lúa Chiêm Thành
+    tags: [ruong_dong, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [11, 12, 1]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.farmland, op: '>=', value: 1 }
+        - { not: { has_flag: ln_cay_lua_chiem } }
+    weight: 4
+    cooldown_years: 6
+    tension: 3
+    importance: 5
+    icon: cay_lua
+    text:
+      - 'Quan trên cho phát giống lúa Chiêm Thành về các làng: hạt nhỏ, chịu hạn, chín sớm hơn lúa ta gần một tháng.'
+      - 'Ông già đầu xóm lắc đầu, bảo giống lạ trái đất, cơm ăn không dẻo.'
+    options:
+      - id: cay_ca_ruong
+        text: 'Cấy cả ruộng bằng giống mới'
+        hint: 'Được thì thóc nhiều mấy vụ, hỏng thì mất một vụ'
+        chance: { base: 0.55, skill: sinh_ton, per_level: 0.03 }
+        success:
+          - { type: modifier, target: harvest.yield, value: 1.12, op: mul, months: 24, label: 'Giống lúa Chiêm chịu hạn' }
+          - { type: set_flag, flag: ln_cay_lua_chiem, years: 10 }
+        failure:
+          - { type: modifier, target: harvest.yield, value: 0.88, op: mul, months: 6, label: 'Giống mới chưa hợp đất' }
+          - { type: stress, value: 4 }
+        success_result: ['Lúa Chiêm trổ bông sớm, đứng vững qua đợt hạn đầu hè. Cả xóm kéo đến xin giống.']
+        failure_result: ['Ruộng trũng nhà bạn ngập úng, giống mới thối rễ. Ông già đầu xóm không nói gì, chỉ nhìn.']
+      - id: cay_thu
+        text: 'Cấy thử một góc, xem vụ này thế nào'
+        effects:
+          - { type: modifier, target: harvest.yield, value: 1.04, op: mul, months: 12, label: 'Thử giống lúa Chiêm' }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: set_flag, flag: ln_cay_lua_chiem, years: 4 }
+        result: ['Góc ruộng cấy giống mới chín trước cả tuần. Bạn nhặt riêng từng bông, phơi kỹ làm giống.']
+      - id: giu_giong_cu
+        text: 'Giữ giống lúa ông cha vẫn cấy'
+        trait_stress: { tham_vong: 3 }
+        effects:
+          - { type: filial_piety, value: 1 }
+        result: ['Ruộng nhà bạn vẫn là lúa tám thơm như mọi năm. Chậm hơn người ta, nhưng hạt dẻo.']

@@ -29,9 +29,8 @@ export function changeCareer(ctx: SimContext, careerId: string, rankIndex = 0, s
   ctx.state.career.merit = def.ranks[clampedRank]?.min_merit ?? 0;
 
   if (!silent) {
-    const rankName = def.ranks[clampedRank]?.name ?? def.name;
     writeTemplate(ctx, SystemLog.CareerChanged, {
-      params: { title: `${def.name} (${rankName})` },
+      params: { title: def.name, stage: def.ranks[clampedRank]?.name ?? def.name },
     });
   }
   return true;
@@ -59,7 +58,7 @@ export function checkPromotion(ctx: SimContext): boolean {
 
   state.career.rankIndex = nextIdx;
   writeTemplate(ctx, SystemLog.CareerPromoted, {
-    params: { title: `${def.name} — ${nextRank.name}` },
+    params: { title: def.name, stage: nextRank.name },
   });
   return true;
 }
@@ -116,7 +115,7 @@ export function executeCareerAction(ctx: SimContext, actionId: string): boolean 
     sourceId: `career.${action.id}`,
     kind: LogKind.Decision,
     text: `${action.name}: ${text}`,
-    importance: 5,
+    importance: content.balance.opportunity.career_action_log_importance,
     tone: win ? 'vui' : 'buon',
     icon: def.icon,
     rumor: false,
@@ -144,8 +143,9 @@ export function monthlyCareer(ctx: SimContext): void {
   }
 
   // Mức truy nã giảm chậm nếu không phạm thêm tội
-  if (state.career.wanted > 0 && state.clock.month % 3 === 0) {
-    state.career.wanted = Math.max(0, state.career.wanted - 1);
+  const decay = content.balance.opportunity.wanted_decay;
+  if (state.career.wanted > 0 && state.clock.monthIndex % decay.every_months === 0) {
+    state.career.wanted = Math.max(0, state.career.wanted - decay.amount);
   }
 
   checkPromotion(ctx);

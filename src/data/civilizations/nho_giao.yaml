@@ -5,6 +5,12 @@ description: Xã hội đặt trên nền tảng chữ Hiếu, đạo Lễ và c
 culture_set: dong_a_nho_giao
 mourning_months: 27
 exam_interval_years: 3
+metropolitan_exam_offset_years: 1     # thi Hương năm Tý/Mão/Ngọ/Dậu, thi Hội – Đình mùa xuân năm sau
+start: { filial_piety: 65, scholarly_prestige: 0 }
+prestige_reputation_factor: 0.6
+exam_skill: hoc_van                   # kỹ năng xét min_hoc_van của học vị
+reputation_group: dan_lang            # đỗ đạt thì danh tiếng nhóm này tăng
+cutscenes: { exam_passed: vinh_quy_bai_to, mourning: tang_le }
 
 exam_degrees:
   - id: none
@@ -16,7 +22,7 @@ exam_degrees:
     name: Sinh đồ (Tú tài)
     min_hoc_van: 3
     prestige_gain: 18
-    stipend_money_month: 0.4
+    stipend_money_month: 0.2
     modifiers:
       - { target: xp.hoc_van, value: 1.15, op: mul }
       - { target: xp.ngoai_giao, value: 1.1, op: mul }
@@ -24,7 +30,7 @@ exam_degrees:
     name: Hương cống (Cử nhân)
     min_hoc_van: 5
     prestige_gain: 35
-    stipend_money_month: 1.2
+    stipend_money_month: 0.6
     modifiers:
       - { target: xp.hoc_van, value: 1.2, op: mul }
       - { target: xp.quan_tri, value: 1.2, op: mul }
@@ -33,26 +39,54 @@ exam_degrees:
     name: Tiến sĩ (Đại khoa)
     min_hoc_van: 7
     prestige_gain: 60
-    stipend_money_month: 3.0
+    stipend_money_month: 1.2
     modifiers:
       - { target: xp.hoc_van, value: 1.3, op: mul }
       - { target: xp.quan_tri, value: 1.3, op: mul }
       - { target: xp.ngoai_giao, value: 1.25, op: mul }
       - { target: stress.monthly, value: -0.25 }
 
+# Thang địa vị (Sĩ – Nông – Công – Thương): bậc cao nhất có điều kiện đúng là địa vị hiện tại
 status_ranks:
   - id: dan_ngheo
     name: Bạch đinh / Tá điền
     description: Tầng lớp cuối làng, gánh nặng sưu dịch và ngồi chiếu dưới ngoài đình.
+    modifiers:
+      - { target: stress.monthly, value: 0.1 }
   - id: thuong_dan
     name: Dân chính cư
     description: Hộ có ruộng vườn ổn định, có tiếng nói trong các buổi họp giáp, họp làng.
+    condition:
+      any:
+        - { var: household.farmland, op: '>=', value: 3 }
+        - { var: household.net_worth, op: '>=', value: 80 }
   - id: phu_ho
     name: Phú hộ / Thương gia
     description: Dư dả của cải trong vùng nhưng nếu chưa có chữ nghĩa vẫn bị coi là "giàu mà chưa sang".
+    condition:
+      any:
+        - { var: household.net_worth, op: '>=', value: 220 }
+        - { var: household.farmland, op: '>=', value: 12 }
+        - { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.career_rank, op: '>=', value: 2 }] }
+    modifiers:
+      - { target: stress.monthly, value: -0.1 }
   - id: si_phu
     name: Sĩ phu khoa bảng
     description: Người có học vị Khoa cử, được miễn sưu dịch và ngồi chiếu trên ở đình làng.
+    condition:
+      any:
+        - { var: player.exam_degree, op: '!=', value: none }
+        - { var: player.scholarly_prestige, op: '>=', value: 60 }
+    modifiers:
+      - { target: stress.monthly, value: -0.15 }
+      - { target: xp.ngoai_giao, value: 1.1, op: mul }
   - id: quan_lai
     name: Quan viên / Tướng lĩnh
     description: Bậc đứng đầu thang danh vọng, hưởng lộc triều đình và làm rạng danh tông tộc.
+    condition:
+      any:
+        - { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
+        - { all: [{ var: player.career, op: '==', value: linh }, { var: player.career_rank, op: '>=', value: 3 }] }
+    modifiers:
+      - { target: stress.monthly, value: -0.2 }
+      - { target: death_risk, value: 0.95, op: mul }

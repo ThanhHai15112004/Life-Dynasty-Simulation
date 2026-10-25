@@ -22,6 +22,20 @@ export function monthlyDeathRisk(ctx: SimContext, c: Character): number {
   return clamp(monthly * healthFactor * mod, 0, m.max_monthly);
 }
 
+/** [1] Tuổi thọ kỳ vọng lúc sinh theo bảng tử vong của thời này (chưa tính sức khỏe, modifier). */
+export function lifeExpectancyAtBirth(ctx: SimContext): number {
+  const curve = ctx.content.balance.life.mortality.annual_by_age;
+  const maxAge = curve[curve.length - 1].age;
+  let alive = 1;
+  let years = 0;
+  for (let age = 0; age <= maxAge && alive > 0; age++) {
+    const q = clamp(interpolate(curve, 'age', 'rate', age), 0, 1);
+    years += alive * (1 - q / 2);
+    alive *= 1 - q;
+  }
+  return years;
+}
+
 /** Xác suất chết trong một năm của NPC làng (mô phỏng thưa — T2). */
 export function annualNpcDeathRisk(ctx: SimContext, c: Character): number {
   const m = ctx.content.balance.life.mortality;

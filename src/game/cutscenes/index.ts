@@ -1,5 +1,5 @@
-// [1] Định nghĩa dữ liệu & hàm vẽ hiệu ứng hoạt cảnh 3–4 giây (GDD 08 §4) — đọc cấu hình từ cutscenes.json
-import type { SceneLayout } from '../scene-layers/art';
+// [1] Định nghĩa dữ liệu & hàm vẽ hiệu ứng hoạt cảnh 3–4 giây (GDD 08 §4) — mọi màu, cỡ, nhịp đọc từ cutscenes.json
+import type { SceneKit } from '../scene-kit/types';
 import type { PixelPainter } from '../scene-layers/PixelPainter';
 
 export interface CutsceneTheme {
@@ -8,11 +8,25 @@ export interface CutsceneTheme {
   accentColor: string;
   secondaryColor: string;
   particleCount: number;
+  particle: { w: number; h: number; alpha: number };
+  /** Sprite treo hai bên băng rôn (vd. đèn lồng), bỏ trống thì không vẽ. */
   bannerSprite?: string;
+}
+
+export interface CutsceneTextStyle {
+  fontFamily: string;
+  /** Cỡ chữ trên khung gốc, nhân với hệ số co của cảnh. */
+  fontSize: number;
+  color: string;
+  fontStyle: string;
+  /** Khoảng cách từ mép trên băng rôn (khung gốc). */
+  offsetY: number;
 }
 
 export interface CutsceneConfig {
   durationSec: number;
+  fadeInShare: number;
+  fadeOutShare: number;
   banner: {
     x: number;
     y: number;
@@ -21,48 +35,43 @@ export interface CutsceneConfig {
     bg: string;
     bgAlpha: number;
     border: string;
+    spriteInset: number;
   };
+  text: { title: CutsceneTextStyle; subtitle: CutsceneTextStyle };
+  particleMotion: { spreadX: number; spreadY: number; speedX: number; speedY: number; marginX: number; marginTop: number; marginBottom: number };
   themes: Record<string, CutsceneTheme>;
 }
 
-/** Vẽ các hạt/cờ/sóng hoạt cảnh theo thời gian trên khung 320×180. */
-export function drawCutsceneFx(
-  p: PixelPainter,
-  L: SceneLayout,
-  cfg: CutsceneConfig,
-  cutsceneId: string,
-  elapsedSec: number,
-): void {
-  const theme = cfg.themes[cutsceneId];
-  if (!theme) return;
+/** Độ hiện (0..1) theo thời gian: mờ vào, giữ, mờ ra. */
+export function cutsceneFade(cfg: CutsceneConfig, elapsedSec: number): number {
   const progress = Math.min(1, elapsedSec / cfg.durationSec);
-  const fade = progress < 0.15 ? progress / 0.15 : progress > 0.8 ? (1 - progress) / 0.2 : 1;
+  if (progress < cfg.fadeInShare) return progress / cfg.fadeInShare;
+  if (progress > 1 - cfg.fadeOutShare) return (1 - progress) / cfg.fadeOutShare;
+  return 1;
+}
+
+/** Vẽ lớp phủ, băng rôn và hạt chuyển động theo chủ đề trên khung gốc. */
+export function drawCutsceneFx(p: PixelPainter, L: Pick<SceneKit, 'width' | 'height'>, cfg: CutsceneConfig, theme: CutsceneTheme, elapsedSec: number): void {
+  const fade = cutsceneFade(cfg, elapsedSec);
 
   // Lớp phủ sắc thái toàn khung cảnh
   p.rect(0, 0, L.width, L.height, theme.overlayTint, theme.overlayAlpha * fade);
 
-  // Vẽ khung viền băng rôn hoạt cảnh ở phía trên cảnh pixel
+  // Băng rôn hoạt cảnh ở phía trên cảnh pixel
   const b = cfg.banner;
   p.rect(b.x - 1, b.y - 1, b.width + 2, b.height + 2, theme.accentColor, 0.9 * fade);
   p.rect(b.x, b.y, b.width, b.height, b.bg, b.bgAlpha * fade);
   p.rect(b.x + 2, b.y + 2, b.width - 4, 1, b.border, 0.85 * fade);
   p.rect(b.x + 2, b.y + b.height - 3, b.width - 4, 1, b.border, 0.85 * fade);
 
-  // Vẽ các hạt/biểu tượng chuyển động theo chủ đề hoạt cảnh
-  const n = theme.particleCount;
-  for (let i = 0; i < n; i++) {
-    const px = ((i * 43 + elapsedSec * 28 * ((i % 3) + 1)) % (L.width - 16)) + 8;
-    const py = ((i * 29 + elapsedSec * 18) % (L.height - 30)) + 20;
+  // Hạt chuyển động (cờ lọng, hoa giấy, mưa trắng...) — hình dạng theo theme.particle
+  const m = cfg.particleMotion;
+  const spanX = L.width - 2 * m.marginX;
+  const spanY = L.height - m.marginTop - m.marginBottom;
+  for (let i = 0; i < theme.particleCount; i++) {
+    const px = ((i * m.spreadX + elapsedSec * m.speedX * ((i % 3) + 1)) % spanX) + m.marginX;
+    const py = ((i * m.spreadY + elapsedSec * m.speedY) % spanY) + m.marginTop;
     const color = i % 2 === 0 ? theme.accentColor : theme.secondaryColor;
-    if (cutsceneId === 'vinh_quy_bai_to') {
-      // Cờ lọng & hoa giấy rợp đường
-      p.rect(px, py, 2, 3, color, 0.85 * fade);
-    } else if (cutsceneId === 'tang_le') {
-      // Dải mưa trắng trầm mặc
-      p.rect(px, py, 1, 4, color, 0.65 * fade);
-    } else {
-      p.rect(px, py, 2, 2, color, 0.8 * fade);
-    }
+    p.rect(px, py, theme.particle.w, theme.particle.h, color, theme.particle.alpha * fade);
   }
 }
-

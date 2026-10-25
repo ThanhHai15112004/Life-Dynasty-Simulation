@@ -78,6 +78,8 @@ export interface GameState {
   clock: { year: number; month: number; monthIndex: number };
   world: {
     settlementName: string;
+    /** [1] Loại khu định cư (data/world/settlement_types.yaml). */
+    settlementType: string;
     harvestQuality: string;
     foodPrice: number;
     weather: string;
@@ -88,7 +90,16 @@ export interface GameState {
     militaryAlert: string;
     /** [1] Mức gắt gao của quan quân tuần tra thảo khấu (0..100). */
     patrolLevel: number;
+    /** [1] Niên hiệu hiện tại và năm lên ngôi (biên niên vương triều). */
+    reignName: string;
+    reignStartYear: number;
+    /** [1] Biên niên khóa động tĩnh quân sự đến hết năm này. */
+    alertLock: { id: string; untilYear: number } | null;
   };
+  /** [1] Biến cố biên niên đã xảy ra: id → năm. */
+  chronicle: Record<string, number>;
+  /** [1] Bản đồ cuộc đời: mỗi năm đã sống một ô (tuổi, mãn nguyện, các dấu mốc nổi bật). */
+  lifeMap: { age: number; year: number; satisfaction: number; marks: string[] }[];
 
   characters: Record<string, Character>;
   households: Record<string, Household>;
@@ -124,9 +135,11 @@ export interface GameState {
     scholarlyPrestige: number;
     examDegree: ExamDegreeId;
     mourningMonthsLeft: number;
+    /** Bậc thang địa vị hiện tại (id trong status_ranks của khuôn văn minh). */
+    statusRank: string;
   };
-  /** [1] Mã hoạt cảnh (micro-cutscene) vừa phát sinh để @bridge chuyển cho Phaser vẽ. */
-  lastCutsceneId?: string | null;
+  /** [1] Hàng đợi hoạt cảnh (micro-cutscene) vừa phát sinh, @bridge lấy ra cho Phaser vẽ lần lượt. */
+  cutscenes: string[];
   flags: Record<string, FlagState>;
 
   eventHistory: Record<string, { lastMonthIndex: number; count: number }>;

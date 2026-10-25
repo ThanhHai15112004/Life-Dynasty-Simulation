@@ -94,7 +94,7 @@ export function eligibleRoles(ctx: SimContext, item: Selectable, preset: Record<
   return evaluate(item.condition, createResolver(ctx, { roles })) ? roles : null;
 }
 
-/** Trọng số = cơ bản × modifier hoàn cảnh × bộ lọc sự kiện của Focus (GDD 01 §5). */
+/** Trọng số = cơ bản × modifier hoàn cảnh × bộ lọc sự kiện của Focus (GDD 01 §5), nghề nhà và nơi ở. */
 export function weightOf(ctx: SimContext, item: Selectable, roles: Record<string, string>): number {
   const { state, content } = ctx;
   const r = createResolver(ctx, { roles });
@@ -110,5 +110,10 @@ export function weightOf(ctx: SimContext, item: Selectable, roles: Record<string
   };
   scaleFocus(state.focus.primary, 1);
   scaleFocus(state.focus.secondary, content.balance.skills.secondary_focus_factor);
+  const scaleTags = (weights: Record<string, number> | undefined) => {
+    if (weights) for (const tag of item.tags) w *= weights[tag] ?? 1;
+  };
+  scaleTags(content.index.career.get(state.career.id)?.event_weights);
+  scaleTags(content.index.settlementType.get(state.world.settlementType)?.event_weights);
   return w;
 }

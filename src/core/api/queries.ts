@@ -9,22 +9,32 @@ import type { LedgerEntry, LedgerYear } from '../entities/Household';
 import { holdingsOf } from '../entities/Property';
 import type { LogYear, PendingEvent, Resolution } from '../entities/World';
 import type { SimContext } from '../systems/context';
-import { buyPrice, monthlyFoodNeed, monthlyMoneyNeed, sellPrice } from '../systems/economy/helpers';
+import { regularIncomeParts } from '../systems/economy';
+import { buyPrice, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
 import { healthCap } from '../systems/life';
+import { lifeExpectancyAtBirth } from '../systems/life/mortality';
+import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
 import { computeFor } from '../systems/modifiers';
-import { ageNow, aliveMembers, callOf, householdHead, lifeStageOf, player, playerHousehold } from '../systems/people';
+import { ageGroupOf, ageNow, aliveMembers, callOf, householdHead, lifeStageOf, player, playerHousehold, relationToPlayer } from '../systems/people';
 import { createResolver, seasonOf } from '../systems/resolver';
 import { evaluate } from '../engine/RuleEvaluator';
 import { fillTemplate } from '@shared/template';
 import { actionChance, canExecuteCareerAction, careerAvailable } from '../systems/career';
 import { computeSummaryAxes, type SummaryAxisView } from '../systems/happiness';
 import { xpToNext } from '../systems/skills';
+import { currentCivilization, currentStatusRank } from '../systems/status';
 import { ambitionAvailable, focusAvailable } from './commands';
 
 export interface HudView {
-  date: { year: number; month: number; can: number; chi: number; seasonName: string; weatherName: string };
+  date: { year: number; month: number; monthsPerYear: number; can: number; chi: number; seasonName: string; weatherName: string };
+  /** [1] Niên hiệu và năm thứ mấy của triều vua hiện tại (biên niên giả tưởng). */
+  reign: { name: string; year: number };
   player: {
+    id: string;
     name: string;
+    ageGroup: string;
+    birth: { year: number; month: number; can: number; chi: number };
+    originName: string;
     age: number;
     sex: 'm' | 'f';
     lifeStage: string;
@@ -46,6 +56,8 @@ export interface HudView {
     examDegreeId: string;
     examDegreeName: string;
     mourningMonthsLeft: number;
+    /** [1] Bậc thang địa vị hiện tại (index trong thang, 0 = thấp nhất). */
+    statusRank: { id: string; name: string; description: string; index: number; total: number };
     deathRiskMod: ModifierResult;
     diseases: { id: string; name: string; description: string; severity: string; remainingMonths: number }[];
     traits: { id: string; name: string; description: string }[];
@@ -60,9 +72,15 @@ export interface HudView {
     monthlyFood: number;
     monthlyMoney: number;
     livingStandard: string;
-    members: { id: string; call: string; age: number; healthKey: string; isPlayer: boolean }[];
+    members: { id: string; call: string; name: string; relation: string; sex: 'm' | 'f'; ageGroup: string; age: number; healthKey: string; isPlayer: boolean }[];
     properties: { id: string; name: string; unit: string; count: number; value: number; sellable: boolean }[];
     harvestYield: ModifierResult;
+    /** [1] Nơi hộ sinh sống. */
+    settlement: { name: string; typeName: string; typeDescription: string };
+    /** [1] Hộ tự cày (false: ruộng phát canh thu tô). */
+    selfFarm: boolean;
+    /** [1] Tiền thu đều đặn mỗi tháng ước tính theo thời giá hiện tại (nghề nhà + Focus). */
+    regularIncome: number;
   };
   market: {
     buyPrice: number;
@@ -140,6 +158,10 @@ export interface HudView {
   livingStandards: { id: string; name: string; description: string; monthlyMoney: number }[];
   openLoops: { text: string; monthsLeft: number | null }[];
   log: LogYear[];
+  /** [1] Bản đồ cuộc đời: một ô mỗi năm đã sống + tuổi thọ kỳ vọng của thời này. */
+  lifeMap: { cells: { age: number; year: number; satisfaction: number; marks: string[] }[]; expectedLifespan: number };
+  /** [1] Biến cố biên niên gần đây (mới nhất trước). */
+  chronicle: { year: number; text: string; icon: string }[];
   ledger: { current: LedgerEntry[]; history: LedgerYear[] };
   pending: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[] }) | null;
   lastResolution: Resolution | null;
@@ -191,13 +213,19 @@ export function getHudView(ctx: SimContext): HudView {
     date: {
       year: state.clock.year,
       month: state.clock.month,
+      monthsPerYear: cal.months_per_year,
       can: cc.can,
       chi: cc.chi,
       seasonName: cal.seasons.find((s) => s.id === seasonOf(ctx))?.name ?? '',
       weatherName: cal.weathers.find((w) => w.id === state.world.weather)?.name ?? '',
     },
+    reign: { name: state.world.reignName, year: state.clock.year - state.world.reignStartYear + 1 },
     player: {
+      id: me.id,
       name: fullName(me),
+      ageGroup: ageGroupOf(ctx, age),
+      birth: { year: me.birthYear, month: me.birthMonth, ...canChi(me.birthYear) },
+      originName: content.index.origin.get(state.originId)?.name ?? '',
       age,
       sex: me.sex,
       lifeStage: stage.name,
@@ -217,11 +245,13 @@ export function getHudView(ctx: SimContext): HudView {
       filialPiety: state.civilization.filialPiety,
       scholarlyPrestige: state.civilization.scholarlyPrestige,
       examDegreeId: state.civilization.examDegree,
-      examDegreeName:
-        (content.index.civilization.get(state.civilization.id) ?? content.civilizations[0])?.exam_degrees.find(
-          (d) => d.id === state.civilization.examDegree,
-        )?.name ?? '',
+      examDegreeName: currentCivilization(ctx).exam_degrees.find((d) => d.id === state.civilization.examDegree)?.name ?? '',
       mourningMonthsLeft: state.civilization.mourningMonthsLeft,
+      statusRank: (() => {
+        const civ = currentCivilization(ctx);
+        const st = currentStatusRank(ctx);
+        return { id: st.id, name: st.name, description: st.description, index: civ.status_ranks.indexOf(st), total: civ.status_ranks.length };
+      })(),
       deathRiskMod: computeFor(ctx, me.id, StatTarget.DeathRisk, 1),
       diseases: (me.diseases ?? [])
         .map((d) => {
@@ -252,6 +282,10 @@ export function getHudView(ctx: SimContext): HudView {
       members: aliveMembers(ctx, h).map((c) => ({
         id: c.id,
         call: callOf(ctx, c),
+        name: fullName(c),
+        relation: relationToPlayer(ctx, c),
+        sex: c.sex,
+        ageGroup: ageGroupOf(ctx, ageNow(ctx, c)),
         age: ageNow(ctx, c),
         healthKey: pickBand(display.health_bands, c.health).key,
         isPlayer: c.id === me.id,
@@ -265,6 +299,13 @@ export function getHudView(ctx: SimContext): HudView {
         sellable: p.type.sellable,
       })),
       harvestYield: computeFor(ctx, me.id, StatTarget.HarvestYield, 1),
+      settlement: {
+        name: state.world.settlementName,
+        typeName: content.index.settlementType.get(state.world.settlementType)?.name ?? '',
+        typeDescription: content.index.settlementType.get(state.world.settlementType)?.description ?? '',
+      },
+      selfFarm: selfFarms(ctx),
+      regularIncome: regularIncomeParts(ctx).reduce((sum, p) => sum + p.money, 0),
     },
     market: {
       buyPrice: buyPrice(ctx),
@@ -377,6 +418,13 @@ export function getHudView(ctx: SimContext): HudView {
     })),
     openLoops,
     log: state.log,
+    lifeMap: { cells: state.lifeMap, expectedLifespan: lifeExpectancyAtBirth(ctx) },
+    chronicle: state.log
+      .flatMap((y) => y.entries)
+      .filter((e) => e.sourceId.startsWith(CHRONICLE_SOURCE_PREFIX))
+      .reverse()
+      .slice(0, display.chronicle_shown)
+      .map((e) => ({ year: e.year, text: e.text, icon: e.icon })),
     ledger: { current: h.ledger, history: state.ledgerHistory },
     pending: state.pending
       ? {

@@ -8,16 +8,18 @@ import { writeTemplate } from '../events/journal';
 import { SystemLog } from '../events/systemLogKeys';
 import { buildSceneDescriptor, type SceneDescriptor } from '../scene-descriptor';
 import { monthlyCareer } from '../systems/career';
+import { yearlyChronicle } from '../systems/chronicle';
 import { createContext, type SimContext } from '../systems/context';
 import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy } from '../systems/economy';
 import { monthlyFamily } from '../systems/family';
-import { monthlyHappiness, yearlyHappiness } from '../systems/happiness';
+import { monthlyHappiness, recordLifeYear, yearlyHappiness } from '../systems/happiness';
 import { monthlyLife, yearlyVillage } from '../systems/life';
 import { monthlyOpportunity, yearlyOpportunity } from '../systems/opportunity';
 import { monthlySkills } from '../systems/skills';
 import { monthlySocial } from '../systems/social';
-import { monthlyStatus } from '../systems/status';
+import { computeStatusRank, monthlyStatus } from '../systems/status';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
+import { migrateState } from '../world/migrate';
 import { executeCommand, type Command, type CommandResult } from './commands';
 
 export interface TickReport {
@@ -28,8 +30,8 @@ export interface TickReport {
   gameOver: boolean;
   /** Người nhà vừa qua đời trong tháng này. */
   deaths: string[];
-  /** Mã hoạt cảnh (micro-cutscene) vừa phát sinh. */
-  cutsceneId: string | null;
+  /** Hoạt cảnh (micro-cutscene) phát sinh trong tháng, theo thứ tự. */
+  cutscenes: string[];
 }
 
 export class GameSession {
@@ -42,14 +44,15 @@ export class GameSession {
     const state = generateNewGame(content, opts, (s) => createContext(s, content));
     const session = new GameSession(content, state);
     session.withContext((ctx) => {
+      ctx.state.civilization.statusRank = computeStatusRank(ctx).id;
       yearStart(ctx);
-      writeTemplate(ctx, SystemLog.GameStart);
+      writeTemplate(ctx, content.index.origin.get(ctx.state.originId)?.start_log ?? SystemLog.GameStart);
     });
     return session;
   }
 
   static load(content: ContentBundle, saveText: string): GameSession {
-    return new GameSession(content, deserialize(saveText));
+    return new GameSession(content, migrateState(deserialize(saveText), content));
   }
 
   get state(): Readonly<GameState> {
@@ -69,10 +72,9 @@ export class GameSession {
 
   /** Chạy một tháng mô phỏng. Không chạy khi đang chờ quyết định hoặc đã hết đời. */
   tickMonth(): TickReport {
-    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutsceneId: null };
+    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutscenes: [] };
     if (this.blocked) return { ...empty, decision: this._state.pending !== null };
     const aliveBefore = new Set(Object.values(this._state.characters).filter((c) => c.alive).map((c) => c.id));
-    this._state.lastCutsceneId = null;
 
     const info = this.withContext((ctx) =>
       clockTick(ctx.state.clock, this.content.balance.calendar.months_per_year, {
@@ -86,26 +88,22 @@ export class GameSession {
     const deaths = [...aliveBefore].filter(
       (id) => !this._state.characters[id].alive && this._state.characters[id].householdId === this._state.householdId,
     );
-    const cutsceneId = this._state.lastCutsceneId ?? null;
-    this._state.lastCutsceneId = null;
     return {
       newYear: info.yearEnded && !this._state.gameOver,
       decision: this._state.pending !== null,
       gameOver: this._state.gameOver !== null,
       deaths,
-      cutsceneId,
+      cutscenes: this.consumeCutscenes(),
     };
   }
 
   dispatch(cmd: Command): CommandResult {
-    this._state.lastCutsceneId = null;
     return this.withContext((ctx) => executeCommand(ctx, cmd));
   }
 
-  consumeCutscene(): string | null {
-    const id = this._state.lastCutsceneId ?? null;
-    this._state.lastCutsceneId = null;
-    return id;
+  /** Lấy ra (và xóa) các hoạt cảnh đang chờ phát. */
+  consumeCutscenes(): string[] {
+    return this._state.cutscenes.splice(0);
   }
 
   /** Đọc dữ liệu qua ngữ cảnh chỉ đọc (dùng cho queries). */
@@ -144,11 +142,13 @@ function yearEnd(ctx: SimContext): void {
   yearlyVillage(ctx);
   yearlyHappiness(ctx);
   directorYearEnd(ctx);
+  recordLifeYear(ctx);
 }
 
 function yearStart(ctx: SimContext): void {
   rollHarvestQuality(ctx);
   yearlyOpportunity(ctx);
+  yearlyChronicle(ctx);
   directorYearStart(ctx);
 }
 

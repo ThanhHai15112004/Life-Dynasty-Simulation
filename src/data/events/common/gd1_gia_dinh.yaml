@@ -1,0 +1,1238 @@
+# [gd1] Sự kiện quyết định — gia đình, hôn nhân, con cái, tuổi già, bệnh tật, tang lễ, tín ngưỡng (người lớn, mọi xuất thân)
+# Chuỗi nhiều hồi:
+#   (1) gd_chon_vo_chong → gd_chon_vo_chong_lam_lanh
+#   (2) gd_cha_gia_chia_ruong → gd_anh_em_tranh_ruong → gd_anh_em_lam_lanh
+#   (3) gd_con_an_choi → gd_con_no_bac
+# Mọi sự kiện cưới hỏi đều chặn player.mourning_months == 0 (đang cư tang thì kiêng).
+events:
+  # ── Hôn nhân ──
+  - id: gd_chon_vo_chong
+    title: Ý cha mẹ hay ý mình
+    tags: [gia_dinh, quan_he]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.age, op: between, value: [18, 32] }
+        - { var: player.married, op: '==', value: false }
+        - { var: player.mourning_months, op: '==', value: 0 }
+    roles:
+      - { id: cm, from: family, relation: parent, pick: oldest }
+    weight: 6
+    weight_modifiers:
+      - { condition: { var: player.age, op: '>=', value: 24 }, factor: 1.5 }
+    once_per_life: true
+    tension: 5
+    importance: 7
+    icon: cuoi
+    text:
+      - 'Tối ấy bạn được gọi lại bên chõng tre. {role.cm.call} nói nhà đã nhắm cho bạn một mối, bên ấy cũng đã nhận cơi trầu dạm ngõ. Nhưng bạn thì đã thầm thương một người ở xóm dưới, hai người từng hẹn nhau ở bến nước.'
+    options:
+      - id: theo_y_nha_nho
+        text: 'Vâng lời, nhận mối nhà hương cống làng bên cho môn đăng hộ đối (6 quan sính lễ)'
+        hint: 'Hiếu đạo và danh giá nhà nho tăng, lòng mình thì nặng'
+        condition:
+          all:
+            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+            - { var: household.money, op: '>=', value: 6 }
+        trait_stress: { tu_do: 6 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: marry }
+          - { type: filial_piety, value: 8 }
+          - { type: scholarly_prestige, value: 4 }
+          - { type: opinion, role: cm, value: 12 }
+          - { type: stress, value: 4 }
+        result: ['Hai họ đọc văn tế tơ hồng trước bàn thờ, câu chữ đối nhau chan chát. Bạn cúi lạy mà lòng trống trải. Người ở xóm dưới không đến xem.']
+      - id: theo_y_nha_buon
+        text: 'Vâng lời, nhận mối nhà buôn muối bến dưới, hai nhà gộp mối hàng'
+        hint: 'Có của hồi môn và mối hàng, lòng mình thì nặng'
+        condition: { var: player.career, op: '==', value: thuong_nhan }
+        trait_stress: { tu_do: 6 }
+        effects:
+          - { type: marry }
+          - { type: money, value: 3, ledger: thu_khac }
+          - { type: filial_piety, value: 6 }
+          - { type: modifier, target: xp.thuong_mai, value: 1.1, op: mul, months: 36, label: 'Thông gia nhà buôn muối' }
+          - { type: opinion, role: cm, value: 10 }
+          - { type: stress, value: 4 }
+        result: ['Thuyền nhà gái chở hồi môn cập bến, nào chum muối, nào súc vải. Người bến sông khen hai nhà khéo tính. Bạn cười mà không thấy vui.']
+      - id: theo_y_nha_lam_an
+        text: 'Vâng lời, nhận mối con nhà chịu thương chịu khó ở xóm trên'
+        hint: 'Cha mẹ lo sính lễ, nhà có thêm thóc hồi môn'
+        condition:
+          not: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }, { var: player.career, op: '==', value: thuong_nhan }] }
+        trait_stress: { tu_do: 6 }
+        effects:
+          - { type: marry }
+          - { type: food, value: 5, ledger: thu_khac }
+          - { type: filial_piety, value: 6 }
+          - { type: opinion, role: cm, value: 10 }
+          - { type: stress, value: 3 }
+        result: ['Ngày cưới, nhà gái gánh sang mấy thúng thóc làm của hồi môn. Bạn đỡ đòn gánh, nhìn về phía xóm dưới một lần rồi thôi.']
+      - id: theo_long
+        text: 'Thưa thật với {role.cm.call}, xin cưới người mình thương (lễ mọn 1,5 quan)'
+        hint: 'Lòng nhẹ, nhưng cha mẹ giận lâu'
+        condition: { var: household.money, op: '>=', value: 1.5 }
+        trait_stress: { trong_gia_dinh: 4 }
+        effects:
+          - { type: money, value: -1.5, ledger: su_kien }
+          - { type: marry }
+          - { type: filial_piety, value: -6 }
+          - { type: opinion, role: cm, value: -15 }
+          - { type: stress, value: -5 }
+          - { type: schedule_event, event: gd_chon_vo_chong_lam_lanh, months: 30, label: 'Cha mẹ còn giận chuyện cưới xin' }
+        result: ['Đám cưới chỉ có mâm xôi, đĩa thịt và mấy người bạn thân. {role.cm.call} ngồi trong buồng không ra. Nhưng tối ấy bạn ngủ một giấc thật dài.']
+      - id: hoan
+        text: 'Xin cho thêm một năm suy nghĩ'
+        defer: { months: 12 }
+        effects:
+          - { type: opinion, role: cm, value: -4 }
+          - { type: stress, value: 3 }
+        result: ['{role.cm.call} thở dài, cho người sang nhà kia khất lại. Mối ấy chờ được bao lâu thì chẳng ai dám chắc.']
+
+  - id: gd_chon_vo_chong_lam_lanh
+    title: Mâm cơm làm lành
+    tags: [gia_dinh, quan_he]
+    scheduled_only: true
+    condition: { var: player.married, op: '==', value: true }
+    roles:
+      - { id: cm, from: family, relation: parent }
+      - { id: vc, from: family, relation: spouse }
+    weight: 1
+    tension: 4
+    importance: 6
+    icon: gia_dinh
+    text:
+      - 'Đã mấy mùa từ ngày cưới, {role.cm.call} vẫn ít nói với {role.vc.call}. Bữa cơm chung mà như hai mâm. Sáng nay bạn bắt gặp {role.vc.call} lặng lẽ lau nước mắt sau bếp.'
+    options:
+      - id: sam_le_xin_loi
+        text: 'Cùng {role.vc.call} sắm lễ, quỳ xin {role.cm.call} tha lỗi (2 quan)'
+        condition: { var: household.money, op: '>=', value: 2 }
+        trait_stress: { tham_vong: 2 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: opinion, role: cm, value: 15 }
+          - { type: opinion, role: vc, value: 5 }
+          - { type: filial_piety, value: 6 }
+          - { type: stress, value: -3 }
+        result: ['Hai người quỳ trước sập gụ. {role.cm.call} im lâu lắm, rồi đưa tay đỡ {role.vc.call} dậy. Bữa tối ấy cả nhà ngồi chung một mâm.']
+      - id: lay_net_cam_long
+        text: 'Để {role.vc.call} ngày ngày chăm sóc, lấy nết mà cảm lòng'
+        hint: 'Chậm mà chắc, nếu người bạn đời đủ kiên nhẫn'
+        chance:
+          base: 0.45
+          skill: ngoai_giao
+          per_level: 0.03
+          modifiers: [{ condition: { has_trait: kien_nhan, who: vc }, add: 0.15 }]
+        success:
+          - { type: opinion, role: cm, value: 12 }
+          - { type: filial_piety, value: 3 }
+          - { type: stress, value: -2 }
+        failure:
+          - { type: stress, value: 4 }
+          - { type: stress, who: vc, value: 5 }
+          - { type: opinion, role: vc, value: -5 }
+        success_result: ['Một đêm {role.cm.call} trở bệnh, {role.vc.call} thức trắng sắc thuốc. Sáng ra bạn nghe {role.cm.call} gọi tên con dâu, con rể bằng giọng khác hẳn.']
+        failure_result: ['Chăm mấy cũng không vừa ý. {role.vc.call} gầy đi, còn bạn đứng giữa, chẳng biết đỡ bên nào.']
+      - id: mac_ke
+        text: 'Đời mình mình sống, ai giận mặc ai'
+        trait_stress: { trong_gia_dinh: 5 }
+        effects:
+          - { type: filial_piety, value: -4 }
+          - { type: opinion, role: cm, value: -8 }
+          - { type: opinion, role: vc, value: 8 }
+          - { type: stress, value: -2 }
+        result: ['Bạn dọn riêng mâm cơm cho hai vợ chồng ra hiên. Người làng bảo nhà ấy con cái bạc. Bạn nghe, rồi để đấy.']
+
+  - id: gd_me_chong_nang_dau
+    title: Mẹ chồng nàng dâu
+    tags: [gia_dinh, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.sex, op: '==', value: m }
+        - { var: player.married, op: '==', value: true }
+    roles:
+      - { id: me, from: family, relation: mother }
+      - { id: vo, from: family, relation: spouse }
+    weight: 5
+    weight_modifiers:
+      - { condition: { var: household.food_months, op: '<', value: 3 }, factor: 1.5 }
+    cooldown_years: 5
+    tension: 4
+    importance: 5
+    icon: gia_dinh
+    text:
+      - 'Chuyện bắt đầu từ nồi cá kho mặn. {role.me.call} bảo con dâu nấu ăn hoang phí, {role.vo.call} cãi lại một câu. Cả buổi chiều nhà im phăng phắc, chỉ nghe tiếng đũa gõ vào bát.'
+    options:
+      - id: benh_me
+        text: 'Mắng vợ trước mặt mẹ cho phải đạo'
+        trait_stress: { nhan_tu: 3 }
+        effects:
+          - { type: filial_piety, value: 5 }
+          - { type: opinion, role: me, value: 8 }
+          - { type: opinion, role: vo, value: -12 }
+          - { type: stress, who: vo, value: 6 }
+        result: ['{role.vo.call} cúi đầu dọn mâm, không nói gì. Đêm ấy bạn nghe tiếng sụt sịt ở góc buồng.']
+      - id: benh_vo
+        text: 'Thưa với mẹ rằng vợ con không sai'
+        trait_stress: { trung_thanh: 2 }
+        effects:
+          - { type: filial_piety, value: -5 }
+          - { type: opinion, role: me, value: -10 }
+          - { type: opinion, role: vo, value: 12 }
+        result: ['{role.me.call} đứng dậy bỏ vào buồng: "Nuôi con lớn để con bênh người ngoài." Câu ấy bạn nhớ mãi.']
+      - id: khuyen_giai
+        text: 'Mỗi bên nói một câu khéo, xin mỗi người lùi nửa bước'
+        hint: 'Cần tài ăn nói'
+        chance: { base: 0.4, skill: ngoai_giao, per_level: 0.05 }
+        success:
+          - { type: opinion, role: me, value: 6 }
+          - { type: opinion, role: vo, value: 6 }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        failure:
+          - { type: opinion, role: me, value: -5 }
+          - { type: opinion, role: vo, value: -5 }
+          - { type: stress, value: 5 }
+        success_result: ['Bạn bảo mẹ vốn thương con dâu nên mới dạy, bảo vợ mẹ già nói thế thôi. Tối ấy {role.vo.call} gắp cho mẹ miếng cá ngon nhất.']
+        failure_result: ['Nói bên này thì bên kia giận. Cuối cùng cả hai cùng trách bạn ba phải.']
+      - id: chia_bep
+        text: 'Dựng thêm gian bếp, mẹ một bếp, vợ một bếp (3 quan)'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: filial_piety, value: -2 }
+          - { type: opinion, role: me, value: 2 }
+          - { type: opinion, role: vo, value: 6 }
+          - { type: stress, value: -3 }
+        result: ['Hai làn khói bếp bay lên trên một mái nhà. Hàng xóm cười, nhưng trong nhà yên hẳn.']
+
+  # ── Con cái ──
+  - id: gd_sinh_kho
+    title: Mẹ tròn con chưa vuông
+    tags: [gia_dinh, benh_tat]
+    condition:
+      all:
+        - { var: player.sex, op: '==', value: m }
+        - { var: player.married, op: '==', value: true }
+    roles:
+      - { id: vo, from: family, relation: spouse, condition: { var: self.sex, op: '==', value: f } }
+      - { id: be, from: family, relation: child, condition: { var: self.age, op: '==', value: 0 }, pick: youngest }
+      - { id: thay, from: village, village_role: thay_lang, optional: true }
+    weight: 5
+    weight_modifiers:
+      - { condition: { var: role.vo.health, op: '<', value: 60 }, factor: 2 }
+    cooldown_years: 3
+    tension: 6
+    importance: 7
+    icon: om
+    text:
+      - 'Lần vượt cạn của {role.vo.call} kéo dài từ chập tối đến gà gáy. Bà đỡ cắt rốn bằng mảnh nứa, {role.be.call} khóc to khỏe mạnh. Nhưng đã mấy tuần, {role.vo.call} vẫn nằm trên ổ rơm, mặt trắng bệch, hơi thở yếu.'
+    options:
+      - id: moi_thay
+        text: 'Mời {role.thay.call} sắc thuốc bổ huyết (3 quan)'
+        condition:
+          all:
+            - { role: thay, exists: true }
+            - { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: health, who: vo, value: 15 }
+          - { type: opinion, role: thay, value: 4 }
+        result: ['Mỗi ngày một niêu thuốc đen sánh. Đến tuần thứ ba, {role.vo.call} đã ngồi dậy cho con bú được.']
+      - id: ban_ga
+        text: 'Bán đàn gà, mua gà ác hầm ngải cứu cho vợ'
+        condition: { has_property: dan_ga }
+        effects:
+          - { type: property_remove, property: dan_ga, count: 1 }
+          - { type: health, who: vo, value: 12 }
+        result: ['Chuồng gà trống trơn. Nhưng bát gà ác hầm thơm cả gian bếp, má {role.vo.call} hồng dần lên.']
+      - id: nam_than
+        text: 'Theo lệ cho nằm than, kiêng gió, cữ đủ trăm ngày'
+        hint: 'Không tốn tiền, nhà thiếu một tay làm'
+        chance: { base: 0.5, skill: sinh_ton, per_level: 0.03 }
+        effects:
+          - { type: modifier, target: living.cost, value: 1.05, op: mul, months: 4, label: 'Vợ nằm cữ' }
+          - { type: stress, value: 3 }
+        success: [{ type: health, who: vo, value: 8 }]
+        failure:
+          - { type: health, who: vo, value: -8 }
+          - { type: stress, value: 4 }
+        success_result: ['Bạn đun than hồng dưới gầm giường, ngày ngày nấu cháo móng giò. {role.vo.call} qua được cữ.']
+        failure_result: ['Gian buồng kín mít, khói than ngột ngạt. {role.vo.call} không khá lên mà còn ho thêm.']
+      - id: cung_via
+        text: 'Mời thầy cúng vía cho mẹ tròn con vuông (0,5 quan)'
+        hint: 'Rẻ, nhưng phó mặc thần linh'
+        trait_stress: { hoai_nghi: 4 }
+        chance:
+          base: 0.3
+          modifiers: [{ condition: { has_trait: mo_dao }, add: 0.1 }]
+        effects: [{ type: money, value: -0.5, ledger: su_kien }]
+        success: [{ type: health, who: vo, value: 6 }]
+        failure: [{ type: health, who: vo, value: -10 }]
+        success_result: ['Thầy cúng lắc chuông suốt buổi chiều. Mấy hôm sau {role.vo.call} ăn được bát cơm. Bạn cũng chẳng biết nhờ đâu.']
+        failure_result: ['Hương tàn, chuông lặng. {role.vo.call} vẫn nằm đó, mỗi ngày một hốc hác.']
+
+  - id: gd_con_len_dau
+    title: Trong xóm có trẻ lên đậu
+    tags: [gia_dinh, benh_tat]
+    months: [1, 2, 3, 4]
+    condition: { var: player.children_count, op: '>=', value: 1 }
+    roles:
+      - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [1, 9] }, { var: self.sick, op: '==', value: false }] } }
+      - { id: thay, from: village, village_role: thay_lang, optional: true }
+    weight: 4
+    cooldown_years: 5
+    tension: 5
+    importance: 6
+    icon: om
+    text:
+      - 'Đầu xóm có hai đứa trẻ lên đậu, nhà ấy đã cắm cành gai trước cổng. Tối nay {role.con.call} kêu nóng đầu, mắt đỏ hoe, không chịu ăn.'
+    options:
+      - id: moi_thay
+        text: 'Mời {role.thay.call} cắt thuốc ngay, để con nằm riêng gian chái (2 quan)'
+        condition:
+          all:
+            - { role: thay, exists: true }
+            - { var: household.money, op: '>=', value: 2 }
+        chance: { base: 0.65 }
+        effects: [{ type: money, value: -2, ledger: su_kien }]
+        success: [{ type: health, who: con, value: 4 }]
+        failure: [{ type: add_disease, disease: dau_mua_soi, who: con }]
+        success_result: ['Chỉ là cảm nắng. Mấy thang thuốc, {role.con.call} lại chạy nhảy ngoài sân.']
+        failure_result: ['Sáng thứ ba, những nốt đỏ mọc khắp người {role.con.call}. Thầy bảo phải giữ kín gió cả tháng.']
+      - id: cung_ba_mu
+        text: 'Cúng bà mụ, treo cành gai trước cổng, kiêng người lạ'
+        trait_stress: { hoai_nghi: 3 }
+        chance:
+          base: 0.4
+          modifiers: [{ condition: { has_trait: mo_dao }, add: 0.1 }]
+        effects: [{ type: money, value: -0.5, ledger: su_kien }]
+        success: [{ type: stress, value: -2 }]
+        failure: [{ type: add_disease, disease: dau_mua_soi, who: con }]
+        success_result: ['Đêm ấy con ra mồ hôi rồi ngủ yên. Bạn thắp thêm nén hương tạ bà mụ.']
+        failure_result: ['Cành gai không ngăn được gì. Mấy hôm sau người {role.con.call} mọc đầy nốt đậu.']
+      - id: thay_nhau_cham
+        text: 'Cả nhà thay nhau thức, xông lá, chườm khăn'
+        hint: 'Hao sức người lớn'
+        chance: { base: 0.5, skill: sinh_ton, per_level: 0.03 }
+        effects:
+          - { type: health, value: -3 }
+          - { type: stress, value: 4 }
+        success: [{ type: health, who: con, value: 3 }]
+        failure: [{ type: add_disease, disease: dau_mua_soi, who: con }]
+        success_result: ['Ba đêm không chợp mắt. Đến sáng thứ tư, trán {role.con.call} đã mát.']
+        failure_result: ['Thức mấy cũng không giữ được. Bệnh đậu đã vào người {role.con.call}.']
+
+  - id: gd_day_thang_dat_ten
+    title: Lễ đầy tháng
+    tags: [gia_dinh, tin_nguong]
+    condition: { var: player.children_count, op: '>=', value: 1 }
+    roles:
+      - { id: be, from: family, relation: child, condition: { var: self.age, op: '==', value: 0 }, pick: youngest }
+      - { id: thay, from: village, village_role: thay_do, optional: true }
+    weight: 5
+    cooldown_years: 2
+    tension: 2
+    importance: 5
+    icon: tre_em
+    text:
+      - '{role.be.call} vừa tròn tháng. Theo lệ phải cúng mười hai bà mụ và khấn báo tên con với tổ tiên. Bà con trong họ lại bàn nên đặt thêm một tên tục thật xấu để gọi ở nhà, cho ma quỷ khỏi để ý.'
+    options:
+      - id: co_day_thang
+        text: 'Làm cỗ đầy tháng mời họ hàng (2 quan, 4 thúng thóc)'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 2 }
+            - { var: household.food, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: food, value: -4, ledger: su_kien }
+          - { type: reputation, value: 4 }
+          - { type: stress, value: -2 }
+        result: ['Họ hàng đến chật sân, ai cũng bế thử đứa bé một lần. Cỗ hết, kho vơi, nhưng bạn vui.']
+      - id: ten_chu
+        text: 'Mang lễ nhờ {role.thay.call} viết tên con vào gia phả bằng nét chữ đẹp (1 quan)'
+        condition:
+          all:
+            - { role: thay, exists: true }
+            - { var: household.money, op: '>=', value: 1 }
+            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: scholarly_prestige, value: 3 }
+          - { type: filial_piety, value: 2 }
+          - { type: opinion, role: thay, value: 5 }
+        result: ['{role.thay.call} mài mực, viết tên đứa trẻ ngay dưới tên ông nội. Nét chữ vuông vức, mực còn thơm.']
+      - id: vong_bac
+        text: 'Cúng mụ xong, mua cho con đôi vòng bạc ở phố (1,5 quan)'
+        condition:
+          all:
+            - { var: player.career, op: '==', value: thuong_nhan }
+            - { var: household.money, op: '>=', value: 1.5 }
+        effects:
+          - { type: money, value: -1.5, ledger: su_kien }
+          - { type: reputation, value: 2 }
+          - { type: stress, value: -3 }
+        result: ['Đôi vòng bạc nhỏ xíu kêu lanh canh trên cổ chân đứa bé. Khách quen qua sạp ai cũng hỏi.']
+      - id: ten_tuc
+        text: 'Đặt một cái tên tục thật xấu để gọi ở nhà cho dễ nuôi'
+        trait_stress: { hoai_nghi: 2 }
+        effects:
+          - { type: money, value: -0.3, ledger: su_kien }
+          - { type: stress, value: -2 }
+        result: ['Từ hôm ấy cả nhà gọi đứa bé bằng cái tên tục nghe đến buồn cười. Tên thật thì để dành khấn tổ tiên.']
+      - id: cung_gian_don
+        text: 'Một đĩa xôi, một con gà, cúng mụ trong nhà'
+        effects:
+          - { type: food, value: -1, ledger: su_kien }
+          - { type: filial_piety, value: 1 }
+        result: ['Mâm cúng nhỏ đặt giữa giường. Bạn khấn khe khẽ, đứa bé ngủ ngon không biết gì.']
+
+  - id: gd_con_chon_duong
+    title: Con đến tuổi chọn đường
+    tags: [gia_dinh, hoc_hanh, nghe_nghiep]
+    life_stages: [lap_nghiep, trung_nien]
+    roles:
+      - { id: con, from: family, relation: child, condition: { var: self.age, op: between, value: [13, 16] } }
+    weight: 5
+    cooldown_years: 4
+    tension: 3
+    importance: 6
+    icon: sach
+    text:
+      - '{role.con.call} đã mười mấy tuổi, vai gần ngang vai bạn. Ăn cơm xong, đứa trẻ ngồi lại, ngập ngừng hỏi đời mình rồi sẽ đi theo đường nào.'
+    options:
+      - id: tro_hoc_tran
+        text: 'Gửi con lên trấn trọ học thầy giỏi, theo nghiệp bút nghiên (4 quan)'
+        condition:
+          all:
+            - { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+            - { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: skill_xp, who: con, skill: hoc_van, value: 30 }
+          - { type: scholarly_prestige, value: 2 }
+          - { type: stress, value: 2 }
+        result: ['Bạn gói cho con mấy bộ áo, một bao gạo và chiếc nghiên cũ của nhà. Con đi rồi, gian học vắng hẳn tiếng đọc bài.']
+      - id: theo_thuyen_hang
+        text: 'Cho con theo thuyền hàng xuôi một chuyến, học nghề buôn'
+        condition: { var: player.career, op: '==', value: thuong_nhan }
+        effects:
+          - { type: skill_xp, who: con, skill: thuong_mai, value: 25 }
+          - { type: skill_xp, who: con, skill: ngoai_giao, value: 10 }
+          - { type: stress, value: 3 }
+        result: ['Ba tháng sau thuyền về. {role.con.call} đen nhẻm, gầy đi, nhưng đã biết mặc cả với lái buôn miền xuôi.']
+      - id: giao_ruong
+        text: 'Giữ con ở nhà, giao hẳn cho một thửa ruộng tự lo'
+        condition: { var: household.self_farms, op: '==', value: true }
+        effects:
+          - { type: skill_xp, who: con, skill: sinh_ton, value: 25 }
+          - { type: modifier, target: harvest.yield, value: 1.05, op: mul, months: 24, label: 'Con đã đỡ việc đồng' }
+        result: ['Thửa ruộng ấy năm đầu cỏ nhiều hơn lúa. Năm sau thì đã ra dáng ruộng của người biết cày.']
+      - id: hoc_chu_lang
+        text: 'Cho con học thầy đồ trong làng, ngày về phụ việc nhà (1 quan)'
+        condition: { var: household.money, op: '>=', value: 1 }
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: skill_xp, who: con, skill: hoc_van, value: 15 }
+          - { type: skill_xp, who: con, skill: sinh_ton, value: 10 }
+        result: ['Sáng ôm sách, chiều cắt cỏ. Đứa trẻ bận tối mắt, nhưng không kêu.']
+      - id: de_con_tu_chon
+        text: 'Để con tự chọn lấy đường mình'
+        trait_stress: { tham_vong: 3 }
+        effects:
+          - { type: opinion, role: con, value: 10 }
+          - { type: stress, value: -2 }
+        result: ['{role.con.call} ngồi im lâu lắm, rồi gật đầu. Bạn không biết con sẽ chọn gì, chỉ thấy mắt con sáng lên.']
+
+  - id: gd_con_an_choi
+    title: Con theo bạn xấu
+    tags: [gia_dinh, no_nan]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    roles:
+      - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [16, 28] }, { var: self.sex, op: '==', value: m }] } }
+    weight: 4
+    weight_modifiers:
+      - { condition: { var: role.con.opinion, op: '<', value: 0 }, factor: 1.5 }
+    cooldown_years: 6
+    tension: 5
+    importance: 6
+    icon: bac
+    text:
+      - 'Đã mấy đêm {role.con.call} về nhà lúc canh ba, người nồng mùi rượu. Hàng xóm kể thấy cậu ngồi chiếu bạc nhà cuối xóm, thua thì ghi nợ.'
+    options:
+      - id: don_roi
+        text: 'Bắt con quỳ trước bàn thờ, đánh một trận đòn'
+        hint: 'Được thì con sợ mà chừa, không được thì con càng lì'
+        trait_stress: { nhan_tu: 4 }
+        chance: { base: 0.5, skill: quan_tri, per_level: 0.04 }
+        effects: [{ type: opinion, role: con, value: -15 }]
+        success:
+          - { type: add_trait, trait: than_trong, who: con }
+          - { type: stress, value: -2 }
+        failure:
+          - { type: opinion, role: con, value: -10 }
+          - { type: schedule_event, event: gd_con_no_bac, months: 24, label: 'Con trai còn dây dưa cờ bạc' }
+        success_result: ['Roi mây quất xuống ba lần, {role.con.call} không kêu. Từ đó cậu không ra cuối xóm nữa.']
+        failure_result: ['Cậu chịu đòn, mắt trừng trừng. Được ít hôm, đêm đêm lại có tiếng cổng kẽo kẹt lúc canh ba.']
+      - id: tra_no
+        text: 'Âm thầm trả món nợ cho con, dặn đừng tái phạm (4 quan)'
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: opinion, role: con, value: 8 }
+          - { type: schedule_event, event: gd_con_no_bac, months: 30, label: 'Con trai còn dây dưa cờ bạc' }
+        result: ['Con cúi đầu hứa. Bạn tin, vì muốn tin.']
+      - id: chep_sach
+        text: 'Giam con trong thư phòng, bắt chép trăm lượt sách Hiếu'
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        effects:
+          - { type: skill_xp, who: con, skill: hoc_van, value: 20 }
+          - { type: opinion, role: con, value: -8 }
+          - { type: stress, value: 2 }
+        result: ['Ba tháng ngồi chép, chữ {role.con.call} đẹp lên trông thấy. Còn lòng con có đổi không thì bạn chưa biết.']
+      - id: theo_thuyen_xa
+        text: 'Giao con theo thuyền hàng đi xa nửa năm cho rời bạn xấu'
+        condition: { var: player.career, op: '==', value: thuong_nhan }
+        effects:
+          - { type: skill_xp, who: con, skill: thuong_mai, value: 20 }
+          - { type: chance, p: 0.35, then: [{ type: schedule_event, event: gd_con_no_bac, months: 36, label: 'Con trai còn dây dưa cờ bạc' }] }
+        result: ['Thuyền nhổ neo lúc tảng sáng. {role.con.call} đứng đầu mũi, không ngoảnh lại.']
+      - id: ra_dong
+        text: 'Bắt con ra đồng cày từ tờ mờ sáng đến tối mịt'
+        condition: { var: household.self_farms, op: '==', value: true }
+        effects:
+          - { type: skill_xp, who: con, skill: sinh_ton, value: 20 }
+          - { type: health, who: con, value: -3 }
+          - { type: opinion, role: con, value: -6 }
+          - { type: modifier, target: harvest.yield, value: 1.03, op: mul, months: 12, label: 'Con trai bị bắt ra đồng' }
+        result: ['Tối về {role.con.call} lăn ra ngủ như chết, chẳng còn sức đâu mà đi chiếu bạc.']
+
+  - id: gd_con_no_bac
+    title: Người lạ cầm văn tự đến cổng
+    tags: [gia_dinh, no_nan]
+    scheduled_only: true
+    roles:
+      - { id: con, from: family, relation: child }
+    weight: 1
+    tension: 6
+    importance: 7
+    icon: no
+    text:
+      - 'Một buổi sáng có ba người lạ đứng chặn cổng, tay cầm tờ văn tự có điểm chỉ của {role.con.call}. Cậu thua bạc 6 quan, hẹn bán thóc nhà để trả.'
+    options:
+      - id: tra_het
+        text: 'Cắn răng trả đủ 6 quan cho yên nhà'
+        condition: { var: household.money, op: '>=', value: 6 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: stress, value: 4 }
+          - { type: opinion, role: con, value: 5 }
+        result: ['Đám người đếm tiền xong thì đi. {role.con.call} quỳ ở hiên đến tối, bạn không gọi dậy.']
+      - id: vay_tra
+        text: 'Vay nợ trả thay, bắt con đi làm thuê trả dần'
+        effects:
+          - { type: debt, value: 6, ledger: su_kien }
+          - { type: skill_xp, who: con, skill: sinh_ton, value: 15 }
+          - { type: opinion, role: con, value: -5 }
+          - { type: stress, value: 3 }
+        result: ['Từ đó {role.con.call} đi gánh thuê ngoài bến. Mỗi lần mang tiền về, cậu đặt lên bàn rồi lặng lẽ đi ngủ.']
+      - id: duoi_con
+        text: 'Từ mặt, đuổi con ra khỏi nhà cho nó tự gánh lấy'
+        trait_stress: { trong_gia_dinh: 8, nhan_tu: 4 }
+        effects:
+          - { type: leave_household, who: con }
+          - { type: stress, value: 6 }
+          - { type: reputation, value: 2 }
+        result: ['Cậu xách bọc áo đi trong mưa. Đêm ấy bạn ngồi bên bếp đến sáng, lửa tắt lúc nào không hay.']
+      - id: noi_ly
+        text: 'Ra đình cãi: văn tự của trẻ dại không có cha mẹ chứng, không thể đòi'
+        hint: 'Cần mưu mẹo, thua thì mất cả tiền lẫn mặt'
+        chance: { base: 0.4, skill: muu_luoc, per_level: 0.05 }
+        success:
+          - { type: stress, value: -2 }
+          - { type: reputation, value: -2 }
+        failure:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: reputation, value: -5 }
+          - { type: stress, value: 4 }
+        success_result: ['Các cụ trên đình gật gù: văn tự không người chứng, không đòi được. Đám kia hậm hực bỏ đi.']
+        failure_result: ['Các cụ xử nợ thì phải trả, nhà bạn chịu một nửa. Cả làng biết chuyện con bạn thua bạc.']
+
+  - id: gd_cau_tu
+    title: Nhà vắng tiếng trẻ
+    tags: [gia_dinh, tin_nguong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.married, op: '==', value: true }
+        - { var: player.children_count, op: '==', value: 0 }
+        - { var: player.age, op: between, value: [24, 42] }
+    roles:
+      - { id: vc, from: family, relation: spouse }
+    weight: 5
+    cooldown_years: 4
+    tension: 4
+    importance: 6
+    icon: gia_dinh
+    text:
+      - 'Cưới nhau đã mấy năm mà nhà vẫn vắng tiếng trẻ. Họ hàng hỏi han, hàng xóm xì xào. Tối tối {role.vc.call} ngồi lặng bên cửa sổ, nghe nhà bên có đứa bé khóc.'
+    options:
+      - id: cau_chua
+        text: 'Sắm lễ lên chùa cầu tự, xin bùa hộ mệnh (1 quan)'
+        condition: { var: household.money, op: '>=', value: 1 }
+        trait_stress: { hoai_nghi: 3 }
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: stress, value: -5 }
+          - { type: stress, who: vc, value: -5 }
+        result: ['Sư cụ trao cho hai vợ chồng lá bùa đỏ khâu trong túi vải. Trên đường về, {role.vc.call} cứ nắm chặt nó trong tay.']
+      - id: thuoc_bo
+        text: 'Mời thầy lang bốc thuốc bổ cho cả hai vợ chồng (3 quan)'
+        condition: { var: household.money, op: '>=', value: 3 }
+        trait_stress: { mo_dao: 2 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: health, value: 6 }
+          - { type: health, who: vc, value: 6 }
+        result: ['Thuốc đắng, uống đều mấy tháng. Hai người khỏe ra, mặt mũi tươi tỉnh hơn hẳn.']
+      - id: le_den_mau
+        text: 'Đi bộ ba ngày lên đền Mẫu trên núi lễ cầu con (2 quan)'
+        condition: { var: household.money, op: '>=', value: 2 }
+        trait_stress: { hoai_nghi: 4 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: health, value: -3 }
+          - { type: stress, value: -8 }
+          - { type: stress, who: vc, value: -8 }
+        result: ['Chân phồng rộp, áo đẫm mồ hôi. Đứng trước điện Mẫu khói hương mù mịt, hai người cùng khóc mà không biết vì sao.']
+      - id: pho_mac
+        text: 'Con cái là lộc trời, cứ sống thuận hòa rồi sẽ có'
+        effects:
+          - { type: stress, value: 2 }
+          - { type: opinion, role: vc, value: 6 }
+        result: ['Bạn nắm tay {role.vc.call}: "Có nhau là được." Câu ấy nói ra nhẹ, nghe vào thì nặng.']
+
+  # ── Cha mẹ già, anh em ──
+  - id: gd_cha_gia_chia_ruong
+    title: Cha chia ruộng
+    tags: [gia_dinh, ruong_dong, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { var: household.farmland, op: '>=', value: 2 }
+    roles:
+      - { id: cha, from: family, relation: father, condition: { var: self.age, op: '>=', value: 60 } }
+      - { id: ae, from: family, relation: sibling, condition: { var: self.age, op: '>=', value: 16 } }
+    weight: 5
+    once_per_life: true
+    tension: 5
+    importance: 7
+    icon: ruong
+    text:
+      - 'Đã ngoài sáu mươi, {role.cha.call} chống gậy ra tận bờ ruộng rồi mới nói. Ông muốn chia ruộng nhà ngay khi còn tỉnh táo, kẻo sau này anh em mất lòng. Phần bạn là mấy sào trũng gần đầm, phần {role.ae.call} là đám ruộng cao gần đường cái.'
+    options:
+      - id: nhan_phan
+        text: 'Vâng lời cha, nhận phần ruộng trũng'
+        effects:
+          - { type: filial_piety, value: 5 }
+          - { type: opinion, role: cha, value: 6 }
+          - { type: modifier, target: harvest.yield, value: 0.96, op: mul, months: 36, label: 'Phần ruộng trũng cha chia' }
+          - { type: chance, p: 0.3, then: [{ type: schedule_event, event: gd_anh_em_tranh_ruong, months: 36, label: 'Anh em còn so bì chuyện chia ruộng' }] }
+        result: ['Bạn cúi đầu nhận. {role.cha.call} vỗ vai bạn, không nói gì thêm. Chiều ấy ông ngồi hút thuốc lào ở hiên lâu hơn mọi ngày.']
+      - id: xin_doi
+        text: 'Thưa cha, xin đổi lấy phần ruộng cao vì nhà mình đông miệng ăn'
+        hint: 'Cần tài ăn nói, dễ mất lòng anh em'
+        chance:
+          base: 0.35
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers: [{ condition: { var: role.cha.opinion, op: '>=', value: 20 }, add: 0.15 }]
+        success:
+          - { type: modifier, target: harvest.yield, value: 1.04, op: mul, months: 36, label: 'Được phần ruộng cao' }
+          - { type: opinion, role: ae, value: -15 }
+          - { type: schedule_event, event: gd_anh_em_tranh_ruong, months: 30, label: 'Anh em còn so bì chuyện chia ruộng' }
+        failure:
+          - { type: opinion, role: cha, value: -8 }
+          - { type: filial_piety, value: -4 }
+          - { type: stress, value: 3 }
+        success_result: ['{role.cha.call} nghĩ một lúc rồi gật. {role.ae.call} đứng bên, mặt sầm lại.']
+        failure_result: ['{role.cha.call} gõ gậy xuống bờ đất: "Cha còn sống mà đã tranh phần." Bạn đỏ mặt im lặng.']
+      - id: nhuong_ae
+        text: 'Nhường cả phần tốt hơn cho {role.ae.call}'
+        trait_stress: { tham_lam: 5, tham_vong: 3 }
+        effects:
+          - { type: opinion, role: ae, value: 15 }
+          - { type: filial_piety, value: 3 }
+          - { type: reputation, value: 4 }
+          - { type: modifier, target: harvest.yield, value: 0.93, op: mul, months: 36, label: 'Nhường ruộng cho anh em' }
+        result: ['Người trong họ nghe chuyện, ai cũng bảo nhà ấy có đứa con biết điều. Thóc năm sau thì vơi đi trông thấy.']
+      - id: de_chung
+        text: 'Xin cha cứ để ruộng chung, anh em cùng cày cùng ăn'
+        condition: { var: household.self_farms, op: '==', value: true }
+        effects:
+          - { type: opinion, role: cha, value: 8 }
+          - { type: stress, value: 2 }
+          - { type: schedule_event, event: gd_anh_em_tranh_ruong, months: 48, label: 'Ruộng chung của anh em' }
+        result: ['{role.cha.call} cười, bảo con nói phải. Ruộng chung thì lòng phải chung, cái ấy mới khó.']
+
+  - id: gd_anh_em_tranh_ruong
+    title: Bờ ruộng của cha để lại
+    tags: [gia_dinh, ruong_dong, quan_he]
+    scheduled_only: true
+    roles:
+      - { id: ae, from: family, relation: sibling }
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 1
+    tension: 6
+    importance: 6
+    icon: ruong
+    text:
+      - 'Mùa cấy năm ấy, {role.ae.call} cho người đắp lại bờ, lấn sang ruộng bạn gần một sải. Bạn ra hỏi thì bị gắt lại: "Ruộng của cha, đâu phải chia một lần là xong mãi."'
+    options:
+      - id: nhuong_them
+        text: 'Anh em ruột thịt, nhường một sải đất cho yên'
+        trait_stress: { nong_nay: 4, tham_vong: 3 }
+        effects:
+          - { type: opinion, role: ae, value: 12 }
+          - { type: filial_piety, value: 3 }
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 36, label: 'Nhường bờ ruộng cho anh em' }
+        result: ['Bạn nhổ cọc cắm lại theo bờ mới. Mấy hôm sau {role.ae.call} mang sang biếu một mớ cá đồng, không nói câu nào.']
+      - id: ra_dinh
+        text: 'Đưa nhau ra đình nhờ {role.ly.call} phân xử (1 quan lễ)'
+        hint: 'Phải trái rõ ràng, nhưng tình anh em sứt mẻ'
+        condition: { var: household.money, op: '>=', value: 1 }
+        chance: { base: 0.4, skill: ngoai_giao, per_level: 0.05 }
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: set_flag, flag: gd_anh_em_bat_hoa, years: 6 }
+          - { type: schedule_event, event: gd_anh_em_lam_lanh, months: 36, label: 'Anh em bất hòa chuyện ruộng' }
+        success:
+          - { type: opinion, role: ae, value: -12 }
+          - { type: opinion, role: ly, value: 3 }
+        failure:
+          - { type: opinion, role: ae, value: -10 }
+          - { type: modifier, target: harvest.yield, value: 0.95, op: mul, months: 36, label: 'Thua kiện anh em' }
+        success_result: ['{role.ly.call} cho đo lại theo giấy của cha. Bờ về chỗ cũ. {role.ae.call} bỏ về không chào ai.']
+        failure_result: ['{role.ly.call} xử hòa, phần thiệt nghiêng về bạn. Hai anh em ra khỏi đình mỗi người một ngả.']
+      - id: nho_bo
+        text: 'Nhổ bờ đắp lại ngay trước mặt {role.ae.call}'
+        trait_stress: { nhan_tu: 4, than_trong: 3 }
+        effects:
+          - { type: health, value: -4 }
+          - { type: opinion, role: ae, value: -25 }
+          - { type: filial_piety, value: -5 }
+          - { type: reputation, value: -3 }
+          - { type: set_flag, flag: gd_anh_em_bat_hoa, years: 6 }
+          - { type: schedule_event, event: gd_anh_em_lam_lanh, months: 36, label: 'Anh em bất hòa chuyện ruộng' }
+        result: ['Hai anh em xô nhau ngã dúi dụi xuống ruộng nước. Cả xóm đứng trên đê nhìn xuống. Từ đấy hai nhà không nhìn mặt nhau.']
+
+  - id: gd_anh_em_lam_lanh
+    title: Chén rượu ngày giỗ tổ
+    tags: [gia_dinh, quan_he, tin_nguong]
+    scheduled_only: true
+    condition: { has_flag: gd_anh_em_bat_hoa }
+    roles:
+      - { id: ae, from: family, relation: sibling }
+    weight: 1
+    tension: 4
+    importance: 6
+    icon: chen_tra
+    text:
+      - 'Ngày giỗ tổ của họ năm nay, bạn và {role.ae.call} ngồi hai đầu chiếu. Các cụ trong họ nhìn sang, lắc đầu. Mâm cỗ nguội dần mà chưa ai nâng chén.'
+    options:
+      - id: rot_ruou
+        text: 'Bưng chén rượu sang mời {role.ae.call} trước'
+        hint: 'Cần hạ mình và ăn nói khéo'
+        trait_stress: { tham_vong: 3 }
+        chance:
+          base: 0.45
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers: [{ condition: { var: role.ae.opinion, op: '>', value: -10 }, add: 0.15 }]
+        success:
+          - { type: opinion, role: ae, value: 25 }
+          - { type: clear_flag, flag: gd_anh_em_bat_hoa }
+          - { type: filial_piety, value: 4 }
+          - { type: stress, value: -5 }
+        failure:
+          - { type: opinion, role: ae, value: -5 }
+          - { type: stress, value: 4 }
+        success_result: ['{role.ae.call} nhìn chén rượu một lúc, rồi đỡ lấy uống cạn. Các cụ gõ đũa vào mâm cười vang.']
+        failure_result: ['{role.ae.call} quay mặt đi. Chén rượu trên tay bạn nguội dần, bạn đặt xuống chiếu.']
+      - id: nho_truong_ho
+        text: 'Nhờ cụ trưởng họ đứng ra phân giải, góp 3 quan làm cỗ'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: opinion, role: ae, value: 15 }
+          - { type: reputation, value: 3 }
+          - { type: filial_piety, value: 3 }
+          - { type: clear_flag, flag: gd_anh_em_bat_hoa }
+        result: ['Cụ trưởng họ nói một câu: "Ruộng chia được, máu không chia được." Hai anh em cúi đầu, cùng thắp hương lên bàn thờ tổ.']
+      - id: ngoi_im
+        text: 'Ngồi im, đến tàn cỗ thì về'
+        effects:
+          - { type: stress, value: 4 }
+          - { type: opinion, role: ae, value: -5 }
+          - { type: clear_flag, flag: gd_anh_em_bat_hoa }
+        result: ['Bạn về trước. Đường làng tối, sau lưng tiếng cười nói của họ hàng vẫn vọng ra.']
+
+  - id: gd_phung_duong_cha_me
+    title: Cha mẹ yếu dần
+    tags: [gia_dinh, benh_tat]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    roles:
+      - { id: cm, from: family, relation: parent, condition: { all: [{ var: self.age, op: '>=', value: 62 }, { var: self.health, op: '<', value: 60 }] }, pick: oldest }
+      - { id: vc, from: family, relation: spouse, optional: true }
+    weight: 6
+    weight_modifiers:
+      - { condition: { var: player.filial_piety, op: '>=', value: 60 }, factor: 1.5 }
+    cooldown_years: 4
+    tension: 4
+    importance: 6
+    icon: gia_dinh
+    text:
+      - 'Năm nay {role.cm.call} yếu hẳn đi. Mỗi bữa chỉ ăn lưng bát cháo, đêm nằm ho khan đến sáng. Việc nhà, việc làm ăn vẫn chờ bạn ngoài kia.'
+    options:
+      - id: tu_tay
+        text: 'Tự tay hầu hạ, đêm nằm cạnh giường {role.cm.call}'
+        hint: 'Hiếu đạo tăng nhiều, bạn hao sức'
+        effects:
+          - { type: health, value: -4 }
+          - { type: stress, value: 5 }
+          - { type: filial_piety, value: 10 }
+          - { type: health, who: cm, value: 8 }
+          - { type: opinion, role: cm, value: 10 }
+        result: ['Đêm nào bạn cũng trở dậy mấy lần, đỡ {role.cm.call} uống ngụm nước. Người làng nhắc đến nhà bạn bằng chữ hiếu.']
+      - id: thuoc_bo
+        text: 'Mua thuốc bắc, thịt cá bồi dưỡng (3 quan)'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: health, who: cm, value: 12 }
+          - { type: filial_piety, value: 5 }
+        result: ['Thang thuốc bổ, bát canh cá rô. Da dẻ {role.cm.call} hồng hào trở lại.']
+      - id: giao_vc
+        text: 'Nhờ {role.vc.call} chăm, mình lo làm ăn'
+        condition: { role: vc, exists: true }
+        effects:
+          - { type: filial_piety, value: -2 }
+          - { type: stress, who: vc, value: 6 }
+          - { type: opinion, role: vc, value: -6 }
+          - { type: health, who: cm, value: 5 }
+        result: ['{role.vc.call} gánh thêm một việc, không than, nhưng bạn thấy rõ cái mệt trong mắt người bạn đời.']
+      - id: thue_nguoi
+        text: 'Thuê một bà vú già về hầu {role.cm.call} (5 quan)'
+        condition:
+          all:
+            - { var: player.career, op: '==', value: thuong_nhan }
+            - { var: household.money, op: '>=', value: 5 }
+        effects:
+          - { type: money, value: -5, ledger: su_kien }
+          - { type: health, who: cm, value: 10 }
+          - { type: filial_piety, value: 1 }
+          - { type: reputation, value: -2 }
+        result: ['Bà vú chăm khéo, {role.cm.call} khỏe lên. Có điều trong xóm lại có câu: con nhà buôn, đến hầu cha mẹ cũng thuê.']
+      - id: doc_sach_ben_giuong
+        text: 'Sớm thăm tối viếng, đọc sách cho {role.cm.call} nghe'
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        effects:
+          - { type: filial_piety, value: 6 }
+          - { type: scholarly_prestige, value: 2 }
+          - { type: health, who: cm, value: 3 }
+          - { type: stress, value: 2 }
+        result: ['Sáng nào bạn cũng vào buồng hỏi han rồi mới ra thư phòng. Tối, bạn đọc mấy trang Luận ngữ, {role.cm.call} nghe rồi thiu thiu ngủ.']
+
+  - id: gd_cha_me_gia_lan
+    title: Người già đi lạc
+    tags: [gia_dinh]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    roles:
+      - { id: cm, from: family, relation: parent, condition: { var: self.age, op: '>=', value: 70 } }
+      - { id: thay, from: village, village_role: thay_lang, optional: true }
+    weight: 4
+    cooldown_years: 5
+    tension: 4
+    importance: 5
+    icon: gia_dinh
+    text:
+      - 'Chiều qua {role.cm.call} lại đi lạc. Cả nhà tìm mãi mới thấy ngồi dưới gốc gạo đầu làng, tay ôm cái nón, gọi tên một người đã mất từ lâu.'
+    options:
+      - id: thay_phien
+        text: 'Cả nhà thay phiên trông, buộc chiếc chuông nhỏ vào cổ tay {role.cm.call}'
+        effects:
+          - { type: stress, value: 5 }
+          - { type: filial_piety, value: 6 }
+          - { type: opinion, role: cm, value: 5 }
+        result: ['Tiếng chuông lanh canh đi khắp nhà. Nghe nó, bạn biết {role.cm.call} vẫn ở đây.']
+      - id: cham_cuu
+        text: 'Mời {role.thay.call} châm cứu, bốc thuốc an thần (2 quan)'
+        condition:
+          all:
+            - { role: thay, exists: true }
+            - { var: household.money, op: '>=', value: 2 }
+        chance: { base: 0.5 }
+        effects: [{ type: money, value: -2, ledger: su_kien }]
+        success:
+          - { type: health, who: cm, value: 6 }
+          - { type: stress, value: -2 }
+        failure: [{ type: stress, value: 2 }]
+        success_result: ['Mấy tuần sau {role.cm.call} ngủ được, ban ngày tỉnh táo hơn, còn nhận ra cả hàng xóm.']
+        failure_result: ['Thầy lắc đầu: tuổi già, thuốc nào chữa được. Tiền thì đã tiêu.']
+      - id: khoa_cong
+        text: 'Đóng chặt cổng, giữ {role.cm.call} trong buồng cho yên'
+        trait_stress: { nhan_tu: 5, trong_gia_dinh: 3 }
+        effects:
+          - { type: filial_piety, value: -6 }
+          - { type: stress, value: -3 }
+          - { type: health, who: cm, value: -3 }
+        result: ['Nhà yên, việc chạy. Nhưng mỗi lần đi qua buồng, bạn nghe tiếng gõ cửa khe khẽ.']
+      - id: nghe_chuyen_cu
+        text: 'Ngồi nghe {role.cm.call} kể đi kể lại chuyện ngày xưa'
+        hint: 'Cần kiên nhẫn'
+        chance:
+          base: 0.45
+          modifiers: [{ condition: { has_trait: kien_nhan }, add: 0.25 }]
+        success:
+          - { type: opinion, role: cm, value: 12 }
+          - { type: health, who: cm, value: 3 }
+          - { type: filial_piety, value: 4 }
+          - { type: stress, value: -2 }
+        failure: [{ type: stress, value: 5 }]
+        success_result: ['Chuyện năm lụt, chuyện ngày cưới, chuyện bạn hồi còn bé. Kể xong, {role.cm.call} cười móm mém, ngủ yên cả đêm.']
+        failure_result: ['Đến lần thứ ba bạn sốt ruột cắt ngang. {role.cm.call} ngơ ngác nhìn, rồi im hẳn.']
+
+  - id: gd_hoa_giai_ho_hang
+    title: Hai chi trong họ
+    tags: [gia_dinh, quan_he, tin_nguong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition:
+      any:
+        - { var: player.reputation, op: '>=', value: 5 }
+        - { var: player.filial_piety, op: '>=', value: 50 }
+        - { var: player.scholarly_prestige, op: '>=', value: 20 }
+    weight: 4
+    cooldown_years: 6
+    tension: 3
+    importance: 5
+    icon: gia_dinh
+    text:
+      - 'Hai chi trong họ cãi nhau vì hàng cây quanh mộ tổ. Chi trên muốn chặt bán lấy tiền tu sửa nhà thờ họ, chi dưới bảo động vào cây mộ là động long mạch. Người ta tìm đến nhà bạn, nhờ đứng ra nói một lời.'
+    options:
+      - id: phan_giai
+        text: 'Mời đủ hai chi, đứng giữa phân giải'
+        hint: 'Cần tài ăn nói và tiếng nói có trọng lượng'
+        chance:
+          base: 0.4
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers: [{ condition: { var: player.scholarly_prestige, op: '>=', value: 30 }, add: 0.1 }]
+        success:
+          - { type: reputation, value: 8 }
+          - { type: filial_piety, value: 4 }
+          - { type: skill_xp, skill: ngoai_giao, value: 15 }
+        failure:
+          - { type: reputation, value: -3 }
+          - { type: stress, value: 5 }
+        success_result: ['Bạn đề nghị chặt cây khô, giữ cây tươi, tiền bán cây khô góp vào sửa mái. Hai bên ngẫm một lúc rồi đều gật.']
+        failure_result: ['Bạn vừa mở lời đã bị hai bên cùng gạt đi. Buổi họp tan trong tiếng to tiếng nhỏ.']
+      - id: bo_tien_sua
+        text: 'Tự bỏ 4 quan tu sửa nhà thờ họ, giữ nguyên hàng cây'
+        condition: { var: household.money, op: '>=', value: 4 }
+        trait_stress: { tham_lam: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: reputation, value: 6 }
+          - { type: filial_piety, value: 5 }
+          - { type: stress, value: -2 }
+        result: ['Mái nhà thờ họ lợp lại ngói mới, hàng cây vẫn đứng nguyên. Tên bạn được khắc vào tấm bia công đức nhỏ.']
+      - id: theo_chi_tren
+        text: 'Đứng về chi trên: nhà thờ họ dột thì tổ tiên mới buồn'
+        effects:
+          - { type: reputation, value: -3 }
+          - { type: filial_piety, value: 2 }
+          - { type: stress, value: -1 }
+        result: ['Hàng cây bị chặt. Nhà thờ họ có mái mới, còn người chi dưới thì không chào bạn nữa.']
+      - id: tranh_mat
+        text: 'Viện cớ đau lưng, không dính vào chuyện họ'
+        trait_stress: { trong_gia_dinh: 3 }
+        effects:
+          - { type: stress, value: -2 }
+          - { type: reputation, value: -4 }
+          - { type: filial_piety, value: -2 }
+        result: ['Bạn nằm nhà nghe người ta kể lại. Chuyện họ chưa xong, chuyện bạn lánh mặt thì ai cũng biết.']
+
+  - id: gd_ga_con_gai
+    title: Bà mối gõ cửa
+    tags: [gia_dinh, quan_he]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: player.mourning_months, op: '==', value: 0 }
+    roles:
+      - { id: con, from: family, relation: child, condition: { all: [{ var: self.sex, op: '==', value: f }, { var: self.age, op: between, value: [16, 24] }] } }
+    weight: 5
+    weight_modifiers:
+      - { condition: { var: role.con.age, op: '>=', value: 20 }, factor: 1.6 }
+    cooldown_years: 3
+    tension: 4
+    importance: 7
+    icon: cuoi
+    text:
+      - 'Bà mối lại sang, lần này mang theo cơi trầu của một nhà khá giả ở làng bên. Nhà ấy muốn hỏi {role.con.call} cho con trai út. Đứa con gái đứng sau bức vách, bạn nghe rõ tiếng thở dồn.'
+    options:
+      - id: ga_nha_kha
+        text: 'Nhận lời nhà khá giả, lấy sính lễ 4 quan'
+        trait_stress: { nhan_tu: 3 }
+        effects:
+          - { type: money, value: 4, ledger: thu_khac }
+          - { type: reputation, value: 2 }
+          - { type: opinion, role: con, value: -10 }
+          - { type: stress, who: con, value: 5 }
+          - { type: leave_household, who: con }
+        result: ['Ngày đưa dâu, {role.con.call} lạy bàn thờ ba lạy rồi theo nhà trai ra ngõ. Tiếng khóc nhỏ dần sau lũy tre.']
+      - id: hoi_y_con
+        text: 'Hỏi ý con trước, con thương ai thì gả người ấy (lo 2 quan cỗ cưới)'
+        condition: { var: household.money, op: '>=', value: 2 }
+        trait_stress: { tham_lam: 3 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: opinion, role: con, value: 15 }
+          - { type: stress, value: -2 }
+          - { type: leave_household, who: con }
+        result: ['Con chọn một chàng trai nghèo ở xóm chài. Cỗ cưới đơn sơ, nhưng hôm ấy {role.con.call} cười suốt.']
+      - id: ken_re_hoc_tro
+        text: 'Kén rể là anh học trò nghèo có chữ, mong ngày đỗ đạt'
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: scholarly_prestige, value: 3 }
+          - { type: opinion, role: con, value: 4 }
+          - { type: leave_household, who: con }
+        result: ['Người làng cười nhà bạn gả con cho anh học trò ăn chực nằm chờ. Bạn chỉ đáp: nhà có chữ thì không nghèo mãi.']
+      - id: ga_nha_buon_vai
+        text: 'Gả cho nhà buôn vải trên phố, hai nhà kết mối hàng'
+        condition: { var: player.career, op: '==', value: thuong_nhan }
+        effects:
+          - { type: money, value: 2, ledger: thu_khac }
+          - { type: modifier, target: xp.thuong_mai, value: 1.1, op: mul, months: 36, label: 'Thông gia nhà buôn vải' }
+          - { type: opinion, role: con, value: -3 }
+          - { type: leave_household, who: con }
+        result: ['Thuyền hoa đón dâu cập bến. Từ hôm ấy, vải nhà thông gia về sạp bạn trước mọi nhà.']
+      - id: giu_con
+        text: 'Con còn nhỏ, xin để vài năm nữa'
+        defer: { months: 24 }
+        effects:
+          - { type: opinion, role: con, value: 5 }
+          - { type: stress, value: 2 }
+        result: ['Bà mối bĩu môi đi về. Tối ấy {role.con.call} bưng nước cho bạn rửa chân, không nói mà mắt đỏ hoe.']
+
+  # ── Tín ngưỡng, nhà cửa ──
+  - id: gd_xin_que_dau_nam
+    title: Quẻ đầu năm
+    tags: [tin_nguong, le_hoi]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    months: [1, 2]
+    weight: 5
+    weight_modifiers:
+      - { condition: { has_trait: mo_dao }, factor: 1.6 }
+    cooldown_years: 4
+    tension: 3
+    importance: 4
+    icon: hoi
+    text:
+      - 'Đầu năm bạn lên chùa thắp hương. Ống thẻ lắc mấy vòng, rơi ra một thẻ hạ. Sư cụ đọc lời quẻ, giọng đều đều: trong năm chớ đi xa, chớ động thổ, trong nhà phải giữ gìn người già.'
+    options:
+      - id: hoan_chuyen_hang
+        text: 'Tin quẻ, hoãn chuyến hàng đầu xuân, bù tiền cọc cho chủ thuyền'
+        condition:
+          all:
+            - { var: player.career, op: '==', value: thuong_nhan }
+            - { var: household.money, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: stress, value: -4 }
+        result: ['Chủ thuyền càu nhàu nhận tiền. Cả mùa xuân bạn ngồi sạp, lòng yên mà túi nhẹ.']
+      - id: tin_que
+        text: 'Tin lời quẻ, cả năm giữ mình, không làm việc lớn'
+        trait_stress: { tham_vong: 3 }
+        effects:
+          - { type: stress, value: -3 }
+          - { type: modifier, target: xp.all, value: 0.95, op: mul, months: 12, label: 'Năm kiêng cữ theo quẻ' }
+        result: ['Năm ấy bạn không đi đâu xa, không động đến việc gì lớn. Năm trôi qua phẳng lặng như mặt ao.']
+      - id: giai_han
+        text: 'Cúng dường 2 quan, xin sư làm lễ giải hạn'
+        condition: { var: household.money, op: '>=', value: 2 }
+        trait_stress: { hoai_nghi: 4 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: stress, value: -5 }
+        result: ['Tiếng mõ, tiếng chuông suốt buổi chiều. Bạn ra về, thấy lòng như vừa trút được gánh nặng.']
+      - id: khong_tin
+        text: 'Cười xòa: gieo quẻ là chuyện may rủi'
+        trait_stress: { mo_dao: 5 }
+        effects:
+          - { type: chance, p: 0.3, then: [{ type: stress, value: 4 }] }
+        result: ['Bạn cắm thẻ lại vào ống rồi xuống dốc chùa. Gió đầu xuân thổi mát, chỉ thỉnh thoảng lời quẻ lại vẳng lên trong đầu.']
+
+  - id: gd_lam_nha_moi
+    title: Nhà dột cột mục
+    tags: [gia_dinh, kinh_te]
+    life_stages: [lap_nghiep, trung_nien]
+    months: [10, 11, 12, 1]
+    condition:
+      all:
+        - { has_property: nha_tranh }
+        - { not: { has_property: nha_go } }
+        - { not: { has_property: phu_nho } }
+        - { var: household.money, op: '>=', value: 5 }
+    weight: 4
+    cooldown_years: 8
+    tension: 3
+    importance: 6
+    icon: nha
+    text:
+      - 'Mùa mưa vừa rồi mái rạ dột mười chỗ, vách đất lở một mảng. Mấy cái cột tre mối đã ăn rỗng. Ai cũng bảo nhà này không qua thêm được một mùa bão.'
+    options:
+      - id: dung_nha_go
+        text: 'Mua gỗ lim, mời thợ dựng hẳn nhà gỗ ba gian (70 quan)'
+        condition: { var: household.money, op: '>=', value: 70 }
+        effects:
+          - { type: money, value: -70, ledger: su_kien }
+          - { type: property_remove, property: nha_tranh, count: 1 }
+          - { type: property_add, property: nha_go, count: 1 }
+          - { type: reputation, value: 6 }
+        result: ['Ngày cất nóc, thợ cả treo tấm vải đỏ lên xà, cả xóm sang mừng. Đêm đầu tiên ngủ dưới mái ngói, bạn nằm nghe mưa mà không phải dậy kê chậu.']
+      - id: xem_ngay_lop_lai
+        text: 'Nhờ thầy xem ngày, thay cột, lợp lại mái, trát vách (6 quan)'
+        condition: { var: household.money, op: '>=', value: 6 }
+        trait_stress: { hoai_nghi: 2 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: modifier, target: health.monthly, value: 0.06, op: add, months: 60, label: 'Nhà mới lợp lại', who: household }
+          - { type: stress, value: -4 }
+        result: ['Thầy chọn ngày Hoàng đạo, giờ Thìn động thổ. Mái rạ mới vàng óng, vách trát lại phẳng phiu.']
+      - id: tu_lam
+        text: 'Cả nhà tự chặt tre, cắt rạ về sửa (1 quan)'
+        hint: 'Rẻ, nhưng mệt và không bền bằng'
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: health, value: -5 }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: modifier, target: health.monthly, value: 0.04, op: add, months: 36, label: 'Nhà tự sửa', who: household }
+        result: ['Nửa tháng trèo lên trèo xuống, tay bạn chằng chịt vết tre cứa. Mái nhà kín lại, mỗi tội hơi xiêu.']
+      - id: de_sang_nam
+        text: 'Chưa phải lúc, chống tạm thêm một năm'
+        defer: { months: 12 }
+        effects: [{ type: stress, value: 3 }]
+        result: ['Bạn chèn thêm mấy cái cột chống, phủ tạm tấm phên lên chỗ dột. Đêm mưa vẫn phải dậy kê chậu.']
+
+  # ── Tuổi già, hậu sự ──
+  - id: gd_sam_tho_duong
+    title: Cỗ thọ đường
+    tags: [gia_dinh, tin_nguong]
+    life_stages: [tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 60 }
+    roles:
+      - { id: con, from: family, relation: child, condition: { var: self.age, op: '>=', value: 18 }, pick: oldest, optional: true }
+    weight: 5
+    once_per_life: true
+    tension: 3
+    importance: 6
+    icon: tang
+    text:
+      - 'Bạn đã ngoài sáu mươi. Theo lệ làng, người già nên sắm sẵn cỗ thọ đường kê ở chái nhà, để lúc trăm tuổi con cháu khỏi tất tả. Ông thợ mộc đầu làng vừa có mấy tấm gỗ vàng tâm tốt.'
+    options:
+      - id: go_vang_tam
+        text: 'Sắm cỗ gỗ vàng tâm, sơn son cẩn thận (6 quan)'
+        condition: { var: household.money, op: '>=', value: 6 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: stress, value: -5 }
+          - { type: reputation, value: 3 }
+        result: ['Cỗ thọ đường kê trên hai cái mễ ở chái nhà. Chiều chiều bạn ra gõ thử, nghe tiếng gỗ chắc mà yên lòng.']
+      - id: con_sam
+        text: 'Để {role.con.call} đứng ra lo, coi như con báo hiếu (4 quan)'
+        condition:
+          all:
+            - { role: con, exists: true }
+            - { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: stress, value: -4 }
+          - { type: opinion, role: con, value: 5 }
+        result: ['{role.con.call} đi mấy làng chọn gỗ, về khoe từng thớ vân. Bạn không nói gì, chỉ thấy mắt cay cay.']
+      - id: sinh_phan
+        text: 'Nhờ thầy địa lý chọn đất trên gò, xây sẵn sinh phần (3 quan)'
+        condition: { var: household.money, op: '>=', value: 3 }
+        trait_stress: { hoai_nghi: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: stress, value: -3 }
+        result: ['Thầy cắm la bàn, chọn một chỗ nhìn ra sông. Bạn đứng đó, gió thổi lộng, nghĩ chỗ này nằm cũng mát.']
+      - id: chua_can
+        text: 'Còn khỏe chán, lo chuyện ấy làm gì cho xui'
+        trait_stress: { than_trong: 3 }
+        effects: [{ type: stress, value: -1 }]
+        result: ['Bạn xua tay. Ông thợ mộc cười, bảo khi nào cần cứ sang, gỗ tốt thì không đợi ai.']
+
+  - id: gd_viet_di_chuc
+    title: Lời dặn lại
+    tags: [gia_dinh]
+    life_stages: [tuoi_gia]
+    condition:
+      all:
+        - { var: player.age, op: '>=', value: 62 }
+        - { var: player.children_count, op: '>=', value: 1 }
+        - { any: [{ var: player.health, op: '<', value: 50 }, { var: player.age, op: '>=', value: 70 }] }
+    roles:
+      - { id: ca, from: family, relation: child, condition: { var: self.age, op: '>=', value: 16 }, pick: oldest }
+      - { id: ut, from: family, relation: child, condition: { var: self.age, op: '>=', value: 10 }, pick: youngest, optional: true }
+    weight: 6
+    once_per_life: true
+    tension: 4
+    importance: 8
+    icon: sach
+    text:
+      - 'Đêm ấy trở trời, bạn trằn trọc mãi. Sáng ra bạn cho mời cụ trưởng họ và một người biết chữ đến, bảo các con ngồi đủ. Đã đến lúc nói rõ chuyện nhà cửa, ruộng vườn sau này.'
+    options:
+      - id: huong_hoa
+        text: 'Theo lệ: để phần hương hỏa lớn cho {role.ca.call}, giữ việc thờ cúng'
+        effects:
+          - { type: opinion, role: ca, value: 12 }
+          - { type: opinion, role: ut, value: -8 }
+          - { type: reputation, value: 3 }
+          - { type: filial_piety, value: 3 }
+        result: ['Người viết chữ chép từng dòng, cụ trưởng họ điểm chỉ làm chứng. {role.ca.call} cúi lạy nhận phần hương hỏa.']
+      - id: chia_deu
+        text: 'Chia đều cho các con, không thiên vị ai'
+        trait_stress: { tham_vong: 2 }
+        effects:
+          - { type: opinion, role: ca, value: -4 }
+          - { type: opinion, role: ut, value: 8 }
+          - { type: stress, value: -3 }
+        result: ['Cụ trưởng họ chau mày, bảo không đúng lệ. Bạn đáp: con nào cũng là con. Rồi bạn thấy người nhẹ hẳn.']
+      - id: giao_sap
+        text: 'Giao sạp hàng và sổ nợ cho đứa con giỏi buôn nhất'
+        condition: { var: player.career, op: '==', value: thuong_nhan }
+        effects:
+          - { type: opinion, role: ca, value: 8 }
+          - { type: opinion, role: ut, value: -5 }
+          - { type: skill_xp, who: ca, skill: thuong_mai, value: 20 }
+        result: ['Bạn trao cuốn sổ nợ đã sờn gáy, dặn từng mối hàng, từng người nợ. Bàn tính lạch cạch, con ghi chép không sót chữ nào.']
+      - id: tu_sach
+        text: 'Để lại tủ sách và lời dặn: con cháu giữ nếp đèn sách'
+        condition: { any: [{ var: player.origin, op: '==', value: quy_toc_nho }, { var: player.career, op: '==', value: si_tu }] }
+        effects:
+          - { type: scholarly_prestige, value: 4 }
+          - { type: skill_xp, who: ca, skill: hoc_van, value: 15 }
+          - { type: stress, value: -2 }
+        result: ['Bạn viết mấy dòng gia huấn, treo ở gian giữa. Chữ đã run, nhưng ý thì rõ: ruộng có thể mất, chữ thì không ai lấy được.']
+      - id: cung_lang
+        text: 'Trích một phần cúng vào chùa và quỹ nghĩa thương của làng (4 quan)'
+        condition: { var: household.money, op: '>=', value: 4 }
+        trait_stress: { tham_lam: 5 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: reputation, value: 10 }
+          - { type: opinion, role: ca, value: -6 }
+          - { type: stress, value: -4 }
+        result: ['Tên bạn được ghi vào sổ hậu của chùa. Các con không nói, nhưng bữa cơm hôm ấy im hơn thường lệ.']

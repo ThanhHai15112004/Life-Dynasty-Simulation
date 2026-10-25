@@ -1,5 +1,14 @@
 # Danh sách Art cần chuẩn bị — Dòng Đời
 
+> **Cập nhật 25/10/2026 — đổi hướng:** cảnh chính không còn dùng tranh pixel vẽ kín khung (chỉ hợp làng quê Việt, không tháo rời được). Cảnh giờ **vẽ bằng code từ bộ phận lắp ghép** trong [`public/assets/common/scene-kit.json`](../public/assets/common/scene-kit.json), theo phong cách tối giản như 1in8b:
+> - Mỗi bộ phận (nhà, cây, rào, thuyền, sạp, trâu, người theo tuổi/giới, nón lá…) là một **lưới ký tự**: mỗi ký tự một ô pixel, `key` ánh xạ ký tự → **tên ô màu** (`thatch`, `skin`, `top_m`…) hoặc mã `#rrggbb`.
+> - `cultures.<culture_set>` giữ bảng màu cố định, màu theo mùa, kiểu nhà/cây/rào, bảng màu trang phục để mỗi người một vẻ, và mũ/nón. **Thêm khuôn văn minh mới = thêm một mục `cultures`** (mái ngói đỏ kiểu Âu, cây ô-liu, áo choàng…), không vẽ lại cả cảnh.
+> - `locations.<id>` là bố cục theo loại khu định cư (đồi, dải nước/ruộng, bộ phận cố định, vị trí cây, hàng rào); `slots` là chỗ đặt nhà, tài sản, người.
+> - Chân dung trong thẻ hồ sơ và danh sách gia đình dùng **chính bộ phận người** của cảnh.
+> - Icon giao diện (`public/assets/common/ui/icons`, `sprites.json`) vẫn dùng ảnh như cũ. Các ảnh cảnh cũ trong `public/assets/common/terrain`, `civilizations/nho_giao` không còn được nạp; giữ lại làm tư liệu.
+>
+> Phần dưới là danh sách cũ cho hướng tranh vẽ, chỉ còn giá trị tham khảo bảng màu và tỷ lệ.
+
 Tài liệu liệt kê **mọi hình ảnh game đang cần**, theo thứ tự ưu tiên. Mỗi asset có **id cố định**, vì code và dữ liệu gọi asset theo id (`src/data/`, `public/assets/common/placeholder/scene-art.json`). Đặt tên file đúng id thì lắp vào là chạy.
 
 ## Hiện trạng (đã xử lý bằng `npm run process-art`)

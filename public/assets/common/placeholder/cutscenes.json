@@ -1,15 +1,23 @@
 {
-  "$comment": "[1] Bảng màu, thời lượng và cấu hình hiệu ứng cho hoạt cảnh 3–4 giây (GDD 08 §4).",
+  "$comment": "[1] Bảng màu, thời lượng, kiểu chữ và hiệu ứng cho hoạt cảnh 3–4 giây (GDD 08 §4). Toạ độ/cỡ chữ tính trên khung gốc của scene-kit.json, tự co theo màn hình.",
   "durationSec": 3.6,
+  "fadeInShare": 0.15,
+  "fadeOutShare": 0.2,
   "banner": {
-    "x": 20,
-    "y": 14,
-    "width": 280,
-    "height": 44,
+    "x": 30,
+    "y": 8,
+    "width": 260,
+    "height": 34,
     "bg": "#14100d",
     "bgAlpha": 0.88,
-    "border": "#d6a84f"
+    "border": "#d6a84f",
+    "spriteInset": 4
   },
+  "text": {
+    "title": { "fontFamily": "serif", "fontSize": 10, "color": "#f7e7c4", "fontStyle": "bold", "offsetY": 5 },
+    "subtitle": { "fontFamily": "sans-serif", "fontSize": 6, "color": "#d8ccb8", "fontStyle": "normal", "offsetY": 20 }
+  },
+  "particleMotion": { "spreadX": 43, "spreadY": 29, "speedX": 28, "speedY": 18, "marginX": 8, "marginTop": 20, "marginBottom": 30 },
   "themes": {
     "vinh_quy_bai_to": {
       "overlayTint": "#f5c542",
@@ -17,6 +25,7 @@
       "accentColor": "#d93829",
       "secondaryColor": "#f5d142",
       "particleCount": 28,
+      "particle": { "w": 2, "h": 3, "alpha": 0.85 },
       "bannerSprite": "den_long"
     },
     "ket_hon": {
@@ -25,6 +34,7 @@
       "accentColor": "#e84a5f",
       "secondaryColor": "#ffd166",
       "particleCount": 24,
+      "particle": { "w": 2, "h": 2, "alpha": 0.8 },
       "bannerSprite": "den_long"
     },
     "sinh_con": {
@@ -32,29 +42,32 @@
       "overlayAlpha": 0.14,
       "accentColor": "#ffd166",
       "secondaryColor": "#fff3b0",
-      "particleCount": 18
+      "particleCount": 18,
+      "particle": { "w": 2, "h": 2, "alpha": 0.8 }
     },
     "tang_le": {
       "overlayTint": "#cfd6df",
       "overlayAlpha": 0.25,
       "accentColor": "#e2e8f0",
       "secondaryColor": "#94a3b8",
-      "particleCount": 20
+      "particleCount": 20,
+      "particle": { "w": 1, "h": 4, "alpha": 0.65 }
     },
     "thu_hoach_lon": {
       "overlayTint": "#f4b942",
       "overlayAlpha": 0.14,
       "accentColor": "#f4b942",
       "secondaryColor": "#e07a5f",
-      "particleCount": 24
+      "particleCount": 24,
+      "particle": { "w": 2, "h": 2, "alpha": 0.8 }
     },
     "lu_lut": {
       "overlayTint": "#1d3557",
       "overlayAlpha": 0.25,
       "accentColor": "#a8dadc",
       "secondaryColor": "#457b9d",
-      "particleCount": 36
+      "particleCount": 36,
+      "particle": { "w": 1, "h": 3, "alpha": 0.75 }
     }
   }
 }
-

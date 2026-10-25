@@ -12,38 +12,44 @@ Công thức ngắn gọn: **chiều sâu nhân vật và gia tộc của *Crusa
 
 ---
 
-## Trạng thái: Giai đoạn 0 — Prototype vòng lặp
+## Trạng thái: Giai đoạn 1 — Core Life Simulator (code xong, chờ chơi thử)
 
-Mục tiêu GĐ0 là trả lời một câu hỏi: ***vòng lặp một năm có vui và tạo cảm giác nhân quả không?***
+Câu hỏi kiểm chứng GĐ1: ***sống trọn một đời người (20–40 phút) có hấp dẫn chỉ với quyết định và hậu quả không?*** GĐ0 (vòng lặp một năm) đã xong phần code.
 
-| Có trong GĐ0 | Chi tiết |
+| Có trong GĐ1 | Chi tiết |
 | :--- | :--- |
-| 1 xuất thân | Nông dân, bắt đầu từ 16, 6 hoặc 0 tuổi |
-| Thời gian | Tick theo tháng, thời gian tự trôi với tốc độ 1×–12×, có Pause và Auto-pause khi cần quyết định |
-| Trọng tâm (Focus) | 8 Focus, chọn 1 chính + 1 phụ khi trưởng thành; tác động lên XP, bộ lọc sự kiện và các modifier |
-| Mức sống | 5 bậc (Khổ cực → Xa hoa); mỗi bậc tác động cùng lúc lên chi tiêu, sức khỏe, tinh thần và cảnh pixel |
-| Sổ sách hộ | Thu hoạch 2 vụ, thuế, sưu, lãi nợ, mua bán thóc theo giá trôi theo mùa, làm thuê, bị xiết nợ |
-| Sự kiện quyết định | 17 storylet, vai trò lấy từ NPC thật, khoảng xác suất hẹp lại khi kỹ năng cao, có chuỗi sự kiện kéo dài nhiều năm |
-| Nhật ký dòng đời | Khoảng 75 mẫu (nhiều cách viết, có điều kiện khớp trạng thái thật), cùng điềm báo, tin đồn và câu tổng hợp năm |
-| Cảnh pixel 7 lớp | Địa hình · nhà · thời tiết · người · tài sản · tình trạng (ngập lụt, mất mùa, nghèo đói, thịnh vượng) · hiệu ứng hạt |
-| Tử vong | Rủi ro theo tháng: tuổi × sức khỏe × modifier; cái chết nào cũng ghi nguyên nhân; có cơ chế chống xui liên tiếp |
-| Công cụ | Mô phỏng headless 1.000 đời với 5 bot, kiểm tra chéo dữ liệu, test tất định |
+| 3 xuất thân khác cách mưu sinh | Nông dân (làng, tự cày) · Thương nhân (thị trấn bến sông, ruộng phát canh thu tô, lời buôn theo Thời cơ) · Quý tộc nhỏ (nhà nho sa sút, thu tô, dạy học, nợ thể diện) |
+| Nghề lắp ghép | Nông dân, Thương nhân, Lính → Tướng, Thảo khấu, Sĩ tử → Quan văn; mỗi nghề quy định hộ tự cày hay phát canh, người nhà làm gì, thu nhập theo kỹ năng nào |
+| Khuôn Quan liêu Nho giáo | Hiếu đạo, Danh vọng sĩ phu, Khoa cử (thi Hương → thi Hội – Đình năm sau, học vị cần đủ Học vấn), Cư tang 27 tháng, thang địa vị 5 bậc |
+| Thời cơ | Giá buôn theo mùa, động tĩnh quân sự, tuần tra, truy nã |
+| Hạnh phúc tâm lý | Tâm trạng · Mãn nguyện · thích nghi; hệ giá trị theo tính cách; Tham vọng cả đời; Tổng kết đời 5 trục |
+| Sự kiện | 151 sự kiện quyết định (nhiều chuỗi kéo dài nhiều năm), 406 mẫu nhật ký; ưu tiên đúng hoàn cảnh theo Focus, nghề nhà, nơi ở, giảm dần khi đã gặp; biên niên vương triều giả tưởng chạy song song |
+| Cảnh | Vẽ bằng code từ bộ phận lắp ghép (`scene-kit.json`, đổi màu/kiểu theo văn hóa và mùa), đổi theo nơi ở; hoạt cảnh 3–4 giây (vinh quy, cưới, sinh con, tang lễ, bội thu, lũ) |
+| Giao diện | Bố cục 3 cột kiểu 1in8b: tuổi làm trung tâm, thanh năm trượt liên tục, hồ sơ có chân dung pixel, nhật ký theo tuổi, gia đình, bản đồ cuộc đời, biên niên |
+| Từ GĐ0 | Tick tháng/năm, Focus, mức sống, sổ sách hộ, tử vong có nguyên nhân, mô phỏng headless, kiểm tra dữ liệu, test tất định |
 
-Cảnh dùng **pixel art thật** (4 mùa, nhà tranh/nhà gỗ, người theo tuổi và giới tính có animation, trâu, gà, ao, lũ, thời tiết) và 48 icon giao diện. Danh sách asset còn thiếu: [docs/ART_CAN_CHUAN_BI.md](docs/ART_CAN_CHUAN_BI.md).
+Tiến độ từng hạng mục: [docs/LO_TRINH_THUC_HIEN.md](docs/LO_TRINH_THUC_HIEN.md). Danh sách asset còn thiếu: [docs/ART_CAN_CHUAN_BI.md](docs/ART_CAN_CHUAN_BI.md).
 
-### KPI cân bằng hiện tại (200 đời mỗi bot, `npm run simulate`)
+### KPI cân bằng hiện tại (80 đời mỗi bot × xuất thân, `npm run simulate -- --origin all`)
 
-| Bot | Tuổi thọ TB | Quyết định/năm | Chết bất ngờ | Ruộng cuối đời |
-| :--- | :---: | :---: | :---: | :---: |
-| An phận | 51.1 | 1.26 | 4.0% | 4.2 sào |
-| Tối ưu | 56.1 | 1.25 | 3.5% | 14.4 sào |
-| Tham vọng | 48.0 | 1.22 | 1.0% | 10.2 sào |
-| Liều lĩnh | 40.7 | 1.09 | 2.5% | 0.1 sào |
-| Ngẫu nhiên | 33.6 | 1.21 | 2.5% | 0.3 sào |
+| Xuất thân | Bot | Tuổi thọ TB | Quyết định/năm | Dòng chuyện/năm | Lặp sự kiện | Giá trị ròng cuối đời |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| Nông dân | An phận / Tối ưu | 53.2 / 53.6 | 1.23 | 5.8 / 9.6 | 23% / 30% | 233 / 1.443 quan |
+| Thương nhân | An phận / Tối ưu | 51.2 / 55.0 | 1.18 / 1.17 | 5.6 / 9.7 | 25% / 34% | 984 / 2.461 quan |
+| Quý tộc nhỏ | An phận / Tối ưu | 53.0 / 61.6 | 1.59 / 1.28 | 6.6 / 13.1 | 49% / 37% | 176 / 1.070 quan (+ địa vị sĩ phu) |
 
-Tử vong trẻ em (bắt đầu từ 0 tuổi): **19.3%**, nằm trong mục tiêu 15–25%. Cách chơi cẩn thận thì sống lâu, xài quá khả năng thì mất ruộng, nợ chồng và chết sớm: quyết định có hậu quả thật.
+Bot liều lĩnh và ngẫu nhiên chết sớm (33–42 tuổi) vì nợ chồng nợ — quyết định có hậu quả thật.
 
-**Vấn đề đã biết:** tỷ lệ gặp lại cùng một sự kiện trong một đời còn cao (khoảng 70%), vì GĐ0 mới có 17 sự kiện. GĐ1 cần 30–50 mẫu để đạt mục tiêu "gần như không lặp".
+**Vấn đề đã biết:** tỷ lệ gặp lại sự kiện còn 10–49% (mục tiêu dưới 15%), cao nhất ở nhà nho và nhà buôn vì kho sự kiện riêng của hai xuất thân này còn mỏng; cần thêm nội dung theo nghề.
+
+--- | :--- | :---: | :---: | :---: |
+| Nông dân | An phận / Tối ưu | 51.9 / 55.3 | 1.30 / 1.29 | 154 / 1.416 quan |
+| Thương nhân | An phận / Tối ưu | 52.3 / 56.0 | 1.16 / 1.17 | 682 / 2.251 quan |
+| Quý tộc nhỏ | An phận / Tối ưu | 50.9 / 59.0 | 1.57 / 1.27 | 149 / 1.174 quan (+ địa vị sĩ phu) |
+
+Bot liều lĩnh và ngẫu nhiên chết sớm (31–35 tuổi) vì nợ chồng nợ — quyết định có hậu quả thật.
+
+**Vấn đề đã biết:** tỷ lệ gặp lại cùng một sự kiện trong một đời còn 40–70% (mục tiêu dưới 15%). Với khoảng 1,2 quyết định mỗi năm trong một đời 50 năm, cần nhiều hơn hẳn số sự kiện hiện có trên mỗi xuất thân.
 
 ---
 
@@ -151,8 +157,8 @@ Danh sách biến DSL, loại hậu quả và token văn bản xem ở [src/data
 
 | GĐ | Tên | Câu hỏi kiểm chứng |
 | :---: | :--- | :--- |
-| **0** | **Prototype vòng lặp** ← *đang ở đây* | Vòng lặp một năm có vui không? |
-| 1 | Core Life Simulator: khuôn Nho giáo, 3 xuất thân, 4 nghề, Thời cơ, Hạnh phúc tâm lý | Một đời người có hấp dẫn không? |
+| 0 | Prototype vòng lặp | Vòng lặp một năm có vui không? |
+| **1** | **Core Life Simulator** ← *đang ở đây*: khuôn Nho giáo, 3 xuất thân, 4 nghề, Thời cơ, Hạnh phúc tâm lý | Một đời người có hấp dẫn không? |
 | 2 | Dynasty Simulator: con cái, thừa kế, gia phả, AI NPC | Nhân vật chết rồi, có muốn chơi tiếp đời con không? |
 | 3 | Kingdom Simulator: bản đồ, chính trị, quân sự, nổi dậy | Từ dân thường lên nắm quyền được không? |
 | 4 | Living World: nhiều vùng, LOD đầy đủ, thiên tai, dịch bệnh | Thế giới có đáng khám phá khi không làm vua? |

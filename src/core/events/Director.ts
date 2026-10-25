@@ -62,12 +62,14 @@ function tryRandomDecision(ctx: SimContext): void {
     .filter((ev) => !ev.scheduled_only && !onCooldown(ctx, ev, state.eventHistory))
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
     .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null);
-  const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles));
+  const repeat = (id: string) => Math.pow(d.repeat_weight_factor, state.eventHistory[id]?.count ?? 0);
+  const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
   if (pick) fireDecision(ctx, pick.ev, pick.roles);
 }
 
 function ambientWeight(ctx: SimContext, t: AmbientTemplate, roles: Record<string, string>): number {
-  let w = weightOf(ctx, t, roles);
+  const seen = ctx.state.ambientHistory[t.id]?.count ?? 0;
+  let w = weightOf(ctx, t, roles) * Math.pow(ctx.content.balance.director.ambient_repeat_weight_factor, seen);
   if (ctx.state.director.mourningThisYear) {
     w *= ctx.content.balance.director.ambient.mourning_tone_factor[t.tone] ?? 1;
   }

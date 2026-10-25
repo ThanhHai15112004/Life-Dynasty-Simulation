@@ -4,7 +4,7 @@ import type { Condition, Effect, RoleSpec } from '@content/schemas';
 import { GameSession } from '@core/api/GameSession';
 import { evaluate, UnknownVariableError } from '@core/engine/RuleEvaluator';
 import { isKnownTarget } from '@core/engine/statTargets';
-import { SystemLog } from '@core/events/systemLogKeys';
+import { Ledger, SystemLog } from '@core/events/systemLogKeys';
 import { createResolver } from '@core/systems/resolver';
 import { templateTokens } from '@shared/template';
 
@@ -16,7 +16,13 @@ export interface ValidationReport {
   warnings: string[];
 }
 
-export function validateContent(content: ContentBundle): ValidationReport {
+/** Id khai báo ở public/assets (không thuộc ContentBundle): chủ đề hoạt cảnh, địa điểm cảnh. */
+export interface AssetIds {
+  cutsceneThemes: string[];
+  sceneLocations: string[];
+}
+
+export function validateContent(content: ContentBundle, assets?: AssetIds): ValidationReport {
   const errors: string[] = [];
   const warnings: string[] = [];
   const idx = content.index;
@@ -35,6 +41,18 @@ export function validateContent(content: ContentBundle): ValidationReport {
   const disease = (d: string, where: string) => need(idx.disease.has(d), `${where}: bệnh lạ "${d}"`);
   const career = (c: string, where: string) => need(idx.career.has(c), `${where}: nghề lạ "${c}"`);
   const template = (id: string, where: string) => need(idx.ambient.has(id), `${where}: thiếu mẫu nhật ký "${id}"`);
+  const lang = content.lang[content.balance.display.default_language] ?? {};
+  const ledger = (id: string, where: string) => need(`ledger.${id}` in lang, `${where}: danh mục sổ sách lạ "${id}" (thiếu ledger.${id} trong lang)`);
+  const cutscene = (id: string | undefined, where: string) => {
+    if (!id) return;
+    need(`cutscene.${id}.title` in lang, `${where}: hoạt cảnh "${id}" thiếu chữ cutscene.${id}.title trong lang`);
+    if (assets) need(assets.cutsceneThemes.includes(id), `${where}: hoạt cảnh "${id}" chưa có chủ đề trong cutscenes.json`);
+  };
+  const income = (spec: { skill?: string; ledger: string } | undefined, where: string) => {
+    if (!spec) return;
+    if (spec.skill) skill(spec.skill, where);
+    ledger(spec.ledger, where);
+  };
 
   // ── Id tham chiếu ──
   for (const t of content.traits) trait(t.opposite, `traits.${t.id}.opposite`);
@@ -54,6 +72,7 @@ export function validateContent(content: ContentBundle): ValidationReport {
   for (const f of content.focuses) {
     Object.keys(f.skill_xp).forEach((s) => skill(s, `focuses.${f.id}.skill_xp`));
     f.modifiers.forEach((m) => target(m.target, `focuses.${f.id}`));
+    income(f.income, `focuses.${f.id}.income`);
   }
   for (const p of content.properties) p.modifiers.forEach((m) => target(m.target, `properties.${p.id}`));
   for (const l of content.balance.living_standards.levels) l.modifiers.forEach((m) => target(m.target, `living_standards.${l.id}`));
@@ -63,6 +82,25 @@ export function validateContent(content: ContentBundle): ValidationReport {
   for (const q of content.balance.economy.harvest_qualities) {
     template(q.harvest_log, `harvest_qualities.${q.id}.harvest_log`);
     template(q.quiet_year_log, `harvest_qualities.${q.id}.quiet_year_log`);
+    cutscene(q.cutscene, `harvest_qualities.${q.id}.cutscene`);
+  }
+  cutscene(content.balance.life.marriage.wedding_cutscene, 'life.marriage.wedding_cutscene');
+  cutscene(content.balance.life.marriage.birth_cutscene, 'life.marriage.birth_cutscene');
+  Object.values(Ledger).forEach((id) => ledger(id, 'systemLogKeys.Ledger'));
+  const alertIds = content.balance.opportunity.military_alerts.map((a) => a.id);
+  need(content.balance.opportunity.trade.monthly_factor.length === content.balance.calendar.months_per_year, 'opportunity.trade.monthly_factor: phải đủ số tháng');
+  Object.keys(content.balance.opportunity.trade.harvest_bump).forEach((q) =>
+    need(idx.harvestQuality.has(q), `opportunity.trade.harvest_bump: chất lượng mùa lạ "${q}"`),
+  );
+  need(new Set(alertIds).size === alertIds.length, 'opportunity.military_alerts: trùng id');
+  for (const ch of content.chronicle.entries) {
+    const w = `chronicle.${ch.id}`;
+    if (ch.military_alert) need(alertIds.includes(ch.military_alert.id), `${w}: động tĩnh quân sự lạ "${ch.military_alert.id}"`);
+    if (ch.harvest_quality) need(idx.harvestQuality.has(ch.harvest_quality), `${w}: chất lượng mùa lạ "${ch.harvest_quality}"`);
+    need(ch.years[0] <= ch.years[1], `${w}: khoảng năm ngược`);
+  }
+  for (const st of content.settlementTypes) {
+    if (st.scene_location && assets) need(assets.sceneLocations.includes(st.scene_location), `settlement_types.${st.id}: địa điểm cảnh lạ "${st.scene_location}"`);
   }
   template(content.balance.director.ambient.digest_template, 'director.ambient.digest_template');
   Object.values(SystemLog).forEach((id) => template(id, 'systemLogKeys'));
@@ -80,6 +118,8 @@ export function validateContent(content: ContentBundle): ValidationReport {
     need(idx.culture.has(o.culture), `origins.${o.id}: văn hóa lạ "${o.culture}"`);
     need(idx.focus.has(o.default_focus), `origins.${o.id}: default_focus lạ`);
     career(o.default_career, `origins.${o.id}.default_career`);
+    need(idx.settlementType.has(o.settlement), `origins.${o.id}: khu định cư lạ "${o.settlement}"`);
+    if (o.start_log) template(o.start_log, `origins.${o.id}.start_log`);
     need(idx.livingStandard.has(o.household.living_standard), `origins.${o.id}: mức sống lạ`);
     o.household.properties.forEach((p) => property(p.id, `origins.${o.id}.household`));
     Object.keys(o.player.skills).forEach((s) => skill(s, `origins.${o.id}.player.skills`));
@@ -105,6 +145,8 @@ export function validateContent(content: ContentBundle): ValidationReport {
       if (e.type === 'property_add' || e.type === 'property_remove') property(e.property, w);
       if (e.type === 'add_trait') trait(e.trait, w);
       if (e.type === 'schedule_event') need(idx.event.has(e.event), `${w}: sự kiện lạ "${e.event}"`);
+      if (e.type === 'cutscene') cutscene(e.id, w);
+      if ((e.type === 'money' || e.type === 'food' || e.type === 'debt') && e.ledger) ledger(e.ledger, w);
       if (e.type === 'chance') {
         checkEffects(e.then, where, roles);
         checkEffects(e.else, where, roles);
@@ -135,6 +177,7 @@ export function validateContent(content: ContentBundle): ValidationReport {
     checkEffects(t.effects, `ambient.${t.id}`, roles);
   }
   for (const c of content.careers) {
+    income(c.economy.income, `careers.${c.id}.economy.income`);
     for (const r of c.ranks) {
       r.modifiers.forEach((m) => target(m.target, `careers.${c.id}.ranks.${r.id}`));
     }
@@ -144,15 +187,27 @@ export function validateContent(content: ContentBundle): ValidationReport {
       checkEffects([...act.success, ...act.failure], w, new Set());
     }
   }
+  for (const ch of content.chronicle.entries) checkEffects(ch.effects, `chronicle.${ch.id}`, new Set());
   for (const civ of content.civilizations) {
     for (const deg of civ.exam_degrees) {
       deg.modifiers.forEach((m) => target(m.target, `civilizations.${civ.id}.exam_degrees.${deg.id}`));
     }
+    civ.status_ranks.forEach((r) => r.modifiers.forEach((m) => target(m.target, `civilizations.${civ.id}.status_ranks.${r.id}`)));
+    skill(civ.exam_skill, `civilizations.${civ.id}.exam_skill`);
+    cutscene(civ.cutscenes.exam_passed, `civilizations.${civ.id}.cutscenes.exam_passed`);
+    cutscene(civ.cutscenes.mourning, `civilizations.${civ.id}.cutscenes.mourning`);
+    need(civ.metropolitan_exam_offset_years < civ.exam_interval_years, `civilizations.${civ.id}: thi Hội phải mở trước khoa thi Hương kế tiếp`);
   }
 
   // ── Chạy thử điều kiện DSL và token văn bản trên một ván thật ──
   if (!origin) return { errors: [...errors, 'Không có xuất thân nào'], warnings };
-  const session = GameSession.create(content, { seed: 'validate' });
+  let session: GameSession;
+  try {
+    session = GameSession.create(content, { seed: 'validate' });
+  } catch (e) {
+    if (e instanceof UnknownVariableError) return { errors: [...errors, `Không tạo được ván thử — biến DSL lạ "${e.path}"`], warnings };
+    throw e;
+  }
   session.read((ctx) => {
     const tryCond = (cond: Condition | undefined, where: string, roleIds: string[]) => {
       if (!cond) return;
@@ -216,6 +271,22 @@ export function validateContent(content: ContentBundle): ValidationReport {
     }
     for (const [i, r] of [...content.balance.scene.condition_rules, ...content.balance.scene.particle_rules].entries()) {
       tryCond(r.condition, `scene.rules[${i}]`, []);
+    }
+    for (const civ of content.civilizations) civ.status_ranks.forEach((r) => tryCond(r.condition, `civilizations.${civ.id}.status_ranks.${r.id}`, []));
+    for (const ch of content.chronicle.entries) {
+      tryCond(ch.condition, `chronicle.${ch.id}`, []);
+      ch.text.forEach((t) => tryText(t, `chronicle.${ch.id}`, [], false));
+    }
+    content.balance.life.happiness.value_rules.forEach((r, i) => tryCond(r.condition, `life.happiness.value_rules[${i}]`, []));
+    for (const axis of content.balance.life.summary_axes) {
+      for (const t of axis.terms) {
+        try {
+          createResolver(ctx).get(t.var);
+        } catch (e) {
+          if (e instanceof UnknownVariableError) errors.push(`life.summary_axes.${axis.id}: biến DSL lạ "${t.var}"`);
+          else throw e;
+        }
+      }
     }
   });
 

@@ -1,0 +1,1028 @@
+# [1] Sự kiện quyết định: nhà buôn và thị trấn bến sông (16 tuổi trở lên).
+# Phần lớn gắn nghề nhà thuong_nhan; vài sự kiện thị trấn (cháy chợ, lũ, muối lậu, thuyền lạ) mở cho mọi nghề sống ở bến.
+# Chuỗi: bs_chu_tin_ban_hang → bs_ban_hang_bao_dap · bs_cho_vay_nang_lai → bs_doi_no_chu_do
+#        bs_len_nguoc_khoi_hanh → bs_len_nguoc_cho_nui → bs_len_nguoc_tro_ve
+events:
+  # ── Chuỗi chữ tín ──
+  - id: bs_chu_tin_ban_hang
+    title: Lời hẹn với bạn hàng miền xuôi
+    tags: [buon_ban, quan_he, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: world.trade_index, op: '>=', value: 1.1 }
+        - { not: { has_flag: bs_giu_chu_tin } }
+    roles:
+      - { id: lb, from: village, village_role: lai_buon }
+    weight: 5
+    cooldown_years: 6
+    tension: 4
+    importance: 6
+    icon: tien
+    text:
+      - 'Đầu năm bạn nhận tiền cọc của một bạn hàng miền xuôi, hẹn giao ba chục bao gạo nếp theo giá cũ. Nay giá gạo vọt lên. {role.lb.call} đến tận kho, trả gấp rưỡi nếu bạn bán lô ấy cho hắn.'
+    options:
+      - id: giu_loi
+        text: 'Giao đủ hàng theo giá đã hẹn'
+        trait_stress: { tham_lam: 4 }
+        effects:
+          - { type: money, value: 2, ledger: buon_ban }
+          - { type: career_merit, value: 6 }
+          - { type: opinion, role: lb, value: -5 }
+          - { type: set_flag, flag: bs_giu_chu_tin, years: 10 }
+          - { type: schedule_event, event: bs_ban_hang_bao_dap, months: 30, keep_roles: false }
+        result: ['Thuyền bạn hàng nhận đủ ba chục bao, người lái cầm sổ cười mãi. {role.lb.call} bỏ về, lẩm bẩm "ngốc".']
+      - id: ban_gia_cao
+        text: 'Bán cho {role.lb.call}, trả lại tiền cọc kèm lời xin lỗi'
+        trait_stress: { trung_thanh: 5 }
+        effects:
+          - { type: money, value: 6, ledger: buon_ban }
+          - { type: opinion, role: lb, value: 8 }
+          - { type: reputation, group: dan_lang, value: -4 }
+          - { type: career_merit, value: -2 }
+        result: ['Túi nặng thêm. Mấy tháng sau, thuyền miền xuôi cập bến nhưng không ghé kho nhà bạn nữa.']
+      - id: chia_doi
+        text: 'Giao một nửa, nửa kia bán giá mới, xin bạn hàng thông cảm'
+        hint: 'Cần tài ăn nói'
+        chance: { base: 0.45, skill: ngoai_giao, per_level: 0.05 }
+        success:
+          - { type: money, value: 4, ledger: buon_ban }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        failure:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: reputation, group: dan_lang, value: -6 }
+          - { type: stress, value: 3 }
+        success_result: ['Bạn hàng nghe bạn kể giá trên bến, gật gù bảo "buôn bán ai cũng phải sống". Hai bên vẫn giữ mối.']
+        failure_result: ['Bạn hàng không nói gì, chỉ ghi vào sổ một dòng. Chuyện nhà bạn "hẹn một đằng giao một nẻo" lan khắp bến xuôi.']
+
+  - id: bs_ban_hang_bao_dap
+    title: Bạn hàng cũ trả nghĩa
+    tags: [buon_ban, quan_he, thoi_co]
+    scheduled_only: true
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { has_flag: bs_giu_chu_tin }
+    weight: 1
+    tension: 2
+    importance: 7
+    icon: tien
+    text:
+      - 'Thuyền của người bạn hàng miền xuôi năm nào lại cập bến. Ông mang theo một tin: muối ngoài cửa biển năm nay về ít, ai gom trước sẽ được giá. Ông muốn giao trước cho bạn cả thuyền, sang mùa mới lấy tiền.'
+    options:
+      - id: nhan_moi
+        text: 'Nhận cả thuyền muối, chịu tiền sau'
+        hint: 'Tin ấy đúng thì lời to, sai thì phải bù'
+        chance: { base: 0.6, skill: thuong_mai, per_level: 0.04 }
+        effects:
+          - { type: clear_flag, flag: bs_giu_chu_tin }
+        success:
+          - { type: money, value: 10, ledger: buon_ban }
+          - { type: career_merit, value: 12 }
+        failure:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: stress, value: 4 }
+        success_result: ['Đúng như lời ông nói, muối khan cả vùng. Bạn trả đủ tiền mà vẫn còn dư một khoản dày.']
+        failure_result: ['Thuyền muối nhà quan về sớm hơn dự liệu, giá rớt. Bạn bù tiền cho bạn hàng, ông vỗ vai bảo "lần sau".']
+      - id: ket_nghia
+        text: 'Làm mâm rượu kết nghĩa, hẹn làm ăn lâu dài'
+        effects:
+          - { type: clear_flag, flag: bs_giu_chu_tin }
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: set_flag, flag: bs_ban_hang_mien_xuoi, years: 15, label: 'Có bạn hàng tin cậy ở miền xuôi' }
+          - { type: modifier, target: xp.thuong_mai, value: 1.1, op: mul, months: 60, label: 'Mối hàng miền xuôi' }
+          - { type: stress, value: -3 }
+        result: ['Hai người rót chén rượu trước bàn thờ thổ công. Từ đó mỗi mùa nước, thuyền miền xuôi đều ghé kho nhà bạn trước tiên.']
+      - id: nhuong_hoi
+        text: 'Cảm ơn ông, đem mối ấy chia cho các nhà buôn trên bến'
+        trait_stress: { tham_vong: 3 }
+        effects:
+          - { type: clear_flag, flag: bs_giu_chu_tin }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+          - { type: career_merit, value: 4 }
+        result: ['Mỗi nhà một ít, ai cũng có phần. Phiên họp phường sau, các chủ thuyền mời bạn ngồi mâm trên.']
+
+  # ── Hàng gian, cân non ──
+  - id: bs_hang_gia_moi_nhap
+    title: Kiện lụa pha sợi gai
+    tags: [buon_ban, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    weight: 5
+    cooldown_years: 5
+    tension: 4
+    importance: 5
+    icon: tien
+    text:
+      - 'Bạn tháo kiện lụa mới nhập từ thuyền phương Bắc. Sờ kỹ mới thấy mặt trong dệt pha sợi gai, hồ bột cho bóng. Người bán đã nhổ neo từ hôm kia. Nhìn qua thì chẳng mấy ai phân biệt được.'
+    options:
+      - id: ban_nhu_that
+        text: 'Cứ bán như lụa thật, ai biết thì đành chịu'
+        trait_stress: { nhan_tu: 4 }
+        chance: { base: 0.55, skill: muu_luoc, per_level: 0.04 }
+        success:
+          - { type: money, value: 5, ledger: buon_ban }
+        failure:
+          - { type: money, value: 1, ledger: buon_ban }
+          - { type: reputation, group: dan_lang, value: -10 }
+          - { type: career_merit, value: -6 }
+        success_result: ['Lụa bán hết trước Tết. Đêm ấy bạn đếm tiền, đếm hai lần vẫn thấy thiêu thiếu một thứ gì.']
+        failure_result: ['Một bà khách giặt thử, vải co rúm như lá héo. Bà mang ra giữa chợ giơ lên cho cả bến xem.']
+      - id: ban_dung_gia
+        text: 'Nói thật là vải pha, hạ giá mà bán'
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: career_merit, value: 3 }
+          - { type: skill_xp, skill: thuong_mai, value: 12 }
+        result: ['Lỗ một ít. Các bà quen bảo nhau "sạp ấy nói thật", rồi rủ nhau sang mua thêm mấy thứ khác.']
+      - id: duoi_theo
+        text: 'Nhờ thuyền xuôi chuyển thư đến bến dưới, đòi người bán trả tiền'
+        chance: { base: 0.3, skill: ngoai_giao, per_level: 0.05 }
+        success:
+          - { type: money, value: 1, ledger: su_kien }
+          - { type: career_merit, value: 5 }
+        failure:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: stress, value: 4 }
+        success_result: ['Người bán bị phường bến dưới giữ thuyền lại, đành nhờ người gửi trả tiền kèm lời xin lỗi.']
+        failure_result: ['Thư đi mấy tháng không có hồi âm. Kiện lụa vẫn nằm trong góc kho, bụi phủ một lớp.']
+
+  - id: bs_can_non_sap_ben
+    title: Quả cân non ở sạp bên
+    tags: [buon_ban, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    roles:
+      - { id: ly, from: village, village_role: ly_truong }
+    weight: 5
+    cooldown_years: 5
+    tension: 4
+    importance: 5
+    icon: cho
+    text:
+      - 'Mấy tháng nay khách bỏ sạp nhà bạn sang sạp bên cạnh, vì bên ấy rẻ hơn một đồng. Bạn nhờ người mua hộ một gói muối bên ấy về cân lại: thiếu gần hai lạng. Người buôn trên bến ai cũng ngờ ngợ, nhưng chưa ai nói ra.'
+    options:
+      - id: to_giac
+        text: 'Mang gói muối lên trình {role.ly.call}'
+        chance: { base: 0.5, skill: ngoai_giao, per_level: 0.05 }
+        success:
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: career_merit, value: 6 }
+          - { type: money, value: 2, ledger: buon_ban }
+        failure:
+          - { type: opinion, role: ly, value: -5 }
+          - { type: stress, value: 5 }
+        success_result: ['{role.ly.call} cho người đến thu quả cân, đập vỡ giữa chợ. Khách lục tục quay về sạp nhà bạn.']
+        failure_result: ['{role.ly.call} xua tay bảo chuyện vặt ngoài chợ. Hôm sau, bạn thấy nhà bên mang lễ vào nhà ông lý.']
+      - id: mai_can
+        text: 'Mình cũng mài bớt quả cân cho bằng người ta'
+        trait_stress: { nhan_tu: 5 }
+        chance: { base: 0.65, skill: muu_luoc, per_level: 0.03 }
+        success:
+          - { type: money, value: 4, ledger: buon_ban }
+        failure:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -10 }
+          - { type: career_merit, value: -5 }
+        success_result: ['Khách quay lại. Mỗi tối dọn sạp, bạn tránh nhìn quả cân.']
+        failure_result: ['Một ông lão mang cân riêng ra chợ cân lại, rồi đứng giữa bến chửi cả hai nhà.']
+      - id: treo_bang_can_du
+        text: 'Treo bảng "cân đủ, thiếu đền gấp đôi", mời khách tự cân lại'
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: career_merit, value: 4 }
+        result: ['Ban đầu chẳng ai để ý. Rồi một bà khách cân thử, gật đầu, kể với cả xóm. Sạp bên lặng lẽ thay quả cân mới.']
+
+  # ── Thuế bến, sai nha ──
+  - id: bs_sai_nha_do_thuyen
+    title: Sai nha đo thuyền tính thuế bến
+    tags: [buon_ban, kinh_te, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 5
+    cooldown_years: 4
+    tension: 5
+    importance: 5
+    icon: thue
+    text:
+      - 'Sai nha trên trấn xuống bến đo lại thuyền buôn để tính thuế bến bãi. Đến thuyền nhà bạn, cây thước tre cứ dài thêm một gang, thuế vì thế tăng gần gấp đôi. Viên đề lại đứng nhai trầu, nhìn sang chỗ khác.'
+    options:
+      - id: lot_tay
+        text: 'Dúi cho viên đề lại 2 quan "tiền nước"'
+        condition: { var: household.money, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: skill_xp, skill: ngoai_giao, value: 8 }
+          - { type: stress, value: 1 }
+        result: ['Cây thước bỗng ngắn lại. Viên đề lại ghi sổ, gật đầu rất hiền.']
+      - id: nop_du
+        text: 'Chịu nộp theo thước đo của họ'
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: stress, value: 2 }
+        result: ['Bạn đếm tiền nộp, không cãi một lời. Đêm về nằm tính lại sổ, mất ngủ đến canh ba.']
+      - id: dong_don
+        text: 'Cùng các chủ thuyền làm đơn kêu lên quan trấn'
+        hint: 'Biết chữ và quen quan thì dễ thành'
+        chance:
+          base: 0.4
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: player.skill.hoc_van, op: '>=', value: 3 }, add: 0.1 }
+            - { condition: { has_flag: bs_than_quan_tran }, add: 0.25 }
+        success:
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: career_merit, value: 8 }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        failure:
+          - { type: money, value: -5, ledger: su_kien }
+          - { type: stress, value: 6 }
+        success_result: ['Quan trấn cho đo lại bằng thước của dinh. Viên đề lại bị phạt đòn, các chủ thuyền mời bạn chén rượu.']
+        failure_result: ['Đơn chưa đến tay quan đã quay về tay viên đề lại. Thuyền nhà bạn bị đo lại lần nữa, lần này dài thêm hai gang.']
+
+  - id: bs_tranh_cho_sap
+    title: Tranh chỗ sạp phiên chợ Tết
+    tags: [buon_ban, lang_xa, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [11, 12, 1]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    weight: 5
+    cooldown_years: 5
+    tension: 4
+    importance: 5
+    icon: cho
+    text:
+      - 'Chỗ sạp đầu dốc bến, nhà bạn bày hàng đã mấy năm, sáng nay bị một nhà buôn mới dọn về chiếm mất. Họ bảo đã nộp tiền cho mõ chợ. Phiên chợ Tết chỉ còn mươi ngày.'
+    options:
+      - id: dep_hang_ho
+        text: 'Gọi người nhà ra dẹp hàng họ sang bên'
+        trait_stress: { than_trong: 4 }
+        chance: { base: 0.5, skill: quan_su, per_level: 0.04 }
+        success:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: reputation, group: dan_lang, value: -3 }
+          - { type: stress, value: 2 }
+        failure:
+          - { type: health, value: -4 }
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -6 }
+        success_result: ['Nhà kia đông mồm nhưng ít người, đành dọn vào cuối dãy. Phiên Tết năm ấy bạn bán đắt, chỉ có điều chẳng ai chào nhau nữa.']
+        failure_result: ['Hai bên xô xát giữa chợ, gánh hàng đổ tung. Bạn sưng một bên mắt, mõ chợ phạt cả hai nhà.']
+      - id: lo_mo_cho
+        text: 'Biếu thêm mõ chợ để lấy lại chỗ cũ'
+        condition: { var: household.money, op: '>=', value: 2 }
+        chance: { base: 0.7, skill: thuong_mai, per_level: 0.03 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+        success:
+          - { type: money, value: 5, ledger: buon_ban }
+        failure:
+          - { type: money, value: 1, ledger: buon_ban }
+          - { type: stress, value: 3 }
+        success_result: ['Mõ chợ đổi ý ngay trong buổi. Sạp nhà bạn lại đứng đầu dốc, khách Tết chen nhau mua.']
+        failure_result: ['Mõ chợ nhận tiền cả hai nhà, rồi chia đôi chỗ sạp. Phiên Tết bán chẳng được bao nhiêu.']
+      - id: nhuong_cho
+        text: 'Nhường, dọn vào giữa chợ, mời nhà kia chén trà làm quen'
+        trait_stress: { nong_nay: 4, tham_vong: 3 }
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+          - { type: reputation, group: dan_lang, value: 3 }
+          - { type: stress, value: -1 }
+        result: ['Chủ nhà kia ngượng, sau Tết mang sang biếu một cân chè. Hai nhà thỉnh thoảng gửi khách cho nhau.']
+
+  # ── Thời cơ, buôn lậu ──
+  - id: bs_thuyen_buom_la
+    title: Thuyền buồm lạ cập bến
+    tags: [buon_ban, thoi_co, tin_don]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      any:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 4
+    cooldown_years: 6
+    tension: 5
+    importance: 6
+    icon: nguoi_la
+    text:
+      - 'Một chiếc thuyền buồm cánh dơi của khách buôn phương Bắc cập bến, chở sứ men xanh, thuốc bắc và giấy hoa tiên. Họ nói tiếng lơ lớ, muốn đổi lấy quế, sừng và tơ sống. Quan trấn chưa cho phép mua bán, nhưng đêm nào cũng có người bến lén xuống thuyền xem hàng.'
+    options:
+      - id: doi_hang_dem
+        text: 'Xuống thuyền đổi hàng ngay trong đêm (4 quan)'
+        condition: { var: household.money, op: '>=', value: 4 }
+        hint: 'Mắt hàng tốt thì lời; sai nha tuần gắt thì dễ bị bắt'
+        chance:
+          base: 0.5
+          skill: thuong_mai
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: world.patrol_level, op: '>=', value: 60 }, add: -0.15 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+        success:
+          - { type: money, value: 10, ledger: buon_ban }
+          - { type: career_merit, value: 8 }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+        failure:
+          - { type: money, value: 1, ledger: buon_ban }
+          - { type: wanted, value: 5 }
+          - { type: stress, value: 5 }
+        success_result: ['Mấy chồng bát sứ men xanh bày lên sạp chưa đầy tuần đã có nhà phú hộ trên trấn đến mua cả.']
+        failure_result: ['Sai nha soi đuốc ra bến đúng lúc bạn khuân hàng lên. Phải vứt xuống sông quá nửa mới thoát.']
+      - id: dat_moi
+        text: 'Làm người dắt mối giữa khách lạ và các nhà buôn bến'
+        chance: { base: 0.45, skill: ngoai_giao, per_level: 0.05 }
+        success:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: skill_xp, skill: ngoai_giao, value: 20 }
+        failure:
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+          - { type: stress, value: 3 }
+        success_result: ['Bạn học được vài câu tiếng khách, đi lại giữa thuyền và bến cả tuần. Hai bên đều dúi cho chút tiền công.']
+        failure_result: ['Khách lạ ngờ bạn ăn chặn, nhà buôn bến lại ngờ bạn đứng về phía khách. Chẳng bên nào cảm ơn.']
+      - id: dung_xem
+        text: 'Chỉ đứng trên bờ xem cho biết'
+        trait_stress: { tham_vong: 2 }
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 6 }
+          - { type: stress, value: -1 }
+        result: ['Bạn nhớ mãi cánh buồm vàng nâu gấp nếp như cánh dơi, và mùi trầm lạ phảng phất cả một đoạn bến.']
+
+  - id: bs_cho_muoi_lau
+    title: Chuyến muối lậu đêm không trăng
+    tags: [buon_ban, nguy_hiem, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    roles:
+      - { id: lb, from: village, village_role: lai_buon }
+    weight: 4
+    cooldown_years: 6
+    tension: 6
+    importance: 6
+    icon: thue
+    text:
+      - 'Muối là hàng nhà quan giữ mối, ai buôn cũng phải lấy qua kho trấn với giá đắt. {role.lb.call} kéo bạn ra góc bến thì thầm: có thuyền muối từ cửa biển lách vào lạch sau, cần người chở giúp vào kho trong ba đêm, trả công 5 quan.'
+    options:
+      - id: nhan_cho
+        text: 'Nhận lời chở ba đêm'
+        trait_stress: { than_trong: 5 }
+        chance:
+          base: 0.55
+          skill: muu_luoc
+          per_level: 0.04
+          modifiers:
+            - { condition: { var: world.patrol_level, op: '>=', value: 60 }, add: -0.2 }
+            - { condition: { var: world.military_alert, op: '==', value: binh_yen }, add: 0.1 }
+        success:
+          - { type: money, value: 5, ledger: su_kien }
+          - { type: opinion, role: lb, value: 10 }
+        failure:
+          - { type: wanted, value: 15 }
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: health, value: -3 }
+          - { type: stress, value: 6 }
+        success_result: ['Ba đêm chèo thuyền tắt đèn, nghe tiếng mõ tuần xa xa mà tim đập thình thịch. Sáng thứ tư, {role.lb.call} dúi vào tay bạn gói tiền.']
+        failure_result: ['Đêm thứ hai, đuốc sai nha sáng rực đầu lạch. Bạn nhảy xuống sông lội vào bờ, mất cả tiền cọc lẫn đôi dép.']
+      - id: mua_re
+        text: 'Không chở, chỉ mua lại ít muối giá rẻ về bán'
+        condition: { var: player.career, op: '==', value: thuong_nhan }
+        chance: { base: 0.8, skill: muu_luoc, per_level: 0.02 }
+        success:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: opinion, role: lb, value: 3 }
+        failure:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: wanted, value: 5 }
+        success_result: ['Mấy thúng muối trắng hạt to, bạn trộn lẫn vào muối kho mà bán. Chẳng ai hỏi han gì.']
+        failure_result: ['Sai nha khám sạp, thấy muối không có dấu kho. Bạn mất muối lại phải nộp phạt.']
+      - id: tu_choi
+        text: 'Lắc đầu, coi như chưa nghe gì'
+        effects:
+          - { type: opinion, role: lb, value: -5 }
+          - { type: stress, value: -1 }
+        result: ['{role.lb.call} nhún vai bỏ đi. Mấy hôm sau có người khác chở, nghe đâu cũng êm.']
+      - id: bao_quan
+        text: 'Báo cho sai nha trên trấn'
+        trait_stress: { trung_thanh: 5 }
+        effects:
+          - { type: money, value: 2, ledger: su_kien }
+          - { type: opinion, role: lb, value: -25 }
+          - { type: reputation, group: dan_lang, value: -4 }
+        result: ['Quan thưởng cho mấy quan tiền. Từ đó người bến thấy bạn là im bặt, như sợ lỡ lời.']
+
+  # ── Gia đình nhà buôn ──
+  - id: bs_ga_con_cho_nha_buon
+    title: Nhà buôn gỗ bến trên dạm hỏi
+    tags: [gia_dinh, buon_ban, quan_he]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: player.mourning_months, op: '==', value: 0 }
+    roles:
+      - id: con
+        from: family
+        relation: child
+        condition:
+          all:
+            - { var: self.sex, op: '==', value: f }
+            - { var: self.age, op: between, value: [15, 22] }
+            - { var: self.married, op: '==', value: false }
+            - { var: self.in_household, op: '==', value: true }
+    weight: 5
+    cooldown_years: 4
+    tension: 5
+    importance: 7
+    icon: cuoi
+    text:
+      - 'Nhà buôn gỗ giàu nhất bến trên nhờ bà mối sang dạm {role.con.call} cho cậu con trai thứ. Sính lễ hậu, lại hứa chia cho nhà bạn mối gỗ lim. Nhưng {role.con.call} đã thầm thương một anh lái đò nghèo, cả nhà ai cũng biết.'
+    options:
+      - id: nhan_dam
+        text: 'Nhận lời, kết thông gia với nhà buôn gỗ'
+        effects:
+          - { type: money, value: 6, ledger: su_kien }
+          - { type: modifier, target: xp.thuong_mai, value: 1.1, op: mul, months: 60, label: 'Thông gia nhà buôn gỗ bến trên' }
+          - { type: career_merit, value: 8 }
+          - { type: opinion, role: con, value: -15 }
+          - { type: stress, value: 6, who: con }
+          - { type: leave_household, who: con }
+        result: ['Ngày rước dâu, thuyền hoa nhà trai kết đỏ cả mũi. {role.con.call} bước xuống thuyền không ngoảnh lại.']
+      - id: theo_y_con
+        text: 'Để {role.con.call} lấy người con thương'
+        trait_stress: { tham_vong: 4 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: opinion, role: con, value: 20 }
+          - { type: reputation, group: dan_lang, value: -2 }
+          - { type: stress, value: -2 }
+          - { type: leave_household, who: con }
+        result: ['Đám cưới nhỏ bên bến đò. Người bến bảo nhà buôn mà gả con cho lái đò, nhưng {role.con.call} cười suốt buổi.']
+      - id: khat_lai
+        text: 'Xin khất vài năm, con còn nhỏ dại'
+        effects:
+          - { type: opinion, role: con, value: 5 }
+          - { type: career_merit, value: -2 }
+        result: ['Bà mối về, nhà buôn gỗ cũng chẳng chờ. Nửa năm sau họ cưới con gái một nhà khác trên bến.']
+
+  - id: bs_mo_them_cua_hieu
+    title: Gian hàng mặt phố cần sang tay
+    tags: [buon_ban, thoi_co, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.money, op: '>=', value: 5 }
+        - { var: household.property.sap_hang, op: '<', value: 2 }
+    weight: 4
+    cooldown_years: 8
+    tension: 4
+    importance: 6
+    icon: cho
+    text:
+      - 'Ông cụ bán thuốc bắc đầu phố chợ về quê dưỡng già, muốn sang lại gian hàng mặt phố. Chỗ ấy khách qua lại cả ngày. Giá sang là mười tám quan: trả trước một nửa, nửa kia khất ba năm.'
+    options:
+      - id: sang_lai
+        text: 'Sang lại gian hàng (9 quan, nợ thêm 9 quan)'
+        condition: { var: household.money, op: '>=', value: 9 }
+        trait_stress: { than_trong: 3 }
+        effects:
+          - { type: money, value: -9, ledger: su_kien }
+          - { type: debt, value: 9 }
+          - { type: property_add, property: sap_hang, count: 1 }
+          - { type: career_merit, value: 10 }
+          - { type: stress, value: 4 }
+        result: ['Bạn treo tấm biển gỗ mới trước cửa. Ông cụ đi rồi, gian hàng vẫn còn thoang thoảng mùi cam thảo.']
+      - id: chung_von
+        text: 'Rủ một nhà buôn quen góp chung, chia đôi lời'
+        chance: { base: 0.6, skill: thuong_mai, per_level: 0.04 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: modifier, target: xp.thuong_mai, value: 1.1, op: mul, months: 36, label: 'Chung gian hàng mặt phố' }
+        success:
+          - { type: money, value: 7, ledger: buon_ban }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+        failure:
+          - { type: money, value: 2, ledger: buon_ban }
+          - { type: stress, value: 4 }
+        success_result: ['Hai nhà chia ca trông hàng, sổ sách rõ ràng. Hết năm đầu đã hoàn vốn.']
+        failure_result: ['Người góp vốn tính toán chi li, tháng nào cũng cãi nhau vì một đồng tiền dầu. Lời chẳng được bao nhiêu.']
+      - id: thoi
+        text: 'Thôi, giữ vốn quay vòng thuyền hàng'
+        trait_stress: { tham_vong: 4 }
+        effects:
+          - { type: stress, value: -1 }
+        result: ['Gian hàng về tay nhà buôn vải bến trên. Mỗi lần đi qua, bạn lại đứng nhìn một lúc.']
+
+  # ── Chuỗi cho vay nặng lãi ──
+  - id: bs_cho_vay_nang_lai
+    title: Chủ đò xin vay đóng thuyền
+    tags: [buon_ban, no_nan, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.money, op: '>=', value: 6 }
+        - { not: { has_flag: bs_no_chu_do } }
+    weight: 4
+    cooldown_years: 6
+    tension: 4
+    importance: 6
+    icon: no
+    text:
+      - 'Anh chủ đò ngang ở bến dưới mất thuyền sau trận gió lớn, đến xin vay 6 quan đóng thuyền mới. Người bến bảo cho vay ở đây phải "một vốn một lời" mới đáng. Anh ta gật đầu lia lịa, chẳng dám mặc cả.'
+    options:
+      - id: lai_nang
+        text: 'Cho vay, hai năm trả gấp đôi, lấy thuyền làm tin'
+        trait_stress: { nhan_tu: 5 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -2 }
+          - { type: set_flag, flag: bs_no_chu_do, years: 5, label: 'Chủ đò bến dưới đang nợ nhà bạn' }
+          - { type: schedule_event, event: bs_doi_no_chu_do, months: 24, keep_roles: false }
+        result: ['Anh chủ đò điểm chỉ vào văn tự, ngón tay run run. Bạn cất tờ giấy vào tráp, khóa lại.']
+      - id: lai_nhe
+        text: 'Cho vay, lãi nhẹ ba phân'
+        chance: { base: 0.75, skill: thuong_mai, per_level: 0.02 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+        success:
+          - { type: money, value: 8, ledger: buon_ban }
+          - { type: reputation, group: dan_lang, value: 3 }
+        failure:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: stress, value: 3 }
+        success_result: ['Hai mùa nước sau, anh chủ đò mang tiền đến trả đủ, kèm một xâu cá chép to.']
+        failure_result: ['Anh chủ đò ốm một trận dài, chỉ trả được một nửa. Bạn thôi không đòi, nhưng tiếc mãi.']
+      - id: tu_choi
+        text: 'Không cho vay, vốn đang kẹt hàng'
+        trait_stress: { hao_phong: 3 }
+        effects:
+          - { type: reputation, group: dan_lang, value: -2 }
+        result: ['Anh chủ đò cúi đầu đi ra. Sau nghe nói anh phải bán đứa con gái lớn đi ở cho nhà phú hộ.']
+
+  - id: bs_doi_no_chu_do
+    title: Món nợ của chủ đò bến dưới
+    tags: [buon_ban, no_nan, lang_xa]
+    scheduled_only: true
+    condition: { has_flag: bs_no_chu_do }
+    weight: 1
+    tension: 5
+    importance: 7
+    icon: no
+    text:
+      - 'Hai năm đã qua. Chủ đò bến dưới mang đến được 5 quan, còn thiếu 7, quỳ ở hiên xin khất. Chiếc thuyền mới là cần câu cơm của cả nhà anh. Người bến đứng xa xa, xem nhà bạn xử thế nào.'
+    options:
+      - id: siet_thuyen
+        text: 'Siết thuyền theo văn tự, bán lấy tiền'
+        trait_stress: { nhan_tu: 6 }
+        effects:
+          - { type: clear_flag, flag: bs_no_chu_do }
+          - { type: money, value: 10, ledger: buon_ban }
+          - { type: reputation, group: dan_lang, value: -10 }
+          - { type: stress, value: 2 }
+        result: ['Thuyền bán được giá. Vợ anh chủ đò đứng trên bờ khóc, lũ trẻ bến dưới nhìn bạn như nhìn người lạ.']
+      - id: len_quan
+        text: 'Đưa văn tự lên quan trấn phân xử'
+        chance: { base: 0.5, skill: quan_tri, per_level: 0.05 }
+        effects:
+          - { type: clear_flag, flag: bs_no_chu_do }
+          - { type: money, value: 4, ledger: buon_ban }
+        success:
+          - { type: money, value: 5, ledger: buon_ban }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        failure:
+          - { type: stress, value: 5 }
+          - { type: reputation, group: dan_lang, value: -4 }
+        success_result: ['Quan xử anh chủ đò trả dần phần còn lại mỗi mùa. Văn tự rõ ràng, chẳng ai trách được bạn.']
+        failure_result: ['Quan chê lãi nặng trái lệ, chỉ cho đòi gốc. Tiền lễ quan đã tốn, chuyện lại thành cả trấn biết.']
+      - id: xoa_lai
+        text: 'Nhận 5 quan, xé văn tự, bỏ phần lãi còn lại'
+        trait_stress: { tham_lam: 5 }
+        effects:
+          - { type: clear_flag, flag: bs_no_chu_do }
+          - { type: money, value: 5, ledger: buon_ban }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: stress, value: -3 }
+        result: ['Anh chủ đò lạy ba lạy. Từ đó thuyền nhà bạn qua bến dưới chẳng bao giờ phải chờ đò.']
+
+  # ── Phường hội, tai ương ──
+  - id: bs_phuong_hoi_giu_quy
+    title: Phường buôn bầu người giữ quỹ
+    tags: [buon_ban, quan_he, tin_nguong]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    weight: 4
+    cooldown_years: 6
+    tension: 3
+    importance: 5
+    icon: hoi
+    text:
+      - 'Phường buôn bến sông họp ở đền thờ thổ thần bàn việc lợp lại mái đền và bầu người giữ sổ quỹ năm tới. Mấy bậc chủ thuyền lâu năm đều nhìn về phía bạn. Giữ quỹ thì được nể, nhưng hụt một đồng là mang tiếng cả đời.'
+    options:
+      - id: giu_so
+        text: 'Nhận giữ sổ quỹ phường'
+        trait_stress: { an_phan: 3 }
+        chance:
+          base: 0.55
+          skill: quan_tri
+          per_level: 0.05
+          modifiers:
+            - { condition: { has_flag: thuong_hoi }, add: 0.1 }
+        effects:
+          - { type: stress, value: 3 }
+        success:
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: career_merit, value: 10 }
+          - { type: skill_xp, skill: quan_tri, value: 18 }
+        failure:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -6 }
+          - { type: stress, value: 4 }
+        success_result: ['Cuối năm đọc sổ trước đền, từng đồng khớp từng dòng. Các cụ trong phường gật gù, gọi bạn là "ông quỹ".']
+        failure_result: ['Sổ hụt mấy quan, chẳng rõ do ai. Bạn bỏ tiền nhà ra bù, nhưng lời ra tiếng vào thì không bù được.']
+      - id: cung_tien
+        text: 'Cúng 3 quan lợp mái đền, nhường việc sổ sách'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: stress, value: -2 }
+        result: ['Tên nhà bạn được khắc vào tấm bia công đức đặt bên hiên đền.']
+      - id: dung_ngoai
+        text: 'Viện cớ bận thuyền hàng, chỉ góp phần như mọi nhà'
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: career_merit, value: -2 }
+        result: ['Người khác nhận việc. Phiên họp sau, chỗ ngồi của bạn lùi xuống mâm dưới.']
+
+  - id: bs_chay_pho_cho
+    title: Cháy dãy hàng phố chợ
+    tags: [thien_tai, nguy_hiem, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12, 1, 2, 3, 4]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    roles:
+      - { id: hx, from: village, village_role: hang_xom }
+    weight: 3
+    cooldown_years: 10
+    tension: 7
+    importance: 7
+    icon: su_kien
+    text:
+      - 'Nửa đêm, tiếng mõ dồn dập. Lửa bén từ lò rèn cuối phố, gió bấc thổi bùng lên dãy hàng mái tranh. Nhà {role.hx.call} ở ngay đầu gió, trong nhà còn bà cụ già nằm liệt.'
+    options:
+      - id: cuu_nguoi
+        text: 'Lao sang cõng bà cụ nhà {role.hx.call} ra'
+        trait_stress: { than_trong: 4 }
+        chance: { base: 0.65, skill: sinh_ton, per_level: 0.04 }
+        success:
+          - { type: health, value: -2 }
+          - { type: opinion, role: hx, value: 25 }
+          - { type: favor, role: hx, value: 3 }
+          - { type: reputation, group: dan_lang, value: 10 }
+        failure:
+          - { type: health, value: -8 }
+          - { type: opinion, role: hx, value: 15 }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: stress, value: 5 }
+        success_result: ['Bạn cõng bà cụ qua khói, tóc cháy xém một mảng. Sáng ra, cả phố kéo đến nhà bạn hỏi han.']
+        failure_result: ['Xà nhà sập ngay sau lưng. Bà cụ được cứu ra, còn bạn bỏng một bên vai, nằm cả tháng.']
+      - id: cuu_sap
+        text: 'Chạy ra chợ cứu hàng ở sạp nhà'
+        condition: { has_property: sap_hang }
+        trait_stress: { nhan_tu: 4 }
+        chance: { base: 0.5, skill: sinh_ton, per_level: 0.04 }
+        effects:
+          - { type: opinion, role: hx, value: -10 }
+        success:
+          - { type: stress, value: 3 }
+        failure:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: stress, value: 6 }
+        success_result: ['Bạn khuân kịp mấy hòm hàng ra bãi sông. Sạp nhà bạn xém mái nhưng hàng còn nguyên.']
+        failure_result: ['Lửa đến sạp trước bạn. Vải vóc, muối mắm thành một đống tro ướt.']
+      - id: giu_nha
+        text: 'Gom người nhà xách nước dập lửa giữ nhà mình'
+        effects:
+          - { type: health, value: -2 }
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+          - { type: stress, value: 3 }
+        result: ['Cả nhà chuyền nước đến sáng, mái nhà ướt sũng nhưng không bén lửa. Bên kia phố, ba nóc nhà chỉ còn cột.']
+
+  - id: bs_lu_ngap_kho_ben
+    title: Nước lũ dâng vào dãy kho bến
+    tags: [thien_tai, buon_ban, nguy_hiem]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [6, 7, 8]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 4
+    cooldown_years: 6
+    tension: 6
+    importance: 6
+    icon: mua
+    text:
+      - 'Mưa nguồn đổ về ba ngày liền, nước sông đỏ quạch dâng mấp mé bậc bến. Đêm nay nước có thể tràn vào dãy kho ven sông, nơi nhà bạn gửi thóc và đồ đạc. Thuyền thuê lúc này đắt gấp ba, ai cũng tranh.'
+    options:
+      - id: thue_thuyen
+        text: 'Thuê thuyền chở hết lên chùa trên gò (3 quan)'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: stress, value: 2 }
+        result: ['Hàng và thóc được xếp dưới hiên chùa. Sư cụ cho mượn chiếu, dặn đừng đặt lên bậc thềm Tam bảo.']
+      - id: dap_bo
+        text: 'Cả nhà đắp bờ đất, kê đồ lên giá cao'
+        chance: { base: 0.5, skill: sinh_ton, per_level: 0.05 }
+        effects:
+          - { type: health, value: -3 }
+        success:
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: stress, value: -1 }
+        failure:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: food, value: -4 }
+          - { type: stress, value: 5 }
+        success_result: ['Nước liếm đến bờ đất rồi dừng lại. Cả nhà ngồi canh đến sáng, quần áo bết bùn.']
+        failure_result: ['Gần sáng bờ đất vỡ một mảng. Nước tràn vào, mấy bồ thóc dưới cùng ngấm nước.']
+      - id: cuu_xom_chai
+        text: 'Mặc kệ kho, chèo thuyền đi cứu người ở xóm chài'
+        trait_stress: { tham_lam: 4, than_trong: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: food, value: -3 }
+          - { type: health, value: -3 }
+          - { type: reputation, group: dan_lang, value: 10 }
+        result: ['Bạn chở được mấy chuyến người già trẻ nhỏ lên gò. Kho nhà mình ngập, nhưng xóm chài từ đó coi bạn như người nhà.']
+
+  # ── Chuỗi buôn lên ngược ──
+  - id: bs_len_nguoc_khoi_hanh
+    title: Chuyến hàng lên ngược
+    tags: [buon_ban, thoi_co, nguy_hiem]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [9, 10, 11]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { var: household.money, op: '>=', value: 6 }
+        - { not: { has_flag: bs_dang_len_nguoc } }
+    weight: 4
+    cooldown_years: 6
+    tension: 5
+    importance: 7
+    icon: tien
+    text:
+      - 'Muối mắm ở bến xuôi rẻ, trên miền ngược lại quý như vàng. Người ta đổi một thúng muối lấy cả bó quế hay mấy cân sa nhân. Đi một chuyến mất nửa năm, qua bao nhiêu thác ghềnh, nhưng ai về được là đủ vốn đóng thêm thuyền.'
+    options:
+      - id: tu_di
+        text: 'Tự mình chất muối lên thuyền, ngược sông (6 quan)'
+        trait_stress: { trong_gia_dinh: 4, than_trong: 3 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: stress, value: 3 }
+          - { type: set_flag, flag: bs_dang_len_nguoc, years: 2, label: 'Đang buôn chuyến lên ngược' }
+          - { type: schedule_event, event: bs_len_nguoc_cho_nui, months: 4, keep_roles: false }
+        result: ['Thuyền rời bến lúc sương còn dày. Người nhà đứng trên bậc đá nhìn theo đến khi khuất khúc sông.']
+      - id: gui_hang
+        text: 'Gửi hàng theo thuyền người khác, chia ba phần lời'
+        chance: { base: 0.55, skill: thuong_mai, per_level: 0.04 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+        success:
+          - { type: money, value: 8, ledger: buon_ban }
+          - { type: career_merit, value: 5 }
+        failure:
+          - { type: money, value: 1, ledger: buon_ban }
+          - { type: stress, value: 3 }
+        success_result: ['Nửa năm sau thuyền về, người lái đếm trả đủ phần, còn biếu thêm một gói quế thơm.']
+        failure_result: ['Thuyền về, người lái kể hàng bị ẩm, bị cướp mất một nửa. Thật hư thế nào bạn không có cách nào biết.']
+      - id: o_nha
+        text: 'Thôi, ở nhà giữ sạp'
+        trait_stress: { tham_vong: 4 }
+        effects:
+          - { type: stress, value: -2 }
+        result: ['Mùa ấy bạn ở nhà, chiều chiều ra bến nhìn thuyền người ta ngược nước.']
+
+  - id: bs_len_nguoc_cho_nui
+    title: Phiên chợ miền ngược
+    tags: [buon_ban, quan_he, nguy_hiem]
+    scheduled_only: true
+    condition: { has_flag: bs_dang_len_nguoc }
+    weight: 1
+    tension: 5
+    importance: 7
+    icon: nguoi_la
+    text:
+      - 'Sau ba tháng chống sào ngược dòng, thuyền bạn cập một phiên chợ dưới chân núi. Muối vừa bày ra, người miền ngược đã vây kín. Ông tù trưởng trong vùng mời bạn ở lại uống rượu cần, hẹn đổi cả kho quế tốt cho riêng bạn. Nhưng trong thuyền đã có hai người phu lên cơn sốt.'
+    options:
+      - id: o_lai
+        text: 'Ở lại kết thân với ông tù trưởng, chờ quế tốt'
+        hint: 'Hàng quý hơn, nhưng ở lâu dễ nhiễm sốt rừng'
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 15 }
+          - { type: set_flag, flag: bs_hang_que_quy, years: 2 }
+          - { type: chance, p: 0.35, then: [{ type: add_disease, disease: sot_ret }] }
+          - { type: schedule_event, event: bs_len_nguoc_tro_ve, months: 5, keep_roles: false }
+        result: ['Bạn ngồi bên bếp lửa nhà sàn, uống rượu cần bằng cần trúc dài. Ông tù trưởng gọi bạn là "người em dưới xuôi".']
+      - id: doi_nhanh
+        text: 'Đổi vội lấy sa nhân, quay thuyền về ngay'
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 12 }
+          - { type: stress, value: -1 }
+          - { type: schedule_event, event: bs_len_nguoc_tro_ve, months: 3, keep_roles: false }
+        result: ['Hàng không quý bằng, nhưng người phu ốm được đưa về xuôi kịp. Bạn ngoái nhìn dãy núi xanh, hẹn một lần khác.']
+      - id: ep_gia
+        text: 'Thấy người ta cần muối, nâng giá gấp đôi'
+        trait_stress: { nhan_tu: 4 }
+        chance: { base: 0.5, skill: thuong_mai, per_level: 0.05 }
+        effects:
+          - { type: schedule_event, event: bs_len_nguoc_tro_ve, months: 3, keep_roles: false }
+        success:
+          - { type: set_flag, flag: bs_hang_que_quy, years: 2 }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+        failure:
+          - { type: stress, value: 4 }
+          - { type: skill_xp, skill: ngoai_giao, value: 8 }
+        success_result: ['Người miền ngược nhăn mặt nhưng vẫn đổi. Khoang thuyền chất đầy quế thơm.']
+        failure_result: ['Cả chợ bỏ đi sang thuyền khác. Bạn phải hạ giá thấp hơn cả lúc đầu mới đổi được.']
+
+  - id: bs_len_nguoc_tro_ve
+    title: Thuyền hàng về qua thác
+    tags: [buon_ban, nguy_hiem]
+    scheduled_only: true
+    condition: { has_flag: bs_dang_len_nguoc }
+    weight: 1
+    tension: 5
+    importance: 7
+    icon: tien
+    text:
+      - 'Thuyền chất đầy hàng miền ngược xuôi dòng về. Đến khúc thác dữ nhất, nước chảy trắng xóa, đá ngầm lởm chởm như răng cưa. Người dẫn thác đầu bản đòi 2 quan mới chịu cầm lái.'
+    options:
+      - id: thue_dan_thac
+        text: 'Trả 2 quan thuê người dẫn thác'
+        condition: { not: { has_flag: bs_hang_que_quy } }
+        effects:
+          - { type: clear_flag, flag: bs_dang_len_nguoc }
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: money, value: 9, ledger: buon_ban }
+          - { type: career_merit, value: 12 }
+        result: ['Người dẫn thác đứng mũi thuyền, hét một tiếng là cả thuyền lách qua khe đá. Về bến, sa nhân bán đủ lời.']
+      - id: thue_dan_thac_que
+        text: 'Trả 2 quan thuê người dẫn thác, giữ trọn khoang quế'
+        condition: { has_flag: bs_hang_que_quy }
+        effects:
+          - { type: clear_flag, flag: bs_dang_len_nguoc }
+          - { type: clear_flag, flag: bs_hang_que_quy }
+          - { type: money, value: -2, ledger: su_kien }
+          - { type: money, value: 14, ledger: buon_ban }
+          - { type: career_merit, value: 16 }
+        result: ['Quế về đến bến còn thơm nức. Các nhà thuốc bắc trên trấn tranh nhau trả giá, bạn bán hết trong ba ngày.']
+      - id: lieu_vuot
+        text: 'Tự cầm lái, liều vượt thác lúc nước lên'
+        chance:
+          base: 0.5
+          skill: sinh_ton
+          per_level: 0.05
+          modifiers:
+            - { condition: { has_flag: bs_hang_que_quy }, add: -0.05 }
+        effects:
+          - { type: clear_flag, flag: bs_dang_len_nguoc }
+          - { type: clear_flag, flag: bs_hang_que_quy }
+        success:
+          - { type: money, value: 11, ledger: buon_ban }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        failure:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: health, value: -6 }
+          - { type: stress, value: 6 }
+        success_result: ['Thuyền chồm qua ba bậc đá, nước tạt ướt cả khoang mà hàng không sao. Về bến, bạn kể lại chuyện ấy suốt mấy mùa.']
+        failure_result: ['Thuyền va đá, toác một mạn. Người thì vớt được cả, hàng thì trôi mất quá nửa.']
+      - id: khieng_bo
+        text: 'Dỡ hàng, thuê phu khiêng bộ vòng qua thác'
+        effects:
+          - { type: clear_flag, flag: bs_dang_len_nguoc }
+          - { type: clear_flag, flag: bs_hang_que_quy }
+          - { type: health, value: -5 }
+          - { type: money, value: 7, ledger: buon_ban }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: stress, value: 3 }
+        result: ['Ba ngày khiêng hàng qua đường rừng, vai sưng tấy. Chậm mà chắc, hàng về đủ, chỉ ẩm mất một ít.']
+
+  # ── Hàng theo mùa, quan trấn ──
+  - id: bs_ca_moi_dau_xuan
+    title: Cá mòi ngược sông đầu xuân
+    tags: [buon_ban, thoi_co, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [2, 3]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    weight: 4
+    weight_modifiers:
+      - { condition: { var: world.trade_index, op: '>=', value: 1.2 }, factor: 1.5 }
+    cooldown_years: 4
+    tension: 4
+    importance: 5
+    icon: ca
+    text:
+      - 'Cuối tháng giêng, đàn cá mòi từ biển ngược sông lên đẻ trứng, chỉ hơn một tháng là hết mùa. Cá mòi ướp muối phơi khô đem lên trấn hay lên Kinh đều được giá, nhất là năm buôn bán thuận. Phường chài đang chờ người ôm cả mẻ.'
+    options:
+      - id: om_ca_me
+        text: 'Ôm cả mẻ, thuê người ướp muối phơi khô (5 quan)'
+        condition: { var: household.money, op: '>=', value: 5 }
+        hint: 'Năm chợ búa thuận thì dễ lời, năm ế thì dễ lỗ'
+        chance:
+          base: 0.5
+          skill: thuong_mai
+          per_level: 0.04
+          modifiers:
+            - { condition: { var: world.trade_index, op: '>=', value: 1.2 }, add: 0.2 }
+            - { condition: { var: world.trade_index, op: '<', value: 0.9 }, add: -0.2 }
+        effects:
+          - { type: money, value: -5, ledger: su_kien }
+        success:
+          - { type: money, value: 11, ledger: buon_ban }
+          - { type: career_merit, value: 10 }
+        failure:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: stress, value: 4 }
+        success_result: ['Giàn phơi cá trải dài bãi sông, mùi tanh nồng cả tháng. Cá khô lên Kinh bán hết, chẳng còn lấy một con.']
+        failure_result: ['Mưa xuân dầm dề, cá phơi không ráo, nhiều mẻ phải bán rẻ cho nhà làm mắm.']
+      - id: mua_vua
+        text: 'Mua vừa đủ bán lẻ ở sạp'
+        effects:
+          - { type: money, value: 2, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 10 }
+        result: ['Sạp nhà bạn có món cá mòi kho khế, ai đi chợ cũng ghé mua vài khúc.']
+      - id: gui_len_kinh
+        text: 'Gửi cá khô biếu nhà quan trên Kinh, nhờ giới thiệu mối'
+        chance: { base: 0.4, skill: ngoai_giao, per_level: 0.05 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+        success:
+          - { type: money, value: 9, ledger: buon_ban }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        failure:
+          - { type: money, value: 1, ledger: buon_ban }
+          - { type: stress, value: 2 }
+        success_result: ['Bếp nhà quan dùng thấy ngon, gửi thư đặt thêm mỗi năm một chuyến. Người làm nhà quan còn rỉ tai giá cả trên Kinh.']
+        failure_result: ['Cá đến nơi thì nhà quan đã đi nhậm chức xa. Người gác cổng nhận hộ, rồi chẳng thấy tin tức gì.']
+
+  - id: bs_ket_giao_quan_tran
+    title: Tiệc mừng quan trấn thủ mới
+    tags: [buon_ban, quan_he, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thuong_nhan }
+        - { not: { has_flag: bs_than_quan_tran } }
+    weight: 4
+    cooldown_years: 8
+    tension: 4
+    importance: 6
+    icon: chen_tra
+    text:
+      - 'Quan trấn thủ mới về nhậm chức, mở tiệc ở dinh. Các nhà buôn lớn trên bến đều sửa lễ đến mừng, người dâng tấm lụa, người dâng đôi ngà. Ai được quan nhớ mặt thì việc thuyền bè, kho bãi về sau dễ thở hơn nhiều.'
+    options:
+      - id: hau_le
+        text: 'Dâng hậu lễ 6 quan, xin được lo gạo cho dinh'
+        condition: { var: household.money, op: '>=', value: 6 }
+        effects:
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: set_flag, flag: bs_than_quan_tran, years: 6, label: 'Được quan trấn thủ nhớ mặt' }
+          - { type: modifier, target: xp.thuong_mai, value: 1.15, op: mul, months: 48, label: 'Lo gạo cho dinh trấn' }
+          - { type: career_merit, value: 12 }
+          - { type: reputation, group: dan_lang, value: -3 }
+        result: ['Quan nhận lễ, gọi bạn ngồi gần. Người bến bắt đầu gọi nhà bạn là "nhà buôn của dinh", nửa nể nửa ghét.']
+      - id: le_vua
+        text: 'Lễ vừa phải, kèm đôi câu đối nhờ thầy đồ viết'
+        chance:
+          base: 0.45
+          skill: ngoai_giao
+          per_level: 0.05
+          modifiers:
+            - { condition: { var: player.scholarly_prestige, op: '>=', value: 20 }, add: 0.1 }
+        effects:
+          - { type: money, value: -2, ledger: su_kien }
+        success:
+          - { type: career_merit, value: 8 }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        failure:
+          - { type: stress, value: 2 }
+        success_result: ['Quan đọc đôi câu đối, khen chữ đẹp ý hay, hỏi tên nhà buôn nào biết chuộng văn chương.']
+        failure_result: ['Đôi câu đối bị xếp chung đống với lễ vật. Quan liếc qua bạn một lần rồi quay sang nhà buôn ngà.']
+      - id: khong_den
+        text: 'Không đến, nhà buôn sống bằng hàng tốt'
+        trait_stress: { tham_vong: 4, co_hoi: 3 }
+        effects:
+          - { type: career_merit, value: -3 }
+          - { type: stress, value: -1 }
+        result: ['Tối ấy bạn ngồi tính sổ dưới đèn. Bên kia sông, dinh trấn sáng đèn lồng đến khuya.']

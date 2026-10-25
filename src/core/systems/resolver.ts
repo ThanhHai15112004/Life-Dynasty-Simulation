@@ -5,10 +5,10 @@ import { UnknownVariableError, type Resolver } from '../engine/RuleEvaluator';
 import { fullName, type Character } from '../entities/Character';
 import { farmlandOf } from '../entities/Property';
 import type { SimContext } from './context';
-import { monthlyFoodNeed, workerCount } from './economy/helpers';
+import { householdNetWorth, localTradeFactor, monthlyFoodNeed, selfFarms, workerCount } from './economy/helpers';
 import { aliveChildrenOf } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
-import { isExamYear } from './status';
+import { ExamStage, examStage } from './status';
 
 export interface Bindings {
   /** Nhân vật đang xét (ứng viên vai trò, người chịu modifier có điều kiện...). */
@@ -96,6 +96,18 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return state.civilization.examDegree;
       case 'mourning_months':
         return state.civilization.mourningMonthsLeft;
+      case 'status_rank':
+        return state.civilization.statusRank;
+      case 'origin':
+        return state.originId;
+      case 'best_skill':
+        return Object.values(c.skills).reduce((m, sk) => Math.max(m, sk.level), 0);
+      case 'favor_total':
+        return Object.values(state.characters).reduce((sum, x) => sum + Math.max(0, x.favorWithPlayer ?? 0), 0);
+      case 'ambition_progress': {
+        const amb = state.ambition.id ? content.index.ambition.get(state.ambition.id) : undefined;
+        return amb ? state.ambition.achievedMilestones.length / amb.milestones.length : 0;
+      }
       default:
         throw new UnknownVariableError(path);
     }
@@ -120,7 +132,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'trade_index') return state.world.tradeIndex;
         if (key === 'military_alert') return state.world.militaryAlert;
         if (key === 'patrol_level') return state.world.patrolLevel;
-        if (key === 'is_exam_year') return isExamYear(ctx);
+        if (key === 'exam_stage') return examStage(ctx);
+        if (key === 'is_exam_year') return examStage(ctx) === ExamStage.Huong;
+        if (key === 'settlement_type') return state.world.settlementType;
+        if (key === 'local_trade_factor') return localTradeFactor(ctx);
         throw new UnknownVariableError(path);
       }
       case 'player':
@@ -154,6 +169,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
             return workerCount(ctx);
           case 'farmland':
             return farmlandOf(h, content);
+          case 'net_worth':
+            return householdNetWorth(ctx);
+          case 'self_farms':
+            return selfFarms(ctx);
           case 'food_months': {
             const need = monthlyFoodNeed(ctx);
             return need > 0 ? h.food / need : 99;
@@ -200,6 +219,8 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
       return last === 'name' ? fullName(c) : last === 'given' ? c.givenName : callOf(ctx, c);
     }
     if (path === 'world.settlement') return state.world.settlementName;
+    if (path === 'world.reign') return state.world.reignName;
+    if (path === 'world.reign_year') return state.clock.year - state.world.reignStartYear + 1;
     if (path === 'world.season_name') return content.balance.calendar.seasons.find((s) => s.id === seasonOf(ctx))?.name;
     if (path === 'world.weather_name') return content.balance.calendar.weathers.find((w) => w.id === state.world.weather)?.name;
     if (path === 'world.harvest_name') return content.index.harvestQuality.get(state.world.harvestQuality)?.name;

@@ -82,6 +82,8 @@ export function spawnVillageNpc(ctx: SimContext, npc: Origin['village_npcs'][num
 
 function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin): GameState {
   const time = content.balance.time;
+  const civ = content.civilizations[0];
+  if (!civ) throw new Error('Không có khuôn văn minh nào trong src/data/civilizations');
   return {
     version: SAVE_VERSION,
     seed: opts.seed,
@@ -92,13 +94,17 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     clock: { year: time.start_year, month: time.start_month, monthIndex: 0 },
     world: {
       settlementName: '',
+      settlementType: origin.settlement,
       harvestQuality: content.balance.economy.harvest_qualities[0].id,
       foodPrice: content.balance.economy.price.base,
       weather: content.balance.calendar.weathers[0].id,
       lastHarvest: 0,
-      tradeIndex: 1.0,
-      militaryAlert: 'binh_yen',
-      patrolLevel: 20,
+      tradeIndex: content.balance.opportunity.start_trade_index,
+      militaryAlert: content.balance.opportunity.military_alerts[0].id,
+      patrolLevel: content.balance.opportunity.start_patrol_level,
+      reignName: content.chronicle.startReign,
+      reignStartYear: time.start_year,
+      alertLock: null,
     },
     characters: {},
     households: {},
@@ -122,13 +128,16 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
       ambitionBonus: 0,
     },
     civilization: {
-      id: content.civilizations[0]?.id ?? 'nho_giao',
-      filialPiety: 65,
-      scholarlyPrestige: origin.id === 'quy_toc_nho' ? 15 : 0,
+      id: civ.id,
+      filialPiety: origin.start_status.filial_piety ?? civ.start.filial_piety,
+      scholarlyPrestige: origin.start_status.scholarly_prestige ?? civ.start.scholarly_prestige,
       examDegree: 'none',
       mourningMonthsLeft: 0,
+      statusRank: civ.status_ranks[0].id,
     },
-    lastCutsceneId: null,
+    cutscenes: [],
+    chronicle: {},
+    lifeMap: [],
     flags: {},
     eventHistory: {},
     ambientHistory: {},

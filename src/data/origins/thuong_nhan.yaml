@@ -7,6 +7,8 @@ start_age_options: [16, 6, 0]
 default_start_age: 16
 default_focus: kinh_doanh
 default_career: thuong_nhan
+settlement: thi_tran_ben_song
+start_log: sys.khoi_dau_nha_buon
 player:
   sex: any
   health: [65, 82]

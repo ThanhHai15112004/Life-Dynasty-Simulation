@@ -6,7 +6,8 @@ import { getHudView } from '../api/queries';
 import { marryPlayer } from '../systems/family';
 import { cureCharacter, infectCharacter, kill } from '../systems/life';
 import { player } from '../systems/people';
-import { changeFilialPiety, setExamDegree } from '../systems/status';
+import { changeFilialPiety, examStage, setExamDegree } from '../systems/status';
+import { deserialize, serialize } from '../engine/SaveSystem';
 
 const content = loadNodeContent();
 
@@ -112,7 +113,7 @@ describe('GameSession', () => {
 
     expect(sNongDan.state.career.id).toBe('nong_dan');
     expect(sThuongNhan.state.career.id).toBe('thuong_nhan');
-    expect(sQuyToc.state.career.id).toBe('nong_dan');
+    expect(sQuyToc.state.career.id).toBe('si_tu');
     expect(sQuyToc.read(getHudView).household.properties.some((p) => p.id === 'phu_nho')).toBe(true);
 
     // Thực hiện hoạt động nghề nghiệp của Nông dân ("Khẩn hoang bãi bồi", tốn 2 thóc)
@@ -136,29 +137,162 @@ describe('GameSession', () => {
 
   it('GĐ1 (Gói 1C): Khuôn văn minh Nho giáo, Khoa cử, Cư tang 27 tháng và Cảnh 7 lớp', () => {
     const s = GameSession.create(content, { originId: 'quy_toc_nho', seed: 'civ-test', startAge: 18 });
+    const civ = content.index.civilization.get('nho_giao')!;
+    const origin = content.index.origin.get('quy_toc_nho')!;
     expect(s.state.civilization.id).toBe('nho_giao');
-    expect(s.state.civilization.scholarlyPrestige).toBe(15);
+    expect(s.state.civilization.scholarlyPrestige).toBe(origin.start_status.scholarly_prestige);
+    const filialStart = s.state.civilization.filialPiety;
 
-    // Đỗ Khoa cử bậc Hương cống → tăng Danh vọng sĩ phu và kích hoạt hoạt cảnh Vinh quy bái tổ
+    // Đỗ Hương cống (cần đủ Học vấn) → tăng Danh vọng sĩ phu và phát hoạt cảnh Vinh quy bái tổ
     s.read((ctx) => {
+      player(ctx).skills['hoc_van'] = { level: 5, xp: 0 };
       setExamDegree(ctx, 'huong_cong');
       changeFilialPiety(ctx, 10);
     });
+    const huongCong = civ.exam_degrees.find((d) => d.id === 'huong_cong')!;
     expect(s.state.civilization.examDegree).toBe('huong_cong');
-    expect(s.state.civilization.scholarlyPrestige).toBe(50);
-    expect(s.state.civilization.filialPiety).toBe(75);
-    expect(s.consumeCutscene()).toBe('vinh_quy_bai_to');
+    expect(s.state.civilization.scholarlyPrestige).toBe(origin.start_status.scholarly_prestige! + huongCong.prestige_gain);
+    expect(s.state.civilization.filialPiety).toBe(filialStart + 10);
+    expect(s.consumeCutscenes()).toEqual([civ.cutscenes.exam_passed]);
     expect(s.sceneDescriptor().examDegree).toBe('huong_cong');
 
-    // Khi cha hoặc mẹ qua đời → kích hoạt Cư tang 27 tháng và đổi tình trạng Cảnh 7 lớp sang 'cu_tang'
+    // Không bao giờ hạ học vị
+    s.read((ctx) => setExamDegree(ctx, 'sinh_do'));
+    expect(s.state.civilization.examDegree).toBe('huong_cong');
+
+    // Cha mất → Cư tang, cảnh đổi sang 'cu_tang', hoạt cảnh tang lễ
     s.read((ctx) => {
       const me = player(ctx);
       const father = me.fatherId ? ctx.state.characters[me.fatherId] : undefined;
       expect(father).toBeDefined();
       kill(ctx, father!, 'benh');
     });
-    expect(s.state.civilization.mourningMonthsLeft).toBe(27);
-    expect(s.consumeCutscene()).toBe('tang_le');
+    expect(s.state.civilization.mourningMonthsLeft).toBe(civ.mourning_months);
+    expect(s.consumeCutscenes()).toEqual([civ.cutscenes.mourning]);
     expect(s.sceneDescriptor().condition).toBe('cu_tang');
   });
+
+  it('Khoa cử: Học vấn chưa đủ thì chỉ nhận học vị vừa sức; thi Hội mở năm sau thi Hương', () => {
+    const s = GameSession.create(content, { originId: 'quy_toc_nho', seed: 'exam', startAge: 18 });
+    s.read((ctx) => {
+      player(ctx).skills['hoc_van'] = { level: 3, xp: 0 };
+      setExamDegree(ctx, 'tien_si');
+    });
+    expect(s.state.civilization.examDegree).toBe('sinh_do');
+
+    const civ = content.index.civilization.get('nho_giao')!;
+    const start = content.balance.time.start_year;
+    const stageAt = (offset: number) =>
+      s.read((ctx) => {
+        const saved = ctx.state.clock.year;
+        ctx.state.clock.year = start + offset;
+        const st = examStage(ctx);
+        ctx.state.clock.year = saved;
+        return st;
+      });
+    expect(stageAt(civ.exam_interval_years)).toBe('huong');
+    expect(stageAt(civ.exam_interval_years + civ.metropolitan_exam_offset_years)).toBe('hoi');
+    expect(stageAt(civ.exam_interval_years + civ.metropolitan_exam_offset_years + 1)).toBe('none');
+  });
+
+  it('Xuất thân khác nhau thì cách mưu sinh khác nhau (không phải ai cũng là nông dân)', () => {
+    const categories = (originId: string) => {
+      const s = GameSession.create(content, { originId, seed: `eco-${originId}`, startAge: 16 });
+      for (let i = 0; i < 12 && !s.state.gameOver; i++) {
+        const r = s.tickMonth();
+        if (r.decision) s.dispatch({ type: 'chooseOption', optionId: s.state.pending!.options[0].id });
+      }
+      const hist = s.state.ledgerHistory.flatMap((y) => y.entries);
+      const cur = s.read((ctx) => ctx.state.households[ctx.state.householdId].ledger);
+      return { s, cats: new Set([...hist, ...cur].filter((e) => e.money !== 0 || e.food !== 0).map((e) => e.category)) };
+    };
+    const farmer = categories('nong_dan');
+    expect(farmer.cats.has('thu_hoach')).toBe(true);
+    expect(farmer.cats.has('thu_to')).toBe(false);
+    expect(farmer.s.read(getHudView).household.selfFarm).toBe(true);
+
+    const merchant = categories('thuong_nhan');
+    expect(merchant.cats.has('thu_hoach')).toBe(false);
+    expect(merchant.cats.has('thu_to')).toBe(true);
+    expect(merchant.cats.has('buon_ban')).toBe(true);
+    expect(merchant.s.read(getHudView).household.regularIncome).toBeGreaterThan(0);
+    expect(merchant.s.sceneDescriptor().location).toBe('thi_tran_ben_song');
+
+    const noble = categories('quy_toc_nho');
+    expect(noble.cats.has('thu_hoach')).toBe(false);
+    expect(noble.cats.has('thu_to')).toBe(true);
+    expect(noble.cats.has('day_hoc')).toBe(true);
+    expect(noble.s.sceneDescriptor().location).toBe('lang_nong');
+  });
+
+  it('Thang địa vị: đỗ đạt thì lên hàng sĩ phu, có ghi nhật ký và modifier của bậc', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'status', startAge: 18 });
+    const civ = content.index.civilization.get('nho_giao')!;
+    const before = civ.status_ranks.findIndex((r) => r.id === s.state.civilization.statusRank);
+    s.read((ctx) => {
+      player(ctx).skills['hoc_van'] = { level: 3, xp: 0 };
+      setExamDegree(ctx, 'sinh_do');
+    });
+    s.tickMonth();
+    expect(s.state.civilization.statusRank).toBe('si_phu');
+    expect(civ.status_ranks.findIndex((r) => r.id === 'si_phu')).toBeGreaterThan(before);
+    expect(s.state.log.flatMap((y) => y.entries).some((e) => e.sourceId === 'sys.dia_vi_len')).toBe(true);
+    expect(s.read(getHudView).player.statusRank.id).toBe('si_phu');
+  });
+
+  it('Save cũ thiếu trường mới vẫn tải được, giá trị bù lấy từ data', () => {
+    const s = GameSession.create(content, { originId: 'thuong_nhan', seed: 'old-save' });
+    const raw = JSON.parse(serialize(s.state));
+    delete raw.civilization;
+    delete raw.cutscenes;
+    delete raw.world.settlementType;
+    raw.lastCutsceneId = null;
+    const loaded = GameSession.load(content, JSON.stringify(raw));
+    const civ = content.civilizations[0];
+    expect(loaded.state.civilization.filialPiety).toBe(civ.start.filial_piety);
+    expect(loaded.state.world.settlementType).toBe('thi_tran_ben_song');
+    expect(loaded.state.cutscenes).toEqual([]);
+    expect('lastCutsceneId' in loaded.state).toBe(false);
+    expect(deserialize(serialize(loaded.state)).cutscenes).toEqual([]);
+    play(loaded, 12);
+  });
+
+  it('Biên niên vương triều: biến cố ghi nhật ký, đổi niên hiệu, khóa động tĩnh quân sự', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'chronicle' });
+    expect(s.state.world.reignName).toBe(content.chronicle.startReign);
+    play(s, 12 * 40);
+    const fired = Object.keys(s.state.chronicle);
+    expect(fired.length).toBeGreaterThan(0);
+    // Mỗi biến cố đã xảy ra có ít nhất một dòng nhật ký (biến cố lặp lại có thể nhiều dòng)
+    const logged = new Set(s.state.log.flatMap((y) => y.entries).filter((e) => e.sourceId.startsWith('chronicle.')).map((e) => e.sourceId.slice('chronicle.'.length)));
+    expect([...logged].sort()).toEqual([...fired].sort());
+    // Niên hiệu hiện tại là niên hiệu của lần đổi vua gần nhất (hoặc niên hiệu khởi đầu)
+    const reigns = fired.map((id) => content.index.chronicle.get(id)!).filter((e) => e.reign);
+    const latest = reigns.sort((a, b) => s.state.chronicle[b.id] - s.state.chronicle[a.id])[0];
+    expect(s.state.world.reignName).toBe(latest?.reign ?? content.chronicle.startReign);
+    // Biến cố có khóa quân sự thì năm đó động tĩnh đúng như khóa
+    const lock = s.state.world.alertLock;
+    if (lock && s.state.clock.year <= lock.untilYear) expect(s.state.world.militaryAlert).toBe(lock.id);
+  });
+
+  it('Bản đồ cuộc đời: mỗi năm đã sống một ô, có tuổi thọ kỳ vọng', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'lifemap', startAge: 16 });
+    play(s, 12 * 3);
+    const hud = s.read(getHudView);
+    expect(hud.lifeMap.cells.length).toBe(3);
+    expect(hud.lifeMap.cells.map((c) => c.age)).toEqual([16, 17, 18]);
+    expect(hud.lifeMap.expectedLifespan).toBeGreaterThan(20);
+    expect(hud.lifeMap.expectedLifespan).toBeLessThan(80);
+  });
+
+  it('Hộ không tự cày đong thóc dự trữ khi có tiền; nghề nhà đổi trọng số sự kiện', () => {
+    const s = GameSession.create(content, { originId: 'thuong_nhan', seed: 'reserve', startAge: 16 });
+    play(s, 6);
+    const hud = s.read(getHudView);
+    if (hud.household.money > 1) expect(hud.household.foodMonths).toBeGreaterThanOrEqual(content.balance.economy.tenancy.food_reserve_months - 0.5);
+    const merchant = content.index.career.get('thuong_nhan')!;
+    expect(merchant.event_weights.buon_ban).toBeGreaterThan(1);
+    expect(merchant.event_weights.ruong_dong).toBeLessThan(1);
+  });
 });
+

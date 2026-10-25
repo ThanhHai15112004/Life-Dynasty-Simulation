@@ -8,6 +8,20 @@ templates:
     icon: khoi_dau
     variants:
       - 'Bạn là {player.name}, {player.age} tuổi, con nhà nông ở làng {world.settlement}. Nhà có {household.farmland} sào ruộng, kho còn {household.food} thúng thóc.'
+  - id: sys.khoi_dau_nha_buon
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con nhà buôn ở bến {world.settlement}. Nhà có một sạp hàng ngoài chợ, {household.money} quan vốn xoay vòng và {household.farmland} sào ruộng cho cấy rẽ.'
+  - id: sys.khoi_dau_nha_nho
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con cháu một dòng hương hào ở làng {world.settlement}. Nếp nhà ngói cổ còn đó, {household.farmland} sào ruộng hương hỏa, nhưng nợ cũ đã lên {household.debt} quan.'
   - id: sys.sinh_nhat
     kind: bao_cao
     importance: 1
@@ -259,3 +273,30 @@ templates:
     variants:
       - 'Theo lễ Nho giáo, bạn bước vào kỳ cư tang {call} trong {amount} tháng.'
       - 'Nhà có đại tang {call}: bạn giữ lễ cư tang {amount} tháng để trọn đạo hiếu.'
+  - id: sys.dia_vi_len
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Người trong làng nhìn nhà bạn bằng con mắt khác: từ nay bạn thuộc hàng "{title}".'
+      - 'Chỗ ngồi nơi đình trung đã đổi: bạn bước lên hàng "{title}".'
+  - id: sys.dia_vi_xuong
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: buon
+    icon: moc_doi
+    variants:
+      - 'Thế nhà sa sút, người làng giờ xếp bạn vào hàng "{title}".'
+      - 'Lời chào ngoài ngõ đã khác trước: bạn chỉ còn là "{title}".'
+  - id: sys.thu_to
+    kind: bao_cao
+    importance: 2
+    icon: lua
+    short: 'thu {amount} thúng thóc tô'
+    variants:
+      - 'Tá điền gánh thóc tô đến nộp: được {amount} thúng từ {sao} sào ruộng phát canh.'
+      - 'Mùa gặt, ruộng cho cấy rẽ nộp về {amount} thúng thóc tô.'
+

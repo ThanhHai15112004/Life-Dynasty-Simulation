@@ -13,22 +13,24 @@
       html,
       body {
         width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #0f1419;
-        color: #e6edf3;
+        min-height: 100%;
+        background: #f3efe6;
+        color: #2a2622;
         font-family: system-ui, -apple-system, sans-serif;
       }
+      /* Khung Phaser: ở menu nằm ngoài màn hình (vẫn có kích thước thật để WebGL khởi tạo được),
+         vào màn hình chơi thì React chuyển nó vào thẻ cảnh */
       #game-container {
         position: absolute;
-        inset: 0;
-        z-index: 1;
+        left: -10000px;
+        top: 0;
+        width: 640px;
+        height: 224px;
       }
-      #ui-root {
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-        pointer-events: none;
+      #game-container.mounted {
+        position: static;
+        width: 100%;
+        height: 100%;
       }
     </style>
   </head>

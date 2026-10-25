@@ -25,9 +25,14 @@ export function LedgerPanel({ hud }: { hud: HudView }) {
         <div className="muted small">
           {t('ledger.monthly_need', { food: num(h.monthlyFood), money: num(h.monthlyMoney) })}
         </div>
-        <Tooltip content={<ModifierList result={h.harvestYield} title={t('mods.harvest')} />}>
-          <div className="muted small underline">{t('ledger.harvest_factor', { x: h.harvestYield.value.toFixed(2) })}</div>
-        </Tooltip>
+        {h.selfFarm ? (
+          <Tooltip content={<ModifierList result={h.harvestYield} title={t('mods.harvest')} />}>
+            <div className="muted small underline">{t('ledger.harvest_factor', { x: h.harvestYield.value.toFixed(2) })}</div>
+          </Tooltip>
+        ) : (
+          <div className="muted small">{t('ledger.tenancy_note')}</div>
+        )}
+        {h.regularIncome > 0 && <div className="muted small">{t('ledger.regular_income', { money: num(h.regularIncome) })}</div>}
       </div>
       <h4>{t('ledger.this_year')}</h4>
       <table>

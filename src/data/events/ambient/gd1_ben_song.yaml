@@ -1,0 +1,798 @@
+# [1] Nhật ký dòng đời: thị trấn bến sông và nhà buôn
+# Nhịp chợ theo mùa và giá buôn (world.trade_index), thuyền bè, phố chợ, khách lạ, tin đồn Kinh thành và cửa biển,
+# gia đình nhà buôn, hội đua thuyền, chùa bến sông. Tác động nhỏ ±1–3.
+templates:
+  # ── Nhịp chợ theo mùa và giá buôn ──
+  - id: bs_cho_khai_hang_dau_nam
+    kind: bao_cao
+    tags: [buon_ban, le_hoi]
+    months: [1, 2]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    tone: vui
+    icon: tet
+    short: 'khai hàng đầu năm'
+    variants:
+      - 'Mồng sáu Tết, nhà bạn mở sạp khai hàng. Người mua đầu tiên là một bà cụ vui tính, cả nhà mừng như bắt được vàng.'
+      - 'Ngày khai chợ, bạn đặt đĩa trầu cau lên mặt sạp, bán món hàng đầu tiên với giá thấp cho lấy may.'
+      - 'Chợ đầu năm còn thưa, người ta đi chợ lấy lộc nhiều hơn đi mua. Bạn cũng chẳng nài, chỉ cười chào từng người.'
+
+  - id: bs_gia_len_thuyen_chen
+    kind: bao_cao
+    tags: [buon_ban, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.25 }] }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: tien
+    short: 'giá buôn lên'
+    variants:
+      - 'Giá hàng trên bến lên từng phiên. Thuyền chen nhau cập bến, mái chèo va lách cách, chủ thuyền gọi nhau khản cả cổ.'
+      - 'Năm nay buôn thuận. Hàng vừa dỡ khỏi thuyền đã có người đứng chờ mua, chẳng cần mặc cả.'
+      - 'Kho nhà bạn vơi nhanh hơn mọi năm. Tối nào cũng phải ngồi gảy bàn tính đến canh hai.'
+    effects: [{ type: skill_xp, skill: thuong_mai, value: 5 }]
+
+  - id: bs_gia_xuong_ep_gia
+    kind: bao_cao
+    tags: [buon_ban, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '<', value: 0.85 }] }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: tien
+    short: 'lái buôn ép giá'
+    variants:
+      - 'Lái buôn đường xa trả giá như cắt cổ, biết thừa nhà bạn đang tồn hàng. Bạn nghiến răng bán một nửa.'
+      - 'Bến vắng thuyền. Mấy bao hàng xếp trong kho đã bắt đầu có mùi ẩm.'
+      - 'Chợ chiều, các sạp quanh bến dọn sớm. Ai cũng than năm nay buôn đâu lỗ đấy.'
+    trait_reactions:
+      kien_nhan: 'Bạn bảo người nhà cứ giữ hàng, sang mùa giá sẽ lên.'
+      nong_nay: 'Bạn cáu với cả người nhà, rồi tối về ngồi thở dài.'
+    effects: [{ type: stress, value: 1 }]
+
+  - id: bs_cho_giap_hat_vang
+    kind: tin_the_gioi
+    tags: [kinh_te, lang_xa]
+    months: [3, 4]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: buon
+    icon: cho
+    short: 'chợ giáp hạt vắng'
+    variants:
+      - 'Tháng ba giáp hạt, chợ bến thưa hẳn. Người ta mua gạo từng bơ, mua muối từng nhúm.'
+      - 'Chợ giáp hạt, mấy bà hàng xén ngồi quạt ruồi suốt buổi. Chỉ hàng cám hàng sắn là còn người hỏi.'
+
+  - id: bs_mua_nuoc_hang_ve
+    kind: tin_the_gioi
+    tags: [buon_ban]
+    months: [7, 8]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: lu
+    short: 'mùa nước hàng về nhiều'
+    variants:
+      - 'Mùa nước lớn, thuyền to từ miền xuôi lên được tận bến. Vải vóc, nồi niêu về nhiều, giá hạ hẳn.'
+      - 'Nước sông lên ngập bậc bến thứ ba. Thuyền buôn đậu sát chân phố, khách bước thẳng từ mạn thuyền lên sạp.'
+
+  - id: bs_phien_ram_dong
+    kind: tin_the_gioi
+    tags: [buon_ban, lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: cho
+    short: 'phiên chợ rằm'
+    variants:
+      - 'Phiên chợ rằm, người các làng ven sông gánh hàng ra từ lúc gà gáy. Đến trưa thì đường bến đặc người.'
+      - 'Chợ phiên họp kín từ đầu dốc đến gốc đa. Tiếng rao, tiếng gà vịt, tiếng mặc cả lẫn vào nhau như nước sôi.'
+      - 'Phiên chợ hôm nay có cả người miền ngược mang mật ong và nấm hương xuống bán. Ai cũng xúm lại xem.'
+
+  - id: bs_hang_tet_chuan_bi
+    kind: bao_cao
+    tags: [buon_ban, le_hoi]
+    months: [12]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: between, value: [0.85, 1.15] }] }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: tet
+    short: 'cất hàng Tết'
+    variants:
+      - 'Tháng chạp, nhà bạn cất thêm lá dong, giấy đỏ và mứt gừng về bày sạp. Chẳng biết năm nay Tết có đắt hàng không.'
+      - 'Cả nhà xúm vào gói từng gói chè, buộc từng bó hương bán Tết. Mùi trầm bám vào áo suốt mấy ngày.'
+
+  - id: bs_gia_muoi_nhich
+    kind: bao_cao
+    tags: [buon_ban, thoi_co]
+    months: [9, 10, 11]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.1 }] }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    tone: vui
+    icon: tien
+    short: 'muối lên giá mùa muối cà'
+    variants:
+      - 'Vào mùa muối cà muối dưa, nhà nào cũng cần muối. Giá muối trên bến nhích lên mỗi phiên một ít.'
+      - 'Các bà các chị gánh chum đến sạp đong muối. Bạn đong không kịp tay, muối dính trắng cả cổ tay áo.'
+
+  - id: bs_so_sach_cuoi_nam_lai
+    kind: bao_cao
+    tags: [buon_ban, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: household.money, op: '>=', value: 12 }] }
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    tone: vui
+    icon: tien
+    short: 'sổ cuối năm có lãi'
+    variants:
+      - 'Cuối năm ngồi tính sổ, trừ hết nợ nần lệ phí vẫn còn dư. Bạn gói riêng một ít tiền để dành cho chuyến hàng đầu xuân.'
+      - 'Bàn tính lách cách đến khuya. Gạch xong dòng cuối, bạn thở ra một hơi dài nhẹ nhõm.'
+    effects: [{ type: stress, value: -2 }]
+
+  - id: bs_so_sach_cuoi_nam_lo
+    kind: bao_cao
+    tags: [buon_ban, no_nan]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: household.money, op: '<', value: 3 }] }
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    tone: buon
+    icon: no
+    short: 'sổ cuối năm thâm hụt'
+    variants:
+      - 'Cuối năm tính sổ, cột chi dài hơn cột thu. Bạn đếm đi đếm lại mấy xâu tiền, vẫn không đủ.'
+      - 'Bạn hàng gửi người đến nhắc khoản nợ cũ. Bạn hẹn sau Tết, giọng nhỏ hơn mình muốn.'
+    effects: [{ type: stress, value: 2 }]
+
+  - id: bs_cho_he_vai_chin
+    kind: tin_the_gioi
+    tags: [buon_ban]
+    months: [5, 6]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: cay
+    short: 'mùa vải chín'
+    variants:
+      - 'Mùa vải chín, thuyền chở vải đỏ rực cả khoang cập bến. Cả phố chợ thơm mùi quả chín.'
+      - 'Người làng trên gánh nhãn, gánh vải xuống bán. Vỏ vải vứt đầy bậc bến, lũ ruồi vo ve cả ngày.'
+
+  - id: bs_lua_mua_ve_ben
+    kind: tin_the_gioi
+    tags: [buon_ban, kinh_te]
+    months: [10, 11]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: cay_lua
+    short: 'thóc mùa về bến'
+    variants:
+      - 'Lúa mùa gặt xong, thuyền thóc các làng ven sông lũ lượt chở về bến bán. Lái buôn đứng trên bờ, tay cầm đấu đong.'
+      - 'Bến đầy những thuyền thóc chờ cân. Bụi trấu bay vàng cả một khúc sông.'
+
+  # ── Thuyền bè ──
+  - id: bs_thuyen_neo_dem
+    kind: chuyen_vat
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: an_ui
+    icon: trang
+    short: 'đèn thuyền đêm'
+    variants:
+      - 'Đêm, thuyền neo kín bến, đèn dầu trên mui lập lòe như đom đóm. Có tiếng ai hát ru con trên sông.'
+      - 'Bạn ngồi ở bậc bến hóng mát. Nước vỗ mạn thuyền óc ách, xa xa có tiếng mái chèo khua.'
+    effects: [{ type: stress, value: -1 }]
+
+  - id: bs_phu_keo_thuyen_gio_bac
+    kind: nguoi_quanh
+    tags: [lao_dong]
+    months: [11, 12, 1]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: buon
+    icon: phu
+    short: 'phu kéo thuyền ngược gió'
+    variants:
+      - 'Gió bấc thổi ngược, phu kéo thuyền cởi trần cúi rạp trên bãi cát, dây chão hằn đỏ vai.'
+      - 'Một tốp phu kéo thuyền nghỉ chân dưới gốc đa, chia nhau nắm cơm nắm muối vừng.'
+
+  - id: bs_thuyen_moi_ha_thuy
+    kind: chuyen_vat
+    tags: [lang_xa, le_hoi]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 2
+    tone: vui
+    icon: hoi
+    short: 'lễ hạ thủy thuyền mới'
+    variants:
+      - 'Nhà đóng thuyền đầu bến hạ thủy chiếc thuyền mới. Ông thợ cả vẽ đôi mắt lên mũi thuyền, khấn Hà Bá cho đi về bình yên.'
+      - 'Cả bến ra xem đẩy thuyền mới xuống nước. Thuyền trượt trên cây lăn, đánh ùm một tiếng, lũ trẻ reo ầm.'
+
+  - id: bs_thuyen_nha_xam_dau
+    kind: chuyen_vat
+    tags: [buon_ban, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [3, 4]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: phu
+    variants:
+      - 'Mùa khô, bạn kéo thuyền nhà lên bãi, cùng thợ trét dầu rái, xảm lại các khe ván. Mùi dầu nồng cả tuần.'
+      - 'Bạn lật ngửa thuyền phơi nắng, cạo hà bám dưới đáy. Ván đáy đã mỏng, chắc vài năm nữa phải thay.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 4 }]
+
+  - id: bs_thuyen_dam_khuc_duoi
+    kind: tin_the_gioi
+    tags: [nguy_hiem, thien_tai]
+    months: [6, 7, 8]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 2
+    tone: buon
+    icon: lu
+    short: 'thuyền đắm khúc dưới'
+    variants:
+      - 'Một thuyền chở đá ong đắm ở khúc sông dưới trong cơn nước xoáy. Hai người chèo không ai tìm thấy.'
+      - 'Thuyền gỗ lật ở bãi cát ngầm, người dân bến dưới vớt được mấy bao gạo trôi dạt. Chủ thuyền ngồi khóc trên bờ.'
+
+  - id: bs_do_ngang_phien_cho
+    kind: chuyen_vat
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: lang
+    variants:
+      - 'Đò ngang phiên chợ chở quá đông, mạn thuyền chỉ cách mặt nước một gang tay. Ông lái đò quát mọi người ngồi im.'
+      - 'Bạn đi đò sang bờ bên kia. Người đi chợ ôm gà, gánh rau chen chúc, con gà trống cứ chực bay xuống nước.'
+
+  - id: bs_thuyen_chum_vai
+    kind: chuyen_vat
+    tags: [buon_ban]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    icon: chen_tra
+    variants:
+      - 'Thuyền chở chum vại từ làng gốm miền xuôi cập bến. Người ta gõ vào từng cái chum nghe tiếng, ngân thì mới mua.'
+      - 'Một thuyền mành bán nồi đất, bát đàn ghé bến. Mẹ con nhà hàng xóm đứng chọn mãi được một cái niêu.'
+
+  - id: bs_suong_mu_tren_ben
+    kind: diem_bao
+    tags: [lang_xa]
+    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: world.weather, op: '==', value: suong_mu }] }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: binh_yen
+    short: 'sương mù phủ sông'
+    variants:
+      - 'Sương mù phủ kín mặt sông, đứng trên bến không thấy bờ bên kia. Thuyền gõ mạn cốc cốc để báo nhau.'
+      - 'Sáng sương dày, thuyền nào cũng neo chờ nắng lên. Chợ bến mở muộn đến gần trưa.'
+
+  # ── Phố chợ ──
+  - id: bs_pho_lo_ren
+    kind: chuyen_vat
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    icon: kiem
+    variants:
+      - 'Tiếng búa lò rèn cuối phố đều đặn từ sáng đến tối. Người ta mang lưỡi cày, dao rựa đến đánh lại trước vụ.'
+      - 'Lũ trẻ đứng ở cửa lò rèn xem thợ quai búa, tia lửa bắn ra sáng rực mà chẳng đứa nào chịu lùi.'
+
+  - id: bs_quan_com_ben
+    kind: nguoi_quanh
+    tags: [lang_xa, lao_dong]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: lua
+    variants:
+      - 'Quán cơm đầu bến đông nghịt phu khuân vác. Bà chủ múc canh cua không kịp, một bát chia hai người.'
+      - 'Bạn ghé quán nước đầu bến uống bát chè xanh. Người ta đang bàn chuyện giá gạo trên trấn.'
+
+  - id: bs_tre_nhat_thoc_roi
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    tone: buon
+    icon: tre_em
+    variants:
+      - 'Mấy đứa trẻ rách rưới lom khom nhặt từng hạt thóc rơi ở chỗ khuân vác. Một đứa bỏ cả vào vạt áo, mặt mừng rỡ.'
+      - 'Đứa bé con nhà phu thuyền ngồi đợi cha ở bậc bến từ trưa đến tối, tay cầm củ khoai đã nguội.'
+
+  - id: bs_hang_rong_dem
+    kind: chuyen_vat
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: trang
+    variants:
+      - 'Tối, có bà hàng chè gánh qua ngõ rao lanh lảnh. Bạn mua một bát chè con ông, ngồi ăn ở bậc cửa.'
+      - 'Ông bán bánh đúc gõ mõ đi dọc phố bến. Mùi tương bần thơm nức, ai đi qua cũng ngoái lại.'
+
+  - id: bs_mo_cho_rao
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: lang
+    variants:
+      - 'Mõ chợ đi dọc dãy sạp rao: "Ai nhặt được cái túi gấm thêu hoa sen thì đem trả, chủ nhà hậu tạ."'
+      - 'Mõ chợ gõ ba hồi, rao lệnh dinh trấn cấm đổ rác xuống bến. Các bà hàng cá nhìn nhau cười.'
+
+  - id: bs_cai_nhau_hang_ca
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    tone: vui
+    icon: ca
+    variants:
+      - 'Hai bà hàng cá cãi nhau vì một chỗ ngồi, chửi từ chuyện con cá đến chuyện ông bà ba đời. Cả chợ đứng xem.'
+      - 'Bà hàng cá dỗi khách trả rẻ, ném con cá trở lại chậu. Con cá quẫy nước bắn ướt cả váy người mua.'
+
+  - id: bs_thay_boi_dau_cho
+    kind: nguoi_quanh
+    tags: [tin_nguong]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 1
+    icon: giac_mo
+    variants:
+      - 'Ông thầy bói mù ngồi dưới gốc gạo đầu chợ, gieo quẻ cho một chị buôn thúng. Chị nghe xong, mặt tái đi.'
+      - 'Thầy bói đầu chợ gọi với theo bạn: "Tướng này sau có của." Bạn cười, không dừng lại.'
+    trait_reactions:
+      mo_dao: 'Bạn quay lại, đặt mấy đồng vào cái mẹt trước mặt ông.'
+      hoai_nghi: 'Bạn lẩm bẩm: của thì phải buôn mới có.'
+
+  # ── Khách lạ ──
+  - id: bs_su_hanh_cuoc_xin_nuoc
+    kind: nguoi_quanh
+    tags: [tin_nguong, quan_he]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 1
+    tone: an_ui
+    icon: nguoi_la
+    variants:
+      - 'Một nhà sư hành cước từ phương xa ghé hiên xin bát nước. Ngài uống xong, chắp tay niệm Phật rồi đi tiếp về phía chùa bến.'
+      - 'Nhà sư lạ ngồi nghỉ dưới mái hiên, kể chuyện chùa trên núi Tiên Du mây phủ quanh năm. Bạn nghe mà thấy lòng nhẹ đi.'
+    effects: [{ type: stress, value: -1 }]
+
+  - id: bs_nguoi_mu_hat_rong
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 1
+    tone: buon
+    icon: nguoi_la
+    variants:
+      - 'Một ông mù dắt đứa cháu nhỏ đi hát rong qua bến, cây nhị cũ kêu cò cử. Người đi chợ thả vào nón mấy đồng.'
+      - 'Tiếng hát rong buồn buồn vẳng lên từ bậc bến, kể chuyện người chinh phu không về. Mấy bà hàng chè quệt nước mắt.'
+
+  - id: bs_khach_buon_ngua
+    kind: nguoi_quanh
+    tags: [buon_ban]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 1
+    icon: nguoi_la
+    variants:
+      - 'Mấy người buôn ngựa từ miền ngược xuống, dắt cả đàn ngựa thồ thấp lùn qua phố chợ. Ngựa hí vang cả bến.'
+      - 'Khách buôn ngựa nói giọng lạ, mặc áo chàm, đổi ngựa lấy muối và vải. Bạn đứng xem họ mặc cả bằng ngón tay.'
+
+  - id: bs_si_tu_tro_thuyen
+    kind: nguoi_quanh
+    tags: [hoc_hanh]
+    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: world.is_exam_year, op: '==', value: true }] }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: sach
+    variants:
+      - 'Năm thi, sĩ tử các huyện xuống bến đón thuyền về trường thi. Người gánh lều chõng, người ôm tráp, ai cũng gầy gò.'
+      - 'Một cậu sĩ tử nghèo xin ngủ nhờ dưới mái hiên nhà bạn chờ thuyền. Đêm ấy cậu thắp đèn đọc sách đến sáng.'
+
+  - id: bs_linh_xuong_thuyen
+    kind: tin_the_gioi
+    tags: [quan_su]
+    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: world.military_alert, op: '!=', value: binh_yen }] }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    icon: kiem
+    short: 'lính xuống thuyền'
+    variants:
+      - 'Một toán lính từ dinh trấn xuống bến, trưng dụng mấy thuyền to chở lương. Các chủ thuyền mặt mày ủ dột.'
+      - 'Lính thú xếp hàng xuống thuyền, giáo dựng như rừng tre. Mẹ già vợ trẻ đứng chật bậc bến tiễn đưa.'
+
+  # ── Tin đồn Kinh thành và cửa biển ──
+  - id: bs_don_kinh_xay_chua
+    kind: tin_the_gioi
+    tags: [tin_don, buon_ban]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Người trên thuyền gỗ về kể: triều đình đang dựng ngôi chùa lớn ở Kinh, cần gỗ lim cả nghìn cây. Giá gỗ ở bến trên đã nhích.'
+      - 'Đồn rằng nhà vua sai đúc quả chuông lớn, thu đồng khắp các lộ. Mấy nhà buôn đồng nát đang ráo riết gom hàng.'
+
+  - id: bs_don_cua_bien_cuop
+    kind: tin_the_gioi
+    tags: [tin_don, nguy_hiem]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Thuyền muối từ cửa biển về kể ngoài đó có bọn cướp biển rình ở các đảo nhỏ, chuyên chặn thuyền buôn lúc sẩm tối.'
+      - 'Người ta đồn một thuyền buôn lớn bị cướp ở cửa sông, chủ thuyền bị bắt đòi chuộc. Thật hư chưa ai rõ.'
+
+  - id: bs_don_thue_thuyen_moi
+    kind: tin_the_gioi
+    tags: [tin_don, kinh_te]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 4
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Đồn rằng triều đình sắp đặt lệ thu thuế thuyền theo số khoang. Chủ thuyền nào cũng lo sẽ phải đóng gấp đôi.'
+      - 'Có tin bộ Hộ sai người về kiểm sổ các bến. Mấy viên đề lại dạo này tự nhiên hiền hẳn.'
+
+  - id: bs_don_vua_tuan_du
+    kind: tin_the_gioi
+    tags: [tin_don, le_hoi]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 5
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Đồn rằng thuyền rồng của nhà vua sắp đi tuần qua khúc sông này. Dinh trấn cho người sửa bậc bến, quét đường phố chợ.'
+      - 'Người ta bảo năm ngoái thuyền ngự đi ngang bến trên, dân hai bờ quỳ lạy kín bãi. Năm nay ai cũng mong được thấy.'
+
+  - id: bs_don_thuyen_chiem_dat
+    kind: tin_the_gioi
+    tags: [tin_don]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Đồn rằng có thuyền người Chiêm Thành bị bão dạt vào cửa biển, trên thuyền toàn ngà voi và trầm hương. Quan trấn đã sai lính ra giữ.'
+      - 'Người cửa biển kể có chiếc thuyền lạ cột buồm ba tầng neo ngoài khơi mấy hôm rồi đi mất, chẳng ai biết từ đâu đến.'
+
+  - id: bs_don_kinh_gao_dat
+    kind: tin_the_gioi
+    tags: [tin_don, kinh_te]
+    condition: { all: [{ var: world.settlement_type, op: '==', value: thi_tran_ben_song }, { var: world.harvest_quality, op: in, value: [kem, mat_mua] }] }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Thuyền ở Kinh về kể gạo trên ấy đắt như vàng, quan phải mở kho bán rẻ cho dân. Lái buôn bến này đang rục rịch chở gạo lên.'
+      - 'Đồn rằng các lộ phía nam mất mùa nặng, người đói kéo nhau ra Kinh. Giá gạo ở bến cũng theo đó mà lên.'
+
+  - id: bs_don_mo_vang_mien_nguoc
+    kind: tin_the_gioi
+    tags: [tin_don, thoi_co]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 5
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Đồn rằng trên miền ngược có người đãi được vàng cám ở khe suối. Mấy anh phu thuyền bỏ việc rủ nhau đi tìm.'
+      - 'Người miền ngược xuống chợ trả tiền bằng vàng vụn đựng trong ống trúc. Cả bến bàn tán suốt mấy hôm.'
+
+  - id: bs_don_dinh_tran_mo_ben
+    kind: tin_the_gioi
+    tags: [tin_don, buon_ban]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 2
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Nghe nói dinh trấn sắp kè đá thêm một đoạn bến cho thuyền lớn đậu. Nhà nào có đất ven sông đều đang ngồi chờ giá.'
+      - 'Đồn rằng nhà buôn muối lớn nhất bến vừa gả con gái làm vợ lẽ quan trấn. Từ nay muối nhà ấy chắc khỏi phải qua kho.'
+
+  # ── Gia đình nhà buôn ──
+  - id: bs_vo_chong_tinh_so
+    kind: nguoi_quanh
+    tags: [gia_dinh, buon_ban]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    roles: [{ id: vc, from: family, relation: spouse }]
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    tone: an_ui
+    icon: gia_dinh
+    variants:
+      - 'Tối dọn sạp xong, {role.vc.call} ngồi cùng bạn tính sổ dưới đèn. Hai người cãi nhau một đồng, rồi cùng bật cười.'
+      - '{role.vc.call} nhớ giá hàng giỏi hơn bạn. Khách quen nào nợ bao nhiêu, cứ hỏi là nói vanh vách.'
+    effects: [{ type: stress, value: -1 }]
+
+  - id: bs_day_con_dem_tien
+    kind: nguoi_quanh
+    tags: [gia_dinh, buon_ban]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    roles:
+      - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [6, 12] }, { var: self.in_household, op: '==', value: true }] } }
+    weight: 4
+    cooldown_years: 4
+    importance: 2
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Bạn dạy {role.con.call} xâu tiền, mỗi xâu đủ sáu chục đồng. Con xâu sai, tháo ra xâu lại, không chịu bỏ.'
+      - '{role.con.call} ngồi sau sạp bắt chước bạn rao hàng. Khách nghe giọng trẻ con lanh lảnh, ghé mua cho vui.'
+    effects: [{ type: skill_xp, skill: thuong_mai, value: 4, who: con }]
+
+  - id: bs_cha_me_gia_ngoi_sap
+    kind: nguoi_quanh
+    tags: [gia_dinh]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    roles:
+      - { id: gia, from: family, relation: parent, condition: { all: [{ var: self.age, op: '>=', value: 60 }, { var: self.in_household, op: '==', value: true }] } }
+    weight: 3
+    cooldown_years: 4
+    importance: 2
+    tone: an_ui
+    icon: gia_dinh
+    variants:
+      - '{role.gia.call} tuổi đã cao mà vẫn đòi ra ngồi sạp. Ngồi một lúc thì gà gật, khách đến phải gọi mấy lần.'
+      - '{role.gia.call} ngồi sau sạp nhìn bạn bán hàng, thỉnh thoảng nhắc một câu: "Khách ấy hay trả chậm đấy."'
+    effects: [{ type: filial_piety, value: 1 }]
+
+  - id: bs_than_tai_dau_thang
+    kind: chuyen_vat
+    tags: [tin_nguong, buon_ban]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: chen_tra
+    variants:
+      - 'Mồng một, nhà bạn thắp hương bàn thờ thổ công trong gian hàng, đặt đĩa hoa quả và chén nước mới.'
+      - 'Ngày rằm, bạn đốt nén hương ở góc sạp, khấn cho thuyền hàng về đủ, khách đến đều.'
+    trait_reactions:
+      hoai_nghi: 'Bạn thắp cho phải lệ, trong bụng nghĩ hàng tốt mới là thần tài.'
+
+  - id: bs_con_theo_thuyen_chuyen_dau
+    kind: nguoi_quanh
+    tags: [gia_dinh, buon_ban]
+    condition: { var: player.career, op: '==', value: thuong_nhan }
+    roles:
+      - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [13, 18] }, { var: self.in_household, op: '==', value: true }] } }
+    weight: 3
+    once_per_life: true
+    importance: 3
+    icon: gia_dinh
+    variants:
+      - '{role.con.call} lần đầu theo thuyền hàng đi bến xa. Bạn dặn đi dặn lại chuyện giữ tiền, chuyện nhìn mặt người, đến lúc thuyền rời bến vẫn chưa dặn hết.'
+      - 'Chuyến đầu theo thuyền về, {role.con.call} khoe đã tự bán được một bao hàng giá tốt. Bạn giả vờ hờ hững, tối lại kể với cả nhà.'
+    effects: [{ type: skill_xp, skill: thuong_mai, value: 6, who: con }]
+
+  - id: bs_nguoi_nha_ngong_thuyen
+    kind: chuyen_vat
+    tags: [gia_dinh]
+    condition: { has_flag: bs_dang_len_nguoc }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: gia_dinh
+    variants:
+      - 'Đêm trên thuyền ngược dòng, bạn nằm nghe vượn hú bên vách núi, nhớ tiếng mõ chợ ở nhà.'
+      - 'Thuyền dừng lại ở một bến lạ, bạn nhờ người xuôi về gửi lời cho nhà: vẫn khỏe, hàng vẫn còn.'
+    effects: [{ type: stress, value: 1 }]
+
+  - id: bs_may_ao_moi_cho_con
+    kind: chuyen_vat
+    tags: [gia_dinh, buon_ban]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.trade_index, op: '>=', value: 1.15 }] }
+    roles:
+      - { id: con, from: family, relation: child, condition: { all: [{ var: self.age, op: between, value: [3, 14] }, { var: self.in_household, op: '==', value: true }] } }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Năm buôn được, bạn cắt tấm lụa tốt may cho {role.con.call} cái áo mới. Con mặc vào đi khoe khắp phố chợ.'
+      - 'Bạn mua cho {role.con.call} đôi guốc mộc sơn đỏ. Con ôm đi ngủ, không nỡ đi.'
+    effects: [{ type: stress, value: -1 }]
+
+  # ── Hội đua thuyền ──
+  - id: bs_tap_boi_chai
+    kind: tin_the_gioi
+    tags: [le_hoi, lang_xa]
+    months: [4, 5]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: hoi
+    short: 'trai phường tập bơi chải'
+    variants:
+      - 'Chiều chiều, trai các phường tập bơi chải trên sông. Tiếng trống thúc dồn dập, mái chèo đều tăm tắp.'
+      - 'Phường chài đẽo lại chiếc thuyền đua dài như con rết, sơn đầu rồng mới. Ông trùm phường đứng trên bờ quát nhịp.'
+
+  - id: bs_dua_thuyen_dat_cuoc
+    kind: chuyen_vat
+    tags: [le_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 6]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    tone: vui
+    icon: hoi
+    short: 'đặt cược đua thuyền'
+    variants:
+      - 'Hội đua thuyền, bạn đặt mấy đồng cho thuyền phường bến dưới. Thuyền ấy về nhì, bạn mất tiền mà vẫn hò hét đến khản giọng.'
+      - 'Thuyền đua bến trên vượt lên ở khúc cuối. Bạn thắng mấy đồng tiền cược, đem mua bánh chia cho lũ trẻ.'
+    trait_reactions:
+      than_trong: 'Bạn chỉ đặt một đồng, coi như góp vui.'
+      tham_lam: 'Bạn tiếc mấy đồng tiền cược cả buổi chiều.'
+    effects: [{ type: stress, value: -2 }]
+
+  - id: bs_phuong_buon_gop_thuyen_dua
+    kind: bao_cao
+    tags: [le_hoi, buon_ban]
+    months: [4, 5]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    icon: hoi
+    variants:
+      - 'Phường buôn góp tiền thuê trai tráng bơi thuyền đua năm nay. Nhà bạn góp một quan, được thêu tên lên lá cờ đuôi nheo.'
+      - 'Các nhà buôn trên bến góp tiền làm cỗ cho đội thuyền đua. Nhà bạn lo phần rượu, mất một quan mà vui.'
+    effects: [{ type: money, value: -1, ledger: su_kien }]
+
+  # ── Chùa bến sông ──
+  - id: bs_chua_chuong_chieu
+    kind: chuyen_vat
+    tags: [tin_nguong]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: an_ui
+    icon: binh_yen
+    short: 'chuông chùa bến chiều'
+    variants:
+      - 'Chiều xuống, chuông chùa trên gò ngân dài qua mặt sông. Người chợ đang dọn hàng cũng dừng tay một nhịp.'
+      - 'Tiếng chuông chùa bến vọng xuống lúc thuyền về. Mặt nước đỏ ối, đàn cò bay qua ngọn tháp.'
+    effects: [{ type: stress, value: -1 }]
+
+  - id: bs_chua_tha_den_ram_bay
+    kind: chuyen_vat
+    tags: [tin_nguong, le_hoi]
+    months: [7]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    tone: an_ui
+    icon: trang
+    short: 'thả đèn rằm tháng bảy'
+    variants:
+      - 'Rằm tháng bảy, chùa bến làm lễ xá tội vong nhân. Người ta thả đèn giấy trôi trên sông, cầu cho những người chết đuối.'
+      - 'Đêm rằm tháng bảy, cả bến tắt đèn nhà, chỉ còn đèn hoa đăng lửng lờ trôi. Bạn thả một ngọn cho người nhà đã khuất.'
+    effects: [{ type: stress, value: -1 }]
+
+  - id: bs_chua_cau_yen_thuyen
+    kind: chuyen_vat
+    tags: [tin_nguong, buon_ban]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: world.settlement_type, op: '==', value: thi_tran_ben_song }] }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    icon: chen_tra
+    variants:
+      - 'Trước chuyến hàng lớn, bạn lên chùa bến thắp hương, xin sư cụ một lá bùa dán mũi thuyền.'
+      - 'Bạn cúng chùa mấy cân dầu thắp, nhờ sư cụ ghi tên thuyền nhà vào sớ cầu yên đầu năm.'
+    trait_reactions:
+      mo_dao: 'Bạn quỳ rất lâu trước tượng Phật, lòng yên hẳn.'
+
+  - id: bs_chua_su_cho_thuoc
+    kind: nguoi_quanh
+    tags: [tin_nguong, benh_tat]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 2
+    cooldown_years: 4
+    importance: 1
+    tone: an_ui
+    icon: thuoc
+    variants:
+      - 'Sư chùa bến phơi thuốc nam đầy sân, ai nghèo ốm đến xin là cho. Phu thuyền vẫn gọi chùa là "nhà thuốc của bến".'
+      - 'Chú tiểu chùa bến xuống chợ xin rau, các bà hàng rau dúi cho đầy thúng, chẳng ai lấy tiền.'
+
+  - id: bs_chua_le_phat_dan
+    kind: chuyen_vat
+    tags: [tin_nguong, le_hoi]
+    months: [4]
+    condition: { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    tone: vui
+    icon: hoi
+    short: 'lễ Phật đản chùa bến'
+    variants:
+      - 'Mồng tám tháng tư, chùa bến làm lễ tắm Phật. Người các làng ven sông chèo thuyền đến dự, đậu kín cả khúc sông.'
+      - 'Lễ Phật đản, chùa bến treo cờ phướn ngũ sắc. Bạn theo dòng người lên gò, nghe sư tụng kinh đến trưa.'
+    effects: [{ type: stress, value: -1 }]

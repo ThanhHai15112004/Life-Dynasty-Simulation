@@ -20,6 +20,7 @@ export function NewGame() {
   };
 
   const defaultCareer = origin ? store.content.index.career.get(origin.default_career) : undefined;
+  const settlement = origin ? store.content.index.settlementType.get(origin.settlement) : undefined;
 
   return (
     <div className="newgame-form">
@@ -40,6 +41,7 @@ export function NewGame() {
               food: `${num(origin.household.food[0])}–${num(origin.household.food[1])}`,
             })}
             {defaultCareer ? ` · ${t('newgame.default_career', { name: defaultCareer.name })}` : ''}
+            {settlement ? ` · ${t('newgame.settlement', { name: settlement.name })}` : ''}
           </div>
         </div>
       )}

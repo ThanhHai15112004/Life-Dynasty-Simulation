@@ -22,10 +22,21 @@ export interface LifeResult {
   familyChildDeaths: number;
   playerDiedYoung: boolean;
   everInDebtOver30: boolean;
+  netWorthEnd: number;
+  statusRankEnd: string;
+  examDegreeEnd: string;
+  careerEnd: string;
 }
 
-export function runLife(content: ContentBundle, bot: Bot, seed: string, startAge: number | undefined, maxYears: number): LifeResult {
-  const s = GameSession.create(content, { seed, startAge });
+export function runLife(
+  content: ContentBundle,
+  bot: Bot,
+  seed: string,
+  startAge: number | undefined,
+  maxYears: number,
+  originId?: string,
+): LifeResult {
+  const s = GameSession.create(content, { seed, startAge, originId });
   let years = 0;
   let openLoopsSum = 0;
   let deepDebt = false;
@@ -74,5 +85,9 @@ export function runLife(content: ContentBundle, bot: Bot, seed: string, startAge
     familyChildDeaths: childDeaths,
     playerDiedYoung: (st.gameOver?.age ?? 99) < 6 && player.alive === false,
     everInDebtOver30: deepDebt,
+    netWorthEnd: view.household.money + view.household.properties.reduce((a, p) => a + p.value * p.count, 0) - view.household.debt,
+    statusRankEnd: view.player.statusRank.id,
+    examDegreeEnd: st.civilization.examDegree,
+    careerEnd: st.career.id,
   };
 }

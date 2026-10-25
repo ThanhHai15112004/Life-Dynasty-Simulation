@@ -137,7 +137,7 @@ templates:
   - id: cha_day_cay
     kind: chuyen_vat
     tags: [ruong_dong, gia_dinh]
-    condition: { var: player.age, op: between, value: [10, 20] }
+    condition: { all: [{ var: player.age, op: between, value: [10, 20] }, { var: household.self_farms, op: '==', value: true }] }
     roles: [{ id: cha, from: family, relation: father }]
     weight: 6
     once_per_life: true
@@ -381,7 +381,7 @@ templates:
   - id: quan_quat_ngoai_dong
     kind: bao_cao
     tags: [ruong_dong, lao_dong]
-    condition: { all: [{ var: focus.primary, op: '==', value: lam_an }, { var: player.age, op: '>=', value: 12 }] }
+    condition: { all: [{ var: focus.primary, op: '==', value: lam_an }, { var: player.age, op: '>=', value: 12 }, { var: household.self_farms, op: '==', value: true }] }
     weight: 5
     cooldown_years: 1
     importance: 1

@@ -7,6 +7,7 @@ import {
   ambientFileSchema,
   balanceSchemas,
   careerFileSchema,
+  chronicleFileSchema,
   civilizationSchema,
   cultureSchema,
   decisionEventFileSchema,
@@ -22,6 +23,7 @@ import {
   type AmbientTemplate,
   type Balance,
   type Career,
+  type ChronicleEntry,
   type Civilization,
   type Culture,
   type DecisionEvent,
@@ -52,6 +54,7 @@ export interface ContentBundle {
   careers: Career[];
   civilizations: Civilization[];
   settlementTypes: SettlementType[];
+  chronicle: { startReign: string; entries: ChronicleEntry[] };
   origins: Origin[];
   cultures: Culture[];
   events: DecisionEvent[];
@@ -68,6 +71,7 @@ export interface ContentBundle {
     career: Map<string, Career>;
     civilization: Map<string, Civilization>;
     settlementType: Map<string, SettlementType>;
+    chronicle: Map<string, ChronicleEntry>;
     origin: Map<string, Origin>;
     culture: Map<string, Culture>;
     event: Map<string, DecisionEvent>;
@@ -163,6 +167,11 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const careers = collect('careers', careerFileSchema, 'careers');
   const civilizations = single('civilizations', civilizationSchema);
   const settlementTypes = collect('world', settlementTypeFileSchema, 'settlement_types');
+  const chronicleFiles = single('chronicle', chronicleFileSchema);
+  const chronicle = {
+    startReign: chronicleFiles.find((f) => f.start_reign)?.start_reign ?? '',
+    entries: chronicleFiles.flatMap((f) => f.entries),
+  };
   const events = [
     ...collect('events/common', decisionEventFileSchema, 'events'),
     ...collect('events/careers', decisionEventFileSchema, 'events'),
@@ -198,6 +207,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     career: indexBy(careers, 'careers'),
     civilization: indexBy(civilizations, 'civilizations'),
     settlementType: indexBy(settlementTypes, 'world/settlement_types'),
+    chronicle: indexBy(chronicle.entries, 'chronicle'),
     origin: indexBy(origins, 'origins'),
     culture: indexBy(cultures, 'cultures'),
     event: indexBy(events, 'events'),
@@ -220,6 +230,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     careers,
     civilizations,
     settlementTypes,
+    chronicle,
     origins,
     cultures,
     events,

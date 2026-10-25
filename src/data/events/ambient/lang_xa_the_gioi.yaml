@@ -129,7 +129,7 @@ templates:
     kind: chuyen_vat
     tags: [lao_dong, ruong_dong]
     months: [5, 10]
-    condition: { all: [{ var: player.age, op: '>=', value: 14 }, { var: household.money, op: '<', value: 3 }] }
+    condition: { all: [{ var: player.age, op: '>=', value: 14 }, { var: household.money, op: '<', value: 3 }, { var: household.self_farms, op: '==', value: true }] }
     roles: [{ id: ba_ho, from: village, village_role: ba_ho }]
     weight: 5
     cooldown_years: 1

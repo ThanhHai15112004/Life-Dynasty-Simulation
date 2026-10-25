@@ -62,5 +62,8 @@ open_loop_rules:
     text: 'Đã đến tuổi dựng vợ gả chồng'
 # Dòng nhật ký có điểm quan trọng từ mức này trở lên được in đậm và vào bản tổng kết đời
 highlight_importance: 6
+life_map_marks_per_year: 2   # số biểu tượng dấu mốc trên một ô Bản đồ cuộc đời
+chronicle_shown: 6           # số biến cố biên niên gần nhất hiện trên màn hình
+life_map_extra_rows: 1       # bản đồ cuộc đời vẽ thêm chừng này hàng sau tuổi thọ kỳ vọng
 default_language: vi
 journal_years_shown: 8

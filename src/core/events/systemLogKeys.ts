@@ -22,6 +22,9 @@ export const SystemLog = {
   CareerPromoted: 'sys.thang_bac_nghe',
   ExamPassed: 'sys.do_khoa_cu',
   MourningStarted: 'sys.bat_dau_cu_tang',
+  StatusRose: 'sys.dia_vi_len',
+  StatusFell: 'sys.dia_vi_xuong',
+  RentCollected: 'sys.thu_to',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */
@@ -43,6 +46,8 @@ export const Ledger = {
   Event: 'su_kien',
   Wages: 'lam_thue',
   Career: 'luong_nghe',
+  Rent: 'thu_to',
+  FamilyWork: 'phu_viec',
 } as const;
 
 /** Loại dòng nhật ký không đến từ mẫu ambient. */

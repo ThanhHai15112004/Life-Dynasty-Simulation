@@ -1,0 +1,184 @@
+# [1] Biên niên vương triều GIẢ TƯỞNG (cảm hứng Đại Việt, không phải sử thật): biến cố thế giới chạy song song đời nhân vật.
+# years: khoảng năm tính từ năm bắt đầu ván · chance_per_year: xác suất mỗi đầu năm · once/cooldown_years: lặp lại hay không.
+# Token: {world.reign} (niên hiệu), {world.reign_year}, {world.settlement}... Effects dùng chung với sự kiện.
+start_reign: Thuận Hòa
+entries:
+  # ── Đổi vua, đổi niên hiệu ──
+  - id: vua_bang_ha_1
+    years: [4, 22]
+    chance_per_year: 0.07
+    reign: Bảo An
+    importance: 8
+    icon: tang
+    tone: buon
+    text:
+      - 'Chuông chùa khắp nơi gióng liền ba hồi: vua băng hà. Thái tử nối ngôi, đổi niên hiệu là {world.reign}. Dân làng {world.settlement} để tang ba ngày, cấm ca hát cỗ bàn.'
+      - 'Quan huyện cho dán cáo thị: tiên đế đã về trời, tân quân lên ngôi lấy niên hiệu {world.reign}, đại xá thiên hạ.'
+    effects:
+      - { type: wanted, value: -20 }
+  - id: vua_bang_ha_2
+    years: [26, 48]
+    chance_per_year: 0.07
+    reign: Gia Phúc
+    importance: 8
+    icon: tang
+    tone: buon
+    text:
+      - 'Tin dữ từ Kinh: vua {world.reign} vừa lên ngôi sau khi tiên đế băng hà vì bạo bệnh. Người già trong làng thở dài, mấy chục năm mà đã qua hai đời vua.'
+    effects:
+      - { type: wanted, value: -20 }
+  - id: vua_bang_ha_3
+    years: [52, 85]
+    chance_per_year: 0.07
+    reign: Minh Khánh
+    importance: 8
+    icon: tang
+    tone: buon
+    text:
+      - 'Triều đình lại đổi niên hiệu: {world.reign}. Trẻ con trong làng chẳng còn nhớ tên vua cũ, chỉ biết năm ấy được nghỉ hội.'
+
+  # ── Chiến tranh, loạn lạc ──
+  - id: giac_phuong_bac
+    years: [6, 70]
+    chance_per_year: 0.035
+    importance: 8
+    icon: kiem
+    tone: buon
+    military_alert: { id: chien_dich, years: 3 }
+    text:
+      - 'Quân phương Bắc kéo sang biên ải. Triều đình hạ chiếu điều binh, các làng phải nộp thêm thóc và trai tráng. Đường lên ngược tắc nghẽn vì xe lương.'
+    effects:
+      - { type: set_flag, flag: chien_tranh, years: 3, label: 'Biên ải có chiến sự — triều đình bắt lính, thu thêm lương' }
+  - id: giac_phuong_nam
+    years: [10, 80]
+    chance_per_year: 0.03
+    importance: 7
+    icon: kiem
+    tone: buon
+    military_alert: { id: chien_dich, years: 2 }
+    text:
+      - 'Thuyền chiến phương Nam quấy nhiễu cửa biển. Quan trấn thủ huy động dân phu đắp lũy ven sông, thuyền buôn phải đi vòng.'
+    effects:
+      - { type: set_flag, flag: chien_tranh, years: 2, label: 'Cửa biển có giặc — thuyền buôn đi vòng, dân phu đắp lũy' }
+  - id: noi_loan_dia_phuong
+    chance_per_year: 0.04
+    once: false
+    cooldown_years: 12
+    importance: 6
+    icon: nguoi_la
+    military_alert: { id: tuan_tra, years: 2 }
+    text:
+      - 'Có kẻ xưng vương ở vùng núi phía tây, tụ tập dân đói nổi lên. Quan quân đóng đồn khắp các ngả đường, đi đâu cũng bị hỏi giấy.'
+      - 'Một toán giặc cỏ đốt phá mấy làng bên kia sông. Phủ huyện tăng tuần tra, đêm đêm có lính gõ mõ canh.'
+
+  # ── Thiên tai, dịch bệnh ──
+  - id: nan_doi_lon
+    years: [3, 9999]
+    chance_per_year: 0.035
+    once: false
+    cooldown_years: 10
+    importance: 8
+    icon: mat_mua
+    tone: buon
+    harvest_quality: mat_mua
+    text:
+      - 'Trời hạn suốt từ đầu xuân, sông cạn trơ đáy. Các cụ bảo chưa thấy năm nào hạn như năm nay, đền thành hoàng khói hương nghi ngút.'
+      - 'Nạn châu chấu kéo về từ phương bắc, đen kịt cả một góc trời. Người ta đốt rơm đánh trống suốt đêm mà không xua nổi.'
+    effects:
+      - { type: set_flag, flag: nan_doi, years: 1, label: 'Năm đói kém — giá thóc sẽ lên cao' }
+  - id: dich_benh
+    years: [2, 9999]
+    chance_per_year: 0.03
+    once: false
+    cooldown_years: 15
+    importance: 8
+    icon: om
+    tone: buon
+    text:
+      - 'Dịch tả lan dọc theo bến sông, làng nào cũng có đám ma. Người ta treo lá bùa ngoài cổng, đóng cửa không tiếp khách lạ.'
+    effects:
+      - { type: set_flag, flag: dich_benh, years: 1, label: 'Dịch bệnh đang lan — giữ sức khỏe cho cả nhà' }
+      - { type: modifier, target: death_risk, value: 1.25, op: mul, months: 12, label: 'Dịch bệnh lan rộng', who: household }
+  - id: dap_de_lon
+    years: [5, 9999]
+    chance_per_year: 0.04
+    once: false
+    cooldown_years: 20
+    importance: 5
+    icon: lu
+    text:
+      - 'Triều đình xuống chiếu đắp đê quai vạc dọc sông Cái. Mỗi đinh phải đi phu mười ngày; đổi lại, các cụ bảo từ nay ruộng thấp đỡ lo lụt.'
+    effects:
+      - { type: health, value: -3 }
+      - { type: modifier, target: harvest.yield, value: 1.05, op: mul, months: 60, label: 'Đê mới đắp giữ nước' }
+
+  # ── Chính sự ──
+  - id: dinh_le_khoa_cu
+    years: [1, 8]
+    chance_per_year: 0.3
+    importance: 6
+    icon: sach
+    text:
+      - 'Triều đình định lệ: cứ ba năm mở một khoa thi Hương, năm sau thi Hội ở Kinh. Các thầy đồ trong vùng bỗng đông học trò hẳn.'
+  - id: giam_thue
+    years: [3, 9999]
+    chance_per_year: 0.035
+    once: false
+    cooldown_years: 15
+    importance: 6
+    icon: thue
+    tone: vui
+    text:
+      - 'Vua xuống chiếu tha một nửa thuế ruộng năm nay cho các lộ bị thiên tai. Ở đình làng, ông lý đọc chiếu xong, cả làng lạy vọng về Kinh.'
+    effects:
+      - { type: money, value: 2, ledger: su_kien }
+  - id: tang_thue_xay_thanh
+    years: [5, 9999]
+    chance_per_year: 0.035
+    once: false
+    cooldown_years: 15
+    importance: 6
+    icon: thue
+    tone: buon
+    text:
+      - 'Triều đình xây lại thành Kinh, mỗi hộ phải nộp thêm tiền thuế đinh. Sai nha về tận làng thúc, nhà nào chậm thì bị trói ra đình.'
+    effects:
+      - { type: money, value: -2, ledger: su_kien }
+  - id: dai_xa
+    years: [8, 9999]
+    chance_per_year: 0.03
+    once: false
+    cooldown_years: 20
+    importance: 5
+    icon: binh_yen
+    text:
+      - 'Mừng thái tử ra đời, triều đình đại xá thiên hạ: tù tội nhẹ được tha, lệnh truy nã cũ bị xóa bớt.'
+    effects:
+      - { type: wanted, value: -30 }
+
+  # ── Điềm lạ, chuyện thiên hạ ──
+  - id: sao_choi
+    chance_per_year: 0.04
+    once: false
+    cooldown_years: 20
+    importance: 4
+    icon: trang
+    text:
+      - 'Mấy đêm liền có sao chổi quét ngang trời đông. Người làng xì xào điềm binh đao, các thầy cúng được dịp kiếm bộn.'
+  - id: su_thanh_sang_cong
+    chance_per_year: 0.05
+    once: false
+    cooldown_years: 8
+    importance: 3
+    icon: nguoi_la
+    text:
+      - 'Đoàn sứ giả phương Bắc qua sông về Kinh, voi ngựa cờ quạt rợp đường. Cả làng ra đầu đê xem, trẻ con chạy theo đến tận bến đò.'
+  - id: xay_chua_lon
+    years: [2, 9999]
+    chance_per_year: 0.03
+    once: false
+    cooldown_years: 25
+    importance: 4
+    icon: hoi
+    text:
+      - 'Hoàng thái hậu bỏ tiền dựng một ngôi chùa lớn trên núi gần trấn. Thiện nam tín nữ khắp vùng nô nức gánh gạch lên công đức.'

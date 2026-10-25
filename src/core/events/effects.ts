@@ -14,6 +14,7 @@ import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
 import { marryPlayer } from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
 import { changeFilialPiety, changeScholarlyPrestige, setExamDegree } from '../systems/status';
+import { queueCutscene } from './cutscene';
 import { Ledger, LogKind } from './systemLogKeys';
 import { pushLog } from './journal';
 
@@ -151,7 +152,7 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           setExamDegree(ctx, e.degree);
           break;
         case 'cutscene':
-          state.lastCutsceneId = e.id;
+          queueCutscene(ctx, e.id);
           break;
         case 'property_add':
           h.properties[e.property] = (h.properties[e.property] ?? 0) + e.count;

@@ -5,18 +5,24 @@ settlement_types:
     description: Ngôi làng bao quanh bởi lũy tre xanh, ruộng lúa và đình làng tự quản.
     population_band: [200, 800]
     trade_factor: 0.9
+    scene_location: lang_nong
+    event_weights: { ruong_dong: 1.2, lang_xa: 1.2 }
   - id: thi_tran_ben_song
     name: Thị trấn bến sông
     description: Nơi thuyền bè neo đậu, chợ phiên họp dày và các thương hội tụ họp.
     population_band: [800, 3000]
     trade_factor: 1.25
+    scene_location: thi_tran_ben_song
+    event_weights: { buon_ban: 1.4, tin_don: 1.3, ruong_dong: 0.5 }
   - id: huyen_ly
     name: Huyện lỵ
     description: Nơi đặt nha môn quan huyện, trường học hàng huyện và kho lương.
     population_band: [1500, 5000]
     trade_factor: 1.15
+    scene_location: thi_tran_ben_song
   - id: kinh_thanh
     name: Kinh thành
     description: Trung tâm quyền lực của vương triều, nơi mở khoa thi Hội – Đình và tụ hội trăm nghề.
     population_band: [15000, 60000]
     trade_factor: 1.5
+    scene_location: thi_tran_ben_song

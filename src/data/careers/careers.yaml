@@ -1,10 +1,14 @@
-# [1] Bốn Hợp đồng nghề sâu (GDD 04 §5, §15): Nông dân · Thương nhân · Lính→Tướng · Thảo khấu
+# [1] Hợp đồng nghề sâu (GDD 04 §5, §15): Nông dân · Thương nhân · Lính→Tướng · Thảo khấu
+# + Sĩ tử → Quan văn (nghề nhà của Quý tộc nhỏ, nối với Khoa cử của khuôn Nho giáo)
 careers:
   - id: nong_dan
     name: Nông dân
     description: Bám đất bám làng, trông trời trông đất trông mây. Chậm mà chắc, tích lũy ruộng vườn qua từng mùa gặt.
     icon: lua
     components: [farmland]
+    event_weights: { ruong_dong: 1.4, lao_dong: 1.3, buon_ban: 0.6 }
+    economy:
+      self_farm: true
     duties:
       - Canh tác ruộng đồng và nộp thuế đinh, thuế điền mỗi năm
       - Gánh vác việc sưu dịch, hộ đê cùng dân làng
@@ -89,6 +93,12 @@ careers:
     description: Mua nơi thừa, bán nơi thiếu. Đọc thời cơ giá cả và lèo lái những chuyến hàng vượt sông, qua đèo.
     icon: tien
     components: [trade_route]
+    event_weights: { buon_ban: 2.0, thoi_co: 1.5, ruong_dong: 0.3, lao_dong: 0.5 }
+    # Nhà buôn không tự cày: ruộng phát canh thu tô, người nhà phụ sạp hàng, tiền lời theo Thời cơ giá buôn
+    economy:
+      self_farm: false
+      family_wage_month: 0.4
+      income: { money_month: 0.2, skill: thuong_mai, per_level: 0.045, trade_scaled: true, ledger: buon_ban }
     entry_condition:
       any:
         - { var: household.money, op: '>=', value: 12 }
@@ -101,14 +111,14 @@ careers:
       - id: hang_xao
         name: Tiểu thương gánh chợ
         min_merit: 0
-        stipend_money_month: 0.5
+        stipend_money_month: 0.2
         modifiers:
           - { target: xp.thuong_mai, value: 1.15, op: mul }
       - id: chu_sap
         name: Chủ sạp bến sông
         min_merit: 25
         condition: { var: player.skill.thuong_mai, op: '>=', value: 3 }
-        stipend_money_month: 1.2
+        stipend_money_month: 0.5
         modifiers:
           - { target: xp.thuong_mai, value: 1.2, op: mul }
           - { target: xp.ngoai_giao, value: 1.1, op: mul }
@@ -116,7 +126,7 @@ careers:
         name: Thương khách đường dài
         min_merit: 60
         condition: { var: player.skill.thuong_mai, op: '>=', value: 5 }
-        stipend_money_month: 2.2
+        stipend_money_month: 1.0
         modifiers:
           - { target: xp.thuong_mai, value: 1.25, op: mul }
       - id: phu_thuong_hoi_chu
@@ -126,7 +136,7 @@ careers:
           all:
             - { var: player.skill.thuong_mai, op: '>=', value: 7 }
             - { var: household.money, op: '>=', value: 60 }
-        stipend_money_month: 4.0
+        stipend_money_month: 2.0
         modifiers:
           - { target: xp.thuong_mai, value: 1.3, op: mul }
           - { target: living.cost, value: 0.9, op: mul }
@@ -141,11 +151,12 @@ careers:
           base: 0.5
           skill: thuong_mai
           per_level: 0.05
+          max: 0.85
           modifiers:
             - { condition: { var: world.trade_index, op: '>=', value: 1.12 }, add: 0.2 }
             - { condition: { var: world.trade_index, op: '<', value: 0.9 }, add: -0.15 }
         success:
-          - { type: money, value: { var: world.trade_index, factor: 9, round: true }, ledger: thu_khac }
+          - { type: money, value: { var: world.trade_index, factor: 7, round: true }, ledger: buon_ban }
           - { type: career_merit, value: 15 }
           - { type: skill_xp, skill: thuong_mai, value: 20 }
         failure:
@@ -165,14 +176,15 @@ careers:
           base: 0.45
           skill: thuong_mai
           per_level: 0.05
+          max: 0.8
           modifiers:
             - { condition: { var: world.trade_index, op: '>=', value: 1.15 }, add: 0.25 }
         success:
-          - { type: money, value: 18, ledger: thu_khac }
+          - { type: money, value: 14, ledger: buon_ban }
           - { type: career_merit, value: 22 }
           - { type: skill_xp, skill: thuong_mai, value: 25 }
         failure:
-          - { type: money, value: 3, ledger: thu_khac }
+          - { type: money, value: 3, ledger: buon_ban }
           - { type: stress, value: 6 }
         success_log:
           - 'Con mắt nhìn xa trông rộng giúp bạn thắng lớn, tiền bạc chảy đầy tay nải.'
@@ -184,6 +196,9 @@ careers:
     description: Khoác áo lính, cầm giáo giữ biên cương. Đổi mồ hôi và máu trên chiến trường lấy quân công, bổng lộc và chức tước.
     icon: phu
     components: [military_rank]
+    event_weights: { quan_su: 2.0, vo_nghe: 1.6, nguy_hiem: 1.3 }
+    economy:
+      self_farm: true
     entry_condition:
       all:
         - { var: player.health, op: '>=', value: 55 }
@@ -292,6 +307,9 @@ careers:
     description: Sống ngoài vòng pháp luật nơi rừng xanh núi đỏ. Tự do tự tại, lấy của nhà giàu chia cho anh em, nhưng luôn đối mặt lệnh truy nã của quan phủ.
     icon: nguy_hiem
     components: [outlaw_band]
+    event_weights: { nguy_hiem: 1.8, quan_su: 1.3, lang_xa: 0.7 }
+    economy:
+      self_farm: true
     entry_condition:
       any:
         - { var: household.debt, op: '>=', value: 15 }
@@ -382,3 +400,116 @@ careers:
           - 'Quan quân tưởng toán cướp đã dạt sang xứ khác, lệnh truy tầm lắng xuống hẳn.'
         failure_log:
           - 'Mấy tên tuần đinh vẫn lảng vảng dưới chân núi, chỉ giảm được chút ít nghi ngờ.'
+
+  - id: si_tu
+    name: Sĩ tử → Quan văn
+    description: Dùi mài kinh sử, lều chõng đi thi. Đỗ đạt thì được bổ làm quan, rạng danh tông tộc; lận đận thì làm thầy đồ dạy chữ nuôi thân.
+    icon: sach
+    components: [exam_ladder]
+    event_weights: { hoc_hanh: 2.0, van_minh: 1.6, ruong_dong: 0.4, lao_dong: 0.5 }
+    entry_condition:
+      any:
+        - { var: player.skill.hoc_van, op: '>=', value: 2 }
+        - { var: player.exam_degree, op: '!=', value: none }
+    duties:
+      - Dùi mài kinh sử, ứng thí mỗi khoa thi
+      - Giữ lễ nghĩa, làm gương cho dân làng và con cháu
+    # Nhà nho không cầm cày: ruộng phát canh thu tô, sống bằng nghề chữ; người nhà chỉ dệt vải, chép sách kiếm thêm
+    economy:
+      self_farm: false
+      family_wage_month: 0.25
+      income: { money_month: 0.3, skill: hoc_van, per_level: 0.07, ledger: day_hoc }
+    ranks:
+      - id: nho_sinh
+        name: Nho sinh dùi mài kinh sử
+        min_merit: 0
+        modifiers:
+          - { target: xp.hoc_van, value: 1.15, op: mul }
+      - id: thay_do
+        name: Thầy đồ trường làng
+        min_merit: 20
+        condition: { var: player.skill.hoc_van, op: '>=', value: 3 }
+        stipend_money_month: 0.4
+        modifiers:
+          - { target: xp.hoc_van, value: 1.15, op: mul }
+          - { target: xp.ngoai_giao, value: 1.05, op: mul }
+      - id: huan_dao
+        name: Huấn đạo hàng huyện
+        min_merit: 40
+        condition: { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }
+        stipend_money_month: 0.9
+        modifiers:
+          - { target: xp.quan_tri, value: 1.2, op: mul }
+      - id: tri_huyen
+        name: Tri huyện
+        min_merit: 70
+        condition:
+          any:
+            - { var: player.exam_degree, op: '==', value: tien_si }
+            - { all: [{ var: player.exam_degree, op: '==', value: huong_cong }, { var: player.skill.quan_tri, op: '>=', value: 5 }] }
+        stipend_money_month: 2.0
+        modifiers:
+          - { target: xp.quan_tri, value: 1.3, op: mul }
+          - { target: living.cost, value: 0.9, op: mul }
+    actions:
+      - id: mo_lop_day_chu
+        name: Mở lớp dạy chữ
+        description: Nhận con em trong làng về hiên nhà dạy Tam tự kinh, lấy lễ thầy bằng gạo tiền.
+        hint: 'Học vấn càng cao càng đông học trò; tăng công trạng và danh tiếng làng'
+        cooldown_months: 6
+        chance:
+          base: 0.6
+          skill: hoc_van
+          per_level: 0.04
+        success:
+          - { type: money, value: 3, ledger: day_hoc }
+          - { type: career_merit, value: 10 }
+          - { type: reputation, group: dan_lang, value: 3 }
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+        failure:
+          - { type: money, value: 1, ledger: day_hoc }
+          - { type: stress, value: 3 }
+        success_log:
+          - 'Học trò kéo đến đông vui, tiếng ê a đọc sách vang cả xóm, lễ thầy cuối mùa đầy một thúng.'
+        failure_log:
+          - 'Mùa này nhà nào cũng túng, chỉ lèo tèo vài đứa trẻ theo học.'
+      - id: binh_van_hoi_tho
+        name: Dự hội bình văn của sĩ phu
+        description: Mang văn bài đến hội tao đàn trên huyện, kết giao với các bậc khoa bảng.
+        hint: 'Tốn 1 quan trà rượu; tăng Danh vọng sĩ phu và công trạng'
+        cooldown_months: 8
+        cost_money: 1
+        chance:
+          base: 0.5
+          skill: ngoai_giao
+          per_level: 0.06
+        success:
+          - { type: scholarly_prestige, value: 6 }
+          - { type: career_merit, value: 12 }
+          - { type: skill_xp, skill: ngoai_giao, value: 15 }
+        failure:
+          - { type: scholarly_prestige, value: 1 }
+          - { type: stress, value: 3 }
+        success_log:
+          - 'Bài phú của bạn được cả hội chuyền tay ngâm nga, một vị Tiến sĩ hồi hưu mời bạn ghé nhà đàm đạo.'
+        failure_log:
+          - 'Văn chương còn non, bạn chỉ ngồi nghe các bậc tiền bối bình phẩm.'
+      - id: viet_van_khe
+        name: Viết văn khế, đơn từ thuê
+        description: Viết hộ dân làng văn tự mua bán ruộng đất, đơn kiện, câu đối Tết.
+        hint: 'Kiếm tiền nhanh, sai sót thì mất tiếng'
+        cooldown_months: 4
+        chance:
+          base: 0.7
+          skill: hoc_van
+          per_level: 0.03
+        success:
+          - { type: money, value: 2, ledger: day_hoc }
+          - { type: career_merit, value: 5 }
+        failure:
+          - { type: reputation, group: dan_lang, value: -2 }
+          - { type: stress, value: 2 }
+        success_log:
+          - 'Nét chữ rồng bay phượng múa, khách cầm văn khế về còn biếu thêm buồng cau.'
+        failure_log:
+          - 'Viết sót một chữ trong văn tự, hai bên kiện cáo nhau rồi đổ lỗi cho bạn.'

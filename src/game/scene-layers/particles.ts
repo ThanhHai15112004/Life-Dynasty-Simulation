@@ -1,6 +1,8 @@
-// [0] Lớp 7 — Hiệu ứng hạt: khói bếp, lá rơi, đom đóm, mưa (vẽ lại mỗi khung hình, toạ độ khung 320×180)
+// [0] Lớp 7 — Hiệu ứng hạt: khói bếp, lá rơi, đom đóm, mưa (vẽ lại mỗi khung hình, toạ độ khung gốc của bộ cảnh)
 import type { SceneDescriptor } from '@core/index';
-import type { SceneLayout } from './art';
+import type { SceneKit } from '../scene-kit/types';
+
+type ParticleFrame = Pick<SceneKit, 'width' | 'height' | 'particles'>;
 import type { PixelPainter } from './PixelPainter';
 
 interface Particle {
@@ -14,7 +16,7 @@ export class ParticleLayer {
   private items: Particle[] = [];
   private kinds = '';
 
-  sync(L: SceneLayout, d: SceneDescriptor): void {
+  sync(L: ParticleFrame, d: SceneDescriptor): void {
     const key = d.particles.join(',');
     if (key === this.kinds) return;
     this.kinds = key;
@@ -28,7 +30,7 @@ export class ParticleLayer {
     }
   }
 
-  draw(p: PixelPainter, L: SceneLayout, chimney: [number, number] | null, timeSec: number): void {
+  draw(p: PixelPainter, L: ParticleFrame, chimney: [number, number] | null, timeSec: number): void {
     const { width, height } = L;
     for (const it of this.items) {
       const spec = L.particles[it.kind];

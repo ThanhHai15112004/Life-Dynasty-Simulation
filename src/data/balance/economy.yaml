@@ -19,6 +19,19 @@ harvest:
   full_workers_per_sao: 0.8
   spare_worker_wage_month: 0.45   # công làm thuê ≈ đủ nuôi miệng mình, không tích lũy được
 
+# [1] Hộ không tự cày (nhà buôn, nhà nho): ruộng phát canh cho tá điền, mùa gặt thu tô bằng thóc
+tenancy:
+  rent_share: 0.5          # "tô rẽ" chia đôi sản lượng với tá điền
+  business_runners: 1      # một người trong nhà lo việc nghề chính, không tính là lao động dư
+  food_reserve_months: 2   # nhà buôn, nhà nho đong thóc dự trữ đủ ăn chừng này tháng khi có tiền
+  # Ruộng càng nhiều càng khó tìm tá điền, phần lớn phải để rẻ hoặc bỏ hoang
+  rent_factor_by_sao:
+    - { sao: 0, factor: 1.0 }
+    - { sao: 8, factor: 1.0 }
+    - { sao: 16, factor: 0.7 }
+    - { sao: 30, factor: 0.45 }
+    - { sao: 50, factor: 0.3 }
+
 # Trời định đầu năm (ẩn), lộ dần qua thời tiết, giá thóc và điềm báo
 harvest_qualities:
   - id: duoc_mua
@@ -29,6 +42,7 @@ harvest_qualities:
     weather_bias: { mua: 1.3, han: 0.3 }
     harvest_log: sys.thu_hoach_duoc_mua
     quiet_year_log: sys.nam_yen_duoc_mua
+    cutscene: thu_hoach_lon
   - id: binh_thuong
     name: Mùa thường
     weight: 45

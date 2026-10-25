@@ -75,6 +75,7 @@ properties:
     income_money_year: 4.5
     upkeep_money_year: 0.6
     modifiers: [{ target: xp.thuong_mai, value: 1.1, op: mul }]
+    scene: { layer: props, sprite: sap_hang, max_draw: 1 }
   - id: phu_nho
     name: Tư dinh ngói cổ
     category: house

@@ -37,13 +37,31 @@ function reserveTrading(view: HudView, keepMonths: number, sellAbovePrice: numbe
   return [];
 }
 
+/** Focus "làm ăn" hợp với nghề nhà: nhà nông cày ruộng, nhà buôn buôn bán, nhà nho học hành. */
+function workFocus(view: HudView): string {
+  if (view.household.selfFarm) return 'lam_an';
+  return view.career.components.includes('exam_ladder') ? 'hoc_tap' : 'kinh_doanh';
+}
+
+/** Làm hành động nghề đầu tiên đang khả dụng (đủ tuổi, hết hồi, đủ vốn). */
+function careerActions(view: HudView): Command[] {
+  const act = view.career.actions.find((a) => a.available);
+  return act ? [{ type: 'doCareerAction', actionId: act.id }] : [];
+}
+
 export function makeBot(name: string, seed: string): Bot {
   const rng = Rng.fromSeed(`bot:${name}:${seed}`);
   switch (name) {
     case 'an_phan':
       return {
         name,
-        yearly: (v) => [...focusCmd(v, v.player.health < 50 ? 'suc_khoe' : 'lam_an', 'gia_dinh'), { type: 'setLivingStandard', id: 'dam_bac' }],
+        yearly: (v) => {
+          const h = v.household;
+          const cmds: Command[] = [...focusCmd(v, v.player.health < 50 ? 'suc_khoe' : workFocus(v), 'gia_dinh'), { type: 'setLivingStandard', id: 'dam_bac' }];
+          // Người cẩn trọng có dư là trả nợ ngay
+          if (h.debt > 0 && h.money > 5) cmds.push({ type: 'repayDebt', amount: Math.min(h.debt, h.money - 3) });
+          return cmds;
+        },
         monthly: () => [],
         choose: (v) => {
           const opts = v.pending!.options;
@@ -54,7 +72,7 @@ export function makeBot(name: string, seed: string): Bot {
       return {
         name,
         yearly: (v) => [...focusCmd(v, 'kinh_doanh', 'ren_luyen'), { type: 'setLivingStandard', id: v.household.money > 5 ? 'du_day' : 'dam_bac' }],
-        monthly: (v) => reserveTrading(v, 1, 0),
+        monthly: (v) => [...reserveTrading(v, 1, 0), ...careerActions(v)],
         choose: (v) => {
           const opts = v.pending!.options;
           const risky = opts.filter((o) => o.chance).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];
@@ -65,12 +83,12 @@ export function makeBot(name: string, seed: string): Bot {
       return {
         name,
         yearly: (v) => {
-          const cmds: Command[] = [...focusCmd(v, v.player.age < 20 ? 'hoc_tap' : 'kinh_doanh', 'lam_an')];
+          const cmds: Command[] = [...focusCmd(v, v.player.age < 20 ? 'hoc_tap' : workFocus(v) === 'lam_an' ? 'kinh_doanh' : workFocus(v), 'lam_an')];
           cmds.push({ type: 'setLivingStandard', id: v.household.money > 15 ? 'du_day' : 'dam_bac' });
           if (v.household.money > 25) cmds.push({ type: 'buyProperty', id: 'ruong' });
           return cmds;
         },
-        monthly: (v) => reserveTrading(v, 4, v.market.sellPrice > 0 ? 0.55 : 0),
+        monthly: (v) => [...reserveTrading(v, 4, v.market.sellPrice > 0 ? 0.55 : 0), ...careerActions(v)],
         choose: (v) => {
           const opts = v.pending!.options;
           const good = opts.filter((o) => (mid(o) ?? 0) >= 0.45).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];
@@ -82,7 +100,7 @@ export function makeBot(name: string, seed: string): Bot {
         name,
         yearly: (v) => {
           const h = v.household;
-          const cmds: Command[] = [...focusCmd(v, v.player.health < 55 ? 'suc_khoe' : 'lam_an', 'kinh_doanh')];
+          const cmds: Command[] = [...focusCmd(v, v.player.health < 55 ? 'suc_khoe' : workFocus(v), 'kinh_doanh')];
           cmds.push({ type: 'setLivingStandard', id: h.money > 12 && h.foodMonths > 4 ? 'du_day' : 'dam_bac' });
           if (h.debt > 0 && h.money > 3) cmds.push({ type: 'repayDebt', amount: Math.min(h.debt, h.money - 2) });
           const ruong = v.market.buyable.find((p) => p.id === 'ruong');
@@ -90,7 +108,7 @@ export function makeBot(name: string, seed: string): Bot {
           if (!h.properties.some((p) => p.id === 'trau') && h.money > 20) cmds.push({ type: 'buyProperty', id: 'trau' });
           return cmds;
         },
-        monthly: (v) => reserveTrading(v, 6, 0.6),
+        monthly: (v) => [...reserveTrading(v, 6, 0.6), ...careerActions(v)],
         choose: (v) => {
           const opts = v.pending!.options;
           const best = opts.filter((o) => (mid(o) ?? 0) >= 0.55).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];

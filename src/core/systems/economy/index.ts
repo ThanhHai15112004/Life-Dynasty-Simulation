@@ -1,14 +1,18 @@
 // [0] Kinh tế hộ: thu chi, thu hoạch, thuế, nợ, giá lúa trôi theo mùa (GDD 03 §5, §9)
+// [1] Nguồn sống theo nghề nhà: tự cày hay phát canh thu tô, người nhà làm thuê hay phụ việc nghề, lời buôn bán
 import { interpolate } from '@shared/curve';
+import { evaluate } from '../../engine/RuleEvaluator';
 import { addLedger } from '../../entities/Household';
 import { farmlandOf, holdingsOf } from '../../entities/Property';
 import { StatTarget } from '../../engine/statTargets';
 import { Ledger, SystemLog } from '../../events/systemLogKeys';
+import { queueCutscene } from '../../events/cutscene';
 import { writeTemplate } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
 import { computeHousehold } from '../modifiers';
-import { ageNow, aliveMembers, playerHousehold } from '../people';
-import { buyPrice, monthlyFoodNeed, monthlyMoneyNeed, sellPrice, workers } from './helpers';
+import { ageNow, aliveMembers, player, playerHousehold } from '../people';
+import { createResolver } from '../resolver';
+import { buyPrice, careerEconomy, incomeOf, monthlyFoodNeed, monthlyMoneyNeed, sellPrice, workers } from './helpers';
 
 export * from './helpers';
 
@@ -54,8 +58,51 @@ function harvest(ctx: SimContext): void {
   h.food += amount;
   addLedger(h, Ledger.Harvest, 0, amount);
   state.world.lastHarvest = amount;
-  if (q.id === 'duoc_mua') state.lastCutsceneId = 'thu_hoach_lon';
+  queueCutscene(ctx, q.cutscene);
   writeTemplate(ctx, q.harvest_log, { params: { amount, sao } });
+}
+
+/** [1] Hộ không tự cày: tá điền gặt ruộng phát canh, chủ ruộng thu tô theo phần chia (không cần nhân lực nhà mình). */
+function collectRent(ctx: SimContext): void {
+  const { content, state } = ctx;
+  const h = playerHousehold(ctx);
+  const sao = farmlandOf(h, content);
+  if (sao <= 0) return;
+  const q = quality(ctx);
+  const t = content.balance.economy.tenancy;
+  const tenants = interpolate(t.rent_factor_by_sao, 'sao', 'factor', sao);
+  const amount = Math.round(sao * content.balance.economy.harvest.yield_per_sao * q.yield_factor * t.rent_share * tenants);
+  h.food += amount;
+  addLedger(h, Ledger.Rent, 0, amount);
+  state.world.lastHarvest = amount;
+  queueCutscene(ctx, q.cutscene);
+  writeTemplate(ctx, SystemLog.RentCollected, { params: { amount, sao } });
+}
+
+/** [1] Các khoản thu đều đặn trong tháng: nghề nhà (kỹ năng theo người giỏi nhất trong hộ) và Focus chính (kỹ năng người chơi). */
+export function regularIncomeParts(ctx: SimContext): { ledger: string; money: number }[] {
+  const { content, state } = ctx;
+  const parts: { ledger: string; money: number }[] = [];
+  const ce = careerEconomy(ctx);
+  if (ce.income) {
+    const skill = ce.income.skill;
+    const level = skill ? aliveMembers(ctx).reduce((m, c) => Math.max(m, c.skills[skill]?.level ?? 0), 0) : 0;
+    parts.push({ ledger: ce.income.ledger, money: incomeOf(ctx, ce.income, level) });
+  }
+  const focus = content.index.focus.get(state.focus.primary);
+  if (focus?.income && evaluate(focus.condition, createResolver(ctx))) {
+    const skill = focus.income.skill;
+    parts.push({ ledger: focus.income.ledger, money: incomeOf(ctx, focus.income, skill ? (player(ctx).skills[skill]?.level ?? 0) : 0) });
+  }
+  return parts;
+}
+
+function regularIncome(ctx: SimContext): void {
+  const h = playerHousehold(ctx);
+  for (const part of regularIncomeParts(ctx)) {
+    h.money += part.money;
+    addLedger(h, part.ledger, part.money, 0);
+  }
 }
 
 function tax(ctx: SimContext): void {
@@ -94,6 +141,17 @@ function settle(ctx: SimContext): void {
     h.money -= bought * price;
     addLedger(h, Ledger.BuyFood, -bought * price, bought);
     if (bought < need && !loggedThisYear(ctx, SystemLog.Starving)) writeTemplate(ctx, SystemLog.Starving);
+  }
+  // 1b) Hộ không tự cày: có tiền thì đong thóc dự trữ vài tháng (không vay để tích trữ)
+  if (!careerEconomy(ctx).self_farm) {
+    const want = monthlyFoodNeed(ctx) * eco.tenancy.food_reserve_months - h.food;
+    const price = buyPrice(ctx);
+    const amount = price > 0 ? Math.min(want, Math.max(0, h.money) / price) : 0;
+    if (amount > 0) {
+      h.food += amount;
+      h.money -= amount * price;
+      addLedger(h, Ledger.BuyFood, -amount * price, amount);
+    }
   }
   // 2) Thiếu tiền: bán thóc dư trước, chỉ giữ đủ ăn auto_sell_keep_months tháng
   if (h.money < 0) {
@@ -147,13 +205,17 @@ export function monthlyEconomy(ctx: SimContext): void {
   addLedger(h, Ledger.Livestock, 0, -livestock);
   addLedger(h, Ledger.Living, -money, 0);
 
-  // Lao động dư (ít ruộng, đông người) đi làm thuê — mất ruộng vẫn còn đường sống
-  const spareWorkers = Math.max(0, workers(ctx).length - farmlandOf(h, content) * eco.harvest.full_workers_per_sao);
-  const wages = Math.floor(spareWorkers) * eco.harvest.spare_worker_wage_month;
+  // Lao động dư: nhà nông (ít ruộng, đông người) đi làm thuê — mất ruộng vẫn còn đường sống;
+  // nhà không tự cày thì mọi người trừ người lo việc chính đều phụ việc nghề nhà
+  const ce = careerEconomy(ctx);
+  const busy = ce.self_farm ? farmlandOf(h, content) * eco.harvest.full_workers_per_sao : eco.tenancy.business_runners;
+  const spareWorkers = Math.max(0, workers(ctx).length - busy);
+  const wages = Math.floor(spareWorkers) * (ce.family_wage_month ?? eco.harvest.spare_worker_wage_month);
   h.money += wages;
-  addLedger(h, Ledger.Wages, wages, 0);
+  addLedger(h, ce.self_farm ? Ledger.Wages : Ledger.FamilyWork, wages, 0);
+  regularIncome(ctx);
 
-  if (eco.harvest.months.includes(state.clock.month)) harvest(ctx);
+  if (eco.harvest.months.includes(state.clock.month)) (ce.self_farm ? harvest : collectRent)(ctx);
   if (eco.tax.month === state.clock.month) tax(ctx);
   settle(ctx);
 }

@@ -1,12 +1,12 @@
 # [0] Đời sống: giai đoạn đời, sức khỏe, tử vong (GDD 01 §4, §8)
 life_stages:
   # ambient_lines: số dòng nhật ký thường mỗi năm [tối thiểu, tối đa] (R3)
-  - { id: au_tho, name: Ấu thơ, min_age: 0, ambient_lines: [1, 3], decisions: false, can_choose_focus: false, can_have_secondary_focus: false }
-  - { id: thieu_thoi, name: Thiếu thời, min_age: 6, ambient_lines: [3, 5], decisions: true, can_choose_focus: true, can_have_secondary_focus: false }
-  - { id: thanh_nien, name: Thanh niên, min_age: 16, ambient_lines: [3, 6], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
-  - { id: lap_nghiep, name: Lập nghiệp, min_age: 26, ambient_lines: [3, 6], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
-  - { id: trung_nien, name: Trung niên, min_age: 41, ambient_lines: [3, 6], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
-  - { id: tuoi_gia, name: Tuổi già, min_age: 56, ambient_lines: [2, 5], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  - { id: au_tho, name: Ấu thơ, min_age: 0, ambient_lines: [2, 4], decisions: false, can_choose_focus: false, can_have_secondary_focus: false }
+  - { id: thieu_thoi, name: Thiếu thời, min_age: 6, ambient_lines: [4, 7], decisions: true, can_choose_focus: true, can_have_secondary_focus: false }
+  - { id: thanh_nien, name: Thanh niên, min_age: 16, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  - { id: lap_nghiep, name: Lập nghiệp, min_age: 26, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  - { id: trung_nien, name: Trung niên, min_age: 41, ambient_lines: [4, 8], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
+  - { id: tuoi_gia, name: Tuổi già, min_age: 56, ambient_lines: [3, 7], decisions: true, can_choose_focus: true, can_have_secondary_focus: true }
 
 health:
   max: 100
@@ -108,6 +108,13 @@ marriage:
   max_children_in_household: 5
   spouse_age_offset: [-3, 3]
   spouse_health: [65, 85]
+  newborn_health: [60, 88]
+  conception_health_ref: 75
+  conception_health_factor: [0.4, 1.2]
+  wedding_cutscene: ket_hon
+  birth_cutscene: sinh_con
+
+max_concurrent_diseases: 2
 
 happiness:
   start: 50
@@ -117,5 +124,61 @@ happiness:
   wealth_factor: 0.4
   stress_penalty_factor: 0.25
   family_death_penalty: 8
+  family_death_penalty_cap: 24
   marriage_bonus: 6
   child_bonus: 4
+  child_bonus_cap: 12
+  health_ref: 60
+  health_factor: 0.15
+  mood_wealth_clamp: [-15, 15]
+  satisfaction_wealth_clamp: [-18, 22]
+  satisfaction_stress_share: 0.6
+  # Hệ giá trị theo tính cách (GDD 01 §7.2): sống đúng điều mình coi trọng thì mãn nguyện hơn
+  value_rules:
+    - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.married, op: '==', value: true }] }, value: 6 }
+    - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.married, op: '==', value: false }] }, value: -4 }
+    - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.children_count, op: '>=', value: 1 }] }, value: 4 }
+    - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.children_count, op: '>=', value: 2 }] }, value: 4 }
+    - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.children_count, op: '>=', value: 3 }] }, value: 4 }
+    - { condition: { all: [{ has_trait: tham_vong }, { var: household.net_worth, op: '>=', value: 180 }] }, value: 8 }
+    - { condition: { all: [{ has_trait: tham_vong }, { var: household.net_worth, op: '<', value: 90 }, { var: player.age, op: '>=', value: 30 }] }, value: -8 }
+    - { condition: { all: [{ has_trait: tham_vong }, { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }] }, value: 6 }
+    - { condition: { all: [{ has_trait: an_phan }, { var: household.debt, op: '<=', value: 0 }] }, value: 6 }
+    - { condition: { all: [{ has_trait: an_phan }, { var: household.debt, op: '>', value: 0 }] }, value: -6 }
+    - { condition: { all: [{ any: [{ has_trait: hao_phong }, { has_trait: nhan_tu }] }, { var: player.reputation, op: '>=', value: 15 }] }, value: 5 }
+    - { condition: { all: [{ any: [{ has_trait: hao_phong }, { has_trait: nhan_tu }] }, { var: player.reputation, op: '<', value: 0 }] }, value: -5 }
+    # Khuôn Nho giáo: người con chí hiếu thấy lòng thanh thản, bất hiếu thì day dứt
+    - { condition: { var: player.filial_piety, op: '>=', value: 80 }, value: 4 }
+    - { condition: { var: player.filial_piety, op: '<', value: 30 }, value: -6 }
+
+# [1] Bản tổng kết đời 5 trục độc lập (GDD 01 §7.3): trục = base + Σ(biến × hệ số), kẹp 0..100.
+# min/max kẹp phần đóng góp của từng biến.
+summary_axes:
+  - id: man_nguyen
+    terms:
+      - { var: player.satisfaction, factor: 1 }
+  - id: di_san
+    base: 15
+    terms:
+      - { var: household.farmland, factor: 7 }
+      - { var: household.net_worth, factor: 0.2, min: 0 }
+      - { var: player.children_count, factor: 8 }
+      - { var: household.debt, factor: -0.8 }
+  - id: dau_an
+    base: 25
+    terms:
+      - { var: player.reputation, factor: 1.1 }
+      - { var: player.favor_total, factor: 8 }
+      - { var: player.best_skill, factor: 4 }
+      - { var: player.scholarly_prestige, factor: 0.3 }
+      - { var: player.career_rank, factor: 3 }
+  - id: gia_dinh
+    base: 20
+    terms:
+      - { var: player.married, factor: 25 }
+      - { var: player.children_count, factor: 15 }
+      - { var: household.members, factor: 5 }
+  - id: tham_vong
+    base: 15
+    terms:
+      - { var: player.ambition_progress, factor: 85 }

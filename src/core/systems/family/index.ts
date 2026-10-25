@@ -1,6 +1,7 @@
 // [1] Phân hệ Gia đình cơ bản: kết hôn, mang thai, sinh con trong hộ gia đình (GDD 03 §7)
 import { clamp } from '@shared/curve';
 import { fullName, type Character } from '../../entities/Character';
+import { queueCutscene } from '../../events/cutscene';
 import { writeTemplate } from '../../events/journal';
 import { SystemLog } from '../../events/systemLogKeys';
 import { createCharacter } from '../../world/generate';
@@ -47,7 +48,7 @@ export function marryPlayer(ctx: SimContext, partner?: Character): Character | n
     self: spouse.id,
     params: { call: fullName(spouse), age: ageNow(ctx, spouse) },
   });
-  ctx.state.lastCutsceneId = 'ket_hon';
+  queueCutscene(ctx, ctx.content.balance.life.marriage.wedding_cutscene);
   return spouse;
 }
 
@@ -74,7 +75,7 @@ export function monthlyFamily(ctx: SimContext): void {
         sex,
         age: 0,
         familyName: father.familyName,
-        health: clamp(Math.round((mother.health + father.health) / 2), 60, 88),
+        health: clamp(Math.round((mother.health + father.health) / 2), mCfg.newborn_health[0], mCfg.newborn_health[1]),
       });
       // Trẻ sơ sinh chính xác 0 tuổi, sinh vào tháng hiện tại
       child.birthYear = ctx.state.clock.year;
@@ -92,7 +93,7 @@ export function monthlyFamily(ctx: SimContext): void {
         self: child.id,
         params: { call: callOf(ctx, child), title: genderTitle.replace(/\s*\{given\}/g, '') },
       });
-      ctx.state.lastCutsceneId = 'sinh_con';
+      queueCutscene(ctx, mCfg.birth_cutscene);
     }
     return;
   }
@@ -104,7 +105,8 @@ export function monthlyFamily(ctx: SimContext): void {
   if (childrenInHouse >= mCfg.max_children_in_household) return;
 
   // Tuổi mẹ càng cao hoặc sức khỏe yếu thì xác suất thụ thai giảm nhẹ
-  const healthFactor = clamp(mother.health / 75, 0.4, 1.2);
+  const [hfLo, hfHi] = mCfg.conception_health_factor;
+  const healthFactor = clamp(mother.health / mCfg.conception_health_ref, hfLo, hfHi);
   const chance = mCfg.base_conception_chance_month * healthFactor;
   if (rng.chance(chance)) {
     mother.pregnancy = { monthsLeft: mCfg.pregnancy_months, fatherId: father.id };

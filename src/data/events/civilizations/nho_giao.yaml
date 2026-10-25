@@ -6,9 +6,9 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
-        - { var: world.is_exam_year, op: '==', value: true }
+        - { var: world.exam_stage, op: '==', value: huong }
         - { var: player.exam_degree, op: 'in', value: [none, sinh_do] }
-        - { var: player.skill.hoc_van, op: '>=', value: 2 }
+        - { var: player.skill.hoc_van, op: '>=', value: 3 }
         - { var: player.mourning_months, op: '==', value: 0 }
     weight: 8
     cooldown_years: 3
@@ -20,18 +20,23 @@ events:
     options:
       - id: ung_thi_tam_huyet
         text: 'Sắm sửa lều chõng, nộp lệ phí đi thi Hương (2 quan)'
-        hint: 'Học vấn càng cao càng dễ đỗ Sinh đồ hoặc Hương cống'
-        condition: { var: household.money, op: '>=', value: 2 }
+        hint: 'Cần Học vấn bậc 5 trở lên; học càng cao càng dễ đỗ Hương cống'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 2 }
+            - { var: player.skill.hoc_van, op: '>=', value: 5 }
         chance:
-          base: 0.35
+          base: 0.05
           skill: hoc_van
-          per_level: 0.08
+          per_level: 0.04
+          max: 0.6
         effects:
           - { type: money, value: -2, ledger: su_kien }
           - { type: stress, value: 4 }
         success:
           - { type: set_exam_degree, degree: huong_cong }
           - { type: skill_xp, skill: hoc_van, value: 25 }
+          - { type: career_merit, value: 30 }
         failure:
           - { type: skill_xp, skill: hoc_van, value: 12 }
           - { type: stress, value: 5 }
@@ -46,14 +51,16 @@ events:
             - { var: household.money, op: '>=', value: 1 }
             - { var: player.exam_degree, op: '==', value: none }
         chance:
-          base: 0.55
+          base: 0.15
           skill: hoc_van
-          per_level: 0.07
+          per_level: 0.05
+          max: 0.7
         effects:
           - { type: money, value: -1, ledger: su_kien }
         success:
           - { type: set_exam_degree, degree: sinh_do }
           - { type: skill_xp, skill: hoc_van, value: 15 }
+          - { type: career_merit, value: 15 }
         failure:
           - { type: skill_xp, skill: hoc_van, value: 8 }
           - { type: stress, value: 4 }
@@ -75,7 +82,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
-        - { var: world.is_exam_year, op: '==', value: true }
+        - { var: world.exam_stage, op: '==', value: hoi }
         - { var: player.exam_degree, op: '==', value: huong_cong }
         - { var: player.skill.hoc_van, op: '>=', value: 5 }
         - { var: player.mourning_months, op: '==', value: 0 }
@@ -85,16 +92,20 @@ events:
     importance: 8
     icon: sach
     text:
-      - 'Đã có học vị Hương cống trong tay, mùa xuân năm nay triều đình mở đại khoa thi Hội và thi Đình tại Kinh thành để kén chọn bậc đại khoa Tiến sĩ.'
+      - 'Đã có học vị Hương cống trong tay, mùa xuân năm nay — năm kế sau khoa thi Hương — triều đình mở đại khoa thi Hội và thi Đình tại Kinh thành để kén chọn bậc đại khoa Tiến sĩ.'
     options:
       - id: len_kinh_ung_thi
         text: 'Hành trang lên Kinh thành dự thi Hội – Đình (5 quan lộ phí)'
-        hint: 'Cổng thăng tiến cao quý nhất của bậc sĩ phu Nho giáo'
-        condition: { var: household.money, op: '>=', value: 5 }
+        hint: 'Cần Học vấn bậc 7 trở lên — cổng thăng tiến cao quý nhất của bậc sĩ phu'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 5 }
+            - { var: player.skill.hoc_van, op: '>=', value: 7 }
         chance:
-          base: 0.3
+          base: 0.0
           skill: hoc_van
-          per_level: 0.07
+          per_level: 0.03
+          max: 0.45
         effects:
           - { type: money, value: -5, ledger: su_kien }
           - { type: stress, value: 6 }
@@ -102,6 +113,7 @@ events:
           - { type: set_exam_degree, degree: tien_si }
           - { type: money, value: 15, ledger: luong_nghe }
           - { type: filial_piety, value: 15 }
+          - { type: career_merit, value: 40 }
         failure:
           - { type: scholarly_prestige, value: 5 }
           - { type: skill_xp, skill: hoc_van, value: 20 }

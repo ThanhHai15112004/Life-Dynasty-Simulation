@@ -6,7 +6,10 @@ culture: viet
 start_age_options: [16, 6, 0]
 default_start_age: 16
 default_focus: hoc_tap
-default_career: nong_dan
+default_career: si_tu
+settlement: lang_nong
+start_log: sys.khoi_dau_nha_nho
+start_status: { scholarly_prestige: 15, filial_piety: 70 }
 player:
   sex: any
   health: [60, 78]

@@ -1,0 +1,874 @@
+# [1] Nhật ký dòng đời — nhà nông & đời sống làng xã cho người lớn (16 tuổi trở lên). Tiền tố id: ln_
+# Lịch nông vụ theo tháng âm: tháng chạp trồng khoai, tháng giêng trồng đậu, tháng ba cày vỡ, tháng tư làm mạ,
+# tháng năm gặt chiêm, tháng sáu cấy mùa, tháng mười gặt mùa, tháng một cày ải gieo mạ chiêm.
+# Việc đồng gắn household.self_farms == true; chuyện làng gắn world.settlement_type == lang_nong.
+templates:
+  # ── Việc đồng theo tháng ──
+  - id: ln_cay_ai_phoi_dat
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [11, 12]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: trau
+    short: 'cày ải phơi đất'
+    variants:
+      - 'Gió bấc thổi rát mặt. Bạn theo sau đường cày từ lúc sương còn trắng đồng, đất lật lên từng tảng phơi cho ải.'
+      - 'Cả tuần cày ải, bàn chân bạn nứt nẻ vì bùn lạnh. Ruộng giờ là những luống đất nâu chờ nắng hanh.'
+      - 'Bạn cày xong thửa cuối khi mặt trời đã lặn sau lũy tre. Con trâu thở phì phò, bạn cũng vậy.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 4 }]
+  - id: ln_gieo_ma_chiem
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [11, 12]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: cay_lua
+    short: 'gieo mạ chiêm'
+    variants:
+      - 'Thóc giống ngâm ba ngày, ủ hai đêm đã nứt nanh. Bạn vãi đều tay xuống ruộng mạ, phủ một lớp tro bếp chống rét.'
+      - 'Đêm nay trời rét, cả nhà ra ruộng mạ phủ rơm. Mạ non xanh mỏng như tơ, chết một lứa là lỡ cả vụ.'
+  - id: ln_cay_chiem_giua_ret
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [12, 1]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: ruong
+    short: 'cấy chiêm giữa rét'
+    variants:
+      - 'Cấy chiêm giữa tiết đại hàn, nước ruộng lạnh buốt tới xương. Bạn cắm từng dảnh mạ, môi tím tái.'
+      - 'Mưa phùn lất phất cả buổi cấy. Đến trưa, tay bạn cứng đờ, cầm nắm cơm cũng run.'
+    effects: [{ type: health, value: -1 }]
+  - id: ln_trong_khoai_thang_chap
+    kind: chuyen_vat
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: la
+    variants:
+      - '"Tháng chạp là tháng trồng khoai." Bạn vun mấy luống đất bãi, cắm dây khoai lang, mong giáp hạt có cái độn cơm.'
+      - 'Bạn trồng nốt vạt khoai bờ sông. Mẹ dặn khoai năm nay phải để dành đến tháng ba.'
+  - id: ln_lam_co_lua_chiem
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [2, 3]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: ruong
+    short: 'làm cỏ lúa chiêm'
+    variants:
+      - 'Bạn bò dọc từng hàng lúa, sục tay xuống bùn nhổ cỏ lồng vực. Đỉa bám đầy bắp chân lúc nào không hay.'
+      - 'Làm cỏ đợt hai, lúa đã lên xanh đều. Bạn đứng thẳng lưng, nghe xương sống kêu răng rắc.'
+      - 'Nắng xuân hanh hao, cả nhà làm cỏ đến xế chiều. Nón lá ai cũng ướt đẫm mồ hôi.'
+  - id: ln_bon_phan_chuong
+    kind: chuyen_vat
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [1, 2, 7]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: ruong
+    variants:
+      - 'Bạn gánh phân chuồng trộn tro bếp ra ruộng, mùi hôi bám theo đến tận bữa cơm. "Người đẹp vì lụa, lúa tốt vì phân."'
+      - 'Bạn vớt bèo hoa dâu dưới ao lên ủ, đem rải khắp ruộng. Lúa hôm sau đã như xanh thêm một nước.'
+  - id: ln_tat_nuoc_gau_dai
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [3, 4, 6]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: nang
+    short: 'tát nước vào ruộng'
+    variants:
+      - 'Hai người hai đầu dây gầu, nhịp tát đều đều dưới trăng. Nước lạch từng gầu đổ vào ruộng, sáng lấp lánh.'
+      - 'Bạn đứng gầu sòng cả buổi trưa, vai mỏi rã. Chân ruộng mới ngấp nghé nước.'
+    effects: [{ type: health, value: -1 }]
+  - id: ln_giap_hat_thang_ba
+    kind: bao_cao
+    tags: [ruong_dong, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [2, 3]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.food_months, op: '<', value: 3 }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: kho
+    short: 'giáp hạt tháng ba'
+    variants:
+      - '"Tháng ba ngày tám", bồ thóc nhà bạn đã chạm đáy. Bữa cơm độn khoai, độn cả rau má.'
+      - 'Lúa ngoài đồng còn xanh, thóc trong nhà đã cạn. Bạn ra bãi đào củ chuối về nấu cháo.'
+    effects: [{ type: stress, value: 2 }]
+  - id: ln_lua_chiem_tro_dong
+    kind: chuyen_vat
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [4]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: cay_lua
+    variants:
+      - 'Lúa chiêm đã trổ đòng, gió đầu hè thổi qua cả cánh đồng thơm mùi sữa non. Bạn đứng trên bờ, nhẩm tính mùa.'
+      - 'Bông lúa đầu tiên trổ ra khỏi bẹ. Bạn ngắt một hạt, bóp thử, thấy sữa trắng ứa ra.'
+  - id: ln_gat_chiem
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: lua
+    short: 'gặt chiêm tháng năm'
+    variants:
+      - 'Tháng năm gặt chiêm, liềm cắt soàn soạt từ tờ mờ sáng. Gánh lúa nặng oằn vai, bạn vẫn đi như chạy.'
+      - 'Nắng tháng năm như đổ lửa. Cả nhà gặt vội cho kịp trước cơn mưa rào chiều nào cũng kéo đến.'
+      - 'Bạn bó lúa thành lượm, xếp đầy bờ ruộng. Chim sẻ ríu rít theo sau nhặt hạt rơi.'
+  - id: ln_phoi_thoc_chay_mua
+    kind: chuyen_vat
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 6, 10]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: mua
+    variants:
+      - 'Thóc đang phơi đầy sân thì mây đen kéo tới. Cả nhà vơ cào, vơ chổi, quét thóc vào nhà trước khi hạt mưa đầu rơi xuống.'
+      - 'Bạn đảo thóc trên sân gạch, chân trần bỏng rát. Hạt thóc vàng khô giòn, cắn nghe tách một tiếng.'
+  - id: ln_dap_lua_dem_trang
+    kind: chuyen_vat
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [5, 10]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: trang
+    variants:
+      - 'Đêm trăng sáng, cả xóm đập lúa trên sân. Tiếng bồ đập thình thịch, tiếng hát ví vọng qua mấy nhà.'
+      - 'Bạn quật từng lượm lúa vào cối đá đến khuya. Rơm vụn bám đầy tóc, ngứa ran cả cổ.'
+  - id: ln_cay_mua
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    months: [6, 7]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: ruong
+    short: 'cấy lúa mùa'
+    variants:
+      - 'Gặt chiêm xong chưa kịp nghỉ đã phải cày bừa cấy mùa. Bùn ngập đến đầu gối, nắng trên lưng như rang.'
+      - 'Mưa đầu mùa đổ xuống, bạn nhổ mạ bó thành từng nắm, ném ra khắp ruộng cho người cấy.'
+      - 'Hàng lúa bạn cấy thẳng tắp như kẻ chỉ. Bà cụ bên cạnh khen một câu, bạn vui suốt buổi.'
+  - id: ln_lam_co_lua_mua
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [7, 8]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: ruong
+    short: 'làm cỏ lúa mùa'
+    variants:
+      - 'Mưa ngâu rả rích, bạn đội áo tơi đi làm cỏ lúa mùa. Ruộng sũng nước, cỏ mọc nhanh hơn lúa.'
+      - 'Bạn sục bùn quanh gốc lúa, vùi cỏ xuống làm phân. Đến chiều về, tay nhăn nheo như tay ông lão.'
+  - id: ln_bat_sau_cuon_la
+    kind: bao_cao
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [8, 9]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    tone: buon
+    icon: sau
+    short: 'sâu phá lúa'
+    variants:
+      - 'Sâu cuốn lá phá một góc ruộng, lá lúa trắng bạc. Cả nhà cầm đèn ra đồng bắt sâu, rảy tro bếp đến nửa đêm.'
+      - 'Rầy nâu bám đặc gốc lúa. Bạn tháo cạn nước ruộng, nhìn cả thửa vàng úa mà xót ruột.'
+  - id: ln_duoi_chim_se
+    kind: chuyen_vat
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [9, 4]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: ruong
+    variants:
+      - 'Lúa sắp chín, chim sẻ kéo về từng đàn. Bạn cắm bù nhìn rơm đội nón rách, lại buộc ống bương gõ lóc cóc trên bờ.'
+      - 'Bạn đứng giữa ruộng vung sào đuổi chim cả buổi. Đàn chim bay lên một vòng rồi lại sà xuống chỗ khác.'
+  - id: ln_gat_mua
+    kind: bao_cao
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [10]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: lua
+    short: 'gặt mùa tháng mười'
+    variants:
+      - 'Tháng mười gặt mùa, trời hanh và cao. Lúa chín vàng ươm, gánh về đến đâu thơm đến đó.'
+      - 'Đồng làng ngày gặt rộn như hội. Bạn gánh lúa qua cầu tre, nghe nó kẽo kẹt dưới chân.'
+      - 'Bạn gặt thửa cuối khi gió bấc đầu mùa vừa về. Rơm rạ chất cao hơn đầu người sau hè.'
+  - id: ln_phoi_rom_dun_bep
+    kind: chuyen_vat
+    tags: [ruong_dong, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [10, 11]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: nang
+    variants:
+      - 'Rơm trải vàng khắp ngõ, phơi cho khô để đun bếp, lợp chuồng trâu. Mùi rơm mới ngai ngái theo vào giấc ngủ.'
+      - 'Bạn đánh đống rơm sau nhà, vun cao như cái nấm. Mùa đông này trâu có cái ăn, bếp có cái đun.'
+  - id: ln_duoc_mua_dong_bo
+    kind: bao_cao
+    tags: [ruong_dong, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 10]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: world.harvest_quality, op: '==', value: duoc_mua }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: kho
+    short: 'được mùa, thóc đầy bồ'
+    variants:
+      - 'Năm nay được mùa, bông lúa trĩu nặng cong cả cọng. Đong thóc vào bồ, bồ đầy lại phải quây thêm cót.'
+      - 'Thóc mẩy hạt, đong đấu nào đầy đấu nấy. Tối ấy cả nhà ăn bữa cơm trắng không độn.'
+    effects: [{ type: stress, value: -2 }]
+  - id: ln_mat_mua_thoc_lep
+    kind: bao_cao
+    tags: [ruong_dong, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 10]
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
+    weight: 5
+    cooldown_years: 2
+    importance: 3
+    tone: buon
+    icon: mat_mua
+    short: 'mùa kém, thóc lép'
+    variants:
+      - 'Bông lúa lép kẹp, cầm lên nhẹ bẫng. Gặt cả ngày mà gánh về chẳng được mấy.'
+      - 'Bạn sàng thóc, trấu bay mù mịt, hạt chắc còn lại chỉ lưng thúng. Cả nhà nhìn nhau không nói.'
+    effects: [{ type: stress, value: 3 }]
+  - id: ln_tat_ao_cuoi_nam
+    kind: bao_cao
+    tags: [lao_dong, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12]
+    condition: { has_property: ao_ca }
+    weight: 4
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: ca
+    short: 'tát ao bắt cá'
+    variants:
+      - 'Cuối năm tát ao, cả nhà lội bùn bắt cá. Con cá trắm to nhất để dành cúng ông Công ông Táo.'
+      - 'Ao cạn trơ đáy, cá quẫy lấp lánh. Lũ trẻ hàng xóm đứng kín bờ chờ mò cá sót.'
+  - id: ln_xay_lua_gia_gao
+    kind: chuyen_vat
+    tags: [lao_dong, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: nha
+    variants:
+      - 'Đêm khuya, bạn ngồi xay lúa bên cối đất, tiếng cối ù ù đều như tiếng gió. Sáng mai giã gạo, giần sàng cho xong.'
+      - 'Chày giã gạo nhịp đôi thình thịch dưới hiên. Bạn vừa giã vừa nghe mẹ kể chuyện ngày xưa.'
+  - id: ln_cat_co_trau
+    kind: chuyen_vat
+    tags: [ruong_dong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { has_property: trau }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: trau
+    variants:
+      - 'Bạn ra bãi sông cắt một gánh cỏ gà cho trâu. Con trâu thấy bạn về, rống lên một tiếng dài.'
+      - 'Chiều mùa đông, bạn đốt đống rơm trước chuồng sưởi cho trâu. Hơi thở nó phả ra trắng xóa.'
+      - 'Bạn dắt trâu xuống sông tắm, kỳ cọ lưng nó bằng nắm rơm. Nó lim dim mắt như người.'
+  - id: ln_gia_trong_vit_ngoai_dong
+    kind: chuyen_vat
+    tags: [ruong_dong, gia_dinh]
+    life_stages: [tuoi_gia]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    tone: an_ui
+    icon: ruong
+    variants:
+      - 'Không cày nổi nữa, bạn ngồi đầu bờ trông vịt, chỉ việc cho con cháu. Tay vẫn nhớ từng đường cày năm xưa.'
+      - 'Bạn đan rổ rá dưới gốc tre, mắt vẫn dõi ra đồng. Lúa năm nay con cấy, thẳng hàng như cha dạy.'
+
+  # ── Điềm thời tiết ──
+  - id: ln_diem_chuon_chuon
+    kind: diem_bao
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [4, 5, 6, 7]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: mua
+    variants:
+      - 'Chuồn chuồn bay thấp là là mặt ruộng. "Chuồn chuồn bay thấp thì mưa", bạn vội gọi người nhà cất thóc.'
+      - 'Chiều nay chuồn chuồn bay đầy ngõ. Ông cụ đầu xóm bảo đêm thế nào cũng có mưa to.'
+  - id: ln_diem_kien_tha_trung
+    kind: diem_bao
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [6, 7, 8]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    icon: lu
+    variants:
+      - 'Kiến tha trứng thành hàng dài lên chân cột nhà. Bạn nhớ câu các cụ dạy, lo kê cao bồ thóc phòng nước lên.'
+      - 'Đàn kiến bò lên tận xà nhà. Đêm ấy bạn ngủ không yên, nghe ngóng tiếng nước ngoài sông.'
+  - id: ln_diem_rang_mo_ga
+    kind: diem_bao
+    tags: [thien_tai]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [7, 8, 9]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 2
+    tone: buon
+    icon: mua
+    variants:
+      - 'Chiều tà, ráng trời vàng như mỡ gà. "Ráng mỡ gà, có nhà thì giữ." Bạn trèo lên chằng lại mái rạ.'
+      - 'Trời oi bức lạ, gió lặng như tờ, ráng chiều đỏ quạch. Cả xóm lo chống nhà, buộc cửa.'
+  - id: ln_diem_gio_bac_som
+    kind: diem_bao
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [9, 10]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: la
+    variants:
+      - 'Gió bấc về sớm, lá bàng đầu đình đã đỏ. Các cụ bảo năm nay rét đậm, phải lo rơm cho trâu.'
+      - 'Đêm qua gió bấc rít qua khe vách. Sáng ra bạn lục áo kép trong hòm, mùi long não thoang thoảng.'
+  - id: ln_diem_sam_dau_mua
+    kind: diem_bao
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [3, 4]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: mua
+    variants:
+      - 'Tiếng sấm đầu mùa ì ầm phía núi. Cóc nghiến răng ngoài bờ ao, bạn biết trời sắp mưa.'
+      - 'Sấm động đầu tháng, nấm mối mọc trắng gò. Bạn hái được nửa rổ về nấu canh.'
+  - id: ln_diem_nom_am
+    kind: diem_bao
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [1, 2]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: mua
+    variants:
+      - 'Trời nồm, nền nhà đổ mồ hôi, chum thóc ẩm sờ thấy dinh dính. Bạn mở bồ đảo thóc kẻo mốc.'
+      - 'Mưa xuân lất phất như rắc bụi. Cây cối trong vườn nảy lộc chỉ sau một đêm.'
+  - id: ln_diem_suong_muoi
+    kind: diem_bao
+    tags: [ruong_dong, thien_tai]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [11, 12]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 4
+    importance: 2
+    tone: buon
+    icon: la
+    variants:
+      - 'Sáng ra, sương muối phủ trắng ruộng mạ như rắc vôi. Mấy góc mạ non đã đỏ quạch, bạn đứng nhìn mà lạnh lòng.'
+      - 'Đêm rét cắt da, nước trong chum đóng váng mỏng. Bạn lo cho ruộng mạ chiêm suốt đêm không ngủ.'
+  - id: ln_diem_trang_quang
+    kind: diem_bao
+    tags: [ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [7, 8, 9]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 2
+    cooldown_years: 4
+    importance: 1
+    icon: trang
+    variants:
+      - 'Trăng có quầng vành vạnh. "Trăng quầng thì hạn, trăng tán thì mưa", bạn nhẩm câu cũ rồi tính chuyện giữ nước ruộng.'
+      - 'Đêm rằm, trăng tán một vòng mờ. Ông lão hàng xóm đoán chắc mai mưa, và quả thật mai mưa.'
+
+  # ── Chuyện người làng ──
+  - id: ln_hx_muon_cuoc
+    kind: nguoi_quanh
+    tags: [lang_xa, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    roles: [{ id: hx, from: village, village_role: hang_xom }]
+    weight: 4
+    cooldown_years: 3
+    importance: 1
+    icon: lang
+    variants:
+      - '{role.hx.call} sang mượn cái bừa, trả lại kèm một rổ khoai lang mới đào.'
+      - 'Bạn sang nhà {role.hx.call} xin mồi lửa lúc sáng sớm, ngồi uống bát nước chè xanh rồi mới về.'
+      - '{role.hx.call} ghé qua hàng rào dâm bụt, khoe con lợn nái vừa đẻ mười con.'
+  - id: ln_ba_ho_doi_no
+    kind: nguoi_quanh
+    tags: [lang_xa, no_nan]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 10, 11, 12]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    roles: [{ id: bh, from: village, village_role: ba_ho }]
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: no
+    variants:
+      - 'Người nhà {role.bh.call} đi khắp xóm đòi nợ thóc sau mùa gặt. Mấy nhà nghèo đóng cổng im ỉm.'
+      - 'Nghe nói {role.bh.call} vừa xiết con trâu của nhà ông Tư cuối xóm. Cả làng xì xào mãi.'
+  - id: ln_mo_lang_rao
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    roles: [{ id: ly, from: village, village_role: ly_truong }]
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: lang
+    variants:
+      - 'Tiếng mõ cốc cốc đầu ngõ: "Trên có lệnh {role.ly.call}, mai các suất đinh ra đình nghe đọc sổ."'
+      - 'Thằng mõ rao lệnh cấm thả vịt ra ruộng lúa đang làm đòng. Ai trái lệnh phạt một tiền.'
+  - id: ln_thay_lang_hai_thuoc
+    kind: nguoi_quanh
+    tags: [lang_xa, benh_tat]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    roles: [{ id: tl, from: village, village_role: thay_lang }]
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    icon: thuoc
+    variants:
+      - '{role.tl.call} đeo giỏ đi hái thuốc dọc bờ ruộng, chỉ cho bạn cây nhọ nồi cầm máu, cây cỏ mực chữa chảy máu cam.'
+      - 'Gặp {role.tl.call} ở đầu đê, ông dặn mùa này nước độc, đi ruộng về nhớ rửa chân bằng nước lá.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 3 }]
+  - id: ln_dam_cuoi_nop_cheo
+    kind: nguoi_quanh
+    tags: [lang_xa, le_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [11, 12, 1, 2]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: cuoi
+    variants:
+      - 'Xóm dưới có đám cưới, nhà trai nộp cheo cho làng một quan với mười bánh dày. Bạn được mời ăn cỗ, về muộn.'
+      - 'Đoàn nhà trai đội mâm trầu cau đi qua ngõ, lũ trẻ chăng dây đòi tiền mở đường. Ai cũng cười.'
+  - id: ln_dam_ma_trong_lang
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 4
+    importance: 2
+    tone: buon
+    icon: tang
+    variants:
+      - 'Tiếng kèn đám ma ai oán từ xóm trên. Cụ đồ già nhất làng vừa mất, cả làng đi đưa ra tận cánh đồng.'
+      - 'Bạn sang giúp nhà có tang dựng rạp, nấu cơm. Đứa con trai trưởng chống gậy tre, mắt đỏ hoe.'
+  - id: ln_tre_chan_trau_tha_dieu
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 6, 7]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    tone: vui
+    icon: dieu
+    variants:
+      - 'Lũ trẻ chăn trâu thả diều sáo trên đê, tiếng sáo vi vu đến tận đồng. Bạn đứng lặng, nhớ hồi mình bằng tuổi chúng.'
+      - 'Mấy đứa trẻ cưỡi trâu thi nhau lội qua sông, la hét om sòm. Bạn mắng một câu rồi bật cười.'
+  - id: ln_cu_gia_goc_da
+    kind: nguoi_quanh
+    tags: [lang_xa, tin_don]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    rumor: true
+    icon: tin_don
+    variants:
+      - 'Các cụ ngồi gốc đa đầu làng nhai trầu, bàn chuyện năm nào lụt to nhất. Mỗi cụ nhớ một năm khác nhau.'
+      - 'Ở quán nước đầu làng, người ta đồn nhà phú hộ xóm bên sắp gả con gái cho con quan huyện.'
+      - 'Ngồi hóng mát gốc đa, bạn nghe ông lão kể chuyện thời trai trẻ đi lính thú tận biên ải.'
+  - id: ln_chui_mat_ga
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 4
+    importance: 1
+    icon: ga
+    variants:
+      - 'Bà cụ xóm trên mất con gà mái ghẹ, đứng đầu ngõ chửi từ sáng đến trưa, vần vè đâu ra đấy.'
+      - 'Hai nhà cuối xóm cãi nhau vì con lợn sổng chuồng phá vườn rau. Cả xóm ra đứng xem.'
+  - id: ln_trai_lang_di_phu_ve
+    kind: nguoi_quanh
+    tags: [lang_xa, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [3, 8]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 2
+    cooldown_years: 4
+    importance: 1
+    icon: lang
+    variants:
+      - 'Trai làng đi phu đắp đê về, ai cũng đen nhẻm, gầy rộc. Có người ho mãi không dứt.'
+      - 'Đám phu về đến đầu làng, vợ con ra đón. Một người không về, nghe nói bị đất sụt vùi.'
+  - id: ln_lai_buon_ve_lang
+    kind: nguoi_quanh
+    tags: [lang_xa, buon_ban]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5, 6, 10, 11]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    roles: [{ id: lb, from: village, village_role: lai_buon }]
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: cho
+    variants:
+      - '{role.lb.call} đánh thuyền về bến làng thu mua thóc mới, trả giá rẻ mà vẫn có người bán vì cần tiền nộp thuế.'
+      - '{role.lb.call} mang vải nhuộm, muối hạt, kim chỉ về làng đổi thóc. Đàn bà con gái xúm quanh mặc cả.'
+
+  # ── Chợ phiên ──
+  - id: ln_cho_phien_dau_thang
+    kind: chuyen_vat
+    tags: [lang_xa, buon_ban]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: cho
+    variants:
+      - 'Phiên chợ mồng một, người các làng gánh gồng từ sáng sớm. Bạn mua được mớ cá rô đồng còn quẫy.'
+      - 'Chợ phiên họp dưới gốc gạo bên bến. Tiếng mặc cả, tiếng gà vịt kêu, tiếng rao bánh đúc lẫn vào nhau.'
+      - 'Bạn đi chợ phiên chỉ để mua cân muối, về đến nhà tay đã xách thêm nải chuối với gói kẹo vừng.'
+  - id: ln_cho_phien_ban_trung_ga
+    kind: bao_cao
+    tags: [buon_ban, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { has_property: dan_ga }
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: vui
+    icon: ga
+    short: 'bán trứng gà chợ phiên'
+    variants:
+      - 'Bạn mang rổ trứng gà ra chợ phiên, bán hết trước khi mặt trời lên cao. Đồng tiền kẽm buộc chặt trong vạt áo.'
+      - 'Đôi gà trống thiến bán được giá hời. Bạn mua thêm cái nồi đất mới cho bếp.'
+  - id: ln_cho_mua_nong_cu
+    kind: chuyen_vat
+    tags: [buon_ban, ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [4, 9, 11]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: cho
+    variants:
+      - 'Bạn lên chợ huyện mua lưỡi cày mới. Ông thợ rèn gõ thử, tiếng thép kêu trong như chuông.'
+      - 'Mùa gặt sắp tới, bạn ra chợ chọn mấy cái liềm, thử lưỡi trên móng tay rồi mới trả tiền.'
+  - id: ln_cho_tet
+    kind: chuyen_vat
+    tags: [buon_ban, le_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: tet
+    variants:
+      - 'Phiên chợ Tết đông chật, lá dong xếp thành đống, tranh gà lợn treo kín vách. Bạn mua đôi câu đối đỏ về dán cửa.'
+      - 'Chợ cuối năm, ai cũng mua sắm chút ít. Bạn chen mãi mới mua được mấy cân gạo nếp cái hoa vàng.'
+
+  # ── Lễ Tết ──
+  - id: ln_tet_goi_banh_chung
+    kind: chuyen_vat
+    tags: [le_hoi, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: tet
+    variants:
+      - 'Đêm hai chín Tết, cả nhà quây quanh nồi bánh chưng. Lửa củi reo tí tách, bạn thức canh đến sáng.'
+      - 'Bạn gói bánh chưng bằng khuôn gỗ, lạt giang buộc chặt bốn góc. Chiếc bánh vuông vức, mẹ khen.'
+      - 'Nồi bánh chưng sôi sùng sục ngoài sân. Mùi lá dong chín bay khắp xóm, ai đi qua cũng hít hà.'
+    effects: [{ type: stress, value: -2 }]
+  - id: ln_tet_dung_cay_neu
+    kind: chuyen_vat
+    tags: [le_hoi, tin_nguong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [1]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: tet
+    variants:
+      - 'Bạn dựng cây nêu trước ngõ, treo khánh đất và chùm lá dứa. Gió xuân thổi, khánh kêu leng keng.'
+      - 'Sáng mồng một, bạn rắc vôi bột hình cung tên trước cổng, theo lệ cũ để xua tà ma.'
+      - 'Mồng một Tết, bạn mặc áo mới đi chúc Tết họ hàng. Đi đến đâu cũng được mời một chén rượu.'
+    effects: [{ type: stress, value: -2 }]
+  - id: ln_hoi_xuan_dau_vat
+    kind: chuyen_vat
+    tags: [le_hoi, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [1, 2]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: hoi
+    variants:
+      - 'Hội làng mùa xuân, sới vật trước đình chật người. Trống thúc dồn, hai đô vật lăn xả, bạn hò reo đến khản giọng.'
+      - 'Trai làng kéo co trên bãi, dây thừng căng như dây đàn. Bên bạn thắng, được thưởng một vò rượu.'
+      - 'Đêm hội, phường chèo về hát ở sân đình. Bạn ngồi xem đến khuya, về nhà còn ngân nga mấy câu.'
+    effects: [{ type: stress, value: -2 }]
+  - id: ln_tet_doan_ngo
+    kind: chuyen_vat
+    tags: [le_hoi, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [5]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: tet
+    variants:
+      - 'Tết Đoan ngọ, sáng sớm cả nhà ăn rượu nếp với mận chua để "giết sâu bọ". Bạn hái lá ngải treo trước cửa.'
+      - 'Mồng năm tháng năm, bạn đi hái lá mùng năm về phơi làm thuốc. Các cụ bảo lá hái giờ ngọ mới linh.'
+  - id: ln_ram_thang_bay
+    kind: chuyen_vat
+    tags: [tin_nguong, le_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [7]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: tang
+    variants:
+      - 'Rằm tháng bảy, ngày xá tội vong nhân. Bạn bày bát cháo trắng, nắm bỏng gạo ngoài ngõ cúng cô hồn.'
+      - 'Mưa ngâu rả rích suốt rằm tháng bảy. Ở chùa làng, sư cụ tụng kinh cầu siêu cho những người chết đói năm nào.'
+  - id: ln_trung_thu
+    kind: chuyen_vat
+    tags: [le_hoi, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [8]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: trang
+    variants:
+      - 'Đêm rằm tháng tám, lũ trẻ rước đèn ông sao khắp ngõ. Bạn bày mâm bưởi, hồng, bánh nướng cho chúng phá cỗ.'
+      - 'Trăng trung thu sáng vằng vặc. Các cụ ngắm trăng đoán mùa: trăng vàng thì được lúa, trăng xanh thì lụt.'
+  - id: ln_ong_cong_ong_tao
+    kind: chuyen_vat
+    tags: [tin_nguong, le_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [12]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 1
+    icon: tet
+    variants:
+      - 'Hăm ba tháng chạp, bạn thả cá chép ra sông tiễn ông Táo về trời. Con cá quẫy đuôi một cái rồi lặn mất.'
+      - 'Bạn thay ba ông đầu rau mới trong bếp, khấn xin ông Táo tâu lên Ngọc Hoàng toàn chuyện tốt.'
+  - id: ln_thanh_minh_tao_mo
+    kind: chuyen_vat
+    tags: [tin_nguong, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [3]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 2
+    importance: 2
+    tone: an_ui
+    icon: ky_uc
+    variants:
+      - 'Tiết Thanh minh, bạn ra đồng tảo mộ ông bà, nhổ cỏ, đắp lại nấm đất. Khói hương bay lẫn trong gió xuân.'
+      - 'Bạn đặt nắm xôi lên mộ tổ, khấn khẽ mấy câu. Đứng trên gò nhìn xuống, cả cánh đồng lúa xanh.'
+    effects: [{ type: filial_piety, value: 1 }]
+
+  # ── Tín ngưỡng ──
+  - id: ln_cung_com_moi
+    kind: chuyen_vat
+    tags: [tin_nguong, ruong_dong, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [10]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 5
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Gặt mùa xong, nhà bạn làm lễ cúng cơm mới. Bát cơm gạo mới dẻo thơm đặt lên bàn thờ, khói hương nghi ngút.'
+      - 'Mồng mười tháng mười, cả làng cúng cơm mới. Bạn xới bát cơm đầu tiên mời ông bà, rồi cả nhà mới ăn.'
+    effects: [{ type: filial_piety, value: 1 }]
+  - id: ln_ruoc_thanh_hoang
+    kind: chuyen_vat
+    tags: [tin_nguong, le_hoi, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [2, 8]
+    condition: { var: world.settlement_type, op: '==', value: lang_nong }
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    icon: lang
+    variants:
+      - 'Làng rước kiệu thành hoàng từ miếu về đình. Bạn được chọn khiêng kiệu, bước chân theo nhịp trống chậm rãi.'
+      - 'Ngày tế thành hoàng, các cụ áo thụng xanh vái lạy trước hương án. Bạn đứng cuối sân, nghe đọc văn tế ngân dài.'
+      - 'Đám rước đi vòng quanh làng, cờ ngũ hành bay phấp phới. Nhà nào cũng bày hương án trước cổng.'
+    effects: [{ type: stress, value: -1 }]
+  - id: ln_le_ha_dien
+    kind: chuyen_vat
+    tags: [tin_nguong, ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [6]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    icon: ruong
+    variants:
+      - 'Làng làm lễ hạ điền, cụ tiên chỉ cắm mạ đầu tiên ở ruộng đình. Từ hôm nay các nhà mới được xuống đồng cấy.'
+      - 'Bạn đặt nắm xôi, quả trứng ở đầu bờ ruộng, khấn thần đất cho lúa tốt, đừng có sâu.'
+  - id: ln_cau_mua_o_dinh
+    kind: chuyen_vat
+    tags: [tin_nguong, thien_tai]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    months: [4, 5, 6]
+    condition:
+      all:
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+        - { var: world.weather, op: '==', value: han }
+    weight: 4
+    cooldown_years: 3
+    importance: 2
+    tone: buon
+    icon: nang
+    variants:
+      - 'Hạn kéo dài, làng mở lễ cầu đảo ở đình. Bạn quỳ giữa sân nắng, nghe tiếng trống cầu mưa dội vào trời xanh ngắt.'
+      - 'Đàn bà con gái trong làng rước nước từ giếng đình rảy khắp ruộng, hát bài cầu mưa của các cụ để lại.'
+  - id: ln_mieu_tho_dia_dau_dong
+    kind: chuyen_vat
+    tags: [tin_nguong, ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 3
+    importance: 1
+    tone: an_ui
+    icon: ruong
+    variants:
+      - 'Đi ngang miếu thổ địa đầu đồng, bạn cắm một nén hương, xin cho ruộng nhà mưa thuận gió hòa.'
+      - 'Bạn quét lá rụng quanh miếu nhỏ dưới gốc đa đầu đồng. Không ai bảo, nhưng ai đi qua cũng làm thế.'

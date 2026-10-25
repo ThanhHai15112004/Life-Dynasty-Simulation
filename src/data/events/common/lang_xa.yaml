@@ -4,7 +4,7 @@ events:
     title: Nước lên
     tags: [ruong_dong, thien_tai, nguy_hiem]
     months: [6, 7, 8]
-    condition: { all: [{ var: world.weather, op: '==', value: mua }, { var: household.farmland, op: '>=', value: 1 }] }
+    condition: { all: [{ var: world.weather, op: '==', value: mua }, { var: household.farmland, op: '>=', value: 1 }, { var: household.self_farms, op: '==', value: true }] }
     weight: 5
     weight_modifiers:
       - { condition: { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }, factor: 2 }
@@ -25,6 +25,7 @@ events:
         failure:
           - { type: modifier, target: harvest.yield, value: 0.7, op: mul, months: 4, label: 'Lúa ngập úng' }
           - { type: set_flag, flag: lu_lut, years: 0.25 }
+          - { type: cutscene, id: lu_lut }
         success_result: ['Bờ giữ được. Sáng ra nước rút, lúa vẫn đứng.']
         failure_result: ['Nước phá bờ trong đêm. Bạn đứng nhìn cả thửa ruộng chìm trong biển nước.']
       - id: nho_lang
@@ -37,6 +38,7 @@ events:
         failure:
           - { type: modifier, target: harvest.yield, value: 0.7, op: mul, months: 4, label: 'Lúa ngập úng' }
           - { type: set_flag, flag: lu_lut, years: 0.25 }
+          - { type: cutscene, id: lu_lut }
         success_result: ['Trai tráng cả làng đổ ra đê. Đê giữ được, ruộng các nhà đều qua nạn.']
         failure_result: ['Nhà ai nấy lo, chẳng ai chịu ra. Nước tràn qua đê.']
       - id: lo_do_dac
@@ -45,6 +47,7 @@ events:
         effects:
           - { type: modifier, target: harvest.yield, value: 0.75, op: mul, months: 4, label: 'Bỏ ruộng chạy lụt' }
           - { type: set_flag, flag: lu_lut, years: 0.25 }
+          - { type: cutscene, id: lu_lut }
         result: ['Cả nhà ngồi trên gác bếp nhìn nước mênh mông. Người không sao là may.']
 
   - id: nguoi_nha_om_nang
@@ -359,7 +362,7 @@ events:
     title: Sâu bệnh phá lúa
     tags: [ruong_dong]
     months: [3, 4, 8, 9]
-    condition: { all: [{ var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }, { var: household.farmland, op: '>=', value: 1 }] }
+    condition: { all: [{ var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }, { var: household.farmland, op: '>=', value: 1 }, { var: household.self_farms, op: '==', value: true }] }
     weight: 6
     cooldown_years: 2
     tension: 4
@@ -433,6 +436,7 @@ events:
       all:
         - { var: player.age, op: between, value: [17, 38] }
         - { var: player.married, op: '==', value: false }
+        - { var: player.mourning_months, op: '==', value: 0 }
     roles:
       - { id: hx, from: village, village_role: hang_xom }
     weight: 9

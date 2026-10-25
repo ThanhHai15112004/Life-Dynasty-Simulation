@@ -1,0 +1,25 @@
+# [1] Thời cơ nghề nghiệp (GDD 03 §9): các biến thế giới dao động theo mùa/năm để cùng một hành động
+# làm đúng lúc thì thắng lớn, sai lúc thì trả giá.
+start_trade_index: 1.0
+start_patrol_level: 20
+
+# Đầu năm: định hình động tĩnh quân sự; patrol_base là mức tuần tra cơ sở của năm
+military_alerts:
+  - { id: binh_yen, weight: 55, patrol_base: 18 }
+  - { id: tuan_tra, weight: 30, patrol_base: 35 }
+  - { id: chien_dich, weight: 15, patrol_base: 50 }
+
+trade:
+  # Tháng 1..12: hàng buôn đắt giáp Tết (11, 12, 1), rẻ ngay sau gặt (5, 10)
+  monthly_factor: [1.22, 1.02, 1.02, 1.02, 0.88, 1.02, 1.02, 1.02, 1.02, 0.88, 1.22, 1.22]
+  harvest_bump: { mat_mua: 0.18, kem: 0.08 }
+  noise: 0.12
+  clamp: [0.7, 1.55]
+
+patrol:
+  wanted_factor: 0.35
+  noise: 5
+  clamp: [5, 95]
+
+wanted_decay: { every_months: 3, amount: 1 }
+career_action_log_importance: 5

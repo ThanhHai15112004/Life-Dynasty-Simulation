@@ -1,77 +1,107 @@
-// [0] Cảnh pixel chính: nhà, ruộng, người trong hộ — chỉ đọc SceneDescriptor từ GameStore
+// [1] Cảnh pixel chính, vẽ bằng code từ bộ cảnh lắp ghép (scene-kit.json) — chỉ đọc SceneDescriptor từ GameStore.
+// Lớp tĩnh (trời, đồi, nhà, tài sản) dựng lại khi mô tả cảnh đổi; mây, người, hạt vẽ lại mỗi khung hình.
 import Phaser from 'phaser';
 import type { GameStore } from '@bridge/GameStore';
 import type { SceneDescriptor } from '@core/index';
-import { SCENE_LAYOUT_KEY, type SceneLayout } from '../scene-layers/art';
-import { buildScene } from '../scene-layers/layers';
+import { composeClouds, composePeople, composeStatic, cultureOf, partRects, partSize } from '../scene-kit/compose';
+import type { KitRect, SceneKit } from '../scene-kit/types';
+import { SCENE_KIT_KEY } from '../scene-layers/art';
 import { ParticleLayer } from '../scene-layers/particles';
 import { PixelPainter, color } from '../scene-layers/PixelPainter';
 import { STORE_REGISTRY_KEY } from '../registryKeys';
 
+/** Bộ phận dấu người chơi trong scene-kit.json. */
+const PLAYER_MARKER_PART = 'dau_nguoi_choi';
+
+function drawRects(g: Phaser.GameObjects.Graphics, rects: KitRect[]): void {
+  for (const r of rects) {
+    g.fillStyle(color(r.color), r.alpha ?? 1);
+    g.fillRect(r.x, r.y, r.w, r.h);
+  }
+}
+
 export class LifeScene extends Phaser.Scene {
-  private layout!: SceneLayout;
+  private kit!: SceneKit;
   private store!: GameStore;
-  private root!: Phaser.GameObjects.Container;
+  private staticGfx!: Phaser.GameObjects.Graphics;
+  private liveGfx!: Phaser.GameObjects.Graphics;
+  private overlayGfx!: Phaser.GameObjects.Graphics;
   private fxGfx!: Phaser.GameObjects.Graphics;
-  private maskGfx!: Phaser.GameObjects.Graphics;
   private particles = new ParticleLayer();
   private descriptor: SceneDescriptor | null = null;
   private descriptorKey = '';
   private chimney: [number, number] | null = null;
-  private unsubscribe?: () => void;
 
   constructor() {
     super('LifeScene');
   }
 
   create(): void {
-    this.layout = this.cache.json.get(SCENE_LAYOUT_KEY) as SceneLayout;
+    this.kit = this.cache.json.get(SCENE_KIT_KEY) as SceneKit;
     this.store = this.registry.get(STORE_REGISTRY_KEY) as GameStore;
-    this.cameras.main.setBackgroundColor(color(this.layout.background));
-    this.root = this.add.container();
+    this.staticGfx = this.add.graphics();
+    this.liveGfx = this.add.graphics();
+    this.overlayGfx = this.add.graphics();
     this.fxGfx = this.add.graphics();
-    // Cắt mọi thứ trong khung cảnh (lũy tre, hạt mưa không tràn ra ngoài)
-    this.maskGfx = this.make.graphics({}, false);
-    const mask = this.maskGfx.createGeometryMask();
-    this.root.setMask(mask);
-    this.fxGfx.setMask(mask);
-    this.unsubscribe = this.store.subscribe(() => this.sync());
-    this.scale.on('resize', () => this.fit());
-    this.events.once('shutdown', () => this.unsubscribe?.());
+    const unsubscribe = this.store.subscribe(() => this.sync());
+    const onResize = () => this.fit();
+    this.scale.on('resize', onResize);
+    this.events.once('shutdown', () => {
+      unsubscribe();
+      this.scale.off('resize', onResize);
+    });
     this.fit();
     this.sync();
   }
 
-  /** Co giãn khung 320×180 vào vùng cảnh, giữ tỷ lệ. */
+  /** Co giãn khung gốc vừa khít khung cảnh trên trang, giữ tỷ lệ. */
   private fit(): void {
     const { width, height } = this.scale;
-    const L = this.layout;
-    const sceneH = height * L.sceneHeightRatio;
-    const scale = Math.max(1, Math.min(width / L.width, sceneH / L.height));
-    const x = Math.floor((width - L.width * scale) / 2);
-    const y = Math.floor((sceneH - L.height * scale) / 2 + height * L.topOffsetRatio);
-    this.root.setPosition(x, y).setScale(scale);
-    this.fxGfx.setPosition(x, y).setScale(scale);
-    this.maskGfx.clear().fillStyle(0xffffff).fillRect(x, y, L.width * scale, L.height * scale);
+    const scale = Math.min(width / this.kit.width, height / this.kit.height);
+    const x = Math.floor((width - this.kit.width * scale) / 2);
+    const y = Math.floor((height - this.kit.height * scale) / 2);
+    for (const g of [this.staticGfx, this.liveGfx, this.overlayGfx, this.fxGfx]) g.setPosition(x, y).setScale(scale);
   }
 
   private sync(): void {
     const d = this.store.getSnapshot().scene;
-    const key = d ? JSON.stringify(d) : '';
+    const key = d ? JSON.stringify({ ...d, people: d.people.map((p) => `${p.id}:${p.ageGroup}`) }) : '';
     if (key === this.descriptorKey) return;
     this.descriptorKey = key;
     this.descriptor = d;
-    if (!d) {
-      this.root.removeAll(true);
-      return;
-    }
-    this.particles.sync(this.layout, d);
-    this.chimney = buildScene(this, this.root, this.layout, d).chimney;
+    this.staticGfx.clear();
+    this.overlayGfx.clear();
+    if (!d) return;
+    const kit = this.kit;
+    drawRects(this.staticGfx, composeStatic(kit, d));
+
+    // Lớp phủ: thời tiết, tình trạng (nghèo đói, thịnh vượng, cư tang), nước lũ
+    const weather = kit.weather[d.weather];
+    if (weather?.alpha) drawRects(this.overlayGfx, [{ x: 0, y: 0, w: kit.width, h: kit.height, color: weather.tint, alpha: weather.alpha }]);
+    const cond = kit.conditions[d.condition] ?? {};
+    if (cond.flood) drawRects(this.overlayGfx, [{ x: 0, y: kit.groundY - 4, w: kit.width, h: kit.height, color: cond.flood, alpha: cond.alpha ?? 1 }]);
+    else if (cond.tint) drawRects(this.overlayGfx, [{ x: 0, y: 0, w: kit.width, h: kit.height, color: cond.tint, alpha: cond.alpha ?? 0.2 }]);
+
+    // Ống khói: góc phải mái nhà chính
+    const culture = cultureOf(kit, d.cultureSet);
+    const housePart = d.house ? kit.parts[culture.parts[d.house] ?? d.house] : undefined;
+    if (housePart) {
+      const { w, h } = partSize(housePart);
+      this.chimney = [kit.slots.house.x + Math.round(w * 0.7), kit.groundY - h + 2];
+    } else this.chimney = null;
+    this.particles.sync(kit, d);
   }
 
   update(time: number): void {
+    this.liveGfx.clear();
     this.fxGfx.clear();
-    if (!this.descriptor) return;
-    this.particles.draw(new PixelPainter(this.fxGfx, 1, 0, 0), this.layout, this.chimney, time / 1000);
+    const d = this.descriptor;
+    if (!d) return;
+    const t = time / 1000;
+    drawRects(this.liveGfx, composeClouds(this.kit, d, t));
+    const people = composePeople(this.kit, d, t);
+    drawRects(this.liveGfx, people.rects);
+    if (people.marker) drawRects(this.liveGfx, partRects(this.kit.parts[PLAYER_MARKER_PART], people.marker[0] + 2, people.marker[1] + 2, (s) => s));
+    this.particles.draw(new PixelPainter(this.fxGfx, 1, 0, 0), this.kit, this.chimney, t);
   }
 }

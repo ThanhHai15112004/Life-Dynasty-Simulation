@@ -57,8 +57,8 @@ export function monthlyDiseases(ctx: SimContext): void {
       }
     }
 
-    // 2) Kiểm tra nguy cơ phát bệnh mới (mỗi người tối đa 2 bệnh cùng lúc để tránh chồng chất quá mức)
-    if (c.diseases.length >= 2) continue;
+    // 2) Kiểm tra nguy cơ phát bệnh mới (giới hạn số bệnh cùng lúc để tránh chồng chất quá mức)
+    if (c.diseases.length >= ctx.content.balance.life.max_concurrent_diseases) continue;
     const r = createResolver(ctx, { self: c.id });
     for (const def of ctx.content.diseases) {
       if (def.monthly_chance <= 0) continue;

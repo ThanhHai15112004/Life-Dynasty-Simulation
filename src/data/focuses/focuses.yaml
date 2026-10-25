@@ -63,13 +63,15 @@ focuses:
     event_weights: { lang_xa: 2, tin_don: 1.8, quan_he: 2 }
   - id: kinh_doanh
     name: Buôn bán nhỏ
-    description: Ra chợ phiên, đổi chác. Đọc được giá thóc, gặp nhiều mối làm ăn.
+    description: Ra chợ phiên, đổi chác. Kiếm chút lãi theo thời giá, đọc được giá thóc, gặp nhiều mối làm ăn.
     icon: tien
     condition: { var: player.age, op: '>=', value: 14 }
     skill_xp: { thuong_mai: 6, ngoai_giao: 1 }
     modifiers:
       - { target: harvest.yield, value: 0.95, op: mul }
     event_weights: { buon_ban: 2.5, thoi_co: 1.8 }
+    # Tự mình ra chợ đổi chác: lãi nhỏ theo tay nghề và thời giá
+    income: { money_month: 0.1, skill: thuong_mai, per_level: 0.03, trade_scaled: true, ledger: buon_ban }
   - id: nghi_ngoi
     name: Nghỉ ngơi
     description: Thong thả, câu cá, ngủ trưa. Tinh thần hồi lại, ruộng thì kém chăm.

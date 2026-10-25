@@ -1,74 +1,88 @@
-// [0] Bảng quyết định đầu năm: Trọng tâm (Focus) chính/phụ và Mức sống — hai công cụ lái cuộc đời
+// [1] Cột giữa: Trọng tâm năm nay (Focus chính/phụ + Mức sống) và Tham vọng cả đời — hai công cụ lái cuộc đời
 import type { HudView } from '@core/index';
 import { Icon } from '../../components/Icon';
 import { num, useUi } from '../../context';
 
-export function DecisionPanel({ hud }: { hud: HudView }) {
+export function FocusCard({ hud }: { hud: HudView }) {
   const { store, t } = useUi();
   const f = hud.focus;
   const setFocus = (primary: string, secondary: string | null) => store.dispatch({ type: 'setFocus', primary, secondary });
+  const primary = f.options.find((o) => o.id === f.primary);
   return (
-    <div className="decisions">
-      <h4>{t('focus.title')}</h4>
-      {!f.canChoose && <div className="muted">{t('focus.too_young')}</div>}
+    <section className="card">
+      <div className="card-head">
+        <h3>{t('focus.title')}</h3>
+        <span className="muted small">{f.canChoose ? t('focus.can_change') : ''}</span>
+      </div>
+      <div className="focus-stage">
+        <b>{hud.player.lifeStage}</b> · {hud.household.settlement.name}
+      </div>
+      {!f.canChoose && <p className="muted">{t('focus.too_young')}</p>}
       {f.canChoose && (
-        <div className="focus-grid">
+        <div className="focus-chips">
           {f.options
             .filter((o) => o.available)
             .map((o) => {
               const isPrimary = f.primary === o.id;
               const isSecondary = f.secondary === o.id;
               return (
-                <div key={o.id} className={`focus ${isPrimary ? 'primary' : ''} ${isSecondary ? 'secondary' : ''}`} title={o.description}>
-                  <div className="focus-name">
+                <div key={o.id} className={`focus-chip ${isPrimary ? 'primary' : ''} ${isSecondary ? 'secondary' : ''}`} title={o.description}>
+                  <button className="focus-main" onClick={() => setFocus(o.id, f.secondary === o.id ? null : f.secondary)}>
                     <Icon id={o.icon} />
-                    {o.name}
-                  </div>
-                  <div className="focus-actions">
-                    <button disabled={isPrimary} onClick={() => setFocus(o.id, f.secondary === o.id ? null : f.secondary)}>
-                      {isPrimary ? t('focus.is_primary') : t('focus.set_primary')}
+                    <span>{o.name}</span>
+                    {isPrimary && <span className="tag">{t('focus.is_primary')}</span>}
+                    {isSecondary && <span className="tag soft">{t('focus.is_secondary')}</span>}
+                  </button>
+                  {f.canSecondary && o.allowSecondary && !isPrimary && (
+                    <button className="focus-sub" onClick={() => setFocus(f.primary, isSecondary ? null : o.id)} title={isSecondary ? t('focus.unset_secondary') : t('focus.set_secondary')}>
+                      {isSecondary ? '−' : '+'}
                     </button>
-                    {f.canSecondary && o.allowSecondary && !isPrimary && (
-                      <button onClick={() => setFocus(f.primary, isSecondary ? null : o.id)}>
-                        {isSecondary ? t('focus.unset_secondary') : t('focus.set_secondary')}
-                      </button>
-                    )}
-                  </div>
+                  )}
                 </div>
               );
             })}
         </div>
       )}
-      <p className="muted small">{f.options.find((o) => o.id === f.primary)?.description}</p>
+      {primary && <p className="muted small">{primary.description}</p>}
 
       <h4>{t('living.title')}</h4>
       <div className="living">
         {hud.livingStandards.map((l) => (
-          <button
-            key={l.id}
-            className={`living-opt ${hud.household.livingStandard === l.id ? 'active' : ''}`}
-            title={l.description}
-            onClick={() => store.dispatch({ type: 'setLivingStandard', id: l.id })}
-          >
+          <button key={l.id} className={`living-opt ${hud.household.livingStandard === l.id ? 'active' : ''}`} title={l.description} onClick={() => store.dispatch({ type: 'setLivingStandard', id: l.id })}>
             <span>{l.name}</span>
-            <span className="muted small">{t('living.cost', { money: num(l.monthlyMoney) })}</span>
+            <span className="small">{t('living.cost', { money: num(l.monthlyMoney) })}</span>
           </button>
         ))}
       </div>
-      <p className="muted small">{hud.livingStandards.find((l) => l.id === hud.household.livingStandard)?.description}</p>
+    </section>
+  );
+}
 
-      <h4>{t('ambition.title')}</h4>
+export function AmbitionCard({ hud }: { hud: HudView }) {
+  const { store, t } = useUi();
+  const options = hud.ambition.options.filter((a) => a.available);
+  const current = options.find((a) => a.id === hud.ambition.currentId);
+  return (
+    <section className="card">
+      <div className="card-head">
+        <h3>{t('ambition.title')}</h3>
+        {current && <span className="muted small">{current.name}</span>}
+      </div>
       <div className="ambition-list">
-        {hud.ambition.options
-          .filter((a) => a.available)
-          .map((a) => {
-            const isCurrent = hud.ambition.currentId === a.id;
-            return (
-              <div key={a.id} className={`focus ${isCurrent ? 'primary' : ''}`} title={a.description}>
-                <div className="focus-name">
-                  <Icon id={a.icon} />
-                  <span>{a.name}</span>
-                </div>
+        {options.map((a) => {
+          const isCurrent = hud.ambition.currentId === a.id;
+          return (
+            <div key={a.id} className={`ambition ${isCurrent ? 'primary' : ''}`} title={a.description}>
+              <div className="ambition-head">
+                <Icon id={a.icon} />
+                <b>{a.name}</b>
+                {!isCurrent && (
+                  <button className="small" onClick={() => store.dispatch({ type: 'setAmbition', id: a.id })}>
+                    {t('ambition.select')}
+                  </button>
+                )}
+              </div>
+              {isCurrent && (
                 <ul className="milestones small">
                   {a.milestones.map((m) => (
                     <li key={m.id} className={m.achieved ? 'up' : 'muted'}>
@@ -77,29 +91,11 @@ export function DecisionPanel({ hud }: { hud: HudView }) {
                     </li>
                   ))}
                 </ul>
-                <div className="focus-actions">
-                  <button disabled={isCurrent} onClick={() => store.dispatch({ type: 'setAmbition', id: a.id })}>
-                    {isCurrent ? t('ambition.active') : t('ambition.select')}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+              )}
+            </div>
+          );
+        })}
       </div>
-
-      <h4>{t('relations.title')}</h4>
-      <ul className="members">
-        {hud.relations.map((r) => (
-          <li key={r.id}>
-            <span>{r.call}</span>
-            <span className="muted small">
-              {t('relations.opinion', { n: r.opinion >= 0 ? `+${r.opinion}` : r.opinion })}
-              {r.favor > 0 ? ` · ${t('relations.favor_owed', { n: r.favor })}` : ''}
-              {r.favor < 0 ? ` · ${t('relations.favor_debt', { n: -r.favor })}` : ''}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    </section>
   );
 }

@@ -110,9 +110,19 @@ export const lifeBalanceSchema = z
         max_children_in_household: z.number().int().min(1).default(5),
         spouse_age_offset: range.default([-3, 3]),
         spouse_health: range.default([65, 85]),
+        /** Sức khỏe trẻ sơ sinh = trung bình cha mẹ, kẹp trong khoảng này. */
+        newborn_health: range.default([60, 88]),
+        /** Hệ số thụ thai theo sức khỏe mẹ: health / ref, kẹp trong khoảng factor. */
+        conception_health_ref: z.number().positive().default(75),
+        conception_health_factor: range.default([0.4, 1.2]),
+        /** Hoạt cảnh phát khi cưới / sinh con (id trong cutscenes.json, chữ ở lang: cutscene.<id>.*). */
+        wedding_cutscene: z.string().optional(),
+        birth_cutscene: z.string().optional(),
       })
       .strict()
       .default({}),
+    /** Số bệnh tối đa một người mắc cùng lúc. */
+    max_concurrent_diseases: z.number().int().min(1).default(2),
     /** [1] Cấu hình mô hình Hạnh phúc tâm lý 3 tầng (GDD 01 §7). */
     happiness: z
       .object({
@@ -124,11 +134,34 @@ export const lifeBalanceSchema = z
         wealth_factor: z.number().default(0.4),
         stress_penalty_factor: z.number().default(0.25),
         family_death_penalty: z.number().default(8),
+        family_death_penalty_cap: z.number().default(24),
         marriage_bonus: z.number().default(6),
         child_bonus: z.number().default(4),
+        child_bonus_cap: z.number().default(12),
+        /** Tâm trạng: (sức khỏe - health_ref) * health_factor. */
+        health_ref: z.number().default(60),
+        health_factor: z.number().default(0.15),
+        mood_wealth_clamp: range.default([-15, 15]),
+        satisfaction_wealth_clamp: range.default([-18, 22]),
+        /** Phần stress trừ vào mãn nguyện (so với phần trừ vào tâm trạng). */
+        satisfaction_stress_share: z.number().min(0).default(0.6),
+        /** Hệ giá trị theo tính cách (GDD 01 §7.2): mọi luật đúng đều cộng/trừ mãn nguyện. */
+        value_rules: z.array(z.object({ condition: conditionSchema, value: z.number() }).strict()).default([]),
       })
       .strict()
       .default({}),
+    /** Bản tổng kết đời (GDD 01 §7.3): mỗi trục = base + Σ(biến DSL × hệ số), kẹp 0..100. */
+    summary_axes: z
+      .array(
+        z
+          .object({
+            id: z.string(),
+            base: z.number().default(0),
+            terms: z.array(z.object({ var: z.string(), factor: z.number(), min: z.number().optional(), max: z.number().optional() }).strict()).default([]),
+          })
+          .strict(),
+      )
+      .min(1),
   })
   .strict();
 
@@ -160,6 +193,19 @@ export const economyBalanceSchema = z
         spare_worker_wage_month: z.number().min(0),
       })
       .strict(),
+    /** [1] Hộ không tự cày (nghề không có thành phần farmland): ruộng phát canh cho tá điền, thu tô bằng thóc. */
+    tenancy: z
+      .object({
+        /** Phần sản lượng chủ ruộng được hưởng (trước hệ số trời định). */
+        rent_share: z.number().min(0).max(1),
+        /** Số người trong hộ lo việc nghề chính (không tính là lao động dư). */
+        business_runners: z.number().int().min(0),
+        /** Hộ không tự cày đi chợ mua thóc để luôn có dự trữ chừng này tháng (chỉ tiêu tiền mặt, không vay). */
+        food_reserve_months: z.number().min(0),
+        /** Làng chỉ có chừng ấy tá điền: hệ số tô mỗi sào theo tổng số sào phát canh (chống tích ruộng vô hạn). */
+        rent_factor_by_sao: curve('sao', 'factor'),
+      })
+      .strict(),
     harvest_qualities: z
       .array(
         z
@@ -173,6 +219,8 @@ export const economyBalanceSchema = z
             weather_bias: z.record(z.string(), z.number()).default({}),
             harvest_log: z.string(),
             quiet_year_log: z.string(),
+            /** Hoạt cảnh phát khi gặt vụ năm này (vd. bội thu). */
+            cutscene: z.string().optional(),
           })
           .strict(),
       )
@@ -249,6 +297,9 @@ export const directorBalanceSchema = z
     max_decisions_per_year: z.number().int().min(0),
     base_monthly_chance: z.number().min(0).max(1),
     min_months_between: z.number().int().min(0),
+    /** Mỗi lần đã gặp, trọng số sự kiện/mẫu nhật ký nhân thêm hệ số này (ưu tiên chuyện chưa gặp). */
+    repeat_weight_factor: z.number().min(0).max(1).default(1),
+    ambient_repeat_weight_factor: z.number().min(0).max(1).default(1),
     /** Bù khi cả năm chưa có quyết định nào: cộng thêm mỗi tháng trôi qua. */
     drought_bonus_per_month: z.number().min(0),
     tension: z
@@ -280,7 +331,40 @@ export const directorBalanceSchema = z
   })
   .strict();
 
-export const modifiersBalanceSchema = z.object({ conditional: z.array(conditionalModifierSchema) }).strict();
+/** [1] Thời cơ nghề nghiệp (GDD 03 §9): giá buôn, động tĩnh quân sự, tuần tra, truy nã. */
+export const opportunityBalanceSchema = z
+  .object({
+    start_trade_index: z.number().positive(),
+    start_patrol_level: z.number().min(0),
+    military_alerts: z
+      .array(z.object({ id: z.string(), weight: z.number().min(0), patrol_base: z.number() }).strict())
+      .min(1),
+    trade: z
+      .object({
+        /** Hệ số giá buôn theo tháng 1..12 (cao giáp Tết, thấp ngay sau gặt). */
+        monthly_factor: z.array(z.number().positive()).min(1),
+        /** Cộng thêm theo chất lượng mùa màng năm nay (mất mùa thì hàng khan). */
+        harvest_bump: z.record(z.string(), z.number()).default({}),
+        noise: z.number().min(0),
+        clamp: range,
+      })
+      .strict(),
+    patrol: z
+      .object({
+        /** Mỗi điểm truy nã đẩy mức tuần tra lên chừng này. */
+        wanted_factor: z.number().min(0),
+        noise: z.number().int().min(0),
+        clamp: range,
+      })
+      .strict(),
+    /** Mức truy nã tự giảm khi không phạm thêm tội. */
+    wanted_decay: z.object({ every_months: z.number().int().positive(), amount: z.number().min(0) }).strict(),
+    /** Độ quan trọng của dòng nhật ký khi làm hành động nghề. */
+    career_action_log_importance: z.number(),
+  })
+  .strict();
+
+export const modifiersBalanceSchema =z.object({ conditional: z.array(conditionalModifierSchema) }).strict();
 
 export const displayBalanceSchema = z
   .object({
@@ -318,6 +402,12 @@ export const displayBalanceSchema = z
     /** Việc dang dở suy ra từ trạng thái (GDD 01 §10.1): mọi luật đúng đều hiện, chữ có token. */
     open_loop_rules: z.array(z.object({ condition: conditionSchema, text: z.string() }).strict()),
     highlight_importance: z.number(),
+    /** Bản đồ cuộc đời vẽ thêm chừng này hàng (10 ô/hàng) sau tuổi thọ kỳ vọng. */
+    life_map_extra_rows: z.number().int().min(0).default(1),
+    /** Số biến cố biên niên gần nhất hiện trên màn hình. */
+    chronicle_shown: z.number().int().min(0).default(6),
+    /** Số biểu tượng dấu mốc tối đa trên một ô Bản đồ cuộc đời. */
+    life_map_marks_per_year: z.number().int().min(0).default(2),
     /** Gói ngôn ngữ mặc định (tên file trong src/data/lang). */
     default_language: z.string(),
     /** Số năm nhật ký hiển thị trên màn hình chính. */
@@ -327,6 +417,7 @@ export const displayBalanceSchema = z
 
 export const sceneBalanceSchema = z
   .object({
+    /** Địa điểm mặc định khi loại khu định cư không chỉ định scene_location. */
     location: z.string(),
     culture_set: z.string(),
     default_condition: z.string(),
@@ -345,6 +436,7 @@ export const balanceSchemas = {
   economy: economyBalanceSchema,
   living_standards: livingStandardsSchema,
   director: directorBalanceSchema,
+  opportunity: opportunityBalanceSchema,
   modifiers: modifiersBalanceSchema,
   display: displayBalanceSchema,
   scene: sceneBalanceSchema,

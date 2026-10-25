@@ -34,7 +34,7 @@ Mỗi giai đoạn phải có bản chơi được và câu hỏi kiểm chứng
 | Giai đoạn | Tên | Tiến độ | Phạm vi | Câu hỏi kiểm chứng |
 | --- | --- | --- | --- | --- |
 | 0 | Prototype vòng lặp | ✅ Code xong, chờ chơi thử | ✅ Một xuất thân (nông dân) · ✅ một cảnh · ✅ ~15 sự kiện (đã có 17) · ✅ tick năm (và tick tháng) · ✅ Focus · ✅ mức sống | ⬜ Vòng lặp một năm có vui không? |
-| 1 | Core Life Simulator | 🟡 Một phần | ✅ Trung cổ giả tưởng (cảm hứng Đại Việt) · 🟡 3 xuất thân (mới có Nông dân) · ⬜ 4 nghề (Nông dân, Thương nhân, Lính→Tướng, Thảo khấu) · 🟡 chỉ số (thiếu bệnh tật, danh tiếng) · ✅ kỹ năng · ✅ tính cách–stress · ✅ Focus · ✅ kinh tế hộ · ✅ tài sản · ✅ mức sống · ⬜ gia đình cơ bản · ✅ tuổi già, tử vong · ✅ Thời cơ cơ bản · 🟡 30–50 sự kiện (mới 17) · ✅ scene ghép lớp cơ bản | ⬜ Một đời người có hấp dẫn chỉ với quyết định và hậu quả không? |
+| 1 | Core Life Simulator | ✅ Code xong, chờ chơi thử | ✅ Trung cổ giả tưởng (cảm hứng Đại Việt) · ✅ khuôn Quan liêu Nho giáo (Hiếu đạo, Khoa cử thi Hương → thi Hội, Cư tang, thang địa vị 5 bậc) · ✅ 3 xuất thân khác cách mưu sinh (Nông dân tự cày · Thương nhân thị trấn bến sông · Quý tộc nhỏ nhà nho) · ✅ 4 nghề (Nông dân, Thương nhân, Lính→Tướng, Thảo khấu) + Sĩ tử→Quan văn · ✅ chỉ số (bệnh tật, danh tiếng) · ✅ kỹ năng · ✅ tính cách–stress · ✅ Focus · ✅ kinh tế hộ theo nghề (tự cày / phát canh thu tô / buôn bán) · ✅ tài sản · ✅ mức sống · ✅ gia đình cơ bản · ✅ tuổi già, tử vong · ✅ Thời cơ · ✅ 30–50 sự kiện (48) · ✅ Hạnh phúc tâm lý · ✅ Tổng kết đời · ✅ scene ghép lớp + hoạt cảnh | ⬜ Một đời người có hấp dẫn chỉ với quyết định và hậu quả không? |
 | 2 | Dynasty Simulator | ⬜ Chưa | ⬜ Con cái · ⬜ gia phả · ⬜ thừa kế · ⬜ thế hệ tiếp · ⬜ ký ức xuyên đời · ⬜ hôn nhân chính trị · ⬜ danh tiếng · ⬜ gia nghiệp · ⬜ 5–8 gia tộc · ⬜ Character AI T1 · ⬜ thang địa vị | ⬜ Người chơi có muốn tiếp tục khi nhân vật đầu chết? |
 | 3 | Kingdom Simulator | ⬜ Chưa | ⬜ Bản đồ · ⬜ lãnh địa · ⬜ Tổ chức đầy đủ · ⬜ chính trị · ⬜ bổ nhiệm · ⬜ quân đội · ⬜ ngoại giao · ⬜ chiến tranh · ⬜ luật · ⬜ nổi dậy · ⬜ triều đình · ⬜ kế vị · ⬜ hậu cung · ⬜ nghề Nam tước, Vua, Cướp biển, Sĩ tử | ⬜ Có thể đi từ dân thường đến nắm quyền — hoặc lật đổ người nắm quyền? |
 | 4 | Living World | ⬜ Chưa (có nền móng) | ⬜ Nhiều vùng · ⬜ quốc gia AI · 🟡 LOD đầy đủ (mới có hộ người chơi mô phỏng đủ + NPC làng mô phỏng thưa) · 🟡 thiên tai (lũ, hạn, sâu bệnh qua sự kiện) · ⬜ dịch · ⬜ nhiều khuôn văn minh (Nho giáo cấp A, Phong kiến Kitô giáo cấp A) · ⬜ Historical World cho một khu vực | ⬜ Thế giới có đáng khám phá khi không làm vua? |
@@ -45,10 +45,10 @@ Mỗi giai đoạn phải có bản chơi được và câu hỏi kiểm chứng
 
 | Hạng mục | Hiện tại | GĐ1 | GĐ2 | GĐ3 | GĐ4 | GĐ5 |
 | --- | --- | --- | --- | --- | --- | --- |
-| Nghề chơi được | ⬜ 0 (chỉ "làm nông" ngầm qua Focus) | 4 | 6 | 10 | 15+ | Theo thời đại |
-| Mẫu sự kiện | 🟡 17 quyết định + ~54 nhật ký thường | 30–50 | 100+ | 250+ | 500+ | Theo gói |
-| Khuôn văn minh | 🟡 Văn hóa Việt (tên, xưng hô); chưa có khuôn Nho giáo | 1 (giả tưởng) | 1 | 1–2 | 2 cấp A + vài cấp B | Mở rộng |
-| Vùng bản đồ | 🟡 Một làng (chưa có thị trấn) | Một làng–thị trấn | Một khu vực nhỏ | Một vương quốc | Nhiều vùng | Thế giới |
+| Nghề chơi được | ✅ 5 (4 nghề GĐ1 + Sĩ tử) | 4 | 6 | 10 | 15+ | Theo thời đại |
+| Mẫu sự kiện | ✅ 48 quyết định + 101 nhật ký thường | 30–50 | 100+ | 250+ | 500+ | Theo gói |
+| Khuôn văn minh | ✅ Quan liêu Nho giáo (cảm hứng Đại Việt) | 1 (giả tưởng) | 1 | 1–2 | 2 cấp A + vài cấp B | Mở rộng |
+| Vùng bản đồ | 🟡 Làng nông + thị trấn bến sông (một hộ một nơi, chưa đi lại) | Một làng–thị trấn | Một khu vực nhỏ | Một vương quốc | Nhiều vùng | Thế giới |
 
 
 ## 3. KPI cân bằng (đo bằng mô phỏng headless)
