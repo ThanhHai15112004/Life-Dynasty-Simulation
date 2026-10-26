@@ -8,7 +8,7 @@ import { monthlyHealth } from './health';
 import { autoTreatment, monthlyDiseases, infectCharacter, cureCharacter } from './disease';
 import { annualNpcDeathRisk, monthlyMortality, pickCause } from './mortality';
 
-export { kill, monthlyDeathRisk } from './mortality';
+export { kill, monthlyDeathRisk, currentFateMode } from './mortality';
 export { healthCap } from './health';
 export { monthlyDiseases, infectCharacter, cureCharacter, treatDisease, treatmentBlock, type TreatmentBlock } from './disease';
 

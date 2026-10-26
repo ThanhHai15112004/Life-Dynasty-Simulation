@@ -31,3 +31,10 @@ chance_display:
   base_spread: 0.3
   spread_per_level: 0.02
   min_spread: 0.06
+# [2] Đỡ xui (bad-luck protection): sau chuỗi biến cố xấu liên tiếp thì nâng trọng số sự kiện cứu vãn
+bad_luck_protection:
+  consecutive_bad_threshold: 3
+  salvation_event_boost: 2.5
+  bad_event_dampen: 0.4
+  salvation_tags: [tinh_lang, co_hoi, gia_dinh, mua_mang]
+  bad_tags: [no_nan, benh_tat, tai_hoa, mat_mua]

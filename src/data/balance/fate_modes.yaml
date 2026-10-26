@@ -1,0 +1,24 @@
+# [2] Chế độ số phận (GDD 09 §3, Phase 2): chọn mức khắc nghiệt khi khởi tạo ván mới
+default_mode: doi_thuc
+modes:
+  - id: binh_lang
+    name_key: fate.binh_lang.name
+    desc_key: fate.binh_lang.desc
+    mortality_factor: 0.7
+    disease_factor: 0.7
+    disaster_factor: 0.6
+    bad_event_factor: 0.7
+  - id: doi_thuc
+    name_key: fate.doi_thuc.name
+    desc_key: fate.doi_thuc.desc
+    mortality_factor: 1.0
+    disease_factor: 1.0
+    disaster_factor: 1.0
+    bad_event_factor: 1.0
+  - id: khac_nghiet
+    name_key: fate.khac_nghiet.name
+    desc_key: fate.khac_nghiet.desc
+    mortality_factor: 1.3
+    disease_factor: 1.3
+    disaster_factor: 1.4
+    bad_event_factor: 1.4

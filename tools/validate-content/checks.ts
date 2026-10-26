@@ -9,7 +9,7 @@ import { createResolver } from '@core/systems/resolver';
 import { templateTokens } from '@shared/template';
 
 /** Tham số hệ thống truyền vào mẫu nhật ký (xem các lời gọi writeTemplate trong src/core). */
-const SYSTEM_PARAMS = new Set(['age', 'amount', 'sao', 'food', 'money', 'skill', 'level', 'stage', 'call', 'cause', 'title', 'items']);
+const SYSTEM_PARAMS = new Set(['age', 'amount', 'sao', 'food', 'money', 'debt', 'skill', 'level', 'stage', 'call', 'cause', 'title', 'items']);
 
 export interface ValidationReport {
   errors: string[];
@@ -85,10 +85,16 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     template(q.quiet_year_log, `harvest_qualities.${q.id}.quiet_year_log`);
     cutscene(q.cutscene, `harvest_qualities.${q.id}.cutscene`);
   }
-  // [1] Kiểm tra kịch bản thử nghiệm
+  // [1] Kiểm tra kịch bản thử nghiệm & [2] Chế độ số phận
+  need(idx.fateMode.has(content.balance.fate_modes.default_mode), `fate_modes.default_mode: chế độ số phận lạ "${content.balance.fate_modes.default_mode}"`);
+  for (const fm of content.balance.fate_modes.modes) {
+    need(fm.name_key in lang, `fate_modes.${fm.id}: thiếu chữ ${fm.name_key} trong lang`);
+    need(fm.desc_key in lang, `fate_modes.${fm.id}: thiếu chữ ${fm.desc_key} trong lang`);
+  }
   for (const sc of content.scenarios) {
     const w = `scenarios.${sc.id}`;
     need(idx.origin.has(sc.base.originId), `${w}: origin lạ "${sc.base.originId}"`);
+    if (sc.base.fateMode) need(idx.fateMode.has(sc.base.fateMode), `${w}: fateMode lạ "${sc.base.fateMode}"`);
     need(sc.title_key in lang, `${w}: thiếu chữ ${sc.title_key} trong lang`);
     need(sc.description_key in lang, `${w}: thiếu chữ ${sc.description_key} trong lang`);
     if (sc.start_event) need(idx.event.has(sc.start_event), `${w}: start_event lạ "${sc.start_event}"`);

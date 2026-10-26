@@ -36,6 +36,8 @@ export interface LifeResult {
   headAge: number | null;
   /** [1.5] Bậc địa vị cao nhất từng đạt (index trong thang). */
   bestStatusIndex: number;
+  /** [2] Đời này có xảy ra tách hộ (người chơi hoặc anh chị em ra ở riêng) không. */
+  hasSplit: boolean;
 }
 
 export function runLife(
@@ -119,5 +121,6 @@ export function runLife(
     careerEnd: st.career.id,
     headAge,
     bestStatusIndex,
+    hasSplit: Boolean(st.households[st.householdId]?.parentHouseholdId),
   };
 }

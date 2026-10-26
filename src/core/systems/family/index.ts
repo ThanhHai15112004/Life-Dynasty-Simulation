@@ -8,6 +8,9 @@ import { createCharacter } from '../../world/generate';
 import { RngStream, type SimContext } from '../context';
 import { ageNow, aliveMembers, callOf, player, playerHousehold } from '../people';
 
+export * from './split';
+export * from './inheritance';
+
 /** Danh sách con ruột còn sống của một nhân vật. */
 export function aliveChildrenOf(ctx: SimContext, parentId: string): Character[] {
   return Object.values(ctx.state.characters).filter(
@@ -40,6 +43,8 @@ export function marryPlayer(ctx: SimContext, partner?: Character): Character | n
 
   me.spouseId = spouse.id;
   spouse.spouseId = me.id;
+  me.marriedYear = ctx.state.clock.year;
+  spouse.marriedYear = ctx.state.clock.year;
   spouse.householdId = h.id;
   ctx.state.characters[spouse.id] = spouse;
   if (!h.memberIds.includes(spouse.id)) h.memberIds.push(spouse.id);

@@ -359,4 +359,39 @@ templates:
     variants:
       - 'Bạn đã đến tuổi tự lo cho mình. Chưa có nghề riêng, bạn bắt đầu bằng việc: {title}.'
       - 'Lớn rồi, bạn bắt đầu tự lập. Việc của bạn lúc này: {title}; nghề nhà vẫn là {stage}.'
+  # [2] Tách hộ, thừa kế và điềm báo trước cái chết (Phase 2)
+  - id: sys.tach_ho
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: nha
+    variants:
+      - 'Đã yên bề gia thất, vợ chồng bạn xin phép {call} ra ở riêng. Cha mẹ cắt cho {sao} sào ruộng, {money} quan tiền và {food} thúng thóc làm vốn lập hộ mới.'
+      - 'Ngày phân gia: bạn dựng mái nhà tranh riêng cạnh vườn cũ, nhận {sao} sào ruộng cùng {money} quan tiền cha mẹ chia cho.'
+  - id: sys.anh_em_tach_ho
+    kind: he_thong
+    importance: 5
+    icon: nha
+    variants:
+      - '{call} đã thành gia lập thất, xin tách ra ở riêng với {sao} sào ruộng và {money} quan tiền vốn.'
+      - 'Nhà chia phần cho {call} ra lập hộ mới ({sao} sào ruộng, {money} quan tiền).'
+  - id: sys.thua_ke
+    kind: he_thong
+    importance: 8
+    highlight: true
+    icon: nha
+    variants:
+      - 'Sau lễ tang {call}, họ tộc mở sổ phân chia di sản theo luật Nho giáo: phần của bạn là {sao} sào ruộng và {money} quan tiền.'
+      - 'Chiếu theo lệ hương hỏa và di ngôn của {call}, bạn tiếp nhận {sao} sào ruộng cùng {money} quan tiền di sản.'
+  - id: sys.diem_bao_om_yeu
+    kind: he_thong
+    importance: 6
+    highlight: true
+    tone: buon
+    icon: om
+    variants:
+      - 'Điềm chẳng lành: {call} ({age} tuổi) hơi thở yếu ớt, sắc mặt xám ngoét, e chẳng qua nổi mấy tháng tới nếu không có thuốc tiên.'
+      - 'Đêm nghe tiếng cú kêu ngoài đầu hồi: bệnh tình và sức vóc của {call} ({age} tuổi) đã suy kiệt đến mức thập tử nhất sinh.'
+
 

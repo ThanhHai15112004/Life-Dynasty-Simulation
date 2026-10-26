@@ -354,6 +354,15 @@ export const civilizationSchema = z
     /** Đỗ đạt: danh tiếng làng tăng thêm = prestige_gain × hệ số này. */
     prestige_reputation_factor: z.number().min(0).default(0),
     cutscenes: z.object({ exam_passed: z.string().optional(), mourning: z.string().optional() }).strict().default({}),
+    /** [2] Luật thừa kế theo khuôn văn minh (hương hỏa con trưởng, kế thừa nợ). */
+    inheritance: z
+      .object({
+        ancestor_worship_share: z.number().min(0).max(1).default(0.5),
+        debt_inheritance: z.boolean().default(true),
+        will_eldest_bonus: z.number().min(0).max(0.5).default(0.15),
+      })
+      .strict()
+      .default({}),
     exam_degrees: z.array(examDegreeDefSchema).min(1),
     status_ranks: z.array(statusRankSchema).min(1),
   })

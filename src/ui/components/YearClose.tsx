@@ -13,14 +13,17 @@ export function YearClose({ close }: { close: YearCloseView }) {
         </b>
       </div>
       <ul className="flow-lines">
-        {close.lines.map((l) => (
-          <li key={l.category}>
-            <span>{t(`ledger.${l.category}`)}</span>
-            <span className={l.value >= 0 ? 'up' : 'down'}>
-              {signed(l.value)} {t('unit.money')}
-            </span>
-          </li>
-        ))}
+        {close.lines.map((l) => {
+          const isMilestone = l.category === 'thua_ke' || l.category === 'phan_gia';
+          return (
+            <li key={l.category} className={isMilestone ? 'milestone-line' : undefined}>
+              <span>{ isMilestone ? <b>{t(`ledger.${l.category}`)}</b> : t(`ledger.${l.category}`) }</span>
+              <span className={l.value >= 0 ? 'up' : 'down'}>
+                {signed(l.value)} {t('unit.money')}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

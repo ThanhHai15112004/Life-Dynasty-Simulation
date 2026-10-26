@@ -8,6 +8,7 @@ import { RngStream, type SimContext } from '../context';
 import { monthlyMoneyNeed } from '../economy/helpers';
 import { aliveMembers, callOf, householdHead, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
+import { currentFateMode } from './mortality';
 
 /** Mã lỗi khi chưa chạy chữa được (khóa lang error.<mã>). */
 export type TreatmentBlock = 'not_sick' | 'treated_recently' | 'not_enough_money';
@@ -22,11 +23,16 @@ export function infectCharacter(ctx: SimContext, c: Character, diseaseId: string
   const rng = ctx.rng.get(RngStream.Life);
   const remainingMonths = rng.range(def.duration_months);
   c.diseases.push({ id: diseaseId, remainingMonths });
-  if (!silent && c.householdId === ctx.state.householdId) {
-    writeTemplate(ctx, SystemLog.DiseaseCaught, {
-      self: c.id,
-      params: { call: callOf(ctx, c), title: def.name },
-    });
+  if (c.householdId === ctx.state.householdId) {
+    if (def.severity === 'nang' || def.severity === 'nguy_kich') {
+      ctx.state.badLuckCounter = (ctx.state.badLuckCounter ?? 0) + 1;
+    }
+    if (!silent) {
+      writeTemplate(ctx, SystemLog.DiseaseCaught, {
+        self: c.id,
+        params: { call: callOf(ctx, c), title: def.name },
+      });
+    }
   }
   return true;
 }
@@ -114,7 +120,7 @@ export function monthlyDiseases(ctx: SimContext): void {
       if (def.monthly_chance <= 0) continue;
       if (c.diseases.some((d) => d.id === def.id)) continue;
       if (!evaluate(def.condition, r)) continue;
-      if (rng.chance(def.monthly_chance)) {
+      if (rng.chance(def.monthly_chance * currentFateMode(ctx).disease_factor)) {
         infectCharacter(ctx, c, def.id);
         break;
       }

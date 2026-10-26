@@ -47,8 +47,16 @@
     1
   ],
   "head_age_mean": [
-    20,
-    32
+    18,
+    30
+  ],
+  "split_rate": [
+    0.2,
+    0.65
+  ],
+  "phu_ho_rate": [
+    0.15,
+    0.55
   ],
   "rich_rank": "phu_ho",
   "rich_rate": [

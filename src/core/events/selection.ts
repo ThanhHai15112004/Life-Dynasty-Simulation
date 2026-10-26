@@ -3,6 +3,7 @@ import type { Condition, RoleSpec, WeightModifier } from '@content/schemas';
 import type { Character } from '../entities/Character';
 import { evaluate } from '../engine/RuleEvaluator';
 import { RngStream, type SimContext } from '../systems/context';
+import { currentFateMode } from '../systems/life';
 import { ageNow, aliveMembers, lifeStageOf, player, relationToPlayer, villageNpc } from '../systems/people';
 import { createResolver } from '../systems/resolver';
 
@@ -28,7 +29,10 @@ function candidates(ctx: SimContext, spec: RoleSpec): Character[] {
     const c = spec.village_role ? villageNpc(ctx, spec.village_role) : undefined;
     return c ? [c] : [];
   }
-  return aliveMembers(ctx).filter((c) => {
+  const extendedKin =
+    spec.relation === 'father' || spec.relation === 'mother' || spec.relation === 'parent' || spec.relation === 'sibling';
+  const source = extendedKin ? Object.values(ctx.state.characters).filter((c) => c.alive) : aliveMembers(ctx);
+  return source.filter((c) => {
     if (c.id === me.id) return false;
     const rel = relationToPlayer(ctx, c);
     switch (spec.relation) {
@@ -114,5 +118,17 @@ export function weightOf(ctx: SimContext, item: Selectable, roles: Record<string
   };
   scaleTags(content.index.career.get(state.career.id)?.event_weights);
   scaleTags(content.index.settlementType.get(state.world.settlementType)?.event_weights);
+
+  // [2] Hệ số Chế độ số phận & Đỡ xui (Bad-luck protection)
+  const blp = content.balance.director.bad_luck_protection;
+  const isBad = item.tags.some((t) => blp.bad_tags.includes(t));
+  const isSalvation = item.tags.some((t) => blp.salvation_tags.includes(t));
+  if (isBad) {
+    w *= currentFateMode(ctx).bad_event_factor;
+  }
+  if ((state.badLuckCounter ?? 0) >= blp.consecutive_bad_threshold) {
+    if (isSalvation && !isBad) w *= blp.salvation_event_boost;
+    if (isBad) w *= blp.bad_event_dampen;
+  }
   return w;
 }

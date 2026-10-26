@@ -5,10 +5,13 @@ import { num, useUi } from '../../context';
 export function NewGame() {
   const { store, t } = useUi();
   const origins = store.content.origins;
+  const fateModes = store.content.balance.fate_modes.modes;
   const [originId, setOriginId] = useState(origins[0]?.id ?? '');
   const origin = origins.find((o) => o.id === originId) ?? origins[0];
   const [startAge, setStartAge] = useState(origin?.default_start_age ?? 0);
   const [sex, setSex] = useState<'any' | 'm' | 'f'>('any');
+  const [fateMode, setFateMode] = useState(store.content.balance.fate_modes.default_mode);
+  const currentFate = fateModes.find((m) => m.id === fateMode) ?? fateModes[0];
   const [seed, setSeed] = useState('');
 
   const handleSelectOrigin = (id: string) => {
@@ -64,12 +67,22 @@ export function NewGame() {
         ))}
       </div>
 
+      <h4>{t('menu.fate_mode')}</h4>
+      <div className="row">
+        {fateModes.map((m) => (
+          <button key={m.id} className={m.id === fateMode ? 'active' : ''} onClick={() => setFateMode(m.id)}>
+            {t(m.name_key)}
+          </button>
+        ))}
+      </div>
+      {currentFate && <p className="muted small">{t(currentFate.desc_key)}</p>}
+
       <h4>{t('menu.seed')}</h4>
       <input value={seed} placeholder={t('menu.seed_placeholder')} onChange={(e) => setSeed(e.target.value)} />
 
       <button
         className="primary wide"
-        onClick={() => store.newGame({ originId, startAge, sex: sex === 'any' ? undefined : sex, seed })}
+        onClick={() => store.newGame({ originId, startAge, sex: sex === 'any' ? undefined : sex, fateMode, seed })}
       >
         {t('menu.new_game')}
       </button>

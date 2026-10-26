@@ -9,6 +9,9 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   const opp = content.balance.opportunity;
   const happy = content.balance.life.happiness;
 
+  raw.fateMode = raw.fateMode && content.index.fateMode.has(raw.fateMode) ? raw.fateMode : content.balance.fate_modes.default_mode;
+  raw.badLuckCounter = raw.badLuckCounter ?? 0;
+
   raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
   raw.reputation = raw.reputation ?? {};
   raw.happiness = raw.happiness ?? { mood: happy.start, satisfaction: happy.start, baselineWealth: 0, ambitionBonus: 0 };

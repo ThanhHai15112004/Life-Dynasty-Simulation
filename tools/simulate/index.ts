@@ -86,10 +86,12 @@ for (const originId of origins) for (const b of bots) {
   // [1.5] Người chơi cầm tiền sớm không, và có đường làm giàu không
   const heads = results.filter((r) => r.headAge !== null);
   const headAge = mean(heads.map((r) => r.headAge!));
+  const splitRate = results.filter((r) => r.hasSplit).length / Math.max(1, results.length);
   const richIndex = content.civilizations[0].status_ranks.findIndex((x) => x.id === targets.rich_rank);
   const richRate = results.filter((r) => r.bestStatusIndex >= richIndex).length / Math.max(1, results.length);
   console.log(`Tuổi làm chủ hộ TB:           ${headAge.toFixed(1)}${mark('head_age_mean', headAge)} · chưa từng làm chủ ${pct(1 - heads.length / Math.max(1, results.length))}`);
-  console.log(`Từng lên ${String(targets.rich_rank).padEnd(20)}${pct(richRate)}${mark('rich_rate', richRate)}`);
+  console.log(`Tỷ lệ đời có tách hộ:         ${pct(splitRate)}${mark('split_rate', splitRate)}`);
+  console.log(`Từng lên ${String(targets.rich_rank).padEnd(20)}${pct(richRate)}${mark('phu_ho_rate', richRate)}`);
   const share = (pick: (r: LifeResult) => string) => {
     const m = new Map<string, number>();
     results.forEach((r) => m.set(pick(r), (m.get(pick(r)) ?? 0) + 1));

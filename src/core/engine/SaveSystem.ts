@@ -34,12 +34,10 @@ export function serialize(state: GameState): string {
 
 export function deserialize(text: string): GameState {
   const raw = JSON.parse(text) as Partial<GameState>;
-  if (raw.version !== SAVE_VERSION && raw.version !== 1) {
+  if (typeof raw.version !== 'number' || raw.version < 1 || raw.version > SAVE_VERSION) {
     throw new SaveError(`Phiên bản save ${raw.version} không khớp ${SAVE_VERSION}`);
   }
-  if (raw.version === 1) {
-    raw.version = SAVE_VERSION;
-  }
+  raw.version = SAVE_VERSION;
   // Trường mới cần giá trị từ data (khuôn văn minh, xuất thân...) được bù ở world/migrate.ts khi nạp vào GameSession
   for (const c of Object.values(raw.characters ?? {})) {
     c.diseases = c.diseases ?? [];

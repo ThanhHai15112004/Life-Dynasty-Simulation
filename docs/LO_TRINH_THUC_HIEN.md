@@ -62,7 +62,7 @@ Mô hình học từ 1in8b: mỗi năm **một con số thu nhập**, **chi tiê
 | Sửa nợ | ✅ | Lãi tính hằng tháng; có dư là trả ngay (giữ `debt.repay_keep_months` tháng chi tiêu); nhà buôn/nhà nho đong thóc dự trữ vẫn giữ tiền tiêu (`tenancy.reserve_cash_months`); thuế ruộng phát canh nhẹ hơn (`tax.food_per_sao_tenanted`). Đo 20 năm: số tháng mang nợ từ 12–81 còn 0–1 |
 | Chuyện nhỏ đa dạng | ✅ | Thêm 38 chuyện nhỏ (tổng 79), mỗi chuyện chỉ gặp một lần trong đời, nhịp ~0,5 chuyện/năm (`director.minor`) |
 | Giãn sự kiện lặp | ✅ | 23 sự kiện đời nào cũng gặp lại được nâng thời gian chờ lên 12 năm; `repeat_weight_factor` 0,15 → 0,08. Số sự kiện khác nhau mỗi đời 107–121 → 131–151 |
-| Ra ở riêng | ⬜ | Để sau: cưới xong tách hộ mới, cha mẹ chia ruộng, con trưởng ở lại thờ cúng; thừa kế khi cha mẹ mất |
+| Ra ở riêng | ✅ | Cưới xong tách hộ mới (`split.ts`), cha mẹ chia ruộng/tiền/thóc, con trưởng ở lại thờ cúng; thừa kế di sản và nợ theo luật Nho giáo khi cha mẹ mất (`inheritance.ts`) |
 | KPI mới | 🟡 | Đo 26/10/2026 (20 đời × 5 bot × 3 xuất thân): ✔ tuổi làm chủ hộ TB 26–31 (trước ~45) · ✔ chuyện nhỏ lặp 0% (trước 32–39%) · ✔ dừng thời gian ~1,9–2,0 lần/năm · ✔ nhà nông lên Phú hộ 15–55% tùy cách chơi. ✖ Nhà buôn 65–90%, nhà nho 75–100% (tính cả bậc Sĩ phu nhờ đỗ khoa cử) — còn giàu quá dễ · ✖ quyết định lặp 8–30%, nặng nhất ở nhà buôn và nhà nho (thiếu sự kiện riêng cho hai nghề) |
 
 ## Kế hoạch GĐ4 — Hệ Nghề nghiệp v2 (chốt 25/10/2026)
@@ -90,5 +90,5 @@ Nền móng đã có: thực thể `Settlement`, loại khu định cư, thang �
 | Phase | Tên | Trạng thái | Ghi chú hoàn thành |
 | :---: | :--- | :---: | :--- |
 | **Phase 1** | **Phòng thử nghiệm & công cụ dev** | ✅ | Schema kịch bản `scenario.ts`, 25 kịch bản thuộc 6 nhóm, GameSession scenario factory, MainMenu tab Thử nghiệm, DevPanel phím `~`, CLI `--scenario <id>`, Vitest 10 năm qua 100%, build sạch. |
-| Phase 2 | Tách hộ, thừa kế, chế độ số phận | ⬜ | Đóng GĐ1.5. |
+| **Phase 2** | **Tách hộ, thừa kế, chế độ số phận** | ✅ | Đóng GĐ1.5: `split.ts`, `inheritance.ts` (luật hương hỏa Nho giáo), `fate_modes.yaml` (Bình lặng / Đời thực / Khắc nghiệt), đỡ xui (`bad_luck_protection`), điềm báo trước cái chết, UI Nhà cha mẹ / Nhà anh em & dòng chốt sổ thừa kế/phân gia, 5 kịch bản Phase 2, nâng `SAVE_VERSION = 3`. *Nợ nội dung*: chuỗi sự kiện tranh gia tài sâu, giỗ chạp, cư tang riêng theo từng xuất thân. |
 | Phase 3 | Truyền đời (Dynasty) | ⬜ | Đóng GĐ2. |

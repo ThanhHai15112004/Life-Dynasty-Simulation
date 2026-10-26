@@ -1,6 +1,7 @@
 // [0] Các file cân bằng trong data/balance/ — mọi con số chỉnh được của GĐ0
 import { z } from 'zod';
 import { conditionSchema, weightModifierSchema } from './condition';
+import { fateModesFileSchema } from './fate';
 import { conditionalModifierSchema, modifierDefSchema } from './modifier';
 
 const range = z.tuple([z.number(), z.number()]);
@@ -93,6 +94,10 @@ export const lifeBalanceSchema = z
           )
           .min(1),
         max_unexpected_household_deaths_per_year: z.number().int().min(0),
+        /** [2] Ngưỡng sức khỏe phát điềm báo trước cái chết (tối đa 1 lần/năm). */
+        omen_health_threshold: z.number().min(0).max(100).default(20),
+        /** [2] Số tháng bệnh nặng/nguy kịch còn lại để phát điềm báo. */
+        omen_severe_disease_months: z.number().int().min(1).default(3),
       })
       .strict(),
     age_groups: z.array(z.object({ id: z.string(), max_age: z.number() }).strict()).min(1),
@@ -103,6 +108,21 @@ export const lifeBalanceSchema = z
         elder_age: z.number().int().positive(),
       })
       .strict(),
+    /** [2] Luật tách hộ (ra ở riêng) sau khi lập gia đình. */
+    household_split: z
+      .object({
+        min_years_married: z.number().int().min(0).default(2),
+        elder_head_split_chance: z.number().min(0).max(1).default(0.35),
+        sibling_split_min_age: z.number().int().min(16).default(20),
+        sibling_split_chance_year: z.number().min(0).max(1).default(0.35),
+        share_per_child: z.number().min(0).max(0.5).default(0.2),
+        min_parent_keep_sao: z.number().int().min(0).default(2),
+        min_parent_keep_money: z.number().min(0).default(8),
+        min_gift_money: z.number().min(0).default(4),
+        min_gift_food: z.number().min(0).default(10),
+      })
+      .strict()
+      .default({}),
     /** Xác suất sinh con trai khi xuất thân không chỉ định giới tính. */
     male_ratio: z.number().min(0).max(1),
     /** [1] Nghề riêng lúc bắt đầu tự lập: trẻ nhà có nghề thì phụ việc nhà, không thì thất nghiệp; làm chủ hộ thì thừa kế nghề nhà. */
@@ -421,6 +441,17 @@ export const directorBalanceSchema = z
         min_spread: z.number().min(0),
       })
       .strict(),
+    /** [2] Đỡ xui (bad-luck protection): sau chuỗi biến cố xấu liên tiếp thì nâng trọng số sự kiện cứu vãn. */
+    bad_luck_protection: z
+      .object({
+        consecutive_bad_threshold: z.number().int().min(1).default(3),
+        salvation_event_boost: z.number().min(1).default(2.5),
+        bad_event_dampen: z.number().min(0).max(1).default(0.4),
+        salvation_tags: z.array(z.string()).default(['tinh_lang', 'co_hoi', 'gia_dinh', 'mua_mang']),
+        bad_tags: z.array(z.string()).default(['no_nan', 'benh_tat', 'tai_hoa', 'mat_mua']),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 
@@ -556,6 +587,7 @@ export const balanceSchemas = {
   modifiers: modifiersBalanceSchema,
   display: displayBalanceSchema,
   scene: sceneBalanceSchema,
+  fate_modes: fateModesFileSchema,
 } as const;
 
 export type Balance = { [K in keyof typeof balanceSchemas]: z.infer<(typeof balanceSchemas)[K]> };

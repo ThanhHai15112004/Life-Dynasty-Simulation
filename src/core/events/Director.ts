@@ -75,7 +75,17 @@ function tryRandomDecision(ctx: SimContext): void {
     .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
   const repeat = (id: string) => Math.pow(d.repeat_weight_factor, state.eventHistory[id]?.count ?? 0);
   const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
-  if (pick) fireDecision(ctx, pick.ev, pick.roles);
+  if (pick) {
+    const blp = d.bad_luck_protection;
+    const isBad = pick.ev.tags.some((t) => blp.bad_tags.includes(t));
+    const isSalvation = pick.ev.tags.some((t) => blp.salvation_tags.includes(t));
+    if (isSalvation && !isBad && (state.badLuckCounter ?? 0) >= blp.consecutive_bad_threshold) {
+      state.badLuckCounter = Math.max(0, (state.badLuckCounter ?? 0) - 2);
+    } else if (isBad) {
+      state.badLuckCounter = (state.badLuckCounter ?? 0) + 1;
+    }
+    fireDecision(ctx, pick.ev, pick.roles);
+  }
 }
 
 /** [1] Chuyện nhỏ: chọn riêng, dừng thời gian chờ chọn; giãn cách với sự kiện quyết định và giới hạn số lần lặp mỗi đời. */

@@ -13,7 +13,7 @@ import { healthCap } from '../systems/life/health';
 import { monthlyFoodNeed, sellPrice } from '../systems/economy/helpers';
 import { ownMoney } from '../systems/economy/purse';
 import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
-import { marryPlayer } from '../systems/family';
+import { marryPlayer, settleInheritance, splitPlayerHousehold } from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
 import { changeFilialPiety, changeScholarlyPrestige, setExamDegree } from '../systems/status';
 import { queueCutscene } from './cutscene';
@@ -178,6 +178,12 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           if (state.ambition.id !== e.ambition && ctx.content.index.ambition.has(e.ambition)) {
             state.ambition = { id: e.ambition, achievedMilestones: [] };
           }
+          break;
+        case 'split_household':
+          splitPlayerHousehold(ctx, e.share_factor ?? 1);
+          break;
+        case 'trigger_inheritance':
+          settleInheritance(ctx, e.share_factor ?? 1);
           break;
         case 'property_add':
           h.properties[e.property] = (h.properties[e.property] ?? 0) + e.count;

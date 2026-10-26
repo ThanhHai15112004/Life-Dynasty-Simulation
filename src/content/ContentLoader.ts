@@ -29,6 +29,7 @@ import {
   type Culture,
   type DecisionEvent,
   type Disease,
+  type FateMode,
   type Focus,
   type LangPack,
   type Origin,
@@ -83,6 +84,7 @@ export interface ContentBundle {
     livingStandard: Map<string, Balance['living_standards']['levels'][number]>;
     lifeStage: Map<string, Balance['life']['life_stages'][number]>;
     harvestQuality: Map<string, Balance['economy']['harvest_qualities'][number]>;
+    fateMode: Map<string, FateMode>;
   };
 }
 
@@ -221,6 +223,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     livingStandard: indexBy((balance.living_standards as Balance['living_standards'] | undefined)?.levels ?? [], 'living_standards'),
     lifeStage: indexBy((balance.life as Balance['life'] | undefined)?.life_stages ?? [], 'life_stages'),
     harvestQuality: indexBy((balance.economy as Balance['economy'] | undefined)?.harvest_qualities ?? [], 'harvest_qualities'),
+    fateMode: indexBy((balance.fate_modes as Balance['fate_modes'] | undefined)?.modes ?? [], 'fate_modes'),
   };
 
   if (issues.length > 0) throw new ContentError(issues);

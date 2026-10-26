@@ -63,3 +63,102 @@ scenarios:
       - { type: stress, value: 45 }
     auto_minor: false
 
+  # [2] 5 kịch bản Phase 2: Tách hộ, Thừa kế, Chế độ số phận
+  - id: vua_cuoi_con_o_chung
+    group: gia_dinh
+    title_key: scenario.vua_cuoi_con_o_chung.title
+    description_key: scenario.vua_cuoi_con_o_chung.desc
+    base:
+      originId: nong_dan
+      age: 22
+      sex: m
+    setup:
+      - { type: marry }
+      - { type: money, value: 20 }
+      - { type: property_add, property: ruong, count: 4 }
+    family_setup:
+      spouse_age: 20
+      years_married: 2
+      siblings:
+        - { age: 25, sex: m }
+    start_event: gd_xin_ra_o_rieng
+    auto_minor: false
+
+  - id: cha_sap_mat_3_con
+    group: gia_dinh
+    title_key: scenario.cha_sap_mat_3_con.title
+    description_key: scenario.cha_sap_mat_3_con.desc
+    base:
+      originId: nong_dan
+      age: 28
+      sex: m
+    setup:
+      - { type: marry }
+      - { type: money, value: 40 }
+      - { type: property_add, property: ruong, count: 8 }
+    family_setup:
+      parents: mother_dead
+      father_age: 68
+      father_health: 12
+      spouse_age: 25
+      siblings:
+        - { age: 24, sex: m }
+        - { age: 21, sex: m }
+    auto_minor: false
+
+  - id: mat_khong_di_chuc
+    group: gia_dinh
+    title_key: scenario.mat_khong_di_chuc.title
+    description_key: scenario.mat_khong_di_chuc.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+    setup:
+      - { type: marry }
+      - { type: money, value: 35 }
+      - { type: property_add, property: ruong, count: 6 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 24
+      siblings:
+        - { age: 29, sex: m }
+        - { age: 22, sex: m }
+    start_event: gd_tranh_chap_di_san
+    auto_minor: false
+
+  - id: con_thu_ra_rieng_tay_trang
+    group: gia_dinh
+    title_key: scenario.con_thu_ra_rieng_tay_trang.title
+    description_key: scenario.con_thu_ra_rieng_tay_trang.desc
+    base:
+      originId: nong_dan
+      age: 23
+      sex: m
+    setup:
+      - { type: marry }
+    family_setup:
+      spouse_age: 21
+      years_married: 2
+      siblings:
+        - { age: 27, sex: m }
+      split_household: true
+    auto_minor: false
+
+  - id: so_phan_khac_nghiet_test
+    group: suc_khoe
+    title_key: scenario.so_phan_khac_nghiet_test.title
+    description_key: scenario.so_phan_khac_nghiet_test.desc
+    base:
+      originId: nong_dan
+      age: 20
+      sex: m
+      seed: fate-test-seed
+      fateMode: khac_nghiet
+    setup:
+      - { type: marry }
+    family_setup:
+      spouse_age: 19
+    auto_minor: false
+
+

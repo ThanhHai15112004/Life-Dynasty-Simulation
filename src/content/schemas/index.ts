@@ -4,6 +4,7 @@ export * from './modifier';
 export * from './effect';
 export * from './event';
 export * from './gameplay';
+export * from './fate';
 export * from './balance';
 export * from './scenario';
 export * from './lang';

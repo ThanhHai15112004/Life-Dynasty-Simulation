@@ -39,6 +39,8 @@ export interface Character {
   motherId?: string;
   /** [1] ID vợ hoặc chồng. */
   spouseId?: string;
+  /** [2] Năm kết hôn (để xét điều kiện tách hộ sau min_years_married năm). */
+  marriedYear?: number;
   /** [1] Trạng thái mang thai (chỉ áp dụng với nữ). */
   pregnancy?: { monthsLeft: number; fatherId: string } | null;
   /** Vai trò trong làng (ba_ho, ly_truong...) nếu là NPC làng. */

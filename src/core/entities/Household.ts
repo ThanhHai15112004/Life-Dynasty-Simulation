@@ -29,6 +29,12 @@ export interface Household {
   /** Số lượng sở hữu theo loại tài sản (sào ruộng, con trâu, căn nhà...). */
   properties: Record<string, number>;
   ledger: LedgerEntry[];
+  /** [2] ID hộ cha mẹ gốc khi đã tách hộ ra ở riêng. */
+  parentHouseholdId?: string | null;
+  /** [2] Năm tách ra ở riêng. */
+  splitFromYear?: number;
+  /** [2] Đã phân chia thừa kế của hộ gốc này chưa. */
+  inheritanceSettled?: boolean;
 }
 
 /** [1.5] Một năm sổ riêng của người chơi (túi tiền riêng khi chưa làm chủ hộ). */

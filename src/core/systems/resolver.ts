@@ -7,7 +7,7 @@ import { farmlandOf } from '../entities/Property';
 import type { SimContext } from './context';
 import { householdNetWorth, lastYearIncome, localTradeFactor, monthlyFoodNeed, selfFarms, spareWorkers, workerCount } from './economy/helpers';
 import { purseActive } from './economy/purse';
-import { aliveChildrenOf } from './family';
+import { aliveChildrenOf, canPlayerSplitHousehold, isEldestChild } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
 import { ExamStage, examStage } from './status';
 
@@ -65,6 +65,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return c.householdId === state.householdId;
       case 'is_head':
         return householdHead(ctx)?.id === c.id;
+      case 'is_eldest':
+        return isEldestChild(ctx, c);
+      case 'can_split_household':
+        return c.id === state.playerId ? canPlayerSplitHousehold(ctx) : false;
       case 'trait_count':
         return c.traits.length;
       case 'married':
@@ -143,6 +147,8 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'is_exam_year') return examStage(ctx) === ExamStage.Huong;
         if (key === 'settlement_type') return state.world.settlementType;
         if (key === 'local_trade_factor') return localTradeFactor(ctx);
+        if (key === 'fate_mode') return state.fateMode;
+        if (key === 'bad_luck') return state.badLuckCounter ?? 0;
         throw new UnknownVariableError(path);
       }
       case 'player':
@@ -190,6 +196,8 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
             const need = monthlyFoodNeed(ctx);
             return need > 0 ? h.food / need : 99;
           }
+          case 'is_split':
+            return Boolean(h.parentHouseholdId);
           default:
             throw new UnknownVariableError(path);
         }

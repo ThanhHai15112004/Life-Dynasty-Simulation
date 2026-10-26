@@ -49,7 +49,14 @@ export function householdHead(ctx: SimContext, h: Household = playerHousehold(ct
   if (parent) return parent;
   const meAble = able.find((c) => c.id === me.id);
   const spouse = me.spouseId ? ctx.state.characters[me.spouseId] : undefined;
-  if (meAble && (spouse?.alive || able[0].id === me.spouseId)) return meAble;
+  const olderBrotherInHouse = able.find(
+    (c) =>
+      c.id !== me.id &&
+      c.sex === 'm' &&
+      ((me.fatherId && c.fatherId === me.fatherId) || (me.motherId && c.motherId === me.motherId)) &&
+      c.birthYear * 12 + c.birthMonth < me.birthYear * 12 + me.birthMonth,
+  );
+  if (meAble && !olderBrotherInHouse && (spouse?.alive || able[0].id === me.spouseId)) return meAble;
   return able[0];
 }
 

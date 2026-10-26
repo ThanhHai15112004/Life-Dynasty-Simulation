@@ -64,6 +64,49 @@ export function FamilyCard({ hud }: { hud: HudView }) {
           </ul>
         </div>
       )}
+      {hud.household.parentHousehold && (
+        <div className="related-household">
+          <h4>
+            {t('family.parent_house')} ·{' '}
+            <span className="muted small">{t('family.parent_land', { sao: hud.household.parentHousehold.farmland })}</span>
+          </h4>
+          <ul className="people-list">
+            {hud.household.parentHousehold.members.map((m) => (
+              <li key={m.id}>
+                {scene && <Portrait id={m.id} sex={m.sex} ageGroup={m.ageGroup} cultureSet={scene.cultureSet} season={scene.season} scale={2} />}
+                <div className="person-main">
+                  <div>
+                    <span className="muted">{relationLabel(m.relation, m.sex)}</span> <b>{m.name}</b>
+                  </div>
+                  <div className="muted small">
+                    {t('profile.age', { age: m.age })} · {t(m.healthKey)}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {hud.household.siblingHouseholds.length > 0 && (
+        <div className="related-household">
+          <h4>{t('family.sibling_houses')}</h4>
+          <ul className="people-list">
+            {hud.household.siblingHouseholds.map((sh) => (
+              <li key={sh.id}>
+                <div className="person-main">
+                  <div>
+                    <b>{t('family.sibling_house_item', { who: sh.headCall })}</b>{' '}
+                    <span className="muted small">({t('family.sibling_land', { sao: sh.farmland, n: sh.members.length })})</span>
+                  </div>
+                  <div className="muted small">
+                    {sh.members.map((m) => `${m.name} (${t('profile.age', { age: m.age })})`).join(' · ')}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   );
 }

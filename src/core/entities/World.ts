@@ -3,7 +3,7 @@ import type { ExamDegreeId } from '@content/schemas';
 import type { Character } from './Character';
 import type { Household, LedgerYear, Purse } from './Household';
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 
 export interface LogEntry {
   id: number;
@@ -72,6 +72,10 @@ export interface GameState {
   seed: string;
   originId: string;
   cultureId: string;
+  /** [2] Chế độ số phận đang chơi (id trong balance/fate_modes.yaml). */
+  fateMode: string;
+  /** [2] Chuỗi biến cố xấu liên tiếp (nợ nần, bệnh nặng, mất mùa, tang sự) để kích hoạt đỡ xui. */
+  badLuckCounter: number;
   rng: Record<string, number>;
   nextId: number;
 

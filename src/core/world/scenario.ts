@@ -2,9 +2,10 @@
 import type { Scenario } from '@content/schemas';
 import { applyEffects } from '../events/effects';
 import { fireDecision } from '../events/decision';
-import { eligibleRoles } from '../events/selection';
+import { bindRoles, eligibleRoles } from '../events/selection';
 import { createCharacter } from './generate';
 import { type SimContext, RngStream } from '../systems/context';
+import { splitPlayerHousehold, splitSiblingToNewHousehold } from '../systems/family';
 import { player, playerHousehold } from '../systems/people';
 
 export function applyScenario(
@@ -12,6 +13,9 @@ export function applyScenario(
   scenario: Scenario,
 ): void {
   const { state, content } = ctx;
+  if (scenario.base.fateMode && content.index.fateMode.has(scenario.base.fateMode)) {
+    state.fateMode = scenario.base.fateMode;
+  }
 
   // 1. Áp dụng hiệu ứng có sẵn trong scenario.setup
   if (scenario.setup && scenario.setup.length > 0) {
@@ -24,6 +28,16 @@ export function applyScenario(
     const me = player(ctx);
 
     // Xử lý cha / mẹ
+    if (me.fatherId && state.characters[me.fatherId]) {
+      const father = state.characters[me.fatherId];
+      if (f.father_age !== undefined) father.birthYear = state.clock.year - f.father_age;
+      if (f.father_health !== undefined) father.health = f.father_health;
+    }
+    if (me.motherId && state.characters[me.motherId]) {
+      const mother = state.characters[me.motherId];
+      if (f.mother_age !== undefined) mother.birthYear = state.clock.year - f.mother_age;
+      if (f.mother_health !== undefined) mother.health = f.mother_health;
+    }
     if (f.parents) {
       if (me.fatherId && (f.parents === 'father_dead' || f.parents === 'both_dead')) {
         const father = state.characters[me.fatherId];
@@ -41,17 +55,57 @@ export function applyScenario(
           mother.deathYear = state.clock.year;
         }
       }
+      if (f.parents !== 'both_alive') {
+        state.civilization.mourningMonthsLeft = content.civilizations[0]?.mourning_months ?? 27;
+        state.director.mourningThisYear = true;
+      }
     }
 
-    // Xử lý vợ/chồng (nếu có yêu cầu tuổi hoặc mang thai)
+    // Xử lý vợ/chồng (nếu có yêu cầu tuổi, số năm cưới hoặc mang thai)
+    if (f.years_married !== undefined) {
+      me.marriedYear = state.clock.year - f.years_married;
+    }
     if (me.spouseId) {
       const spouse = state.characters[me.spouseId];
       if (spouse) {
         if (f.spouse_age !== undefined) {
           spouse.birthYear = state.clock.year - f.spouse_age;
         }
+        if (f.years_married !== undefined) {
+          spouse.marriedYear = state.clock.year - f.years_married;
+        }
         if (f.spouse_pregnant) {
           spouse.pregnancy = { monthsLeft: 6, fatherId: me.id };
+        }
+      }
+    }
+
+    // Xử lý danh sách anh chị em thiết lập cụ thể (thay cho anh chị em ngẫu nhiên lúc khởi tạo)
+    if (f.siblings) {
+      const h = playerHousehold(ctx);
+      // Xóa anh chị em ngẫu nhiên cũ
+      for (const id of [...h.memberIds]) {
+        const c = state.characters[id];
+        if (!c || c.id === me.id || c.id === me.fatherId || c.id === me.motherId || c.id === me.spouseId) continue;
+        if (c.fatherId === me.id || c.motherId === me.id) continue;
+        h.memberIds = h.memberIds.filter((mId) => mId !== id);
+        delete state.characters[id];
+      }
+      const rng = ctx.rng.get(RngStream.Life);
+      for (const sibSpec of f.siblings) {
+        const sib = createCharacter(ctx, rng, {
+          sex: sibSpec.sex,
+          age: sibSpec.age,
+          familyName: me.familyName,
+          health: content.balance.life.health.npc_default,
+        });
+        sib.fatherId = me.fatherId;
+        sib.motherId = me.motherId;
+        sib.householdId = h.id;
+        state.characters[sib.id] = sib;
+        h.memberIds.push(sib.id);
+        if (sibSpec.split) {
+          splitSiblingToNewHousehold(ctx, sib, true);
         }
       }
     }
@@ -74,6 +128,11 @@ export function applyScenario(
         h.memberIds.push(child.id);
       }
     }
+
+    // Tách hộ ngay nếu kịch bản yêu cầu
+    if (f.split_household) {
+      splitPlayerHousehold(ctx, 0);
+    }
   }
 
   // 3. World setup nếu có
@@ -88,7 +147,7 @@ export function applyScenario(
   if (scenario.start_event) {
     const ev = content.index.event.get(scenario.start_event);
     if (ev) {
-      const roles = eligibleRoles(ctx, ev);
+      const roles = eligibleRoles(ctx, ev) ?? bindRoles(ctx, ev.roles);
       if (roles) {
         fireDecision(ctx, ev, roles);
       }

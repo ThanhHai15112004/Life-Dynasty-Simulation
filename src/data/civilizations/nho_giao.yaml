@@ -12,6 +12,12 @@ exam_skill: hoc_van                   # kỹ năng xét min_hoc_van của học 
 reputation_group: dan_lang            # đỗ đạt thì danh tiếng nhóm này tăng
 cutscenes: { exam_passed: vinh_quy_bai_to, mourning: tang_le }
 
+# [2] Luật thừa kế Nho giáo: con trưởng giữ phần hương hỏa thờ cúng tổ tiên, phần còn lại chia cho các con
+inheritance:
+  ancestor_worship_share: 0.5
+  debt_inheritance: true
+  will_eldest_bonus: 0.15
+
 exam_degrees:
   - id: none
     name: Bạch đinh (Chưa đỗ đạt)

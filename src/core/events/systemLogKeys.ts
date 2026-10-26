@@ -32,6 +32,10 @@ export const SystemLog = {
   SurplusSold: 'sys.ban_thoc_du',
   AutoInvest: 'sys.mua_them_cua',
   HeadHandover: 'sys.giao_viec_nha',
+  HouseholdSplit: 'sys.tach_ho',
+  SiblingSplit: 'sys.anh_em_tach_ho',
+  Inheritance: 'sys.thua_ke',
+  DeathOmen: 'sys.diem_bao_om_yeu',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */
@@ -65,6 +69,9 @@ export const Ledger = {
   BoardPaid: 'cha_me_lo',
   PurseMergedIn: 'tien_rieng_gop',
   PurseMergedOut: 'gop_vao_nha',
+  /** [2] Phân gia (ra ở riêng nhận phần chia) và Thừa kế (nhận di sản khi cha mẹ qua đời). */
+  HouseholdSplit: 'phan_gia',
+  Inheritance: 'thua_ke',
   /** [1.5] Phần chênh khi chốt sổ năm không thuộc khoản nào kể trên (chênh giá mua bán, bị xiết...). */
   Other: 'chuyen_khac',
 } as const;

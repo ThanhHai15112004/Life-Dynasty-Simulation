@@ -12,6 +12,7 @@ export interface NewGameOptions {
   originId?: string;
   startAge?: number;
   sex?: Sex;
+  fateMode?: string;
 }
 
 type Range = readonly [number, number];
@@ -84,11 +85,15 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
   const time = content.balance.time;
   const civ = content.civilizations[0];
   if (!civ) throw new Error('Không có khuôn văn minh nào trong src/data/civilizations');
+  const defaultFate = content.balance.fate_modes.default_mode;
+  const fateMode = opts.fateMode && content.index.fateMode.has(opts.fateMode) ? opts.fateMode : defaultFate;
   return {
     version: SAVE_VERSION,
     seed: opts.seed,
     originId: origin.id,
     cultureId: origin.culture,
+    fateMode,
+    badLuckCounter: 0,
     rng: {},
     nextId: 0,
     clock: { year: time.start_year, month: time.start_month, monthIndex: 0 },

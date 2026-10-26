@@ -6,7 +6,7 @@ import type { ModifierResult } from '../engine/ModifierSystem';
 import { StatTarget } from '../engine/statTargets';
 import { fullName } from '../entities/Character';
 import type { LedgerEntry, LedgerYear } from '../entities/Household';
-import { holdingsOf } from '../entities/Property';
+import { farmlandOf, holdingsOf } from '../entities/Property';
 import type { LogYear, PendingEvent, Resolution } from '../entities/World';
 import type { SimContext } from '../systems/context';
 import { purseActive, regularIncomeParts } from '../systems/economy';
@@ -101,6 +101,20 @@ export interface HudView {
     incomeYear: number;
     /** [1.5] Chốt sổ năm gần nhất kiểu 1in8b: mức thay đổi tài sản ròng và tối đa vài dòng lý do (đã gộp "Chuyện khác"). */
     yearClose: YearCloseView | null;
+    /** [2] Nhà cha mẹ (khi người chơi đã tách hộ ra ở riêng). */
+    parentHousehold: {
+      id: string;
+      farmland: number;
+      money: number;
+      members: { id: string; call: string; name: string; relation: string; sex: 'm' | 'f'; ageGroup: string; age: number; healthKey: string }[];
+    } | null;
+    /** [2] Nhà anh chị em đã tách ra ở riêng. */
+    siblingHouseholds: {
+      id: string;
+      headCall: string;
+      farmland: number;
+      members: { id: string; call: string; name: string; relation: string; sex: 'm' | 'f'; ageGroup: string; age: number; healthKey: string }[];
+    }[];
   };
   /** [1.5] Quy đổi để dễ hình dung: quan → đồng ngày nay, sào → m². */
   wealthUnits: { modernPerQuan: number; m2PerSao: number };
@@ -261,11 +275,17 @@ export interface YearCloseView {
 export function yearCloseOf(ctx: SimContext, y: Pick<LedgerYear, 'year' | 'entries' | 'netWorth' | 'openNetWorth'>): YearCloseView {
   const { wealth } = ctx.content.balance.display;
   const transfers = ctx.content.balance.economy.transfer_ledgers;
+  const priorityCategories = new Set<string>([Ledger.Inheritance, Ledger.HouseholdSplit]);
   const lines = y.entries
     .filter((e) => !transfers.includes(e.category))
     .map((e) => ({ category: e.category, value: ledgerValue(ctx, e) }))
-    .filter((l) => Math.abs(l.value) >= wealth.line_min)
-    .sort((a, b) => Math.abs(b.value) - Math.abs(a.value))
+    .filter((l) => Math.abs(l.value) >= wealth.line_min || priorityCategories.has(l.category))
+    .sort((a, b) => {
+      const aPri = priorityCategories.has(a.category) ? 1 : 0;
+      const bPri = priorityCategories.has(b.category) ? 1 : 0;
+      if (aPri !== bPri) return bPri - aPri;
+      return Math.abs(b.value) - Math.abs(a.value);
+    })
     .slice(0, wealth.year_lines);
   // Save cũ chưa lưu tài sản ròng: chỉ hiện các dòng, không suy ra phần chênh
   const legacy = y.netWorth === 0 && y.openNetWorth === 0;
@@ -427,6 +447,56 @@ export function getHudView(ctx: SimContext): HudView {
       netWorth: householdNetWorth(ctx),
       incomeYear: lastYearIncome(ctx),
       yearClose: state.ledgerHistory.length > 0 ? yearCloseOf(ctx, state.ledgerHistory[state.ledgerHistory.length - 1]) : null,
+      parentHousehold: (() => {
+        if (!h.parentHouseholdId) return null;
+        const pH = state.households[h.parentHouseholdId];
+        if (!pH) return null;
+        const members = aliveMembers(ctx, pH).map((c) => ({
+          id: c.id,
+          call: callOf(ctx, c),
+          name: fullName(c),
+          relation: relationToPlayer(ctx, c),
+          sex: c.sex,
+          ageGroup: ageGroupOf(ctx, ageNow(ctx, c)),
+          age: ageNow(ctx, c),
+          healthKey: pickBand(display.health_bands, c.health).key,
+        }));
+        if (members.length === 0) return null;
+        return {
+          id: pH.id,
+          farmland: farmlandOf(pH, content),
+          money: Math.round(pH.money),
+          members,
+        };
+      })(),
+      siblingHouseholds: (() => {
+        const rootId = h.parentHouseholdId ?? h.id;
+        return Object.values(state.households)
+          .filter((otherH) => otherH.id !== h.id && otherH.id !== h.parentHouseholdId && otherH.parentHouseholdId === rootId)
+          .map((sibH) => {
+            const members = aliveMembers(ctx, sibH).map((c) => ({
+              id: c.id,
+              call: callOf(ctx, c),
+              name: fullName(c),
+              relation: relationToPlayer(ctx, c),
+              sex: c.sex,
+              ageGroup: ageGroupOf(ctx, ageNow(ctx, c)),
+              age: ageNow(ctx, c),
+              healthKey: pickBand(display.health_bands, c.health).key,
+            }));
+            const sib = aliveMembers(ctx, sibH).find((c) => {
+              const rel = relationToPlayer(ctx, c);
+              return rel === 'older_sibling' || rel === 'younger_sibling';
+            }) ?? aliveMembers(ctx, sibH)[0];
+            return {
+              id: sibH.id,
+              headCall: sib ? callOf(ctx, sib) : '',
+              farmland: farmlandOf(sibH, content),
+              members,
+            };
+          })
+          .filter((x) => x.members.length > 0);
+      })(),
     },
     wealthUnits: { modernPerQuan: display.wealth.modern_per_quan, m2PerSao: display.wealth.m2_per_sao },
     personal: (() => {

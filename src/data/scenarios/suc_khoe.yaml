@@ -38,3 +38,4 @@ scenarios:
     world_setup:
       weather: mua_ngap
     auto_minor: false
+

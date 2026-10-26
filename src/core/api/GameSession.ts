@@ -13,7 +13,7 @@ import { yearlyChronicle } from '../systems/chronicle';
 import { createContext, type SimContext } from '../systems/context';
 import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy, yearlyHousehold } from '../systems/economy';
 import { ensureFocus } from '../systems/focus';
-import { monthlyFamily } from '../systems/family';
+import { monthlyFamily, yearlyHouseholdSplit } from '../systems/family';
 import { monthlyHappiness, recordLifeYear, yearlyHappiness } from '../systems/happiness';
 import { monthlyLife, yearlyVillage } from '../systems/life';
 import { monthlyOpportunity, yearlyOpportunity } from '../systems/opportunity';
@@ -64,12 +64,13 @@ export class GameSession {
     scenario: Scenario,
     overrides?: { seed?: string; extraFastForwardYears?: number },
   ): GameSession {
-    const seed = overrides?.seed || scenario.base.seed || `${scenario.id}-${Date.now().toString(36)}`;
+    const seed = overrides?.seed || scenario.base.seed || scenario.id;
     const opts: NewGameOptions = {
       seed,
       originId: scenario.base.originId,
       startAge: scenario.base.age,
       sex: scenario.base.sex,
+      fateMode: scenario.base.fateMode,
     };
     const state = generateNewGame(content, opts, (s) => createContext(s, content));
     const session = new GameSession(content, state);
@@ -197,6 +198,7 @@ function monthly(ctx: SimContext): void {
 }
 
 function yearEnd(ctx: SimContext): void {
+  yearlyHouseholdSplit(ctx);
   yearlyEconomy(ctx);
   yearlyVillage(ctx);
   yearlyHappiness(ctx);

@@ -91,6 +91,9 @@ mortality:
       unexpected: true
   # Bad-luck protection: tối đa số cái chết hoàn toàn bất ngờ trong hộ mỗi năm
   max_unexpected_household_deaths_per_year: 1
+  # [2] Điềm báo trước cái chết: sức khỏe dưới ngưỡng này hoặc bệnh nặng sắp hết hạn thì báo trước (tối đa 1 lần/năm)
+  omen_health_threshold: 20
+  omen_severe_disease_months: 3
 
 age_groups:
   - { id: tre_nho, max_age: 5 }
@@ -101,6 +104,17 @@ adult_age: 16
 # [1.5] Giao việc nhà: cha mẹ từ tuổi này giao cho lớp con đã lập gia đình (người chơi đã cưới đứng trên anh chị em)
 headship:
   elder_age: 55
+# [2] Luật tách hộ (ra ở riêng): con thứ đã cưới sau ít năm hoặc anh em trưởng thành lập hộ riêng
+household_split:
+  min_years_married: 2
+  elder_head_split_chance: 0.3
+  sibling_split_min_age: 22
+  sibling_split_chance_year: 0.2
+  share_per_child: 0.35
+  min_parent_keep_sao: 2
+  min_parent_keep_money: 10
+  min_gift_money: 4
+  min_gift_food: 10
 male_ratio: 0.5
 npc_trait_count: 1
 

@@ -1,17 +1,29 @@
-// [0] Rủi ro tử vong theo tháng (GDD 01 §8): tuổi × sức khỏe × modifier (mức sống, mùa...). Cái chết luôn có nguyên nhân.
+// [0] Rủi ro tử vong theo tháng (GDD 01 §8): tuổi × sức khỏe × modifier (mức sống, mùa...) × hệ số số phận. Cái chết luôn có nguyên nhân.
 import { clamp, interpolate } from '@shared/curve';
+import type { FateMode } from '@content/schemas';
 import type { Character } from '../../entities/Character';
 import { evaluate } from '../../engine/RuleEvaluator';
 import { StatTarget } from '../../engine/statTargets';
 import { SystemLog } from '../../events/systemLogKeys';
 import { writeTemplate } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
+import { checkParentInheritance } from '../family/inheritance';
 import { computeFor } from '../modifiers';
 import { ageNow, aliveMembers, callOf, householdHead, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 import { startMourning } from '../status';
 
-/** Xác suất chết trong một tháng của một nhân vật trong hộ người chơi. */
+/** Lấy cấu hình Chế độ số phận hiện tại của ván chơi. */
+export function currentFateMode(ctx: SimContext): FateMode {
+  const fm = ctx.content.balance.fate_modes;
+  return (
+    ctx.content.index.fateMode.get(ctx.state.fateMode) ??
+    ctx.content.index.fateMode.get(fm.default_mode) ??
+    fm.modes[0]
+  );
+}
+
+/** Xác suất chết trong một tháng của một nhân vật. */
 export function monthlyDeathRisk(ctx: SimContext, c: Character): number {
   const m = ctx.content.balance.life.mortality;
   const months = ctx.content.balance.calendar.months_per_year;
@@ -19,7 +31,8 @@ export function monthlyDeathRisk(ctx: SimContext, c: Character): number {
   const monthly = 1 - Math.pow(1 - clamp(annual, 0, 1), 1 / months);
   const healthFactor = interpolate(m.health_factor, 'health', 'factor', c.health);
   const mod = computeFor(ctx, c.id, StatTarget.DeathRisk, 1).value;
-  return clamp(monthly * healthFactor * mod, 0, m.max_monthly);
+  const fateFactor = currentFateMode(ctx).mortality_factor;
+  return clamp(monthly * healthFactor * mod * fateFactor, 0, m.max_monthly);
 }
 
 /** [1] Tuổi thọ kỳ vọng lúc sinh theo bảng tử vong của thời này (chưa tính sức khỏe, modifier). */
@@ -40,7 +53,8 @@ export function lifeExpectancyAtBirth(ctx: SimContext): number {
 export function annualNpcDeathRisk(ctx: SimContext, c: Character): number {
   const m = ctx.content.balance.life.mortality;
   const annual = interpolate(m.annual_by_age, 'age', 'rate', ageNow(ctx, c));
-  return clamp(annual * interpolate(m.health_factor, 'health', 'factor', c.health), 0, 1);
+  const fateFactor = currentFateMode(ctx).mortality_factor;
+  return clamp(annual * interpolate(m.health_factor, 'health', 'factor', c.health) * fateFactor, 0, 1);
 }
 
 export function pickCause(ctx: SimContext, c: Character) {
@@ -73,28 +87,70 @@ export function kill(ctx: SimContext, c: Character, causeId: string): void {
     state.gameOver = { year: state.clock.year, age, causeId };
     return;
   }
-  if (c.householdId === state.householdId) {
+
+  const me = player(ctx);
+  const isParent = c.id === me.fatherId || c.id === me.motherId;
+  const isSibling =
+    Boolean(me.fatherId && c.fatherId === me.fatherId) ||
+    Boolean(me.motherId && c.motherId === me.motherId);
+
+  if (c.householdId === state.householdId || isParent || isSibling) {
     state.director.mourningThisYear = true;
+    state.badLuckCounter = (state.badLuckCounter ?? 0) + 1;
     writeTemplate(ctx, SystemLog.FamilyDeath, { self: c.id, params: { call, age, cause: causeName } });
-    const me = player(ctx);
-    if (c.id === me.fatherId || c.id === me.motherId) {
+    if (isParent) {
       startMourning(ctx, call);
+      checkParentInheritance(ctx, c);
     }
     const newHead = householdHead(ctx);
     if (wasHead === c.id && newHead?.id === state.playerId) writeTemplate(ctx, SystemLog.BecameHead, {});
   }
 }
 
+/** [2] Phát điềm báo trước cái chết khi sức khỏe suy kiệt (< ngưỡng) hoặc bệnh nặng kéo dài (tối đa 1 lần/năm). */
+function checkDeathOmen(ctx: SimContext, candidates: Character[]): void {
+  const { state, content } = ctx;
+  const m = content.balance.life.mortality;
+  const last = state.ambientHistory[SystemLog.DeathOmen]?.lastMonthIndex ?? -Infinity;
+  if (last >= state.clock.monthIndex - (state.clock.month - 1)) return;
+
+  for (const c of candidates) {
+    if (!c.alive) continue;
+    const criticalHealth = c.health <= m.omen_health_threshold;
+    const criticalDisease = (c.diseases ?? []).some((d) => {
+      const def = content.index.disease.get(d.id);
+      return (def?.severity === 'nang' || def?.severity === 'nguy_kich') && d.remainingMonths >= m.omen_severe_disease_months;
+    });
+    if (criticalHealth || criticalDisease) {
+      writeTemplate(ctx, SystemLog.DeathOmen, {
+        self: c.id,
+        params: { call: callOf(ctx, c), age: ageNow(ctx, c) },
+      });
+      return;
+    }
+  }
+}
+
 export function monthlyMortality(ctx: SimContext): void {
   const m = ctx.content.balance.life.mortality;
   const rng = ctx.rng.get(RngStream.Life);
-  for (const c of aliveMembers(ctx, playerHousehold(ctx))) {
+
+  // Bao gồm cả thành viên hộ hiện tại và cha mẹ / anh chị em ở các hộ đã tách
+  const relatedMembers = Object.values(ctx.state.households)
+    .filter((h) => h.id !== ctx.state.householdId)
+    .flatMap((h) => aliveMembers(ctx, h));
+  const allWatched = [...aliveMembers(ctx, playerHousehold(ctx)), ...relatedMembers];
+
+  checkDeathOmen(ctx, allWatched);
+
+  for (const c of allWatched) {
     if (ctx.state.gameOver) return;
+    if (!c.alive) continue;
     if (!rng.chance(monthlyDeathRisk(ctx, c))) continue;
     const cause = pickCause(ctx, c);
     if (!cause) continue;
     // Bad-luck protection (GDD 05 §6): chặn chuỗi cái chết bất ngờ trong cùng một năm
-    if (cause.unexpected) {
+    if (cause.unexpected && c.householdId === ctx.state.householdId) {
       if (ctx.state.director.unexpectedDeathsThisYear >= m.max_unexpected_household_deaths_per_year) continue;
       ctx.state.director.unexpectedDeathsThisYear += 1;
     }

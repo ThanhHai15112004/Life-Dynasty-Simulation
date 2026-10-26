@@ -10,6 +10,7 @@ import { queueCutscene } from '../../events/cutscene';
 import { writeTemplate } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
 import { computeHousehold } from '../modifiers';
+import { currentFateMode } from '../life';
 import { ageNow, aliveMembers, householdHead, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 import {
@@ -37,8 +38,18 @@ function quality(ctx: SimContext) {
 
 /** Đầu năm: trời định được hay mất mùa (ẩn với người chơi, lộ dần qua thời tiết, giá, tin đồn). */
 export function rollHarvestQuality(ctx: SimContext): void {
-  const q = ctx.rng.get(RngStream.World).weighted(ctx.content.balance.economy.harvest_qualities, (x) => x.weight);
-  if (q) ctx.state.world.harvestQuality = q.id;
+  const disasterFactor = currentFateMode(ctx).disaster_factor;
+  const q = ctx.rng.get(RngStream.World).weighted(ctx.content.balance.economy.harvest_qualities, (x) =>
+    x.yield_factor < 1 ? x.weight * disasterFactor : x.weight,
+  );
+  if (q) {
+    ctx.state.world.harvestQuality = q.id;
+    if (q.yield_factor < 0.85) {
+      ctx.state.badLuckCounter = (ctx.state.badLuckCounter ?? 0) + 1;
+    } else if (q.yield_factor > 1.1) {
+      ctx.state.badLuckCounter = Math.max(0, (ctx.state.badLuckCounter ?? 0) - 1);
+    }
+  }
 }
 
 /** Mỗi tháng: giá lúa và thời tiết. */
@@ -161,7 +172,10 @@ function settle(ctx: SimContext): void {
     h.food = 0;
     h.money -= bought * price;
     addLedger(h, Ledger.BuyFood, -bought * price, bought);
-    if (bought < need && !loggedThisYear(ctx, SystemLog.Starving)) writeTemplate(ctx, SystemLog.Starving);
+    if (bought < need && !loggedThisYear(ctx, SystemLog.Starving)) {
+      ctx.state.badLuckCounter = (ctx.state.badLuckCounter ?? 0) + 1;
+      writeTemplate(ctx, SystemLog.Starving);
+    }
   }
   // 1b) Hộ không tự cày: có tiền thì đong thóc dự trữ vài tháng (không vay để tích trữ);
   // [1.5] giữ lại tiền tiêu reserve_cash_months tháng, không dốc sạch túi rồi tháng sau lại phải vay
@@ -194,7 +208,10 @@ function settle(ctx: SimContext): void {
     if (loan > 0) {
       h.debt += loan;
       addLedger(h, Ledger.Borrow, loan, 0);
-      if (!loggedThisYear(ctx, SystemLog.Borrow)) writeTemplate(ctx, SystemLog.Borrow, { params: { amount: Math.round(loan) } });
+      if (!loggedThisYear(ctx, SystemLog.Borrow)) {
+        ctx.state.badLuckCounter = (ctx.state.badLuckCounter ?? 0) + 1;
+        writeTemplate(ctx, SystemLog.Borrow, { params: { amount: Math.round(loan) } });
+      }
     }
     h.money = 0;
   }
@@ -211,6 +228,7 @@ function seizeForDebt(ctx: SimContext): void {
   const relief = Math.min(h.debt, prop.value * sz.value_factor);
   h.properties[sz.property] = owned - 1;
   h.debt -= relief;
+  ctx.state.badLuckCounter = (ctx.state.badLuckCounter ?? 0) + 1;
   writeTemplate(ctx, SystemLog.Seized, { params: { amount: Math.round(relief), title: prop.name } });
 }
 

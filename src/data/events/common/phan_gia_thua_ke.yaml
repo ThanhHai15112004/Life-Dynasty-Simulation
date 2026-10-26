@@ -1,0 +1,146 @@
+# [2] Sự kiện quyết định Phase 2: Tách hộ (ra ở riêng), Lập di chúc, Tranh chấp thừa kế & Đỡ xui họ hàng
+events:
+  - id: gd_xin_ra_o_rieng
+    title: Chuyện ra ở riêng
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    cooldown_years: 8
+    once_per_life: true
+    weight: 1.5
+    condition:
+      all:
+        - { var: player.can_split_household, op: '==', value: true }
+        - { var: player.married, op: '==', value: true }
+        - { var: household.is_split, op: '==', value: false }
+        - { var: household.members, op: '>=', value: 3 }
+    text:
+      - 'Vợ chồng bạn cưới nhau đã được một thời gian. Gian buồng nhỏ ngày một chật chội, đôi lúc chuyện bếp núc chung đụng cũng khó tránh lời ra tiếng vào. Bạn bàn với người bạn đời chuyện thưa với cha mẹ xin dựng nếp nhà riêng.'
+    options:
+      - id: xin_phan_gia
+        text: Thưa chuyện lễ phép, xin cha mẹ cắt phần cho ra ở riêng
+        effects:
+          - { type: split_household, share_factor: 1 }
+          - { type: filial_piety, value: 2 }
+        result:
+          - 'Cha mẹ gật đầu thuận tình, gọi chú bác trong họ sang chứng giám việc chia phần ruộng vườn và thóc giống để vợ chồng bạn dựng mái nhà mới.'
+      - id: ra_rieng_tu_luc
+        text: Xin ra riêng tay trắng, nhường ruộng lại phụng dưỡng cha mẹ
+        effects:
+          - { type: split_household, share_factor: 0 }
+          - { type: filial_piety, value: 8 }
+          - { type: reputation, group: dan_lang, value: 6 }
+        result:
+          - 'Cả họ khen bạn biết nghĩ cho cha mẹ và anh em. Dù khởi đầu thiếu thốn, tiếng thơm hiếu thuận vang khắp làng.'
+      - id: o_lai_chung
+        text: Chưa vội, ở lại sum vầy phụng dưỡng cha mẹ thêm ít năm
+        effects:
+          - { type: filial_piety, value: 5 }
+          - { type: stress, value: 3 }
+        result:
+          - 'Bạn gác chuyện ra riêng lại. Bữa cơm đại gia đình vẫn đông đủ, chỉ cần vợ chồng nhường nhịn nhau thêm một chút.'
+
+  - id: gd_cha_lap_di_chuc
+    title: Lời dặn trước lúc lâm chung
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    cooldown_years: 15
+    once_per_life: true
+    weight: 3
+    roles:
+      - id: cha_gia
+        from: family
+        relation: parent
+        condition: { var: self.age, op: '>=', value: 58 }
+    condition:
+      all:
+        - { var: household.farmland, op: '>=', value: 3 }
+    text:
+      - '{role.cha_gia.call} tuổi cao sức yếu, biết mình chẳng còn ở với con cháu được bao lâu nên gọi các con lại bên giường, mở tráp lấy giấy mực dặn dò chuyện hương hỏa và ruộng vườn.'
+    options:
+      - id: theo_le_nho_giao
+        text: 'Vâng lời giữ đúng lễ Nho giáo: ưu tiên hương hỏa tổ tiên'
+        effects:
+          - { type: filial_piety, value: 6 }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: set_flag, flag: co_di_chuc, years: 20 }
+        result:
+          - '{role.cha_gia.call} yên lòng điểm chỉ vào tờ chúc thư, giao phần ruộng hương hỏa rõ ràng để ngày sau anh em không điều tiếng.'
+      - id: xin_chia_deu
+        text: Khuyên người chia đồng đều hơn để anh em đỡ tị hiềm
+        effects:
+          - { type: opinion, role: cha_gia, value: 4 }
+          - { type: stress, value: -3 }
+          - { type: set_flag, flag: co_di_chuc, years: 20 }
+        result:
+          - '{role.cha_gia.call} trầm ngâm hồi lâu rồi gật đầu, bớt một phần ruộng thờ để đỡ đần cho các con thứ.'
+
+  - id: gd_tranh_chap_di_san
+    title: Phân chia gia sản sau tang cha
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    cooldown_years: 20
+    once_per_life: true
+    weight: 2
+    condition:
+      all:
+        - { not: { has_flag: co_di_chuc } }
+        - { var: player.mourning_months, op: '>', value: 0 }
+    text:
+      - 'Cha mất đột ngột chưa kịp để lại chúc thư. Trong buổi họp họ phân chia ruộng đất và của cải, mấy anh em bắt đầu nảy sinh bất đồng về phần ruộng hương hỏa và bờ bãi.'
+    options:
+      - id: moi_toc_truong
+        text: Mời bậc trưởng tộc phân xử đúng lệ hương hỏa và chia phần
+        effects:
+          - { type: trigger_inheritance, share_factor: 1 }
+          - { type: filial_piety, value: 4 }
+          - { type: reputation, group: dan_lang, value: 3 }
+        result:
+          - 'Trưởng tộc chiếu theo gia pháp phân định rạch ròi: phần hương hỏa về tay con trưởng, phần dư chia đều cho các chi.'
+      - id: nhuong_bot_cho_em
+        text: Nhường bớt một phần của mình để giữ trọn hòa khí anh em
+        effects:
+          - { type: trigger_inheritance, share_factor: 0.75 }
+          - { type: filial_piety, value: 8 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: stress, value: -5 }
+        result:
+          - 'Thấy bạn không màng thiệt hơn, anh em trong nhà đều cảm kích, tình máu mủ thêm bền chặt.'
+      - id: tranh_phan_hon
+        text: Cương quyết đòi phần hơn vì công sức mình đóng góp nhiều nhất
+        effects:
+          - { type: trigger_inheritance, share_factor: 1.25 }
+          - { type: filial_piety, value: -8 }
+          - { type: reputation, group: dan_lang, value: -6 }
+          - { type: stress, value: 8 }
+        result:
+          - 'Bạn giữ được phần ruộng và tiền nhiều hơn, nhưng ánh mắt anh em họ hàng nhìn bạn từ đó lạnh nhạt hẳn.'
+
+  - id: gd_ho_hang_cuu_giup
+    title: Anh em họ hàng đùm bọc lúc ngặt nghèo
+    tags: [gia_dinh, tinh_lang, co_hoi]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 4
+    weight: 2
+    condition:
+      any:
+        - { var: world.bad_luck, op: '>=', value: 3 }
+        - { var: household.debt, op: '>=', value: 25 }
+    text:
+      - 'Thấy nhà bạn liên tiếp gặp chuyện không may, người trong họ và bà con lối xóm bảo nhau gom góp ít thóc gạo cùng mấy quan tiền mang sang đỡ đần qua cơn bĩ cực.'
+    options:
+      - id: nhan_on_tinh
+        text: Cảm kích nhận tấm lòng của họ hàng làng xóm
+        effects:
+          - { type: money, value: 12 }
+          - { type: food, value: 20 }
+          - { type: stress, value: -10 }
+        result:
+          - 'Một miếng khi đói bằng một gói khi no. Nhờ sự đùm bọc của họ tộc, gian bếp nhà bạn ấm lửa trở lại.'
+      - id: nhan_mot_nua
+        text: Chỉ nhận chút gạo nấu cháo, quyết tự sức vực dậy cơ ngơi
+        effects:
+          - { type: food, value: 15 }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: stress, value: -6 }
+        result:
+          - 'Bà con quý trọng khí khái tự trọng của bạn, hứa có việc làm thêm sẽ gọi bạn trước tiên.'
