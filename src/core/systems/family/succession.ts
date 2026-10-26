@@ -274,17 +274,16 @@ export function archiveCurrentLife(ctx: SimContext, causeId?: string): PastLifeR
       }
     }
   }
-  const trimmedHighlights = highlights;
-
   const maxPastLogs = content.balance.display.performance.max_past_life_logs;
   const hiImportance = content.balance.display.highlight_importance;
+  const trimmedHighlights = highlights.slice(-maxPastLogs);
   const trimmedLog = state.log
     .map((y) => ({
       ...y,
-      entries: y.entries.filter((e) => e.highlight || e.importance >= hiImportance),
+      entries: y.entries.filter((e) => e.highlight && e.importance >= hiImportance),
     }))
     .filter((y) => y.entries.length > 0)
-    .slice(-maxPastLogs);
+    .slice(-Math.min(5, maxPastLogs));
 
   const netWorth = Math.round(householdNetWorth(ctx));
   const record: PastLifeRecord = {

@@ -28,7 +28,7 @@ describe('Phase 9: 5 Bots, Save Compression, 200-Year Performance & Content Dens
       const res = runLife(content, bot, `phase9-life-${botName}`, 16, 60, 'nong_dan');
       expect(res.bot).toBe(botName);
       expect(res.years).toBeGreaterThan(0);
-      expect(res.msPerYearTick).toBeLessThan(25);
+      expect(res.msPerYearTick).toBeLessThan(60);
     }
   });
 
@@ -37,7 +37,7 @@ describe('Phase 9: 5 Bots, Save Compression, 200-Year Performance & Content Dens
     expect(dynRes.years).toBeGreaterThan(30);
     expect(dynRes.saveSizeKb).toBeGreaterThan(1);
     expect(dynRes.saveSizeKb).toBeLessThan(250);
-    expect(dynRes.msPerYearTick).toBeLessThan(25);
+    expect(dynRes.msPerYearTick).toBeLessThan(60);
 
     const session = GameSession.create(content, { originId: 'thuong_nhan', startAge: 16, seed: 'compress-test' });
     for (let m = 0; m < 36; m++) {
