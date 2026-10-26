@@ -5,8 +5,9 @@ export type NotificationMap = {
   death: { characterIds: string[] };
   cutscene: { id: string; title: string; subtitle: string };
   gameOver: Record<string, never>;
-  saved: Record<string, never>;
+  saved: { slot?: string };
   commandFailed: { error: string };
+  saveError: { code: string; slot?: string };
 };
 
 type Listener<K extends keyof NotificationMap> = (payload: NotificationMap[K]) => void;

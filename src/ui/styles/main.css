@@ -975,3 +975,192 @@ h4 {
 .focus.locked {
   opacity: 0.6;
 }
+
+/* ── [8] Cỡ chữ người dùng (Font scale) ── */
+#ui-root[data-font-scale='sm'] {
+  font-size: 13px;
+}
+#ui-root[data-font-scale='lg'] {
+  font-size: 16px;
+}
+
+/* ── [8] Banner Hướng dẫn mở dần & Báo lỗi ── */
+.hud-banner {
+  max-width: 1480px;
+  margin: 12px auto 0;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.onboarding-banner {
+  background: #f6f2e8;
+  border: 1px solid var(--gold);
+  border-left: 4px solid var(--gold);
+}
+.onboarding-body p {
+  margin: 2px 0 0;
+}
+.onboarding-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.error-banner {
+  background: var(--accent-soft);
+  border: 1px solid var(--red);
+  color: var(--red);
+}
+.onboarding-preset-box {
+  background: #f6f2e8;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+/* ── [8] Thanh màn hình phụ (GDD 08 §6.2 & §6.3) ── */
+.subscreen-bar {
+  max-width: 1480px;
+  margin: 10px auto 0;
+  padding: 0 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ── [8] Cài đặt, Quản lý Save, Menu tạm dừng, ErrorBoundary ── */
+.settings-panel,
+.saves-panel,
+.character-modal,
+.relations-modal,
+.chronicle-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0ebe1;
+  flex-wrap: wrap;
+}
+.settings-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+.saves-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.save-slot-card {
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: #faf7f1;
+}
+.save-slot-card.active {
+  border-color: var(--green);
+  background: #f3faf6;
+}
+.save-slot-card.corrupted {
+  border-color: var(--red);
+  background: var(--accent-soft);
+}
+.saves-textarea {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--card);
+  margin-top: 8px;
+}
+.pause-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.error-boundary-card {
+  border-color: var(--red);
+  margin: 12px 0;
+}
+
+/* ── [8] Mobile 1 cột & chuẩn chạm 44px ── */
+.mobile-nav-bar {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .topbar-inner {
+    padding: 10px 14px 8px;
+  }
+  .age-big {
+    font-size: 34px;
+  }
+  .subscreen-bar {
+    padding: 0 16px;
+  }
+  .hud-banner {
+    margin: 10px 16px 0;
+    padding: 10px 14px;
+  }
+  .mobile-nav-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 16px 0;
+    overflow-x: auto;
+  }
+  .mobile-nav-bar button {
+    flex: 1;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  .hud-grid.mobile-col-left .col-center,
+  .hud-grid.mobile-col-left .col-right {
+    display: none;
+  }
+  .hud-grid.mobile-col-center .col-left,
+  .hud-grid.mobile-col-center .col-right {
+    display: none;
+  }
+  .hud-grid.mobile-col-right .col-left,
+  .hud-grid.mobile-col-right .col-center {
+    display: none;
+  }
+  button,
+  button.small,
+  input,
+  .option,
+  .focus-pill {
+    min-height: 44px;
+    padding: 8px 12px;
+  }
+  .modal-backdrop {
+    padding: 10px;
+    align-items: flex-end;
+  }
+  .modal,
+  .event-card,
+  .summary {
+    max-height: 92vh;
+    padding: 18px 16px;
+  }
+  .menu-card {
+    padding: 20px 18px;
+  }
+  .wealth-grid,
+  .summary-grid,
+  .skills {
+    grid-template-columns: 1fr;
+  }
+}

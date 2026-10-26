@@ -1,7 +1,7 @@
 // [1] Thanh tiêu đề: tuổi làm trung tâm, năm Can Chi · niên hiệu · tháng · mùa, "1 năm ≈ N giây",
 // thanh tiến độ năm trượt liên tục giữa các tick tháng, và hàng nút điều khiển thời gian
 import { useEffect, useState } from 'react';
-import { Home, Pause, Play, Save, SkipForward } from 'lucide-react';
+import { FolderOpen, Menu, Pause, Play, Save, Settings, SkipForward } from 'lucide-react';
 import type { HudView } from '@core/index';
 import { useSnapshot, useUi } from '../context';
 
@@ -31,7 +31,17 @@ function YearProgress({ month, monthsPerYear, msPerMonth, running }: { month: nu
   );
 }
 
-export function TimeBar({ hud }: { hud: HudView }) {
+export function TimeBar({
+  hud,
+  onOpenPauseMenu,
+  onOpenSaves,
+  onOpenSettings,
+}: {
+  hud: HudView;
+  onOpenPauseMenu?: () => void;
+  onOpenSaves?: () => void;
+  onOpenSettings?: () => void;
+}) {
   const { store, t } = useUi();
   const snap = useSnapshot();
   const time = store.content.balance.time;
@@ -59,7 +69,7 @@ export function TimeBar({ hud }: { hud: HudView }) {
         </div>
         <YearProgress month={d.month} monthsPerYear={d.monthsPerYear} msPerMonth={msPerMonth} running={snap.running} />
         <div className="controls">
-          <button className="primary play" disabled={blocked} onClick={() => store.toggle()}>
+          <button className="primary play" disabled={blocked} onClick={() => store.toggle()} title={t('time.shortcut_space')}>
             {snap.running ? <Pause size={15} /> : <Play size={15} />}
             {snap.running ? t('time.pause') : t('time.play')}
           </button>
@@ -67,7 +77,12 @@ export function TimeBar({ hud }: { hud: HudView }) {
             <SkipForward size={15} /> {t('time.step')}
           </button>
           {time.speeds.map((s, i) => (
-            <button key={s} className={`speed ${i === snap.speedIndex ? 'active' : ''}`} onClick={() => store.setSpeed(i)}>
+            <button
+              key={s}
+              className={`speed ${i === snap.speedIndex ? 'active' : ''}`}
+              onClick={() => store.setSpeed(i)}
+              title={t('time.shortcut_speed', { key: i + 1 })}
+            >
               {t('time.speed', { x: s })}
             </button>
           ))}
@@ -78,9 +93,21 @@ export function TimeBar({ hud }: { hud: HudView }) {
           <button onClick={() => void store.save()} title={t('time.save')}>
             <Save size={15} /> {t('time.save')}
           </button>
-          <button onClick={() => store.backToMenu()} title={t('menu.back')}>
-            <Home size={15} /> {t('menu.back')}
-          </button>
+          {onOpenSaves && (
+            <button onClick={onOpenSaves} title={t('saves.title')}>
+              <FolderOpen size={15} /> {t('saves.short')}
+            </button>
+          )}
+          {onOpenSettings && (
+            <button onClick={onOpenSettings} title={t('settings.title')}>
+              <Settings size={15} />
+            </button>
+          )}
+          {onOpenPauseMenu && (
+            <button onClick={onOpenPauseMenu} title={t('pause.title')}>
+              <Menu size={15} /> {t('pause.button')}
+            </button>
+          )}
         </div>
       </div>
     </header>

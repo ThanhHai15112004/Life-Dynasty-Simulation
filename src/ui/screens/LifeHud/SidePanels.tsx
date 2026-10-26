@@ -186,13 +186,19 @@ export function FamilyCard({ hud }: { hud: HudView }) {
   );
 }
 
-export function RelationsCard({ hud }: { hud: HudView }) {
+export function RelationsCard({ hud, onOpenRelations }: { hud: HudView; onOpenRelations?: () => void }) {
   const { t } = useUi();
   return (
     <section className="card">
       <div className="card-head">
         <h3>{t('relations.title')}</h3>
-        <span className="muted small">{t('relations.subtitle')}</span>
+        {onOpenRelations ? (
+          <button className="small" onClick={onOpenRelations}>
+            {t('relations.open_btn')}
+          </button>
+        ) : (
+          <span className="muted small">{t('relations.subtitle')}</span>
+        )}
       </div>
       <ul className="relation-list">
         {hud.relations.map((r) => (
@@ -296,13 +302,19 @@ export function VillageClansCard({ hud }: { hud: HudView }) {
   );
 }
 
-export function ChronicleCard({ hud }: { hud: HudView }) {
+export function ChronicleCard({ hud, onOpenChronicle }: { hud: HudView; onOpenChronicle?: () => void }) {
   const { t } = useUi();
   return (
     <section className="card">
       <div className="card-head">
         <h3>{t('chronicle.title')}</h3>
-        <span className="muted small">{hud.reign.name ? t('header.reign', { name: hud.reign.name, n: hud.reign.year }) : ''}</span>
+        {onOpenChronicle ? (
+          <button className="small" onClick={onOpenChronicle}>
+            {t('chronicle.open_btn')}
+          </button>
+        ) : (
+          <span className="muted small">{hud.reign.name ? t('header.reign', { name: hud.reign.name, n: hud.reign.year }) : ''}</span>
+        )}
       </div>
       {hud.chronicle.length === 0 && <p className="muted small">{t('chronicle.empty')}</p>}
       <ul className="chronicle-list">

@@ -1,4 +1,4 @@
-// [0] Ngữ cảnh React: GameStore + hàm dịch chữ từ src/data/lang
+// [0] Ngữ cảnh React: GameStore + hàm dịch chữ từ src/data/lang (hỗ trợ đổi ngôn ngữ & cỡ chữ từ Settings)
 import { createContext, useContext, useEffect, useState, useSyncExternalStore, type ReactNode } from 'react';
 import type { GameStore, StoreSnapshot } from '@bridge/GameStore';
 import type { SceneKit } from '@game/scene-kit/types';
@@ -24,10 +24,29 @@ const SCENE_KIT_URL = 'assets/common/scene-kit.json';
 const Ctx = createContext<UiContext | null>(null);
 
 export function UiProvider({ store, children }: { store: GameStore; children?: ReactNode }) {
-  const lang = store.content.lang[store.content.balance.display.default_language] ?? {};
-  const t: T = (key, params) => translate(lang, key, params);
+  const snap = useSyncExternalStore(store.subscribe, store.getSnapshot);
+  const defaultLangCode = store.content.balance.display.default_language;
+  const activeLangCode = snap.settings?.language || defaultLangCode;
+  const activePack = store.content.lang[activeLangCode] ?? {};
+  const fallbackPack = store.content.lang[defaultLangCode] ?? {};
+
+  const t: T = (key, params) => {
+    if (key in activePack) return translate(activePack, key, params);
+    return translate(fallbackPack, key, params);
+  };
+
   const [icons, setIcons] = useState<Record<string, string>>({});
   const [kit, setKit] = useState<SceneKit | null>(null);
+
+  useEffect(() => {
+    const root = document.getElementById('ui-root');
+    if (root && snap.settings?.fontScale) {
+      root.setAttribute('data-font-scale', snap.settings.fontScale);
+    }
+    const title = activePack['app.title'] ?? fallbackPack['app.title'];
+    if (title) document.title = title;
+  }, [snap.settings?.fontScale, activeLangCode, activePack, fallbackPack]);
+
   useEffect(() => {
     fetch(SPRITE_MANIFEST_URL)
       .then((r) => r.json() as Promise<{ icons?: Record<string, { url: string }> }>)
@@ -38,6 +57,7 @@ export function UiProvider({ store, children }: { store: GameStore; children?: R
       .then(setKit)
       .catch(() => setKit(null));
   }, []);
+
   return <Ctx.Provider value={{ store, content: store.content, t, icons, kit }}>{children}</Ctx.Provider>;
 }
 

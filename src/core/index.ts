@@ -26,6 +26,18 @@ export type { PastLifeRecord, UnfinishedWish, DynastyFeud, DynastyState, NpcClan
 export type { HeirCandidate, MatchmakingCandidate } from './systems/family';
 export type { SceneDescriptor, ScenePerson } from './scene-descriptor';
 export type { ModifierResult, ModifierLine } from './engine/ModifierSystem';
-export { SaveSystem, MemoryStorage, type StorageAdapter } from './engine/SaveSystem';
+export {
+  SaveSystem,
+  MemoryStorage,
+  SaveError,
+  DEFAULT_SAVE_SLOTS,
+  extractSlotInfo,
+  serialize,
+  deserialize,
+  type StorageAdapter,
+  type SaveSlotInfo,
+  type SaveSlotId,
+  type SaveErrorCode,
+} from './engine/SaveSystem';
 export type { NewGameOptions } from './world/generate';
 export type { GameState, LogEntry, LogYear, PendingEvent } from './entities/World';

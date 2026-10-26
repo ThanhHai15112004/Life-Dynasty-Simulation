@@ -5,7 +5,7 @@
 # - Đang đi buôn chuyến thì nhà có việc (vung_di_buon_nha_co_viec)
 scenarios:
   - id: vung_chuyen_ra_thi_tran
-    group: kinh_te
+    group: vung_mien
     title_key: scenario.vung_chuyen_ra_thi_tran.title
     description_key: scenario.vung_chuyen_ra_thi_tran.desc
     base:
@@ -24,7 +24,7 @@ scenarios:
     start_event: sk_chuyen_ra_thi_tran
 
   - id: vung_quan_van_nham_chuc
-    group: van_minh
+    group: vung_mien
     title_key: scenario.vung_quan_van_nham_chuc.title
     description_key: scenario.vung_quan_van_nham_chuc.desc
     base:
@@ -46,7 +46,7 @@ scenarios:
     start_event: sk_quan_van_nham_chuc_phu
 
   - id: vung_dich_bung_thi_tran
-    group: suc_khoe
+    group: vung_mien
     title_key: scenario.vung_dich_bung_thi_tran.title
     description_key: scenario.vung_dich_bung_thi_tran.desc
     base:
@@ -63,7 +63,7 @@ scenarios:
     start_event: sk_dich_bung_thi_tran
 
   - id: vung_di_buon_nha_co_viec
-    group: nghe_nghiep
+    group: vung_mien
     title_key: scenario.vung_di_buon_nha_co_viec.title
     description_key: scenario.vung_di_buon_nha_co_viec.desc
     base:

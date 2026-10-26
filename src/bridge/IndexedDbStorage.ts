@@ -35,4 +35,8 @@ export class IndexedDbStorage implements StorageAdapter {
   async remove(key: string): Promise<void> {
     await run('readwrite', (s) => s.delete(key));
   }
+  async keys(): Promise<string[]> {
+    const all = await run<IDBValidKey[]>('readonly', (s) => s.getAllKeys());
+    return (all ?? []).map((k) => String(k));
+  }
 }

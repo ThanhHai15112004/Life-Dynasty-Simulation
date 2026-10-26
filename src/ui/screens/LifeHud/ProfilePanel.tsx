@@ -15,7 +15,7 @@ import { PropertiesPanel } from '../Properties/PropertiesPanel';
 /** Bỏ dấu tiếng Việt để in dòng mã kiểu tờ khai (chỉ trang trí). */
 const plain = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
 
-export function ProfileCard({ hud }: { hud: HudView }) {
+export function ProfileCard({ hud, onOpenCharacter }: { hud: HudView; onOpenCharacter?: () => void }) {
   const { t } = useUi();
   const snap = useSnapshot();
   const p = hud.player;
@@ -31,7 +31,14 @@ export function ProfileCard({ hud }: { hud: HudView }) {
       <div className="profile-body">
         {scene && <Portrait id={p.id} sex={p.sex} ageGroup={p.ageGroup} cultureSet={scene.cultureSet} season={scene.season} scale={4} />}
         <div className="profile-main">
-          <h2 className="profile-name">{p.name}</h2>
+          <div className="card-head" style={{ marginBottom: 6 }}>
+            <h2 className="profile-name" style={{ marginBottom: 0 }}>{p.name}</h2>
+            {onOpenCharacter && (
+              <button className="small" onClick={onOpenCharacter}>
+                {t('character.open_btn')}
+              </button>
+            )}
+          </div>
           <dl className="facts">
             <dt>{t('profile.sex')}</dt>
             <dd>{t(`menu.sex.${p.sex}`)}</dd>
@@ -93,20 +100,72 @@ export function ProfileCard({ hud }: { hud: HudView }) {
 
 export function StatusCard({ hud }: { hud: HudView }) {
   const { t, store } = useUi();
+  const snap = useSnapshot();
   const p = hud.player;
   const months = store.content.balance.calendar.months_per_year;
+  const mode = snap.settings.numberDisplay;
+  const formatStatWord = (word: string, val: number, max?: number, signed = false) => {
+    const numStr = signed ? `${val >= 0 ? '+' : ''}${Math.round(val)}` : max !== undefined ? `${Math.round(val)}/${max}` : `${Math.round(val)}`;
+    if (mode === 'numbers') return numStr;
+    if (mode === 'words') return word;
+    return `${word} (${numStr})`;
+  };
   return (
     <section className="card">
       <div className="card-head">
         <h3>{t('status.title')}</h3>
         <span className="muted small">{t('status.scale')}</span>
       </div>
-      <StatBar label={t('stat.health')} value={p.health} max={p.healthMax} word={t(p.healthKey)} tone="good" detail={<ModifierList result={p.healthTrend} title={t('mods.health_per_year')} perYear={months} />} />
-      <StatBar label={t('stat.stress')} value={p.stress} max={100} word={t(p.stressKey)} tone="bad" detail={<ModifierList result={p.stressTrend} title={t('mods.stress_per_year')} perYear={months} />} />
-      <StatBar label={t('stat.satisfaction')} value={p.satisfaction} max={100} word={t(p.satisfactionKey)} tone="good" />
-      <StatBar label={t('stat.reputation')} value={p.reputation + 100} max={200} word={`${t(p.reputationKey)} (${p.reputation >= 0 ? '+' : ''}${p.reputation})`} tone="good" />
-      <StatBar label={t('stat.filial_piety')} value={p.filialPiety} max={100} word={String(p.filialPiety)} tone="good" />
-      {p.scholarlyPrestige > 0 && <StatBar label={t('stat.scholarly_prestige')} value={p.scholarlyPrestige} max={100} word={String(p.scholarlyPrestige)} tone="good" />}
+      <StatBar
+        label={t('stat.health')}
+        value={p.health}
+        max={p.healthMax}
+        word={formatStatWord(t(p.healthKey), p.health, Math.round(p.healthMax))}
+        tone="good"
+        detail={<ModifierList result={p.healthTrend} title={t('mods.health_per_year')} perYear={months} />}
+      />
+      <StatBar
+        label={t('stat.stress')}
+        value={p.stress}
+        max={100}
+        word={formatStatWord(t(p.stressKey), p.stress, 100)}
+        tone="bad"
+        detail={<ModifierList result={p.stressTrend} title={t('mods.stress_per_year')} perYear={months} />}
+      />
+      <StatBar
+        label={t('stat.satisfaction')}
+        value={p.satisfaction}
+        max={100}
+        word={formatStatWord(t(p.satisfactionKey), p.satisfaction, 100)}
+        tone="good"
+        detail={<ModifierList result={p.satisfactionBreakdown} title={t('mods.satisfaction_breakdown')} />}
+      />
+      <StatBar
+        label={t('stat.reputation')}
+        value={p.reputation + 100}
+        max={200}
+        word={formatStatWord(t(p.reputationKey), p.reputation, undefined, true)}
+        tone="good"
+        detail={<ModifierList result={p.reputationBreakdown} title={t('mods.reputation_breakdown')} />}
+      />
+      <StatBar
+        label={t('stat.filial_piety')}
+        value={p.filialPiety}
+        max={100}
+        word={String(p.filialPiety)}
+        tone="good"
+        detail={<ModifierList result={p.filialPietyBreakdown} title={t('mods.filial_piety_breakdown')} />}
+      />
+      {p.scholarlyPrestige > 0 && (
+        <StatBar
+          label={t('stat.scholarly_prestige')}
+          value={p.scholarlyPrestige}
+          max={100}
+          word={String(p.scholarlyPrestige)}
+          tone="good"
+          detail={<ModifierList result={p.scholarlyPrestigeBreakdown} title={t('mods.scholarly_prestige_breakdown')} />}
+        />
+      )}
     </section>
   );
 }
@@ -128,7 +187,17 @@ function Holdings({ hud }: { hud: HudView }) {
         </>
       )}
       <dt>{t('wealth.land')}</dt>
-      <dd>{land > 0 ? t('wealth.land_value', { sao: land, m2: Math.round(land * u.m2PerSao).toLocaleString(t('format.locale')) }) : t('wealth.no_land')}</dd>
+      <dd>
+        {land > 0 ? (
+          <Tooltip content={<ModifierList result={h.harvestYield} title={t('mods.harvest_yield')} />}>
+            <span className="underline">
+              {t('wealth.land_value', { sao: land, m2: Math.round(land * u.m2PerSao).toLocaleString(t('format.locale')) })}
+            </span>
+          </Tooltip>
+        ) : (
+          t('wealth.no_land')
+        )}
+      </dd>
       <dt>{t('wealth.food')}</dt>
       <dd className={h.foodWarning ? 'down' : ''}>
         {t('wealth.food_value', { months: Number.isFinite(h.foodMonths) ? num(h.foodMonths) : '∞', food: num(h.food) })}
@@ -207,13 +276,21 @@ export function WealthCard({ hud }: { hud: HudView }) {
       </div>
       {own && <p className="manage-note">{t('wealth.personal_note', { who: m.headCall })}</p>}
       <div className="wealth-grid">
-        <BigMoney label={t('wealth.net_worth')} value={netWorth} unit={t('unit.money')} note={modern(netWorth)} />
-        <BigMoney
-          label={t('wealth.income_year')}
-          value={income > 0 ? income : null}
-          unit={t('wealth.per_year')}
-          note={income > 0 ? modern(income) : own && ps.young ? t('wealth.young_note') : t('wealth.no_income')}
-        />
+        <Tooltip content={<ModifierList result={h.netWorthBreakdown} title={t('mods.net_worth_breakdown')} />}>
+          <div>
+            <BigMoney label={t('wealth.net_worth')} value={netWorth} unit={t('unit.money')} note={modern(netWorth)} />
+          </div>
+        </Tooltip>
+        <Tooltip content={<ModifierList result={h.incomeBreakdown} title={t('mods.income_breakdown')} />}>
+          <div>
+            <BigMoney
+              label={t('wealth.income_year')}
+              value={income > 0 ? income : null}
+              unit={t('wealth.per_year')}
+              note={income > 0 ? modern(income) : own && ps.young ? t('wealth.young_note') : t('wealth.no_income')}
+            />
+          </div>
+        </Tooltip>
       </div>
       {close ? <YearClose close={close} /> : <p className="muted small">{t('wealth.first_year')}</p>}
       {own ? (

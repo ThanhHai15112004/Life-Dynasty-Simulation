@@ -97,3 +97,17 @@ skill_bands:
 default_language: vi
 journal_years_shown: 8
 dev_tools: true
+# [8] Hướng dẫn mở dần & Giao diện theo giai đoạn đời (GDD 08 §6.3, §6.5)
+onboarding:
+  recommended_origin: nong_dan
+  recommended_start_age: 6
+  recommended_ambitions:
+    nong_dan: gia_dinh_am_em
+    thuong_nhan: phu_thuong_mot_vung
+    quy_toc_nho: khoa_bang_vinh_quy
+  stage_unlocks:
+    relations_min_age: 6
+    career_min_age: 12
+    ambition_min_age: 14
+    clans_min_age: 14
+    region_min_age: 16

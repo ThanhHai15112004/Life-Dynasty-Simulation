@@ -16,7 +16,7 @@ export function ModifierList({ result, title, perYear }: { result: ModifierResul
           <span className={l.op === 'mul' ? (l.value >= 1 ? 'up' : 'down') : l.value >= 0 ? 'up' : 'down'}>
             {l.op === 'mul' ? `×${l.value.toFixed(2)}` : signed(l.value * scale)}
           </span>{' '}
-          {l.label}
+          {t(l.label)}
         </div>
       ))}
     </div>

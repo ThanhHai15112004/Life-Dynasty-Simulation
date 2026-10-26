@@ -1,8 +1,8 @@
 // [0] Các hàm lấy dữ liệu để hiển thị. Trả về view model thuần; chữ do người viết nội dung soạn
 // (tên Focus, lời kể) đi kèm sẵn, còn nhãn giao diện là khóa để UI tra data/lang.
-import { pickBand } from '@shared/curve';
+import { clamp, pickBand } from '@shared/curve';
 import { canChi } from '../engine/GameClock';
-import type { ModifierResult } from '../engine/ModifierSystem';
+import type { ModifierLine, ModifierResult } from '../engine/ModifierSystem';
 import { StatTarget } from '../engine/statTargets';
 import { fullName } from '../entities/Character';
 import type { ClanTie, DynastyFeud, PastLifeRecord, UnfinishedWish } from '../entities/Dynasty';
@@ -27,6 +27,7 @@ import {
 import { buyPrice, householdNetWorth, lastYearIncome, ledgerValue, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
 import { Ledger } from '../events/systemLogKeys';
 import {
+  aliveChildrenOf,
   canAdoptChild,
   canAdoptRelative,
   getHeirCandidates,
@@ -78,6 +79,7 @@ export interface HudView {
     originName: string;
     age: number;
     sex: 'm' | 'f';
+    lifeStageId: string;
     lifeStage: string;
     isHead: boolean;
     married: boolean;
@@ -90,10 +92,14 @@ export interface HudView {
     stressTrend: ModifierResult;
     satisfaction: number;
     satisfactionKey: string;
+    satisfactionBreakdown: ModifierResult;
     reputation: number;
     reputationKey: string;
+    reputationBreakdown: ModifierResult;
     filialPiety: number;
+    filialPietyBreakdown: ModifierResult;
     scholarlyPrestige: number;
+    scholarlyPrestigeBreakdown: ModifierResult;
     examDegreeId: string;
     examDegreeName: string;
     mourningMonthsLeft: number;
@@ -156,8 +162,10 @@ export interface HudView {
     regularIncome: number;
     /** [1.5] Tài sản ròng (tiền + thóc theo giá gốc + tài sản − nợ), quan. */
     netWorth: number;
+    netWorthBreakdown: ModifierResult;
     /** [1.5] Thu nhập năm vừa chốt sổ (thóc quy ra tiền); chưa chốt năm nào thì phần đã làm ra năm nay. */
     incomeYear: number;
+    incomeBreakdown: ModifierResult;
     /** [1.5] Chốt sổ năm gần nhất kiểu 1in8b: mức thay đổi tài sản ròng và tối đa vài dòng lý do (đã gộp "Chuyện khác"). */
     yearClose: YearCloseView | null;
     /** [2] Nhà cha mẹ (khi người chơi đã tách hộ ra ở riêng). */
@@ -671,6 +679,172 @@ function chanceKey(ctx: SimContext, p: number): string {
   return pickBand(ctx.content.balance.display.chance_bands, p).key;
 }
 
+const r10 = (v: number): number => Math.round(v * 10) / 10;
+
+function computeSatisfactionBreakdown(ctx: SimContext): ModifierResult {
+  const { state, content } = ctx;
+  const me = player(ctx);
+  const hCfg = content.balance.life.happiness;
+  const r = createResolver(ctx);
+  const lines: ModifierLine[] = [
+    { sourceId: 'sat:base', label: 'mods.sat.base', op: 'add', value: hCfg.start },
+  ];
+  const [sLo, sHi] = hCfg.satisfaction_wealth_clamp;
+  const wealthGap = r10(clamp((householdNetWorth(ctx) - state.happiness.baselineWealth) * hCfg.wealth_factor, sLo, sHi));
+  if (wealthGap !== 0) {
+    lines.push({ sourceId: 'sat:wealth', label: 'mods.sat.wealth_gap', op: 'add', value: wealthGap });
+  }
+  const hasSpouse = !!(me.spouseId && state.characters[me.spouseId]?.alive);
+  const childrenCount = aliveChildrenOf(ctx, me.id).length;
+  const familyBonus = (hasSpouse ? hCfg.marriage_bonus : 0) + Math.min(childrenCount * hCfg.child_bonus, hCfg.child_bonus_cap);
+  if (familyBonus !== 0) {
+    lines.push({ sourceId: 'sat:family', label: 'mods.sat.family', op: 'add', value: familyBonus });
+  }
+  const valAlign = hCfg.value_rules.reduce((sum, rule) => sum + (evaluate(rule.condition, r) ? rule.value : 0), 0);
+  if (valAlign !== 0) {
+    lines.push({ sourceId: 'sat:values', label: 'mods.sat.trait_values', op: 'add', value: valAlign });
+  }
+  if (state.happiness.ambitionBonus !== 0) {
+    lines.push({ sourceId: 'sat:ambition', label: 'mods.sat.ambition', op: 'add', value: state.happiness.ambitionBonus });
+  }
+  const stressPen = -r10(me.stress * hCfg.stress_penalty_factor * hCfg.satisfaction_stress_share);
+  if (stressPen !== 0) {
+    lines.push({ sourceId: 'sat:stress', label: 'mods.sat.stress', op: 'add', value: stressPen });
+  }
+  const deadFamilyCount = Object.values(state.characters).filter(
+    (c) => !c.alive && c.householdId === state.householdId && c.id !== me.id,
+  ).length;
+  const lossPen = -Math.min(deadFamilyCount * hCfg.family_death_penalty, hCfg.family_death_penalty_cap);
+  if (lossPen !== 0) {
+    lines.push({ sourceId: 'sat:loss', label: 'mods.sat.family_loss', op: 'add', value: lossPen });
+  }
+  return { value: state.happiness.satisfaction, base: 0, lines };
+}
+
+function computeReputationBreakdown(ctx: SimContext): ModifierResult {
+  const { state } = ctx;
+  const rep = state.reputation.dan_lang ?? 0;
+  const civ = currentCivilization(ctx);
+  const st = currentStatusRank(ctx);
+  const deg = civ.exam_degrees.find((d) => d.id === state.civilization.examDegree);
+  const degRep = deg ? r10(deg.prestige_gain * civ.prestige_reputation_factor) : 0;
+  const otherRep = r10(rep - degRep);
+  const lines: ModifierLine[] = [];
+  if (degRep !== 0 && deg) {
+    lines.push({ sourceId: 'rep:degree', label: deg.name, op: 'add', value: degRep });
+  }
+  if (otherRep !== 0 || lines.length === 0) {
+    lines.push({ sourceId: 'rep:deeds', label: 'mods.rep.village_deeds', op: 'add', value: otherRep });
+  }
+  if (st.id !== civ.status_ranks[0]?.id) {
+    lines.push({ sourceId: 'rep:status', label: st.name, op: 'add', value: 0 });
+  }
+  return { value: rep, base: 0, lines };
+}
+
+function computeFilialPietyBreakdown(ctx: SimContext): ModifierResult {
+  const { state, content } = ctx;
+  const civ = currentCivilization(ctx);
+  const origin = content.index.origin.get(state.originId);
+  const startVal = origin?.start_status.filial_piety ?? civ.start.filial_piety;
+  const cur = state.civilization.filialPiety;
+  const diff = r10(cur - startVal);
+  const lines: ModifierLine[] = [
+    { sourceId: 'filial:start', label: 'mods.filial.start', op: 'add', value: startVal },
+  ];
+  if (diff !== 0) {
+    lines.push({ sourceId: 'filial:deeds', label: 'mods.filial.deeds', op: 'add', value: diff });
+  }
+  if (state.civilization.mourningMonthsLeft > 0) {
+    lines.push({ sourceId: 'filial:mourning', label: 'mods.filial.mourning', op: 'add', value: 0 });
+  }
+  return { value: cur, base: 0, lines };
+}
+
+function computeScholarlyPrestigeBreakdown(ctx: SimContext): ModifierResult {
+  const { state, content } = ctx;
+  const civ = currentCivilization(ctx);
+  const origin = content.index.origin.get(state.originId);
+  const startVal = origin?.start_status.scholarly_prestige ?? civ.start.scholarly_prestige;
+  const cur = state.civilization.scholarlyPrestige;
+  const deg = civ.exam_degrees.find((d) => d.id === state.civilization.examDegree);
+  const degGain = deg?.prestige_gain ?? 0;
+  const diff = r10(cur - startVal - degGain);
+  const lines: ModifierLine[] = [];
+  if (startVal !== 0) {
+    lines.push({ sourceId: 'sch:start', label: 'mods.scholarly.start', op: 'add', value: startVal });
+  }
+  if (degGain !== 0 && deg) {
+    lines.push({ sourceId: 'sch:degree', label: deg.name, op: 'add', value: degGain });
+  }
+  if (diff !== 0 || lines.length === 0) {
+    lines.push({ sourceId: 'sch:deeds', label: 'mods.scholarly.deeds', op: 'add', value: diff });
+  }
+  return { value: cur, base: 0, lines };
+}
+
+function computeNetWorthBreakdown(ctx: SimContext): ModifierResult {
+  const { content } = ctx;
+  const h = playerHousehold(ctx);
+  const lines: ModifierLine[] = [];
+  if (h.money !== 0) {
+    lines.push({ sourceId: 'nw:cash', label: 'mods.wealth.cash', op: 'add', value: r10(h.money) });
+  }
+  const foodVal = r10(Math.max(0, h.food) * content.balance.economy.price.base);
+  if (foodVal > 0) {
+    lines.push({ sourceId: 'nw:food', label: 'mods.wealth.granary', op: 'add', value: foodVal });
+  }
+  for (const p of holdingsOf(h, content)) {
+    const val = r10(p.type.value * p.count);
+    if (val > 0) {
+      lines.push({ sourceId: `nw:prop:${p.type.id}`, label: `${p.type.name} (×${p.count})`, op: 'add', value: val });
+    }
+  }
+  for (const v of h.ventures ?? []) {
+    const def = content.index.venture.get(v.id);
+    const val = r10(ventureAssetValue(ctx, v));
+    if (val > 0) {
+      lines.push({ sourceId: `nw:venture:${v.id}`, label: def?.name ?? v.id, op: 'add', value: val });
+    }
+  }
+  const lentTotal = r10((h.loans ?? []).filter((l) => l.kind === 'lent').reduce((s, l) => s + l.amount, 0));
+  if (lentTotal > 0) {
+    lines.push({ sourceId: 'nw:lent', label: 'mods.wealth.loans_lent', op: 'add', value: lentTotal });
+  }
+  if (h.debt > 0) {
+    lines.push({ sourceId: 'nw:debt', label: 'ledger.debt', op: 'add', value: -r10(h.debt) });
+  }
+  return { value: r10(householdNetWorth(ctx)), base: 0, lines };
+}
+
+function computeIncomeBreakdown(ctx: SimContext): ModifierResult {
+  const { state, content } = ctx;
+  const h = playerHousehold(ctx);
+  const kinds = content.balance.economy.income_ledgers;
+  const lastYear = state.ledgerHistory[state.ledgerHistory.length - 1];
+  const entries = lastYear ? lastYear.entries : h.ledger;
+  const lines: ModifierLine[] = [];
+  for (const e of entries) {
+    if (!kinds.includes(e.category)) continue;
+    const val = r10(ledgerValue(ctx, e));
+    if (val > 0) {
+      lines.push({ sourceId: `inc:${e.category}`, label: `ledger.${e.category}`, op: 'add', value: val });
+    }
+  }
+  if (lines.length === 0) {
+    for (const part of regularIncomeParts(ctx)) {
+      const yrVal = r10(part.money * content.balance.calendar.months_per_year);
+      if (yrVal > 0) {
+        lines.push({ sourceId: `inc:reg:${part.ledger}`, label: `ledger.${part.ledger}`, op: 'add', value: yrVal });
+      }
+    }
+  }
+  if (lines.length === 0) {
+    lines.push({ sourceId: 'inc:none', label: 'mods.income.no_record_yet', op: 'add', value: 0 });
+  }
+  return { value: r10(lastYearIncome(ctx)), base: 0, lines };
+}
+
 export function getHudView(ctx: SimContext): HudView {
   const { state, content } = ctx;
   const me = player(ctx);
@@ -715,6 +889,7 @@ export function getHudView(ctx: SimContext): HudView {
       originName: content.index.origin.get(state.originId)?.name ?? '',
       age,
       sex: me.sex,
+      lifeStageId: stage.id,
       lifeStage: stage.name,
       isHead: householdHead(ctx)?.id === me.id,
       married: !!(me.spouseId && state.characters[me.spouseId]?.alive),
@@ -727,10 +902,14 @@ export function getHudView(ctx: SimContext): HudView {
       stressTrend: computeFor(ctx, me.id, StatTarget.StressMonthly, 0),
       satisfaction: state.happiness.satisfaction,
       satisfactionKey: pickBand(display.satisfaction_bands, state.happiness.satisfaction).key,
+      satisfactionBreakdown: computeSatisfactionBreakdown(ctx),
       reputation: state.reputation.dan_lang ?? 0,
       reputationKey: pickBand(display.reputation_bands, state.reputation.dan_lang ?? 0).key,
+      reputationBreakdown: computeReputationBreakdown(ctx),
       filialPiety: state.civilization.filialPiety,
+      filialPietyBreakdown: computeFilialPietyBreakdown(ctx),
       scholarlyPrestige: state.civilization.scholarlyPrestige,
+      scholarlyPrestigeBreakdown: computeScholarlyPrestigeBreakdown(ctx),
       examDegreeId: state.civilization.examDegree,
       examDegreeName: currentCivilization(ctx).exam_degrees.find((d) => d.id === state.civilization.examDegree)?.name ?? '',
       mourningMonthsLeft: state.civilization.mourningMonthsLeft,
@@ -853,7 +1032,9 @@ export function getHudView(ctx: SimContext): HudView {
       selfFarm: selfFarms(ctx),
       regularIncome: regularIncomeParts(ctx).reduce((sum, p) => sum + p.money, 0),
       netWorth: householdNetWorth(ctx),
+      netWorthBreakdown: computeNetWorthBreakdown(ctx),
       incomeYear: lastYearIncome(ctx),
+      incomeBreakdown: computeIncomeBreakdown(ctx),
       yearClose: state.ledgerHistory.length > 0 ? yearCloseOf(ctx, state.ledgerHistory[state.ledgerHistory.length - 1]) : null,
       parentHousehold: (() => {
         if (!h.parentHouseholdId) return null;

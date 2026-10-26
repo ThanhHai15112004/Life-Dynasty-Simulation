@@ -699,6 +699,29 @@ export const displayBalanceSchema = z
     journal_years_shown: z.number().int().positive(),
     /** [1] Bật công cụ dev / kịch bản thử nghiệm (khi false thì chỉ bật khi chạy dev build). */
     dev_tools: z.boolean().default(true),
+    /** [8] Cấu hình Hướng dẫn mở dần & Giao diện theo giai đoạn đời (GDD 08 §6.3, §6.5). */
+    onboarding: z
+      .object({
+        recommended_origin: z.string().default('nong_dan'),
+        recommended_start_age: z.number().int().min(0).default(6),
+        recommended_ambitions: z.record(z.string(), z.string()).default({
+          nong_dan: 'gia_dinh_am_em',
+          thuong_nhan: 'phu_thuong_mot_vung',
+          quy_toc_nho: 'khoa_bang_vinh_quy',
+        }),
+        stage_unlocks: z
+          .object({
+            relations_min_age: z.number().int().min(0).default(6),
+            career_min_age: z.number().int().min(0).default(12),
+            ambition_min_age: z.number().int().min(0).default(14),
+            clans_min_age: z.number().int().min(0).default(14),
+            region_min_age: z.number().int().min(0).default(16),
+          })
+          .strict()
+          .default({}),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 

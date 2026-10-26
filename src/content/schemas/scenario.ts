@@ -9,6 +9,8 @@ export const scenarioGroupSchema = z.enum([
   'gia_dinh',
   'nghe_nghiep',
   'van_minh',
+  'vung_mien',
+  'he_thong',
 ]);
 export type ScenarioGroup = z.infer<typeof scenarioGroupSchema>;
 

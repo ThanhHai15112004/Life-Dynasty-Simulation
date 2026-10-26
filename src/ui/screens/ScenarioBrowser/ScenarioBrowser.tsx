@@ -11,6 +11,8 @@ const GROUPS: { id: ScenarioGroup | 'all'; labelKey: string }[] = [
   { id: 'gia_dinh', labelKey: 'scenario.group.gia_dinh' },
   { id: 'nghe_nghiep', labelKey: 'scenario.group.nghe_nghiep' },
   { id: 'van_minh', labelKey: 'scenario.group.van_minh' },
+  { id: 'vung_mien', labelKey: 'scenario.group.vung_mien' },
+  { id: 'he_thong', labelKey: 'scenario.group.he_thong' },
 ];
 
 export function ScenarioBrowser() {
