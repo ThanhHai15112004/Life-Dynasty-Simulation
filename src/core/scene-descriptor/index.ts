@@ -5,6 +5,7 @@ import { holdingsOf, mainHouse } from '../entities/Property';
 import type { SimContext } from '../systems/context';
 import { ageGroupOf, ageNow, aliveMembers, playerHousehold } from '../systems/people';
 import { createResolver, seasonOf } from '../systems/resolver';
+import { activeSettlementId } from '../world/region';
 
 export interface ScenePerson {
   id: string;
@@ -57,8 +58,10 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
   }
   const props = Array.from(propMap.entries()).map(([sprite, count]) => ({ sprite, count }));
 
+  const currentSettlementType = activeSettlementId(ctx);
+
   return {
-    location: content.index.settlementType.get(state.world.settlementType)?.scene_location ?? sc.location,
+    location: content.index.settlementType.get(currentSettlementType)?.scene_location ?? sc.location,
     cultureSet: sc.culture_set,
     house: house?.scene?.sprite ?? null,
     season: seasonOf(ctx),

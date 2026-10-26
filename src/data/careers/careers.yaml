@@ -129,7 +129,7 @@ careers:
     icon: tien
     sector: thuong_mai
     depth: sau
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [thuong_mai, ngoai_giao]
     components: [trade_route]
     default_focus: kinh_doanh
@@ -260,7 +260,7 @@ careers:
     icon: phu
     sector: quan_binh
     depth: sau
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [quan_su, quan_tri]
     components: [military_rank]
     default_focus: ren_luyen
@@ -537,7 +537,7 @@ careers:
     icon: sach
     sector: quan_hoc
     depth: sau
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [hoc_van, quan_tri, ngoai_giao]
     components: [exam_ladder]
     youth_career: si_tu
@@ -762,7 +762,7 @@ careers:
     icon: lao_dong
     sector: dich_vu
     depth: nhe
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [sinh_ton]
     default_focus: lam_an
     event_tags: [lao_dong]
@@ -839,7 +839,7 @@ careers:
     icon: nha
     sector: thu_cong
     depth: vua
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [sinh_ton, quan_tri]
     default_focus: lam_an
     event_tags: [lao_dong, lang_xa]
@@ -926,7 +926,7 @@ careers:
     icon: phu
     sector: thu_cong
     depth: vua
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [sinh_ton, quan_su]
     default_focus: lam_an
     event_tags: [lao_dong, quan_su]
@@ -1008,7 +1008,7 @@ careers:
     icon: binh_yen
     sector: y_dao
     depth: vua
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [hoc_van, sinh_ton]
     default_focus: hoc_tap
     event_tags: [hoc_hanh, lang_xa]
@@ -1164,7 +1164,7 @@ careers:
     icon: ngoai_giao
     sector: dich_vu
     depth: vua
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly]
     skills: [sinh_ton, ngoai_giao, thuong_mai]
     default_focus: kinh_doanh
     event_tags: [buon_ban, tin_don]
@@ -1245,7 +1245,7 @@ careers:
     icon: quan_tri
     sector: quan_hoc
     depth: vua
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [quan_tri, hoc_van, muu_luoc]
     default_focus: giao_luu
     event_tags: [hoc_hanh, van_minh, lang_xa]
@@ -1324,7 +1324,7 @@ careers:
     icon: tien
     sector: thuong_mai
     depth: nhe
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [thuong_mai, ngoai_giao]
     default_focus: kinh_doanh
     event_tags: [buon_ban, lao_dong]
@@ -1399,7 +1399,7 @@ careers:
     icon: sinh_nhat
     sector: y_dao
     depth: nhe
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     skills: [sinh_ton, ngoai_giao]
     default_focus: gia_dinh
     event_tags: [lang_xa, gia_dinh]
@@ -1523,7 +1523,7 @@ side_jobs:
     description: Phụ chèo đò đưa khách và gánh hàng qua sông vào những tháng hội hè, chợ phiên đông đúc.
     icon: ngoai_giao
     seasons: [xuan, thu]
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly]
     income_money_month: 0.3
     stress_month: 0.06
     skill_xp: { ngoai_giao: 0.6, sinh_ton: 0.4 }
@@ -1532,7 +1532,7 @@ side_jobs:
     description: Gom chè khô, mật mía, cau tươi từ trong làng gánh lên chợ huyện bán kiếm lời lúc đồng áng rỗi việc.
     icon: tien
     seasons: [xuan, dong]
-    settlement_types: [lang_nong, thi_tran_ben_song, huyen_ly, kinh_thanh]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
     income_money_month: 0.35
     stress_month: 0.07
     skill_xp: { thuong_mai: 0.8 }

@@ -102,6 +102,8 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   raw.chronicle = raw.chronicle ?? {};
   raw.lifeMap = raw.lifeMap ?? [];
   raw.villageClans = raw.villageClans ?? {};
+  raw.settlements = raw.settlements ?? {};
+  raw.activeTrip = raw.activeTrip ?? null;
   // [6] Bù danh sách cơ nghiệp (ventures) và khoản vay NPC (loans) cho hộ gia đình của save cũ
   if (raw.households) {
     for (const h of Object.values(raw.households)) {
@@ -131,6 +133,33 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
     raw.world.reignName = raw.world.reignName ?? content.chronicle.startReign;
     raw.world.reignStartYear = raw.world.reignStartYear ?? content.balance.time.start_year;
     raw.world.alertLock = raw.world.alertLock ?? null;
+
+    const culture = content.index.culture.get(raw.cultureId ?? '') ?? content.cultures[0];
+    for (const st of content.settlementTypes.filter((t) => t.region_node)) {
+      if (!raw.settlements[st.id]) {
+        const isHome = st.id === raw.world.settlementType;
+        const name = isHome && raw.world.settlementName
+          ? raw.world.settlementName
+          : st.id === 'thi_tran_ben_song'
+            ? (culture?.town_names?.[0] ?? st.name)
+            : st.id === 'phu_thanh'
+              ? (culture?.prefecture_names?.[0] ?? st.name)
+              : (culture?.village_names?.[0] ?? st.name);
+        raw.settlements[st.id] = {
+          id: st.id,
+          name,
+          typeId: st.id,
+          civilizationId: raw.civilization.id,
+          population: Math.round((st.population_band[0] + st.population_band[1]) / 2),
+          harvestQuality: raw.world.harvestQuality,
+          foodPrice: raw.world.foodPrice,
+          tradeIndex: raw.world.tradeIndex,
+          patrolLevel: raw.world.patrolLevel,
+          disaster: 'none',
+          epidemic: null,
+        };
+      }
+    }
   }
   return raw as GameState;
 }

@@ -327,6 +327,59 @@
         292
       ],
       "fence": null
+    },
+    "phu_thanh": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 60,
+          "amp": 10,
+          "freq": 0.025,
+          "phase": 0.9
+        }
+      ],
+      "bands": [
+        {
+          "y": 90,
+          "h": 4,
+          "color": "stone"
+        }
+      ],
+      "placements": [
+        {
+          "part": "tuong_thanh_viet",
+          "x": 0,
+          "bottom": 88,
+          "repeatX": 32
+        },
+        {
+          "part": "cong_phu_viet",
+          "x": 104,
+          "bottom": 90
+        },
+        {
+          "part": "co_hieu_viet",
+          "x": 86,
+          "bottom": 90
+        },
+        {
+          "part": "co_hieu_viet",
+          "x": 168,
+          "bottom": 90
+        },
+        {
+          "part": "duong_da_viet",
+          "x": 0,
+          "bottom": 112,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        68,
+        186,
+        294
+      ],
+      "fence": null
     }
   },
   "slots": {
@@ -894,6 +947,82 @@
         ".P..........P....P..........P....P..........P",
         ".P..........P....P..........P....P..........P",
         ".P..........P....P..........P....P..........P"
+      ]
+    },
+    "tuong_thanh_viet": {
+      "key": {"S": "stone", "s": "stone_light", "K": "shadow", "W": "wall_dark"},
+      "rows": [
+        "ssss..ssss..ssss..ssss..ssss..ss",
+        "SSSS..SSSS..SSSS..SSSS..SSSS..SS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSsSSSSSSsSSSSSSsSSSSSSsSSSSSSsS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSSsSSSSSSsSSSSSSsSSSSSSsSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+      ]
+    },
+    "cong_phu_viet": {
+      "key": {"R": "tile", "r": "tile_dark", "G": "gold", "W": "wall", "w": "wall_dark", "P": "cloth_red", "D": "wood_dark", "K": "shadow", "S": "stone"},
+      "rows": [
+        "r..................GGGGGGGGGGGG..................r",
+        "rr.............rrrrrrrrrrrrrrrrrrrr.............rr",
+        ".rrr........RRRRRRRRRRRRRRRRRRRRRRRRRR........rrr.",
+        "..rrrr...rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr...rrrr..",
+        "....RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR....",
+        ".......DDDDDDDDDDDDGGGGGGGGGGGGDDDDDDDDDDDD.......",
+        ".......DPPPPPPPPPPPGGGGGGGGGGGGPPPPPPPPPPPD.......",
+        ".......DPPWwwWPPPPPDDDDDDDDDDDDPPPPPWWwwPPD.......",
+        "rr.....DPPWwwWPPPPPPPPPPPPPPPPPPPPPPWWwwPPD.....rr",
+        ".rrr..rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr..rrr.",
+        "..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        "...rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr...",
+        ".....WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.....",
+        ".....WWPPWWWWWWWWWWKKKKKKKKKKKKWWWWWWWWWWPPWW.....",
+        ".....WWPPWWWWWWWWWKKKKKKKKKKKKKKWWWWWWWWWPPWW.....",
+        ".....WWPPWWWWWWWWWKKKKKKKKKKKKKKWWWWWWWWWPPWW.....",
+        ".....WWPPWWWWWWWWWKKKKKKKKKKKKKKWWWWWWWWWPPWW.....",
+        ".....WWPPWWWWWWWWWKKKKKKKKKKKKKKWWWWWWWWWPPWW.....",
+        ".....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....."
+      ]
+    },
+    "co_hieu_viet": {
+      "key": {"M": "wood_dark", "R": "cloth_red", "Y": "gold"},
+      "rows": [
+        ".Y....",
+        ".MRRRR",
+        ".MRYYR",
+        ".MRRRR",
+        ".MRR..",
+        ".M....",
+        ".M....",
+        ".M....",
+        ".M....",
+        ".M....",
+        ".M....",
+        ".M....",
+        "MMM..."
+      ]
+    },
+    "duong_da_viet": {
+      "key": {"S": "stone", "s": "stone_light", "d": "ground_dark", "p": "path"},
+      "rows": [
+        ".",
+        "...................d",
+        ".",
+        "ssssssssssssssssssssssssssssssss",
+        "SSSSSsSSSSSSsSSSSSSsSSSSSSsSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "sSSSSSSsSSSSSSsSSSSSSsSSSSSSsSSS",
+        "dddddddddddddddddddddddddddddddd",
+        "pppppppppppppppppppppppppppppppp",
+        ".",
+        "...........d",
+        ".",
+        ".......................d",
+        "."
       ]
     },
     "may_lon": {

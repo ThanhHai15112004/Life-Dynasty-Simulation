@@ -357,7 +357,7 @@ export function yearlyVillageClans(ctx: SimContext): void {
         ageNow(ctx, c) <= 32 &&
         c.id !== state.villageClans[c.clanId!]?.headId,
     );
-    if (singles.length < 3 && clans.length > 0) {
+    if (singles.length < 3 && clans.length > 0 && totalPop < cfg.max_village_population) {
       const targetClan = clans[rng.int(0, clans.length - 1)];
       const youth = createClanMember(ctx, {
         sex,

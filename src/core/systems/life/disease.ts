@@ -8,6 +8,7 @@ import { RngStream, type SimContext } from '../context';
 import { monthlyMoneyNeed } from '../economy/helpers';
 import { aliveMembers, callOf, householdHead, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
+import { activeSettlementId } from '../../world/region';
 import { currentFateMode } from './mortality';
 
 /** Mã lỗi khi chưa chạy chữa được (khóa lang error.<mã>). */
@@ -115,12 +116,26 @@ export function monthlyDiseases(ctx: SimContext): void {
 
     // 2) Kiểm tra nguy cơ phát bệnh mới (giới hạn số bệnh cùng lúc để tránh chồng chất quá mức)
     if (c.diseases.length >= ctx.content.balance.life.max_concurrent_diseases) continue;
+    const locId = c.id === ctx.state.playerId ? activeSettlementId(ctx) : ctx.state.world.settlementType;
+    const epidemic = ctx.state.settlements?.[locId]?.epidemic ?? null;
+    const boost = epidemic ? ctx.content.balance.opportunity.region.epidemic_infection_boost : 1;
+
+    // Nếu nơi đang ở có dịch bệnh bùng phát, có nguy cơ lây trực tiếp bệnh dịch đó
+    if (epidemic && !c.diseases.some((d) => d.id === epidemic.diseaseId)) {
+      const epDef = ctx.content.index.disease.get(epidemic.diseaseId);
+      const epChance = (epDef?.monthly_chance ?? 0.012) * boost * currentFateMode(ctx).disease_factor;
+      if (rng.chance(epChance)) {
+        infectCharacter(ctx, c, epidemic.diseaseId);
+        continue;
+      }
+    }
+
     const r = createResolver(ctx, { self: c.id });
     for (const def of ctx.content.diseases) {
       if (def.monthly_chance <= 0) continue;
       if (c.diseases.some((d) => d.id === def.id)) continue;
       if (!evaluate(def.condition, r)) continue;
-      if (rng.chance(def.monthly_chance * currentFateMode(ctx).disease_factor)) {
+      if (rng.chance(def.monthly_chance * boost * currentFateMode(ctx).disease_factor)) {
         infectCharacter(ctx, c, def.id);
         break;
       }

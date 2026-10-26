@@ -7,7 +7,7 @@ ventures:
     description: Một sạp tre bày vải vóc, muối mắm và nông sản nơi đầu chợ. Vốn nhẹ, dễ xoay xở và là bước đầu gây dựng cơ nghiệp buôn bán.
     icon: tien
     sector: thuong_mai
-    settlement_types: [lang_nong, thi_tran_ben_song]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh]
     capital_cost: 28
     upgrade_to: cua_hieu
     upgrade_cost: 48
@@ -33,7 +33,7 @@ ventures:
     description: Gian hàng lợp ngói khang trang giữa phố chợ, có kho chứa hàng khô và sổ sách riêng. Thu hút khách khắp tổng.
     icon: tien
     sector: thuong_mai
-    settlement_types: [lang_nong, thi_tran_ben_song]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh]
     capital_cost: 76
     upgrade_to: hieu_buon
     upgrade_cost: 95
@@ -61,7 +61,7 @@ ventures:
     description: Thương hiệu bề thế giao thương khắp bến sông và phủ huyện, buôn lụa là, gốm sứ, thóc gạo số lượng lớn. Cơ nghiệp truyền đời của bậc phú thương.
     icon: tien
     sector: thuong_mai
-    settlement_types: [lang_nong, thi_tran_ben_song]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh]
     capital_cost: 170
     max_stage: 3
     expand_cost_factor: 0.7
@@ -112,7 +112,7 @@ ventures:
     description: Xưởng cưa xẻ gỗ lim, gỗ mít đóng bàn ghế, rương hòm và nhận dựng nhà gỗ cho các hộ khá giả trong vùng.
     icon: focus
     sector: thu_cong
-    settlement_types: [lang_nong, thi_tran_ben_song]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh]
     capital_cost: 48
     max_stage: 3
     expand_cost_factor: 0.75
@@ -137,7 +137,7 @@ ventures:
     description: Con thuyền gỗ mũi cong chở lúa gạo, mắm muối và hàng chuyến xuôi ngược bến sông. Lợi nhuận rất dày khi Thời cơ lên cao, song sóng gió và thủy tặc luôn rình rập.
     icon: tien
     sector: thuong_mai
-    settlement_types: [lang_nong, thi_tran_ben_song]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh]
     capital_cost: 85
     max_stage: 3
     expand_cost_factor: 0.8
@@ -163,7 +163,7 @@ ventures:
     description: Quán rượu nếp và trà nóng nơi ngã ba đường, nơi thương khách, phu phen và nha dịch ghé chân. Vừa thu tiền mặt đều đặn vừa nghe ngóng đủ chuyện thiên hạ.
     icon: vui
     sector: dich_vu
-    settlement_types: [lang_nong, thi_tran_ben_song]
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh]
     capital_cost: 36
     max_stage: 3
     expand_cost_factor: 0.7

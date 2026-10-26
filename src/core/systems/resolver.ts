@@ -10,6 +10,7 @@ import { purseActive } from './economy/purse';
 import { aliveChildrenOf, canPlayerSplitHousehold, getHeirCandidates, getMarriageableMembers, isEldestChild } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
 import { ExamStage, examStage } from './status';
+import { activeSettlementId, currentSettlement, homeSettlement } from '../world/region';
 
 export interface Bindings {
   /** Nhân vật đang xét (ứng viên vai trò, người chịu modifier có điều kiện...). */
@@ -132,6 +133,12 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
       }
       case 'side_job':
         return c.id === state.playerId ? (state.career.sideJobId ?? '') : '';
+      case 'is_traveling':
+        return c.id === state.playerId ? state.activeTrip !== null : false;
+      case 'trip_months_left':
+        return c.id === state.playerId ? (state.activeTrip?.monthsLeft ?? 0) : 0;
+      case 'current_settlement':
+        return c.id === state.playerId ? activeSettlementId(ctx) : state.world.settlementType;
       case 'career_rank':
         return c.id === state.playerId ? state.career.rankIndex : (c.careerRankIndex ?? 0);
       case 'merit':
@@ -186,6 +193,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'is_exam_year') return examStage(ctx) === ExamStage.Huong;
         if (key === 'settlement_type') return state.world.settlementType;
         if (key === 'local_trade_factor') return localTradeFactor(ctx);
+        if (key === 'has_epidemic') return Boolean(currentSettlement(ctx)?.epidemic || homeSettlement(ctx)?.epidemic);
+        if (key === 'home_epidemic') return Boolean(homeSettlement(ctx)?.epidemic);
+        if (key === 'any_epidemic') return Object.values(state.settlements ?? {}).some((s) => s.epidemic !== null);
+        if (key === 'epidemic_settlement') return Object.values(state.settlements ?? {}).find((s) => s.epidemic !== null)?.typeId ?? '';
         if (key === 'fate_mode') return state.fateMode;
         if (key === 'play_mode') return state.playMode;
         if (key === 'bad_luck') return state.badLuckCounter ?? 0;
@@ -315,6 +326,16 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
       return last === 'name' ? fullName(c) : last === 'given' ? c.givenName : callOf(ctx, c);
     }
     if (path === 'world.settlement') return state.world.settlementName;
+    if (path === 'world.current_settlement_name') return currentSettlement(ctx)?.name ?? state.world.settlementName;
+    if (path === 'world.town_name') return state.settlements?.thi_tran_ben_song?.name ?? state.world.settlementName;
+    if (path === 'world.prefecture_name') return state.settlements?.phu_thanh?.name ?? state.world.settlementName;
+    if (path === 'world.village_name') return state.settlements?.lang_nong?.name ?? state.world.settlementName;
+    if (path === 'world.epidemic_disease') {
+      const ep =
+        currentSettlement(ctx)?.epidemic ??
+        Object.values(state.settlements ?? {}).find((s) => s.epidemic !== null)?.epidemic;
+      return ep ? (content.index.disease.get(ep.diseaseId)?.name ?? ep.diseaseId) : '';
+    }
     if (path === 'dynasty.family_name') return state.dynasty?.familyName ?? player(ctx).familyName;
     if (path === 'dynasty.wish_text') return state.dynasty?.unfinishedWishes?.find((w) => !w.fulfilled)?.text ?? '';
     if (path === 'dynasty.wish_from') return state.dynasty?.unfinishedWishes?.find((w) => !w.fulfilled)?.fromName ?? '';

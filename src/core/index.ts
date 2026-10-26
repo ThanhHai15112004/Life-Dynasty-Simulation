@@ -9,6 +9,7 @@ export {
   getSuccessionView,
   getVillageClansView,
   getMatchmakingView,
+  getRegionView,
   type HudView,
   type LifeSummaryView,
   type DynastyView,
@@ -18,6 +19,8 @@ export {
   type VillageClanView,
   type MatchmakingView,
   type MatchmakingTargetView,
+  type RegionView,
+  type RegionNodeView,
 } from './api/queries';
 export type { PastLifeRecord, UnfinishedWish, DynastyFeud, DynastyState, NpcClan, ClanTie } from './entities/Dynasty';
 export type { HeirCandidate, MatchmakingCandidate } from './systems/family';

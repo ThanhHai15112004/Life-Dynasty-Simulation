@@ -1,0 +1,84 @@
+# [7] 4 Kịch bản thử nghiệm Phase 7 — Một vùng: Làng – Thị trấn – Phủ
+# - Chuyển ra thị trấn (vung_chuyen_ra_thi_tran)
+# - Quan văn nhậm chức ở phủ (vung_quan_van_nham_chuc)
+# - Dịch bùng ở thị trấn (vung_dich_bung_thi_tran)
+# - Đang đi buôn chuyến thì nhà có việc (vung_di_buon_nha_co_viec)
+scenarios:
+  - id: vung_chuyen_ra_thi_tran
+    group: kinh_te
+    title_key: scenario.vung_chuyen_ra_thi_tran.title
+    description_key: scenario.vung_chuyen_ra_thi_tran.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+      seed: phase7_chuyen_nha
+    setup:
+      - { type: money, value: 32 }
+      - { type: food, value: 40 }
+      - { type: property_add, property: ruong, count: 4 }
+      - { type: skill_xp, skill: thuong_mai, value: 180 }
+      - { type: marry }
+    family_setup:
+      parents: both_dead
+    start_event: sk_chuyen_ra_thi_tran
+
+  - id: vung_quan_van_nham_chuc
+    group: van_minh
+    title_key: scenario.vung_quan_van_nham_chuc.title
+    description_key: scenario.vung_quan_van_nham_chuc.desc
+    base:
+      originId: quy_toc_nho
+      age: 29
+      sex: m
+      seed: phase7_nham_chuc_phu
+    setup:
+      - { type: money, value: 24 }
+      - { type: debt, value: -30 }
+      - { type: skill_xp, skill: hoc_van, value: 420 }
+      - { type: skill_xp, skill: quan_tri, value: 220 }
+      - { type: set_exam_degree, degree: huong_cong }
+      - { type: set_career, career: si_tu, rank: 2, months: 48 }
+      - { type: scholarly_prestige, value: 25 }
+      - { type: marry }
+    family_setup:
+      parents: both_dead
+    start_event: sk_quan_van_nham_chuc_phu
+
+  - id: vung_dich_bung_thi_tran
+    group: suc_khoe
+    title_key: scenario.vung_dich_bung_thi_tran.title
+    description_key: scenario.vung_dich_bung_thi_tran.desc
+    base:
+      originId: thuong_nhan
+      age: 27
+      sex: m
+      seed: phase7_dich_thi_tran
+    setup:
+      - { type: money, value: 20 }
+      - { type: food, value: 35 }
+      - { type: trigger_epidemic, settlement: thi_tran_ben_song, disease: ta_ly, months: 5 }
+    family_setup:
+      parents: both_dead
+    start_event: sk_dich_bung_thi_tran
+
+  - id: vung_di_buon_nha_co_viec
+    group: nghe_nghiep
+    title_key: scenario.vung_di_buon_nha_co_viec.title
+    description_key: scenario.vung_di_buon_nha_co_viec.desc
+    base:
+      originId: thuong_nhan
+      age: 28
+      sex: m
+      seed: phase7_di_buon_nha_co_viec
+    setup:
+      - { type: money, value: 25 }
+      - { type: set_career, career: thuong_nhan, rank: 1, months: 36 }
+      - { type: marry }
+      - { type: start_trip, target: phu_thanh, kind: buon_chuyen, cargo: 8 }
+      - { type: set_flag, flag: nha_co_viec_khi_di_xa, years: 1 }
+    family_setup:
+      parents: both_dead
+      children:
+        - { age: 5, sex: m }
+    start_event: sk_di_buon_nha_co_viec

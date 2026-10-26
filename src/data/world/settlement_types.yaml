@@ -1,10 +1,16 @@
-# [1] Loại khu định cư (GDD 06 & Cấu trúc thư mục chuẩn)
+# [1] Loại khu định cư (GDD 06 & Cấu trúc thư mục chuẩn) + [7] Vùng 3 điểm: Làng – Thị trấn – Phủ
 settlement_types:
   - id: lang_nong
     name: Làng nông nghiệp
     description: Ngôi làng bao quanh bởi lũy tre xanh, ruộng lúa và đình làng tự quản.
     population_band: [200, 800]
     trade_factor: 0.9
+    region_node: true
+    relocate_cost: 6
+    epidemic_base_chance_year: 0.03
+    routes:
+      - { to: thi_tran_ben_song, travel_months: 1, cost_money: 1.0, risk_chance: 0.08 }
+      - { to: phu_thanh, travel_months: 2, cost_money: 2.5, risk_chance: 0.14 }
     scene_location: lang_nong
     event_weights: { ruong_dong: 1.2, lang_xa: 1.2 }
   - id: thi_tran_ben_song
@@ -12,17 +18,36 @@ settlement_types:
     description: Nơi thuyền bè neo đậu, chợ phiên họp dày và các thương hội tụ họp.
     population_band: [800, 3000]
     trade_factor: 1.25
+    region_node: true
+    relocate_cost: 12
+    epidemic_base_chance_year: 0.08
+    routes:
+      - { to: lang_nong, travel_months: 1, cost_money: 1.0, risk_chance: 0.08 }
+      - { to: phu_thanh, travel_months: 1, cost_money: 1.5, risk_chance: 0.1 }
     scene_location: thi_tran_ben_song
     event_weights: { buon_ban: 1.4, tin_don: 1.3, ruong_dong: 0.5 }
+  - id: phu_thanh
+    name: Phủ thành
+    description: Lỵ sở phủ đường uy nghiêm, nơi đặt nha môn, trường thi, dinh thự quan lại và phố phường phồn hoa.
+    population_band: [4000, 15000]
+    trade_factor: 1.4
+    region_node: true
+    relocate_cost: 20
+    epidemic_base_chance_year: 0.05
+    routes:
+      - { to: thi_tran_ben_song, travel_months: 1, cost_money: 1.5, risk_chance: 0.1 }
+      - { to: lang_nong, travel_months: 2, cost_money: 2.5, risk_chance: 0.14 }
+    scene_location: phu_thanh
+    event_weights: { van_minh: 1.5, hoc_hanh: 1.4, buon_ban: 1.3, ruong_dong: 0.2 }
   - id: huyen_ly
     name: Huyện lỵ
     description: Nơi đặt nha môn quan huyện, trường học hàng huyện và kho lương.
     population_band: [1500, 5000]
     trade_factor: 1.15
-    scene_location: thi_tran_ben_song
+    scene_location: phu_thanh
   - id: kinh_thanh
     name: Kinh thành
     description: Trung tâm quyền lực của vương triều, nơi mở khoa thi Hội – Đình và tụ hội trăm nghề.
     population_band: [15000, 60000]
     trade_factor: 1.5
-    scene_location: thi_tran_ben_song
+    scene_location: phu_thanh

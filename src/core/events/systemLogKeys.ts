@@ -57,6 +57,14 @@ export const SystemLog = {
   NpcLent: 'sys.cho_vay_npc',
   NpcLoanCollected: 'sys.thu_no_npc',
   NpcLoanForgiven: 'sys.xoa_no_npc',
+  HouseholdRelocated: 'sys.chuyen_nha',
+  TradeTripStarted: 'sys.di_buon_chuyen',
+  TradeTripReturned: 'sys.ve_buon_chuyen',
+  TradeTripCancelled: 'sys.bo_do_buon_chuyen',
+  OfficialAppointed: 'sys.nham_chuc_phu',
+  EpidemicOutbreak: 'sys.dich_bung_phat',
+  EpidemicSpread: 'sys.dich_lan_truyen',
+  EpidemicEnded: 'sys.dich_lui',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */

@@ -212,6 +212,12 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       if (e.type === 'venture_remove' && e.venture) need(idx.venture.has(e.venture), `${w}: cơ nghiệp lạ "${e.venture}"`);
       if (e.type === 'venture_health' && e.venture) need(idx.venture.has(e.venture), `${w}: cơ nghiệp lạ "${e.venture}"`);
       if (e.type === 'upgrade_house' && e.target) property(e.target, w);
+      if (e.type === 'relocate_settlement') need(idx.settlementType.has(e.settlement), `${w}: khu định cư lạ "${e.settlement}"`);
+      if (e.type === 'start_trip') need(idx.settlementType.has(e.target), `${w}: khu định cư lạ "${e.target}"`);
+      if (e.type === 'trigger_epidemic') {
+        if (e.settlement) need(idx.settlementType.has(e.settlement), `${w}: khu định cư lạ "${e.settlement}"`);
+        if (e.disease) disease(e.disease, w);
+      }
       if (e.type === 'npc_loan_add' && e.role && !roles.has(e.role)) errors.push(`${w}: vai trò lạ "${e.role}"`);
       if (e.type === 'add_trait') trait(e.trait, w);
       if (e.type === 'schedule_event') need(idx.event.has(e.event), `${w}: sự kiện lạ "${e.event}"`);

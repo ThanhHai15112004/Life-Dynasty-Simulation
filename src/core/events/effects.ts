@@ -35,6 +35,13 @@ import {
 } from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
 import { changeFilialPiety, changeScholarlyPrestige, setExamDegree } from '../systems/status';
+import {
+  cancelActiveTrip,
+  completeActiveTrip,
+  relocateHousehold,
+  startTradeTrip,
+  triggerSettlementEpidemic,
+} from '../world/region';
 import { queueCutscene } from './cutscene';
 import { Ledger, LogKind } from './systemLogKeys';
 import { pushLog } from './journal';
@@ -297,6 +304,36 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
         }
         case 'upgrade_house':
           upgradeHouse(ctx, { targetId: e.target, free: true });
+          break;
+        case 'relocate_settlement':
+          relocateHousehold(ctx, e.settlement, e.sell_properties ?? false, {
+            official: e.official,
+            free: e.free ?? true,
+          });
+          break;
+        case 'start_trip': {
+          const cargo = e.cargo ?? 8;
+          const routeCost = 2;
+          if (h.money < cargo + routeCost) {
+            h.money = cargo + routeCost;
+          }
+          startTradeTrip(ctx, e.target, cargo, e.kind ?? 'buon_chuyen');
+          break;
+        }
+        case 'end_trip':
+          if (e.cancel) {
+            cancelActiveTrip(ctx);
+          } else {
+            completeActiveTrip(ctx);
+          }
+          break;
+        case 'trigger_epidemic':
+          triggerSettlementEpidemic(
+            ctx,
+            e.settlement ?? state.world.settlementType,
+            e.disease,
+            e.months,
+          );
           break;
         case 'schedule_event':
           state.scheduled.push({

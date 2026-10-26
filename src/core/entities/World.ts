@@ -3,8 +3,9 @@ import type { ExamDegreeId } from '@content/schemas';
 import type { Character } from './Character';
 import type { DynastyState, NpcClan } from './Dynasty';
 import type { Household, LedgerYear, Purse } from './Household';
+import type { ActiveTrip, Settlement } from './Settlement';
 
-export const SAVE_VERSION = 5;
+export const SAVE_VERSION = 6;
 
 export interface CareerHistoryEntry {
   careerId: string;
@@ -131,6 +132,10 @@ export interface GameState {
   village: Record<string, string>;
   /** [2] Danh sách 5–8 dòng họ NPC trong làng / thị trấn (Phase 4). */
   villageClans: Record<string, NpcClan>;
+  /** [7] Các khu định cư trong vùng (làng nông – thị trấn bến sông – phủ thành), khóa theo typeId. */
+  settlements: Record<string, Settlement>;
+  /** [7] Chuyến đi xa nhà đang diễn ra (đi buôn chuyến, lên phủ ứng thí / công vụ). */
+  activeTrip: ActiveTrip | null;
 
   /** [1] Trọng tâm năm nay (một lựa chọn; '' khi còn quá nhỏ để chọn). */
   focus: { primary: string };

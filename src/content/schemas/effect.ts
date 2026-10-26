@@ -77,6 +77,10 @@ export type Effect =
   | { type: 'venture_health'; venture?: string; value: number }
   | { type: 'npc_loan_add'; kind: 'borrowed' | 'lent'; role?: string; amount: number; overdue_years?: number }
   | { type: 'upgrade_house'; target?: string }
+  | { type: 'relocate_settlement'; settlement: string; sell_properties?: boolean; official?: boolean; free?: boolean }
+  | { type: 'start_trip'; target: string; kind?: 'buon_chuyen' | 'ung_thi' | 'cong_vu'; cargo?: number }
+  | { type: 'end_trip'; cancel?: boolean }
+  | { type: 'trigger_epidemic'; settlement?: string; disease?: string; months?: number }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -212,6 +216,37 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
       .object({
         type: z.literal('upgrade_house'),
         target: z.string().optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('relocate_settlement'),
+        settlement: z.string(),
+        sell_properties: z.boolean().optional(),
+        official: z.boolean().optional(),
+        free: z.boolean().optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('start_trip'),
+        target: z.string(),
+        kind: z.enum(['buon_chuyen', 'ung_thi', 'cong_vu']).optional(),
+        cargo: z.number().min(0).optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('end_trip'),
+        cancel: z.boolean().optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('trigger_epidemic'),
+        settlement: z.string().optional(),
+        disease: z.string().optional(),
+        months: z.number().int().positive().optional(),
       })
       .strict(),
     z

@@ -167,6 +167,10 @@ export const cultureSchema = z
     family_names: z.array(z.object({ name: z.string(), weight: z.number().positive() }).strict()).min(1),
     given_names: z.object({ m: z.array(z.string()).min(1), f: z.array(z.string()).min(1) }).strict(),
     village_names: z.array(z.string()).min(1),
+    /** [7] Tên thị trấn bến sông trong vùng. */
+    town_names: z.array(z.string()).default([]),
+    /** [7] Tên phủ thành / lỵ sở trong vùng. */
+    prefecture_names: z.array(z.string()).default([]),
     /** Cách người chơi gọi người thân: token {given}, {family}. */
     kin_calls: z
       .object({
@@ -499,6 +503,16 @@ export const civilizationSchema = z
   .strict();
 export type Civilization = z.infer<typeof civilizationSchema>;
 
+export const settlementRouteSchema = z
+  .object({
+    to: z.string(),
+    travel_months: z.number().int().min(1),
+    cost_money: z.number().min(0).default(1),
+    risk_chance: z.number().min(0).max(1).default(0.1),
+  })
+  .strict();
+export type SettlementRoute = z.infer<typeof settlementRouteSchema>;
+
 export const settlementTypeSchema = z
   .object({
     id: z.string(),
@@ -506,6 +520,14 @@ export const settlementTypeSchema = z
     description: z.string(),
     population_band: z.tuple([z.number(), z.number()]),
     trade_factor: z.number().positive().default(1),
+    /** [7] Có phải là một trong 3 điểm chính của bản đồ vùng (làng – thị trấn – phủ) không. */
+    region_node: z.boolean().default(false),
+    /** [7] Chi phí cơ bản để chuyển cả hộ tới định cư tại đây (quan). */
+    relocate_cost: z.number().min(0).default(8),
+    /** [7] Xác suất cơ bản bùng phát dịch bệnh mỗi năm tại khu định cư này. */
+    epidemic_base_chance_year: z.number().min(0).max(1).default(0.04),
+    /** [7] Các tuyến đường nối từ khu định cư này sang khu định cư khác trong vùng. */
+    routes: z.array(settlementRouteSchema).default([]),
     /** Bộ lọc sự kiện theo nơi ở: nhân trọng số sự kiện/nhật ký có thẻ tương ứng. */
     event_weights: z.record(z.string(), z.number().min(0)).default({}),
     /** Địa điểm cảnh pixel (scene-layout.json › locations); bỏ trống thì dùng balance.scene.location. */

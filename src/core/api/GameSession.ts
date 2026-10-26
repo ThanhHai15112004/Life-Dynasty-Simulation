@@ -22,6 +22,7 @@ import { monthlySkills } from '../systems/skills';
 import { monthlySocial } from '../systems/social';
 import { computeStatusRank, monthlyStatus } from '../systems/status';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
+import { monthlyRegion, yearlyRegion } from '../world/region';
 import { applyScenario } from '../world/scenario';
 import type { Scenario } from '@content/schemas';
 import { migrateState } from '../world/migrate';
@@ -185,6 +186,7 @@ export class GameSession {
 function monthly(ctx: SimContext): void {
   monthlyWorld(ctx);
   monthlyOpportunity(ctx);
+  monthlyRegion(ctx);
   monthlyLife(ctx);
   if (ctx.state.gameOver) return;
   monthlyFamily(ctx);
@@ -212,6 +214,7 @@ function yearEnd(ctx: SimContext): void {
 function yearStart(ctx: SimContext): void {
   rollHarvestQuality(ctx);
   yearlyOpportunity(ctx);
+  yearlyRegion(ctx);
   yearlyChronicle(ctx);
   yearlyHousehold(ctx);
   directorYearStart(ctx);

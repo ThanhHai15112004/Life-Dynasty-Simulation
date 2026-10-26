@@ -19,6 +19,8 @@ given_names:
   m: [Tí, Sửu, Dần, Mão, Thìn, Tỵ, Bình, Hòa, Sơn, Tùng, Lâm, Phúc, Đức, Khang, Mạnh, Cường, Lộc, Quý, Thành, Bảo, Chính, Hiếu, Trung, Nghĩa]
   f: [Mận, Đào, Lan, Cúc, Huệ, Hồng, Thắm, Nụ, Hoa, Liên, Mai, Xuân, Thơm, Nhài, Gấm, Lụa, Bưởi, Na, Hằng, Thảo]
 village_names: [Phú Giang, Đông Hòa, Yên Thôn, Thượng Liệt, Hạ Trạch, An Lạc, Vân Hà, Kim Lũ, Bình Vọng, Đại Lộc]
+town_names: [Bến Giang, Phố Hiến, Vạn Xuân, Giang Khẩu, Hội Thống, Vân Đồn, Thanh Hà]
+prefecture_names: [Thiên Trường, Trường Yên, Long Hưng, Khoái Châu, Quốc Oai, Bắc Giang]
 kin_calls:
   father: cha
   mother: mẹ

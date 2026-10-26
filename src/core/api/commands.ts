@@ -34,6 +34,12 @@ import { focusAvailable } from '../systems/focus';
 import { infectCharacter, treatDisease, treatmentBlock } from '../systems/life';
 import { player, playerHousehold } from '../systems/people';
 import { createResolver } from '../systems/resolver';
+import {
+  appointPrefectureOfficial,
+  cancelActiveTrip,
+  relocateHousehold,
+  startTradeTrip,
+} from '../world/region';
 
 export { focusAvailable };
 
@@ -68,6 +74,10 @@ export type Command =
   | { type: 'adoptRelative' }
   | { type: 'setChildUpbringing'; childId: string; upbringing: string }
   | { type: 'arrangeMarriage'; targetCharId: string; candidateId: string }
+  | { type: 'relocateHousehold'; targetSettlementId: string; sellOldProperties: boolean }
+  | { type: 'startTradeTrip'; targetSettlementId: string; cargoMoney: number }
+  | { type: 'cancelTrip' }
+  | { type: 'appointOfficial' }
   // [1] Lệnh Dev (chỉ chạy khi cờ dev bật)
   | { type: 'devTriggerEvent'; eventId: string }
   | { type: 'devModifyStat'; stat: 'money' | 'food' | 'debt' | 'health' | 'stress'; delta: number }
@@ -140,6 +150,8 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
     'forgiveNpcLoan',
     'repayDebt',
     'treatDisease',
+    'relocateHousehold',
+    'startTradeTrip',
   ];
   if (householdOnly.includes(cmd.type) && !isPlayerHead(ctx)) return fail('not_head');
 
@@ -323,6 +335,26 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
         return fail('invalid_marriage');
       }
       return ok;
+    }
+
+    case 'relocateHousehold': {
+      return relocateHousehold(ctx, cmd.targetSettlementId, cmd.sellOldProperties)
+        ? ok
+        : fail('not_enough_money');
+    }
+
+    case 'startTradeTrip': {
+      return startTradeTrip(ctx, cmd.targetSettlementId, cmd.cargoMoney)
+        ? ok
+        : fail('action_unavailable');
+    }
+
+    case 'cancelTrip': {
+      return cancelActiveTrip(ctx) ? ok : fail('action_unavailable');
+    }
+
+    case 'appointOfficial': {
+      return appointPrefectureOfficial(ctx) ? ok : fail('action_unavailable');
     }
 
     // ── Lệnh Dev ──

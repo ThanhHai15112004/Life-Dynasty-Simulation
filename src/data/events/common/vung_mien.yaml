@@ -1,0 +1,235 @@
+# [7] Sự kiện Vùng 3 điểm (Làng nông – Thị trấn bến sông – Phủ thành):
+# - Chuyển nhà ra thị trấn (bán hoặc giữ ruộng cũ)
+# - Quan văn lên phủ nhậm chức
+# - Dịch bệnh bùng phát ở thị trấn & lan truyền theo đường buôn
+# - Đang đi buôn chuyến xa thì ở nhà có việc gấp
+events:
+  - id: sk_chuyen_ra_thi_tran
+    title: 'Dời nhà ra thị trấn bến sông'
+    text:
+      - 'Mấy phiên chợ gần đây, bến {world.town_name} thuyền bè tấp nập, hàng hóa xoay vòng nhanh gấp rưỡi trong làng. Nhìn lại cơ ngơi ở {world.settlement}, bạn bàn với người nhà chuyện dời hộ ra phố chợ để mở rộng đường làm ăn.'
+    tags: [buon_ban, gia_dinh, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: world.settlement_type, op: '==', value: lang_nong }
+        - { var: player.is_head, op: '==', value: true }
+        - { var: household.money, op: '>=', value: 10 }
+    weight: 4
+    cooldown_years: 8
+    tension: 4
+    importance: 7
+    icon: nha
+    options:
+      - id: ban_ruong_ra_pho
+        text: 'Bán hết ruộng vườn ở làng, dồn vốn dời cả nhà ra bến {world.town_name}'
+        hint: 'Thu tiền bán ruộng làm vốn lớn buôn bán ở thị trấn'
+        effects:
+          - { type: relocate_settlement, settlement: thi_tran_ben_song, sell_properties: true, free: false }
+          - { type: skill_xp, skill: thuong_mai, value: 18 }
+        result:
+          - 'Cả nhà thu xếp đồ đạc và tiền bán ruộng chuyển ra bến {world.town_name}. Trước mắt là phố chợ sầm uất đầy cơ hội.'
+      - id: giu_ruong_phat_canh
+        text: 'Dời nhà ra bến {world.town_name} nhưng giữ lại ruộng quê cho tá điền cấy rẽ'
+        hint: 'Tốn phí chuyển nhà, giữ được nguồn thóc tô ở quê mỗi mùa gặt'
+        effects:
+          - { type: relocate_settlement, settlement: thi_tran_ben_song, sell_properties: false, free: false }
+          - { type: skill_xp, skill: quan_tri, value: 15 }
+        result:
+          - 'Gia đình dời ra thị trấn {world.town_name} mở hướng kinh doanh, còn ruộng vườn ở quê giao cho họ hàng trông nom thu tô.'
+      - id: o_lai_lang_cu
+        text: 'Bám đất quê cha đất tổ, chưa vội rời làng lúc này'
+        hint: 'Giữ nếp sống ổn định nơi thôn dã'
+        effects:
+          - { type: stress, value: -3 }
+          - { type: reputation, group: dan_lang, value: 3 }
+        result:
+          - 'Bạn quyết định ở lại {world.settlement}, giữ vững gốc rễ ruộng đồng.'
+
+  - id: sk_quan_van_nham_chuc_phu
+    title: 'Sắc chỉ nhậm chức ở phủ thành'
+    text:
+      - 'Trát bổ nhiệm từ nha môn vừa truyền xuống: nhờ khoa danh và uy vọng sẵn có, bạn được triệu lên phủ {world.prefecture_name} nhận chức quan văn. Cổng thành cao vợi và quan trường rộng mở đang chờ phía trước.'
+    tags: [hoc_hanh, van_minh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: world.settlement_type, op: '!=', value: phu_thanh }
+        - any:
+            - { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }
+            - { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 2 }] }
+            - { all: [{ var: player.career, op: '==', value: nha_lai }, { var: player.career_rank, op: '>=', value: 1 }] }
+    weight: 6
+    cooldown_years: 10
+    tension: 5
+    importance: 9
+    icon: sach
+    options:
+      - id: dua_gia_quyen_len_phu
+        text: 'Đưa cả gia quyến lên phủ {world.prefecture_name} nhậm chức, giữ ruộng quê thu tô'
+        hint: 'Dời hộ lên Phủ thành, nhận bổng lộc an gia và thăng bậc quan văn'
+        effects:
+          - { type: relocate_settlement, settlement: phu_thanh, sell_properties: false, official: true }
+          - { type: scholarly_prestige, value: 8 }
+          - { type: dynasty_prestige, value: 10 }
+        result:
+          - 'Võng lọng rợp đường đưa gia đình bạn lên phủ {world.prefecture_name}. Từ nay bước chân vào chốn quan trường nơi phủ lỵ.'
+      - id: ban_ruong_an_cu_phu_thanh
+        text: 'Sang nhượng ruộng vườn ở quê, tậu cơ ngơi định cư hẳn trên phủ {world.prefecture_name}'
+        hint: 'Bán ruộng cũ lấy vốn lớn, dời hộ lên Phủ thành nhậm chức'
+        effects:
+          - { type: relocate_settlement, settlement: phu_thanh, sell_properties: true, official: true }
+          - { type: scholarly_prestige, value: 6 }
+          - { type: skill_xp, skill: quan_tri, value: 20 }
+        result:
+          - 'Thu xếp xong việc nhà ở quê, bạn mang toàn bộ vốn liếng cùng gia đình lên định cư tại phủ {world.prefecture_name}.'
+      - id: tu_choi_o_lai_que
+        text: 'Xin cáo bệnh ở lại quê nhà dạy học, giữ tiết thanh cao'
+        hint: 'Không lên phủ, tăng mạnh Danh vọng sĩ phu và giảm căng thẳng'
+        effects:
+          - { type: scholarly_prestige, value: 10 }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: stress, value: -8 }
+        result:
+          - 'Bạn dâng biểu từ chối chức quan trên phủ để ở lại quê nhà mở trường dạy chữ. Sĩ lâm khắp vùng đều nể trọng.'
+
+  - id: sk_dich_bung_thi_tran
+    title: 'Dịch bệnh bùng lên nơi bến chợ'
+    text:
+      - 'Những ngày nắng gắt xen mưa dầm, từ các thuyền buôn cập bến {world.town_name} bỗng bùng lên cơn dịch {world.epidemic_disease}. Chợ bến vắng hoe, khói đốt bồ kết và vôi bột phủ trắng các ngõ.'
+    tags: [nguy_hiem, lang_xa]
+    condition:
+      any:
+        - { var: world.any_epidemic, op: '==', value: true }
+        - { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
+    weight: 6
+    cooldown_years: 4
+    tension: 7
+    importance: 8
+    icon: om
+    options:
+      - id: dong_cua_phong_dich
+        text: 'Đóng chặt cổng ngõ, rắc vôi bột và sắc nước lá phòng dịch cho cả nhà'
+        hint: 'Tốn 2 quan mua thuốc phòng và vôi bột, bảo vệ sức khỏe gia đình'
+        effects:
+          - { type: money, value: -2, ledger: thuoc_men }
+          - { type: health, value: 5, who: household }
+          - { type: stress, value: -3 }
+        result:
+          - 'Nhờ cẩn trọng rắc vôi và uống nước lá đun sôi, cả nhà giữ được sức vóc bình an giữa mùa dịch.'
+      - id: gop_thuoc_cuu_dan
+        text: 'Xuất 4 quan mua thảo dược phát cho các hộ nghèo quanh bến'
+        hint: 'Tốn 4 quan, tăng mạnh danh tiếng và ân đức trong vùng'
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: thuoc_men }
+          - { type: reputation, group: dan_lang, value: 10 }
+          - { type: filial_piety, value: 5 }
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+        result:
+          - 'Nồi nước thuốc thơm nồng đầu ngõ cứu được nhiều người qua cơn sốt, bà con quanh vùng hết lời cảm kích.'
+      - id: tranh_dich_tam_thoi
+        text: 'Cố gắng sinh hoạt cầm chừng, hạn chế ra bến sông'
+        hint: 'Không tốn tiền nhưng cả nhà lo lắng, giảm chút sức khỏe'
+        effects:
+          - { type: health, value: -4, who: household }
+          - { type: stress, value: 6 }
+        result:
+          - 'Mấy tháng dịch giã trôi qua trong thấp thỏm, ai nấy trong nhà đều gầy rộc đi.'
+
+  - id: sk_di_buon_nha_co_viec
+    title: 'Đang đi buôn chuyến thì nhà nhắn tin gấp'
+    text:
+      - 'Đang nghỉ đêm ở quán trọ nơi {world.current_settlement_name} cùng kiện hàng chưa kịp bán hết, bạn bỗng gặp người làng hớt hải tìm đến báo tin: ở quê nhà {world.settlement} đang có việc bất trắc, người nhà ốm sốt và mái nhà dột nặng sau trận giông!'
+    tags: [buon_ban, gia_dinh, nguy_hiem]
+    condition:
+      any:
+        - { var: player.is_traveling, op: '==', value: true }
+        - { var: flag.nha_co_viec_khi_di_xa, op: '==', value: true }
+    weight: 9
+    cooldown_years: 2
+    priority: true
+    tension: 7
+    importance: 8
+    icon: buon
+    options:
+      - id: ban_thao_quay_ve_gap
+        text: 'Bán tháo kiện hàng ngay tại bến, tức tốc quay về quê lo cho gia đình'
+        hint: 'Hủy chuyến buôn sớm (chịu thiệt 30% vốn hàng), giữ trọn đạo hiếu và sức khỏe người nhà'
+        effects:
+          - { type: clear_flag, flag: nha_co_viec_khi_di_xa }
+          - { type: end_trip, cancel: true }
+          - { type: health, value: 6, who: household }
+          - { type: filial_piety, value: 6 }
+          - { type: reputation, group: dan_lang, value: 4 }
+        result:
+          - 'Dù chịu thiệt một phần tiền hàng, bạn kịp về đến nhà sắc thuốc và chằng chống lại mái tranh, cả nhà mừng rơi nước mắt.'
+      - id: gui_tien_thuoc_ve_truoc
+        text: 'Cậy người quen cầm 3 quan tiền thuốc về trước, mình ở lại bán nốt chuyến hàng'
+        hint: 'Tốn 3 quan gửi về, giữ nguyên chuyến buôn để thu hồi đủ vốn lời'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: clear_flag, flag: nha_co_viec_khi_di_xa }
+          - { type: money, value: -3, ledger: thuoc_men }
+          - { type: end_trip, cancel: false }
+          - { type: stress, value: 4 }
+        result:
+          - 'Nhờ khoản tiền gửi về kịp lúc, ở nhà mời được thầy lang chạy chữa, còn bạn cũng chốt xong chuyến hàng có lời.'
+      - id: co_ban_xong_moi_ve
+        text: 'Cắn răng nán lại bán hết giá cao rồi mới lên đường về'
+        hint: 'Giữ trọn lời buôn chuyến nhưng người nhà suy giảm sức khỏe và trách móc'
+        effects:
+          - { type: clear_flag, flag: nha_co_viec_khi_di_xa }
+          - { type: end_trip, cancel: false }
+          - { type: health, value: -10, who: household }
+          - { type: filial_piety, value: -6 }
+          - { type: stress, value: 8 }
+        result:
+          - 'Khi bạn mang túi tiền lời về tới cổng làng thì người nhà đã ốm quặt quẹo suốt mấy tuần, không khí trong nhà trầm hẳn xuống.'
+
+  - id: sk_len_phu_ung_thi
+    title: 'Hội văn trường phủ'
+    text:
+      - 'Tại phủ thành {world.prefecture_name}, các bậc danh nho và quan huấn đạo mở kỳ khảo hạch thử văn chương cho sĩ tử khắp vùng trước kỳ khoa cử.'
+    tags: [hoc_hanh, van_minh]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.skill.hoc_van, op: '>=', value: 2 }
+        - any:
+            - { var: world.settlement_type, op: '==', value: phu_thanh }
+            - { var: player.current_settlement, op: '==', value: phu_thanh }
+    weight: 4
+    cooldown_years: 4
+    tension: 4
+    importance: 6
+    icon: sach
+    options:
+      - id: nop_quyen_ung_thi
+        text: 'Nộp quyển dự khảo hạch, tranh tài cùng sĩ tử khắp phủ'
+        hint: 'Cơ hội tăng mạnh Học vấn, Danh vọng sĩ phu và công trạng'
+        chance:
+          base: 0.55
+          skill: hoc_van
+          per_level: 0.06
+        success:
+          - { type: scholarly_prestige, value: 8 }
+          - { type: career_merit, value: 15 }
+          - { type: skill_xp, skill: hoc_van, value: 22 }
+        failure:
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+          - { type: stress, value: 4 }
+        success_result:
+          - 'Bài kinh nghĩa của bạn đứng đầu bảng trường phủ, quan Đốc học đích thân phê bốn chữ "Văn lý thông đạt"!'
+        failure_result:
+          - 'Đề bài trường phủ hiểm hóc hơn ở quê, bạn nhận ra mình còn phải đọc thêm nhiều sách.'
+      - id: ket_giao_dong_mon
+        text: 'Dành thời gian đàm đạo, kết giao với các sĩ tử và nha lại trên phủ'
+        hint: 'Tốn 1 quan trà rượu, tăng Ngoại giao và Quản trị'
+        effects:
+          - { type: money, value: -1, ledger: sinh_hoat }
+          - { type: skill_xp, skill: ngoai_giao, value: 16 }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: scholarly_prestige, value: 3 }
+        result:
+          - 'Buổi trà đàm bên hồ Văn Miếu giúp bạn quen biết thêm nhiều bạn đồng môn trên phủ.'

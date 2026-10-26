@@ -41,6 +41,12 @@ import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
 import { computeFor } from '../systems/modifiers';
 import { ageGroupOf, ageNow, aliveMembers, callOf, householdHead, lifeStageOf, player, playerHousehold, relationToPlayer } from '../systems/people';
 import { createResolver, seasonOf } from '../systems/resolver';
+import {
+  activeSettlementId,
+  canAppointPrefectureOfficial,
+  findSettlementRoute,
+  initRegionSettlements,
+} from '../world/region';
 import { evaluate } from '../engine/RuleEvaluator';
 import { fillTemplate } from '@shared/template';
 import {
@@ -450,6 +456,60 @@ export interface HudView {
   villageClans: VillageClanView[];
   /** [2] Chợ hôn nhân & gả cưới cho người chơi / con cái (Phase 4). */
   matchmaking: MatchmakingView;
+  /** [7] Bản đồ vùng 3 điểm (Làng nông – Thị trấn bến sông – Phủ thành), đi buôn chuyến, chuyển nhà & dịch bệnh. */
+  region: RegionView;
+}
+
+export interface RegionNodeView {
+  id: string;
+  name: string;
+  typeName: string;
+  description: string;
+  population: number;
+  foodPrice: number;
+  tradeIndex: number;
+  tradeFactor: number;
+  effectiveTradeFactor: number;
+  patrolLevel: number;
+  harvestQuality: string;
+  harvestQualityName: string;
+  disaster: string;
+  epidemic: {
+    diseaseId: string;
+    diseaseName: string;
+    monthsLeft: number;
+  } | null;
+  isHome: boolean;
+  isCurrent: boolean;
+  travelMonths: number;
+  travelCost: number;
+  relocateCost: number;
+  canRelocate: boolean;
+  canStartTrip: boolean;
+  routes: { to: string; travelMonths: number; costMoney: number }[];
+}
+
+export interface RegionView {
+  currentSettlementId: string;
+  currentSettlementName: string;
+  currentSettlementTypeName: string;
+  homeSettlementId: string;
+  homeSettlementName: string;
+  homeSettlementTypeName: string;
+  activeTrip: {
+    kind: string;
+    targetSettlementId: string;
+    targetName: string;
+    totalMonths: number;
+    monthsLeft: number;
+    cargoMoney: number;
+    cancelRefund: number;
+  } | null;
+  cargoOptions: number[];
+  canAppointOfficial: boolean;
+  officialStipend: number;
+  ruralPropertyRefund: number;
+  settlements: RegionNodeView[];
 }
 
 export interface VillageClanView {
@@ -1252,6 +1312,115 @@ export function getHudView(ctx: SimContext): HudView {
     succession: state.gameOver && state.playMode === 'dynasty' ? getSuccessionView(ctx) : null,
     villageClans: getVillageClansView(ctx),
     matchmaking: getMatchmakingView(ctx),
+    region: getRegionView(ctx),
+  };
+}
+
+export function getRegionView(ctx: SimContext): RegionView {
+  initRegionSettlements(ctx);
+  const { state, content } = ctx;
+  const h = playerHousehold(ctx);
+  const me = player(ctx);
+  const isHead = householdHead(ctx)?.id === state.playerId;
+  const isAdult = ageNow(ctx, me) >= content.balance.life.adult_age;
+  const regionCfg = content.balance.opportunity.region;
+
+  const homeId = state.world.settlementType;
+  const curId = activeSettlementId(ctx);
+  const homeNode = state.settlements[homeId];
+  const curNode = state.settlements[curId] ?? homeNode;
+  const homeType = content.index.settlementType.get(homeId);
+  const curType = content.index.settlementType.get(curId) ?? homeType;
+
+  const sellFactor = content.balance.economy.property_sell_factor;
+  const ruralPropertyRefund = holdingsOf(h, content)
+    .filter((item) => item.type.category === 'land' && item.count > 0)
+    .reduce((sum, item) => sum + Math.round(item.type.value * sellFactor * item.count), 0);
+
+  const minCargo = regionCfg.trip_cargo_options[0] ?? 4;
+
+  const settlements: RegionNodeView[] = content.settlementTypes
+    .filter((st) => st.region_node)
+    .map((st) => {
+      const s = state.settlements[st.id];
+      const q = content.index.harvestQuality.get(s?.harvestQuality ?? state.world.harvestQuality);
+      const route = findSettlementRoute(ctx, homeId, st.id);
+      const isHome = st.id === homeId;
+      const isCurrent = st.id === curId;
+      const ep = s?.epidemic
+        ? {
+            diseaseId: s.epidemic.diseaseId,
+            diseaseName: content.index.disease.get(s.epidemic.diseaseId)?.name ?? s.epidemic.diseaseId,
+            monthsLeft: s.epidemic.monthsLeft,
+          }
+        : null;
+
+      return {
+        id: st.id,
+        name: s?.name ?? st.name,
+        typeName: st.name,
+        description: st.description,
+        population: s?.population ?? Math.round((st.population_band[0] + st.population_band[1]) / 2),
+        foodPrice: s?.foodPrice ?? state.world.foodPrice,
+        tradeIndex: s?.tradeIndex ?? state.world.tradeIndex,
+        tradeFactor: st.trade_factor,
+        effectiveTradeFactor: Math.round(((s?.tradeIndex ?? 1) * st.trade_factor) * 100) / 100,
+        patrolLevel: s?.patrolLevel ?? state.world.patrolLevel,
+        harvestQuality: s?.harvestQuality ?? state.world.harvestQuality,
+        harvestQualityName: q?.name ?? '',
+        disaster: s?.disaster ?? 'none',
+        epidemic: ep,
+        isHome,
+        isCurrent,
+        travelMonths: isHome ? 0 : route.travel_months,
+        travelCost: isHome ? 0 : route.cost_money,
+        relocateCost: st.relocate_cost,
+        canRelocate: !isHome && isHead && !state.activeTrip && h.money >= st.relocate_cost,
+        canStartTrip:
+          !isHome &&
+          isHead &&
+          isAdult &&
+          !state.activeTrip &&
+          state.civilization.mourningMonthsLeft <= 0 &&
+          h.money >= minCargo + route.cost_money,
+        routes: st.routes.map((r) => ({
+          to: r.to,
+          travelMonths: r.travel_months,
+          costMoney: r.cost_money,
+        })),
+      };
+    });
+
+  let activeTripView: RegionView['activeTrip'] = null;
+  if (state.activeTrip) {
+    const t = state.activeTrip;
+    const dst = state.settlements[t.targetSettlementId];
+    const dstType = content.index.settlementType.get(t.targetSettlementId);
+    const dstLabel = dst ? `${dstType?.name ?? ''} ${dst.name}`.trim() : t.targetSettlementId;
+    activeTripView = {
+      kind: t.kind,
+      targetSettlementId: t.targetSettlementId,
+      targetName: dstLabel,
+      totalMonths: t.totalMonths,
+      monthsLeft: t.monthsLeft,
+      cargoMoney: t.cargoMoney,
+      cancelRefund: Math.max(0, Math.round(t.cargoMoney * (1 - regionCfg.trip_cancel_loss_factor))),
+    };
+  }
+
+  return {
+    currentSettlementId: curId,
+    currentSettlementName: curNode?.name ?? state.world.settlementName,
+    currentSettlementTypeName: curType?.name ?? '',
+    homeSettlementId: homeId,
+    homeSettlementName: homeNode?.name ?? state.world.settlementName,
+    homeSettlementTypeName: homeType?.name ?? '',
+    activeTrip: activeTripView,
+    cargoOptions: regionCfg.trip_cargo_options,
+    canAppointOfficial: canAppointPrefectureOfficial(ctx),
+    officialStipend: regionCfg.official_relocate_stipend,
+    ruralPropertyRefund,
+    settlements,
   };
 }
 

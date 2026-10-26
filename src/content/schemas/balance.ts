@@ -608,6 +608,23 @@ export const opportunityBalanceSchema = z
     wanted_decay: z.object({ every_months: z.number().int().positive(), amount: z.number().min(0) }).strict(),
     /** Độ quan trọng của dòng nhật ký khi làm hành động nghề. */
     career_action_log_importance: z.number(),
+    /** [7] Cấu hình Vùng (Làng – Thị trấn – Phủ), đi buôn chuyến, chuyển nhà & dịch bệnh lan truyền. */
+    region: z
+      .object({
+        trip_cargo_options: z.array(z.number().positive()).default([5, 15, 30]),
+        trip_base_return_rate: z.number().min(0).default(0.28),
+        trip_skill_bonus_per_level: z.number().min(0).default(0.04),
+        trip_cancel_loss_factor: z.number().min(0).max(1).default(0.2),
+        trip_home_emergency_chance_month: z.number().min(0).max(1).default(0.18),
+        epidemic_duration_months: range.default([3, 6]),
+        epidemic_spread_chance_month: z.number().min(0).max(1).default(0.18),
+        epidemic_infection_boost: z.number().min(1).default(3.5),
+        epidemic_trade_penalty: z.number().min(0).max(1).default(0.2),
+        epidemic_diseases: z.array(z.string()).default(['ta_ly', 'sot_ret', 'dau_mua_soi']),
+        official_relocate_stipend: z.number().min(0).default(12),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 

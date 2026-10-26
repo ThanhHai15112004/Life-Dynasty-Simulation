@@ -577,6 +577,77 @@ templates:
     variants:
       - 'Thương cảnh {call} túng quẫn, bạn đốt văn tự xóa khoản nợ {money} quan. Cả làng đều trọng nghĩa khí của bạn.'
       - 'Bạn xé giấy nợ {money} quan cho {call}, đổi lại mối đại ân tình khắc cốt ghi tâm.'
+  # [7] Một vùng 3 điểm: chuyển nhà, đi buôn chuyến, nhậm chức ở phủ, dịch bệnh lan truyền (Phase 7)
+  - id: sys.chuyen_nha
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: nha
+    variants:
+      - 'Thu xếp hành trang và sổ sách, cả nhà dời sang định cư tại {title}, mở ra một trang đời mới.'
+      - 'Xe bò chở đồ đạc lăn bánh rời chốn cũ: gia đình bạn chính thức chuyển nhà tới {title}.'
+  - id: sys.di_buon_chuyen
+    kind: bao_cao
+    importance: 5
+    tone: trung_tinh
+    icon: tien
+    variants:
+      - 'Bạn gom {money} quan tiền hàng, lên đường đi buôn chuyến tới {title} trong {amount} tháng.'
+      - 'Khoác tay nải và {money} quan vốn hàng, bạn xuất hành đi chuyến buôn xa tới {title} ({amount} tháng).'
+  - id: sys.ve_buon_chuyen
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: tien
+    variants:
+      - 'Trở về bình an sau chuyến buôn ở {title}, bạn thu hồi cả vốn lẫn lời được {money} quan (lãi ròng {amount} quan).'
+      - 'Thuyền hàng cập bến quê nhà từ {title}: chuyến đi mang về tổng cộng {money} quan, lời ròng {amount} quan!'
+  - id: sys.bo_do_buon_chuyen
+    kind: he_thong
+    importance: 6
+    tone: buon
+    icon: buon
+    variants:
+      - 'Bỏ dở chuyến đi tới {title} để quay về gấp, bạn đành bán tháo hàng hóa giữa đường, thu hồi được {money} quan.'
+      - 'Nghe tin nhà có việc phải vội vã quay về từ đường đi {title}, bạn chỉ thu lại được {money} quan vốn hàng.'
+  - id: sys.nham_chuc_phu
+    kind: he_thong
+    importance: 9
+    highlight: true
+    tone: vui
+    icon: sach
+    variants:
+      - 'Có sắc chỉ bổ nhiệm từ nha môn, bạn đưa gia quyến lên {title} nhậm chức ({stage}), nhận {money} quan bổng lộc an gia!'
+      - 'Trống chiêng rước quan tân nhiệm: bạn chính thức lên {title} nhận ấn tín bậc "{stage}", triều đình cấp {money} quan tiền lộ phí.'
+  - id: sys.dich_bung_phat
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: buon
+    icon: om
+    variants:
+      - 'Tin dữ lan khắp vùng: dịch {title} bất ngờ bùng phát tại {stage}, dân tình đóng cửa đốt bồ kết phòng bệnh.'
+      - 'Khí độc uế tạp bốc lên: bệnh dịch {title} bùng lên ở {stage}, chợ búa vắng tanh, ai nấy đều lo sợ.'
+  - id: sys.dich_lan_truyen
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: buon
+    icon: om
+    variants:
+      - 'Theo thuyền buôn và người qua lại từ {call}, dịch {title} đã lan sang tận {stage}!'
+      - 'Không kịp ngăn chặn: dịch {title} từ {call} đã theo đường giao thương lan tới {stage}.'
+  - id: sys.dich_lui
+    kind: bao_cao
+    importance: 4
+    tone: vui
+    icon: binh_yen
+    variants:
+      - 'Trời trở gió mát lành, cơn dịch {title} ở {stage} cuối cùng đã lắng dịu, chợ bến họp lại bình thường.'
+      - 'Sau mấy tháng hoành hành, dịch {title} tại {stage} đã lui hẳn, dân tình thở phào nhẹ nhõm.'
+
 
 
 

@@ -7,6 +7,7 @@ import type { Household } from '../entities/Household';
 import { SAVE_VERSION, type GameState } from '../entities/World';
 import { generateVillageClans } from '../systems/ai';
 import { RngStream, newId, type SimContext } from '../systems/context';
+import { initRegionSettlements } from './region';
 
 export interface NewGameOptions {
   seed: string;
@@ -133,6 +134,8 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     householdId: '',
     village: {},
     villageClans: {},
+    settlements: {},
+    activeTrip: null,
     focus: { primary: '' },
     autoManage: { livingStandard: true, repayDebt: true, sellSurplus: true, invest: true },
     yearOpenNetWorth: 0,
@@ -204,6 +207,7 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
   if (!culture) throw new Error(`Xuất thân "${origin.id}" dùng văn hóa không tồn tại: ${origin.culture}`);
 
   state.world.settlementName = rng.pick(culture.village_names);
+  initRegionSettlements(ctx);
   const startAge = opts.startAge ?? origin.default_start_age;
 
   const hh = origin.household;

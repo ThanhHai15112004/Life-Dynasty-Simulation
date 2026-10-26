@@ -23,3 +23,17 @@ patrol:
 
 wanted_decay: { every_months: 3, amount: 1 }
 career_action_log_importance: 5
+
+# [7] Cấu hình vùng 3 điểm (Làng – Thị trấn – Phủ), đi buôn chuyến & dịch bệnh lan truyền
+region:
+  trip_cargo_options: [5, 15, 30]
+  trip_base_return_rate: 0.28
+  trip_skill_bonus_per_level: 0.04
+  trip_cancel_loss_factor: 0.2
+  trip_home_emergency_chance_month: 0.18
+  epidemic_duration_months: [3, 6]
+  epidemic_spread_chance_month: 0.18
+  epidemic_infection_boost: 3.5
+  epidemic_trade_penalty: 0.2
+  epidemic_diseases: [ta_ly, sot_ret, dau_mua_soi]
+  official_relocate_stipend: 12
