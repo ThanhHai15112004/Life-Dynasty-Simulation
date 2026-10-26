@@ -85,6 +85,15 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     template(q.quiet_year_log, `harvest_qualities.${q.id}.quiet_year_log`);
     cutscene(q.cutscene, `harvest_qualities.${q.id}.cutscene`);
   }
+  // [1] Kiểm tra kịch bản thử nghiệm
+  for (const sc of content.scenarios) {
+    const w = `scenarios.${sc.id}`;
+    need(idx.origin.has(sc.base.originId), `${w}: origin lạ "${sc.base.originId}"`);
+    need(sc.title_key in lang, `${w}: thiếu chữ ${sc.title_key} trong lang`);
+    need(sc.description_key in lang, `${w}: thiếu chữ ${sc.description_key} trong lang`);
+    if (sc.start_event) need(idx.event.has(sc.start_event), `${w}: start_event lạ "${sc.start_event}"`);
+    if (sc.world_setup?.harvestQuality) need(idx.harvestQuality.has(sc.world_setup.harvestQuality), `${w}: harvestQuality lạ "${sc.world_setup.harvestQuality}"`);
+  }
   cutscene(content.balance.life.marriage.wedding_cutscene, 'life.marriage.wedding_cutscene');
   cutscene(content.balance.life.marriage.birth_cutscene, 'life.marriage.birth_cutscene');
   Object.values(Ledger).forEach((id) => ledger(id, 'systemLogKeys.Ledger'));

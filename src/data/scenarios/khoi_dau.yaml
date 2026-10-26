@@ -1,0 +1,82 @@
+# 9 kịch bản khởi đầu: 3 xuất thân × 3 lứa tuổi (0 / 6 / 16)
+scenarios:
+  - id: khoi_dau_nong_dan_0
+    group: khoi_dau
+    title_key: scenario.khoi_dau_nong_dan_0.title
+    description_key: scenario.khoi_dau_nong_dan_0.desc
+    base:
+      originId: nong_dan
+      age: 0
+    auto_minor: false
+
+  - id: khoi_dau_nong_dan_6
+    group: khoi_dau
+    title_key: scenario.khoi_dau_nong_dan_6.title
+    description_key: scenario.khoi_dau_nong_dan_6.desc
+    base:
+      originId: nong_dan
+      age: 6
+    auto_minor: false
+
+  - id: khoi_dau_nong_dan_16
+    group: khoi_dau
+    title_key: scenario.khoi_dau_nong_dan_16.title
+    description_key: scenario.khoi_dau_nong_dan_16.desc
+    base:
+      originId: nong_dan
+      age: 16
+    auto_minor: false
+
+  - id: khoi_dau_thuong_nhan_0
+    group: khoi_dau
+    title_key: scenario.khoi_dau_thuong_nhan_0.title
+    description_key: scenario.khoi_dau_thuong_nhan_0.desc
+    base:
+      originId: thuong_nhan
+      age: 0
+    auto_minor: false
+
+  - id: khoi_dau_thuong_nhan_6
+    group: khoi_dau
+    title_key: scenario.khoi_dau_thuong_nhan_6.title
+    description_key: scenario.khoi_dau_thuong_nhan_6.desc
+    base:
+      originId: thuong_nhan
+      age: 6
+    auto_minor: false
+
+  - id: khoi_dau_thuong_nhan_16
+    group: khoi_dau
+    title_key: scenario.khoi_dau_thuong_nhan_16.title
+    description_key: scenario.khoi_dau_thuong_nhan_16.desc
+    base:
+      originId: thuong_nhan
+      age: 16
+    auto_minor: false
+
+  - id: khoi_dau_quan_lai_0
+    group: khoi_dau
+    title_key: scenario.khoi_dau_quan_lai_0.title
+    description_key: scenario.khoi_dau_quan_lai_0.desc
+    base:
+      originId: quy_toc_nho
+      age: 0
+    auto_minor: false
+
+  - id: khoi_dau_quan_lai_6
+    group: khoi_dau
+    title_key: scenario.khoi_dau_quan_lai_6.title
+    description_key: scenario.khoi_dau_quan_lai_6.desc
+    base:
+      originId: quy_toc_nho
+      age: 6
+    auto_minor: false
+
+  - id: khoi_dau_quan_lai_16
+    group: khoi_dau
+    title_key: scenario.khoi_dau_quan_lai_16.title
+    description_key: scenario.khoi_dau_quan_lai_16.desc
+    base:
+      originId: quy_toc_nho
+      age: 16
+    auto_minor: false

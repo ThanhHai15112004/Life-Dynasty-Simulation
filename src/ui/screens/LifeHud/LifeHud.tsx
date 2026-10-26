@@ -2,6 +2,7 @@
 import type { HudView } from '@core/index';
 import { EventCard } from '../../components/EventCard';
 import { TimeBar } from '../../components/TimeBar';
+import { DevPanel } from '../../components/DevPanel/DevPanel';
 import { useUi } from '../../context';
 import { CareerPanel } from '../Career/CareerPanel';
 import { LifeSummary } from '../LifeSummary/LifeSummary';
@@ -44,6 +45,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
       </main>
       {hud.pending ? <EventCard pending={hud.pending} /> : hud.minor && <EventCard pending={hud.minor} minor />}
       {hud.gameOver && <LifeSummary summary={hud.gameOver} />}
+      <DevPanel />
     </div>
   );
 }

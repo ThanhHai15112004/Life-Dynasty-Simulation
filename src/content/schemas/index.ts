@@ -5,4 +5,5 @@ export * from './effect';
 export * from './event';
 export * from './gameplay';
 export * from './balance';
+export * from './scenario';
 export * from './lang';

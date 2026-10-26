@@ -21,6 +21,8 @@ import { monthlySkills } from '../systems/skills';
 import { monthlySocial } from '../systems/social';
 import { computeStatusRank, monthlyStatus } from '../systems/status';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
+import { applyScenario } from '../world/scenario';
+import type { Scenario } from '@content/schemas';
 import { migrateState } from '../world/migrate';
 import { executeCommand, type Command, type CommandResult } from './commands';
 
@@ -54,6 +56,49 @@ export class GameSession {
       ensureIndependentLife(ctx);
       ensureFocus(ctx);
     });
+    return session;
+  }
+
+  static createFromScenario(
+    content: ContentBundle,
+    scenario: Scenario,
+    overrides?: { seed?: string; extraFastForwardYears?: number },
+  ): GameSession {
+    const seed = overrides?.seed || scenario.base.seed || `${scenario.id}-${Date.now().toString(36)}`;
+    const opts: NewGameOptions = {
+      seed,
+      originId: scenario.base.originId,
+      startAge: scenario.base.age,
+      sex: scenario.base.sex,
+    };
+    const state = generateNewGame(content, opts, (s) => createContext(s, content));
+    const session = new GameSession(content, state);
+    session.withContext((ctx) => {
+      ctx.state.civilization.statusRank = computeStatusRank(ctx).id;
+      yearStart(ctx);
+      writeTemplate(ctx, content.index.origin.get(ctx.state.originId)?.start_log ?? SystemLog.GameStart);
+      ensureIndependentLife(ctx);
+      ensureFocus(ctx);
+      applyScenario(ctx, scenario);
+    });
+
+    const ffYears = (scenario.fast_forward_years ?? 0) + (overrides?.extraFastForwardYears ?? 0);
+    if (ffYears > 0) {
+      const months = ffYears * content.balance.calendar.months_per_year;
+      for (let m = 0; m < months; m++) {
+        if (session.state.gameOver) break;
+        if (session.state.pending) {
+          // Tự động chọn phương án đầu tiên để tiếp tục tua
+          const optId = session.state.pending.options[0]?.id;
+          if (optId) session.dispatch({ type: 'chooseOption', optionId: optId });
+        }
+        if (session.state.minor) {
+          session.autoResolveMinor();
+        }
+        session.tickMonth();
+      }
+    }
+
     return session;
   }
 

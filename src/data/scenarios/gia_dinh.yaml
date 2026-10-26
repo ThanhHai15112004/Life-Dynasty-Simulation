@@ -1,0 +1,65 @@
+# 4 kịch bản gia đình
+scenarios:
+  - id: moi_cuoi_vo_mang_thai
+    group: gia_dinh
+    title_key: scenario.moi_cuoi_vo_mang_thai.title
+    description_key: scenario.moi_cuoi_vo_mang_thai.desc
+    base:
+      originId: nong_dan
+      age: 20
+      sex: m
+    setup:
+      - { type: marry }
+    family_setup:
+      spouse_age: 18
+      spouse_pregnant: true
+    auto_minor: false
+
+  - id: nhieu_con_nho
+    group: gia_dinh
+    title_key: scenario.nhieu_con_nho.title
+    description_key: scenario.nhieu_con_nho.desc
+    base:
+      originId: nong_dan
+      age: 30
+      sex: m
+    setup:
+      - { type: marry }
+      - { type: food, value: -50 }
+    family_setup:
+      spouse_age: 28
+      children:
+        - { age: 1, sex: m }
+        - { age: 3, sex: f }
+        - { age: 5, sex: m }
+        - { age: 7, sex: f }
+    auto_minor: false
+
+  - id: cha_me_sap_giao_nha
+    group: gia_dinh
+    title_key: scenario.cha_me_sap_giao_nha.title
+    description_key: scenario.cha_me_sap_giao_nha.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+    setup:
+      - { type: marry }
+    auto_minor: false
+
+  - id: goa_vo
+    group: gia_dinh
+    title_key: scenario.goa_vo.title
+    description_key: scenario.goa_vo.desc
+    base:
+      originId: nong_dan
+      age: 36
+      sex: m
+    family_setup:
+      children:
+        - { age: 4, sex: m }
+        - { age: 8, sex: f }
+    setup:
+      - { type: stress, value: 45 }
+    auto_minor: false
+

@@ -18,6 +18,8 @@ export interface StoreSnapshot {
   autoMinor: boolean;
   /** Khóa lỗi (error.<mã>) của lệnh vừa thất bại, để UI báo. */
   lastError: string | null;
+  /** [1] Bật Dev Tools */
+  devEnabled: boolean;
 }
 
 const SLOT = 'auto';
@@ -45,6 +47,7 @@ export class GameStore {
       hasSave: false,
       autoMinor: false,
       lastError: null,
+      devEnabled: Boolean(import.meta.env.DEV || content.balance.display.dev_tools),
     };
     void this.saves.load(SLOT).then(
       (s) => this.patch({ hasSave: s !== null }),
@@ -78,6 +81,15 @@ export class GameStore {
   newGame(opts: Omit<NewGameOptions, 'seed'> & { seed?: string }): void {
     const seed = opts.seed?.trim() || `${Date.now().toString(36)}`;
     this.session = GameSession.create(this.content, { ...opts, seed });
+    this.yearsSinceSave = 0;
+    this.refresh({ screen: 'life', lastError: null });
+    void this.save();
+  }
+
+  startScenario(scenarioId: string, options?: { seed?: string; extraFastForwardYears?: number }): void {
+    const sc = this.content.index.scenario.get(scenarioId);
+    if (!sc) return;
+    this.session = GameSession.createFromScenario(this.content, sc, options);
     this.yearsSinceSave = 0;
     this.refresh({ screen: 'life', lastError: null });
     void this.save();
@@ -201,5 +213,37 @@ export class GameStore {
     if (!res.ok) this.notifications.emit('commandFailed', { error: res.error });
     this.refresh({ lastError });
     return res.ok;
+  }
+
+  // ── Dev Proxy Helpers ──
+  devAdvance(months: number): void {
+    if (!this.session || !this.snapshot.devEnabled) return;
+    for (let i = 0; i < months; i++) {
+      if (this.session.state.gameOver) break;
+      if (this.session.state.pending) {
+        const optId = this.session.state.pending.options[0]?.id;
+        if (optId) this.session.dispatch({ type: 'chooseOption', optionId: optId });
+      }
+      if (this.session.state.minor) {
+        this.session.autoResolveMinor();
+      }
+      this.tick();
+    }
+  }
+
+  exportSave(): string | null {
+    if (!this.session) return null;
+    return this.session.serialize();
+  }
+
+  importSave(json: string): boolean {
+    try {
+      this.session = GameSession.load(this.content, json);
+      this.refresh({ screen: 'life', lastError: null });
+      void this.save();
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

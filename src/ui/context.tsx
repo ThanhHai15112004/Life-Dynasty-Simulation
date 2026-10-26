@@ -8,6 +8,7 @@ export type T = (key: string, params?: Record<string, string | number>) => strin
 
 interface UiContext {
   store: GameStore;
+  content: import('@content/ContentLoader').ContentBundle;
   t: T;
   /** id icon → đường dẫn ảnh (từ public/assets/sprites.json). */
   icons: Record<string, string>;
@@ -37,7 +38,7 @@ export function UiProvider({ store, children }: { store: GameStore; children?: R
       .then(setKit)
       .catch(() => setKit(null));
   }, []);
-  return <Ctx.Provider value={{ store, t, icons, kit }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ store, content: store.content, t, icons, kit }}>{children}</Ctx.Provider>;
 }
 
 export function useUi(): UiContext {

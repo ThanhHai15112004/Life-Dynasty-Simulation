@@ -16,6 +16,7 @@ import {
   langSchema,
   originSchema,
   propertyFileSchema,
+  scenarioFileSchema,
   settlementTypeFileSchema,
   skillFileSchema,
   traitFileSchema,
@@ -32,6 +33,7 @@ import {
   type LangPack,
   type Origin,
   type PropertyType,
+  type Scenario,
   type SettlementType,
   type Skill,
   type Trait,
@@ -59,6 +61,7 @@ export interface ContentBundle {
   cultures: Culture[];
   events: DecisionEvent[];
   ambient: AmbientTemplate[];
+  scenarios: Scenario[];
   lang: Record<string, LangPack>;
   /** Tra cứu nhanh theo id. */
   index: {
@@ -76,6 +79,7 @@ export interface ContentBundle {
     culture: Map<string, Culture>;
     event: Map<string, DecisionEvent>;
     ambient: Map<string, AmbientTemplate>;
+    scenario: Map<string, Scenario>;
     livingStandard: Map<string, Balance['living_standards']['levels'][number]>;
     lifeStage: Map<string, Balance['life']['life_stages'][number]>;
     harvestQuality: Map<string, Balance['economy']['harvest_qualities'][number]>;
@@ -179,6 +183,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     ...collect('events/civilizations', decisionEventFileSchema, 'events'),
   ];
   const ambient = collect('events/ambient', ambientFileSchema, 'templates');
+  const scenarios = collect('scenarios', scenarioFileSchema, 'scenarios');
   const origins = single('origins', originSchema);
   const cultures = single('cultures', cultureSchema);
 
@@ -212,6 +217,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     culture: indexBy(cultures, 'cultures'),
     event: indexBy(events, 'events'),
     ambient: indexBy(ambient, 'events/ambient'),
+    scenario: indexBy(scenarios, 'scenarios'),
     livingStandard: indexBy((balance.living_standards as Balance['living_standards'] | undefined)?.levels ?? [], 'living_standards'),
     lifeStage: indexBy((balance.life as Balance['life'] | undefined)?.life_stages ?? [], 'life_stages'),
     harvestQuality: indexBy((balance.economy as Balance['economy'] | undefined)?.harvest_qualities ?? [], 'harvest_qualities'),
@@ -235,6 +241,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     cultures,
     events,
     ambient,
+    scenarios,
     lang,
     index,
   };

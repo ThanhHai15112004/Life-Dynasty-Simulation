@@ -45,8 +45,12 @@ export function runLife(
   startAge: number | undefined,
   maxYears: number,
   originId?: string,
+  scenarioId?: string,
 ): LifeResult {
-  const s = GameSession.create(content, { seed, startAge, originId });
+  const sc = scenarioId ? content.index.scenario.get(scenarioId) : undefined;
+  const s = sc
+    ? GameSession.createFromScenario(content, sc, { seed })
+    : GameSession.create(content, { seed, startAge, originId });
   let years = 0;
   let openLoopsSum = 0;
   let deepDebt = false;

@@ -1,0 +1,137 @@
+.scenario-browser {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.scenario-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.group-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: #bbb;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip.active {
+  background: #d4a373;
+  color: #1e1e1e;
+  border-color: #d4a373;
+  font-weight: bold;
+}
+
+.scenario-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  height: 360px;
+}
+
+.scenario-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 4px;
+}
+
+.scenario-item {
+  padding: 8px 12px;
+  background: #242424;
+  border: 1px solid #383838;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 0.2s;
+}
+
+.scenario-item:hover {
+  border-color: #777;
+}
+
+.scenario-item.selected {
+  border-color: #d4a373;
+  background: #2e2820;
+}
+
+.scenario-item-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #eee;
+}
+
+.scenario-item-group {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.scenario-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #222;
+  border-radius: 6px;
+  border: 1px solid #383838;
+}
+
+.scenario-desc {
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.scenario-config {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scenario-config label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.scenario-config input {
+  padding: 6px 10px;
+  background: #181818;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #eee;
+}
+
+.launch-btn {
+  margin-top: 8px;
+}

@@ -1,7 +1,8 @@
 // [0] Các lệnh người chơi gửi vào lõi. UI/bot chỉ được đổi trạng thái qua đây.
 import { addLedger } from '../entities/Household';
 import { evaluate } from '../engine/RuleEvaluator';
-import { resolveDecision } from '../events/decision';
+import { fireDecision, resolveDecision } from '../events/decision';
+import { eligibleRoles } from '../events/selection';
 import { Ledger } from '../events/systemLogKeys';
 import { resolveMinor } from '../events/decision';
 import { careerAvailable, changeCareer, executeCareerAction } from '../systems/career';
@@ -9,8 +10,8 @@ import type { SimContext } from '../systems/context';
 import { addToPurse, isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
 import { focusAvailable } from '../systems/focus';
-import { treatDisease, treatmentBlock } from '../systems/life';
-import { playerHousehold } from '../systems/people';
+import { infectCharacter, treatDisease, treatmentBlock } from '../systems/life';
+import { player, playerHousehold } from '../systems/people';
 import { createResolver } from '../systems/resolver';
 
 export { focusAvailable };
@@ -28,7 +29,12 @@ export type Command =
   | { type: 'buyProperty'; id: string }
   | { type: 'sellProperty'; id: string }
   | { type: 'repayDebt'; amount: number }
-  | { type: 'treatDisease'; characterId: string; diseaseId: string };
+  | { type: 'treatDisease'; characterId: string; diseaseId: string }
+  // [1] Lệnh Dev (chỉ chạy khi cờ dev bật)
+  | { type: 'devTriggerEvent'; eventId: string }
+  | { type: 'devModifyStat'; stat: 'money' | 'food' | 'debt' | 'health' | 'stress'; delta: number }
+  | { type: 'devAddDisease'; characterId?: string; diseaseId: string }
+  | { type: 'devKill'; characterId?: string; causeId?: string };
 
 /** Mã lỗi là khóa tra chữ trong data/lang (error.<mã>). */
 export type CommandError =
@@ -47,7 +53,8 @@ export type CommandError =
   | 'not_tradeable'
   | 'no_debt'
   | 'not_sick'
-  | 'treated_recently';
+  | 'treated_recently'
+  | 'dev_disabled';
 
 export type CommandResult = { ok: true } | { ok: false; error: CommandError };
 
@@ -169,6 +176,60 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
       h.money -= amount;
       h.debt -= amount;
       addLedger(h, Ledger.RepayDebt, -amount, 0);
+      return ok;
+    }
+
+    // ── Lệnh Dev ──
+    case 'devTriggerEvent': {
+      if (!content.balance.display.dev_tools) return fail('dev_disabled');
+      const ev = content.index.event.get(cmd.eventId);
+      if (!ev) return fail('no_event');
+      const roles = eligibleRoles(ctx, ev) ?? { actor: state.playerId };
+      fireDecision(ctx, ev, roles);
+      return ok;
+    }
+
+    case 'devModifyStat': {
+      if (!content.balance.display.dev_tools) return fail('dev_disabled');
+      const me = player(ctx);
+      switch (cmd.stat) {
+        case 'money':
+          h.money = Math.max(0, h.money + cmd.delta);
+          break;
+        case 'food':
+          h.food = Math.max(0, h.food + cmd.delta);
+          break;
+        case 'debt':
+          h.debt = Math.max(0, h.debt + cmd.delta);
+          break;
+        case 'health':
+          me.health = Math.max(0, Math.min(content.balance.life.health.max, me.health + cmd.delta));
+          break;
+        case 'stress':
+          me.stress = Math.max(0, Math.min(100, me.stress + cmd.delta));
+          break;
+      }
+      return ok;
+    }
+
+    case 'devAddDisease': {
+      if (!content.balance.display.dev_tools) return fail('dev_disabled');
+      const c = cmd.characterId ? state.characters[cmd.characterId] : player(ctx);
+      if (!c) return fail('not_sick');
+      infectCharacter(ctx, c, cmd.diseaseId);
+      return ok;
+    }
+
+    case 'devKill': {
+      if (!content.balance.display.dev_tools) return fail('dev_disabled');
+      const c = cmd.characterId ? state.characters[cmd.characterId] : player(ctx);
+      if (!c) return fail('not_sick');
+      c.alive = false;
+      c.deathCauseId = cmd.causeId ?? 'benh';
+      c.deathYear = state.clock.year;
+      if (c.id === state.playerId) {
+        state.gameOver = { year: state.clock.year, age: state.clock.year - c.birthYear, causeId: c.deathCauseId };
+      }
       return ok;
     }
   }

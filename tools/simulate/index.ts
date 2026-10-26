@@ -23,7 +23,8 @@ const maxYears = targets.max_years as number;
 const content = loadNodeContent();
 const bots = botArg === 'all' ? [...BOT_NAMES] : [botArg];
 const originArg = arg('origin', content.origins[0].id);
-const origins = originArg === 'all' ? content.origins.map((o) => o.id) : [originArg];
+const scenarioArg = arg('scenario', '');
+const origins = scenarioArg ? ['scenario'] : originArg === 'all' ? content.origins.map((o) => o.id) : [originArg];
 const t0 = performance.now();
 
 const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0);
@@ -37,7 +38,19 @@ const mark = (key: string, v: number) => {
 const all: LifeResult[] = [];
 for (const originId of origins) for (const b of bots) {
   const results: LifeResult[] = [];
-  for (let i = 0; i < lives; i++) results.push(runLife(content, makeBot(b, `${seed}-${i}`), `${seed}-${b}-${i}`, startAge, maxYears, originId));
+  for (let i = 0; i < lives; i++) {
+    results.push(
+      runLife(
+        content,
+        makeBot(b, `${seed}-${i}`),
+        `${seed}-${b}-${i}`,
+        startAge,
+        maxYears,
+        scenarioArg ? undefined : originId,
+        scenarioArg || undefined,
+      ),
+    );
+  }
   all.push(...results);
   const dead = results.filter((r) => r.deathAge !== null);
   const totalYears = results.reduce((a, r) => a + r.years, 0);

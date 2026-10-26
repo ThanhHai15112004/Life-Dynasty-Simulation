@@ -96,3 +96,4 @@ skill_bands:
   - { min: 0, key: skill.band.chua_biet }
 default_language: vi
 journal_years_shown: 8
+dev_tools: true

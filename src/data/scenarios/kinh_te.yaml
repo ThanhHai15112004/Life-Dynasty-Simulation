@@ -1,0 +1,71 @@
+# 5 kịch bản kinh tế
+scenarios:
+  - id: ngheo_ngap_no
+    group: kinh_te
+    title_key: scenario.ngheo_ngap_no.title
+    description_key: scenario.ngheo_ngap_no.desc
+    base:
+      originId: nong_dan
+      age: 24
+    setup:
+      - { type: debt, value: 80 }
+      - { type: food, value: -999 }
+      - { type: stress, value: 40 }
+    auto_minor: false
+
+  - id: phu_ho_nhieu_ruong
+    group: kinh_te
+    title_key: scenario.phu_ho_nhieu_ruong.title
+    description_key: scenario.phu_ho_nhieu_ruong.desc
+    base:
+      originId: nong_dan
+      age: 40
+    setup:
+      - { type: property_add, property: ruong_tot, count: 30 }
+      - { type: money, value: 150 }
+      - { type: food, value: 200 }
+      - { type: reputation, group: nong_dan, value: 20 }
+    auto_minor: false
+
+  - id: nha_buon_von_lon
+    group: kinh_te
+    title_key: scenario.nha_buon_von_lon.title
+    description_key: scenario.nha_buon_von_lon.desc
+    base:
+      originId: thuong_nhan
+      age: 30
+    setup:
+      - { type: money, value: 250 }
+      - { type: property_add, property: cua_hang, count: 2 }
+    world_setup:
+      foodPrice: 1.5
+    auto_minor: false
+
+  - id: doi_giap_hat
+    group: kinh_te
+    title_key: scenario.doi_giap_hat.title
+    description_key: scenario.doi_giap_hat.desc
+    base:
+      originId: nong_dan
+      age: 28
+    setup:
+      - { type: food, value: -999 }
+      - { type: money, value: -999 }
+    world_setup:
+      harvestQuality: mat_mua
+      foodPrice: 1.8
+    auto_minor: false
+
+  - id: kho_thoc_day_lai_buon
+    group: kinh_te
+    title_key: scenario.kho_thoc_day_lai_buon.title
+    description_key: scenario.kho_thoc_day_lai_buon.desc
+    base:
+      originId: nong_dan
+      age: 35
+    setup:
+      - { type: food, value: 300 }
+      - { type: property_add, property: ruong_tot, count: 15 }
+    world_setup:
+      foodPrice: 0.8
+    auto_minor: false

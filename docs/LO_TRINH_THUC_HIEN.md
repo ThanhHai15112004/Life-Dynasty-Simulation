@@ -1,6 +1,6 @@
 # Lộ trình thực hiện — theo dõi từng hạng mục
 
-Cập nhật 26/10/2026. ✅ xong · 🟡 làm một phần · ⬜ chưa làm. Phạm vi và câu hỏi kiểm chứng của từng giai đoạn: [09_Lo_Trinh_Can_Bang_Rui_Ro.md](09_Lo_Trinh_Can_Bang_Rui_Ro.md).
+Cập nhật 26/10/2026. ✅ xong · 🟡 làm một phần · ⬜ chưa làm. Phạm vi và câu hỏi kiểm chứng của từng giai đoạn: [09_Lo_Trinh_Can_Bang_Rui_Ro.md](09_Lo_Trinh_Can_Bang_Rui_Ro.md). Lộ trình tới v1.0 chia theo phase: [LO_TRINH_HOAN_THIEN.md](LO_TRINH_HOAN_THIEN.md).
 
 ## Giai đoạn 0 — Prototype vòng lặp
 
@@ -63,7 +63,7 @@ Mô hình học từ 1in8b: mỗi năm **một con số thu nhập**, **chi tiê
 | Chuyện nhỏ đa dạng | ✅ | Thêm 38 chuyện nhỏ (tổng 79), mỗi chuyện chỉ gặp một lần trong đời, nhịp ~0,5 chuyện/năm (`director.minor`) |
 | Giãn sự kiện lặp | ✅ | 23 sự kiện đời nào cũng gặp lại được nâng thời gian chờ lên 12 năm; `repeat_weight_factor` 0,15 → 0,08. Số sự kiện khác nhau mỗi đời 107–121 → 131–151 |
 | Ra ở riêng | ⬜ | Để sau: cưới xong tách hộ mới, cha mẹ chia ruộng, con trưởng ở lại thờ cúng; thừa kế khi cha mẹ mất |
-| KPI mới | ⬜ | Tuổi làm chủ hộ TB ≤ 30; tỷ lệ đời lên Phú hộ; mô phỏng đo lại |
+| KPI mới | 🟡 | Đo 26/10/2026 (20 đời × 5 bot × 3 xuất thân): ✔ tuổi làm chủ hộ TB 26–31 (trước ~45) · ✔ chuyện nhỏ lặp 0% (trước 32–39%) · ✔ dừng thời gian ~1,9–2,0 lần/năm · ✔ nhà nông lên Phú hộ 15–55% tùy cách chơi. ✖ Nhà buôn 65–90%, nhà nho 75–100% (tính cả bậc Sĩ phu nhờ đỗ khoa cử) — còn giàu quá dễ · ✖ quyết định lặp 8–30%, nặng nhất ở nhà buôn và nhà nho (thiếu sự kiện riêng cho hai nghề) |
 
 ## Kế hoạch GĐ4 — Hệ Nghề nghiệp v2 (chốt 25/10/2026)
 
@@ -83,4 +83,12 @@ Mục tiêu: đời người đa dạng như thật — nông dân không chỉ 
 
 ## Giai đoạn 2 trở đi
 
-Chưa bắt đầu. Nền móng đã có: thực thể `Settlement`, loại khu định cư, thang địa vị, `set_career` cho chuyển nghề — xem [09_Lo_Trinh_Can_Bang_Rui_Ro.md](09_Lo_Trinh_Can_Bang_Rui_Ro.md) §2.
+Nền móng đã có: thực thể `Settlement`, loại khu định cư, thang địa vị, `set_career` cho chuyển nghề — xem [09_Lo_Trinh_Can_Bang_Rui_Ro.md](09_Lo_Trinh_Can_Bang_Rui_Ro.md) §2.
+
+## Tiến độ theo Phase (LO_TRINH_HOAN_THIEN.md)
+
+| Phase | Tên | Trạng thái | Ghi chú hoàn thành |
+| :---: | :--- | :---: | :--- |
+| **Phase 1** | **Phòng thử nghiệm & công cụ dev** | ✅ | Schema kịch bản `scenario.ts`, 25 kịch bản thuộc 6 nhóm, GameSession scenario factory, MainMenu tab Thử nghiệm, DevPanel phím `~`, CLI `--scenario <id>`, Vitest 10 năm qua 100%, build sạch. |
+| Phase 2 | Tách hộ, thừa kế, chế độ số phận | ⬜ | Đóng GĐ1.5. |
+| Phase 3 | Truyền đời (Dynasty) | ⬜ | Đóng GĐ2. |

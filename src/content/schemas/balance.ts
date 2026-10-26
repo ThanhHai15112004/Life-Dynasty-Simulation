@@ -526,6 +526,8 @@ export const displayBalanceSchema = z
     default_language: z.string(),
     /** Số năm nhật ký hiển thị trên màn hình chính. */
     journal_years_shown: z.number().int().positive(),
+    /** [1] Bật công cụ dev / kịch bản thử nghiệm (khi false thì chỉ bật khi chạy dev build). */
+    dev_tools: z.boolean().default(true),
   })
   .strict();
 
