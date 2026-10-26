@@ -13,7 +13,17 @@ import { healthCap } from '../systems/life/health';
 import { monthlyFoodNeed, sellPrice } from '../systems/economy/helpers';
 import { ownMoney } from '../systems/economy/purse';
 import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
-import { adoptChild, adoptDistantRelative, marryPlayer, settleInheritance, splitPlayerHousehold } from '../systems/family';
+import { changeClanRelation } from '../systems/ai';
+import {
+  adoptChild,
+  adoptDistantRelative,
+  arrangeMarriage,
+  getMarriageableMembers,
+  getMatchmakingCandidates,
+  marryPlayer,
+  settleInheritance,
+  splitPlayerHousehold,
+} from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
 import { changeFilialPiety, changeScholarlyPrestige, setExamDegree } from '../systems/status';
 import { queueCutscene } from './cutscene';
@@ -208,6 +218,24 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
             }
           }
           break;
+        case 'clan_relation':
+          changeClanRelation(ctx, e.clan, e.value, e.tie, e.reason);
+          break;
+        case 'arrange_child_marriage': {
+          const members = getMarriageableMembers(ctx).filter((m) => m.id !== state.playerId && (!e.sex || m.sex === e.sex));
+          const child = members[0] ?? getMarriageableMembers(ctx).find((m) => m.id !== state.playerId);
+          if (child) {
+            const cands = getMatchmakingCandidates(ctx, child.id);
+            const picked =
+              (e.status ? cands.find((x) => x.statusRankId === e.status && x.clanAccepts) : undefined) ??
+              cands.find((x) => x.clanAccepts) ??
+              cands[0];
+            if (picked) {
+              arrangeMarriage(ctx, child.id, picked.characterId);
+            }
+          }
+          break;
+        }
         case 'property_add':
           h.properties[e.property] = (h.properties[e.property] ?? 0) + e.count;
           break;

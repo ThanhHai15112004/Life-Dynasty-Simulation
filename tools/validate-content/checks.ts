@@ -26,6 +26,8 @@ const SYSTEM_PARAMS = new Set([
   'prev',
   'generation',
   'ancestor',
+  'partner',
+  'clan',
 ]);
 
 export interface ValidationReport {

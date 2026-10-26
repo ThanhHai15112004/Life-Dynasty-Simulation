@@ -5,6 +5,7 @@ import type { Rng } from '../engine/Rng';
 import type { Character, Sex, SkillState } from '../entities/Character';
 import type { Household } from '../entities/Household';
 import { SAVE_VERSION, type GameState } from '../entities/World';
+import { generateVillageClans } from '../systems/ai';
 import { RngStream, newId, type SimContext } from '../systems/context';
 
 export interface NewGameOptions {
@@ -131,6 +132,7 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     playerId: '',
     householdId: '',
     village: {},
+    villageClans: {},
     focus: { primary: '' },
     autoManage: { livingStandard: true, repayDebt: true, sellSurplus: true, invest: true },
     yearOpenNetWorth: 0,
@@ -263,6 +265,7 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
   }
 
   for (const npc of origin.village_npcs) spawnVillageNpc(ctx, npc);
+  generateVillageClans(ctx);
 
   // Khởi tạo kỳ vọng tài sản ban đầu theo giá trị hộ lúc bắt đầu (GDD 01 §7.2)
   const initialPropVal = Object.entries(household.properties).reduce(

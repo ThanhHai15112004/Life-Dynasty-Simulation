@@ -7,7 +7,7 @@ import { farmlandOf } from '../entities/Property';
 import type { SimContext } from './context';
 import { householdNetWorth, lastYearIncome, localTradeFactor, monthlyFoodNeed, selfFarms, spareWorkers, workerCount } from './economy/helpers';
 import { purseActive } from './economy/purse';
-import { aliveChildrenOf, canPlayerSplitHousehold, getHeirCandidates, isEldestChild } from './family';
+import { aliveChildrenOf, canPlayerSplitHousehold, getHeirCandidates, getMarriageableMembers, isEldestChild } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
 import { ExamStage, examStage } from './status';
 
@@ -77,6 +77,16 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return aliveChildrenOf(ctx, c.id).length;
       case 'has_heir':
         return c.id === state.playerId ? getHeirCandidates(ctx, c).length > 0 : false;
+      case 'has_marriageable_child':
+        return c.id === state.playerId
+          ? getMarriageableMembers(ctx).some((m) => m.id !== state.playerId)
+          : false;
+      case 'has_scholar_son':
+        return c.id === state.playerId
+          ? aliveChildrenOf(ctx, c.id).some(
+              (ch) => ch.sex === 'm' && (ch.upbringing === 'di_hoc' || (ch.skills.hoc_van?.level ?? 0) >= 3) && ageNow(ctx, ch) >= 14,
+            )
+          : false;
       case 'generation':
         return c.generation ?? state.dynasty?.currentGeneration ?? 1;
       case 'sick':
@@ -161,6 +171,8 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'prestige') return state.dynasty?.prestige ?? 0;
         if (key === 'generation') return state.dynasty?.currentGeneration ?? 1;
         if (key === 'has_unfulfilled_wish') return state.dynasty?.unfinishedWishes?.some((w) => !w.fulfilled) ?? false;
+        if (key === 'has_feud') return (state.dynasty?.feuds?.length ?? 0) > 0 || Object.values(state.villageClans ?? {}).some((cl) => cl.tie === 'feud');
+        if (key === 'in_laws_count') return Object.values(state.villageClans ?? {}).filter((cl) => cl.tie === 'in_law').length;
         throw new UnknownVariableError(path);
       }
       case 'player':
@@ -254,6 +266,20 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
     if (path === 'dynasty.family_name') return state.dynasty?.familyName ?? player(ctx).familyName;
     if (path === 'dynasty.wish_text') return state.dynasty?.unfinishedWishes?.find((w) => !w.fulfilled)?.text ?? '';
     if (path === 'dynasty.wish_from') return state.dynasty?.unfinishedWishes?.find((w) => !w.fulfilled)?.fromName ?? '';
+    if (path === 'dynasty.feud_clan') {
+      const fClan = Object.values(state.villageClans ?? {}).find((cl) => cl.tie === 'feud');
+      return fClan?.familyName ?? state.dynasty?.feuds?.[0]?.targetName ?? '';
+    }
+    if (path === 'child.marriageable_name') {
+      const mc = getMarriageableMembers(ctx).find((m) => m.id !== state.playerId);
+      return mc ? callOf(ctx, mc) : 'con';
+    }
+    if (path === 'child.scholar_name') {
+      const sc = aliveChildrenOf(ctx, state.playerId).find(
+        (ch) => ch.sex === 'm' && (ch.upbringing === 'di_hoc' || (ch.skills.hoc_van?.level ?? 0) >= 2),
+      );
+      return sc ? callOf(ctx, sc) : 'con trai';
+    }
     if (path === 'world.reign') return state.world.reignName;
     if (path === 'world.reign_year') return state.clock.year - state.world.reignStartYear + 1;
     if (path === 'world.season_name') return content.balance.calendar.seasons.find((s) => s.id === seasonOf(ctx))?.name;

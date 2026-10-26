@@ -197,7 +197,7 @@ export const lifeBalanceSchema = z
       })
       .strict()
       .default({}),
-    /** Bản tổng kết đời (GDD 01 §7.3): mỗi trục = base + Σ(biến DSL × hệ số), kẹp 0..100. */
+      /** Bản tổng kết đời (GDD 01 §7.3): mỗi trục = base + Σ(biến DSL × hệ số), kẹp 0..100. */
     summary_axes: z
       .array(
         z
@@ -209,6 +209,73 @@ export const lifeBalanceSchema = z
           .strict(),
       )
       .min(1),
+    /** [2] Cấu hình 5–8 dòng họ NPC trong làng và Character AI T1 mô phỏng thưa theo năm (Phase 4). */
+    village_clans: z
+      .object({
+        count_range: range.default([5, 8]),
+        members_per_clan: range.default([3, 5]),
+        min_village_population: z.number().int().default(18),
+        max_village_population: z.number().int().default(45),
+        careers: z.array(z.string()).default(['nong_dan', 'thuong_nhan', 'si_tu', 'linh']),
+        initial_statuses: z
+          .array(
+            z
+              .object({
+                id: z.string(),
+                weight: z.number().min(0),
+                farmland: range,
+                money: range,
+              })
+              .strict(),
+          )
+          .default([]),
+        ai_marriage_chance_year: z.number().min(0).max(1).default(0.28),
+        ai_birth_chance_year: z.number().min(0).max(1).default(0.32),
+        ai_mobility_chance_year: z.number().min(0).max(1).default(0.18),
+        default_feud_reason: z.string().default(''),
+      })
+      .strict()
+      .default({}),
+    /** [2] Hướng nuôi dạy con cái từ 6–15 tuổi (Phase 4): đi học, học nghề, phụ việc nhà. */
+    child_upbringing: z
+      .object({
+        min_age: z.number().int().default(6),
+        max_age: z.number().int().default(15),
+        default_option: z.string().default('phu_viec_nha'),
+        options: z
+          .array(
+            z
+              .object({
+                id: z.string(),
+                name: z.string(),
+                description: z.string(),
+                cost_money_month: z.number().default(0),
+                labor_contribution: z.number().default(0),
+                skill_xp: z.record(z.string(), z.number()).default({}),
+                favored_traits: z.array(z.string()).default([]),
+              })
+              .strict(),
+          )
+          .default([]),
+      })
+      .strict()
+      .default({}),
+    /** [2] Chợ hôn nhân, mai mối, sính lễ / của hồi môn & gả cưới cho con (Phase 4). */
+    matchmaking: z
+      .object({
+        candidates_count: range.default([3, 5]),
+        base_bride_price: z.record(z.string(), z.number()).default({}),
+        base_dowry: z.record(z.string(), z.number()).default({}),
+        in_law_relation_bonus: z.number().default(30),
+        equal_status_prestige_bonus: z.number().default(6),
+        higher_status_prestige_bonus: z.number().default(12),
+        rebel_base_chance: z.number().min(0).max(1).default(0.1),
+        rebel_trait_bonuses: z.record(z.string(), z.number()).default({}),
+        obey_trait_bonuses: z.record(z.string(), z.number()).default({}),
+        rebel_stress_delta: z.number().default(15),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 

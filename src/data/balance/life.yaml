@@ -213,3 +213,79 @@ summary_axes:
     base: 15
     terms:
       - { var: player.ambition_progress, factor: 85 }
+
+# [2] Các dòng họ NPC trong làng & Character AI T1 mô phỏng thưa theo năm (Phase 4)
+village_clans:
+  count_range: [5, 8]
+  members_per_clan: [3, 5]
+  min_village_population: 18
+  max_village_population: 45
+  careers: [nong_dan, thuong_nhan, si_tu, linh]
+  initial_statuses:
+    - { id: dan_ngheo, weight: 30, farmland: [1, 3], money: [2, 8] }
+    - { id: thuong_dan, weight: 45, farmland: [4, 9], money: [10, 28] }
+    - { id: phu_ho, weight: 15, farmland: [12, 24], money: [45, 95] }
+    - { id: si_phu, weight: 10, farmland: [6, 14], money: [25, 60] }
+  ai_marriage_chance_year: 0.28
+  ai_birth_chance_year: 0.32
+  ai_mobility_chance_year: 0.18
+  default_feud_reason: 'Hiềm khích tranh chấp đất đai và danh dự trong làng'
+
+# [2] Hướng nuôi dạy con cái từ 6–15 tuổi (Phase 4)
+child_upbringing:
+  min_age: 6
+  max_age: 15
+  default_option: phu_viec_nha
+  options:
+    - id: di_hoc
+      name: Gửi đi học chữ
+      description: Cho theo thầy đồ học kinh sử, mở đường khoa cử nhưng tốn tiền đèn sách.
+      cost_money_month: 0.08
+      labor_contribution: 0
+      skill_xp: { hoc_van: 5, muu_luoc: 1.5, ngoai_giao: 1 }
+      favored_traits: [tham_vong, kien_nhan, than_trong]
+    - id: hoc_nghe
+      name: Học nghề buôn bán & võ nghệ
+      description: Cho theo phụ sạp chợ, tính toán sổ sách và rèn luyện sức vóc.
+      cost_money_month: 0.02
+      labor_contribution: 0.3
+      skill_xp: { thuong_mai: 4, ngoai_giao: 2, quan_su: 2 }
+      favored_traits: [can_dam, co_hoi, tham_vong]
+    - id: phu_viec_nha
+      name: Phụ việc đồng áng & việc nhà
+      description: Theo cha mẹ ra đồng, chăn trâu, quán xuyến việc nhà từ sớm.
+      cost_money_month: 0
+      labor_contribution: 0.6
+      skill_xp: { sinh_ton: 4, quan_tri: 2 }
+      favored_traits: [trong_gia_dinh, an_phan, kien_nhan]
+
+# [2] Chợ hôn nhân, mai mối, sính lễ / của hồi môn & gả cưới cho con (Phase 4)
+matchmaking:
+  candidates_count: [3, 5]
+  base_bride_price:
+    dan_ngheo: 2
+    thuong_dan: 5
+    phu_ho: 14
+    si_phu: 12
+    quan_lai: 20
+  base_dowry:
+    dan_ngheo: 1
+    thuong_dan: 4
+    phu_ho: 12
+    si_phu: 10
+    quan_lai: 18
+  in_law_relation_bonus: 30
+  equal_status_prestige_bonus: 6
+  higher_status_prestige_bonus: 12
+  rebel_base_chance: 0.08
+  rebel_trait_bonuses:
+    tu_do: 0.28
+    nong_nay: 0.22
+    tham_vong: 0.12
+    can_dam: 0.1
+  obey_trait_bonuses:
+    trong_gia_dinh: 0.25
+    an_phan: 0.2
+    kien_nhan: 0.15
+    trung_thanh: 0.15
+  rebel_stress_delta: 15

@@ -293,5 +293,122 @@ scenarios:
     start_event: gd_ngay_dau_lam_chu_sau_tang
     auto_minor: false
 
+  # ═══ PHASE 4: CÁC HỌ TRONG LÀNG, HÔN NHÂN & NUÔI CON ═══
+
+  - id: con_gai_16_tuoi_ga
+    group: gia_dinh
+    title_key: scenario.con_gai_16_tuoi_ga.title
+    description_key: scenario.con_gai_16_tuoi_ga.desc
+    base:
+      originId: nong_dan
+      age: 40
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 45 }
+      - { type: property_add, property: ruong, count: 6 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 37
+      children:
+        - { age: 16, sex: f, upbringing: phu_viec_nha, traits: [tu_do, kien_nhan] }
+        - { age: 11, sex: m, upbringing: di_hoc }
+    auto_minor: false
+
+  - id: ba_nha_cung_mai_moi
+    group: gia_dinh
+    title_key: scenario.ba_nha_cung_mai_moi.title
+    description_key: scenario.ba_nha_cung_mai_moi.desc
+    base:
+      originId: nong_dan
+      age: 42
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 60 }
+      - { type: property_add, property: ruong, count: 8 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 39
+      children:
+        - { age: 18, sex: m, upbringing: hoc_nghe, traits: [kien_nhan, trung_thanh] }
+        - { age: 16, sex: f, upbringing: phu_viec_nha, traits: [trong_gia_dinh] }
+      matchmaking_suitors: 3
+    start_event: gd_ba_moi_dam_ngo
+    auto_minor: false
+
+  - id: dang_co_thu_voi_mot_ho
+    group: gia_dinh
+    title_key: scenario.dang_co_thu_voi_mot_ho.title
+    description_key: scenario.dang_co_thu_voi_mot_ho.desc
+    base:
+      originId: nong_dan
+      age: 38
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 40 }
+      - { type: property_add, property: ruong, count: 6 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 35
+      children:
+        - { age: 14, sex: m, upbringing: di_hoc }
+        - { age: 9, sex: f, upbringing: phu_viec_nha }
+      clan_feud:
+        reason: 'Tranh chấp bờ ruộng hương hỏa và xích mích việc làng từ đời cha ông'
+        grudge: 70
+    auto_minor: false
+
+  - id: con_trai_hoc_gioi_di_thi
+    group: gia_dinh
+    title_key: scenario.con_trai_hoc_gioi_di_thi.title
+    description_key: scenario.con_trai_hoc_gioi_di_thi.desc
+    base:
+      originId: nong_dan
+      age: 41
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 50 }
+      - { type: property_add, property: ruong, count: 6 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 38
+      children:
+        - { age: 16, sex: m, upbringing: di_hoc, skills: { hoc_van: 4, ngoai_giao: 2 }, traits: [kien_nhan, tham_vong] }
+        - { age: 10, sex: m, upbringing: phu_viec_nha }
+    start_event: gd_con_trai_xin_di_thi
+    auto_minor: false
+
+  - id: tua_50_nam_xem_lang
+    group: gia_dinh
+    title_key: scenario.tua_50_nam_xem_lang.title
+    description_key: scenario.tua_50_nam_xem_lang.desc
+    base:
+      originId: nong_dan
+      age: 18
+      sex: m
+      fateMode: binh_lang
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 80 }
+      - { type: food, value: 120 }
+      - { type: property_add, property: ruong, count: 10 }
+      - { type: health, value: 30, who: player }
+    family_setup:
+      parents: both_dead
+      spouse_age: 18
+      children:
+        - { age: 2, sex: m }
+    fast_forward_years: 50
+    auto_minor: true
+
+
 
 

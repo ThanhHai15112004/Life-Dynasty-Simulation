@@ -41,6 +41,9 @@ export const SystemLog = {
   ChildAdopted: 'sys.nhan_con_nuoi',
   RelativeAdopted: 'sys.don_chau_ho',
   WishFulfilled: 'sys.hoan_thanh_di_nguyen',
+  ChildUpbringingSet: 'sys.chon_huong_nuoi_con',
+  ChildMarried: 'sys.ga_cuoi_cho_con',
+  ChildRebelledMarriage: 'sys.con_cai_loi_hon_su',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */

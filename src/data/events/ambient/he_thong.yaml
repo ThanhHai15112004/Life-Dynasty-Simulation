@@ -439,6 +439,34 @@ templates:
     variants:
       - 'Trước bàn thờ tổ tiên, bạn kính cẩn thắp nén hương báo công: di nguyện "{title}" của {ancestor} nay đã trọn vẹn!'
       - 'Nỗi trăn trở "{title}" từ thời {ancestor} để lại đã được bạn hoàn thành viên mãn, rạng danh dòng họ.'
+  - id: sys.chon_huong_nuoi_con
+    kind: he_thong
+    importance: 4
+    tone: trung_tinh
+    icon: sach
+    variants:
+      - 'Bạn sắp xếp cho {call} theo hướng "{title}" để rèn luyện từ thuở thiếu thời.'
+      - 'Lo xa cho đời sau, bạn định hướng cho {call} "{title}".'
+  - id: sys.ga_cuoi_cho_con
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: cuoi
+    variants:
+      - 'Trầu cau thắm nghĩa: bạn đứng ra lo liệu hôn sự cho {call} kết duyên cùng {partner} (họ {clan}), hai họ từ nay kết tình thông gia.'
+      - 'Mâm cỗ rộn ràng khắp xóm: {call} nên duyên vợ chồng với {partner} nhà họ {clan}.'
+    effects:
+      - { type: stress, value: -5 }
+  - id: sys.con_cai_loi_hon_su
+    kind: he_thong
+    importance: 6
+    tone: buon
+    icon: buon
+    variants:
+      - '{call} nhất quyết cãi lời, không chịu cuộc hôn sự sắp đặt với {partner} nhà họ {clan}, khiến không khí trong nhà nặng nề.'
+      - 'Dù bạn đã tính chuyện trầu cau với họ {clan}, {call} vẫn một mực khước từ mối duyên cùng {partner}.'
+
 
 
 

@@ -9,6 +9,7 @@ import { writeTemplate } from '../events/journal';
 import { SystemLog } from '../events/systemLogKeys';
 import { buildSceneDescriptor, type SceneDescriptor } from '../scene-descriptor';
 import { ensureIndependentLife, monthlyCareer } from '../systems/career';
+import { yearlyVillageClans } from '../systems/ai';
 import { yearlyChronicle } from '../systems/chronicle';
 import { createContext, type SimContext } from '../systems/context';
 import { monthlyEconomy, monthlyWorld, rollHarvestQuality, yearlyEconomy, yearlyHousehold } from '../systems/economy';
@@ -202,6 +203,7 @@ function yearEnd(ctx: SimContext): void {
   yearlyHouseholdSplit(ctx);
   yearlyEconomy(ctx);
   yearlyVillage(ctx);
+  yearlyVillageClans(ctx);
   yearlyHappiness(ctx);
   directorYearEnd(ctx);
   recordLifeYear(ctx);

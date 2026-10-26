@@ -1,7 +1,7 @@
 // [0] Trạng thái tổng của một ván chơi — toàn bộ là dữ liệu thuần (JSON được) để lưu/tải và chạy headless
 import type { ExamDegreeId } from '@content/schemas';
 import type { Character } from './Character';
-import type { DynastyState } from './Dynasty';
+import type { DynastyState, NpcClan } from './Dynasty';
 import type { Household, LedgerYear, Purse } from './Household';
 
 export const SAVE_VERSION = 3;
@@ -118,6 +118,8 @@ export interface GameState {
   householdId: string;
   /** Vai trò làng → id nhân vật đang giữ. */
   village: Record<string, string>;
+  /** [2] Danh sách 5–8 dòng họ NPC trong làng / thị trấn (Phase 4). */
+  villageClans: Record<string, NpcClan>;
 
   /** [1] Trọng tâm năm nay (một lựa chọn; '' khi còn quá nhỏ để chọn). */
   focus: { primary: string };

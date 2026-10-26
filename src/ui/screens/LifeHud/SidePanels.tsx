@@ -6,10 +6,12 @@ import { Portrait } from '../../components/Portrait';
 import { Tooltip } from '../../components/Tooltip';
 import { num, useSnapshot, useUi } from '../../context';
 import { FamilyTreeModal } from '../Family/FamilyTreeModal';
+import { MatchmakingModal } from '../Family/MatchmakingModal';
 
 export function FamilyCard({ hud }: { hud: HudView }) {
   const { t, store } = useUi();
   const [showFamilyTree, setShowFamilyTree] = useState(false);
+  const [matchmakingTargetId, setMatchmakingTargetId] = useState<string | null>(null);
   const scene = useSnapshot().scene;
   const others = hud.household.members.filter((m) => !m.isPlayer);
   // Nhãn theo giới tính nếu lang có (relation.spouse.m = "Chồng"), không thì nhãn chung
@@ -31,10 +33,15 @@ export function FamilyCard({ hud }: { hud: HudView }) {
           {t('dynasty.guardian_notice', { who: hud.dynasty.guardianCall })}
         </p>
       )}
-      <div className="row" style={{ marginBottom: 8 }}>
+      <div className="row" style={{ marginBottom: 8, flexWrap: 'wrap' }}>
         <button onClick={() => setShowFamilyTree(true)}>
           {t('dynasty.open_tree', { n: hud.dynasty.currentGeneration })}
         </button>
+        {hud.manage.isHead && hud.matchmaking.targets.length > 0 && (
+          <button onClick={() => setMatchmakingTargetId(hud.matchmaking.targets[0]?.characterId ?? '')}>
+            {t('matchmaking.open_btn')}
+          </button>
+        )}
         {hud.dynasty.canAdoptChild && (
           <button onClick={() => store.dispatch({ type: 'adoptChild' })}>
             {t('dynasty.adopt_child', { cost: num(hud.dynasty.adoptChildCost) })}
@@ -49,18 +56,56 @@ export function FamilyCard({ hud }: { hud: HudView }) {
       {showFamilyTree && (
         <FamilyTreeModal dynasty={hud.dynasty} onClose={() => setShowFamilyTree(false)} />
       )}
+      {matchmakingTargetId !== null && (
+        <MatchmakingModal
+          hud={hud}
+          initialTargetId={matchmakingTargetId || undefined}
+          onClose={() => setMatchmakingTargetId(null)}
+        />
+      )}
       {others.length === 0 && <p className="muted small">{t('family.alone')}</p>}
       <ul className="people-list">
         {others.map((m) => (
           <li key={m.id}>
             {scene && <Portrait id={m.id} sex={m.sex} ageGroup={m.ageGroup} cultureSet={scene.cultureSet} season={scene.season} scale={2} />}
-            <div className="person-main">
-              <div>
-                <span className="muted">{relationLabel(m.relation, m.sex)}</span> <b>{m.name}</b>
+            <div className="person-main" style={{ width: '100%' }}>
+              <div className="card-head">
+                <div>
+                  <span className="muted">{relationLabel(m.relation, m.sex)}</span> <b>{m.name}</b>
+                </div>
+                {m.canArrangeMarriage && (
+                  <button
+                    className="small"
+                    onClick={() => setMatchmakingTargetId(m.id)}
+                  >
+                    {t('matchmaking.member_btn')}
+                  </button>
+                )}
               </div>
               <div className="muted small">
                 {t('profile.age', { age: m.age })} · {t(m.healthKey)}
               </div>
+              {m.canSetUpbringing && (
+                <div className="row" style={{ marginTop: 4, flexWrap: 'wrap', gap: 4 }}>
+                  <span className="muted small">{t('upbringing.label')}</span>
+                  {hud.household.upbringingOptions.map((opt) => (
+                    <Tooltip key={opt.id} content={opt.description}>
+                      <button
+                        className={m.upbringing === opt.id ? 'active small' : 'small'}
+                        onClick={() =>
+                          store.dispatch({
+                            type: 'setChildUpbringing',
+                            childId: m.id,
+                            upbringing: opt.id,
+                          })
+                        }
+                      >
+                        {opt.name}
+                      </button>
+                    </Tooltip>
+                  ))}
+                </div>
+              )}
             </div>
           </li>
         ))}
@@ -201,6 +246,51 @@ export function LifeMapCard({ hud }: { hud: HudView }) {
         })}
       </div>
       <p className="muted small">{t('lifemap.legend', { n: expected })}</p>
+    </section>
+  );
+}
+
+export function VillageClansCard({ hud }: { hud: HudView }) {
+  const { t } = useUi();
+  if (hud.villageClans.length === 0) return null;
+  return (
+    <section className="card">
+      <div className="card-head">
+        <h3>{t('clans.card_title')}</h3>
+        <span className="muted small">{t('clans.card_subtitle', { n: hud.villageClans.length })}</span>
+      </div>
+      <ul className="people-list">
+        {hud.villageClans.map((cl) => (
+          <li key={cl.id}>
+            <div className="person-main" style={{ width: '100%' }}>
+              <div className="card-head">
+                <div>
+                  <b>{cl.familyName}</b>{' '}
+                  <span className="muted small">
+                    ({cl.statusRankName} · {cl.careerName})
+                  </span>
+                </div>
+                <span className={`chip ${cl.tie === 'feud' ? 'disease-chip' : ''}`}>
+                  {t(`clans.tie.${cl.tie}`)}
+                </span>
+              </div>
+              <div className="muted small">
+                {t('clans.head_prefix', { name: cl.headName })} ·{' '}
+                {t('clans.stats_line', {
+                  members: cl.memberCount,
+                  sao: cl.farmland,
+                  prestige: num(cl.prestige),
+                })}
+              </div>
+              <div className="muted small">
+                {t('clans.relation_label', {
+                  n: cl.relationWithPlayer >= 0 ? `+${cl.relationWithPlayer}` : cl.relationWithPlayer,
+                })}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

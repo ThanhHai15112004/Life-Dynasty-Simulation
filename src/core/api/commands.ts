@@ -9,7 +9,15 @@ import { careerAvailable, changeCareer, executeCareerAction } from '../systems/c
 import type { SimContext } from '../systems/context';
 import { addToPurse, isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
-import { adoptChild, adoptDistantRelative, canAdoptChild, canAdoptRelative, transitionToHeir } from '../systems/family';
+import {
+  adoptChild,
+  adoptDistantRelative,
+  arrangeMarriage,
+  canAdoptChild,
+  canAdoptRelative,
+  setChildUpbringing,
+  transitionToHeir,
+} from '../systems/family';
 import { focusAvailable } from '../systems/focus';
 import { infectCharacter, treatDisease, treatmentBlock } from '../systems/life';
 import { player, playerHousehold } from '../systems/people';
@@ -34,6 +42,8 @@ export type Command =
   | { type: 'chooseHeir'; heirId: string }
   | { type: 'adoptChild' }
   | { type: 'adoptRelative' }
+  | { type: 'setChildUpbringing'; childId: string; upbringing: string }
+  | { type: 'arrangeMarriage'; targetCharId: string; candidateId: string }
   // [1] Lệnh Dev (chỉ chạy khi cờ dev bật)
   | { type: 'devTriggerEvent'; eventId: string }
   | { type: 'devModifyStat'; stat: 'money' | 'food' | 'debt' | 'health' | 'stress'; delta: number }
@@ -60,6 +70,10 @@ export type CommandError =
   | 'treated_recently'
   | 'invalid_heir'
   | 'cannot_adopt'
+  | 'invalid_upbringing'
+  | 'invalid_marriage'
+  | 'clan_feud'
+  | 'status_gap'
   | 'dev_disabled';
 
 export type CommandResult = { ok: true } | { ok: false; error: CommandError };
@@ -199,6 +213,21 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
       const check = canAdoptRelative(ctx);
       if (!check.ok) return fail('cannot_adopt');
       return adoptDistantRelative(ctx, undefined, true) ? ok : fail('cannot_adopt');
+    }
+
+    case 'setChildUpbringing': {
+      return setChildUpbringing(ctx, cmd.childId, cmd.upbringing) ? ok : fail('invalid_upbringing');
+    }
+
+    case 'arrangeMarriage': {
+      const res = arrangeMarriage(ctx, cmd.targetCharId, cmd.candidateId);
+      if (!res.ok) {
+        if (res.error === 'clan_feud') return fail('clan_feud');
+        if (res.error === 'status_gap') return fail('status_gap');
+        if (res.error === 'not_enough_money') return fail('not_enough_money');
+        return fail('invalid_marriage');
+      }
+      return ok;
     }
 
     // ── Lệnh Dev ──

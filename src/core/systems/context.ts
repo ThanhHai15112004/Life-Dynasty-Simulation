@@ -20,6 +20,7 @@ export const RngStream = {
   Ambient: 'ambient',
   Display: 'display',
   Generate: 'generate',
+  Clans: 'clans',
 } as const;
 
 export function createContext(state: GameState, content: ContentBundle): SimContext {

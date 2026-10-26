@@ -105,6 +105,7 @@ function findPotentialGuardian(ctx: SimContext, heir: Character): Character | nu
       c.id !== state.playerId &&
       c.id !== heir.id &&
       !c.villageRole &&
+      !c.clanId &&
       ageNow(ctx, c) >= adultAge &&
       c.familyName === heir.familyName,
   );
@@ -121,7 +122,7 @@ export function getHeirCandidates(ctx: SimContext, deceased?: Character): HeirCa
   const adultAge = content.balance.life.adult_age;
 
   const allLiving = Object.values(state.characters).filter(
-    (c) => c.alive && c.id !== me.id && !c.villageRole,
+    (c) => c.alive && c.id !== me.id && !c.villageRole && !c.clanId,
   );
 
   // 1) Phân nhóm ứng viên

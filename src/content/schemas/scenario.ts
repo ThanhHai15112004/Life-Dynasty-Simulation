@@ -56,8 +56,18 @@ export const scenarioSchema = z.object({
           }),
         )
         .optional(),
-      /** Danh sách con cái thêm vào: tuổi và giới tính */
-      children: z.array(z.object({ age: z.number().int().min(0).max(50), sex: z.enum(['m', 'f']) })).optional(),
+      /** Danh sách con cái thêm vào: tuổi, giới tính, hướng nuôi dạy, kỹ năng, tính cách */
+      children: z
+        .array(
+          z.object({
+            age: z.number().int().min(0).max(50),
+            sex: z.enum(['m', 'f']),
+            upbringing: z.string().optional(),
+            skills: z.record(z.string(), z.number()).optional(),
+            traits: z.array(z.string()).optional(),
+          }),
+        )
+        .optional(),
       /** Danh sách cháu họ / họ hàng nhánh bên thêm vào */
       nephews: z.array(z.object({ age: z.number().int().min(0).max(50), sex: z.enum(['m', 'f']) })).optional(),
       /** Số đời tổ tiên đã qua để thử nghiệm truyền đời */
@@ -73,6 +83,16 @@ export const scenarioSchema = z.object({
           milestoneId: z.string().optional(),
         })
         .optional(),
+      /** Thiết lập thù oán với một dòng họ trong làng */
+      clan_feud: z
+        .object({
+          familyName: z.string().optional(),
+          reason: z.string(),
+          grudge: z.number().optional(),
+        })
+        .optional(),
+      /** Sinh sẵn N mối mai mối từ các dòng họ khác nhau trong làng */
+      matchmaking_suitors: z.number().int().min(1).max(6).optional(),
     })
     .optional(),
   /** Thiết lập trạng thái thế giới */

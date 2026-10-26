@@ -30,8 +30,10 @@ export function levelYearCost(ctx: SimContext, levelId: string): number {
 
 export function workers(ctx: SimContext) {
   const hv = ctx.content.balance.economy.harvest;
+  const adultAge = ctx.content.balance.life.adult_age;
   return aliveMembers(ctx).filter((c) => {
     const age = ageNow(ctx, c);
+    if (age < adultAge && c.upbringing === 'di_hoc') return false;
     return age >= hv.worker_min_age && age <= hv.worker_max_age;
   });
 }

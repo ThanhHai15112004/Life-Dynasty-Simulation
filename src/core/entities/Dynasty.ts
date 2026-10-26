@@ -1,6 +1,22 @@
-// [2] Thực thể: Dòng họ (Phase 3 — Truyền đời / Dynasty)
+// [2] Thực thể: Dòng họ (Phase 3 — Truyền đời / Dynasty & Phase 4 — Các họ trong làng)
 import type { Sex } from './Character';
 import type { LogYear } from './World';
+
+export type ClanTie = 'none' | 'in_law' | 'ally' | 'feud';
+
+export interface NpcClan {
+  id: string;
+  familyName: string;
+  headId: string;
+  householdId: string;
+  careerId: string;
+  statusRankId: string;
+  prestige: number;
+  relationWithPlayer: number;
+  tie: ClanTie;
+  tieReason?: string;
+  sinceYear: number;
+}
 
 export interface DynastyFeud {
   id: string;

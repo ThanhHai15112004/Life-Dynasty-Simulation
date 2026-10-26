@@ -57,6 +57,10 @@ export interface Character {
   collateral?: boolean;
   /** [2] Đời thứ mấy trong dòng họ (1 = đời đầu tiên của người chơi, 0 = cha mẹ, -1 = ông bà). */
   generation?: number;
+  /** [2] ID dòng họ NPC trong làng mà nhân vật trực thuộc (Phase 4). */
+  clanId?: string;
+  /** [2] Hướng nuôi dạy khi còn nhỏ 6–15 tuổi: 'di_hoc' | 'hoc_nghe' | 'phu_viec_nha' (Phase 4). */
+  upbringing?: string;
 }
 
 /** Tuổi tính theo tháng sinh: qua tháng sinh của năm nay mới tăng tuổi. */

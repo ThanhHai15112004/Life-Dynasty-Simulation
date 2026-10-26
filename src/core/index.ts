@@ -7,15 +7,20 @@ export {
   getDynastyView,
   getDynastySummary,
   getSuccessionView,
+  getVillageClansView,
+  getMatchmakingView,
   type HudView,
   type LifeSummaryView,
   type DynastyView,
   type DynastySummaryView,
   type SuccessionView,
   type FamilyTreeNodeView,
+  type VillageClanView,
+  type MatchmakingView,
+  type MatchmakingTargetView,
 } from './api/queries';
-export type { PastLifeRecord, UnfinishedWish, DynastyFeud, DynastyState } from './entities/Dynasty';
-export type { HeirCandidate } from './systems/family';
+export type { PastLifeRecord, UnfinishedWish, DynastyFeud, DynastyState, NpcClan, ClanTie } from './entities/Dynasty';
+export type { HeirCandidate, MatchmakingCandidate } from './systems/family';
 export type { SceneDescriptor, ScenePerson } from './scene-descriptor';
 export type { ModifierResult, ModifierLine } from './engine/ModifierSystem';
 export { SaveSystem, MemoryStorage, type StorageAdapter } from './engine/SaveSystem';

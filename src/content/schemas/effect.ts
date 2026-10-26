@@ -69,6 +69,8 @@ export type Effect =
   | { type: 'adopt_relative'; sex?: 'm' | 'f' }
   | { type: 'dynasty_prestige'; value: number }
   | { type: 'fulfill_wish'; wishId?: string }
+  | { type: 'clan_relation'; clan?: string; value: number; tie?: 'none' | 'in_law' | 'ally' | 'feud'; reason?: string }
+  | { type: 'arrange_child_marriage'; sex?: 'm' | 'f'; status?: string }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -146,6 +148,22 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
     z.object({ type: z.literal('adopt_relative'), sex: z.enum(['m', 'f']).optional() }).strict(),
     z.object({ type: z.literal('dynasty_prestige'), value: z.number() }).strict(),
     z.object({ type: z.literal('fulfill_wish'), wishId: z.string().optional() }).strict(),
+    z
+      .object({
+        type: z.literal('clan_relation'),
+        clan: z.string().optional(),
+        value: z.number(),
+        tie: z.enum(['none', 'in_law', 'ally', 'feud']).optional(),
+        reason: z.string().optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('arrange_child_marriage'),
+        sex: z.enum(['m', 'f']).optional(),
+        status: z.string().optional(),
+      })
+      .strict(),
     z
       .object({
         type: z.literal('log'),

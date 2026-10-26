@@ -135,10 +135,11 @@ export function monthlyMortality(ctx: SimContext): void {
   const m = ctx.content.balance.life.mortality;
   const rng = ctx.rng.get(RngStream.Life);
 
-  // Bao gồm cả thành viên hộ hiện tại và cha mẹ / anh chị em ở các hộ đã tách
+  // Bao gồm cả thành viên hộ hiện tại và cha mẹ / anh chị em ở các hộ đã tách (hộ các họ NPC trong làng mô phỏng thưa theo năm)
   const relatedMembers = Object.values(ctx.state.households)
     .filter((h) => h.id !== ctx.state.householdId)
-    .flatMap((h) => aliveMembers(ctx, h));
+    .flatMap((h) => aliveMembers(ctx, h))
+    .filter((c) => !c.clanId);
   const allWatched = [...aliveMembers(ctx, playerHousehold(ctx)), ...relatedMembers];
 
   checkDeathOmen(ctx, allWatched);

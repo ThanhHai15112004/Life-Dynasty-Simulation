@@ -5,15 +5,24 @@ import { canChi } from '../engine/GameClock';
 import type { ModifierResult } from '../engine/ModifierSystem';
 import { StatTarget } from '../engine/statTargets';
 import { fullName } from '../entities/Character';
-import type { DynastyFeud, PastLifeRecord, UnfinishedWish } from '../entities/Dynasty';
+import type { ClanTie, DynastyFeud, PastLifeRecord, UnfinishedWish } from '../entities/Dynasty';
 import type { LedgerEntry, LedgerYear } from '../entities/Household';
 import { farmlandOf, holdingsOf } from '../entities/Property';
 import type { LogYear, PendingEvent, Resolution } from '../entities/World';
+import { aliveClanMembers } from '../systems/ai';
 import type { SimContext } from '../systems/context';
 import { purseActive, regularIncomeParts } from '../systems/economy';
 import { buyPrice, householdNetWorth, lastYearIncome, ledgerValue, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
 import { Ledger } from '../events/systemLogKeys';
-import { canAdoptChild, canAdoptRelative, getHeirCandidates, type HeirCandidate } from '../systems/family';
+import {
+  canAdoptChild,
+  canAdoptRelative,
+  getHeirCandidates,
+  getMarriageableMembers,
+  getMatchmakingCandidates,
+  type HeirCandidate,
+  type MatchmakingCandidate,
+} from '../systems/family';
 import { healthCap, treatmentBlock } from '../systems/life';
 import { lifeExpectancyAtBirth } from '../systems/life/mortality';
 import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
@@ -75,7 +84,22 @@ export interface HudView {
     monthlyFood: number;
     monthlyMoney: number;
     livingStandard: string;
-    members: { id: string; call: string; name: string; relation: string; sex: 'm' | 'f'; ageGroup: string; age: number; healthKey: string; isPlayer: boolean }[];
+    members: {
+      id: string;
+      call: string;
+      name: string;
+      relation: string;
+      sex: 'm' | 'f';
+      ageGroup: string;
+      age: number;
+      healthKey: string;
+      isPlayer: boolean;
+      upbringing: string | null;
+      canSetUpbringing: boolean;
+      canArrangeMarriage: boolean;
+      traits: string[];
+    }[];
+    upbringingOptions: { id: string; name: string; description: string; costMoneyMonth: number }[];
     /** [1] Người ốm trong nhà và việc chạy chữa: giá, khả năng khỏi (chữ), chữa được không và vì sao. */
     sick: {
       characterId: string;
@@ -236,6 +260,42 @@ export interface HudView {
   dynasty: DynastyView;
   /** [2] Dữ liệu màn hình Truyền đời & Tổng kết dòng họ khi người chơi qua đời ở chế độ dynasty. */
   succession: SuccessionView | null;
+  /** [2] Danh sách 5–8 dòng họ NPC trong làng và quan hệ thông gia / ân oán (Phase 4). */
+  villageClans: VillageClanView[];
+  /** [2] Chợ hôn nhân & gả cưới cho người chơi / con cái (Phase 4). */
+  matchmaking: MatchmakingView;
+}
+
+export interface VillageClanView {
+  id: string;
+  familyName: string;
+  headName: string;
+  headAge: number;
+  careerId: string;
+  careerName: string;
+  statusRankId: string;
+  statusRankName: string;
+  prestige: number;
+  farmland: number;
+  memberCount: number;
+  relationWithPlayer: number;
+  tie: ClanTie;
+  tieReason?: string;
+}
+
+export interface MatchmakingTargetView {
+  characterId: string;
+  name: string;
+  call: string;
+  sex: 'm' | 'f';
+  age: number;
+  isPlayer: boolean;
+  traits: { id: string; name: string }[];
+  candidates: MatchmakingCandidate[];
+}
+
+export interface MatchmakingView {
+  targets: MatchmakingTargetView[];
 }
 
 export interface FamilyTreeNodeView {
@@ -453,16 +513,36 @@ export function getHudView(ctx: SimContext): HudView {
       monthlyFood: foodNeed,
       monthlyMoney: monthlyMoneyNeed(ctx),
       livingStandard: h.livingStandard,
-      members: aliveMembers(ctx, h).map((c) => ({
-        id: c.id,
-        call: callOf(ctx, c),
-        name: fullName(c),
-        relation: relationToPlayer(ctx, c),
-        sex: c.sex,
-        ageGroup: ageGroupOf(ctx, ageNow(ctx, c)),
-        age: ageNow(ctx, c),
-        healthKey: pickBand(display.health_bands, c.health).key,
-        isPlayer: c.id === me.id,
+      members: aliveMembers(ctx, h).map((c) => {
+        const cAge = ageNow(ctx, c);
+        const upCfg = content.balance.life.child_upbringing;
+        const isChild = c.id !== me.id && (c.fatherId === me.id || c.motherId === me.id || Boolean(c.adopted) || Boolean(c.collateral));
+        const canSetUpbringing = isChild && cAge >= upCfg.min_age && cAge <= upCfg.max_age;
+        const canArrangeMarriage =
+          (c.id === me.id || isChild) &&
+          cAge >= content.balance.life.marriage.min_age &&
+          (!c.spouseId || !state.characters[c.spouseId]?.alive);
+        return {
+          id: c.id,
+          call: callOf(ctx, c),
+          name: fullName(c),
+          relation: relationToPlayer(ctx, c),
+          sex: c.sex,
+          ageGroup: ageGroupOf(ctx, cAge),
+          age: cAge,
+          healthKey: pickBand(display.health_bands, c.health).key,
+          isPlayer: c.id === me.id,
+          upbringing: canSetUpbringing ? (c.upbringing ?? upCfg.default_option) : (c.upbringing ?? null),
+          canSetUpbringing,
+          canArrangeMarriage,
+          traits: c.traits.map((tId) => content.index.trait.get(tId)?.name ?? tId),
+        };
+      }),
+      upbringingOptions: content.balance.life.child_upbringing.options.map((o) => ({
+        id: o.id,
+        name: o.name,
+        description: o.description,
+        costMoneyMonth: o.cost_money_month,
       })),
       sick: aliveMembers(ctx, h).flatMap((c) =>
         c.diseases.flatMap((d) => {
@@ -721,7 +801,52 @@ export function getHudView(ctx: SimContext): HudView {
     gameOver: state.gameOver ? getLifeSummary(ctx) : null,
     dynasty: getDynastyView(ctx),
     succession: state.gameOver && state.playMode === 'dynasty' ? getSuccessionView(ctx) : null,
+    villageClans: getVillageClansView(ctx),
+    matchmaking: getMatchmakingView(ctx),
   };
+}
+
+export function getVillageClansView(ctx: SimContext): VillageClanView[] {
+  const { state, content } = ctx;
+  const civ = currentCivilization(ctx);
+  return Object.values(state.villageClans ?? {}).map((clan) => {
+    const head = state.characters[clan.headId];
+    const h = state.households[clan.householdId];
+    const careerDef = content.index.career.get(clan.careerId);
+    const statusDef = civ.status_ranks.find((r) => r.id === clan.statusRankId);
+    const members = aliveClanMembers(ctx, clan.id);
+    return {
+      id: clan.id,
+      familyName: clan.familyName,
+      headName: head ? fullName(head) : clan.familyName,
+      headAge: head?.alive ? ageNow(ctx, head) : 45,
+      careerId: clan.careerId,
+      careerName: careerDef?.name ?? clan.careerId,
+      statusRankId: clan.statusRankId,
+      statusRankName: statusDef?.name ?? clan.statusRankId,
+      prestige: clan.prestige,
+      farmland: h ? (h.properties.ruong ?? 0) : 0,
+      memberCount: members.length,
+      relationWithPlayer: clan.relationWithPlayer,
+      tie: clan.tie,
+      tieReason: clan.tieReason,
+    };
+  });
+}
+
+export function getMatchmakingView(ctx: SimContext): MatchmakingView {
+  const { state, content } = ctx;
+  const targets = getMarriageableMembers(ctx).map((c) => ({
+    characterId: c.id,
+    name: fullName(c),
+    call: c.id === state.playerId ? fullName(c) : callOf(ctx, c),
+    sex: c.sex,
+    age: ageNow(ctx, c),
+    isPlayer: c.id === state.playerId,
+    traits: c.traits.map((tId) => ({ id: tId, name: content.index.trait.get(tId)?.name ?? tId })),
+    candidates: getMatchmakingCandidates(ctx, c.id),
+  }));
+  return { targets };
 }
 
 function buildFamilyTree(ctx: SimContext): FamilyTreeNodeView[] {
@@ -755,7 +880,7 @@ function buildFamilyTree(ctx: SimContext): FamilyTreeNodeView[] {
   }
 
   return Object.values(state.characters)
-    .filter((c) => !c.villageRole && (genMap.has(c.id) || c.familyName === state.dynasty.familyName))
+    .filter((c) => !c.villageRole && !c.clanId && (genMap.has(c.id) || c.familyName === state.dynasty.familyName))
     .map((c) => {
       const spouse = c.spouseId ? state.characters[c.spouseId] : undefined;
       return {

@@ -11,7 +11,7 @@ import { AmbitionCard, FocusCard } from './DecisionPanel';
 import { JournalPanel } from './JournalPanel';
 import { ProfileCard, SkillsCard, StatusCard, WealthCard } from './ProfilePanel';
 import { SceneCard } from './SceneCard';
-import { ChronicleCard, FamilyCard, LifeMapCard, RelationsCard } from './SidePanels';
+import { ChronicleCard, FamilyCard, LifeMapCard, RelationsCard, VillageClansCard } from './SidePanels';
 
 export function LifeHud({ hud }: { hud: HudView }) {
   const { t } = useUi();
@@ -39,6 +39,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
         </div>
         <div className="col col-right">
           <FamilyCard hud={hud} />
+          <VillageClansCard hud={hud} />
           <LifeMapCard hud={hud} />
           <ChronicleCard hud={hud} />
           <RelationsCard hud={hud} />

@@ -5,8 +5,15 @@ import { applyEffects } from '../events/effects';
 import { fireDecision } from '../events/decision';
 import { bindRoles, eligibleRoles } from '../events/selection';
 import { createCharacter } from './generate';
+import { changeClanRelation, generateVillageClans, syncClanFeuds } from '../systems/ai';
 import { type SimContext, RngStream } from '../systems/context';
-import { getHeirCandidates, splitPlayerHousehold, splitSiblingToNewHousehold } from '../systems/family';
+import {
+  ensureVillageSuitors,
+  getHeirCandidates,
+  getMarriageableMembers,
+  splitPlayerHousehold,
+  splitSiblingToNewHousehold,
+} from '../systems/family';
 import { player, playerHousehold } from '../systems/people';
 
 export function applyScenario(
@@ -128,6 +135,15 @@ export function applyScenario(
         child.fatherId = me.sex === 'm' ? me.id : me.spouseId;
         child.motherId = me.sex === 'f' ? me.id : me.spouseId;
         child.generation = (state.dynasty?.currentGeneration ?? 1) + 1;
+        if (childSpec.upbringing) child.upbringing = childSpec.upbringing;
+        if (childSpec.skills) {
+          for (const [sk, lvl] of Object.entries(childSpec.skills)) {
+            child.skills[sk] = { level: lvl, xp: 0 };
+          }
+        }
+        if (childSpec.traits && childSpec.traits.length > 0) {
+          child.traits = [...childSpec.traits];
+        }
         child.householdId = h.id;
         state.characters[child.id] = child;
         h.memberIds.push(child.id);
@@ -253,6 +269,37 @@ export function applyScenario(
         text: f.unfinished_wish.text,
         fulfilled: false,
       });
+    }
+
+    // Thiết lập mối thù truyền đời với một dòng họ trong làng (Phase 4)
+    if (f.clan_feud) {
+      generateVillageClans(ctx);
+      const clans = Object.values(state.villageClans);
+      const targetClan =
+        (f.clan_feud.familyName ? clans.find((c) => c.familyName === f.clan_feud!.familyName) : undefined) ??
+        clans.find((c) => c.statusRankId === 'phu_ho' || c.statusRankId === 'si_phu') ??
+        clans[0];
+      if (targetClan) {
+        if (f.clan_feud.familyName) targetClan.familyName = f.clan_feud.familyName;
+        const grudge = f.clan_feud.grudge ?? 55;
+        changeClanRelation(ctx, targetClan.id, -grudge, 'feud', f.clan_feud.reason);
+        syncClanFeuds(ctx);
+      }
+    }
+
+    // Sinh sẵn các mối mai mối từ các dòng họ khác nhau trong làng (Phase 4)
+    if (f.matchmaking_suitors && f.matchmaking_suitors > 0) {
+      generateVillageClans(ctx);
+      const clans = Object.values(state.villageClans);
+      const tiers = ['phu_ho', 'si_phu', 'thuong_dan'];
+      for (let i = 0; i < Math.min(tiers.length, clans.length); i++) {
+        clans[i].statusRankId = tiers[i];
+        if (tiers[i] === 'si_phu') clans[i].careerId = 'si_tu';
+        else if (tiers[i] === 'phu_ho') clans[i].careerId = 'thuong_nhan';
+      }
+      const target = getMarriageableMembers(ctx).find((m) => m.id !== state.playerId) ?? me;
+      const desiredSex = target.sex === 'm' ? 'f' : 'm';
+      ensureVillageSuitors(ctx, desiredSex, scenario.base.age ?? 18, f.matchmaking_suitors);
     }
 
     // Tách hộ ngay nếu kịch bản yêu cầu

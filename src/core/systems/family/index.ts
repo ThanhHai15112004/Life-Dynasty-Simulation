@@ -7,10 +7,13 @@ import { SystemLog } from '../../events/systemLogKeys';
 import { createCharacter } from '../../world/generate';
 import { RngStream, type SimContext } from '../context';
 import { ageNow, aliveMembers, callOf, player, playerHousehold } from '../people';
+import { monthlyChildUpbringing } from './upbringing';
 
 export * from './split';
 export * from './inheritance';
 export * from './succession';
+export * from './upbringing';
+export * from './marriageMarket';
 
 /** Danh sách con ruột còn sống của một nhân vật. */
 export function aliveChildrenOf(ctx: SimContext, parentId: string): Character[] {
@@ -63,6 +66,7 @@ export function marryPlayer(ctx: SimContext, partner?: Character): Character | n
 export function monthlyFamily(ctx: SimContext): void {
   const me = player(ctx);
   if (!me.alive) return;
+  monthlyChildUpbringing(ctx);
   const mCfg = ctx.content.balance.life.marriage;
   const rng = ctx.rng.get(RngStream.Life);
   const h = playerHousehold(ctx);

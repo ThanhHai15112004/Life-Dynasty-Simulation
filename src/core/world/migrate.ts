@@ -69,6 +69,7 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   if (raw.stats) raw.stats.minorDecisions = raw.stats.minorDecisions ?? 0;
   raw.chronicle = raw.chronicle ?? {};
   raw.lifeMap = raw.lifeMap ?? [];
+  raw.villageClans = raw.villageClans ?? {};
   delete (raw as Record<string, unknown>).lastCutsceneId;
   if (raw.world) {
     raw.world.settlementType = raw.world.settlementType ?? origin.settlement;
