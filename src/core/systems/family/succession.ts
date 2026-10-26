@@ -8,7 +8,7 @@ import { writeTemplate } from '../../events/journal';
 import { Ledger, SystemLog } from '../../events/systemLogKeys';
 import { createCharacter } from '../../world/generate';
 import { newId, RngStream, type SimContext } from '../context';
-import { checkPromotion } from '../career';
+import { checkPromotion, ensureFamilyCareers, syncCareerHistory } from '../career';
 import { householdNetWorth } from '../economy/helpers';
 import { mergePurse } from '../economy/purse';
 import { computeSummaryAxes } from '../happiness';
@@ -288,6 +288,7 @@ export function archiveCurrentLife(ctx: SimContext, causeId?: string): PastLifeR
     causeId: finalCauseId,
     causeName,
     careerId: state.career.id || state.householdCareer,
+    careerHistory: [...(state.career.history ?? [])],
     statusRankId: state.civilization.statusRank,
     examDegreeId: state.civilization.examDegree,
     yearsPlayed: Math.max(0, state.clock.year - (state.generationStartYear ?? me.birthYear)),
@@ -554,6 +555,9 @@ export function transitionToHeir(ctx: SimContext, heirId: string): boolean {
       merit: 0,
       wanted: 0,
       actionCooldowns: {},
+      sectorMonths: {},
+      sideJobId: null,
+      history: [],
     };
     writeTemplate(ctx, SystemLog.SuccessionGuardian, {
       self: guardian.id,
@@ -566,20 +570,34 @@ export function transitionToHeir(ctx: SimContext, heirId: string): boolean {
   } else {
     state.dynasty.guardianId = null;
     state.wasHead = true;
-    const careerId = state.householdCareer || 'nong_dan';
+    const careerId =
+      heir.careerId && content.index.career.has(heir.careerId)
+        ? heir.careerId
+        : state.householdCareer || 'nong_dan';
     const adultYears = Math.max(0, heirAge - content.balance.life.adult_age);
-    const initialMerit = chosen.isMainHeir ? Math.min(45, adultYears * 3) : Math.min(20, adultYears * 2);
+    const initialMerit =
+      heir.careerMerit ?? (chosen.isMainHeir ? Math.min(45, adultYears * 3) : Math.min(20, adultYears * 2));
+    const initialMonths = heir.careerMonths ?? adultYears * 12;
+    const cDef = content.index.career.get(careerId);
     state.career = {
       id: careerId,
-      since: state.clock.monthIndex,
-      rankIndex: 0,
+      since: state.clock.monthIndex - initialMonths,
+      rankIndex: heir.careerRankIndex ?? 0,
       merit: initialMerit,
       wanted: 0,
       actionCooldowns: {},
+      sectorMonths: cDef?.sector && initialMonths > 0 ? { [cDef.sector]: initialMonths } : {},
+      sideJobId: null,
+      history: [],
     };
+    if (cDef?.kind === 'nghe') {
+      state.householdCareer = careerId;
+    }
+    syncCareerHistory(ctx);
     while (checkPromotion(ctx)) {
       /* thăng tới bậc mà tài sản/danh tiếng và kinh nghiệm đã đủ */
     }
+    syncCareerHistory(ctx);
     writeTemplate(ctx, SystemLog.SuccessionStart, {
       params: {
         prev: prevName,
@@ -598,6 +616,7 @@ export function transitionToHeir(ctx: SimContext, heirId: string): boolean {
   }
 
   ensureFocus(ctx);
+  ensureFamilyCareers(ctx);
   state.civilization.statusRank = computeStatusRank(ctx).id;
   const nw = householdNetWorth(ctx);
   state.yearOpenNetWorth = nw;

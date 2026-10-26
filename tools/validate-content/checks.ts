@@ -195,6 +195,7 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       if (e.type === 'add_disease') disease(e.disease, w);
       if (e.type === 'cure_disease' && e.disease) disease(e.disease, w);
       if (e.type === 'set_career') career(e.career, w);
+      if (e.type === 'set_side_job') need(idx.sideJob.has(e.side_job), `${w}: nghề tay trái lạ "${e.side_job}"`);
       if (e.type === 'skill_xp') skill(e.skill, w);
       if (e.type === 'modifier') target(e.target, w);
       if (e.type === 'property_add' || e.type === 'property_remove') property(e.property, w);
@@ -235,13 +236,43 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
   for (const c of content.careers) {
     income(c.economy.income, `careers.${c.id}.economy.income`);
     if (c.default_focus) need(idx.focus.has(c.default_focus), `careers.${c.id}.default_focus: trọng tâm lạ "${c.default_focus}"`);
+    c.skills.forEach((s) => skill(s, `careers.${c.id}.skills`));
+    c.settlement_types.forEach((st) => need(idx.settlementType.has(st), `careers.${c.id}.settlement_types: khu định cư lạ "${st}"`));
+    Object.keys(c.work_effects?.skill_xp ?? {}).forEach((s) => skill(s, `careers.${c.id}.work_effects.skill_xp`));
+    c.exits.forEach((ex) => career(ex.to, `careers.${c.id}.exits`));
     for (const r of c.ranks) {
       r.modifiers.forEach((m) => target(m.target, `careers.${c.id}.ranks.${r.id}`));
+      if (r.min_skill) skill(r.min_skill.skill, `careers.${c.id}.ranks.${r.id}.min_skill`);
     }
     for (const act of c.actions) {
       const w = `careers.${c.id}.actions.${act.id}`;
       if (act.chance?.skill) skill(act.chance.skill, `${w}.chance`);
       checkEffects([...act.success, ...act.failure], w, new Set());
+    }
+  }
+  const seasonIds = new Set(content.balance.calendar.seasons.map((s) => s.id));
+  for (const sj of content.sideJobs) {
+    sj.seasons.forEach((s) => need(seasonIds.has(s), `side_jobs.${sj.id}.seasons: mùa lạ "${s}"`));
+    sj.settlement_types.forEach((st) => need(idx.settlementType.has(st), `side_jobs.${sj.id}.settlement_types: khu định cư lạ "${st}"`));
+    Object.keys(sj.skill_xp ?? {}).forEach((s) => skill(s, `side_jobs.${sj.id}.skill_xp`));
+  }
+  for (const [upKey, pool] of Object.entries(content.balance.life.career_v2.upbringing_career_pools)) {
+    pool.forEach((cId) => career(cId, `life.career_v2.upbringing_career_pools.${upKey}`));
+  }
+  for (const sc of content.scenarios) {
+    const w = `scenarios.${sc.id}`;
+    checkEffects(sc.setup, `${w}.setup`, new Set());
+    const f = sc.family_setup;
+    if (f) {
+      if (f.father_career) career(f.father_career, `${w}.family_setup.father_career`);
+      if (f.mother_career) career(f.mother_career, `${w}.family_setup.mother_career`);
+      if (f.spouse_career) career(f.spouse_career, `${w}.family_setup.spouse_career`);
+      f.siblings?.forEach((s, i) => {
+        if (s.career) career(s.career, `${w}.family_setup.siblings[${i}].career`);
+      });
+      f.children?.forEach((ch, i) => {
+        if (ch.career) career(ch.career, `${w}.family_setup.children[${i}].career`);
+      });
     }
   }
   for (const ch of content.chronicle.entries) checkEffects(ch.effects, `chronicle.${ch.id}`, new Set());
@@ -320,12 +351,16 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     for (const c of content.careers) {
       tryCond(c.entry_condition, `careers.${c.id}.entry_condition`, []);
       c.ranks.forEach((r) => tryCond(r.condition, `careers.${c.id}.ranks.${r.id}`, []));
+      c.exits.forEach((ex) => tryCond(ex.condition, `careers.${c.id}.exits.${ex.to}`, []));
       for (const act of c.actions) {
         const w = `careers.${c.id}.actions.${act.id}`;
         tryCond(act.condition, w, []);
         act.chance?.modifiers.forEach((m) => tryCond(m.condition, `${w}.chance`, []));
         [...act.success_log, ...act.failure_log].forEach((t) => tryText(t, w, [], false));
       }
+    }
+    for (const sj of content.sideJobs) {
+      tryCond(sj.condition, `side_jobs.${sj.id}.condition`, []);
     }
     for (const [i, r] of [...content.balance.scene.condition_rules, ...content.balance.scene.particle_rules].entries()) {
       tryCond(r.condition, `scene.rules[${i}]`, []);

@@ -4,7 +4,18 @@ import type { Character } from './Character';
 import type { DynastyState, NpcClan } from './Dynasty';
 import type { Household, LedgerYear, Purse } from './Household';
 
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
+
+export interface CareerHistoryEntry {
+  careerId: string;
+  careerName: string;
+  sector: string;
+  highestRankIndex: number;
+  highestRankName: string;
+  startYear: number;
+  endYear: number | null;
+  months: number;
+}
 
 export interface LogEntry {
   id: number;
@@ -142,6 +153,12 @@ export interface GameState {
     merit: number;
     wanted: number;
     actionCooldowns: Record<string, number>;
+    /** [5] Tổng số tháng đã làm trong từng ngành nghề (thâm niên ngành). */
+    sectorMonths: Record<string, number>;
+    /** [5] Nghề tay trái theo mùa nông nhàn đang chọn (id trong careers.yaml › side_jobs). */
+    sideJobId: string | null;
+    /** [5] Lý lịch các nghề đã trải qua trong đời. */
+    history: CareerHistoryEntry[];
   };
   /** [1] Tham vọng cả đời đang theo đuổi và các mốc phụ đã đạt. */
   ambition: { id: string | null; achievedMilestones: string[] };

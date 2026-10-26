@@ -24,7 +24,7 @@ scenarios:
       age: 32
       sex: m
     setup:
-      - { type: set_career, career: quan_lai }
+      - { type: set_career, career: si_tu }
       - { type: stress, value: 50 }
     world_setup:
       foodPrice: 2.0

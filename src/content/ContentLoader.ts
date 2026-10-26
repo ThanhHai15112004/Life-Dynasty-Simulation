@@ -37,6 +37,7 @@ import {
   type PropertyType,
   type Scenario,
   type SettlementType,
+  type SideJob,
   type Skill,
   type Trait,
 } from './schemas';
@@ -56,6 +57,7 @@ export interface ContentBundle {
   diseases: Disease[];
   ambitions: Ambition[];
   careers: Career[];
+  sideJobs: SideJob[];
   civilizations: Civilization[];
   settlementTypes: SettlementType[];
   chronicle: { startReign: string; entries: ChronicleEntry[] };
@@ -74,6 +76,7 @@ export interface ContentBundle {
     disease: Map<string, Disease>;
     ambition: Map<string, Ambition>;
     career: Map<string, Career>;
+    sideJob: Map<string, SideJob>;
     civilization: Map<string, Civilization>;
     settlementType: Map<string, SettlementType>;
     chronicle: Map<string, ChronicleEntry>;
@@ -172,7 +175,9 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const properties = collect('properties', propertyFileSchema, 'properties');
   const diseases = collect('diseases', diseaseFileSchema, 'diseases');
   const ambitions = collect('ambitions', ambitionFileSchema, 'ambitions');
-  const careers = collect('careers', careerFileSchema, 'careers');
+  const careerFiles = single('careers', careerFileSchema);
+  const careers = careerFiles.flatMap((f) => f.careers);
+  const sideJobs = careerFiles.flatMap((f) => f.side_jobs);
   const civilizations = single('civilizations', civilizationSchema);
   const settlementTypes = collect('world', settlementTypeFileSchema, 'settlement_types');
   const chronicleFiles = single('chronicle', chronicleFileSchema);
@@ -214,6 +219,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     disease: indexBy(diseases, 'diseases'),
     ambition: indexBy(ambitions, 'ambitions'),
     career: indexBy(careers, 'careers'),
+    sideJob: indexBy(sideJobs, 'careers/side_jobs'),
     civilization: indexBy(civilizations, 'civilizations'),
     settlementType: indexBy(settlementTypes, 'world/settlement_types'),
     chronicle: indexBy(chronicle.entries, 'chronicle'),
@@ -240,6 +246,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     diseases,
     ambitions,
     careers,
+    sideJobs,
     civilizations,
     settlementTypes,
     chronicle,

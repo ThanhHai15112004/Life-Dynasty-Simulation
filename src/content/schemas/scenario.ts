@@ -35,10 +35,13 @@ export const scenarioSchema = z.object({
       parents: z.enum(['both_alive', 'father_dead', 'mother_dead', 'both_dead']).optional(),
       father_age: z.number().int().min(20).max(100).optional(),
       father_health: z.number().int().min(1).max(100).optional(),
+      father_career: z.string().optional(),
       mother_age: z.number().int().min(20).max(100).optional(),
       mother_health: z.number().int().min(1).max(100).optional(),
+      mother_career: z.string().optional(),
       /** Tuổi vợ/chồng nếu đã cưới */
       spouse_age: z.number().int().min(14).max(100).optional(),
+      spouse_career: z.string().optional(),
       /** Vợ có thai hay không */
       spouse_pregnant: z.boolean().optional(),
       /** Số năm đã kết hôn */
@@ -53,6 +56,7 @@ export const scenarioSchema = z.object({
             sex: z.enum(['m', 'f']),
             married: z.boolean().optional(),
             split: z.boolean().optional(),
+            career: z.string().optional(),
           }),
         )
         .optional(),
@@ -63,6 +67,7 @@ export const scenarioSchema = z.object({
             age: z.number().int().min(0).max(50),
             sex: z.enum(['m', 'f']),
             upbringing: z.string().optional(),
+            career: z.string().optional(),
             skills: z.record(z.string(), z.number()).optional(),
             traits: z.array(z.string()).optional(),
           }),

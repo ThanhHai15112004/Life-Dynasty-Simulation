@@ -1,4 +1,4 @@
-# 4 kịch bản nghề nghiệp
+# [1] 4 kịch bản nghề sâu + [2] 14 kịch bản Nghề nghiệp v2 (Phase 5: 10 nghề nhẹ/vừa + thâm niên 20 năm + bắt lính + nghề tay trái + nhà 3 nghề)
 scenarios:
   - id: linh_chien_dich
     group: nghe_nghiep
@@ -10,7 +10,7 @@ scenarios:
       sex: m
     setup:
       - { type: set_career, career: linh }
-      - { type: skill_xp, skill: vo_nghe, value: 120, who: player }
+      - { type: skill_xp, skill: quan_su, value: 120, who: player }
       - { type: stress, value: 30 }
     auto_minor: false
 
@@ -25,7 +25,7 @@ scenarios:
     setup:
       - { type: set_career, career: thao_khau }
       - { type: wanted, value: 60 }
-      - { type: skill_xp, skill: muu_meo, value: 100, who: player }
+      - { type: skill_xp, skill: muu_luoc, value: 100, who: player }
     auto_minor: false
 
   - id: si_tu_thi_huong
@@ -38,7 +38,7 @@ scenarios:
       sex: m
     setup:
       - { type: set_career, career: si_tu }
-      - { type: skill_xp, skill: chu_nghia, value: 180, who: player }
+      - { type: skill_xp, skill: hoc_van, value: 180, who: player }
       - { type: scholarly_prestige, value: 40 }
     auto_minor: false
 
@@ -52,8 +52,232 @@ scenarios:
       sex: m
     setup:
       - { type: set_exam_degree, degree: huong_cong }
-      - { type: set_career, career: quan_lai }
+      - { type: set_career, career: si_tu, months: 60 }
+      - { type: career_merit, value: 45 }
       - { type: scholarly_prestige, value: 60 }
       - { type: filial_piety, value: 30 }
-      - { type: reputation, group: quan_lai, value: 25 }
+      - { type: reputation, group: dan_lang, value: 25 }
+    auto_minor: false
+
+  # ── 10 kịch bản khởi đầu 10 nghề nhẹ/vừa mới (Phase 5) ──
+  - id: nghe_ta_dien
+    group: nghe_nghiep
+    title_key: scenario.nghe_ta_dien.title
+    description_key: scenario.nghe_ta_dien.desc
+    base:
+      originId: nong_dan
+      age: 24
+      sex: m
+    setup:
+      - { type: property_remove, property: ruong, count: 3 }
+      - { type: set_career, career: ta_dien, months: 24 }
+      - { type: career_merit, value: 15 }
+    start_event: ta_dien_chia_thoc_mua_gat
+    auto_minor: false
+
+  - id: nghe_lam_thue
+    group: nghe_nghiep
+    title_key: scenario.nghe_lam_thue.title
+    description_key: scenario.nghe_lam_thue.desc
+    base:
+      originId: nong_dan
+      age: 22
+      sex: m
+    setup:
+      - { type: property_remove, property: ruong, count: 3 }
+      - { type: set_career, career: lam_thue, months: 18 }
+      - { type: skill_xp, skill: sinh_ton, value: 60, who: player }
+    start_event: lam_thue_dap_de_mua_lu
+    auto_minor: false
+
+  - id: nghe_tho_moc
+    group: nghe_nghiep
+    title_key: scenario.nghe_tho_moc.title
+    description_key: scenario.nghe_tho_moc.desc
+    base:
+      originId: nong_dan
+      age: 28
+      sex: m
+    setup:
+      - { type: skill_xp, skill: sinh_ton, value: 90, who: player }
+      - { type: set_career, career: tho_moc, months: 36 }
+      - { type: career_merit, value: 28 }
+    start_event: tho_moc_cham_vi_keo_dinh
+    auto_minor: false
+
+  - id: nghe_tho_ren
+    group: nghe_nghiep
+    title_key: scenario.nghe_tho_ren.title
+    description_key: scenario.nghe_tho_ren.desc
+    base:
+      originId: nong_dan
+      age: 29
+      sex: m
+    setup:
+      - { type: skill_xp, skill: sinh_ton, value: 100, who: player }
+      - { type: set_career, career: tho_ren, months: 36 }
+      - { type: career_merit, value: 28 }
+    start_event: tho_ren_don_hang_nong_cu
+    auto_minor: false
+
+  - id: nghe_thay_lang
+    group: nghe_nghiep
+    title_key: scenario.nghe_thay_lang.title
+    description_key: scenario.nghe_thay_lang.desc
+    base:
+      originId: quy_toc_nho
+      age: 34
+      sex: m
+    setup:
+      - { type: skill_xp, skill: hoc_van, value: 110, who: player }
+      - { type: skill_xp, skill: sinh_ton, value: 60, who: player }
+      - { type: set_career, career: thay_lang, months: 48 }
+      - { type: career_merit, value: 30 }
+    start_event: thay_lang_chua_benh_nha_giau
+    auto_minor: false
+
+  - id: nghe_ngu_dan
+    group: nghe_nghiep
+    title_key: scenario.nghe_ngu_dan.title
+    description_key: scenario.nghe_ngu_dan.desc
+    base:
+      originId: nong_dan
+      age: 25
+      sex: m
+    setup:
+      - { type: skill_xp, skill: sinh_ton, value: 75, who: player }
+      - { type: set_career, career: ngu_dan, months: 30 }
+      - { type: career_merit, value: 22 }
+    start_event: ngu_dan_luong_ca_mua_nuoc_noi
+    auto_minor: false
+
+  - id: nghe_chu_do
+    group: nghe_nghiep
+    title_key: scenario.nghe_chu_do.title
+    description_key: scenario.nghe_chu_do.desc
+    base:
+      originId: thuong_nhan
+      age: 31
+      sex: m
+    setup:
+      - { type: skill_xp, skill: sinh_ton, value: 80, who: player }
+      - { type: skill_xp, skill: ngoai_giao, value: 75, who: player }
+      - { type: set_career, career: chu_do, months: 36 }
+      - { type: career_merit, value: 28 }
+    start_event: chu_do_khach_sang_qua_song_dem
+    auto_minor: false
+
+  - id: nghe_nha_lai
+    group: nghe_nghiep
+    title_key: scenario.nghe_nha_lai.title
+    description_key: scenario.nghe_nha_lai.desc
+    base:
+      originId: quy_toc_nho
+      age: 30
+      sex: m
+    setup:
+      - { type: skill_xp, skill: quan_tri, value: 110, who: player }
+      - { type: set_career, career: nha_lai, months: 36 }
+      - { type: career_merit, value: 32 }
+    start_event: nha_lai_tranh_chap_ruong_ranh
+    auto_minor: false
+
+  - id: nghe_ban_rong
+    group: nghe_nghiep
+    title_key: scenario.nghe_ban_rong.title
+    description_key: scenario.nghe_ban_rong.desc
+    base:
+      originId: thuong_nhan
+      age: 23
+      sex: f
+    setup:
+      - { type: skill_xp, skill: thuong_mai, value: 70, who: player }
+      - { type: set_career, career: ban_rong, months: 24 }
+      - { type: career_merit, value: 22 }
+    start_event: ban_rong_moi_hang_khan_hiem
+    auto_minor: false
+
+  - id: nghe_ba_do
+    group: nghe_nghiep
+    title_key: scenario.nghe_ba_do.title
+    description_key: scenario.nghe_ba_do.desc
+    base:
+      originId: nong_dan
+      age: 36
+      sex: f
+    setup:
+      - { type: skill_xp, skill: sinh_ton, value: 90, who: player }
+      - { type: skill_xp, skill: ngoai_giao, value: 80, who: player }
+      - { type: set_career, career: ba_do, months: 48 }
+      - { type: career_merit, value: 25 }
+    start_event: ba_do_ca_sinh_doi_dem_mua
+    auto_minor: false
+
+  # ── 4 kịch bản tính năng cốt lõi Phase 5 ──
+  - id: lam_20_nam_sap_len_bac
+    group: nghe_nghiep
+    title_key: scenario.lam_20_nam_sap_len_bac.title
+    description_key: scenario.lam_20_nam_sap_len_bac.desc
+    base:
+      originId: nong_dan
+      age: 42
+      sex: m
+    setup:
+      - { type: skill_xp, skill: sinh_ton, value: 260, who: player }
+      - { type: reputation, group: dan_lang, value: 14 }
+      - { type: set_career, career: tho_moc, months: 240 }
+      - { type: career_merit, value: 60 }
+    start_event: tho_moc_cham_vi_keo_dinh
+    auto_minor: false
+
+  - id: bi_bat_linh
+    group: nghe_nghiep
+    title_key: scenario.bi_bat_linh.title
+    description_key: scenario.bi_bat_linh.desc
+    base:
+      originId: nong_dan
+      age: 21
+      sex: m
+    setup:
+      - { type: set_career, career: nong_dan, months: 36 }
+      - { type: money, value: 9 }
+    start_event: sk_bi_bat_linh_khan_cap
+    auto_minor: false
+
+  - id: mua_nong_nhan_nghe_tay_trai
+    group: nghe_nghiep
+    title_key: scenario.mua_nong_nhan_nghe_tay_trai.title
+    description_key: scenario.mua_nong_nhan_nghe_tay_trai.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+    setup:
+      - { type: set_career, career: nong_dan, months: 48 }
+      - { type: set_side_job, side_job: dan_lat }
+    family_setup:
+      parents: both_dead
+    auto_minor: false
+
+  - id: nha_ba_nguoi_ba_nghe
+    group: nghe_nghiep
+    title_key: scenario.nha_ba_nguoi_ba_nghe.title
+    description_key: scenario.nha_ba_nguoi_ba_nghe.desc
+    base:
+      originId: nong_dan
+      age: 38
+      sex: m
+    setup:
+      - { type: marry }
+      - { type: skill_xp, skill: sinh_ton, value: 110, who: player }
+      - { type: set_career, career: tho_moc, months: 96 }
+      - { type: career_merit, value: 35 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 35
+      spouse_career: ban_rong
+      siblings: []
+      children:
+        - { sex: m, age: 18, upbringing: di_hoc, career: nha_lai, skills: { hoc_van: 3, quan_tri: 2 } }
+        - { sex: f, age: 16, upbringing: hoc_nghe, career: ba_do, skills: { sinh_ton: 2, ngoai_giao: 2 } }
     auto_minor: false

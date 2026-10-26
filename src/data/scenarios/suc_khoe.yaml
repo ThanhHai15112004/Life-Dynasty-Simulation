@@ -22,7 +22,7 @@ scenarios:
       age: 70
     setup:
       - { type: health, value: -60 }
-      - { type: add_trait, trait: can_than, who: player }
+      - { type: add_trait, trait: than_trong, who: player }
     auto_minor: false
 
   - id: dich_benh_trong_lang
@@ -33,7 +33,7 @@ scenarios:
       originId: nong_dan
       age: 26
     setup:
-      - { type: add_disease, disease: dich_ta, who: player }
+      - { type: add_disease, disease: ta_ly, who: player }
       - { type: health, value: -35 }
     world_setup:
       weather: mua_ngap

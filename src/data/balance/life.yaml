@@ -289,3 +289,14 @@ matchmaking:
     kien_nhan: 0.15
     trung_thanh: 0.15
   rebel_stress_delta: 15
+
+# [2] Hệ thống Nghề nghiệp v2 (Phase 5): thâm niên ngành, nghề của thành viên trong hộ & định hướng nghề theo cách nuôi dạy
+career_v2:
+  seniority_bonus_per_year: 0.03
+  max_seniority_bonus: 0.6
+  family_member_merit_month: 0.6
+  family_member_income_share: 0.85
+  upbringing_career_pools:
+    di_hoc: [si_tu, thay_lang, nha_lai]
+    hoc_nghe: [tho_moc, tho_ren, ban_rong, thuong_nhan, linh]
+    phu_viec_nha: [nong_dan, ta_dien, lam_thue, ngu_dan, chu_do]

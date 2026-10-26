@@ -8,7 +8,7 @@ import { fullName } from '../entities/Character';
 import type { ClanTie, DynastyFeud, PastLifeRecord, UnfinishedWish } from '../entities/Dynasty';
 import type { LedgerEntry, LedgerYear } from '../entities/Household';
 import { farmlandOf, holdingsOf } from '../entities/Property';
-import type { LogYear, PendingEvent, Resolution } from '../entities/World';
+import type { CareerHistoryEntry, LogYear, PendingEvent, Resolution } from '../entities/World';
 import { aliveClanMembers } from '../systems/ai';
 import type { SimContext } from '../systems/context';
 import { purseActive, regularIncomeParts } from '../systems/economy';
@@ -31,7 +31,18 @@ import { ageGroupOf, ageNow, aliveMembers, callOf, householdHead, lifeStageOf, p
 import { createResolver, seasonOf } from '../systems/resolver';
 import { evaluate } from '../engine/RuleEvaluator';
 import { fillTemplate } from '@shared/template';
-import { actionChance, canExecuteCareerAction, careerAvailable } from '../systems/career';
+import {
+  actionChance,
+  canExecuteCareerAction,
+  careerAvailable,
+  careerInSettlement,
+  careerSeniorityFactor,
+  isSideJobActiveThisMonth,
+  isUnlockedCareerExit,
+  memberMonthlyCareerIncome,
+  playerSectorMonths,
+  sideJobAvailable,
+} from '../systems/career';
 import { computeSummaryAxes, type SummaryAxisView } from '../systems/happiness';
 import { xpToNext } from '../systems/skills';
 import { currentCivilization, currentStatusRank } from '../systems/status';
@@ -98,6 +109,10 @@ export interface HudView {
       canSetUpbringing: boolean;
       canArrangeMarriage: boolean;
       traits: string[];
+      careerId: string | null;
+      careerName: string | null;
+      careerRankName: string | null;
+      careerMonths: number;
     }[];
     upbringingOptions: { id: string; name: string; description: string; costMoneyMonth: number }[];
     /** [1] Người ốm trong nhà và việc chạy chữa: giá, khả năng khỏi (chữ), chữa được không và vì sao. */
@@ -203,20 +218,86 @@ export interface HudView {
     icon: string;
     /** [1] '' khi còn nhỏ (chưa có nghề riêng), nghe = nghề thật, trang_thai = phụ việc nhà / thất nghiệp. */
     kind: '' | 'nghe' | 'trang_thai';
+    /** [2] Ngành nghề (nong_nghiep, thu_cong, thuong_mai, y_dao, quan_binh, giang_ho, quan_hoc, dịch vụ...). */
+    sector: string;
+    /** [2] Độ sâu nghề (nhe / vua / sau). */
+    depth: string;
     /** [1] Số tháng làm nghề hiện tại (thâm niên). */
     months: number;
+    /** [2] Tổng số tháng đã làm trong ngành hiện tại (cộng dồn cả khi đổi nghề cùng ngành). */
+    sectorMonths: number;
+    /** [2] Phần trăm thưởng thu nhập theo thâm niên ngành. */
+    seniorityBonusPercent: number;
     /** [1] Nghề nhà (nuôi cả hộ) — có thể khác nghề riêng của người chơi. */
     household: { id: string; name: string; icon: string };
     components: string[];
+    skills: { id: string; name: string; level: number }[];
     rankIndex: number;
     rankName: string;
     nextRankName: string | null;
     nextRankMerit: number | null;
+    nextRankRequirements: {
+      minMerit: number;
+      minYears: number;
+      minSkill: { id: string; name: string; level: number; currentLevel: number } | null;
+      minReputation: number | null;
+    } | null;
     merit: number;
     wanted: number;
     stipendMoney: number;
     stipendFood: number;
+    incomeRange: [number, number] | null;
+    workEffects: {
+      healthMonth: number;
+      stressMonth: number;
+      skillXp: { id: string; name: string; xp: number }[];
+    };
     duties: string[];
+    exits: {
+      toId: string;
+      toName: string;
+      toIcon: string;
+      hint: string;
+      unlocked: boolean;
+    }[];
+    sideJob: {
+      currentId: string | null;
+      currentName: string | null;
+      activeThisMonth: boolean;
+      options: {
+        id: string;
+        name: string;
+        description: string;
+        icon: string;
+        seasons: string[];
+        seasonNames: string[];
+        incomeMoneyMonth: number;
+        stressMonth: number;
+        available: boolean;
+      }[];
+    };
+    familyCareers: {
+      characterId: string;
+      call: string;
+      name: string;
+      age: number;
+      isPlayer: boolean;
+      careerId: string;
+      careerName: string;
+      rankName: string;
+      months: number;
+      monthlyIncome: number;
+      canChange: boolean;
+    }[];
+    history: {
+      careerId: string;
+      careerName: string;
+      sector: string;
+      rankName: string;
+      startYear: number;
+      endYear: number | null;
+      months: number;
+    }[];
     opportunity: {
       tradeIndex: number;
       militaryAlert: string;
@@ -238,6 +319,11 @@ export interface HudView {
       name: string;
       description: string;
       icon: string;
+      sector: string;
+      depth: string;
+      inSettlement: boolean;
+      isExit: boolean;
+      incomeRange: [number, number];
       available: boolean;
       /** [1] Vốn phải bỏ ra và lời giải thích điều kiện vào nghề. */
       costMoney: number;
@@ -360,6 +446,14 @@ export interface LifeSummaryView {
   closing: { money: number; food: number; debt: number; farmland: number };
   axes: SummaryAxisView[];
   highlights: { year: number; text: string }[];
+  careerHistory: {
+    careerId: string;
+    careerName: string;
+    rankName: string;
+    startYear: number;
+    endYear: number | null;
+    months: number;
+  }[];
 }
 
 /** [1] Gợi ý tác động của một trọng tâm, đọc từ data: kỹ năng được XP, thu nhập, rồi các chỉ số modifier. */
@@ -536,6 +630,21 @@ export function getHudView(ctx: SimContext): HudView {
           canSetUpbringing,
           canArrangeMarriage,
           traits: c.traits.map((tId) => content.index.trait.get(tId)?.name ?? tId),
+          careerId: c.id === me.id ? state.career.id || null : c.careerId ?? null,
+          careerName: (() => {
+            const cid = c.id === me.id ? state.career.id : c.careerId;
+            return cid ? (content.index.career.get(cid)?.name ?? null) : null;
+          })(),
+          careerRankName: (() => {
+            const cid = c.id === me.id ? state.career.id : c.careerId;
+            const rIdx = c.id === me.id ? state.career.rankIndex : (c.careerRankIndex ?? 0);
+            const cDef = cid ? content.index.career.get(cid) : undefined;
+            return cDef?.ranks[rIdx]?.name ?? cDef?.ranks[0]?.name ?? null;
+          })(),
+          careerMonths:
+            c.id === me.id
+              ? Math.max(0, state.clock.monthIndex - state.career.since)
+              : (c.careerMonths ?? 0),
         };
       }),
       upbringingOptions: content.balance.life.child_upbringing.options.map((o) => ({
@@ -720,24 +829,136 @@ export function getHudView(ctx: SimContext): HudView {
       const home = content.index.career.get(state.householdCareer);
       const rank = cDef?.ranks[state.career.rankIndex] ?? cDef?.ranks[0];
       const nextRank = cDef?.ranks[state.career.rankIndex + 1];
+      const curMonths = cDef ? Math.max(0, state.clock.monthIndex - state.career.since) : 0;
+      const secMonths = playerSectorMonths(ctx);
+      const senFactor = careerSeniorityFactor(ctx, secMonths);
+      const isHead = householdHead(ctx)?.id === me.id;
+      const adultAge = content.balance.life.adult_age;
+      const curSj = state.career.sideJobId ? content.index.sideJob.get(state.career.sideJobId) : undefined;
+
       return {
         id: cDef?.id ?? state.career.id,
         name: cDef?.name ?? '',
         description: cDef?.description ?? '',
         icon: cDef?.icon ?? 'focus',
         kind: cDef?.kind ?? '',
-        months: cDef ? state.clock.monthIndex - state.career.since : 0,
+        sector: cDef?.sector ?? 'dich_vu',
+        depth: cDef?.depth ?? 'nhe',
+        months: curMonths,
+        sectorMonths: secMonths,
+        seniorityBonusPercent: Math.round((senFactor - 1) * 100),
         household: { id: home?.id ?? state.householdCareer, name: home?.name ?? '', icon: home?.icon ?? 'focus' },
         components: cDef?.components ?? [],
+        skills: (cDef?.skills ?? []).map((skId) => ({
+          id: skId,
+          name: content.index.skill.get(skId)?.name ?? skId,
+          level: me.skills[skId]?.level ?? 0,
+        })),
         rankIndex: state.career.rankIndex,
         rankName: rank?.name ?? '',
         nextRankName: nextRank?.name ?? null,
         nextRankMerit: nextRank?.min_merit ?? null,
+        nextRankRequirements: nextRank
+          ? {
+              minMerit: nextRank.min_merit,
+              minYears: nextRank.min_years ?? 0,
+              minSkill: nextRank.min_skill
+                ? {
+                    id: nextRank.min_skill.skill,
+                    name: content.index.skill.get(nextRank.min_skill.skill)?.name ?? nextRank.min_skill.skill,
+                    level: nextRank.min_skill.level,
+                    currentLevel: me.skills[nextRank.min_skill.skill]?.level ?? 0,
+                  }
+                : null,
+              minReputation: nextRank.min_reputation ?? null,
+            }
+          : null,
         merit: state.career.merit,
         wanted: state.career.wanted,
         stipendMoney: rank?.stipend_money_month ?? 0,
         stipendFood: rank?.stipend_food_month ?? 0,
+        incomeRange: rank?.income_range
+          ? [rank.income_range[0], rank.income_range[1]]
+          : rank
+            ? [
+                Math.round(rank.stipend_money_month * 12),
+                Math.round(rank.stipend_money_month * 12 * (1 + content.balance.life.career_v2.max_seniority_bonus)),
+              ]
+            : null,
+        workEffects: {
+          healthMonth: cDef?.work_effects?.health_month ?? 0,
+          stressMonth: cDef?.work_effects?.stress_month ?? 0,
+          skillXp: Object.entries(cDef?.work_effects?.skill_xp ?? {}).map(([skId, xp]) => ({
+            id: skId,
+            name: content.index.skill.get(skId)?.name ?? skId,
+            xp,
+          })),
+        },
         duties: cDef?.duties ?? [],
+        exits: (cDef?.exits ?? []).map((ex) => {
+          const targetDef = content.index.career.get(ex.to);
+          return {
+            toId: ex.to,
+            toName: targetDef?.name ?? ex.to,
+            toIcon: targetDef?.icon ?? 'focus',
+            hint: ex.hint,
+            unlocked: isUnlockedCareerExit(ctx, ex.to),
+          };
+        }),
+        sideJob: {
+          currentId: state.career.sideJobId,
+          currentName: curSj?.name ?? null,
+          activeThisMonth: isSideJobActiveThisMonth(ctx),
+          options: content.sideJobs.map((sj) => ({
+            id: sj.id,
+            name: sj.name,
+            description: sj.description,
+            icon: sj.icon,
+            seasons: sj.seasons,
+            seasonNames: sj.seasons.map((sId) => cal.seasons.find((s) => s.id === sId)?.name ?? sId),
+            incomeMoneyMonth: sj.income_money_month,
+            stressMonth: sj.stress_month,
+            available: sideJobAvailable(ctx, sj.id),
+          })),
+        },
+        familyCareers: aliveMembers(ctx, h)
+          .filter((m) => ageNow(ctx, m) >= adultAge)
+          .map((m) => {
+            const isPlayer = m.id === me.id;
+            const mCareerId = isPlayer ? state.career.id : (m.careerId ?? 'phu_gia_dinh');
+            const mRankIdx = isPlayer ? state.career.rankIndex : (m.careerRankIndex ?? 0);
+            const mMonths = isPlayer ? curMonths : (m.careerMonths ?? 0);
+            const mDef = content.index.career.get(mCareerId);
+            const mRank = mDef?.ranks[mRankIdx] ?? mDef?.ranks[0];
+            return {
+              characterId: m.id,
+              call: callOf(ctx, m),
+              name: fullName(m),
+              age: ageNow(ctx, m),
+              isPlayer,
+              careerId: mCareerId,
+              careerName: mDef?.name ?? mCareerId,
+              rankName: mRank?.name ?? '',
+              months: mMonths,
+              monthlyIncome: isPlayer
+                ? Math.round((rank?.stipend_money_month ?? 0) * senFactor * 10) / 10
+                : Math.round(memberMonthlyCareerIncome(ctx, m) * 10) / 10,
+              canChange: !isPlayer && isHead,
+            };
+          }),
+        history: (state.career.history ?? []).map((entry: CareerHistoryEntry) => {
+          const hDef = content.index.career.get(entry.careerId);
+          const hRank = hDef?.ranks[entry.highestRankIndex] ?? hDef?.ranks[0];
+          return {
+            careerId: entry.careerId,
+            careerName: hDef?.name ?? entry.careerId,
+            sector: hDef?.sector ?? 'dich_vu',
+            rankName: hRank?.name ?? '',
+            startYear: entry.startYear,
+            endYear: entry.endYear,
+            months: entry.months,
+          };
+        }),
         opportunity: {
           tradeIndex: state.world.tradeIndex,
           militaryAlert: state.world.militaryAlert,
@@ -760,19 +981,32 @@ export function getHudView(ctx: SimContext): HudView {
         }),
         availableCareers: content.careers
           .filter((c) => c.id !== state.career.id && c.kind === 'nghe')
-          .map((c) => ({
-            id: c.id,
-            name: c.name,
-            description: c.description,
-            icon: c.icon,
-            // Vào nghề tốn vốn thì tiền nhà phải đủ và người chơi phải là chủ hộ
-            available:
-              careerAvailable(ctx, c.id) &&
-              ((c.join?.cost_money ?? 0) === 0 ||
-                (householdHead(ctx)?.id === state.playerId ? h.money : state.purse.money) >= (c.join?.cost_money ?? 0)),
-            costMoney: c.join?.cost_money ?? 0,
-            hint: c.join?.hint ?? '',
-          })),
+          .map((c) => {
+            const firstRank = c.ranks[0];
+            const lastRank = c.ranks[c.ranks.length - 1] ?? firstRank;
+            const minInc = firstRank?.income_range?.[0] ?? Math.round((firstRank?.stipend_money_month ?? 0) * 12);
+            const maxInc =
+              lastRank?.income_range?.[1] ??
+              Math.round((lastRank?.stipend_money_month ?? 0) * 12 * (1 + content.balance.life.career_v2.max_seniority_bonus));
+            return {
+              id: c.id,
+              name: c.name,
+              description: c.description,
+              icon: c.icon,
+              sector: c.sector,
+              depth: c.depth,
+              inSettlement: careerInSettlement(ctx, c.id),
+              isExit: (cDef?.exits ?? []).some((ex) => ex.to === c.id),
+              incomeRange: [minInc, maxInc] as [number, number],
+              // Vào nghề tốn vốn thì tiền nhà phải đủ và người chơi phải là chủ hộ
+              available:
+                careerAvailable(ctx, c.id) &&
+                ((c.join?.cost_money ?? 0) === 0 ||
+                  (householdHead(ctx)?.id === state.playerId ? h.money : state.purse.money) >= (c.join?.cost_money ?? 0)),
+              costMoney: c.join?.cost_money ?? 0,
+              hint: c.join?.hint ?? '',
+            };
+          }),
       };
     })(),
     livingStandards: content.balance.living_standards.levels.map((l) => ({
@@ -949,6 +1183,7 @@ export function getDynastySummary(ctx: SimContext): DynastySummaryView {
       content.balance.life.mortality.causes.find((c) => c.id === (state.gameOver?.causeId ?? me.deathCauseId))?.name ??
       (state.gameOver?.causeId ?? ''),
     careerId: state.career.id || state.householdCareer,
+    careerHistory: state.career.history ?? [],
     statusRankId: state.civilization.statusRank,
     examDegreeId: state.civilization.examDegree,
     yearsPlayed: Math.max(0, (state.gameOver?.year ?? state.clock.year) - (state.generationStartYear ?? content.balance.time.start_year)),
@@ -1020,5 +1255,17 @@ export function getLifeSummary(ctx: SimContext): LifeSummaryView | null {
     closing: { money: h.money, food: h.food, debt: h.debt, farmland },
     axes: computeSummaryAxes(ctx),
     highlights: state.log.flatMap((y) => y.entries.filter((e) => e.importance >= threshold).map((e) => ({ year: y.year, text: e.text }))),
+    careerHistory: (state.career.history ?? []).map((entry: CareerHistoryEntry) => {
+      const hDef = content.index.career.get(entry.careerId);
+      const hRank = hDef?.ranks[entry.highestRankIndex] ?? hDef?.ranks[0];
+      return {
+        careerId: entry.careerId,
+        careerName: hDef?.name ?? entry.careerId,
+        rankName: hRank?.name ?? '',
+        startYear: entry.startYear,
+        endYear: entry.endYear,
+        months: entry.months,
+      };
+    }),
   };
 }

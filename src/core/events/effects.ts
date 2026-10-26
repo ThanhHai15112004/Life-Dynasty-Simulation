@@ -12,7 +12,7 @@ import { cureCharacter, infectCharacter } from '../systems/life';
 import { healthCap } from '../systems/life/health';
 import { monthlyFoodNeed, sellPrice } from '../systems/economy/helpers';
 import { ownMoney } from '../systems/economy/purse';
-import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
+import { addCareerMerit, addWanted, changeCareer, setPlayerCareerTenure, setSideJob } from '../systems/career';
 import { changeClanRelation } from '../systems/ai';
 import {
   adoptChild,
@@ -164,6 +164,10 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
         }
         case 'set_career':
           changeCareer(ctx, e.career, e.rank ?? 0);
+          if (e.months !== undefined) setPlayerCareerTenure(ctx, e.months);
+          break;
+        case 'set_side_job':
+          setSideJob(ctx, e.side_job, true);
           break;
         case 'career_merit':
           addCareerMerit(ctx, e.value);

@@ -6,6 +6,7 @@ import { fireDecision } from '../events/decision';
 import { bindRoles, eligibleRoles } from '../events/selection';
 import { createCharacter } from './generate';
 import { changeClanRelation, generateVillageClans, syncClanFeuds } from '../systems/ai';
+import { ensureFamilyCareers } from '../systems/career';
 import { type SimContext, RngStream } from '../systems/context';
 import {
   ensureVillageSuitors,
@@ -43,11 +44,21 @@ export function applyScenario(
       const father = state.characters[me.fatherId];
       if (f.father_age !== undefined) father.birthYear = state.clock.year - f.father_age;
       if (f.father_health !== undefined) father.health = f.father_health;
+      if (f.father_career) {
+        father.careerId = f.father_career;
+        father.careerRankIndex = 0;
+        father.careerMonths = 36;
+      }
     }
     if (me.motherId && state.characters[me.motherId]) {
       const mother = state.characters[me.motherId];
       if (f.mother_age !== undefined) mother.birthYear = state.clock.year - f.mother_age;
       if (f.mother_health !== undefined) mother.health = f.mother_health;
+      if (f.mother_career) {
+        mother.careerId = f.mother_career;
+        mother.careerRankIndex = 0;
+        mother.careerMonths = 36;
+      }
     }
     if (f.parents) {
       if (me.fatherId && (f.parents === 'father_dead' || f.parents === 'both_dead')) {
@@ -88,6 +99,11 @@ export function applyScenario(
         if (f.spouse_pregnant) {
           spouse.pregnancy = { monthsLeft: 6, fatherId: me.id };
         }
+        if (f.spouse_career) {
+          spouse.careerId = f.spouse_career;
+          spouse.careerRankIndex = 0;
+          spouse.careerMonths = 24;
+        }
       }
     }
 
@@ -113,6 +129,11 @@ export function applyScenario(
         sib.fatherId = me.fatherId;
         sib.motherId = me.motherId;
         sib.householdId = h.id;
+        if (sibSpec.career) {
+          sib.careerId = sibSpec.career;
+          sib.careerRankIndex = 0;
+          sib.careerMonths = 24;
+        }
         state.characters[sib.id] = sib;
         h.memberIds.push(sib.id);
         if (sibSpec.split) {
@@ -143,6 +164,11 @@ export function applyScenario(
         }
         if (childSpec.traits && childSpec.traits.length > 0) {
           child.traits = [...childSpec.traits];
+        }
+        if (childSpec.career) {
+          child.careerId = childSpec.career;
+          child.careerRankIndex = 0;
+          child.careerMonths = 24;
         }
         child.householdId = h.id;
         state.characters[child.id] = child;
@@ -307,6 +333,9 @@ export function applyScenario(
       splitPlayerHousehold(ctx, 0);
     }
   }
+
+  // Đảm bảo mọi thành viên trưởng thành trong hộ có nghề riêng (Phase 5)
+  ensureFamilyCareers(ctx);
 
   // 3. World setup nếu có
   if (scenario.world_setup) {

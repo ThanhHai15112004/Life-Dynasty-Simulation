@@ -240,18 +240,41 @@ export const ambitionSchema = z
 export const ambitionFileSchema = z.object({ ambitions: z.array(ambitionSchema).min(1) }).strict();
 export type Ambition = z.infer<typeof ambitionSchema>;
 
-/** [1] Hợp đồng nghề & Thành phần lắp ghép (GDD 04 §4–5). */
+/** [1] Hợp đồng nghề & Thành phần lắp ghép (GDD 04 §4–5) + [5] Nghề nghiệp v2 (ngành, độ sâu, thâm niên, nghề tay trái, lối ra). */
 export const careerComponentTypes = ['farmland', 'trade_route', 'military_rank', 'outlaw_band', 'exam_ladder'] as const;
 export type CareerComponentType = (typeof careerComponentTypes)[number];
+
+export const careerSectors = [
+  'nong_nghiep',
+  'thu_cong',
+  'thuong_mai',
+  'y_dao',
+  'quan_binh',
+  'giang_ho',
+  'quan_hoc',
+  'dich_vu',
+] as const;
+export type CareerSector = (typeof careerSectors)[number];
+
+export const careerDepths = ['nhe', 'vua', 'sau'] as const;
+export type CareerDepth = (typeof careerDepths)[number];
 
 export const careerRankSchema = z
   .object({
     id: z.string(),
     name: z.string(),
     min_merit: z.number().min(0).default(0),
+    /** [5] Số năm thâm niên nghề tối thiểu để lên bậc. */
+    min_years: z.number().min(0).default(0),
+    /** [5] Yêu cầu kỹ năng chính để lên bậc (nếu có). */
+    min_skill: z.object({ skill: z.string(), level: z.number().int().min(1) }).strict().optional(),
+    /** [5] Yêu cầu uy tín / danh tiếng làng xã tối thiểu để lên bậc (nếu có). */
+    min_reputation: z.number().optional(),
     condition: conditionSchema.optional(),
     stipend_money_month: z.number().default(0),
     stipend_food_month: z.number().default(0),
+    /** [5] Khoảng thu nhập ước tính/tháng ở bậc này [min, max] để hiển thị bảng việc làm. */
+    income_range: range.default([0, 0]),
     modifiers: z.array(modifierDefSchema).default([]),
   })
   .strict();
@@ -276,6 +299,44 @@ export const careerActionSchema = z
   .strict();
 export type CareerAction = z.infer<typeof careerActionSchema>;
 
+export const careerWorkEffectsSchema = z
+  .object({
+    health_month: z.number().default(0),
+    stress_month: z.number().default(0),
+    skill_xp: z.record(z.string(), z.number()).default({}),
+  })
+  .strict();
+export type CareerWorkEffects = z.infer<typeof careerWorkEffectsSchema>;
+
+export const careerExitSchema = z
+  .object({
+    to: z.string(),
+    hint: z.string(),
+    condition: conditionSchema.optional(),
+  })
+  .strict();
+export type CareerExit = z.infer<typeof careerExitSchema>;
+
+export const sideJobSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    icon: z.string().default('focus'),
+    /** Các mùa nông nhàn có thể làm nghề tay trái này (vd: ['dong', 'xuan']). */
+    seasons: z.array(z.string()).min(1),
+    /** Khu định cư có việc này (rỗng = mọi nơi đều có). */
+    settlement_types: z.array(z.string()).default([]),
+    condition: conditionSchema.optional(),
+    income_money_month: z.number().min(0),
+    income_food_month: z.number().min(0).default(0),
+    health_month: z.number().default(0),
+    stress_month: z.number().default(0),
+    skill_xp: z.record(z.string(), z.number()).default({}),
+  })
+  .strict();
+export type SideJob = z.infer<typeof sideJobSchema>;
+
 export const careerSchema = z
   .object({
     id: z.string(),
@@ -284,9 +345,17 @@ export const careerSchema = z
     icon: z.string().default('focus'),
     /** [1] nghe: nghề thật (bậc, lương, hành động) · trang_thai: chưa có nghề riêng (phụ việc nhà, thất nghiệp). */
     kind: z.enum(['nghe', 'trang_thai']).default('nghe'),
+    /** [5] Ngành nghề (nông ngư, thủ công, thương mại, quân sự, học thuật, cai trị, chuyên môn, ngoài vòng). */
+    sector: z.enum(careerSectors).default('nong_nghiep'),
+    /** [5] Cấp độ sâu của nghề (Nhẹ / Vừa / Sâu — GDD 04 §13). */
+    depth: z.enum(careerDepths).default('nhe'),
+    /** [5] Khu định cư có nghề này (rỗng = mọi khu định cư đều có). */
+    settlement_types: z.array(z.string()).default([]),
+    /** [5] Kỹ năng dùng chính trong nghề. */
+    skills: z.array(z.string()).default([]),
     components: z.array(z.enum(careerComponentTypes)).default([]),
     /** [1] Kinh nghiệm (công trạng) tích mỗi tháng — phụ việc nhà thì mang theo khi tiếp quản nghề nhà. */
-    merit_month: z.number().min(0).default(0),
+    merit_month: z.number().min(0).default(0.8),
     /** [1] Con cái nhà theo nghề này, đến tuổi trưởng thành thì bắt đầu bằng nghề riêng nào (mặc định: life.career_start.helper). */
     youth_career: z.string().optional(),
     entry_condition: conditionSchema.optional(),
@@ -295,6 +364,12 @@ export const careerSchema = z
     duties: z.array(z.string()).default([]),
     ranks: z.array(careerRankSchema).min(1),
     actions: z.array(careerActionSchema).default([]),
+    /** [5] Tác động hàng tháng khi làm nghề (sức khỏe, stress, XP kỹ năng). */
+    work_effects: careerWorkEffectsSchema.default({}),
+    /** [5] Các lối ra / hướng chuyển nghề tự nhiên trên bản đồ chuyển nghề (GDD 04 §11). */
+    exits: z.array(careerExitSchema).default([]),
+    /** [5] Nhãn kho sự kiện riêng của nghề. */
+    event_tags: z.array(z.string()).default([]),
     /** [1] Trọng tâm ưu tiên khi người theo nghề này cần đổi trọng tâm (vd. lớn lên sang giai đoạn mới). */
     default_focus: z.string().optional(),
     /** [1] Bộ lọc sự kiện theo nghề nhà: nhân trọng số sự kiện/nhật ký có thẻ tương ứng. */
@@ -313,7 +388,12 @@ export const careerSchema = z
       .default({}),
   })
   .strict();
-export const careerFileSchema = z.object({ careers: z.array(careerSchema).min(1) }).strict();
+export const careerFileSchema = z
+  .object({
+    careers: z.array(careerSchema).min(1),
+    side_jobs: z.array(sideJobSchema).default([]),
+  })
+  .strict();
 export type Career = z.infer<typeof careerSchema>;
 
 /** [1] Khuôn văn minh (GDD 07) & Loại khu định cư (GDD 06). */

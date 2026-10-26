@@ -10,6 +10,7 @@ import { queueCutscene } from '../../events/cutscene';
 import { writeTemplate } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
 import { computeHousehold } from '../modifiers';
+import { careerSeniorityFactor, memberMonthlyCareerIncome, playerSectorMonths } from '../career';
 import { currentFateMode } from '../life';
 import { ageNow, aliveMembers, householdHead, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
@@ -104,7 +105,7 @@ function collectRent(ctx: SimContext): void {
   writeTemplate(ctx, SystemLog.RentCollected, { params: { amount, sao } });
 }
 
-/** [1] Các khoản thu đều đặn trong tháng: nghề nhà (kỹ năng theo người giỏi nhất trong hộ) và Focus chính (kỹ năng người chơi). */
+/** [1] Các khoản thu đều đặn trong tháng: nghề nhà (kỹ năng theo người giỏi nhất trong hộ, nhân hệ số thâm niên ngành) và Focus chính (kỹ năng người chơi). */
 export function regularIncomeParts(ctx: SimContext): { ledger: string; money: number; personal: boolean }[] {
   const { content, state } = ctx;
   const parts: { ledger: string; money: number; personal: boolean }[] = [];
@@ -112,7 +113,12 @@ export function regularIncomeParts(ctx: SimContext): { ledger: string; money: nu
   if (ce.income) {
     const skill = ce.income.skill;
     const level = skill ? aliveMembers(ctx).reduce((m, c) => Math.max(m, c.skills[skill]?.level ?? 0), 0) : 0;
-    parts.push({ ledger: ce.income.ledger, money: incomeOf(ctx, ce.income, level), personal: false });
+    const homeDef = content.index.career.get(state.householdCareer);
+    const head = householdHead(ctx);
+    const sectorMonths =
+      head?.id === state.playerId ? playerSectorMonths(ctx, homeDef) : (head?.careerMonths ?? 0);
+    const seniorityFactor = careerSeniorityFactor(ctx, sectorMonths);
+    parts.push({ ledger: ce.income.ledger, money: incomeOf(ctx, ce.income, level) * seniorityFactor, personal: false });
   }
   const focus = content.index.focus.get(state.focus.primary);
   if (focus?.income && evaluate(focus.condition, createResolver(ctx))) {
@@ -246,12 +252,24 @@ export function monthlyEconomy(ctx: SimContext): void {
   addLedger(h, Ledger.Livestock, 0, -livestock);
   addLedger(h, Ledger.Living, -money, 0);
 
-  // Lao động dư: nhà nông (ít ruộng, đông người) đi làm thuê — mất ruộng vẫn còn đường sống;
-  // nhà không tự cày thì mọi người trừ người lo việc chính đều phụ việc nghề nhà
+  // Lao động dư & [5] Nghề của người nhà: người nhà có nghề riêng khác nghề nhà thì đóng góp theo nghề đó;
+  // người nhà cùng nghề nhà (hoặc dư sức cày cấy) thì phụ việc nghề nhà / đi làm thuê
   const ce = careerEconomy(ctx);
-  const wages = Math.floor(spareWorkers(ctx)) * (ce.family_wage_month ?? eco.harvest.spare_worker_wage_month);
-  h.money += wages;
-  addLedger(h, ce.self_farm ? Ledger.Wages : Ledger.FamilyWork, wages, 0);
+  const adultAge = content.balance.life.adult_age;
+  const distinctCareerMembers = aliveMembers(ctx, h).filter(
+    (c) => c.id !== state.playerId && ageNow(ctx, c) >= adultAge && c.careerId && c.careerId !== state.householdCareer,
+  );
+  const distinctCareerIncome = distinctCareerMembers.reduce((sum, c) => sum + memberMonthlyCareerIncome(ctx, c), 0);
+  const spareCount = Math.max(0, Math.floor(spareWorkers(ctx)) - distinctCareerMembers.length);
+  const wages = spareCount * (ce.family_wage_month ?? eco.harvest.spare_worker_wage_month);
+  if (wages > 0) {
+    h.money += wages;
+    addLedger(h, ce.self_farm ? Ledger.Wages : Ledger.FamilyWork, wages, 0);
+  }
+  if (distinctCareerIncome > 0) {
+    h.money += distinctCareerIncome;
+    addLedger(h, Ledger.FamilyWork, distinctCareerIncome, 0);
+  }
   regularIncome(ctx);
 
   if (eco.harvest.months.includes(state.clock.month)) {

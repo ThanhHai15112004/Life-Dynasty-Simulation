@@ -44,6 +44,8 @@ export const SystemLog = {
   ChildUpbringingSet: 'sys.chon_huong_nuoi_con',
   ChildMarried: 'sys.ga_cuoi_cho_con',
   ChildRebelledMarriage: 'sys.con_cai_loi_hon_su',
+  SideJobChanged: 'sys.chon_nghe_tay_trai',
+  FamilyMemberCareerChanged: 'sys.nguoi_nha_chuyen_nghe',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */
@@ -67,6 +69,7 @@ export const Ledger = {
   Career: 'luong_nghe',
   Rent: 'thu_to',
   FamilyWork: 'phu_viec',
+  SideJob: 'nghe_tay_trai',
   Medicine: 'thuoc_men',
   /** [1.5] Túi tiền riêng của người chơi (chưa làm chủ hộ) và các khoản qua lại với nhà. */
   ContributeOut: 'gop_cho_nha',

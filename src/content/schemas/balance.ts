@@ -276,6 +276,26 @@ export const lifeBalanceSchema = z
       })
       .strict()
       .default({}),
+    /** [5] Cấu hình Hệ thống Nghề nghiệp v2 (Phase 5): hệ số thâm niên ngành, nghề người nhà và ánh xạ nuôi dạy. */
+    career_v2: z
+      .object({
+        /** Mỗi năm thâm niên trong cùng ngành cộng thêm chừng này hệ số vào thu nhập nghề (vd 0.025 = +2.5%/năm). */
+        seniority_bonus_per_year: z.number().min(0).default(0.025),
+        /** Trần cộng thêm từ thâm niên ngành (vd 0.5 = tối đa +50%). */
+        max_seniority_bonus: z.number().min(0).default(0.5),
+        /** Công trạng / kinh nghiệm tích mỗi tháng của thành viên người lớn trong hộ. */
+        family_member_merit_month: z.number().min(0).default(1.0),
+        /** Tỷ lệ phần thu nhập nghề riêng của thành viên khác trong hộ đóng góp vào quỹ chung của hộ. */
+        family_member_income_share: z.number().min(0).max(1).default(0.75),
+        /** Danh sách nghề ưu tiên khi thành viên trong hộ bước vào tuổi trưởng thành theo hướng nuôi dạy. */
+        upbringing_career_pools: z.record(z.string(), z.array(z.string())).default({
+          di_hoc: ['si_tu', 'nha_lai', 'thay_lang'],
+          hoc_nghe: ['tho_moc', 'tho_ren', 'ban_rong', 'thuong_nhan', 'chu_do'],
+          phu_viec_nha: ['nong_dan', 'ta_dien', 'lam_thue', 'ngu_dan'],
+        }),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 

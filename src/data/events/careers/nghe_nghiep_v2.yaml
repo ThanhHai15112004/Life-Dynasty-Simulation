@@ -1,0 +1,821 @@
+# [2] Sự kiện quyết định cho 10 nghề nhẹ/vừa + Mời vào nghề & Khủng hoảng ép đổi nghề (Phase 5 — GDD 04 §16)
+events:
+  # ── 1. TÁ ĐIỀN (ta_dien) ──
+  - id: ta_dien_chia_thoc_mua_gat
+    title: Ngày đong thóc tô trên sân gạch
+    tags: [kinh_te, nghe_nghiep, ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ta_dien }
+    weight: 6
+    cooldown_years: 2
+    tension: 5
+    importance: 5
+    icon: lua
+    text:
+      - 'Thóc phơi khô được gánh đến sân gạch nhà điền chủ để đong tô. Quản gia cầm đấu gạt đầy có ngọn, đòi thu thêm hai thúng "tiền hao hụt sân phơi".'
+    options:
+      - id: khet_leo_xin_bot
+        text: 'Khéo lời kể khổ xin điền chủ giữ đúng lệ tô rẽ'
+        chance:
+          base: 0.55
+          skill: ngoai_giao
+          per_level: 0.05
+        success:
+          - { type: food, value: 5, ledger: thu_hoach }
+          - { type: career_merit, value: 10 }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        failure:
+          - { type: food, value: -2, ledger: thue }
+          - { type: stress, value: 4 }
+        success_result:
+          - 'Điền chủ nghe bùi tai, khoát tay bảo quản gia đong bằng mặt đấu. Nhà giữ lại được mấy thúng thóc quý.'
+        failure_result:
+          - 'Quản gia trợn mắt quát tháo, đong vơi mất hai thúng thóc của nhà bạn.'
+      - id: nhan_nhin_dong_du
+        text: 'Cắn răng đong đủ để năm sau còn được nhận ruộng tốt'
+        effects:
+          - { type: food, value: -1, ledger: thue }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        result:
+          - 'Điền chủ gật đầu hài lòng vì bạn biết điều, hứa vụ tới giao cho mảnh ruộng gần mương nước.'
+
+  - id: ta_dien_muon_giong_thoc
+    title: Giống lúa mới cho vụ chiêm
+    tags: [kinh_te, nghe_nghiep, ruong_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ta_dien }
+    weight: 5
+    cooldown_years: 3
+    tension: 4
+    importance: 4
+    icon: lua
+    text:
+      - 'Vụ chiêm sắp tới, bạn nghe tin làng bên có giống lúa chịu hạn tốt hơn giống cũ nhưng phải đổi thóc giống đắt gấp đôi.'
+    options:
+      - id: doi_giong_moi
+        text: 'Bỏ 3 thúng thóc đổi giống mới gieo thử'
+        condition: { var: household.food, op: '>=', value: 3 }
+        effects:
+          - { type: food, value: 5, ledger: thu_hoach }
+          - { type: career_merit, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+        result:
+          - 'Lúa lên xanh mướt, bông trĩu hạt khiến cả cánh đồng ai đi qua cũng tấm tắc hỏi giống.'
+      - id: giu_giong_cu
+        text: 'Dùng thóc giống cũ trong bồ cho chắc ăn'
+        effects:
+          - { type: career_merit, value: 5 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Mạ vẫn lên đều đặn như mọi năm, không lo rủi ro mất giống.'
+
+  # ── 2. LÀM THUÊ (lam_thue) ──
+  - id: lam_thue_dap_de_mua_lu
+    title: Tuyển phu đắp đê ngăn lũ
+    tags: [kinh_te, nghe_nghiep, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: lam_thue }
+    weight: 6
+    cooldown_years: 2
+    tension: 5
+    importance: 5
+    icon: lao_dong
+    text:
+      - 'Nước sông dâng cao, quan huyện sức xuống các tổng mộ thợ khỏe mạnh ra gia cố chân đê, trả tiền công hậu hĩnh mỗi ngày kèm cơm trưa.'
+    options:
+      - id: nhan_viec_dap_de
+        text: 'Vác mai ra đê làm việc suốt đợt'
+        chance:
+          base: 0.65
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 3.5, ledger: lam_thue }
+          - { type: career_merit, value: 14 }
+          - { type: reputation, group: dan_lang, value: 4 }
+        failure:
+          - { type: money, value: 1.5, ledger: lam_thue }
+          - { type: health, value: -6 }
+        success_result:
+          - 'Bạn gánh đất nhanh thoăn thoắt, cai đê khen ngợi và phát thưởng thêm tiền công.'
+        failure_result:
+          - 'Dầm mưa suốt mấy ngày liền khiến bạn cảm lạnh, nhưng cũng mang về được ít tiền công.'
+      - id: lam_viec_nhe_trong_xom
+        text: 'Ở lại trong xóm nhận bổ củi, gánh nước cho nhàn'
+        effects:
+          - { type: money, value: 1.2, ledger: lam_thue }
+          - { type: career_merit, value: 5 }
+        result:
+          - 'Tiền công ít hơn nhưng tối về được ngủ ngon giấc dưới mái nhà khô ráo.'
+
+  - id: lam_thue_boc_vac_ben_thuyen
+    title: Chuyến thuyền buôn cần người bốc vác gấp
+    tags: [kinh_te, nghe_nghiep, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: lam_thue }
+    weight: 5
+    cooldown_years: 2
+    tension: 4
+    importance: 4
+    icon: tien
+    text:
+      - 'Một đoàn thuyền buôn lớn vừa cập bến, chủ thuyền cần toán phu khỏe khoắn bốc dỡ hàng trăm bao muối lên kho trước khi trời đổ mưa.'
+    options:
+      - id: dung_ra_nhan_khoan
+        text: 'Đứng ra gọi thêm anh em nhận khoán trọn gói'
+        effects:
+          - { type: money, value: 3, ledger: lam_thue }
+          - { type: career_merit, value: 12 }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        result:
+          - 'Bạn phân chia người vác người xếp nhịp nhàng, hàng vào kho khô ráo trước cơn mưa rào.'
+      - id: chi_vac_phan_minh
+        text: 'Chỉ nhận vác tính công theo bao'
+        effects:
+          - { type: money, value: 1.8, ledger: lam_thue }
+          - { type: career_merit, value: 6 }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        result:
+          - 'Vai rát bỏng vì bao muối mặn nhưng chiều về có ngay tiền đong gạo.'
+
+  # ── 3. THỢ MỘC (tho_moc) ──
+  - id: tho_moc_cham_vi_keo_dinh
+    title: Làng mở việc tu sửa thượng lương đình
+    tags: [kinh_te, nghe_nghiep, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: tho_moc }
+    weight: 6
+    cooldown_years: 3
+    tension: 5
+    importance: 6
+    icon: nha
+    text:
+      - 'Các cụ bô lão trong làng họp bàn thay lại cây thượng lương và chạm khắc bức cuốn thư gỗ lim ở đình trung, muốn tìm tay thợ mộc khéo nhất vùng.'
+    options:
+      - id: nhan_cham_rong_phuong
+        text: 'Nhận lời chạm khắc bức cuốn thư và vì kèo chính'
+        chance:
+          base: 0.6
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 18 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: sinh_ton, value: 18 }
+        failure:
+          - { type: money, value: 1.5, ledger: luong_nghe }
+          - { type: stress, value: 5 }
+        success_result:
+          - 'Nét đục tứ linh sống động như thật! Ngày lễ thượng lương, tên bạn được ghi vào bia công đức của đình.'
+        failure_result:
+          - 'Thớ gỗ lim xoắn cứng làm mẻ mất hai mũi đục, phải chắp vá mãi mới kịp ngày lễ.'
+      - id: phu_bao_cot_phu
+        text: 'Chỉ nhận phần bào cột và lắp ván sàn cho chắc chắn'
+        effects:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: career_merit, value: 8 }
+        result:
+          - 'Việc vừa sức, tiền công trả sòng phẳng ngay sau khi lát xong sàn đình.'
+
+  - id: tho_moc_khach_dat_guong_tu
+    title: Phú hộ đặt đóng sập gụ tủ chè
+    tags: [kinh_te, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: tho_moc }
+    weight: 5
+    cooldown_years: 3
+    tension: 4
+    importance: 5
+    icon: tien
+    text:
+      - 'Nhà phú hộ chuẩn bị cưới vợ cho con trai trưởng, tìm đến xưởng mộc của bạn đặt đóng bộ sập gụ tủ chè khảm ốc xà cừ.'
+    options:
+      - id: doc_suc_lam_tinh_xao
+        text: 'Chăm chút từng đường mộng và nét khảm suốt tháng'
+        effects:
+          - { type: money, value: 4.5, ledger: luong_nghe }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+        result:
+          - 'Bộ sập bóng loáng lên nước tuyệt đẹp, phú hộ thưởng thêm một quan tiền mặt.'
+      - id: giao_tho_phu_lam_nhanh
+        text: 'Làm mẫu giản dị để kịp nhận thêm việc khác'
+        effects:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: career_merit, value: 6 }
+        result:
+          - 'Giao hàng đúng hẹn, tiền công thu đủ không thiếu một đồng.'
+
+  # ── 4. THỢ RÈN (tho_ren) ──
+  - id: tho_ren_don_hang_nong_cu
+    title: Đầu vụ dân làng ùn ùn mang cày cuốc đến rèn
+    tags: [kinh_te, nghe_nghiep, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: tho_ren }
+    weight: 6
+    cooldown_years: 2
+    tension: 4
+    importance: 5
+    icon: phu
+    text:
+      - 'Mưa đầu mùa vừa xuống, nông dân khắp tổng mang lưỡi cày cùn, liềm mẻ đến xếp hàng kín trước lò rèn của bạn, giục làm gấp cho kịp xuống đồng.'
+    options:
+      - id: do_lua_thuc_dem
+        text: 'Đỏ lửa suốt ngày đêm để rèn kịp cho cả làng'
+        effects:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 15 }
+          - { type: health, value: -4 }
+          - { type: reputation, group: dan_lang, value: 5 }
+        result:
+          - 'Tiếng búa nện trên đe vang vọng suốt đêm. Dân cày có nông cụ sắc bén kịp vụ, tiền công chất đầy tráp.'
+      - id: nhan_vua_suc
+        text: 'Chỉ nhận vừa đủ số lượng làm ban ngày'
+        effects:
+          - { type: money, value: 2.8, ledger: luong_nghe }
+          - { type: career_merit, value: 8 }
+        result:
+          - 'Làm đến đâu chắc đến đó, giữ được sức vóc dẻo dai.'
+
+  - id: tho_ren_quan_binh_dat_dao
+    title: Đội tuần đinh đặt rèn giáo mác
+    tags: [kinh_te, nghe_nghiep, quan_su]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: tho_ren }
+    weight: 5
+    cooldown_years: 3
+    tension: 5
+    importance: 5
+    icon: phu
+    text:
+      - 'Ngũ trưởng đội tuần đinh trên huyện ghé lò rèn, đặt bạn tôi gấp hai chục mũi giáo và mã tấu thép tốt để trang bị cho lính tuần đèo.'
+    options:
+      - id: ren_thep_tot_nhat
+        text: 'Chọn phôi thép già, tôi nước thật kỹ'
+        chance:
+          base: 0.6
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 5.5, ledger: luong_nghe }
+          - { type: career_merit, value: 16 }
+          - { type: skill_xp, skill: quan_su, value: 15 }
+        failure:
+          - { type: money, value: 2, ledger: luong_nghe }
+          - { type: stress, value: 5 }
+        success_result:
+          - 'Lưỡi đao chém thử đứt ngọt cành tre già mà không mẻ. Quan quân tấm tắc khen tay nghề của bạn.'
+        failure_result:
+          - 'Phải rèn đi rèn lại mấy lượt mới đạt yêu cầu của đội trưởng.'
+      - id: tu_choi_kheo
+        text: 'Báo bận việc nông cụ để khỏi dính dáng việc binh đao'
+        effects:
+          - { type: career_merit, value: 4 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Bạn giữ lò rèn yên ổn chuyên tâm làm đồ gia dụng cho dân làng.'
+
+  # ── 5. THẦY LANG (thay_lang) ──
+  - id: thay_lang_chua_benh_nha_giau
+    title: Mời bắt mạch ca bệnh hiểm ở nhà phú hộ
+    tags: [kinh_te, nghe_nghiep, hoc_hanh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thay_lang }
+    weight: 6
+    cooldown_years: 3
+    tension: 6
+    importance: 6
+    icon: binh_yen
+    text:
+      - 'Cụ cố nhà phú hộ sốt mê man đã ba hôm, mấy thầy lang nơi khác đến đều lắc đầu. Gia nhân hớt hải đánh ngựa đến mời bạn sang bắt mạch cứu nguy.'
+    options:
+      - id: ke_don_thuoc_quy
+        text: 'Bắt mạch tỉ mỉ và tự tay sắc phương thuốc bí truyền'
+        chance:
+          base: 0.58
+          skill: hoc_van
+          per_level: 0.06
+        success:
+          - { type: money, value: 6, ledger: luong_nghe }
+          - { type: career_merit, value: 18 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: hoc_van, value: 18 }
+        failure:
+          - { type: reputation, group: dan_lang, value: -3 }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Uống hết hai chén thuốc sắc, cụ cố tỉnh táo đòi ăn cháo! Phú hộ mừng rỡ tặng bức trướng thêu chữ "Lương y như từ mẫu" cùng hậu lễ.'
+        failure_result:
+          - 'Bệnh tình cụ cố chỉ hơi thuyên giảm, người nhà phú hộ tỏ vẻ chưa thật hài lòng.'
+      - id: ke_thuoc_bo_an_toan
+        text: 'Kê thang thuốc ôn hòa điều dưỡng từ từ'
+        effects:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: career_merit, value: 8 }
+        result:
+          - 'Thuốc lành tính giúp người bệnh êm giấc, bạn nhận tiền lễ khám rồi cáo từ.'
+
+  - id: thay_lang_phat_thuoc_mua_dich
+    title: Khí độc giao mùa làm nhiều người cảm mạo
+    tags: [kinh_te, nghe_nghiep, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: thay_lang }
+    weight: 5
+    cooldown_years: 3
+    tension: 4
+    importance: 5
+    icon: binh_yen
+    text:
+      - 'Tiết trời trở gió độc, trẻ nhỏ và người già trong xóm nghèo ho sốt liên miên mà nhiều nhà không đủ tiền đong thuốc.'
+    options:
+      - id: nau_noi_thuoc_mien_phi
+        text: 'Bắc nồi thuốc lá nam lớn trước sân phát không cho dân nghèo'
+        effects:
+          - { type: money, value: -1, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: 9 }
+          - { type: career_merit, value: 15 }
+          - { type: stress, value: -4 }
+        result:
+          - 'Cả xóm cảm kích tấm lòng nhân từ của thầy lang, nhà khá giả biết chuyện lại càng tìm đến mua thuốc bổ nhiều hơn.'
+      - id: ban_thuoc_gia_mem
+        text: 'Bốc thuốc tính nửa giá cho người trong làng'
+        effects:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: career_merit, value: 10 }
+        result:
+          - 'Vừa thu hồi được vốn thảo dược vừa giữ trọn tình làng nghĩa xóm.'
+
+  # ── 6. NGƯ DÂN (ngu_dan) ──
+  - id: ngu_dan_luong_ca_mua_nuoc_noi
+    title: Luồng cá lớn dạt về khúc sông quê
+    tags: [kinh_te, nghe_nghiep, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ngu_dan }
+    weight: 6
+    cooldown_years: 2
+    tension: 5
+    importance: 5
+    icon: mua
+    text:
+      - 'Sau trận mưa đầu nguồn, nước sông đỏ nặng phù sa kéo theo từng đàn cá lăng, cá chép quẫy đặc cả mặt nước ngoài bãi bồi.'
+    options:
+      - id: bua_luoi_giua_dong
+        text: 'Chèo thuyền ra giữa dòng lớn quăng lưới suốt ngày'
+        chance:
+          base: 0.62
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 4, ledger: luong_nghe }
+          - { type: food, value: 6, ledger: thu_hoach }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 16 }
+        failure:
+          - { type: money, value: 1, ledger: luong_nghe }
+          - { type: health, value: -4 }
+        success_result:
+          - 'Khoang thuyền đầy ắp cá tươi! Vừa bán cho thương lái đầu bến vừa phơi khô dự trữ cho cả nhà.'
+        failure_result:
+          - 'Nước chảy xiết làm rách một góc lưới, chỉ vớt được vài con cá nhỡ.'
+      - id: tha_lo_ven_bo
+        text: 'Chỉ đặt lờ, cất vó dọc bờ sông cho an toàn'
+        effects:
+          - { type: money, value: 1.8, ledger: luong_nghe }
+          - { type: food, value: 3, ledger: thu_hoach }
+          - { type: career_merit, value: 7 }
+        result:
+          - 'Tôm cá vào lờ đều đặn, không lo sóng to gió lớn.'
+
+  - id: ngu_dan_giong_loc_bat_ngo
+    title: Mây đen kéo đặc trên mặt sông
+    tags: [nghe_nghiep, nguy_hiem]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ngu_dan }
+    weight: 5
+    cooldown_years: 3
+    tension: 6
+    importance: 5
+    icon: mua
+    text:
+      - 'Đang lúc mẻ lưới dưới nước bắt đầu nặng trĩu thì gió giật nổi lên, mây đen vần vũ kéo đến từ phía thượng nguồn.'
+    options:
+      - id: co_keo_not_me_luoi
+        text: 'Ráng sức kéo nhanh mẻ lưới lên rồi mới chèo vào bờ'
+        chance:
+          base: 0.55
+          skill: sinh_ton
+          per_level: 0.06
+        success:
+          - { type: money, value: 3.5, ledger: luong_nghe }
+          - { type: career_merit, value: 12 }
+        failure:
+          - { type: health, value: -7 }
+          - { type: stress, value: 5 }
+        success_result:
+          - 'Vừa kéo gọn mẻ lưới đầy cá vào khoang thì mưa mới trút xuống, thuyền cập bờ an toàn!'
+        failure_result:
+          - 'Sóng đập chao đảo làm bạn trầy xước cả tay chân mới giữ được con thuyền.'
+      - id: buong_neo_vao_bo_ngay
+        text: 'Neo dây lưới lại cọc tre, chèo gấp vào bờ tránh giông'
+        effects:
+          - { type: career_merit, value: 5 }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        result:
+          - 'Nhờ thuộc tính nết con nước, bạn đưa thuyền vào hốc bãi khuất gió trước khi cơn giông ập tới.'
+
+  # ── 7. CHỦ ĐÒ (chu_do) ──
+  - id: chu_do_khach_sang_qua_song_dem
+    title: Vị khách lạ gọi đò lúc nửa đêm
+    tags: [kinh_te, nghe_nghiep, tin_don]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: chu_do }
+    weight: 6
+    cooldown_years: 3
+    tension: 5
+    importance: 5
+    icon: ngoai_giao
+    text:
+      - 'Đêm khuya sương phủ kín mặt sông, một vị khách mặc áo gấm ôm tay nải gõ cửa lều bến đò, đặt lên bàn hai quan tiền bạc nén xin bạn chèo gấp sang bờ bên kia.'
+    options:
+      - id: nhan_cho_khach_dem
+        text: 'Thắp đèn mũi thuyền, nhận lời chèo sang sông ngay'
+        chance:
+          base: 0.62
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 4.5, ledger: luong_nghe }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+        failure:
+          - { type: money, value: 2, ledger: luong_nghe }
+          - { type: stress, value: 5 }
+        success_result:
+          - 'Vị khách vốn là chưởng quỹ thương hội đi chốt mối hàng khẩn, sang bờ còn thưởng thêm tiền và hẹn sẽ thuê đò bạn dài lâu.'
+        failure_result:
+          - 'Sương mù dày đặc làm đò lạc vào bãi cạn mất nửa canh giờ mới sang tới bờ.'
+      - id: tu_choi_cho_sang
+        text: 'Từ chối khéo, mời khách nghỉ lại bến chờ trời sáng'
+        effects:
+          - { type: money, value: 1.2, ledger: luong_nghe }
+          - { type: career_merit, value: 6 }
+        result:
+          - 'Cẩn tắc vô áy náy, sáng sớm hôm sau bạn đưa khách qua sông bình an.'
+
+  - id: chu_do_hoi_xuan_dong_khach
+    title: Bến đò chật kín khách trẩy hội mùa xuân
+    tags: [kinh_te, nghe_nghiep, buon_ban]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: chu_do }
+    weight: 5
+    cooldown_years: 2
+    tension: 4
+    importance: 4
+    icon: ngoai_giao
+    text:
+      - 'Mùa hội chùa bên kia sông, khách thập phương và gánh hàng đổ về bến đò đông nghịt từ tinh mơ.'
+    options:
+      - id: tang_chuyen_suot_ngay
+        text: 'Thuê thêm tay chèo phụ, chạy đò liên tục suốt ngày hội'
+        effects:
+          - { type: money, value: 4, ledger: luong_nghe }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: thuong_mai, value: 12 }
+        result:
+          - 'Con đò qua lại không ngơi nghỉ, ống tre đựng tiền đò cuối ngày nặng trĩu.'
+      - id: cho_dung_so_nguoi
+        text: 'Chở đúng tải trọng từng chuyến, giữ an toàn tuyệt đối'
+        effects:
+          - { type: money, value: 2.2, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: career_merit, value: 10 }
+        result:
+          - 'Ai qua bến cũng khen chủ đò cẩn thận, chẳng bao giờ tham chở quá người.'
+
+  # ── 8. NHA LẠI (nha_lai) ──
+  - id: nha_lai_tranh_chap_ruong_ranh
+    title: Hai thôn kiện nhau bờ ruộng giáp ranh
+    tags: [kinh_te, nghe_nghiep, van_minh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: nha_lai }
+    weight: 6
+    cooldown_years: 3
+    tension: 5
+    importance: 6
+    icon: quan_tri
+    text:
+      - 'Quan huyện giao cho bạn cầm địa bạ cũ xuống đo đạc phân xử vụ tranh chấp bãi bồi giữa hai thôn. Cả hai bên lý trưởng đều ngầm mang lễ vật đến dạm hỏi.'
+    options:
+      - id: do_dac_cong_minh
+        text: 'Chiếu đúng sổ địa bạ cũ phân xử công minh, trả lại lễ vật'
+        effects:
+          - { type: money, value: 2, ledger: luong_nghe }
+          - { type: career_merit, value: 18 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: quan_tri, value: 16 }
+        result:
+          - 'Cả hai thôn tâm phục khẩu phục ký vào biên bản. Quan huyện khen bạn giữ phép công liêm chính.'
+      - id: thu_xep_hoa_giai
+        text: 'Khéo léo chia đôi bãi bồi và nhận tiền lệ phí đo đạc của hai bên'
+        effects:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 10 }
+          - { type: skill_xp, skill: muu_luoc, value: 14 }
+        result:
+          - 'Đôi bên đều có phần nên êm xuôi rút đơn, túi bạn cũng rủng rỉnh tiền trà nước.'
+
+  - id: nha_lai_kiem_kho_luong_huyen
+    title: Đợt thanh tra sổ kho lương hàng huyện
+    tags: [kinh_te, nghe_nghiep, van_minh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: nha_lai }
+    weight: 5
+    cooldown_years: 3
+    tension: 5
+    importance: 5
+    icon: quan_tri
+    text:
+      - 'Quan trên từ phủ sắp về kiểm tra sổ sách thu thuế và thóc kho. Đề lại giao bạn rà soát toàn bộ chứng từ trong ba ngày.'
+    options:
+      - id: thuc_dem_doi_chieu
+        text: 'Thức trắng hai đêm đối chiếu từng dòng sổ bộ'
+        chance:
+          base: 0.65
+          skill: hoc_van
+          per_level: 0.05
+        success:
+          - { type: money, value: 4, ledger: luong_nghe }
+          - { type: career_merit, value: 16 }
+          - { type: skill_xp, skill: quan_tri, value: 15 }
+        failure:
+          - { type: stress, value: 6 }
+          - { type: career_merit, value: 6 }
+        success_result:
+          - 'Bạn phát hiện và chỉnh kịp chỗ lệch số liệu, giúp nha môn qua đợt thanh tra êm đẹp và được thưởng hậu.'
+        failure_result:
+          - 'Sổ sách quá nhiều làm bạn hoa cả mắt, may mà chỉ bị nhắc nhở nhẹ.'
+      - id: lam_vua_du_phan_minh
+        text: 'Chỉ hoàn thành đúng tập sổ của phòng mình phụ trách'
+        effects:
+          - { type: money, value: 1.8, ledger: luong_nghe }
+          - { type: career_merit, value: 8 }
+        result:
+          - 'Phần việc của bạn không có sai sót nào, bình an vô sự.'
+
+  # ── 9. BÁN RONG (ban_rong) ──
+  - id: ban_rong_moi_hang_khan_hiem
+    title: Gặp mối kim chỉ và gương lược giá rẻ từ thuyền buôn
+    tags: [kinh_te, nghe_nghiep, buon_ban]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ban_rong }
+    weight: 6
+    cooldown_years: 2
+    tension: 4
+    importance: 5
+    icon: tien
+    text:
+      - 'Một chủ thuyền ở bến sông muốn xả nhanh thùng hàng tạp hóa gồm kim chỉ, gương đồng, lược sừng để kịp nhổ neo, chào giá rẻ bằng nửa chợ lớn.'
+    options:
+      - id: om_tron_thung_hang
+        text: 'Bỏ 2 quan tiền ôm cả thùng về gánh bán dần khắp các thôn'
+        condition: { var: household.money, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: 3.5, ledger: buon_ban }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: thuong_mai, value: 16 }
+        result:
+          - 'Các bà các cô trong làng xúm lại chọn mua rộn ràng, chưa đầy nửa tháng đã thu lời gấp đôi!'
+      - id: lay_it_ban_ngay
+        text: 'Chỉ lấy một ít vừa đôi quang gánh không cần bỏ vốn lớn'
+        effects:
+          - { type: money, value: 1.5, ledger: buon_ban }
+          - { type: career_merit, value: 8 }
+          - { type: skill_xp, skill: thuong_mai, value: 10 }
+        result:
+          - 'Vốn ít lời gọn, bán hết ngay trong buổi chợ chiều.'
+
+  - id: ban_rong_ngay_mua_gio
+    title: Mưa phùn gió bấc ngày giáp Tết
+    tags: [kinh_te, nghe_nghiep, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ban_rong }
+    weight: 5
+    cooldown_years: 2
+    tension: 4
+    importance: 4
+    icon: tien
+    text:
+      - 'Trời mưa phùn rét mướt, người làng ngại ra chợ xa nhưng nhà nào cũng cần mắm muối, hương nến chuẩn bị cúng tất niên.'
+    options:
+      - id: doi_mua_rao_khap_ngo
+        text: 'Khoác áo tơi đội nón gánh hàng đến tận từng ngõ xóm'
+        effects:
+          - { type: money, value: 2.8, ledger: buon_ban }
+          - { type: career_merit, value: 12 }
+          - { type: health, value: -3 }
+          - { type: reputation, group: dan_lang, value: 3 }
+        result:
+          - 'Nhờ chịu khó đi tận ngõ, hàng bán đắt như tôm tươi mà ai cũng quý sự chu đáo của bạn.'
+      - id: ngoi_quan_dau_da
+        text: 'Chỉ bày hàng dưới mái quán đầu cây đa đầu làng'
+        effects:
+          - { type: money, value: 1.2, ledger: buon_ban }
+          - { type: career_merit, value: 6 }
+        result:
+          - 'Khách ghé mua lai rai, người khô ráo ấm áp.'
+
+  # ── 10. BÀ ĐỠ (ba_do) ──
+  - id: ba_do_ca_sinh_doi_dem_mua
+    title: Đêm mưa đỡ ca sinh đôi đầu thôn
+    tags: [kinh_te, nghe_nghiep, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ba_do }
+    weight: 6
+    cooldown_years: 3
+    tension: 5
+    importance: 6
+    icon: sinh_nhat
+    text:
+      - 'Giữa đêm mưa tầm tã, người nhà một hộ khá giả cầm đuốc chạy đến đập cửa: sản phụ chuyển dạ sinh đôi khó đẻ, cả nhà đang rối như tơ vò.'
+    options:
+      - id: tuc_truc_suot_dem
+        text: 'Khăn gói đội mưa đi ngay, bình tĩnh xoay thai đỡ đẻ'
+        chance:
+          base: 0.65
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 4.5, ledger: luong_nghe }
+          - { type: career_merit, value: 18 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: sinh_ton, value: 16 }
+        failure:
+          - { type: money, value: 1.5, ledger: luong_nghe }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Hai tiếng khóc chào đời nối tiếp nhau lúc gà gáy canh năm! Gia chủ mừng rơi nước mắt, biếu lễ hậu và nhận bạn làm ân nhân của hai đứa trẻ.'
+        failure_result:
+          - 'Ca sinh vất vả làm bạn kiệt sức, may mà tới sáng mẹ con sản phụ cũng qua cơn nguy kịch.'
+      - id: goi_them_thay_lang_phu
+        text: 'Mời thêm thầy thuốc đi cùng để phòng bất trắc'
+        effects:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: career_merit, value: 12 }
+          - { type: reputation, group: dan_lang, value: 4 }
+        result:
+          - 'Có thêm người phụ sức, ca sinh nở diễn ra suôn sẻ và an toàn.'
+
+  - id: ba_do_day_nghe_va_cham_cu
+    title: Tiệc đầy tháng của các gia đình trong tổng
+    tags: [kinh_te, nghe_nghiep, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: ba_do }
+    weight: 5
+    cooldown_years: 2
+    tension: 3
+    importance: 4
+    icon: sinh_nhat
+    text:
+      - 'Mấy đứa trẻ do chính tay bạn đỡ đầu năm nay đều bụ bẫm khỏe mạnh, các gia đình làm cỗ đầy tháng trang trọng mời bạn ngồi mâm trên.'
+    options:
+      - id: tang_vong_dau_tam
+        text: 'Tặng mỗi cháu chiếc vòng dâu tằm trừ tà và dặn dò cách chăm trẻ'
+        effects:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: career_merit, value: 12 }
+          - { type: stress, value: -4 }
+        result:
+          - 'Ai nấy đều quý mến sự mát tay và chu đáo của bạn, lễ tạ gửi về đầy giỏ.'
+      - id: du_tiec_chuc_phuc
+        text: 'Đến dự tiệc chúc phúc và nhận phần lễ tạ theo lệ làng'
+        effects:
+          - { type: money, value: 2, ledger: luong_nghe }
+          - { type: career_merit, value: 8 }
+        result:
+          - 'Bữa cỗ ấm cúng rộn tiếng cười, lòng bạn thêm vui với nghề.'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # [2] SỰ KIỆN MỜI VÀO NGHỀ & KHỦNG HOẢNG ÉP ĐỔI NGHỀ (Phase 5 — GDD 04 §16)
+  # ═══════════════════════════════════════════════════════════════════════════
+  - id: sk_bi_bat_linh_khan_cap
+    title: Trát trưng binh khẩn cấp từ quan phủ
+    tags: [quan_su, nghe_nghiep, nguy_hiem]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '!=', value: linh }
+        - { var: player.sex, op: '==', value: m }
+        - { var: player.age, op: '>=', value: 18 }
+        - { var: player.age, op: '<=', value: 45 }
+        - { var: world.military_alert, op: 'in', value: [tuan_tra, chien_dich] }
+    weight: 3
+    cooldown_years: 6
+    tension: 8
+    importance: 8
+    icon: phu
+    text:
+      - 'Biên ải có biến động khẩn cấp! Lý trưởng cùng toán nha dịch cầm sổ đinh đến tận cổng nhà bạn đọc lệnh trưng tập quân ngũ. Tên bạn nằm đầu danh sách đinh tráng phải lên đường nội trong ba ngày.'
+    options:
+      - id: chap_nhan_nhap_ngu
+        text: 'Khoác áo bào, nhận giáo mác bước vào quân ngũ'
+        hint: 'Chuyển sang nghề Lính → Tướng và nhận phụ cấp tân binh'
+        effects:
+          - { type: set_career, career: linh }
+          - { type: money, value: 2, ledger: luong_nghe }
+          - { type: career_merit, value: 10 }
+          - { type: reputation, group: dan_lang, value: 4 }
+        result:
+          - 'Bạn từ biệt người thân, theo đoàn tân binh tiến về doanh trại giữ biên cương.'
+      - id: nop_tien_thue_nguoi_di_thay
+        text: 'Chạy vạy nộp 8 quan tiền lệ phí để thuê người đi lính thay'
+        condition: { var: household.money, op: '>=', value: 8 }
+        effects:
+          - { type: money, value: -8, ledger: thue }
+          - { type: stress, value: 5 }
+        result:
+          - 'Nặng túi tiền nhưng bạn được gạch tên khỏi đợt trưng binh, ở lại quê nhà tiếp tục làm ăn.'
+      - id: tron_vao_rung_lam_thao_khau
+        text: 'Đêm tối khăn gói trốn khỏi làng lên núi'
+        hint: 'Tránh đi lính nhưng bị truy nã và chuyển sang nghề Thảo khấu'
+        effects:
+          - { type: set_career, career: thao_khau }
+          - { type: wanted, value: 15 }
+          - { type: stress, value: 8 }
+        result:
+          - 'Không chịu cảnh đầu rơi máu chảy nơi biên ải, bạn liều mình trốn vào sơn trại rừng xanh.'
+
+  - id: sk_moi_hoc_nghe_moc
+    title: Lời mời từ ông Phó cả trong vùng
+    tags: [kinh_te, nghe_nghiep, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.career, op: 'in', value: [nong_dan, ta_dien, lam_thue, phu_gia_dinh, that_nghiep] }
+        - { var: player.skill.sinh_ton, op: '>=', value: 2 }
+    weight: 4
+    cooldown_years: 5
+    tension: 4
+    importance: 6
+    icon: nha
+    text:
+      - 'Thấy bạn tháo vát, đôi tay đẽo gọt nông cụ khéo léo, ông Phó cả đứng đầu hiệp thợ mộc trong tổng ngỏ ý mời bạn gia nhập phường mộc của ông mà không thu tiền nhập môn.'
+    options:
+      - id: nhan_loi_theo_nghe_moc
+        text: 'Nhận lời bái sư, chuyển sang làm Thợ mộc'
+        effects:
+          - { type: set_career, career: tho_moc }
+          - { type: career_merit, value: 10 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        result:
+          - 'Bạn sắm sửa bộ đục bào, chính thức bước vào nghề Thợ mộc dưới sự chỉ dẫn của ông Phó cả.'
+      - id: cam_on_giu_nghe_cu
+        text: 'Cảm tạ tấm lòng nhưng xin giữ nghề hiện tại'
+        effects:
+          - { type: career_merit, value: 6 }
+          - { type: reputation, group: dan_lang, value: 2 }
+        result:
+          - 'Ông Phó cả gật đầu khen bạn có lòng kiên định với công việc đang làm.'

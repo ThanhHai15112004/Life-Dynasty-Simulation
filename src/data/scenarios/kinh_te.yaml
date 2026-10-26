@@ -21,10 +21,10 @@ scenarios:
       originId: nong_dan
       age: 40
     setup:
-      - { type: property_add, property: ruong_tot, count: 30 }
+      - { type: property_add, property: ruong, count: 30 }
       - { type: money, value: 150 }
       - { type: food, value: 200 }
-      - { type: reputation, group: nong_dan, value: 20 }
+      - { type: reputation, group: dan_lang, value: 20 }
     auto_minor: false
 
   - id: nha_buon_von_lon
@@ -36,7 +36,7 @@ scenarios:
       age: 30
     setup:
       - { type: money, value: 250 }
-      - { type: property_add, property: cua_hang, count: 2 }
+      - { type: property_add, property: sap_hang, count: 2 }
     world_setup:
       foodPrice: 1.5
     auto_minor: false
@@ -65,7 +65,7 @@ scenarios:
       age: 35
     setup:
       - { type: food, value: 300 }
-      - { type: property_add, property: ruong_tot, count: 15 }
+      - { type: property_add, property: ruong, count: 15 }
     world_setup:
       foodPrice: 0.8
     auto_minor: false

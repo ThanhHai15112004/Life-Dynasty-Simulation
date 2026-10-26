@@ -104,13 +104,38 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
       case 'ambition':
         return state.ambition.id ?? '';
       case 'career':
-        return state.career.id;
+        return c.id === state.playerId ? state.career.id : (c.careerId ?? state.householdCareer);
+      case 'career_sector': {
+        const cid = c.id === state.playerId ? state.career.id : (c.careerId ?? state.householdCareer);
+        return content.index.career.get(cid)?.sector ?? '';
+      }
+      case 'career_depth': {
+        const cid = c.id === state.playerId ? state.career.id : (c.careerId ?? state.householdCareer);
+        return content.index.career.get(cid)?.depth ?? '';
+      }
       case 'career_months':
-        return state.clock.monthIndex - state.career.since;
+        return c.id === state.playerId ? Math.max(0, state.clock.monthIndex - state.career.since) : (c.careerMonths ?? 0);
+      case 'career_years': {
+        const m = c.id === state.playerId ? Math.max(0, state.clock.monthIndex - state.career.since) : (c.careerMonths ?? 0);
+        return Math.floor(m / content.balance.calendar.months_per_year);
+      }
+      case 'sector_months': {
+        const cid = c.id === state.playerId ? state.career.id : (c.careerId ?? state.householdCareer);
+        const sec = content.index.career.get(cid)?.sector ?? '';
+        return c.id === state.playerId ? (state.career.sectorMonths?.[sec] ?? 0) : (c.careerMonths ?? 0);
+      }
+      case 'sector_years': {
+        const cid = c.id === state.playerId ? state.career.id : (c.careerId ?? state.householdCareer);
+        const sec = content.index.career.get(cid)?.sector ?? '';
+        const sm = c.id === state.playerId ? (state.career.sectorMonths?.[sec] ?? 0) : (c.careerMonths ?? 0);
+        return Math.floor(sm / content.balance.calendar.months_per_year);
+      }
+      case 'side_job':
+        return c.id === state.playerId ? (state.career.sideJobId ?? '') : '';
       case 'career_rank':
-        return state.career.rankIndex;
+        return c.id === state.playerId ? state.career.rankIndex : (c.careerRankIndex ?? 0);
       case 'merit':
-        return state.career.merit;
+        return c.id === state.playerId ? state.career.merit : (c.careerMerit ?? 0);
       case 'wanted':
         return state.career.wanted;
       case 'filial_piety':
@@ -222,6 +247,17 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
           }
           case 'is_split':
             return Boolean(h.parentHouseholdId);
+          case 'distinct_careers': {
+            const adultAge = content.balance.life.adult_age;
+            const set = new Set<string>();
+            for (const id of h.memberIds) {
+              const m = state.characters[id];
+              if (!m?.alive || ageNow(ctx, m) < adultAge) continue;
+              const cid = m.id === state.playerId ? state.career.id : (m.careerId ?? state.householdCareer);
+              if (content.index.career.get(cid)?.kind === 'nghe') set.add(cid);
+            }
+            return set.size;
+          }
           default:
             throw new UnknownVariableError(path);
         }

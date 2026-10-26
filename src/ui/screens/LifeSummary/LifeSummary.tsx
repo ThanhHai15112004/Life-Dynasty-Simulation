@@ -39,6 +39,24 @@ export function LifeSummary({ summary }: { summary: LifeSummaryView }) {
             </li>
           ))}
         </ul>
+        {summary.careerHistory.length > 0 && (
+          <>
+            <h4>{t('career.history_title')}</h4>
+            <ul className="highlights">
+              {summary.careerHistory.map((ch, i) => (
+                <li key={i}>
+                  {t('career.history_item', {
+                    start: ch.startYear,
+                    end: ch.endYear ?? summary.year,
+                    career: ch.careerName,
+                    rank: ch.rankName,
+                    months: ch.months,
+                  })}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
         <button className="primary wide" onClick={() => store.backToMenu()}>
           {t('summary.again')}
         </button>

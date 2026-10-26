@@ -5,7 +5,7 @@ import { fireDecision, resolveDecision } from '../events/decision';
 import { eligibleRoles } from '../events/selection';
 import { Ledger } from '../events/systemLogKeys';
 import { resolveMinor } from '../events/decision';
-import { careerAvailable, changeCareer, executeCareerAction } from '../systems/career';
+import { careerAvailable, changeCareer, executeCareerAction, setMemberCareer, setSideJob } from '../systems/career';
 import type { SimContext } from '../systems/context';
 import { addToPurse, isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
@@ -31,6 +31,8 @@ export type Command =
   | { type: 'chooseMinor'; optionId: string }
   | { type: 'joinCareer'; careerId: string }
   | { type: 'doCareerAction'; actionId: string }
+  | { type: 'setSideJob'; sideJobId: string | null }
+  | { type: 'setMemberCareer'; characterId: string; careerId: string }
   | { type: 'setLivingStandard'; id: string }
   | { type: 'chooseOption'; optionId: string }
   | { type: 'sellFood'; amount: number }
@@ -135,6 +137,15 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
 
     case 'doCareerAction': {
       return executeCareerAction(ctx, cmd.actionId) ? ok : fail('action_unavailable');
+    }
+
+    case 'setSideJob': {
+      return setSideJob(ctx, cmd.sideJobId) ? ok : fail('career_unavailable');
+    }
+
+    case 'setMemberCareer': {
+      if (!isPlayerHead(ctx)) return fail('not_head');
+      return setMemberCareer(ctx, cmd.characterId, cmd.careerId) ? ok : fail('career_unavailable');
     }
 
     case 'setLivingStandard':

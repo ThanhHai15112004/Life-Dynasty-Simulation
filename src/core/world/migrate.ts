@@ -1,13 +1,15 @@
 // [1] Bù các trường mới cho save cũ bằng giá trị mặc định đọc từ data (SaveSystem không biết content)
 import type { ContentBundle } from '@content/ContentLoader';
 import { ageOf } from '../entities/Character';
-import type { GameState } from '../entities/World';
+import { SAVE_VERSION, type GameState } from '../entities/World';
 
 export function migrateState(raw: Partial<GameState>, content: ContentBundle): GameState {
   const origin = content.index.origin.get(raw.originId ?? '') ?? content.origins[0];
   const civ = content.civilizations[0];
   const opp = content.balance.opportunity;
   const happy = content.balance.life.happiness;
+
+  raw.version = SAVE_VERSION;
 
   raw.fateMode = raw.fateMode && content.index.fateMode.has(raw.fateMode) ? raw.fateMode : content.balance.fate_modes.default_mode;
   raw.playMode = raw.playMode && content.index.playMode.has(raw.playMode) ? raw.playMode : content.balance.fate_modes.default_play_mode;
@@ -29,7 +31,37 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
   raw.reputation = raw.reputation ?? {};
   raw.happiness = raw.happiness ?? { mood: happy.start, satisfaction: happy.start, baselineWealth: 0, ambitionBonus: 0 };
-  raw.career = raw.career ?? { id: origin.default_career, since: 0, rankIndex: 0, merit: 0, wanted: 0, actionCooldowns: {} };
+  raw.career = {
+    id: origin.default_career,
+    since: 0,
+    rankIndex: 0,
+    merit: 0,
+    wanted: 0,
+    actionCooldowns: {},
+    sectorMonths: {},
+    sideJobId: null,
+    history: [],
+    ...raw.career,
+  };
+  raw.career.sectorMonths = raw.career.sectorMonths ?? {};
+  raw.career.sideJobId = raw.career.sideJobId ?? null;
+  raw.career.history = raw.career.history ?? [];
+  if (raw.career.history.length === 0 && raw.career.id) {
+    const cDef = content.index.career.get(raw.career.id);
+    if (cDef?.kind === 'nghe') {
+      const rIdx = raw.career.rankIndex ?? 0;
+      raw.career.history.push({
+        careerId: cDef.id,
+        careerName: cDef.name,
+        sector: cDef.sector,
+        highestRankIndex: rIdx,
+        highestRankName: cDef.ranks[rIdx]?.name ?? cDef.name,
+        startYear: raw.clock?.year ?? content.balance.time.start_year,
+        endYear: null,
+        months: Math.max(0, (raw.clock?.monthIndex ?? 0) - (raw.career.since ?? 0)),
+      });
+    }
+  }
   raw.civilization = {
     id: civ.id,
     filialPiety: origin.start_status.filial_piety ?? civ.start.filial_piety,
@@ -70,6 +102,19 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   raw.chronicle = raw.chronicle ?? {};
   raw.lifeMap = raw.lifeMap ?? [];
   raw.villageClans = raw.villageClans ?? {};
+  // [5] Bù nghề riêng mặc định cho người lớn trong hộ của save cũ
+  if (raw.characters && raw.clock) {
+    const adultAge = content.balance.life.adult_age;
+    for (const c of Object.values(raw.characters)) {
+      if (!c.alive || c.villageRole || c.clanId || c.id === raw.playerId) continue;
+      if (ageOf(c, raw.clock.year, raw.clock.month) >= adultAge) {
+        c.careerId = c.careerId ?? raw.householdCareer;
+        c.careerRankIndex = c.careerRankIndex ?? 0;
+        c.careerMonths = c.careerMonths ?? 0;
+        c.careerMerit = c.careerMerit ?? 0;
+      }
+    }
+  }
   delete (raw as Record<string, unknown>).lastCutsceneId;
   if (raw.world) {
     raw.world.settlementType = raw.world.settlementType ?? origin.settlement;

@@ -466,6 +466,22 @@ templates:
     variants:
       - '{call} nhất quyết cãi lời, không chịu cuộc hôn sự sắp đặt với {partner} nhà họ {clan}, khiến không khí trong nhà nặng nề.'
       - 'Dù bạn đã tính chuyện trầu cau với họ {clan}, {call} vẫn một mực khước từ mối duyên cùng {partner}.'
+  - id: sys.chon_nghe_tay_trai
+    kind: he_thong
+    importance: 3
+    tone: trung_tinh
+    icon: tien
+    variants:
+      - 'Tranh thủ mùa nông nhàn, bạn nhận làm thêm nghề tay trái: {title}.'
+      - 'Để kiếm thêm chút đồng ra đồng vào lúc rỗi việc, bạn làm thêm: {title}.'
+  - id: sys.nguoi_nha_chuyen_nghe
+    kind: he_thong
+    importance: 5
+    tone: trung_tinh
+    icon: moc_doi
+    variants:
+      - 'Theo sự thu xếp trong nhà, {call} chuyển sang làm nghề {title}.'
+      - '{call} bắt đầu theo nghề {title} để góp sức nuôi gia đình.'
 
 
 

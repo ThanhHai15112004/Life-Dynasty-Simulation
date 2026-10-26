@@ -61,6 +61,14 @@ export interface Character {
   clanId?: string;
   /** [2] Hướng nuôi dạy khi còn nhỏ 6–15 tuổi: 'di_hoc' | 'hoc_nghe' | 'phu_viec_nha' (Phase 4). */
   upbringing?: string;
+  /** [5] Nghề riêng của thành viên người lớn trong hộ (Phase 5). */
+  careerId?: string;
+  /** [5] Bậc nghề hiện tại của thành viên trong hộ (Phase 5). */
+  careerRankIndex?: number;
+  /** [5] Số tháng thâm niên nghề của thành viên trong hộ (Phase 5). */
+  careerMonths?: number;
+  /** [5] Công trạng tích lũy trong nghề của thành viên trong hộ (Phase 5). */
+  careerMerit?: number;
 }
 
 /** Tuổi tính theo tháng sinh: qua tháng sinh của năm nay mới tăng tuổi. */

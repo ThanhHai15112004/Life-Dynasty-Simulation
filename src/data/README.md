@@ -184,9 +184,20 @@ Chỉ chủ hộ mới chỉnh mức sống, mua bán, trả nợ. Đầu mỗi 
 
 Sự kiện có `minor: true` hiện thành thẻ nhỏ dưới cảnh và **dừng thời gian chờ chọn** như sự kiện thường; bật "Tự quyết chuyện nhỏ" thì game chọn phương án có `default: true` (không có thì phương án đầu). Nhịp xuất hiện ở `director.yaml › minor`: `max_per_year`, `min_months_between`, `min_months_after_decision` (giãn sau một quyết định), `max_repeats_per_life` (một chuyện gặp tối đa bao nhiêu lần mỗi đời). Chuyện của một người cụ thể (bạn cưới vợ, ông lão trong xóm mất…) đặt `once_per_life: true`. Mỗi chuyện nhỏ nên có 2–3 phương án ngắn, đúng một phương án `default`.
 
-## Nghề riêng và nghề nhà
+## Nghề riêng và nghề nhà (`careers/*.yaml`)
 
 - `careers/*.yaml › kind`: `nghe` (nghề thật: bậc, lương, hành động) hoặc `trang_thai` (chưa có nghề riêng: `phu_gia_dinh`, `that_nghiep`). Người chơi không tự vào được nghề trạng thái, chỉ qua sự kiện / vòng đời.
+- **Schema Nghề v2**:
+  - `sector`: ngành nghề (`nong_nghiep`, `thu_cong`, `thuong_mai`, `quan_su`, `quan_lai`, `y_thuat`, `giang_ho`, `dich_vu`).
+  - `depth`: độ sâu (`nhe`, `vua`, `sau`).
+  - `settlement_types`: danh sách loại khu định cư có nghề này.
+  - `skills`: kỹ năng gắn với nghề (`primary`, `secondary`).
+  - `ranks[]`: mỗi bậc có `min_years` (thâm niên tối thiểu), `min_skill` (`{ skill, level }`), `min_reputation`, `min_merit`, `condition`, `income_month` hoặc `income_range: [min, max]`, `modifiers`.
+  - `work_effects`: tác động mỗi tháng khi làm nghề (`health_month`, `stress_month`, `skill_xp: { <skill>: xp }`).
+  - `exits`: danh sách đường chuyển nghề trực tiếp (`{ to, rank?, condition?, cost? }`).
+  - `event_tags`: thẻ sự kiện gắn với nghề.
+- **Việc nông nhàn (`side_jobs` trong `careers.yaml`)**: `id`, `name`, `description`, `seasons` (`xuan`, `ha`, `thu`, `dong`), `settlement_types`, `income_month`, `skill_xp`, `condition` — chỉ làm vào các mùa cho phép và ngoài tháng gặt nếu hộ tự cày.
+- **Nghề người nhà**: mỗi người lớn trong hộ có `careerId`, `careerRankIndex`, `careerMonths` riêng và đóng góp thu nhập vào mục sổ `nguoi_nha_lam` (`Ledger.FamilyWork`). Chủ hộ có thể đổi nghề cho người nhà qua lệnh `setMemberCareer`.
 - Đến tuổi trưởng thành: nghề nhà có `youth_career` thì bắt đầu bằng nghề đó (nhà nho: Nho sinh), không thì `life.yaml › career_start.helper` (phụ việc nhà) hoặc `.jobless` nếu nhà không có nghề.
 - Phụ việc nhà tích `merit_month` công trạng mỗi tháng; làm chủ hộ thì **thừa kế** nghề nhà, công trạng nhân `inherit_merit_factor` rồi xét thăng bậc. Đã có nghề riêng thì nghề nhà đổi theo nghề của chủ hộ.
 - Sự kiện chỉ hiện khi lọc xong còn ít nhất 2 phương án.

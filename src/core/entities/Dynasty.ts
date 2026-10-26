@@ -1,6 +1,6 @@
 // [2] Thực thể: Dòng họ (Phase 3 — Truyền đời / Dynasty & Phase 4 — Các họ trong làng)
 import type { Sex } from './Character';
-import type { LogYear } from './World';
+import type { CareerHistoryEntry, LogYear } from './World';
 
 export type ClanTie = 'none' | 'in_law' | 'ally' | 'feud';
 
@@ -47,6 +47,7 @@ export interface PastLifeRecord {
   causeId: string;
   causeName: string;
   careerId: string;
+  careerHistory?: CareerHistoryEntry[];
   statusRankId: string;
   examDegreeId: string;
   yearsPlayed: number;

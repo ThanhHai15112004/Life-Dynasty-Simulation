@@ -84,6 +84,7 @@ export function FamilyCard({ hud }: { hud: HudView }) {
               </div>
               <div className="muted small">
                 {t('profile.age', { age: m.age })} · {t(m.healthKey)}
+                {m.careerName ? ` · ${m.careerName}${m.careerRankName ? ` (${m.careerRankName})` : ''}` : ''}
               </div>
               {m.canSetUpbringing && (
                 <div className="row" style={{ marginTop: 4, flexWrap: 'wrap', gap: 4 }}>
