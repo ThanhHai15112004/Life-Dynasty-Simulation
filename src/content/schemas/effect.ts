@@ -65,6 +65,10 @@ export type Effect =
   | { type: 'set_ambition'; ambition: string }
   | { type: 'split_household'; share_factor?: number }
   | { type: 'trigger_inheritance'; share_factor?: number }
+  | { type: 'adopt_child'; sex?: 'm' | 'f' }
+  | { type: 'adopt_relative'; sex?: 'm' | 'f' }
+  | { type: 'dynasty_prestige'; value: number }
+  | { type: 'fulfill_wish'; wishId?: string }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -138,6 +142,10 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
     z.object({ type: z.literal('set_ambition'), ambition: z.string() }).strict(),
     z.object({ type: z.literal('split_household'), share_factor: z.number().min(0).max(2).optional() }).strict(),
     z.object({ type: z.literal('trigger_inheritance'), share_factor: z.number().min(0).max(2).optional() }).strict(),
+    z.object({ type: z.literal('adopt_child'), sex: z.enum(['m', 'f']).optional() }).strict(),
+    z.object({ type: z.literal('adopt_relative'), sex: z.enum(['m', 'f']).optional() }).strict(),
+    z.object({ type: z.literal('dynasty_prestige'), value: z.number() }).strict(),
+    z.object({ type: z.literal('fulfill_wish'), wishId: z.string().optional() }).strict(),
     z
       .object({
         type: z.literal('log'),

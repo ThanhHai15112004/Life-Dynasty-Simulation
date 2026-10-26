@@ -18,6 +18,30 @@ inheritance:
   debt_inheritance: true
   will_eldest_bonus: 0.15
 
+# [2] Luật kế vị truyền đời (Phase 3): thứ tự ưu tiên, giám hộ, nhận con nuôi & đón họ hàng xa
+succession:
+  priority_order:
+    - eldest_son
+    - other_son
+    - adopted_child
+    - daughter
+    - grandchild
+    - sibling_or_nephew
+  exclude_outlaws_from_main_share: true
+  reputation_carry_factor: 0.6
+  scholarly_prestige_carry_factor: 0.5
+  non_main_heir_start_money: 4
+  non_main_heir_start_food: 10
+  adoption:
+    min_parent_age: 30
+    child_age_range: [2, 8]
+    child_health_range: [68, 86]
+    cost_money: 2
+  distant_relative:
+    age_range: [14, 20]
+    health_range: [68, 86]
+    cost_money: 3
+
 exam_degrees:
   - id: none
     name: Bạch đinh (Chưa đỗ đạt)
@@ -74,6 +98,7 @@ status_ranks:
         - { var: household.net_worth, op: '>=', value: 1000 }
         - { var: household.farmland, op: '>=', value: 20 }
         - { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.career_rank, op: '>=', value: 3 }] }
+        - { all: [{ var: player.career, op: '==', value: nong_dan }, { var: player.career_rank, op: '>=', value: 3 }] }
     modifiers:
       - { target: stress.monthly, value: -0.1 }
   - id: si_phu

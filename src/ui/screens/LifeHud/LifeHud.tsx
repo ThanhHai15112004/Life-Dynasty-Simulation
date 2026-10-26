@@ -6,6 +6,7 @@ import { DevPanel } from '../../components/DevPanel/DevPanel';
 import { useUi } from '../../context';
 import { CareerPanel } from '../Career/CareerPanel';
 import { LifeSummary } from '../LifeSummary/LifeSummary';
+import { SuccessionModal } from '../Succession/SuccessionModal';
 import { AmbitionCard, FocusCard } from './DecisionPanel';
 import { JournalPanel } from './JournalPanel';
 import { ProfileCard, SkillsCard, StatusCard, WealthCard } from './ProfilePanel';
@@ -44,7 +45,12 @@ export function LifeHud({ hud }: { hud: HudView }) {
         </div>
       </main>
       {hud.pending ? <EventCard pending={hud.pending} /> : hud.minor && <EventCard pending={hud.minor} minor />}
-      {hud.gameOver && <LifeSummary summary={hud.gameOver} />}
+      {hud.gameOver &&
+        (hud.dynasty.playMode === 'dynasty' && hud.succession ? (
+          <SuccessionModal summary={hud.gameOver} succession={hud.succession} dynasty={hud.dynasty} />
+        ) : (
+          <LifeSummary summary={hud.gameOver} />
+        ))}
       <DevPanel />
     </div>
   );

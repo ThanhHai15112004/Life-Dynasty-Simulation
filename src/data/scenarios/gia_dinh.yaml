@@ -161,4 +161,137 @@ scenarios:
       spouse_age: 19
     auto_minor: false
 
+  # [2] 6 kịch bản Phase 3: Truyền đời (Dynasty), Giám hộ, Cháu họ, Tuyệt tự, Đời thứ 3, Người kế nóng nảy
+  - id: truyen_doi_68_tuoi_3_con
+    group: gia_dinh
+    title_key: scenario.truyen_doi_68_tuoi_3_con.title
+    description_key: scenario.truyen_doi_68_tuoi_3_con.desc
+    base:
+      originId: nong_dan
+      age: 68
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 45 }
+      - { type: property_add, property: ruong, count: 8 }
+      - { type: health, value: -55, who: player }
+      - { type: set_ambition, ambition: ruong_co_trau_day }
+    family_setup:
+      parents: both_dead
+      spouse_age: 64
+      siblings: []
+      children:
+        - { age: 38, sex: m }
+        - { age: 33, sex: m }
+        - { age: 28, sex: f }
+    auto_minor: false
+
+  - id: mat_con_truong_5_tuoi
+    group: gia_dinh
+    title_key: scenario.mat_con_truong_5_tuoi.title
+    description_key: scenario.mat_con_truong_5_tuoi.desc
+    base:
+      originId: nong_dan
+      age: 32
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 25 }
+      - { type: property_add, property: ruong, count: 4 }
+      - { type: health, value: -65, who: player }
+      - { type: add_disease, disease: lao_luc_benh, who: player }
+    family_setup:
+      parents: both_dead
+      spouse_age: 28
+      children:
+        - { age: 5, sex: m }
+    auto_minor: false
+
+  - id: khong_con_chi_co_chau_ho
+    group: gia_dinh
+    title_key: scenario.khong_con_chi_co_chau_ho.title
+    description_key: scenario.khong_con_chi_co_chau_ho.desc
+    base:
+      originId: nong_dan
+      age: 66
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: money, value: 30 }
+      - { type: property_add, property: ruong, count: 5 }
+      - { type: health, value: -55, who: player }
+    family_setup:
+      parents: both_dead
+      siblings: []
+      nephews:
+        - { age: 19, sex: m }
+    auto_minor: false
+
+  - id: tuyet_tu_hoan_toan
+    group: gia_dinh
+    title_key: scenario.tuyet_tu_hoan_toan.title
+    description_key: scenario.tuyet_tu_hoan_toan.desc
+    base:
+      originId: nong_dan
+      age: 72
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: health, value: -65, who: player }
+    family_setup:
+      parents: both_dead
+      siblings: []
+    auto_minor: false
+
+  - id: doi_thu_3_co_to_tien
+    group: gia_dinh
+    title_key: scenario.doi_thu_3_co_to_tien.title
+    description_key: scenario.doi_thu_3_co_to_tien.desc
+    base:
+      originId: nong_dan
+      age: 22
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: money, value: 35 }
+      - { type: property_add, property: ruong, count: 6 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 20
+      ancestors_count: 2
+      unfinished_wish:
+        id: wish_ancestor_2
+        text: 'Ruộng cò bay thẳng cánh: Dựng nhà gỗ ba gian, sống đời sung túc'
+        ambitionId: ruong_co_trau_day
+        milestoneId: nha_go_sung_tuc
+    start_event: gd_di_nguyen_cha_ong
+    auto_minor: false
+
+  - id: nguoi_ke_nong_nay
+    group: gia_dinh
+    title_key: scenario.nguoi_ke_nong_nay.title
+    description_key: scenario.nguoi_ke_nong_nay.desc
+    base:
+      originId: nong_dan
+      age: 65
+      sex: m
+      playMode: dynasty
+    setup:
+      - { type: marry }
+      - { type: add_trait, trait: nong_nay, who: player }
+      - { type: money, value: 30 }
+      - { type: property_add, property: ruong, count: 5 }
+    family_setup:
+      parents: both_dead
+      spouse_age: 60
+      children:
+        - { age: 24, sex: m }
+      heir_traits: [nong_nay, can_dam]
+    start_event: gd_ngay_dau_lam_chu_sau_tang
+    auto_minor: false
+
+
 

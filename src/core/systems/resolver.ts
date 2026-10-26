@@ -7,7 +7,7 @@ import { farmlandOf } from '../entities/Property';
 import type { SimContext } from './context';
 import { householdNetWorth, lastYearIncome, localTradeFactor, monthlyFoodNeed, selfFarms, spareWorkers, workerCount } from './economy/helpers';
 import { purseActive } from './economy/purse';
-import { aliveChildrenOf, canPlayerSplitHousehold, isEldestChild } from './family';
+import { aliveChildrenOf, canPlayerSplitHousehold, getHeirCandidates, isEldestChild } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
 import { ExamStage, examStage } from './status';
 
@@ -75,6 +75,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         return !!(c.spouseId && state.characters[c.spouseId]?.alive);
       case 'children_count':
         return aliveChildrenOf(ctx, c.id).length;
+      case 'has_heir':
+        return c.id === state.playerId ? getHeirCandidates(ctx, c).length > 0 : false;
+      case 'generation':
+        return c.generation ?? state.dynasty?.currentGeneration ?? 1;
       case 'sick':
         return (c.diseases?.length ?? 0) > 0;
       case 'disease_count':
@@ -148,7 +152,15 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'settlement_type') return state.world.settlementType;
         if (key === 'local_trade_factor') return localTradeFactor(ctx);
         if (key === 'fate_mode') return state.fateMode;
+        if (key === 'play_mode') return state.playMode;
         if (key === 'bad_luck') return state.badLuckCounter ?? 0;
+        throw new UnknownVariableError(path);
+      }
+      case 'dynasty': {
+        const key = rest.join('.');
+        if (key === 'prestige') return state.dynasty?.prestige ?? 0;
+        if (key === 'generation') return state.dynasty?.currentGeneration ?? 1;
+        if (key === 'has_unfulfilled_wish') return state.dynasty?.unfinishedWishes?.some((w) => !w.fulfilled) ?? false;
         throw new UnknownVariableError(path);
       }
       case 'player':
@@ -239,6 +251,9 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
       return last === 'name' ? fullName(c) : last === 'given' ? c.givenName : callOf(ctx, c);
     }
     if (path === 'world.settlement') return state.world.settlementName;
+    if (path === 'dynasty.family_name') return state.dynasty?.familyName ?? player(ctx).familyName;
+    if (path === 'dynasty.wish_text') return state.dynasty?.unfinishedWishes?.find((w) => !w.fulfilled)?.text ?? '';
+    if (path === 'dynasty.wish_from') return state.dynasty?.unfinishedWishes?.find((w) => !w.fulfilled)?.fromName ?? '';
     if (path === 'world.reign') return state.world.reignName;
     if (path === 'world.reign_year') return state.clock.year - state.world.reignStartYear + 1;
     if (path === 'world.season_name') return content.balance.calendar.seasons.find((s) => s.id === seasonOf(ctx))?.name;

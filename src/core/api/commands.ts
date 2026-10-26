@@ -9,6 +9,7 @@ import { careerAvailable, changeCareer, executeCareerAction } from '../systems/c
 import type { SimContext } from '../systems/context';
 import { addToPurse, isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
+import { adoptChild, adoptDistantRelative, canAdoptChild, canAdoptRelative, transitionToHeir } from '../systems/family';
 import { focusAvailable } from '../systems/focus';
 import { infectCharacter, treatDisease, treatmentBlock } from '../systems/life';
 import { player, playerHousehold } from '../systems/people';
@@ -30,6 +31,9 @@ export type Command =
   | { type: 'sellProperty'; id: string }
   | { type: 'repayDebt'; amount: number }
   | { type: 'treatDisease'; characterId: string; diseaseId: string }
+  | { type: 'chooseHeir'; heirId: string }
+  | { type: 'adoptChild' }
+  | { type: 'adoptRelative' }
   // [1] Lệnh Dev (chỉ chạy khi cờ dev bật)
   | { type: 'devTriggerEvent'; eventId: string }
   | { type: 'devModifyStat'; stat: 'money' | 'food' | 'debt' | 'health' | 'stress'; delta: number }
@@ -54,6 +58,8 @@ export type CommandError =
   | 'no_debt'
   | 'not_sick'
   | 'treated_recently'
+  | 'invalid_heir'
+  | 'cannot_adopt'
   | 'dev_disabled';
 
 export type CommandResult = { ok: true } | { ok: false; error: CommandError };
@@ -69,6 +75,10 @@ export function ambitionAvailable(ctx: SimContext, ambitionId: string): boolean 
 
 export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
   const { state, content } = ctx;
+  if (cmd.type === 'chooseHeir') {
+    if (!state.gameOver || state.playMode !== 'dynasty') return fail('game_over');
+    return transitionToHeir(ctx, cmd.heirId) ? ok : fail('invalid_heir');
+  }
   if (state.gameOver) return fail('game_over');
   if (state.pending && cmd.type !== 'chooseOption' && cmd.type !== 'chooseMinor') return fail('event_pending');
   const h = playerHousehold(ctx);
@@ -177,6 +187,18 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
       h.debt -= amount;
       addLedger(h, Ledger.RepayDebt, -amount, 0);
       return ok;
+    }
+
+    case 'adoptChild': {
+      const check = canAdoptChild(ctx);
+      if (!check.ok) return fail('cannot_adopt');
+      return adoptChild(ctx, undefined, true) ? ok : fail('cannot_adopt');
+    }
+
+    case 'adoptRelative': {
+      const check = canAdoptRelative(ctx);
+      if (!check.ok) return fail('cannot_adopt');
+      return adoptDistantRelative(ctx, undefined, true) ? ok : fail('cannot_adopt');
     }
 
     // ── Lệnh Dev ──

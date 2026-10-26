@@ -10,6 +10,7 @@ import { ageNow, aliveMembers, callOf, player, playerHousehold } from '../people
 
 export * from './split';
 export * from './inheritance';
+export * from './succession';
 
 /** Danh sách con ruột còn sống của một nhân vật. */
 export function aliveChildrenOf(ctx: SimContext, parentId: string): Character[] {
@@ -33,7 +34,8 @@ export function marryPlayer(ctx: SimContext, partner?: Character): Character | n
   if (!spouse) {
     const targetSex = me.sex === 'm' ? 'f' : 'm';
     const meAge = ageNow(ctx, me);
-    const spouseAge = Math.max(mCfg.min_age, meAge + rng.range(mCfg.spouse_age_offset));
+    const rawAge = Math.max(mCfg.min_age, meAge + rng.range(mCfg.spouse_age_offset));
+    const spouseAge = targetSex === 'f' ? Math.min(rawAge, 30) : rawAge;
     spouse = createCharacter(ctx, rng, {
       sex: targetSex,
       age: spouseAge,
@@ -60,15 +62,73 @@ export function marryPlayer(ctx: SimContext, partner?: Character): Character | n
 /** Hàng tháng: kiểm tra thụ thai và sinh nở của cặp vợ chồng người chơi. */
 export function monthlyFamily(ctx: SimContext): void {
   const me = player(ctx);
-  if (!me.alive || !me.spouseId) return;
+  if (!me.alive) return;
+  const mCfg = ctx.content.balance.life.marriage;
+  const rng = ctx.rng.get(RngStream.Life);
+  const h = playerHousehold(ctx);
+
+  // Cho phép nam giới trưởng thành trong dòng họ (con trai, anh em trai đã tách hộ) lập gia đình & sinh con nối dõi
+  const clanName = ctx.state.dynasty?.familyName || me.familyName;
+  const clanMen = Object.values(ctx.state.characters).filter(
+    (c) =>
+      c.alive &&
+      !c.villageRole &&
+      c.sex === 'm' &&
+      c.id !== me.id &&
+      c.id !== me.fatherId &&
+      c.familyName === clanName &&
+      ageNow(ctx, c) >= 22,
+  );
+  for (const man of clanMen) {
+    const manH = man.householdId ? ctx.state.households[man.householdId] : h;
+    if (!manH) continue;
+    let wife = man.spouseId ? ctx.state.characters[man.spouseId] : undefined;
+    if (!wife?.alive && rng.chance(0.05)) {
+      wife = createCharacter(ctx, rng, {
+        sex: 'f',
+        age: clamp(ageNow(ctx, man) - 2, mCfg.min_age, 28),
+        health: rng.range(mCfg.spouse_health),
+      });
+      man.spouseId = wife.id;
+      wife.spouseId = man.id;
+      man.marriedYear = ctx.state.clock.year;
+      wife.marriedYear = ctx.state.clock.year;
+      wife.generation = man.generation;
+      wife.householdId = manH.id;
+      ctx.state.characters[wife.id] = wife;
+      if (!manH.memberIds.includes(wife.id)) manH.memberIds.push(wife.id);
+    }
+    if (
+      wife?.alive &&
+      ageNow(ctx, wife) <= mCfg.fertility_age_f[1] &&
+      aliveChildrenOf(ctx, man.id).length < 2 &&
+      rng.chance(mCfg.base_conception_chance_month * 0.65)
+    ) {
+      const gSex = rng.chance(ctx.content.balance.life.male_ratio) ? 'm' : 'f';
+      const desc = createCharacter(ctx, rng, {
+        sex: gSex,
+        age: 0,
+        familyName: man.familyName,
+        health: rng.range(mCfg.newborn_health),
+      });
+      desc.birthYear = ctx.state.clock.year;
+      desc.birthMonth = ctx.state.clock.month;
+      desc.fatherId = man.id;
+      desc.motherId = wife.id;
+      desc.collateral = man.fatherId !== me.id && man.motherId !== me.id;
+      desc.generation = (man.generation ?? (ctx.state.dynasty?.currentGeneration ?? 1)) + 1;
+      desc.householdId = manH.id;
+      ctx.state.characters[desc.id] = desc;
+      if (!manH.memberIds.includes(desc.id)) manH.memberIds.push(desc.id);
+    }
+  }
+
+  if (!me.spouseId) return;
   const spouse = ctx.state.characters[me.spouseId];
   if (!spouse?.alive) return;
 
   const mother = me.sex === 'f' ? me : spouse;
   const father = me.sex === 'm' ? me : spouse;
-  const mCfg = ctx.content.balance.life.marriage;
-  const rng = ctx.rng.get(RngStream.Life);
-  const h = playerHousehold(ctx);
 
   // 1) Nếu đang mang thai: đếm ngược đến ngày sinh
   if (mother.pregnancy) {
@@ -76,10 +136,14 @@ export function monthlyFamily(ctx: SimContext): void {
     if (mother.pregnancy.monthsLeft <= 0) {
       mother.pregnancy = null;
       const sex = rng.chance(ctx.content.balance.life.male_ratio) ? 'm' : 'f';
+      const childFamilyName =
+        ctx.state.playMode === 'dynasty' && ctx.state.dynasty?.familyName
+          ? ctx.state.dynasty.familyName
+          : father.familyName;
       const child = createCharacter(ctx, rng, {
         sex,
         age: 0,
-        familyName: father.familyName,
+        familyName: childFamilyName,
         health: clamp(Math.round((mother.health + father.health) / 2), mCfg.newborn_health[0], mCfg.newborn_health[1]),
       });
       // Trẻ sơ sinh chính xác 0 tuổi, sinh vào tháng hiện tại
@@ -87,6 +151,7 @@ export function monthlyFamily(ctx: SimContext): void {
       child.birthMonth = ctx.state.clock.month;
       child.fatherId = father.id;
       child.motherId = mother.id;
+      child.generation = (me.generation ?? (ctx.state.dynasty?.currentGeneration ?? 1)) + 1;
       child.householdId = h.id;
       ctx.state.characters[child.id] = child;
       h.memberIds.push(child.id);

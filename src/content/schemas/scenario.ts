@@ -24,6 +24,7 @@ export const scenarioSchema = z.object({
     seed: z.string().optional(),
     startYear: z.number().int().optional(),
     fateMode: z.string().optional(),
+    playMode: z.string().optional(),
   }),
   /** Danh sách hiệu ứng có sẵn để thiết lập tiền, thóc, nợ, nghề, bệnh, tính cách, v.v. */
   setup: z.array(effectSchema).default([]),
@@ -57,6 +58,21 @@ export const scenarioSchema = z.object({
         .optional(),
       /** Danh sách con cái thêm vào: tuổi và giới tính */
       children: z.array(z.object({ age: z.number().int().min(0).max(50), sex: z.enum(['m', 'f']) })).optional(),
+      /** Danh sách cháu họ / họ hàng nhánh bên thêm vào */
+      nephews: z.array(z.object({ age: z.number().int().min(0).max(50), sex: z.enum(['m', 'f']) })).optional(),
+      /** Số đời tổ tiên đã qua để thử nghiệm truyền đời */
+      ancestors_count: z.number().int().min(0).max(5).optional(),
+      /** Tính cách gán cho người kế vị đầu tiên */
+      heir_traits: z.array(z.string()).optional(),
+      /** Di nguyện từ đời trước để lại */
+      unfinished_wish: z
+        .object({
+          id: z.string(),
+          text: z.string(),
+          ambitionId: z.string().optional(),
+          milestoneId: z.string().optional(),
+        })
+        .optional(),
     })
     .optional(),
   /** Thiết lập trạng thái thế giới */

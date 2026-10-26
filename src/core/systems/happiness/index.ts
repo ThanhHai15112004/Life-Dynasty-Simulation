@@ -53,6 +53,27 @@ export function monthlyHappiness(ctx: SimContext): void {
     }
   }
 
+  // 1b) Kiểm tra hoàn thành Di nguyện dòng họ (nếu có)
+  if (state.dynasty?.unfinishedWishes?.length) {
+    const r = createResolver(ctx);
+    for (const wish of state.dynasty.unfinishedWishes) {
+      if (wish.fulfilled) continue;
+      if (wish.ambitionId && wish.milestoneId) {
+        const amb = content.index.ambition.get(wish.ambitionId);
+        const ms = amb?.milestones.find((m) => m.id === wish.milestoneId);
+        if (ms && evaluate(ms.condition, r)) {
+          wish.fulfilled = true;
+          me.stress = clamp(me.stress - ms.stress_relief, 0, content.balance.life.stress.max);
+          state.happiness.ambitionBonus += ms.satisfaction_bonus;
+          state.dynasty.prestige += 15;
+          writeTemplate(ctx, SystemLog.WishFulfilled, {
+            params: { title: wish.text, ancestor: wish.fromName },
+          });
+        }
+      }
+    }
+  }
+
   // 2) Tính Tâm trạng (Mood) trung hạn và Mãn nguyện đời (Life Satisfaction = Thực tế - Kỳ vọng + Giá trị sống)
   const wealthGap = (householdNetWorth(ctx) - state.happiness.baselineWealth) * hCfg.wealth_factor;
   const stressPenalty = me.stress * hCfg.stress_penalty_factor;

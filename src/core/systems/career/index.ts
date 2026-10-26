@@ -157,6 +157,9 @@ export function ensureIndependentLife(ctx: SimContext): void {
 /** [1] Vừa làm chủ hộ: chưa có nghề riêng thì thừa kế nghề nhà (kinh nghiệm phụ việc được tính); có nghề riêng thì nghề nhà đổi theo. */
 function onBecomeHead(ctx: SimContext): void {
   const { state, content } = ctx;
+  if (state.dynasty?.guardianId) {
+    state.dynasty.guardianId = null;
+  }
   mergePurse(ctx);
   // [1.5] Cha mẹ còn sống mà đã giao việc nhà (không phải vì mất) thì ghi một dòng nhật ký
   const me = player(ctx);

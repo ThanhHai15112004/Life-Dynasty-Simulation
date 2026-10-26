@@ -36,6 +36,11 @@ export const SystemLog = {
   SiblingSplit: 'sys.anh_em_tach_ho',
   Inheritance: 'sys.thua_ke',
   DeathOmen: 'sys.diem_bao_om_yeu',
+  SuccessionStart: 'sys.tiep_noi_dong_doi',
+  SuccessionGuardian: 'sys.giam_ho_tuoi_tho',
+  ChildAdopted: 'sys.nhan_con_nuoi',
+  RelativeAdopted: 'sys.don_chau_ho',
+  WishFulfilled: 'sys.hoan_thanh_di_nguyen',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */

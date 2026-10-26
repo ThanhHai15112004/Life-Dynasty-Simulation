@@ -33,6 +33,7 @@ import {
   type Focus,
   type LangPack,
   type Origin,
+  type PlayMode,
   type PropertyType,
   type Scenario,
   type SettlementType,
@@ -85,6 +86,7 @@ export interface ContentBundle {
     lifeStage: Map<string, Balance['life']['life_stages'][number]>;
     harvestQuality: Map<string, Balance['economy']['harvest_qualities'][number]>;
     fateMode: Map<string, FateMode>;
+    playMode: Map<string, PlayMode>;
   };
 }
 
@@ -224,6 +226,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     lifeStage: indexBy((balance.life as Balance['life'] | undefined)?.life_stages ?? [], 'life_stages'),
     harvestQuality: indexBy((balance.economy as Balance['economy'] | undefined)?.harvest_qualities ?? [], 'harvest_qualities'),
     fateMode: indexBy((balance.fate_modes as Balance['fate_modes'] | undefined)?.modes ?? [], 'fate_modes'),
+    playMode: indexBy((balance.fate_modes as Balance['fate_modes'] | undefined)?.play_modes ?? [], 'play_modes'),
   };
 
   if (issues.length > 0) throw new ContentError(issues);

@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { loadNodeContent } from '../shared/nodeContent';
 import { BOT_NAMES, makeBot } from './bots';
-import { runLife, type LifeResult } from './run';
+import { runDynasty, runLife, type DynastySimResult, type LifeResult } from './run';
 
 type Range = [number, number];
 const targets = JSON.parse(readFileSync(new URL('./kpi-targets.json', import.meta.url), 'utf8')) as Record<string, Range | number | string>;
@@ -36,6 +36,7 @@ const mark = (key: string, v: number) => {
 };
 
 const all: LifeResult[] = [];
+const allDynasty: DynastySimResult[] = [];
 for (const originId of origins) for (const b of bots) {
   const results: LifeResult[] = [];
   for (let i = 0; i < lives; i++) {
@@ -102,6 +103,31 @@ for (const originId of origins) for (const b of bots) {
   console.log(`Địa vị cuối đời:              ${share((r) => r.statusRankEnd)}`);
   console.log(`Học vị cuối đời:              ${share((r) => r.examDegreeEnd)}`);
   console.log(`Nguyên nhân chết:             ${[...causes].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${pct(n / dead.length)}`).join(' · ')}`);
+
+  if (!scenarioArg) {
+    const dynastyRuns = Math.max(20, Math.floor(lives / 2));
+    const dynResults: DynastySimResult[] = [];
+    for (let i = 0; i < dynastyRuns; i++) {
+      dynResults.push(
+        runDynasty(content, makeBot(b, `${seed}-dyn-${i}`), `${seed}-dyn-${b}-${i}`, originId, 160, 4),
+      );
+    }
+    const extinctRate = dynResults.filter((d) => d.extinct100y).length / Math.max(1, dynResults.length);
+    const mobilityRate = dynResults.filter((d) => d.ascendedSocialClass).length / Math.max(1, dynResults.length);
+    const avgGen = mean(dynResults.map((d) => d.generations));
+    allDynasty.push(...dynResults);
+    console.log(`Tuyệt tự qua 100 năm (Dynasty): ${pct(extinctRate)} (TB ${avgGen.toFixed(1)} đời) · Thăng tầng 3–4 đời: ${pct(mobilityRate)}`);
+  }
+}
+
+if (allDynasty.length > 0) {
+  const playerLikeDynasty = allDynasty.filter((d) => d.bot !== 'ngau_nhien');
+  const pool = playerLikeDynasty.length > 0 ? playerLikeDynasty : allDynasty;
+  const totalExtinct = pool.filter((d) => d.extinct100y).length / pool.length;
+  const totalMobility = pool.filter((d) => d.ascendedSocialClass).length / pool.length;
+  console.log(`\n══ Tổng hợp chế độ Truyền đời (Dynasty · ${pool.length} dòng họ) ══`);
+  console.log(`Tuyệt tự qua 100 năm:         ${pct(totalExtinct)}${mark('extinction_rate_100y', totalExtinct)}`);
+  console.log(`Thăng tầng xã hội qua 3–4 đời: ${pct(totalMobility)}${mark('social_mobility_3_4_gen', totalMobility)}`);
 }
 
 if (startAge === 0) {

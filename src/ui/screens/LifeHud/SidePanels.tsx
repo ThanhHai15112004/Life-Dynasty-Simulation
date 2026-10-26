@@ -1,12 +1,15 @@
 // [1] Cột phải: Gia đình (kèm chạy chữa người ốm), Người quanh đời, Bản đồ cuộc đời (1 ô = 1 năm), Biên niên thiên hạ
+import { useState } from 'react';
 import type { HudView } from '@core/index';
 import { Icon } from '../../components/Icon';
 import { Portrait } from '../../components/Portrait';
 import { Tooltip } from '../../components/Tooltip';
 import { num, useSnapshot, useUi } from '../../context';
+import { FamilyTreeModal } from '../Family/FamilyTreeModal';
 
 export function FamilyCard({ hud }: { hud: HudView }) {
   const { t, store } = useUi();
+  const [showFamilyTree, setShowFamilyTree] = useState(false);
   const scene = useSnapshot().scene;
   const others = hud.household.members.filter((m) => !m.isPlayer);
   // Nhãn theo giới tính nếu lang có (relation.spouse.m = "Chồng"), không thì nhãn chung
@@ -18,8 +21,34 @@ export function FamilyCard({ hud }: { hud: HudView }) {
     <section className="card">
       <div className="card-head">
         <h3>{t('family.title')}</h3>
-        <span className="muted small">{t('family.count', { n: hud.household.members.length })}</span>
+        <span className="muted small">
+          {t('dynasty.badge', { family: hud.dynasty.familyName, gen: hud.dynasty.currentGeneration })} ·{' '}
+          {t('family.count', { n: hud.household.members.length })}
+        </span>
       </div>
+      {hud.dynasty.guardianCall && (
+        <p className="muted small">
+          {t('dynasty.guardian_notice', { who: hud.dynasty.guardianCall })}
+        </p>
+      )}
+      <div className="row" style={{ marginBottom: 8 }}>
+        <button onClick={() => setShowFamilyTree(true)}>
+          {t('dynasty.open_tree', { n: hud.dynasty.currentGeneration })}
+        </button>
+        {hud.dynasty.canAdoptChild && (
+          <button onClick={() => store.dispatch({ type: 'adoptChild' })}>
+            {t('dynasty.adopt_child', { cost: num(hud.dynasty.adoptChildCost) })}
+          </button>
+        )}
+        {hud.dynasty.canAdoptRelative && (
+          <button onClick={() => store.dispatch({ type: 'adoptRelative' })}>
+            {t('dynasty.adopt_relative', { cost: num(hud.dynasty.adoptRelativeCost) })}
+          </button>
+        )}
+      </div>
+      {showFamilyTree && (
+        <FamilyTreeModal dynasty={hud.dynasty} onClose={() => setShowFamilyTree(false)} />
+      )}
       {others.length === 0 && <p className="muted small">{t('family.alone')}</p>}
       <ul className="people-list">
         {others.map((m) => (

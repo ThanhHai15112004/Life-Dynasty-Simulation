@@ -62,5 +62,13 @@
   "rich_rate": [
     0.15,
     0.6
+  ],
+  "extinction_rate_100y": [
+    0,
+    0.1
+  ],
+  "social_mobility_3_4_gen": [
+    0.3,
+    0.5
   ]
 }

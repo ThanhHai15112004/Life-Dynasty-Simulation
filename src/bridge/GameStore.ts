@@ -102,15 +102,20 @@ export class GameStore {
     this.refresh({ screen: 'life', lastError: null });
   }
 
-  backToMenu(): void {
+  backToMenu(clearAutoSave = false): void {
     this.pause();
-    void this.save();
+    if (clearAutoSave) {
+      void this.saves.remove(SLOT).then(() => this.patch({ hasSave: false }));
+    } else {
+      void this.save();
+    }
     this.session = null;
     this.refresh({ screen: 'menu' });
   }
 
   async save(): Promise<void> {
-    if (!this.session || this.session.state.gameOver) return;
+    if (!this.session) return;
+    if (this.session.state.gameOver && this.session.state.playMode !== 'dynasty') return;
     await this.saves.save(SLOT, this.session.state);
     this.yearsSinceSave = 0;
     this.patch({ hasSave: true });
@@ -194,7 +199,12 @@ export class GameStore {
     if (r.decision && s.state.pending) this.notifications.emit('decision', { eventId: s.state.pending.eventId });
     if (r.gameOver) {
       this.notifications.emit('gameOver', {});
-      void this.saves.remove(SLOT).then(() => this.patch({ hasSave: false }));
+      const nextHud = s.read(getHudView);
+      if (s.state.playMode !== 'dynasty' || nextHud.succession?.extinct) {
+        void this.saves.remove(SLOT).then(() => this.patch({ hasSave: false }));
+      } else {
+        void this.save();
+      }
     }
     this.refresh();
   }
@@ -208,6 +218,9 @@ export class GameStore {
     if (res.ok && (cmd.type === 'chooseOption' || cmd.type === 'chooseMinor') && this.resumeAfterChoice && !this.session.blocked) {
       this.resumeAfterChoice = false;
       queueMicrotask(() => this.play());
+    }
+    if (res.ok && cmd.type === 'chooseHeir') {
+      void this.save();
     }
     const lastError = res.ok ? null : `error.${res.error}`;
     if (!res.ok) this.notifications.emit('commandFailed', { error: res.error });

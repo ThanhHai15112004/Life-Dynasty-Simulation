@@ -13,7 +13,7 @@ import { healthCap } from '../systems/life/health';
 import { monthlyFoodNeed, sellPrice } from '../systems/economy/helpers';
 import { ownMoney } from '../systems/economy/purse';
 import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
-import { marryPlayer, settleInheritance, splitPlayerHousehold } from '../systems/family';
+import { adoptChild, adoptDistantRelative, marryPlayer, settleInheritance, splitPlayerHousehold } from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
 import { changeFilialPiety, changeScholarlyPrestige, setExamDegree } from '../systems/status';
 import { queueCutscene } from './cutscene';
@@ -184,6 +184,29 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           break;
         case 'trigger_inheritance':
           settleInheritance(ctx, e.share_factor ?? 1);
+          break;
+        case 'adopt_child':
+          adoptChild(ctx, e.sex, false);
+          break;
+        case 'adopt_relative':
+          adoptDistantRelative(ctx, e.sex, false);
+          break;
+        case 'dynasty_prestige':
+          if (state.dynasty) {
+            state.dynasty.prestige = Math.max(0, state.dynasty.prestige + e.value);
+          }
+          break;
+        case 'fulfill_wish':
+          if (state.dynasty?.unfinishedWishes) {
+            const targetWish = e.wishId
+              ? state.dynasty.unfinishedWishes.find((w) => w.id === e.wishId && !w.fulfilled)
+              : state.dynasty.unfinishedWishes.find((w) => !w.fulfilled);
+            if (targetWish) {
+              targetWish.fulfilled = true;
+              state.dynasty.prestige += 15;
+              state.happiness.ambitionBonus += 15;
+            }
+          }
           break;
         case 'property_add':
           h.properties[e.property] = (h.properties[e.property] ?? 0) + e.count;

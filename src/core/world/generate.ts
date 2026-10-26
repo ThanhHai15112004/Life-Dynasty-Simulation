@@ -13,6 +13,7 @@ export interface NewGameOptions {
   startAge?: number;
   sex?: Sex;
   fateMode?: string;
+  playMode?: string;
 }
 
 type Range = readonly [number, number];
@@ -87,12 +88,26 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
   if (!civ) throw new Error('Không có khuôn văn minh nào trong src/data/civilizations');
   const defaultFate = content.balance.fate_modes.default_mode;
   const fateMode = opts.fateMode && content.index.fateMode.has(opts.fateMode) ? opts.fateMode : defaultFate;
+  const defaultPlayMode = content.balance.fate_modes.default_play_mode;
+  const playMode = opts.playMode && content.index.playMode.has(opts.playMode) ? opts.playMode : defaultPlayMode;
   return {
     version: SAVE_VERSION,
     seed: opts.seed,
     originId: origin.id,
     cultureId: origin.culture,
     fateMode,
+    playMode,
+    generationStartYear: time.start_year,
+    dynasty: {
+      familyName: '',
+      founderId: '',
+      currentGeneration: 1,
+      prestige: 0,
+      feuds: [],
+      unfinishedWishes: [],
+      pastLives: [],
+      guardianId: null,
+    },
     badLuckCounter: 0,
     rng: {},
     nextId: 0,
@@ -216,7 +231,10 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
     traits: pickTraits(ctx, rng, origin.player.trait_count),
   });
   join(me);
+  me.generation = 1;
   state.playerId = me.id;
+  state.dynasty.familyName = familyName;
+  state.dynasty.founderId = me.id;
 
   for (const spec of hh.members) {
     const count = rng.range(spec.count);
@@ -230,6 +248,7 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
         health: rng.range(spec.health),
         skills: rollSkills(rng, spec.skills),
       });
+      c.generation = spec.relation === 'father' || spec.relation === 'mother' ? 0 : 1;
       join(c);
       if (spec.relation === 'father') me.fatherId = c.id;
       if (spec.relation === 'mother') me.motherId = c.id;

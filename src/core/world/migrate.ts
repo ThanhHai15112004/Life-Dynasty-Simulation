@@ -10,7 +10,21 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   const happy = content.balance.life.happiness;
 
   raw.fateMode = raw.fateMode && content.index.fateMode.has(raw.fateMode) ? raw.fateMode : content.balance.fate_modes.default_mode;
+  raw.playMode = raw.playMode && content.index.playMode.has(raw.playMode) ? raw.playMode : content.balance.fate_modes.default_play_mode;
+  raw.generationStartYear = raw.generationStartYear ?? raw.clock?.year ?? content.balance.time.start_year;
   raw.badLuckCounter = raw.badLuckCounter ?? 0;
+  const playerChar = raw.characters?.[raw.playerId ?? ''];
+  raw.dynasty = {
+    familyName: playerChar?.familyName ?? '',
+    founderId: raw.playerId ?? '',
+    currentGeneration: 1,
+    prestige: 0,
+    feuds: [],
+    unfinishedWishes: [],
+    pastLives: [],
+    guardianId: null,
+    ...raw.dynasty,
+  };
 
   raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
   raw.reputation = raw.reputation ?? {};

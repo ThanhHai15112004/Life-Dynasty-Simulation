@@ -1,4 +1,15 @@
-# [2] Chế độ số phận (GDD 09 §3, Phase 2): chọn mức khắc nghiệt khi khởi tạo ván mới
+# [2] Chế độ chơi (One Life / Dynasty) & Chế độ số phận (GDD 01 §9, GDD 09 §3)
+default_play_mode: dynasty
+play_modes:
+  - id: dynasty
+    name_key: play_mode.dynasty.name
+    desc_key: play_mode.dynasty.desc
+    succession: true
+  - id: one_life
+    name_key: play_mode.one_life.name
+    desc_key: play_mode.one_life.desc
+    succession: false
+
 default_mode: doi_thuc
 modes:
   - id: binh_lang

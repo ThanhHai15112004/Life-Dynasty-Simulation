@@ -176,6 +176,12 @@ export const cultureSchema = z
         wife: z.string().default('{given}'),
         son: z.string().default('{given}'),
         daughter: z.string().default('{given}'),
+        adopted_son: z.string().default('{given}'),
+        adopted_daughter: z.string().default('{given}'),
+        grandchild: z.string().default('{given}'),
+        nephew: z.string().default('{given}'),
+        uncle: z.string().default('{given}'),
+        aunt: z.string().default('{given}'),
         other: z.string(),
       })
       .strict(),
@@ -335,6 +341,16 @@ export const statusRankSchema = z
   .strict();
 export type StatusRank = z.infer<typeof statusRankSchema>;
 
+export const successionPriorityGroups = [
+  'eldest_son',
+  'other_son',
+  'adopted_child',
+  'daughter',
+  'grandchild',
+  'sibling_or_nephew',
+] as const;
+export type SuccessionPriorityGroup = (typeof successionPriorityGroups)[number];
+
 export const civilizationSchema = z
   .object({
     id: z.string(),
@@ -360,6 +376,37 @@ export const civilizationSchema = z
         ancestor_worship_share: z.number().min(0).max(1).default(0.5),
         debt_inheritance: z.boolean().default(true),
         will_eldest_bonus: z.number().min(0).max(0.5).default(0.15),
+      })
+      .strict()
+      .default({}),
+    /** [2] Luật kế vị truyền đời (Phase 3): thứ tự ưu tiên, giám hộ, nhận con nuôi & đón họ hàng xa. */
+    succession: z
+      .object({
+        priority_order: z
+          .array(z.enum(successionPriorityGroups))
+          .default(['eldest_son', 'other_son', 'adopted_child', 'daughter', 'grandchild', 'sibling_or_nephew']),
+        exclude_outlaws_from_main_share: z.boolean().default(true),
+        reputation_carry_factor: z.number().min(0).max(1).default(0.6),
+        scholarly_prestige_carry_factor: z.number().min(0).max(1).default(0.5),
+        non_main_heir_start_money: z.number().min(0).default(4),
+        non_main_heir_start_food: z.number().min(0).default(10),
+        adoption: z
+          .object({
+            min_parent_age: z.number().int().min(20).default(32),
+            child_age_range: range.default([2, 8]),
+            child_health_range: range.default([65, 85]),
+            cost_money: z.number().min(0).default(2),
+          })
+          .strict()
+          .default({}),
+        distant_relative: z
+          .object({
+            age_range: range.default([14, 22]),
+            health_range: range.default([65, 85]),
+            cost_money: z.number().min(0).default(3),
+          })
+          .strict()
+          .default({}),
       })
       .strict()
       .default({}),

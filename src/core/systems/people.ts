@@ -43,11 +43,16 @@ export function householdHead(ctx: SimContext, h: Household = playerHousehold(ct
   const adults = byAge.filter((c) => ageNow(ctx, c) >= life.adult_age);
   if (adults.length === 0) return byAge[0];
   const me = player(ctx);
+  if (ctx.state.dynasty?.guardianId && ageNow(ctx, me) < life.adult_age) {
+    const guardian = ctx.state.characters[ctx.state.dynasty.guardianId];
+    if (guardian?.alive && h.memberIds.includes(guardian.id)) return guardian;
+  }
   const able = adults.filter((c) => c.id === me.id || ageNow(ctx, c) < life.headship.elder_age);
   if (able.length === 0) return adults[0];
   const parent = able.find((c) => c.id === me.fatherId || c.id === me.motherId);
   if (parent) return parent;
   const meAble = able.find((c) => c.id === me.id);
+  if (meAble && ctx.state.dynasty && ctx.state.dynasty.currentGeneration > 1) return meAble;
   const spouse = me.spouseId ? ctx.state.characters[me.spouseId] : undefined;
   const olderBrotherInHouse = able.find(
     (c) =>
@@ -68,8 +73,15 @@ export type Relation =
   | 'younger_sibling'
   | 'spouse'
   | 'child'
+  | 'grandchild'
+  | 'nephew'
+  | 'uncle'
   | 'village'
   | 'other';
+
+function areSameParents(a: Character, b: Character): boolean {
+  return Boolean((a.fatherId && a.fatherId === b.fatherId) || (a.motherId && a.motherId === b.motherId));
+}
 
 export function relationToPlayer(ctx: SimContext, c: Character): Relation {
   const p = player(ctx);
@@ -78,10 +90,29 @@ export function relationToPlayer(ctx: SimContext, c: Character): Relation {
   if (c.fatherId === p.id || c.motherId === p.id) return 'child';
   if (p.fatherId === c.id) return 'father';
   if (p.motherId === c.id) return 'mother';
-  const sameParents = (c.fatherId && c.fatherId === p.fatherId) || (c.motherId && c.motherId === p.motherId);
-  if (sameParents) {
+  if (areSameParents(c, p)) {
     const older = c.birthYear * 12 + c.birthMonth < p.birthYear * 12 + p.birthMonth;
     return older ? 'older_sibling' : 'younger_sibling';
+  }
+  const cFather = c.fatherId ? ctx.state.characters[c.fatherId] : undefined;
+  const cMother = c.motherId ? ctx.state.characters[c.motherId] : undefined;
+  if (
+    (cFather && (cFather.fatherId === p.id || cFather.motherId === p.id)) ||
+    (cMother && (cMother.fatherId === p.id || cMother.motherId === p.id))
+  ) {
+    return 'grandchild';
+  }
+  if (c.collateral || (cFather && areSameParents(cFather, p)) || (cMother && areSameParents(cMother, p))) {
+    return 'nephew';
+  }
+  const pFather = p.fatherId ? ctx.state.characters[p.fatherId] : undefined;
+  const pMother = p.motherId ? ctx.state.characters[p.motherId] : undefined;
+  if (
+    ctx.state.dynasty?.guardianId === c.id ||
+    (pFather && areSameParents(c, pFather)) ||
+    (pMother && areSameParents(c, pMother))
+  ) {
+    return 'uncle';
   }
   if (c.villageRole) return 'village';
   return 'other';
@@ -108,7 +139,16 @@ export function callOf(ctx: SimContext, c: Character): string {
     case 'spouse':
       return fillTemplate(c.sex === 'm' ? k.husband : k.wife, tokens);
     case 'child':
+      if (c.adopted) {
+        return fillTemplate(c.sex === 'm' ? k.adopted_son : k.adopted_daughter, tokens);
+      }
       return fillTemplate(c.sex === 'm' ? k.son : k.daughter, tokens);
+    case 'grandchild':
+      return fillTemplate(k.grandchild, tokens);
+    case 'nephew':
+      return fillTemplate(k.nephew, tokens);
+    case 'uncle':
+      return fillTemplate(c.sex === 'm' ? k.uncle : k.aunt, tokens);
     case 'village': {
       const role = culture.village_roles[c.villageRole ?? ''];
       return role ? fillTemplate(role.call, tokens) : fullName(c);

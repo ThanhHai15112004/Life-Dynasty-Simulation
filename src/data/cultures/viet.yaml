@@ -29,6 +29,12 @@ kin_calls:
   wife: vợ ({given})
   son: con trai {given}
   daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
   other: '{given}'
 village_roles:
   ba_ho: { title: bá hộ, call: 'bá hộ {given}' }

@@ -40,6 +40,15 @@ export interface LifeResult {
   hasSplit: boolean;
 }
 
+export interface DynastySimResult {
+  bot: string;
+  generations: number;
+  years: number;
+  extinct100y: boolean;
+  bestStatusIndex: number;
+  ascendedSocialClass: boolean;
+}
+
 export function runLife(
   content: ContentBundle,
   bot: Bot,
@@ -122,5 +131,68 @@ export function runLife(
     headAge,
     bestStatusIndex,
     hasSplit: Boolean(st.households[st.householdId]?.parentHouseholdId),
+  };
+}
+
+/** [2] Chạy nhiều đời liên tiếp ở chế độ Dynasty để đo tỷ lệ tuyệt tự 100 năm và thăng tầng xã hội qua 3–4 đời. */
+export function runDynasty(
+  content: ContentBundle,
+  bot: Bot,
+  seed: string,
+  originId?: string,
+  maxYears = 160,
+  maxGenerations = 4,
+): DynastySimResult {
+  const s = GameSession.create(content, { seed, originId, playMode: 'dynasty' });
+  let years = 0;
+  let bestStatusIndex = 0;
+  let extinct100y = false;
+  const apply = (cmds: ReturnType<Bot['yearly']>) => cmds.forEach((c) => s.dispatch(c));
+
+  apply(bot.yearly(s.read(getHudView)));
+  for (let m = 0; m < maxYears * 12; m++) {
+    const r = s.tickMonth();
+    if (r.minor) s.autoResolveMinor();
+    if (r.decision) {
+      const v = s.read(getHudView);
+      s.dispatch({ type: 'chooseOption', optionId: bot.choose(v) });
+    }
+    if (s.state.gameOver) {
+      const v = s.read(getHudView);
+      if (v.succession && !v.succession.extinct) {
+        if (s.state.dynasty.currentGeneration < maxGenerations) {
+          s.dispatch({ type: 'chooseHeir', heirId: v.succession.candidates[0].characterId });
+          apply(bot.yearly(s.read(getHudView)));
+          continue;
+        }
+        break;
+      } else {
+        if (years <= 100) extinct100y = true;
+        break;
+      }
+    }
+
+    const v = s.read(getHudView);
+    apply(bot.monthly(v));
+    if (v.player.age >= 30 && v.dynasty.canAdoptChild) {
+      s.dispatch({ type: 'adoptChild' });
+    } else if (v.player.age >= 24 && v.dynasty.canAdoptRelative) {
+      s.dispatch({ type: 'adoptRelative' });
+    }
+    bestStatusIndex = Math.max(bestStatusIndex, v.player.statusRank.index);
+    if (r.newYear) {
+      years += 1;
+      apply(bot.yearly(v));
+    }
+  }
+
+  const richIndex = Math.max(1, content.civilizations[0].status_ranks.findIndex((x) => x.id === 'phu_ho'));
+  return {
+    bot: bot.name,
+    generations: s.state.dynasty.currentGeneration,
+    years,
+    extinct100y,
+    bestStatusIndex,
+    ascendedSocialClass: bestStatusIndex >= richIndex,
   };
 }

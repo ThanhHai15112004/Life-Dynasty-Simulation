@@ -5,6 +5,7 @@ import { canChi } from '../engine/GameClock';
 import type { ModifierResult } from '../engine/ModifierSystem';
 import { StatTarget } from '../engine/statTargets';
 import { fullName } from '../entities/Character';
+import type { DynastyFeud, PastLifeRecord, UnfinishedWish } from '../entities/Dynasty';
 import type { LedgerEntry, LedgerYear } from '../entities/Household';
 import { farmlandOf, holdingsOf } from '../entities/Property';
 import type { LogYear, PendingEvent, Resolution } from '../entities/World';
@@ -12,6 +13,7 @@ import type { SimContext } from '../systems/context';
 import { purseActive, regularIncomeParts } from '../systems/economy';
 import { buyPrice, householdNetWorth, lastYearIncome, ledgerValue, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
 import { Ledger } from '../events/systemLogKeys';
+import { canAdoptChild, canAdoptRelative, getHeirCandidates, type HeirCandidate } from '../systems/family';
 import { healthCap, treatmentBlock } from '../systems/life';
 import { lifeExpectancyAtBirth } from '../systems/life/mortality';
 import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
@@ -230,6 +232,62 @@ export interface HudView {
   pending: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[] }) | null;
   lastResolution: Resolution | null;
   gameOver: LifeSummaryView | null;
+  /** [2] Dòng họ truyền đời: gia phả nhiều đời, sử sách các đời đã qua, di nguyện và thoát hiểm tuyệt tự. */
+  dynasty: DynastyView;
+  /** [2] Dữ liệu màn hình Truyền đời & Tổng kết dòng họ khi người chơi qua đời ở chế độ dynasty. */
+  succession: SuccessionView | null;
+}
+
+export interface FamilyTreeNodeView {
+  id: string;
+  name: string;
+  call: string;
+  sex: 'm' | 'f';
+  generation: number;
+  birthYear: number;
+  deathYear: number | null;
+  age: number;
+  alive: boolean;
+  isPlayer: boolean;
+  wasPlayed: boolean;
+  adopted: boolean;
+  collateral: boolean;
+  fatherId: string | null;
+  motherId: string | null;
+  spouseName: string | null;
+}
+
+export interface DynastyView {
+  playMode: string;
+  familyName: string;
+  currentGeneration: number;
+  prestige: number;
+  guardianCall: string | null;
+  unfinishedWishes: UnfinishedWish[];
+  feuds: DynastyFeud[];
+  pastLives: PastLifeRecord[];
+  familyTree: FamilyTreeNodeView[];
+  canAdoptChild: boolean;
+  canAdoptRelative: boolean;
+  adoptChildCost: number;
+  adoptRelativeCost: number;
+}
+
+export interface DynastySummaryView {
+  familyName: string;
+  generationsCount: number;
+  totalYears: number;
+  prestige: number;
+  highestStatusRankName: string;
+  wishesFulfilled: number;
+  wishesTotal: number;
+  lives: PastLifeRecord[];
+}
+
+export interface SuccessionView {
+  candidates: HeirCandidate[];
+  extinct: boolean;
+  dynastySummary: DynastySummaryView;
 }
 
 export interface LifeSummaryView {
@@ -661,6 +719,162 @@ export function getHudView(ctx: SimContext): HudView {
       : null,
     lastResolution: state.lastResolution,
     gameOver: state.gameOver ? getLifeSummary(ctx) : null,
+    dynasty: getDynastyView(ctx),
+    succession: state.gameOver && state.playMode === 'dynasty' ? getSuccessionView(ctx) : null,
+  };
+}
+
+function buildFamilyTree(ctx: SimContext): FamilyTreeNodeView[] {
+  const { state } = ctx;
+  const me = player(ctx);
+  const playedIds = new Set(state.dynasty.pastLives.map((p) => p.characterId));
+  playedIds.add(me.id);
+
+  // Suy luận thế hệ cho các thành viên gia đình chưa gán generation
+  const genMap = new Map<string, number>();
+  for (const c of Object.values(state.characters)) {
+    if (c.generation !== undefined) genMap.set(c.id, c.generation);
+  }
+  if (!genMap.has(me.id)) genMap.set(me.id, state.dynasty.currentGeneration);
+
+  for (let pass = 0; pass < 4; pass++) {
+    for (const c of Object.values(state.characters)) {
+      if (c.villageRole) continue;
+      const curGen = genMap.get(c.id);
+      if (curGen !== undefined) {
+        if (c.fatherId && !genMap.has(c.fatherId)) genMap.set(c.fatherId, curGen - 1);
+        if (c.motherId && !genMap.has(c.motherId)) genMap.set(c.motherId, curGen - 1);
+        if (c.spouseId && !genMap.has(c.spouseId)) genMap.set(c.spouseId, curGen);
+      } else {
+        const fGen = c.fatherId ? genMap.get(c.fatherId) : undefined;
+        const mGen = c.motherId ? genMap.get(c.motherId) : undefined;
+        if (fGen !== undefined) genMap.set(c.id, fGen + 1);
+        else if (mGen !== undefined) genMap.set(c.id, mGen + 1);
+      }
+    }
+  }
+
+  return Object.values(state.characters)
+    .filter((c) => !c.villageRole && (genMap.has(c.id) || c.familyName === state.dynasty.familyName))
+    .map((c) => {
+      const spouse = c.spouseId ? state.characters[c.spouseId] : undefined;
+      return {
+        id: c.id,
+        name: fullName(c),
+        call: callOf(ctx, c),
+        sex: c.sex,
+        generation: genMap.get(c.id) ?? state.dynasty.currentGeneration,
+        birthYear: c.birthYear,
+        deathYear: c.deathYear ?? null,
+        age: ageNow(ctx, c),
+        alive: c.alive,
+        isPlayer: c.id === state.playerId,
+        wasPlayed: playedIds.has(c.id),
+        adopted: Boolean(c.adopted),
+        collateral: Boolean(c.collateral),
+        fatherId: c.fatherId ?? null,
+        motherId: c.motherId ?? null,
+        spouseName: spouse ? fullName(spouse) : null,
+      };
+    })
+    .sort((a, b) => a.generation - b.generation || a.birthYear - b.birthYear);
+}
+
+export function getDynastyView(ctx: SimContext): DynastyView {
+  const { state } = ctx;
+  const me = player(ctx);
+  const guardian = state.dynasty.guardianId ? state.characters[state.dynasty.guardianId] : undefined;
+  const adoptC = canAdoptChild(ctx);
+  const adoptR = canAdoptRelative(ctx);
+
+  return {
+    playMode: state.playMode,
+    familyName: state.dynasty.familyName || me.familyName,
+    currentGeneration: state.dynasty.currentGeneration,
+    prestige: state.dynasty.prestige,
+    guardianCall: guardian?.alive && ageNow(ctx, me) < ctx.content.balance.life.adult_age ? callOf(ctx, guardian) : null,
+    unfinishedWishes: state.dynasty.unfinishedWishes,
+    feuds: state.dynasty.feuds,
+    pastLives: state.dynasty.pastLives,
+    familyTree: buildFamilyTree(ctx),
+    canAdoptChild: adoptC.ok,
+    canAdoptRelative: adoptR.ok,
+    adoptChildCost: adoptC.cost,
+    adoptRelativeCost: adoptR.cost,
+  };
+}
+
+export function getDynastySummary(ctx: SimContext): DynastySummaryView {
+  const { state, content } = ctx;
+  const me = player(ctx);
+  const h = playerHousehold(ctx);
+  const civ = currentCivilization(ctx);
+
+  // Bao gồm cả các đời trước và đời hiện tại nếu vừa kết thúc
+  const currentRecord: PastLifeRecord = {
+    generation: state.dynasty.currentGeneration,
+    characterId: me.id,
+    name: fullName(me),
+    sex: me.sex,
+    birthYear: me.birthYear,
+    deathYear: state.gameOver?.year ?? state.clock.year,
+    deathAge: state.gameOver?.age ?? ageNow(ctx, me),
+    causeId: state.gameOver?.causeId ?? me.deathCauseId ?? 'tuoi_gia',
+    causeName:
+      content.balance.life.mortality.causes.find((c) => c.id === (state.gameOver?.causeId ?? me.deathCauseId))?.name ??
+      (state.gameOver?.causeId ?? ''),
+    careerId: state.career.id || state.householdCareer,
+    statusRankId: state.civilization.statusRank,
+    examDegreeId: state.civilization.examDegree,
+    yearsPlayed: Math.max(0, (state.gameOver?.year ?? state.clock.year) - (state.generationStartYear ?? content.balance.time.start_year)),
+    decisions: state.stats.decisions,
+    closing: {
+      money: Math.round(h.money + state.purse.money),
+      food: Math.round(h.food),
+      debt: Math.round(h.debt),
+      farmland: h.properties.ruong ?? 0,
+      netWorth: Math.round(householdNetWorth(ctx)),
+    },
+    axes: computeSummaryAxes(ctx),
+    highlights: state.log.flatMap((y) =>
+      y.entries
+        .filter((e) => e.importance >= content.balance.display.highlight_importance)
+        .map((e) => ({ year: y.year, text: e.text })),
+    ),
+    lifeMap: state.lifeMap,
+    log: state.log,
+  };
+
+  const lives = state.dynasty.pastLives.some(
+    (p) => p.characterId === me.id && p.generation === state.dynasty.currentGeneration,
+  )
+    ? state.dynasty.pastLives
+    : [...state.dynasty.pastLives, currentRecord];
+
+  let highestIdx = 0;
+  for (const life of lives) {
+    const idx = civ.status_ranks.findIndex((r) => r.id === life.statusRankId);
+    if (idx > highestIdx) highestIdx = idx;
+  }
+
+  return {
+    familyName: state.dynasty.familyName || me.familyName,
+    generationsCount: lives.length,
+    totalYears: Math.max(0, state.clock.year - content.balance.time.start_year),
+    prestige: state.dynasty.prestige,
+    highestStatusRankName: civ.status_ranks[highestIdx]?.name ?? civ.status_ranks[0].name,
+    wishesFulfilled: state.dynasty.unfinishedWishes.filter((w) => w.fulfilled).length,
+    wishesTotal: state.dynasty.unfinishedWishes.length,
+    lives,
+  };
+}
+
+export function getSuccessionView(ctx: SimContext): SuccessionView {
+  const candidates = getHeirCandidates(ctx, player(ctx));
+  return {
+    candidates,
+    extinct: candidates.length === 0,
+    dynastySummary: getDynastySummary(ctx),
   };
 }
 
@@ -676,7 +890,7 @@ export function getLifeSummary(ctx: SimContext): LifeSummaryView | null {
     age: state.gameOver.age,
     year: state.gameOver.year,
     causeName: content.balance.life.mortality.causes.find((c) => c.id === state.gameOver!.causeId)?.name ?? state.gameOver.causeId,
-    yearsPlayed: state.gameOver.year - content.balance.time.start_year,
+    yearsPlayed: Math.max(0, state.gameOver.year - (state.generationStartYear ?? content.balance.time.start_year)),
     decisions: state.stats.decisions,
     closing: { money: h.money, food: h.food, debt: h.debt, farmland },
     axes: computeSummaryAxes(ctx),

@@ -71,6 +71,7 @@ export class GameSession {
       startAge: scenario.base.age,
       sex: scenario.base.sex,
       fateMode: scenario.base.fateMode,
+      playMode: scenario.base.playMode,
     };
     const state = generateNewGame(content, opts, (s) => createContext(s, content));
     const session = new GameSession(content, state);

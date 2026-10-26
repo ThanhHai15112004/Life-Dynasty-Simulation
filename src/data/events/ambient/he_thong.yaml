@@ -393,5 +393,52 @@ templates:
     variants:
       - 'Điềm chẳng lành: {call} ({age} tuổi) hơi thở yếu ớt, sắc mặt xám ngoét, e chẳng qua nổi mấy tháng tới nếu không có thuốc tiên.'
       - 'Đêm nghe tiếng cú kêu ngoài đầu hồi: bệnh tình và sức vóc của {call} ({age} tuổi) đã suy kiệt đến mức thập tử nhất sinh.'
+  # [2] Truyền đời (Phase 3 — Dynasty)
+  - id: sys.tiep_noi_dong_doi
+    kind: he_thong
+    importance: 9
+    highlight: true
+    tone: trung_tinh
+    icon: moc_doi
+    variants:
+      - 'Khép lại cuộc đời của {prev}, bạn tiếp bước làm chủ Đời thứ {generation} của dòng họ với {sao} sào ruộng và {money} quan tiền.'
+      - 'Tre già măng mọc: sau tang lễ {prev}, bạn đứng ra gánh vác Đời thứ {generation} ({sao} sào ruộng, {money} quan tiền).'
+  - id: sys.giam_ho_tuoi_tho
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: trung_tinh
+    icon: nha
+    variants:
+      - '{prev} qua đời khi bạn còn thơ ấu. {call} đứng ra làm người giám hộ, thay bạn trông coi việc nhà Đời thứ {generation} cho đến ngày trưởng thành.'
+      - 'Bạn bước vào Đời thứ {generation} khi tuổi còn nhỏ. Mọi việc đồng áng, sổ sách tạm giao cho {call} giám hộ.'
+  - id: sys.nhan_con_nuoi
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: sinh_nhat
+    variants:
+      - 'Lập lễ trước bàn thờ gia tiên, bạn nhận {call} ({age} tuổi) làm con nuôi để nối dõi tông đường.'
+      - 'Từ nay {call} ({age} tuổi) chính thức mang họ nhà bạn, sớm hôm quây quần dưới mái nhà.'
+  - id: sys.don_chau_ho
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: nha
+    variants:
+      - 'Bạn đón {call} ({age} tuổi) từ chi xa về ở cùng, truyền dạy nếp nhà để ngày sau có người hương khói.'
+      - 'Họ tộc chứng giám: {call} ({age} tuổi) được đón về lập tự, tiếp nối huyết mạch dòng họ.'
+  - id: sys.hoan_thanh_di_nguyen
+    kind: he_thong
+    importance: 9
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Trước bàn thờ tổ tiên, bạn kính cẩn thắp nén hương báo công: di nguyện "{title}" của {ancestor} nay đã trọn vẹn!'
+      - 'Nỗi trăn trở "{title}" từ thời {ancestor} để lại đã được bạn hoàn thành viên mãn, rạng danh dòng họ.'
+
 
 

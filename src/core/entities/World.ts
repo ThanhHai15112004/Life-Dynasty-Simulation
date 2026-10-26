@@ -1,6 +1,7 @@
 // [0] Trạng thái tổng của một ván chơi — toàn bộ là dữ liệu thuần (JSON được) để lưu/tải và chạy headless
 import type { ExamDegreeId } from '@content/schemas';
 import type { Character } from './Character';
+import type { DynastyState } from './Dynasty';
 import type { Household, LedgerYear, Purse } from './Household';
 
 export const SAVE_VERSION = 3;
@@ -74,6 +75,12 @@ export interface GameState {
   cultureId: string;
   /** [2] Chế độ số phận đang chơi (id trong balance/fate_modes.yaml). */
   fateMode: string;
+  /** [2] Chế độ chơi: 'one_life' (Một đời) hoặc 'dynasty' (Truyền đời). */
+  playMode: string;
+  /** [2] Năm bắt đầu điều khiển nhân vật hiện tại (để tính số năm đã chơi của từng đời). */
+  generationStartYear: number;
+  /** [2] Trạng thái dòng họ truyền đời. */
+  dynasty: DynastyState;
   /** [2] Chuỗi biến cố xấu liên tiếp (nợ nần, bệnh nặng, mất mùa, tang sự) để kích hoạt đỡ xui. */
   badLuckCounter: number;
   rng: Record<string, number>;

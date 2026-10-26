@@ -51,6 +51,12 @@ export interface Character {
   opinionModifiers?: StoredModifier[];
   /** [1] Ân tình với người chơi (>0: nợ ân tình người chơi; <0: người chơi nợ họ). */
   favorWithPlayer?: number;
+  /** [2] Con nuôi được nhận về để nối dõi. */
+  adopted?: boolean;
+  /** [2] Cháu họ / họ hàng nhánh bên được đón về hoặc sinh ra từ chi phụ. */
+  collateral?: boolean;
+  /** [2] Đời thứ mấy trong dòng họ (1 = đời đầu tiên của người chơi, 0 = cha mẹ, -1 = ông bà). */
+  generation?: number;
 }
 
 /** Tuổi tính theo tháng sinh: qua tháng sinh của năm nay mới tăng tuổi. */

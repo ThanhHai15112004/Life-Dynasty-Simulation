@@ -6,10 +6,13 @@ export function NewGame() {
   const { store, t } = useUi();
   const origins = store.content.origins;
   const fateModes = store.content.balance.fate_modes.modes;
+  const playModes = store.content.balance.fate_modes.play_modes;
   const [originId, setOriginId] = useState(origins[0]?.id ?? '');
   const origin = origins.find((o) => o.id === originId) ?? origins[0];
   const [startAge, setStartAge] = useState(origin?.default_start_age ?? 0);
   const [sex, setSex] = useState<'any' | 'm' | 'f'>('any');
+  const [playMode, setPlayMode] = useState(store.content.balance.fate_modes.default_play_mode);
+  const currentPlayMode = playModes.find((m) => m.id === playMode) ?? playModes[0];
   const [fateMode, setFateMode] = useState(store.content.balance.fate_modes.default_mode);
   const currentFate = fateModes.find((m) => m.id === fateMode) ?? fateModes[0];
   const [seed, setSeed] = useState('');
@@ -67,6 +70,16 @@ export function NewGame() {
         ))}
       </div>
 
+      <h4>{t('menu.play_mode')}</h4>
+      <div className="row">
+        {playModes.map((m) => (
+          <button key={m.id} className={m.id === playMode ? 'active' : ''} onClick={() => setPlayMode(m.id)}>
+            {t(m.name_key)}
+          </button>
+        ))}
+      </div>
+      {currentPlayMode && <p className="muted small">{t(currentPlayMode.desc_key)}</p>}
+
       <h4>{t('menu.fate_mode')}</h4>
       <div className="row">
         {fateModes.map((m) => (
@@ -82,7 +95,7 @@ export function NewGame() {
 
       <button
         className="primary wide"
-        onClick={() => store.newGame({ originId, startAge, sex: sex === 'any' ? undefined : sex, fateMode, seed })}
+        onClick={() => store.newGame({ originId, startAge, sex: sex === 'any' ? undefined : sex, fateMode, playMode, seed })}
       >
         {t('menu.new_game')}
       </button>

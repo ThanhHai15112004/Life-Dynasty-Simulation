@@ -1,11 +1,12 @@
 // [1] Khởi tạo thế giới từ kịch bản thử nghiệm (Phase 1)
 import type { Scenario } from '@content/schemas';
+import { fullName } from '../entities/Character';
 import { applyEffects } from '../events/effects';
 import { fireDecision } from '../events/decision';
 import { bindRoles, eligibleRoles } from '../events/selection';
 import { createCharacter } from './generate';
 import { type SimContext, RngStream } from '../systems/context';
-import { splitPlayerHousehold, splitSiblingToNewHousehold } from '../systems/family';
+import { getHeirCandidates, splitPlayerHousehold, splitSiblingToNewHousehold } from '../systems/family';
 import { player, playerHousehold } from '../systems/people';
 
 export function applyScenario(
@@ -15,6 +16,9 @@ export function applyScenario(
   const { state, content } = ctx;
   if (scenario.base.fateMode && content.index.fateMode.has(scenario.base.fateMode)) {
     state.fateMode = scenario.base.fateMode;
+  }
+  if (scenario.base.playMode && content.index.playMode.has(scenario.base.playMode)) {
+    state.playMode = scenario.base.playMode;
   }
 
   // 1. Áp dụng hiệu ứng có sẵn trong scenario.setup
@@ -123,10 +127,132 @@ export function applyScenario(
         });
         child.fatherId = me.sex === 'm' ? me.id : me.spouseId;
         child.motherId = me.sex === 'f' ? me.id : me.spouseId;
+        child.generation = (state.dynasty?.currentGeneration ?? 1) + 1;
         child.householdId = h.id;
         state.characters[child.id] = child;
         h.memberIds.push(child.id);
       }
+    }
+
+    // Xử lý thêm cháu họ (nhánh bên)
+    if (f.nephews && f.nephews.length > 0) {
+      const h = playerHousehold(ctx);
+      const rng = ctx.rng.get(RngStream.Life);
+      for (const nepSpec of f.nephews) {
+        const nep = createCharacter(ctx, rng, {
+          sex: nepSpec.sex,
+          age: nepSpec.age,
+          familyName: me.familyName,
+          health: content.balance.life.health.npc_default,
+        });
+        nep.collateral = true;
+        nep.generation = (state.dynasty?.currentGeneration ?? 1) + 1;
+        nep.householdId = h.id;
+        state.characters[nep.id] = nep;
+        h.memberIds.push(nep.id);
+      }
+    }
+
+    // Gán tính cách cụ thể cho người kế vị đầu tiên (nếu có)
+    if (f.heir_traits && f.heir_traits.length > 0) {
+      const firstCand = getHeirCandidates(ctx, me)[0];
+      const heirChar = firstCand ? state.characters[firstCand.characterId] : undefined;
+      if (heirChar) {
+        heirChar.traits = [...f.heir_traits];
+      }
+    }
+
+    // Tạo sẵn các đời tổ tiên (ví dụ: Đời thứ 3 có sẵn 2 đời tổ tiên)
+    if (f.ancestors_count && f.ancestors_count > 0) {
+      const rng = ctx.rng.get(RngStream.Life);
+      const totalGen = f.ancestors_count + 1;
+      state.dynasty.currentGeneration = totalGen;
+      me.generation = totalGen;
+
+      let prevId: string | undefined;
+      for (let g = 1; g <= f.ancestors_count; g++) {
+        const isDirectFather = g === f.ancestors_count && me.fatherId && state.characters[me.fatherId];
+        const anc = isDirectFather
+          ? state.characters[me.fatherId!]
+          : createCharacter(ctx, rng, {
+              sex: 'm',
+              age: 64,
+              familyName: me.familyName,
+              health: 0,
+            });
+        anc.generation = g;
+        anc.alive = false;
+        anc.birthYear = state.clock.year - (f.ancestors_count - g + 1) * 28 - 36;
+        anc.deathYear = anc.birthYear + 62;
+        anc.deathCauseId = 'tuoi_gia';
+        if (prevId) anc.fatherId = prevId;
+        state.characters[anc.id] = anc;
+        if (g === 1) state.dynasty.founderId = anc.id;
+        prevId = anc.id;
+
+        const causeName =
+          content.balance.life.mortality.causes.find((c) => c.id === 'tuoi_gia')?.name ?? 'tuoi_gia';
+        const defaultAxes = content.balance.life.summary_axes.map((ax, idx) => ({
+          id: ax.id,
+          score: 52 + ((g * 7 + idx * 5) % 25),
+          bandKey: content.balance.display.summary_axis_bands[2]?.key ?? 'vua',
+        }));
+
+        state.dynasty.pastLives.push({
+          generation: g,
+          characterId: anc.id,
+          name: fullName(anc),
+          sex: anc.sex,
+          birthYear: anc.birthYear,
+          deathYear: anc.deathYear,
+          deathAge: 62,
+          causeId: 'tuoi_gia',
+          causeName,
+          careerId: g === 1 ? 'nong_dan' : state.householdCareer,
+          statusRankId: content.civilizations[0]?.status_ranks[g > 1 ? 1 : 0]?.id ?? 'dan_thuong',
+          examDegreeId: 'none',
+          yearsPlayed: 46,
+          decisions: 18 + g * 4,
+          closing: {
+            money: 12 * g,
+            food: 24,
+            debt: 0,
+            farmland: 4 + g * 2,
+            netWorth: 40 * g,
+          },
+          axes: defaultAxes,
+          highlights: [
+            {
+              year: anc.birthYear + 24,
+              text: `${fullName(anc)} · ${state.world.settlementName}`,
+            },
+          ],
+          lifeMap: [
+            { age: 20, year: anc.birthYear + 20, satisfaction: 55, marks: ['focus'] },
+            { age: 40, year: anc.birthYear + 40, satisfaction: 64, marks: ['mua_gat'] },
+            { age: 60, year: anc.birthYear + 60, satisfaction: 68, marks: ['moc_doi'] },
+          ],
+          log: [],
+        });
+      }
+      if (prevId && me.fatherId !== prevId) {
+        me.fatherId = prevId;
+      }
+      state.dynasty.prestige += f.ancestors_count * 18;
+    }
+
+    // Thêm di nguyện từ đời trước (nếu có)
+    if (f.unfinished_wish) {
+      const lastAnc = state.dynasty.pastLives[state.dynasty.pastLives.length - 1];
+      state.dynasty.unfinishedWishes.push({
+        id: f.unfinished_wish.id,
+        fromGeneration: Math.max(1, state.dynasty.currentGeneration - 1),
+        fromName: lastAnc?.name ?? me.familyName,
+        ambitionId: f.unfinished_wish.ambitionId ?? null,
+        milestoneId: f.unfinished_wish.milestoneId ?? null,
+        text: f.unfinished_wish.text,
+        fulfilled: false,
+      });
     }
 
     // Tách hộ ngay nếu kịch bản yêu cầu
