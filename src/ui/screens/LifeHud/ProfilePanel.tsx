@@ -29,7 +29,7 @@ export function ProfileCard({ hud }: { hud: HudView }) {
         <span>{hud.date.year}</span>
       </div>
       <div className="profile-body">
-        {scene && <Portrait id={p.id} sex={p.sex} ageGroup={p.ageGroup} cultureSet={scene.cultureSet} season={scene.season} scale={5} />}
+        {scene && <Portrait id={p.id} sex={p.sex} ageGroup={p.ageGroup} cultureSet={scene.cultureSet} season={scene.season} scale={4} />}
         <div className="profile-main">
           <h2 className="profile-name">{p.name}</h2>
           <dl className="facts">

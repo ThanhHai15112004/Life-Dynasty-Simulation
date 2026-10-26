@@ -12,6 +12,20 @@ export interface ScenePerson {
   sex: 'm' | 'f';
   ageGroup: string;
   isPlayer: boolean;
+  /** Tuổi thực để phân biệt bé ẵm ngửa / trẻ nhỏ / người lớn / cao niên. */
+  age?: number;
+  /** Nghề nghiệp của nhân vật (để chọn màu áo, mũ nón, phụ kiện). */
+  career?: string;
+  /** Bậc địa vị của hộ/nhân vật (dan_ngheo, thuong_dan, phu_ho, si_phu, quan_lai). */
+  statusRank?: string;
+  /** Học vị khoa cử (none, sinh_do, huong_cong, tien_si). */
+  examDegree?: string;
+  /** Tình trạng sức khỏe hiển thị dáng vẻ (khoe, om_yeu, benh_nang). */
+  healthState?: 'khoe' | 'om_yeu' | 'benh_nang';
+  /** Đang mang thai (vẽ bụng bầu). */
+  isPregnant?: boolean;
+  /** Đang cư tang (mặc áo xô trắng, đội khăn tang). */
+  isMourning?: boolean;
 }
 
 export interface SceneDescriptor {
@@ -59,6 +73,7 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
   const props = Array.from(propMap.entries()).map(([sprite, count]) => ({ sprite, count }));
 
   const currentSettlementType = activeSettlementId(ctx);
+  const isMourning = state.civilization.mourningMonthsLeft > 0;
 
   return {
     location: content.index.settlementType.get(currentSettlementType)?.scene_location ?? sc.location,
@@ -66,12 +81,32 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
     house: house?.scene?.sprite ?? null,
     season: seasonOf(ctx),
     weather: state.world.weather,
-    people: aliveMembers(ctx, h).map((c) => ({
-      id: c.id,
-      sex: c.sex,
-      ageGroup: ageGroupOf(ctx, ageNow(ctx, c)),
-      isPlayer: c.id === state.playerId,
-    })),
+    people: aliveMembers(ctx, h).map((c) => {
+      const age = ageNow(ctx, c);
+      const isPlayer = c.id === state.playerId;
+      const career = isPlayer
+        ? state.career.id || state.householdCareer
+        : c.careerId || state.householdCareer;
+      const healthState: 'khoe' | 'om_yeu' | 'benh_nang' =
+        c.diseases.length > 0 || c.health < 40
+          ? 'benh_nang'
+          : c.health < 65
+            ? 'om_yeu'
+            : 'khoe';
+      return {
+        id: c.id,
+        sex: c.sex,
+        ageGroup: ageGroupOf(ctx, age),
+        isPlayer,
+        age,
+        career,
+        statusRank: state.civilization.statusRank,
+        examDegree: isPlayer ? state.civilization.examDegree : 'none',
+        healthState,
+        isPregnant: Boolean(c.pregnancy),
+        isMourning,
+      };
+    }),
     props,
     condition: sc.condition_rules.find((rule) => evaluate(rule.condition, r))?.value ?? sc.default_condition,
     particles: sc.particle_rules.filter((rule) => evaluate(rule.condition, r)).map((rule) => rule.value),

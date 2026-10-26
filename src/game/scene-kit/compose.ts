@@ -22,11 +22,121 @@ export function sceneColors(culture: KitCulture, season: string): Resolve {
   return (slot) => (slot.startsWith('#') ? slot : (seasonal[slot] ?? culture.colors[slot]));
 }
 
-/** Màu riêng của một người: mỗi ô màu (da, tóc, áo, quần...) chọn trong bảng của văn hóa theo id người. */
-export function personColors(culture: KitCulture, personId: string, base: Resolve): Resolve {
+export type PersonVisualInput = Pick<ScenePerson, 'id' | 'sex' | 'ageGroup'> &
+  Partial<Pick<ScenePerson, 'age' | 'career' | 'statusRank' | 'examDegree' | 'healthState' | 'isPregnant' | 'isMourning'>>;
+
+/** Xác định nhóm trang phục theo cư tang, khoa cử, địa vị và nghề nghiệp. */
+export function resolveOutfitGroup(p: PersonVisualInput): string | null {
+  if (p.isMourning) return 'cu_tang';
+  if (p.statusRank === 'quan_lai' || p.examDegree === 'tien_si' || p.career === 'nha_lai') return 'quan_lai';
+  if (
+    p.statusRank === 'si_phu' ||
+    p.examDegree === 'huong_cong' ||
+    p.examDegree === 'sinh_do' ||
+    p.career === 'si_tu' ||
+    p.career === 'thay_lang'
+  ) {
+    return 'si_phu';
+  }
+  if (p.career === 'linh') return 'linh';
+  if (p.career === 'thao_khau') return 'thao_khau';
+  if (p.statusRank === 'phu_ho' || p.career === 'thuong_nhan') return 'phu_ho';
+  return null;
+}
+
+/** Chọn bộ phận cơ thể theo độ tuổi (ẵm ngửa, trẻ nhỏ, thiếu niên, người lớn, mang thai, ốm nặng, tuổi già). */
+export function resolvePersonPartId(culture: KitCulture, p: PersonVisualInput): string {
+  if (p.age !== undefined && p.age <= 2 && culture.people[`au_tho_${p.sex}`]) {
+    return culture.people[`au_tho_${p.sex}`];
+  }
+  if (p.ageGroup === 'nguoi_lon') {
+    if (p.sex === 'f' && p.isPregnant && culture.people.nguoi_mang_thai_f) {
+      return culture.people.nguoi_mang_thai_f;
+    }
+    if (p.healthState === 'benh_nang' && culture.people[`nguoi_om_${p.sex}`]) {
+      return culture.people[`nguoi_om_${p.sex}`];
+    }
+  }
+  return culture.people[`${p.ageGroup}_${p.sex}`] ?? culture.people[p.ageGroup] ?? '';
+}
+
+/** Chọn loại mũ/khăn theo cư tang, tuổi, giới tính, học vị, địa vị và nghề nghiệp. */
+export function resolveHatSpec(
+  culture: KitCulture,
+  p: PersonVisualInput,
+): { part: string; offsetY: number } | null {
+  const hats = culture.hats ?? {};
+  // Trẻ ẵm ngửa (0-2 tuổi) để chỏm tóc đào, trừ khi cư tang từ 3 tuổi trở lên
+  if (p.age !== undefined && p.age <= 2) return null;
+  if (p.isMourning && hats.khan_tang) {
+    return { part: hats.khan_tang.part, offsetY: hats.khan_tang.offsetY ?? 2 };
+  }
+  if (p.ageGroup === 'tre_nho') return null;
+
+  if (p.sex === 'm') {
+    if (
+      (p.statusRank === 'quan_lai' || p.examDegree === 'tien_si' || p.examDegree === 'huong_cong' || p.career === 'nha_lai') &&
+      p.ageGroup !== 'thieu_nien' &&
+      hats.mao_quan
+    ) {
+      return { part: hats.mao_quan.part, offsetY: hats.mao_quan.offsetY ?? 2 };
+    }
+    if (p.career === 'linh' && p.ageGroup !== 'thieu_nien' && hats.non_dau) {
+      return { part: hats.non_dau.part, offsetY: hats.non_dau.offsetY ?? 2 };
+    }
+    if (
+      (p.statusRank === 'si_phu' ||
+        p.examDegree === 'sinh_do' ||
+        p.career === 'si_tu' ||
+        p.career === 'thay_lang' ||
+        p.statusRank === 'phu_ho' ||
+        p.career === 'thuong_nhan') &&
+      hats.khan_dong
+    ) {
+      return { part: hats.khan_dong.part, offsetY: hats.khan_dong.offsetY ?? 2 };
+    }
+    if (p.ageGroup === 'nguoi_lon' || p.ageGroup === 'nguoi_gia') {
+      const roll = hashOf(`${p.id}:hat`) % 100;
+      if (roll < 50 && hats.non_la) return { part: hats.non_la.part, offsetY: hats.non_la.offsetY ?? 2 };
+      if (roll >= 50 && roll < 72 && hats.khan_dong) return { part: hats.khan_dong.part, offsetY: hats.khan_dong.offsetY ?? 2 };
+    }
+    return null;
+  }
+
+  // Nữ giới
+  if (
+    (p.statusRank === 'quan_lai' || p.statusRank === 'phu_ho' || p.statusRank === 'si_phu') &&
+    p.ageGroup !== 'thieu_nien' &&
+    hats.khan_vanh
+  ) {
+    return { part: hats.khan_vanh.part, offsetY: hats.khan_vanh.offsetY ?? 2 };
+  }
+  if (p.ageGroup === 'nguoi_lon' || p.ageGroup === 'nguoi_gia') {
+    const roll = hashOf(`${p.id}:hat`) % 100;
+    if (roll < 48 && hats.non_la) return { part: hats.non_la.part, offsetY: hats.non_la.offsetY ?? 2 };
+    if (roll >= 48 && roll < 78 && hats.khan_mo_qua) {
+      return { part: hats.khan_mo_qua.part, offsetY: hats.khan_mo_qua.offsetY ?? 2 };
+    }
+  }
+  return null;
+}
+
+/** Màu riêng của một người: mỗi ô màu (da, tóc, áo, quần...) chọn trong bảng của văn hóa + tầng lớp/nghề theo id người. */
+export function personColors(culture: KitCulture, p: PersonVisualInput | string, base: Resolve): Resolve {
+  const person: PersonVisualInput = typeof p === 'string' ? { id: p, sex: 'm', ageGroup: 'nguoi_lon' } : p;
   const picked: Record<string, string> = {};
   for (const [slot, options] of Object.entries(culture.palettes)) {
-    if (options.length) picked[slot] = options[hashOf(`${personId}:${slot}`) % options.length];
+    if (options.length) picked[slot] = options[hashOf(`${person.id}:${slot}`) % options.length];
+  }
+  const group = resolveOutfitGroup(person);
+  const groupPalettes = group && culture.outfitPalettes ? culture.outfitPalettes[group] : undefined;
+  if (groupPalettes) {
+    for (const [slot, options] of Object.entries(groupPalettes)) {
+      if (options.length) picked[slot] = options[hashOf(`${person.id}:${group}:${slot}`) % options.length];
+    }
+  }
+  if ((person.healthState === 'benh_nang' || person.healthState === 'om_yeu') && culture.palettes.skin_sick?.length) {
+    picked.skin = culture.palettes.skin_sick[hashOf(`${person.id}:skin_sick`) % culture.palettes.skin_sick.length];
   }
   return (slot) => picked[slot] ?? base(slot);
 }
@@ -117,37 +227,71 @@ export function composeStatic(kit: SceneKit, d: SceneDescriptor): KitRect[] {
   return out;
 }
 
-/** Người trong hộ đứng thành hàng; khung hình nhấp nhô nhẹ theo thời gian (sống động mà không cần sprite sheet). */
+/** Người trong hộ đứng thành nhóm tự nhiên trước sân; khung hình nhấp nhô và xoay hướng nhẹ theo thời gian. */
 export function composePeople(kit: SceneKit, d: SceneDescriptor, timeSec: number): { rects: KitRect[]; marker: [number, number] | null } {
   const culture = cultureOf(kit, d.cultureSet);
   const base = sceneColors(culture, d.season);
   const out: KitRect[] = [];
   let marker: [number, number] | null = null;
+  const markerPart = kit.parts.dau_nguoi_choi;
+  const markerW = markerPart ? partSize(markerPart).w : 3;
+
   d.people.forEach((p, i) => {
     const x = kit.slots.people.x + i * kit.slots.people.spacing;
-    const bob = Math.sin(timeSec * 2 + i * 1.7) > 0.6 ? 1 : 0;
-    const { rects, height } = personRects(kit, culture, p, x, kit.groundY - bob, base);
+    const depthY = (i % 2) * 2;
+    const bob = Math.sin(timeSec * 2.2 + i * 1.7) > 0.55 ? 1 : 0;
+    const footY = kit.groundY + depthY - bob;
+    const flip = (hashOf(p.id) + Math.floor(timeSec * 0.25 + i)) % 4 === 0;
+    const { rects, height, width } = personRects(kit, culture, p, x, footY, base, flip);
     out.push(...rects);
-    if (p.isPlayer) marker = [x, kit.groundY - bob - height - 3];
+
+    if ((p.healthState === 'benh_nang' || p.healthState === 'om_yeu') && kit.parts.dau_benh) {
+      const sickBob = Math.sin(timeSec * 3.5 + i) > 0 ? 1 : 0;
+      out.push(...partRects(kit.parts.dau_benh, x + width - 2, footY - height + 2 - sickBob, base));
+    }
+
+    if (p.isPlayer) {
+      marker = [x + Math.floor((width - markerW) / 2), footY - height - 4];
+    }
   });
   return { rects: out, marker };
 }
 
-/** Một người (kèm nón nếu văn hóa có), đặt theo góc trái và mép dưới. */
-export function personRects(kit: SceneKit, culture: KitCulture, p: Pick<ScenePerson, 'id' | 'sex' | 'ageGroup'>, x: number, bottom: number, base: Resolve) {
-  const part = kit.parts[culture.people[`${p.ageGroup}_${p.sex}`] ?? culture.people[p.ageGroup] ?? ''];
-  const colors = personColors(culture, p.id, base);
-  const rects = partRects(part, x, bottom, colors);
-  const height = part ? partSize(part).h : 0;
-  const hat = culture.hat;
-  if (part && hat && hat.ageGroups.includes(p.ageGroup) && (hashOf(`${p.id}:hat`) % 100) / 100 < hat.chance) {
-    const hp = kit.parts[hat.part];
+/** Một người (kèm mũ/khăn và trang phục theo tuổi, nghề, địa vị, sức khỏe), đặt theo góc trái và mép dưới. */
+export function personRects(
+  kit: SceneKit,
+  culture: KitCulture,
+  p: PersonVisualInput,
+  x: number,
+  bottom: number,
+  base: Resolve,
+  flip = false,
+) {
+  const partId = resolvePersonPartId(culture, p);
+  const part = kit.parts[partId];
+  const colors = personColors(culture, p, base);
+  const rects = partRects(part, x, bottom, colors, flip);
+  const size = part ? partSize(part) : { w: 0, h: 0 };
+  const height = size.h;
+  const width = size.w;
+
+  const hatSpec = resolveHatSpec(culture, p);
+  if (part && hatSpec) {
+    const hp = kit.parts[hatSpec.part];
     if (hp) {
-      const offset = Math.floor((partSize(part).w - partSize(hp).w) / 2);
-      rects.push(...partRects(hp, x + offset, bottom - height + 2, colors));
+      const offset = Math.floor((width - partSize(hp).w) / 2);
+      rects.push(...partRects(hp, x + offset, bottom - height + hatSpec.offsetY, colors, flip));
+    }
+  } else if (part && !culture.hats && culture.hat && culture.hat.ageGroups.includes(p.ageGroup)) {
+    if ((hashOf(`${p.id}:hat`) % 100) / 100 < culture.hat.chance) {
+      const hp = kit.parts[culture.hat.part];
+      if (hp) {
+        const offset = Math.floor((width - partSize(hp).w) / 2);
+        rects.push(...partRects(hp, x + offset, bottom - height + 2, colors, flip));
+      }
     }
   }
-  return { rects, height };
+  return { rects, height, width };
 }
 
 export function composeClouds(kit: SceneKit, d: SceneDescriptor, timeSec: number): KitRect[] {

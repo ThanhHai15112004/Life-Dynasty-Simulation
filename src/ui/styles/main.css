@@ -466,7 +466,8 @@ h4 {
 }
 .scene-host {
   width: 100%;
-  aspect-ratio: 320 / 112;
+  aspect-ratio: 240 / 120;
+  min-height: 220px;
   border-radius: 6px;
   overflow: hidden;
   background: #cfe3ec;

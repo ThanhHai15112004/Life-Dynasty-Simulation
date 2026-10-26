@@ -23,8 +23,12 @@ export interface KitCulture {
   people: Record<string, string>;
   /** Mũ/nón đội khi ra ngoài (bộ phận, vẽ chồng lên đầu người lớn), bỏ trống thì không đội. */
   hat?: { part: string; ageGroups: string[]; chance: number };
+  /** Các loại mũ/khăn theo thân phận, nghề nghiệp, cư tang. */
+  hats?: Record<string, { part: string; offsetY?: number }>;
   /** Bảng màu chọn cho từng người (theo id người, cố định suốt đời). */
   palettes: Record<string, string[]>;
+  /** Bảng màu trang phục theo tầng lớp / nghề nghiệp / cư tang. */
+  outfitPalettes?: Record<string, Record<string, string[]>>;
   /** Cây trang trí theo thứ tự xuất hiện trong cảnh. */
   trees: string[];
   fence: string;

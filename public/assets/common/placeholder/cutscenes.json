@@ -4,9 +4,9 @@
   "fadeInShare": 0.15,
   "fadeOutShare": 0.2,
   "banner": {
-    "x": 30,
+    "x": 15,
     "y": 8,
-    "width": 260,
+    "width": 210,
     "height": 34,
     "bg": "#14100d",
     "bgAlpha": 0.88,

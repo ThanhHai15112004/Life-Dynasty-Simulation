@@ -65,7 +65,15 @@ export class LifeScene extends Phaser.Scene {
 
   private sync(): void {
     const d = this.store.getSnapshot().scene;
-    const key = d ? JSON.stringify({ ...d, people: d.people.map((p) => `${p.id}:${p.ageGroup}`) }) : '';
+    const key = d
+      ? JSON.stringify({
+          ...d,
+          people: d.people.map(
+            (p) =>
+              `${p.id}:${p.ageGroup}:${p.age ?? ''}:${p.career ?? ''}:${p.statusRank ?? ''}:${p.examDegree ?? ''}:${p.healthState ?? ''}:${p.isPregnant ? 1 : 0}:${p.isMourning ? 1 : 0}`,
+          ),
+        })
+      : '';
     if (key === this.descriptorKey) return;
     this.descriptorKey = key;
     this.descriptor = d;
@@ -101,7 +109,7 @@ export class LifeScene extends Phaser.Scene {
     drawRects(this.liveGfx, composeClouds(this.kit, d, t));
     const people = composePeople(this.kit, d, t);
     drawRects(this.liveGfx, people.rects);
-    if (people.marker) drawRects(this.liveGfx, partRects(this.kit.parts[PLAYER_MARKER_PART], people.marker[0] + 2, people.marker[1] + 2, (s) => s));
+    if (people.marker) drawRects(this.liveGfx, partRects(this.kit.parts[PLAYER_MARKER_PART], people.marker[0], people.marker[1] + 2, (s) => s));
     this.particles.draw(new PixelPainter(this.fxGfx, 1, 0, 0), this.kit, this.chimney, t);
   }
 }
