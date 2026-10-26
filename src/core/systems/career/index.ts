@@ -242,7 +242,17 @@ export function pickDefaultMemberCareer(ctx: SimContext, member: Character): str
     return state.householdCareer;
   }
 
-  // Nếu có hướng nuôi dạy lúc nhỏ thì chọn theo nhóm nghề tương ứng
+  // Nếu nuôi dạy theo mặc định "phụ việc nhà" và nghề nhà phù hợp thì nối nghiệp nhà trước
+  const defaultUpbringing = content.balance.life.child_upbringing.default_option;
+  if (
+    (!member.upbringing || member.upbringing === defaultUpbringing) &&
+    validInSettlement(state.householdCareer) &&
+    !((state.householdCareer === 'si_tu' || state.householdCareer === 'linh') && member.sex === 'f')
+  ) {
+    return state.householdCareer;
+  }
+
+  // Nếu có hướng nuôi dạy chuyên biệt (đi học, học nghề...) thì chọn theo nhóm nghề tương ứng
   const pools = content.balance.life.career_v2.upbringing_career_pools;
   if (member.upbringing && pools[member.upbringing]) {
     const candidates = pools[member.upbringing].filter((id) => {
@@ -354,10 +364,10 @@ export function memberMonthlyCareerIncome(ctx: SimContext, member: Character): n
   if (rank && rank.stipend_money_month > 0) {
     return rank.stipend_money_month * seniority * share;
   }
-  // Nếu nghề có khoảng thu nhập ước tính (income_range)
+  // Nếu nghề có khoảng thu nhập ước tính năm (income_range) thì quy ra tháng
   if (rank && (rank.income_range[0] > 0 || rank.income_range[1] > 0)) {
     const mid = (rank.income_range[0] + rank.income_range[1]) / 2;
-    return mid * seniority * share;
+    return (mid / content.balance.calendar.months_per_year) * seniority * share;
   }
   if (def.economy.family_wage_month !== undefined) {
     return def.economy.family_wage_month * seniority;

@@ -118,16 +118,17 @@ auto_invest:
     condition:
       all:
         - { var: household.self_farms, op: '==', value: true }
+        - { var: household.farmland, op: '<', value: 8 }
         - { var: household.spare_workers, op: '>=', value: 1 }
         - { var: household.debt, op: '<=', value: 0 }
-    keep_months: 6
+    keep_months: 8
   - property: ruong
     condition:
       all:
         - { var: household.self_farms, op: '==', value: false }
-        - { var: household.farmland, op: '<', value: 18 }
+        - { var: household.farmland, op: '<', value: 9 }
         - { var: household.debt, op: '<=', value: 0 }
-    keep_months: 12
+    keep_months: 14
   - property: ao_ca
     condition:
       all:

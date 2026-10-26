@@ -31,6 +31,12 @@ function boot(): void {
   const game = new Phaser.Game(gameConfig);
   game.registry.set(STORE_REGISTRY_KEY, store);
   document.title = store.content.lang[store.content.balance.display.default_language]?.['app.title'] ?? document.title;
+
+  if ('serviceWorker' in navigator && import.meta.env.PROD) {
+    window.addEventListener('load', () => {
+      void navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
 }
 
 window.addEventListener('DOMContentLoaded', boot);

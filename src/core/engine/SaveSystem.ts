@@ -55,6 +55,65 @@ export interface SaveSlotInfo {
   familyName?: string;
 }
 
+export const COMPRESSED_SAVE_PREFIX = 'DDSLZ1:';
+
+/** Bảng từ khóa JSON lặp lại nhiều nhất trong GameState để nén/giải nén tất định không phụ thuộc thư viện ngoài. */
+const SAVE_TOKEN_DICT: readonly [string, string][] = [
+  ['"opinionModifiers":[]', '\u0001a'],
+  ['"favorWithPlayer":0', '\u0001b'],
+  ['"diseases":[]', '\u0001c'],
+  ['"childrenIds":', '\u0001d'],
+  ['"householdId":', '\u0001e'],
+  ['"familyName":', '\u0001f'],
+  ['"givenName":', '\u0001g'],
+  ['"birthYear":', '\u0001h'],
+  ['"birthMonth":', '\u0001i'],
+  ['"careerRankIndex":', '\u0001j'],
+  ['"careerMonths":', '\u0001k'],
+  ['"careerMerit":', '\u0001l'],
+  ['"satisfaction":', '\u0001m'],
+  ['"importance":', '\u0001n'],
+  ['"highlight":', '\u0001o'],
+  ['"sourceId":', '\u0001p'],
+  ['"lastMonthIndex":', '\u0001q'],
+  ['"characterId":', '\u0001r'],
+  ['"livingStandard":', '\u0001s'],
+  ['"villageRole":null', '\u0001t'],
+  ['"deathYear":null', '\u0001u'],
+  ['"deathCauseId":null', '\u0001v'],
+  ['"upbringing":null', '\u0001w'],
+  ['"entries":', '\u0001x'],
+  ['"skills":', '\u0001y'],
+  ['"level":', '\u0001z'],
+];
+
+/** [9] Nén chuỗi JSON save bằng bảng từ điển khóa lặp lại (giảm ~30–40% dung lượng lưu trữ). */
+export function compressSave(jsonText: string): string {
+  if (jsonText.startsWith(COMPRESSED_SAVE_PREFIX)) return jsonText;
+  let out = jsonText.split('\u0001').join('\u0001\u0001');
+  for (const [token, code] of SAVE_TOKEN_DICT) {
+    out = out.split(token).join(code);
+  }
+  return COMPRESSED_SAVE_PREFIX + out;
+}
+
+/** [9] Giải nén chuỗi save (tương thích ngược hoàn toàn với chuỗi JSON thuần). */
+export function decompressSave(text: string): string {
+  if (!text.startsWith(COMPRESSED_SAVE_PREFIX)) return text;
+  let out = text.slice(COMPRESSED_SAVE_PREFIX.length);
+  for (let i = SAVE_TOKEN_DICT.length - 1; i >= 0; i--) {
+    const [token, code] = SAVE_TOKEN_DICT[i];
+    out = out.split(code).join(token);
+  }
+  return out.split('\u0001\u0001').join('\u0001');
+}
+
+/** [9] Đo kích thước bản lưu nén tính theo KB. */
+export function saveSizeKb(state: GameState): number {
+  const compressed = compressSave(serialize(state));
+  return Number((compressed.length / 1024).toFixed(2));
+}
+
 export function serialize(state: GameState): string {
   return JSON.stringify(state);
 }
@@ -62,7 +121,8 @@ export function serialize(state: GameState): string {
 export function deserialize(text: string): GameState {
   let raw: Partial<GameState>;
   try {
-    raw = JSON.parse(text) as Partial<GameState>;
+    const jsonText = decompressSave(text);
+    raw = JSON.parse(jsonText) as Partial<GameState>;
   } catch {
     throw new SaveError('Dữ liệu save không phải JSON hợp lệ', 'save_corrupted');
   }
@@ -132,7 +192,7 @@ export class SaveSystem {
   ) {}
 
   save(slot: string, state: GameState): Promise<void> {
-    return this.storage.set(this.slotPrefix + slot, serialize(state));
+    return this.storage.set(this.slotPrefix + slot, compressSave(serialize(state)));
   }
 
   async load(slot: string): Promise<GameState | null> {
@@ -141,7 +201,8 @@ export class SaveSystem {
   }
 
   async loadRaw(slot: string): Promise<string | null> {
-    return this.storage.get(this.slotPrefix + slot);
+    const text = await this.storage.get(this.slotPrefix + slot);
+    return text ? decompressSave(text) : null;
   }
 
   remove(slot: string): Promise<void> {

@@ -13,7 +13,7 @@ export function MainMenu() {
   const { store, t } = useUi();
   const snap = useSnapshot();
   const [tab, setTab] = useState<MainMenuTab>(snap.hasSave ? 'continue' : 'new_game');
-  const [openModal, setOpenModal] = useState<null | 'saves' | 'settings'>(null);
+  const [openModal, setOpenModal] = useState<null | 'saves' | 'settings' | 'changelog'>(null);
 
   const validSlots = snap.saveSlots.filter((s) => s.exists && !s.corrupted);
   const corruptedSlots = snap.saveSlots.filter((s) => s.corrupted);
@@ -23,7 +23,10 @@ export function MainMenu() {
     <div className="menu">
       <div className="menu-card panel" style={{ maxWidth: tab === 'scenarios' ? '760px' : '520px' }}>
         <div className="card-head" style={{ marginBottom: 4 }}>
-          <h1>{t('app.title')}</h1>
+          <div>
+            <h1>{t('app.title')}</h1>
+            <span className="chip" style={{ marginTop: 2 }}>{t('app.version')}</span>
+          </div>
           <div className="row" style={{ margin: 0 }}>
             <button className="small" onClick={() => setOpenModal('saves')}>
               {t('saves.short')}
@@ -37,7 +40,7 @@ export function MainMenu() {
 
         {snap.lastError && (
           <div className="hud-banner error-banner" style={{ marginBottom: 12 }}>
-            <span>{t(`error.${snap.lastError}`)}</span>
+            <span>{t(snap.lastError.startsWith('error.') ? snap.lastError : `error.${snap.lastError}`)}</span>
             <button className="small" onClick={() => store.clearError()}>
               {t('onboarding.dismiss')}
             </button>
@@ -107,10 +110,40 @@ export function MainMenu() {
         {tab === 'scenarios' && <ScenarioBrowser />}
 
         <p className="muted small" style={{ marginTop: '16px' }}>{t('menu.hint')}</p>
+        <div className="row" style={{ justifyContent: 'center', marginTop: 8, marginBottom: 0 }}>
+          <button className="small" onClick={() => setOpenModal('changelog')}>
+            {t('menu.changelog_btn')}
+          </button>
+        </div>
       </div>
 
       {openModal === 'saves' && <SaveLoadModal allowSave={false} onClose={() => setOpenModal(null)} />}
       {openModal === 'settings' && <SettingsModal onClose={() => setOpenModal(null)} />}
+      {openModal === 'changelog' && (
+        <div className="modal-backdrop" onClick={() => setOpenModal(null)}>
+          <div className="modal panel" onClick={(e) => e.stopPropagation()}>
+            <div className="card-head">
+              <h2>{t('changelog.title')}</h2>
+              <button className="small" onClick={() => setOpenModal(null)}>
+                {t('settings.close')}
+              </button>
+            </div>
+            <p className="muted small" style={{ marginBottom: 12 }}>
+              {t('changelog.subtitle')}
+            </p>
+            <div className="modal-body">
+              <div className="subhead">{t('changelog.v1_0_heading')}</div>
+              <ul className="duties">
+                <li>{t('changelog.v1_0_item_1')}</li>
+                <li>{t('changelog.v1_0_item_2')}</li>
+                <li>{t('changelog.v1_0_item_3')}</li>
+                <li>{t('changelog.v1_0_item_4')}</li>
+                <li>{t('changelog.v1_0_item_5')}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

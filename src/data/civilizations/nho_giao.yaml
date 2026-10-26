@@ -95,10 +95,10 @@ status_ranks:
     description: Dư dả của cải trong vùng nhưng nếu chưa có chữ nghĩa vẫn bị coi là "giàu mà chưa sang".
     condition:
       any:
-        - { var: household.net_worth, op: '>=', value: 1000 }
+        - { var: household.net_worth, op: '>=', value: 1200 }
         - { var: household.farmland, op: '>=', value: 20 }
         - { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.career_rank, op: '>=', value: 3 }] }
-        - { all: [{ var: player.career, op: '==', value: nong_dan }, { var: player.career_rank, op: '>=', value: 3 }] }
+        - { all: [{ var: player.career, op: '==', value: nong_dan }, { var: player.career_rank, op: '>=', value: 3 }, { var: household.farmland, op: '>=', value: 14 }] }
     modifiers:
       - { target: stress.monthly, value: -0.1 }
   - id: si_phu

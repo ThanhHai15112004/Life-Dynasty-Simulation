@@ -111,3 +111,8 @@ onboarding:
     ambition_min_age: 14
     clans_min_age: 14
     region_min_age: 16
+# [9] Cắt tỉa nhật ký cũ & dọn NPC ngoại tộc đã mất lâu năm để giữ hiệu năng và kích thước save sau 200+ năm
+performance:
+  max_routine_log_years: 10
+  max_past_life_logs: 15
+  dead_npc_cleanup_years: 3

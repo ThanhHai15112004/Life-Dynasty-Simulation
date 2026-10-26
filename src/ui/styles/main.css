@@ -1056,7 +1056,25 @@ h4 {
   font-size: 13px;
   font-weight: 500;
 }
-.saves-slots {
+.settings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.settings-section {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+.saves-slots,
+.save-slots-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1066,6 +1084,40 @@ h4 {
   border-radius: 8px;
   padding: 12px 14px;
   background: #faf7f1;
+}
+.save-slot-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.save-slot-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.save-slot-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.save-import-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+button.danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+.chip.danger {
+  background: var(--accent-soft);
+  color: var(--red);
 }
 .save-slot-card.active {
   border-color: var(--green);

@@ -209,6 +209,105 @@ function yearEnd(ctx: SimContext): void {
   yearlyHappiness(ctx);
   directorYearEnd(ctx);
   recordLifeYear(ctx);
+  pruneOldData(ctx);
+}
+
+/**
+ * [9] Cắt tỉa nhật ký thường quá hạn (giữ trọn vẹn dòng dấu mốc highlight & biên niên)
+ * và dọn NPC dòng họ ngoại tộc đã mất lâu năm không liên quan tới gia phả/sổ nợ.
+ */
+function pruneOldData(ctx: SimContext): void {
+  const { state, content } = ctx;
+  const perf = content.balance.display.performance;
+  const hiImp = content.balance.display.highlight_importance;
+  const logCutoffYear = state.clock.year - perf.max_routine_log_years;
+
+  for (const y of state.log) {
+    if (y.year < logCutoffYear) {
+      y.entries = y.entries.filter(
+        (e) => e.highlight || e.importance >= hiImp || e.sourceId.startsWith('chronicle.'),
+      );
+    }
+  }
+  state.log = state.log.filter((y) => y.entries.length > 0 || y.year >= state.clock.year);
+
+  const npcCutoffYear = state.clock.year - perf.dead_npc_cleanup_years;
+  const clanHouseholdIds = new Set(
+    Object.values(state.villageClans ?? {}).map((cl) => cl.householdId),
+  );
+  // Dọn các thành viên NPC đã mất lâu năm khỏi hộ phụ / hộ dòng họ khác và xóa hộ tách riêng trống
+  for (const [hId, h] of Object.entries(state.households)) {
+    if (hId === state.householdId) continue;
+    h.memberIds = h.memberIds.filter((id) => {
+      const c = state.characters[id];
+      return c && (c.alive || (c.deathYear ?? state.clock.year) > npcCutoffYear);
+    });
+    if (h.memberIds.length === 0 && !clanHouseholdIds.has(hId)) {
+      delete state.households[hId];
+    }
+  }
+
+  const protectedIds = new Set<string>([state.playerId, ...Object.values(state.village)]);
+  for (const cl of Object.values(state.villageClans ?? {})) {
+    protectedIds.add(cl.headId);
+  }
+  const ancestorIds = new Set<string>([state.playerId]);
+  if (state.dynasty.guardianId) protectedIds.add(state.dynasty.guardianId);
+  for (const p of state.dynasty.pastLives) {
+    protectedIds.add(p.characterId);
+    ancestorIds.add(p.characterId);
+    const pc = state.characters[p.characterId];
+    if (pc) {
+      if (pc.fatherId) protectedIds.add(pc.fatherId);
+      if (pc.motherId) protectedIds.add(pc.motherId);
+      if (pc.spouseId) protectedIds.add(pc.spouseId);
+    }
+  }
+  const me = state.characters[state.playerId];
+  if (me) {
+    if (me.fatherId) protectedIds.add(me.fatherId);
+    if (me.motherId) protectedIds.add(me.motherId);
+    if (me.spouseId) protectedIds.add(me.spouseId);
+  }
+  for (const mId of state.households[state.householdId]?.memberIds ?? []) {
+    protectedIds.add(mId);
+  }
+  for (const h of Object.values(state.households)) {
+    for (const mId of h.memberIds) protectedIds.add(mId);
+  }
+  if (state.pending) {
+    for (const rId of Object.values(state.pending.roles)) protectedIds.add(rId);
+  }
+  if (state.minor) {
+    for (const rId of Object.values(state.minor.roles)) protectedIds.add(rId);
+  }
+  for (const s of state.scheduled) {
+    for (const rId of Object.values(s.roles)) protectedIds.add(rId);
+  }
+  for (const c of Object.values(state.characters)) {
+    if ((c.fatherId && ancestorIds.has(c.fatherId)) || (c.motherId && ancestorIds.has(c.motherId))) {
+      protectedIds.add(c.id);
+    }
+    if (c.alive) {
+      protectedIds.add(c.id);
+      if (!c.clanId && !c.villageRole) {
+        if (c.fatherId) protectedIds.add(c.fatherId);
+        if (c.motherId) protectedIds.add(c.motherId);
+        if (c.spouseId) protectedIds.add(c.spouseId);
+      }
+    }
+    if ((c.favorWithPlayer ?? 0) !== 0) protectedIds.add(c.id);
+  }
+
+  for (const c of Object.values(state.characters)) {
+    if (
+      !c.alive &&
+      !protectedIds.has(c.id) &&
+      (c.deathYear ?? state.clock.year) <= npcCutoffYear
+    ) {
+      delete state.characters[c.id];
+    }
+  }
 }
 
 function yearStart(ctx: SimContext): void {

@@ -406,5 +406,96 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     }
   });
 
+  // ── [9] Kiểm tra đồng bộ khóa ngôn ngữ (vi.json ↔ en.json) ──
+  const defaultLangId = content.balance.display.default_language;
+  const baseLang = content.lang[defaultLangId] ?? {};
+  const baseKeys = Object.keys(baseLang);
+  for (const [langId, dict] of Object.entries(content.lang)) {
+    if (langId === defaultLangId) continue;
+    const missing = baseKeys.filter((k) => !(k in dict));
+    if (missing.length > 0) {
+      errors.push(
+        `lang/${langId}.json: thiếu ${missing.length} khóa so với ${defaultLangId}.json (ví dụ: ${missing.slice(0, 5).join(', ')})`,
+      );
+    }
+  }
+
+  // ── [9] Kiểm tra độ dày nội dung theo ngưỡng trong director.yaml (Content Density Backlog) ──
+  checkContentDensity(content, warnings);
+
   return { errors, warnings };
+}
+
+/** Kiểm tra một biểu thức điều kiện DSL có nhắc tới biến nằm trong `vars` với giá trị `val` hay không. */
+function conditionMentions(cond: Condition | undefined, vars: readonly string[], val: string): boolean {
+  if (!cond) return false;
+  if ('all' in cond) return cond.all.some((c) => conditionMentions(c, vars, val));
+  if ('any' in cond) return cond.any.some((c) => conditionMentions(c, vars, val));
+  if ('not' in cond) return conditionMentions(cond.not, vars, val);
+  if ('var' in cond) {
+    if (!vars.includes(cond.var)) return false;
+    if (cond.value === val) return true;
+    if (Array.isArray(cond.value) && (cond.value as unknown[]).includes(val)) return true;
+  }
+  return false;
+}
+
+/**
+ * [9] Cảnh báo khi một nghề, giai đoạn đời hoặc xuất thân có ít sự kiện hơn ngưỡng trong data.
+ * Danh sách cảnh báo này chính là danh sách việc viết nội dung (Content Backlog).
+ */
+function checkContentDensity(content: ContentBundle, warnings: string[]): void {
+  const density = content.balance.director.content_density;
+  if (!density) return;
+
+  // 1) Kiểm tra theo xuất thân (Origin)
+  for (const origin of content.origins) {
+    const count = content.events.filter(
+      (ev) =>
+        conditionMentions(ev.condition, ['player.origin'], origin.id) ||
+        ev.weight_modifiers.some((m) => conditionMentions(m.condition, ['player.origin'], origin.id)) ||
+        conditionMentions(ev.condition, ['player.career', 'household.career'], origin.default_career),
+    ).length;
+    if (count < density.min_events_per_origin) {
+      warnings.push(
+        `[Độ dày nội dung] Xuất thân "${origin.id}" (${origin.name}) chỉ có ${count}/${density.min_events_per_origin} sự kiện quyết định liên quan.`,
+      );
+    }
+  }
+
+  // 2) Kiểm tra theo giai đoạn đời (Life Stage)
+  for (const stage of content.balance.life.life_stages) {
+    if (stage.decisions) {
+      const count = content.events.filter((ev) => ev.life_stages?.includes(stage.id)).length;
+      if (count < density.min_events_per_life_stage) {
+        warnings.push(
+          `[Độ dày nội dung] Giai đoạn đời "${stage.id}" (${stage.name}) chỉ có ${count}/${density.min_events_per_life_stage} sự kiện quyết định gắn nhãn giai đoạn này.`,
+        );
+      }
+    } else {
+      const count = content.ambient.filter((t) => t.life_stages?.includes(stage.id)).length;
+      if (count < density.min_events_per_life_stage) {
+        warnings.push(
+          `[Độ dày nội dung] Giai đoạn đời "${stage.id}" (${stage.name}) chỉ có ${count}/${density.min_events_per_life_stage} mẫu nhật ký gắn nhãn giai đoạn này.`,
+        );
+      }
+    }
+  }
+
+  // 3) Kiểm tra theo nghề nghiệp (Career) dựa trên độ sâu (sau / vua / nhe)
+  const careerVars = ['player.career', 'household.career'] as const;
+  for (const career of content.careers) {
+    if (career.kind !== 'nghe') continue;
+    const minRequired = density.min_events_per_career_depth[career.depth] ?? 1;
+    const count = content.events.filter(
+      (ev) =>
+        conditionMentions(ev.condition, careerVars, career.id) ||
+        ev.weight_modifiers.some((m) => conditionMentions(m.condition, careerVars, career.id)),
+    ).length;
+    if (count < minRequired) {
+      warnings.push(
+        `[Độ dày nội dung] Nghề "${career.id}" (${career.name}, độ sâu: ${career.depth}) chỉ có ${count}/${minRequired} sự kiện nghề chuyên biệt.`,
+      );
+    }
+  }
 }

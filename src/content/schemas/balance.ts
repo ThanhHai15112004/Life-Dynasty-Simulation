@@ -575,6 +575,22 @@ export const directorBalanceSchema = z
       })
       .strict()
       .default({}),
+    /** [9] Ngưỡng độ dày nội dung tối thiểu để công cụ validate cảnh báo danh sách việc cần viết thêm. */
+    content_density: z
+      .object({
+        min_events_per_origin: z.number().int().min(0).default(8),
+        min_events_per_life_stage: z.number().int().min(0).default(5),
+        min_events_per_career_depth: z
+          .object({
+            sau: z.number().int().min(0).default(6),
+            vua: z.number().int().min(0).default(2),
+            nhe: z.number().int().min(0).default(1),
+          })
+          .strict()
+          .default({}),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 
@@ -719,6 +735,18 @@ export const displayBalanceSchema = z
           })
           .strict()
           .default({}),
+      })
+      .strict()
+      .default({}),
+    /** [9] Cấu hình hiệu năng & cắt tỉa dữ liệu cũ cho dòng họ nhiều đời (200+ năm). */
+    performance: z
+      .object({
+        /** Giữ nhật ký thường trong chừng này năm gần nhất (các dòng dấu mốc highlight luôn được giữ trọn đời). */
+        max_routine_log_years: z.number().int().min(5).default(20),
+        /** Số dòng nhật ký tối đa lưu lại trong mỗi đời trước của gia phả (ưu tiên dòng highlight). */
+        max_past_life_logs: z.number().int().min(10).default(40),
+        /** Số năm sau khi NPC ngoại tộc qua đời sẽ được dọn khỏi bộ nhớ nếu không liên quan tới gia phả/sổ nợ. */
+        dead_npc_cleanup_years: z.number().int().min(1).default(5),
       })
       .strict()
       .default({}),

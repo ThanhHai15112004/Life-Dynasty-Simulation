@@ -38,3 +38,11 @@ bad_luck_protection:
   bad_event_dampen: 0.4
   salvation_tags: [tinh_lang, co_hoi, gia_dinh, mua_mang]
   bad_tags: [no_nan, benh_tat, tai_hoa, mat_mua]
+# [9] Ngưỡng độ dày nội dung tối thiểu (validate cảnh báo khi nghề, giai đoạn đời hoặc xuất thân ít sự kiện hơn ngưỡng)
+content_density:
+  min_events_per_origin: 18
+  min_events_per_life_stage: 20
+  min_events_per_career_depth:
+    sau: 20
+    vua: 4
+    nhe: 3

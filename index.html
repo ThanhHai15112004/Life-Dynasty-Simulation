@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dòng Đời — Life &amp; Dynasty Simulation</title>
+    <meta name="theme-color" content="#8c2d19" />
+    <meta name="description" content="Dòng Đời (Legacy of Ages) — Mô phỏng cuộc đời &amp; truyền đời dòng họ lịch sử Đại Việt" />
+    <link rel="icon" type="image/svg+xml" href="/assets/common/ui/app-icon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>Dòng Đời v1.0 — Life &amp; Dynasty Simulation</title>
     <style>
       * {
         box-sizing: border-box;
@@ -32,11 +36,51 @@
         width: 100%;
         height: 100%;
       }
+      /* Màn hình chờ khi trình duyệt đang nạp gói dữ liệu & cảnh pixel */
+      .boot-splash {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px;
+        text-align: center;
+        color: #2a2622;
+      }
+      .boot-splash-seal {
+        width: 64px;
+        height: 64px;
+        border: 2px solid #8c2d19;
+        border-radius: 12px;
+        background: #fbf8f1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 26px;
+        color: #8c2d19;
+        box-shadow: 0 4px 16px rgba(42, 38, 34, 0.08);
+      }
+      .boot-splash h1 {
+        font-size: 24px;
+        letter-spacing: 0.04em;
+      }
+      .boot-splash p {
+        font-size: 13px;
+        color: #6e665c;
+      }
     </style>
   </head>
   <body>
     <div id="game-container"></div>
-    <div id="ui-root"></div>
+    <div id="ui-root">
+      <div class="boot-splash">
+        <div class="boot-splash-seal">ĐĐ</div>
+        <h1>Dòng Đời</h1>
+        <p>Đang mở sử sách &amp; khởi tạo thế giới… (v1.0.0)</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

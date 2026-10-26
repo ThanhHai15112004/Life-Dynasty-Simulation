@@ -105,19 +105,32 @@ for (const originId of origins) for (const b of bots) {
   console.log(`Nguyên nhân chết:             ${[...causes].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${pct(n / dead.length)}`).join(' · ')}`);
 
   if (!scenarioArg) {
-    const dynastyRuns = Math.max(20, Math.floor(lives / 2));
+    const dynastyRuns = Math.max(10, Math.floor(lives / 2));
     const dynResults: DynastySimResult[] = [];
     for (let i = 0; i < dynastyRuns; i++) {
       dynResults.push(
-        runDynasty(content, makeBot(b, `${seed}-dyn-${i}`), `${seed}-dyn-${b}-${i}`, originId, 160, 4),
+        runDynasty(content, makeBot(b, `${seed}-dyn-${i}`), `${seed}-dyn-${b}-${i}`, originId, 200, 5),
       );
     }
     const extinctRate = dynResults.filter((d) => d.extinct100y).length / Math.max(1, dynResults.length);
     const mobilityRate = dynResults.filter((d) => d.ascendedSocialClass).length / Math.max(1, dynResults.length);
     const avgGen = mean(dynResults.map((d) => d.generations));
+    const avgSaveKb = mean(dynResults.map((d) => d.saveSizeKb));
     allDynasty.push(...dynResults);
-    console.log(`Tuyệt tự qua 100 năm (Dynasty): ${pct(extinctRate)} (TB ${avgGen.toFixed(1)} đời) · Thăng tầng 3–4 đời: ${pct(mobilityRate)}`);
+    console.log(
+      `Truyền đời (Dynasty):         tuyệt tự ${pct(extinctRate)} (TB ${avgGen.toFixed(1)} đời) · thăng tầng ${pct(mobilityRate)} · save ${avgSaveKb.toFixed(1)} KB`,
+    );
   }
+}
+
+if (all.length > 0) {
+  const careerCounts = new Map<string, number>();
+  all.forEach((r) => careerCounts.set(r.careerEnd, (careerCounts.get(r.careerEnd) ?? 0) + 1));
+  const maxCareerShare = Math.max(...[...careerCounts.values()].map((n) => n / all.length));
+  const avgMsPerYear = mean(all.map((r) => r.msPerYearTick));
+  console.log(`\n══ Tổng hợp Chống lối mòn & Hiệu năng (${all.length} đời) ══`);
+  console.log(`Tỷ trọng nghề lớn nhất:       ${pct(maxCareerShare)}${mark('max_career_share', maxCareerShare)}`);
+  console.log(`Thời gian tick 1 năm TB:      ${avgMsPerYear.toFixed(2)} ms/năm${mark('ms_per_year_tick', avgMsPerYear)}`);
 }
 
 if (allDynasty.length > 0) {
@@ -125,9 +138,11 @@ if (allDynasty.length > 0) {
   const pool = playerLikeDynasty.length > 0 ? playerLikeDynasty : allDynasty;
   const totalExtinct = pool.filter((d) => d.extinct100y).length / pool.length;
   const totalMobility = pool.filter((d) => d.ascendedSocialClass).length / pool.length;
+  const avgSave200y = mean(allDynasty.map((d) => d.saveSizeKb));
   console.log(`\n══ Tổng hợp chế độ Truyền đời (Dynasty · ${pool.length} dòng họ) ══`);
   console.log(`Tuyệt tự qua 100 năm:         ${pct(totalExtinct)}${mark('extinction_rate_100y', totalExtinct)}`);
   console.log(`Thăng tầng xã hội qua 3–4 đời: ${pct(totalMobility)}${mark('social_mobility_3_4_gen', totalMobility)}`);
+  console.log(`Kích thước save nén (~200 năm): ${avgSave200y.toFixed(1)} KB${mark('save_size_200y_kb', avgSave200y)}`);
 }
 
 if (startAge === 0) {

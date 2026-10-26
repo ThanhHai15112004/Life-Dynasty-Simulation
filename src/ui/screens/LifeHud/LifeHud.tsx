@@ -131,7 +131,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
 
       {snap.lastError && (
         <div className="hud-banner error-banner">
-          <span>{t(`error.${snap.lastError}`)}</span>
+          <span>{t(snap.lastError.startsWith('error.') ? snap.lastError : `error.${snap.lastError}`)}</span>
           <button className="small" onClick={() => store.clearError()}>
             {t('onboarding.dismiss')}
           </button>

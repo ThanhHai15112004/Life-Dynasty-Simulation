@@ -87,7 +87,7 @@ mortality:
         - { condition: { var: self.stress, op: '>=', value: 80 }, factor: 8 }
     - id: tai_nan
       name: tai nạn bất ngờ
-      weight: 0.35
+      weight: 0.16
       unexpected: true
   # Bad-luck protection: tối đa số cái chết hoàn toàn bất ngờ trong hộ mỗi năm
   max_unexpected_household_deaths_per_year: 1
@@ -295,7 +295,7 @@ career_v2:
   seniority_bonus_per_year: 0.03
   max_seniority_bonus: 0.6
   family_member_merit_month: 0.6
-  family_member_income_share: 0.85
+  family_member_income_share: 0.45
   upbringing_career_pools:
     di_hoc: [si_tu, thay_lang, nha_lai]
     hoc_nghe: [tho_moc, tho_ren, ban_rong, thuong_nhan, linh]
