@@ -32,12 +32,25 @@ export function ageGroupOf(ctx: SimContext, age: number): string {
   return (groups.find((g) => age <= g.max_age) ?? groups[groups.length - 1]).id;
 }
 
-/** Chủ hộ: người lớn nhiều tuổi nhất còn sống trong hộ. */
+/**
+ * Chủ hộ ([1.5] — balance.life.headship): cha mẹ còn sức (chưa tới tuổi giao việc nhà) giữ quyền;
+ * già rồi thì giao cho lớp con: người chơi đã lập gia đình đứng trước, không thì người lớn nhiều tuổi nhất còn sức.
+ * Người chơi đã làm chủ thì không phải giao lại cho con cháu khi về già.
+ */
 export function householdHead(ctx: SimContext, h: Household = playerHousehold(ctx)): Character | undefined {
-  const members = aliveMembers(ctx, h);
-  const adults = members.filter((c) => ageNow(ctx, c) >= ctx.content.balance.life.adult_age);
-  const pool = adults.length > 0 ? adults : members;
-  return pool.sort((a, b) => ageNow(ctx, b) - ageNow(ctx, a))[0];
+  const { life } = ctx.content.balance;
+  const byAge = aliveMembers(ctx, h).sort((a, b) => ageNow(ctx, b) - ageNow(ctx, a));
+  const adults = byAge.filter((c) => ageNow(ctx, c) >= life.adult_age);
+  if (adults.length === 0) return byAge[0];
+  const me = player(ctx);
+  const able = adults.filter((c) => c.id === me.id || ageNow(ctx, c) < life.headship.elder_age);
+  if (able.length === 0) return adults[0];
+  const parent = able.find((c) => c.id === me.fatherId || c.id === me.motherId);
+  if (parent) return parent;
+  const meAble = able.find((c) => c.id === me.id);
+  const spouse = me.spouseId ? ctx.state.characters[me.spouseId] : undefined;
+  if (meAble && (spouse?.alive || able[0].id === me.spouseId)) return meAble;
+  return able[0];
 }
 
 export type Relation =

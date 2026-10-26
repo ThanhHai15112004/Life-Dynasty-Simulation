@@ -11,7 +11,7 @@ events:
     weight: 5
     weight_modifiers:
       - { condition: { var: world.patrol_level, op: '<', value: 30 }, factor: 1.8 }
-    cooldown_years: 4
+    cooldown_years: 12   # [1.5] giãn ra: trước 4 năm, đời nào cũng gặp lại
     tension: 7
     importance: 6
     icon: nguy_hiem

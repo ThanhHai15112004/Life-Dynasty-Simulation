@@ -110,7 +110,7 @@ events:
     weight: 5
     weight_modifiers:
       - { condition: { var: role.hx.opinion, op: '<', value: 10 }, factor: 2 }
-    cooldown_years: 4
+    cooldown_years: 12   # [1.5] giãn ra: trước 4 năm, đời nào cũng gặp lại
     tension: 4
     importance: 5
     icon: ruong
@@ -334,7 +334,7 @@ events:
     condition: { var: player.age, op: '>=', value: 16 }
     roles: [{ id: hx, from: village, village_role: hang_xom }, { id: ly, from: village, village_role: ly_truong }]
     weight: 4
-    cooldown_years: 3
+    cooldown_years: 12   # [1.5] giãn ra: trước 3 năm, đời nào cũng gặp lại
     tension: 3
     importance: 4
     icon: bac
@@ -542,7 +542,7 @@ events:
     roles:
       - { id: con, from: family, relation: child, condition: { var: self.age, op: between, value: [6, 15] } }
     weight: 7
-    cooldown_years: 3
+    cooldown_years: 12   # [1.5] giãn ra: trước 3 năm, đời nào cũng gặp lại
     tension: 3
     importance: 6
     icon: sach
@@ -582,7 +582,7 @@ events:
       - { id: ly, from: village, village_role: ly_truong }
       - { id: hx, from: village, village_role: hang_xom }
     weight: 5
-    cooldown_years: 3
+    cooldown_years: 12   # [1.5] giãn ra: trước 3 năm, đời nào cũng gặp lại
     tension: 3
     importance: 5
     icon: lang

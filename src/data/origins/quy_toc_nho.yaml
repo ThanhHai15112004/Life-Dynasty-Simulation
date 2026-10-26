@@ -22,7 +22,7 @@ household:
   living_standard: du_day
   properties:
     - { id: phu_nho, count: [1, 1] }
-    - { id: ruong, count: [4, 6] }
+    - { id: ruong, count: [9, 13] }   # [1.5] đủ ruộng phát canh để thu tô là nguồn sống chính
     - { id: trau, count: [1, 1] }
   members:
     - { relation: father, age: [42, 54], health: [50, 70], skills: { hoc_van: [5, 8], quan_tri: [3, 6] } }

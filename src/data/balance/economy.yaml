@@ -24,13 +24,14 @@ tenancy:
   rent_share: 0.5          # "tô rẽ" chia đôi sản lượng với tá điền
   business_runners: 1      # một người trong nhà lo việc nghề chính, không tính là lao động dư
   food_reserve_months: 2   # nhà buôn, nhà nho đong thóc dự trữ đủ ăn chừng này tháng khi có tiền
+  reserve_cash_months: 2   # [1.5] đong thóc xong vẫn giữ tiền tiêu chừng này tháng (không dốc sạch túi rồi lại đi vay)
   # Ruộng càng nhiều càng khó tìm tá điền, phần lớn phải để rẻ hoặc bỏ hoang
+  # [1.5] Nới ra cho địa chủ có doanh thu thật; giới hạn chính chuyển sang thuế ruộng và sự kiện
   rent_factor_by_sao:
     - { sao: 0, factor: 1.0 }
-    - { sao: 8, factor: 1.0 }
-    - { sao: 16, factor: 0.7 }
-    - { sao: 30, factor: 0.45 }
-    - { sao: 50, factor: 0.3 }
+    - { sao: 20, factor: 1.0 }
+    - { sao: 40, factor: 0.85 }
+    - { sao: 80, factor: 0.65 }
 
 # Trời định đầu năm (ẩn), lộ dần qua thời tiết, giá thóc và điềm báo
 harvest_qualities:
@@ -85,6 +86,7 @@ consumption_by_age_group:
 tax:
   month: 11
   food_per_sao: 2.5        # thuế ruộng nộp bằng thóc (nhiều ruộng thì thuế nặng)
+  food_per_sao_tenanted: 1.2   # [1.5] ruộng phát canh: tá điền gánh một phần thuế điền
   money_per_adult: 0.4     # tiền sưu mỗi người lớn
 
 debt:
@@ -92,12 +94,60 @@ debt:
   auto_borrow: true
   borrow_limit: 70
   interest_cap: 120
+  repay_keep_months: 2     # [1.5] lãi tính hằng tháng; có dư là trả ngay, chỉ giữ lại đủ tiêu chừng này tháng
   # Nợ quá ngưỡng: cuối năm chủ nợ xiết một sào ruộng, trừ nợ theo giá bị ép
   seize: { threshold: 45, property: ruong, value_factor: 0.7, keep_min: 0 }
 
 # Thiếu tiền tiêu thì tự bán thóc dư, giữ lại đủ ăn chừng này tháng; còn thiếu mới vay
-auto_sell_keep_months: 4
+auto_sell_keep_months: 3
+
+# [1.5] Sau vụ gặt / thu tô, nhà tự lo bán thóc vượt quá chừng này tháng ăn — của cải thành tiền, không ôm thóc vô hạn
+surplus_keep_months: 7
+
+# [1.5] Đầu năm có dư thì mua thêm của: luật đầu tiên đúng và đủ tiền (còn đủ tiêu keep_months tháng) thì mua một món
+auto_invest:
+  - property: trau
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.property.trau, op: '<', value: 1 }
+        - { var: household.farmland, op: '>=', value: 3 }
+        - { var: household.debt, op: '<=', value: 0 }
+    keep_months: 6
+  - property: ruong
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: true }
+        - { var: household.spare_workers, op: '>=', value: 1 }
+        - { var: household.debt, op: '<=', value: 0 }
+    keep_months: 6
+  - property: ruong
+    condition:
+      all:
+        - { var: household.self_farms, op: '==', value: false }
+        - { var: household.farmland, op: '<', value: 18 }
+        - { var: household.debt, op: '<=', value: 0 }
+    keep_months: 12
+  - property: ao_ca
+    condition:
+      all:
+        - { var: household.property.ao_ca, op: '<', value: 1 }
+        - { var: household.debt, op: '<=', value: 0 }
+    keep_months: 12
+
+# [1.5] Túi tiền riêng của bạn khi chưa làm chủ hộ (kiểu 1in8b): tài sản trên thẻ là của bạn, không phải của cha mẹ
+purse:
+  contribute_share: 0.5     # tiền mình làm ra (lương nghề riêng, buôn bán theo trọng tâm) góp chừng này phần cho nhà
+  pocket_min_age: 12        # từ tuổi này cha mẹ cho tiền tiêu vặt mỗi tháng (theo mức sống của nhà)
+  pocket_money_month: { kho_cuc: 0, dam_bac: 0.03, du_day: 0.06, sung_tuc: 0.12, xa_hoa: 0.3 }
+  board_from_age: 16        # từ tuổi này sổ riêng ghi "Ăn ở trong nhà" / "Cha mẹ lo ăn ở" (triệt tiêu nhau)
+  income_ledgers: [luong_nghe, buon_ban, day_hoc, tien_cong]   # khoản tính là thu nhập của bạn (tiêu vặt, lì xì thì không)
+
+# [1.5] Khoản "làm ra" cộng vào thu nhập năm (thóc quy theo giá gốc)
+income_ledgers: [thu_hoach, thu_to, lam_thue, phu_viec, buon_ban, day_hoc, luong_nghe, thu_khac]
+# [1.5] Khoản chỉ đổi dạng của cải: không hiện thành lý do tài sản ròng tăng giảm (chênh giá dồn vào "Chuyện khác")
+transfer_ledgers: [vay, tra_no, mua_thoc, ban_thoc, mua_tai_san, ban_tai_san]
 
 property_sell_factor: 0.8
-trade_amounts: [5, 10, 20]
+trade_amounts: [10, 30, 100]
 ledger_history_years: 10

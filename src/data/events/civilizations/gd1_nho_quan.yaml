@@ -69,7 +69,7 @@ events:
     weight: 4
     weight_modifiers:
       - { condition: { var: world.exam_stage, op: '!=', value: none }, factor: 1.5 }
-    cooldown_years: 5
+    cooldown_years: 12   # [1.5] giãn ra: trước 5 năm, đời nào cũng gặp lại
     tension: 3
     importance: 4
     icon: sach

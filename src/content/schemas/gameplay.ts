@@ -15,6 +15,8 @@ export const incomeSpecSchema = z
     per_level: z.number().default(0),
     /** Nhân chỉ số giá buôn (world.trade_index) × hệ số buôn bán của khu định cư. */
     trade_scaled: z.boolean().default(false),
+    /** [1.5] Lời theo vốn: tiền mặt của hộ (tối đa max) × rate_year / 12 mỗi tháng — tiền đẻ ra tiền. */
+    capital: z.object({ rate_year: z.number().min(0), max: z.number().min(0) }).strict().optional(),
     /** Danh mục sổ sách (khóa ledger.<id> trong lang). */
     ledger: z.string(),
   })

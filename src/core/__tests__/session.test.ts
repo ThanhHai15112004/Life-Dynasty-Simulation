@@ -4,6 +4,7 @@ import { loadNodeContent } from '../../../tools/shared/nodeContent';
 import { GameSession } from '../api/GameSession';
 import { getHudView } from '../api/queries';
 import { marryPlayer } from '../systems/family';
+import { earnPersonal, ownMoney } from '../systems/economy/purse';
 import { cureCharacter, infectCharacter, kill } from '../systems/life';
 import { player, playerHousehold } from '../systems/people';
 import { changeFilialPiety, examStage, setExamDegree } from '../systems/status';
@@ -343,7 +344,8 @@ describe('GameSession', () => {
     expect(s.dispatch({ type: 'setLivingStandard', id: 'xa_hoa' })).toEqual({ ok: false, error: 'not_head' });
     play(s, 12);
     const level = s.read(getHudView).household.livingStandard;
-    expect(content.balance.living_standards.auto_rules.map((r) => r.level)).toContain(level);
+    expect(content.balance.living_standards.levels.map((l) => l.id)).toContain(level);
+    expect(content.balance.living_standards.auto_budget.manual_only).not.toContain(level);
     makeHead(s);
     expect(s.read(getHudView).manage.isHead).toBe(true);
     expect(s.dispatch({ type: 'setLivingStandard', id: 'du_day' }).ok).toBe(true);
@@ -465,4 +467,104 @@ describe('GameSession', () => {
       if (!s.state.gameOver && s.state.civilization.mourningMonthsLeft === 0) expect(asked).toBe(true);
     }
   });
+
+  it('[1.5] Cha mẹ già giao việc nhà cho người chơi đã lập gia đình', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'handover', startAge: 22 });
+    s.read((ctx) => {
+      marryPlayer(ctx);
+    });
+    // Cha mẹ còn sức: vẫn là chủ hộ
+    expect(s.read(getHudView).manage.isHead).toBe(false);
+    s.read((ctx) => {
+      const me = player(ctx);
+      const elder = ctx.content.balance.life.headship.elder_age;
+      for (const id of [me.fatherId, me.motherId]) {
+        const c = id ? ctx.state.characters[id] : undefined;
+        if (c?.alive) c.birthYear = ctx.state.clock.year - elder - 1;
+      }
+    });
+    expect(s.read(getHudView).manage.isHead).toBe(true);
+  });
+
+  it('[1.5] Tài sản ròng tính cả thóc; chốt sổ năm: các dòng cộng lại đúng bằng mức thay đổi', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'books', startAge: 16 });
+    const base = content.balance.economy.price.base;
+    const before = s.read(getHudView).household.netWorth;
+    s.read((ctx) => {
+      playerHousehold(ctx).food += 100;
+    });
+    expect(s.read(getHudView).household.netWorth).toBeCloseTo(before + 100 * base);
+    play(s, 24);
+    const hud = s.read(getHudView);
+    const last = s.state.ledgerHistory[s.state.ledgerHistory.length - 1];
+    const close = hud.household.yearClose!;
+    expect(close.year).toBe(last.year);
+    expect(close.delta).toBeCloseTo(last.netWorth - last.openNetWorth);
+    expect(close.lines.length).toBeLessThanOrEqual(content.balance.display.wealth.year_lines + 1);
+    expect(close.lines.reduce((sum, l) => sum + l.value, 0)).toBeCloseTo(close.delta, 0);
+    expect(hud.household.incomeYear).toBeCloseTo(last.income);
+    // Nhà nông có thu hoạch thì thu nhập năm không thể bằng 0
+    expect(last.income).toBeGreaterThan(0);
+  });
+
+  it('[1.5] Hiệu ứng sell_food chỉ bán phần vượt mức dự trữ', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'sell-food', startAge: 16 });
+    s.read((ctx) => {
+      const h = playerHousehold(ctx);
+      h.food = 100;
+      const money = h.money;
+      applyEffects(ctx, [{ type: 'sell_food', share: 1, keep_months: 1000, price_factor: 1 }], {});
+      expect(h.food).toBe(100);
+      applyEffects(ctx, [{ type: 'sell_food', share: 0.5, keep_months: 0, price_factor: 1 }], {});
+      expect(h.food).toBe(50);
+      expect(h.money).toBeGreaterThan(money);
+    });
+  });
+
+  it('[1.5] Túi tiền riêng: trẻ con tài sản là 0; tiền mình làm ra vào túi, góp một phần cho nhà; làm chủ hộ thì gộp vào gia sản', () => {
+    const kid = GameSession.create(content, { originId: 'nong_dan', seed: 'purse-kid', startAge: 6 });
+    const k = kid.read(getHudView).personal;
+    expect(k.active).toBe(true);
+    expect(k.money).toBe(0);
+    expect(k.young).toBe(true);
+
+    const s = GameSession.create(content, { originId: 'thuong_nhan', seed: 'purse', startAge: 16 });
+    const share = content.balance.economy.purse.contribute_share;
+    s.read((ctx) => {
+      const h = playerHousehold(ctx);
+      const before = h.money;
+      earnPersonal(ctx, 'tien_cong', 10);
+      expect(ctx.state.purse.money).toBeCloseTo(10 * (1 - share));
+      expect(h.money).toBeCloseTo(before + 10 * share);
+      ownMoney(ctx, 'li_xi', 2);
+      expect(ctx.state.purse.money).toBeCloseTo(10 * (1 - share) + 2);
+    });
+    const hud = s.read(getHudView);
+    expect(hud.personal.active).toBe(true);
+    expect(hud.personal.money).toBeCloseTo(10 * (1 - share) + 2);
+    const purse = s.state.purse.money;
+    const houseBefore = s.state.households[s.state.householdId].money;
+    makeHead(s);
+    play(s, 1);
+    expect(s.read(getHudView).personal.active).toBe(false);
+    expect(s.state.purse.money).toBe(0);
+    const h = s.state.households[s.state.householdId];
+    expect(h.ledger.find((e) => e.category === 'tien_rieng_gop')?.money).toBeCloseTo(purse);
+    expect(h.money).toBeGreaterThan(houseBefore - 50);
+  });
+
+  it('[1.5] Nợ: có dư là trả ngay trong tháng, lãi tính theo tháng', () => {
+    const s = GameSession.create(content, { originId: 'nong_dan', seed: 'debt-now', startAge: 16 });
+    s.read((ctx) => {
+      const h = playerHousehold(ctx);
+      h.debt = 10;
+      h.money = 200;
+    });
+    play(s, 1);
+    const h = s.state.households[s.state.householdId];
+    expect(h.debt).toBe(0);
+    expect(h.ledger.some((e) => e.category === 'tra_no')).toBe(true);
+    expect(h.ledger.find((e) => e.category === 'lai_no')?.money).toBeCloseTo((-10 * content.balance.economy.debt.annual_interest) / 12);
+  });
 });
+

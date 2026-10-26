@@ -9,8 +9,9 @@ import type { LedgerEntry, LedgerYear } from '../entities/Household';
 import { holdingsOf } from '../entities/Property';
 import type { LogYear, PendingEvent, Resolution } from '../entities/World';
 import type { SimContext } from '../systems/context';
-import { regularIncomeParts } from '../systems/economy';
-import { buyPrice, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
+import { purseActive, regularIncomeParts } from '../systems/economy';
+import { buyPrice, householdNetWorth, lastYearIncome, ledgerValue, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
+import { Ledger } from '../events/systemLogKeys';
 import { healthCap, treatmentBlock } from '../systems/life';
 import { lifeExpectancyAtBirth } from '../systems/life/mortality';
 import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
@@ -86,7 +87,7 @@ export interface HudView {
       /** null = chữa được; còn lại là mã lỗi (error.<mã>). */
       block: string | null;
     }[];
-    properties: { id: string; name: string; unit: string; count: number; value: number; sellable: boolean }[];
+    properties: { id: string; name: string; unit: string; count: number; value: number; sellable: boolean; category: string; farmland: boolean }[];
     harvestYield: ModifierResult;
     /** [1] Nơi hộ sinh sống. */
     settlement: { name: string; typeName: string; typeDescription: string };
@@ -94,6 +95,29 @@ export interface HudView {
     selfFarm: boolean;
     /** [1] Tiền thu đều đặn mỗi tháng ước tính theo thời giá hiện tại (nghề nhà + Focus). */
     regularIncome: number;
+    /** [1.5] Tài sản ròng (tiền + thóc theo giá gốc + tài sản − nợ), quan. */
+    netWorth: number;
+    /** [1.5] Thu nhập năm vừa chốt sổ (thóc quy ra tiền); chưa chốt năm nào thì phần đã làm ra năm nay. */
+    incomeYear: number;
+    /** [1.5] Chốt sổ năm gần nhất kiểu 1in8b: mức thay đổi tài sản ròng và tối đa vài dòng lý do (đã gộp "Chuyện khác"). */
+    yearClose: YearCloseView | null;
+  };
+  /** [1.5] Quy đổi để dễ hình dung: quan → đồng ngày nay, sào → m². */
+  wealthUnits: { modernPerQuan: number; m2PerSao: number };
+  /**
+   * [1.5] Tài sản của riêng bạn (kiểu 1in8b) khi chưa làm chủ hộ: túi tiền riêng, thu nhập của bạn,
+   * chốt sổ riêng; gia cảnh nhà cha mẹ chỉ hiện bằng chữ. Làm chủ hộ rồi thì active = false, thẻ hiện gia sản.
+   */
+  personal: {
+    active: boolean;
+    money: number;
+    incomeYear: number;
+    yearClose: YearCloseView | null;
+    closes: YearCloseView[];
+    /** Khóa chữ gia cảnh nhà (display.family_bands theo tài sản ròng của hộ). */
+    familyKey: string;
+    /** Chưa tới tuổi trưởng thành. */
+    young: boolean;
   };
   market: {
     buyPrice: number;
@@ -109,7 +133,7 @@ export interface HudView {
     options: { id: string; name: string; description: string; icon: string; hints: { label: string; up: boolean; good: boolean }[] }[];
   };
   /** [1] Ai lo việc nhà: người chơi là chủ hộ thì được chi tiêu, mua bán; không thì nhà tự vận hành. */
-  manage: { isHead: boolean; headCall: string; autoLivingStandard: boolean; autoRepayDebt: boolean };
+  manage: { isHead: boolean; headCall: string; autoLivingStandard: boolean; autoRepayDebt: boolean; autoSellSurplus: boolean; autoInvest: boolean };
   /** [1] Chuyện nhỏ đang chờ chọn (dừng thời gian như sự kiện thường). */
   minor: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[] }) | null;
   ambition: {
@@ -187,7 +211,8 @@ export interface HudView {
   lifeMap: { cells: { age: number; year: number; satisfaction: number; marks: string[] }[]; expectedLifespan: number };
   /** [1] Biến cố biên niên gần đây (mới nhất trước). */
   chronicle: { year: number; text: string; icon: string }[];
-  ledger: { current: LedgerEntry[]; history: LedgerYear[] };
+  /** closes: [1.5] chốt sổ từng năm đã qua (cũ → mới), cùng cách tính với household.yearClose. */
+  ledger: { current: LedgerEntry[]; history: LedgerYear[]; closes: YearCloseView[] };
   pending: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[] }) | null;
   lastResolution: Resolution | null;
   gameOver: LifeSummaryView | null;
@@ -222,6 +247,32 @@ function focusHints(ctx: SimContext, focusId: string): { label: string; up: bool
     out.push({ label: lang[h.key] ?? h.key, up, good: up === h.higher_is_good });
   }
   return out.slice(0, display.focus_hints_max);
+}
+
+export interface YearCloseView {
+  year: number;
+  /** Tài sản ròng cuối năm trừ đầu năm. */
+  delta: number;
+  /** Dòng lý do: category là khóa ledger.<id> trong lang; value đã quy thóc ra tiền. */
+  lines: { category: string; value: number }[];
+}
+
+/** [1.5] Chốt sổ một năm: các khoản lớn nhất (bỏ khoản chỉ đổi dạng của cải), phần chênh còn lại là "Chuyện khác". */
+export function yearCloseOf(ctx: SimContext, y: Pick<LedgerYear, 'year' | 'entries' | 'netWorth' | 'openNetWorth'>): YearCloseView {
+  const { wealth } = ctx.content.balance.display;
+  const transfers = ctx.content.balance.economy.transfer_ledgers;
+  const lines = y.entries
+    .filter((e) => !transfers.includes(e.category))
+    .map((e) => ({ category: e.category, value: ledgerValue(ctx, e) }))
+    .filter((l) => Math.abs(l.value) >= wealth.line_min)
+    .sort((a, b) => Math.abs(b.value) - Math.abs(a.value))
+    .slice(0, wealth.year_lines);
+  // Save cũ chưa lưu tài sản ròng: chỉ hiện các dòng, không suy ra phần chênh
+  const legacy = y.netWorth === 0 && y.openNetWorth === 0;
+  const listed = lines.reduce((sum, l) => sum + l.value, 0);
+  const delta = legacy ? listed : y.netWorth - y.openNetWorth;
+  if (Math.abs(delta - listed) >= wealth.line_min) lines.push({ category: Ledger.Other, value: delta - listed });
+  return { year: y.year, delta, lines };
 }
 
 function chanceKey(ctx: SimContext, p: number): string {
@@ -362,6 +413,8 @@ export function getHudView(ctx: SimContext): HudView {
         count: p.count,
         value: p.type.value,
         sellable: p.type.sellable,
+        category: p.type.category,
+        farmland: p.type.farmland,
       })),
       harvestYield: computeFor(ctx, me.id, StatTarget.HarvestYield, 1),
       settlement: {
@@ -371,7 +424,26 @@ export function getHudView(ctx: SimContext): HudView {
       },
       selfFarm: selfFarms(ctx),
       regularIncome: regularIncomeParts(ctx).reduce((sum, p) => sum + p.money, 0),
+      netWorth: householdNetWorth(ctx),
+      incomeYear: lastYearIncome(ctx),
+      yearClose: state.ledgerHistory.length > 0 ? yearCloseOf(ctx, state.ledgerHistory[state.ledgerHistory.length - 1]) : null,
     },
+    wealthUnits: { modernPerQuan: display.wealth.modern_per_quan, m2PerSao: display.wealth.m2_per_sao },
+    personal: (() => {
+      const p = state.purse;
+      const kinds = content.balance.economy.purse.income_ledgers;
+      const last = p.history[p.history.length - 1];
+      const current = p.ledger.filter((e) => kinds.includes(e.category)).reduce((sum, e) => sum + Math.max(0, e.money), 0);
+      return {
+        active: purseActive(ctx),
+        money: p.money,
+        incomeYear: last ? last.income : current,
+        yearClose: last ? yearCloseOf(ctx, last) : null,
+        closes: p.history.map((y) => yearCloseOf(ctx, y)),
+        familyKey: pickBand(display.family_bands, householdNetWorth(ctx)).key,
+        young: age < content.balance.life.adult_age,
+      };
+    })(),
     market: {
       buyPrice: buyPrice(ctx),
       sellPrice: sellPrice(ctx),
@@ -395,6 +467,8 @@ export function getHudView(ctx: SimContext): HudView {
         headCall: head && head.id !== me.id ? callOf(ctx, head) : '',
         autoLivingStandard: state.autoManage.livingStandard,
         autoRepayDebt: state.autoManage.repayDebt,
+        autoSellSurplus: state.autoManage.sellSurplus,
+        autoInvest: state.autoManage.invest,
       };
     })(),
     minor: state.minor
@@ -486,7 +560,8 @@ export function getHudView(ctx: SimContext): HudView {
             // Vào nghề tốn vốn thì tiền nhà phải đủ và người chơi phải là chủ hộ
             available:
               careerAvailable(ctx, c.id) &&
-              ((c.join?.cost_money ?? 0) === 0 || (householdHead(ctx)?.id === state.playerId && h.money >= (c.join?.cost_money ?? 0))),
+              ((c.join?.cost_money ?? 0) === 0 ||
+                (householdHead(ctx)?.id === state.playerId ? h.money : state.purse.money) >= (c.join?.cost_money ?? 0)),
             costMoney: c.join?.cost_money ?? 0,
             hint: c.join?.hint ?? '',
           })),
@@ -507,7 +582,7 @@ export function getHudView(ctx: SimContext): HudView {
       .reverse()
       .slice(0, display.chronicle_shown)
       .map((e) => ({ year: e.year, text: e.text, icon: e.icon })),
-    ledger: { current: h.ledger, history: state.ledgerHistory },
+    ledger: { current: h.ledger, history: state.ledgerHistory, closes: state.ledgerHistory.map((y) => yearCloseOf(ctx, y)) },
     pending: state.pending
       ? {
           ...state.pending,

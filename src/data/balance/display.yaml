@@ -37,6 +37,18 @@ summary_axis_bands:
   - { min: 0, key: axis.band.very_low }
 # Kho thóc đủ ăn ít hơn chừng này tháng thì cảnh báo
 food_months_warning: 2
+# [1.5] Gia cảnh nhà cha mẹ (chữ) khi bạn chưa làm chủ hộ, theo tài sản ròng của hộ
+family_bands:
+  - { min: 1200, key: family.band.phu_ho }
+  - { min: 500, key: family.band.kha_gia }
+  - { min: 150, key: family.band.du_an }
+  - { min: -99999, key: family.band.ngheo }
+# [1.5] Thẻ tài sản kiểu 1in8b: quan/sào là đơn vị chính, dòng nhỏ quy ra giá ngày nay cho dễ hình dung
+wealth:
+  modern_per_quan: 300000   # neo theo giá thóc: 1 thúng ≈ 20 kg ≈ 150.000 đ, giá gốc 0,5 quan/thúng
+  m2_per_sao: 360           # sào Bắc Bộ
+  year_lines: 5             # chốt sổ năm: tối đa chừng này dòng lý do, còn lại gộp "Chuyện khác"
+  line_min: 0.5             # bỏ qua khoản nhỏ hơn chừng này quan
 # Việc dang dở (GDD 01 §10.1) — luôn có vài việc chờ để "chơi thêm một năm nữa"
 open_loop_rules:
   - condition: { var: world.months_to_harvest, op: between, value: [1, 3] }

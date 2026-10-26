@@ -108,9 +108,16 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
   for (const st of content.balance.life.life_stages) {
     st.default_focuses.forEach((f) => need(idx.focus.has(f), `life.life_stages.${st.id}.default_focuses: trọng tâm lạ "${f}"`));
   }
-  const autoRules = content.balance.living_standards.auto_rules;
-  for (const r of autoRules) need(idx.livingStandard.has(r.level), `living_standards.auto_rules: mức sống lạ "${r.level}"`);
-  need(!autoRules[autoRules.length - 1].condition, 'living_standards.auto_rules: luật cuối phải không có điều kiện (mặc định)');
+  const budget = content.balance.living_standards.auto_budget;
+  need(idx.livingStandard.has(budget.debt_cap_level), `living_standards.auto_budget.debt_cap_level: mức sống lạ "${budget.debt_cap_level}"`);
+  budget.manual_only.forEach((l) => need(idx.livingStandard.has(l), `living_standards.auto_budget.manual_only: mức sống lạ "${l}"`));
+  content.balance.economy.auto_invest.forEach((r, i) => property(r.property, `economy.auto_invest[${i}]`));
+  const purse = content.balance.economy.purse;
+  Object.keys(purse.pocket_money_month).forEach((l) => need(idx.livingStandard.has(l), `economy.purse.pocket_money_month: mức sống lạ "${l}"`));
+  [...purse.income_ledgers, ...content.balance.economy.income_ledgers, ...content.balance.economy.transfer_ledgers, ...Object.values(Ledger)].forEach((l) =>
+    ledger(l, 'economy (sổ sách)'),
+  );
+  content.balance.display.family_bands.forEach((b) => need(b.key in lang, `display.family_bands: thiếu chữ "${b.key}" trong lang`));
   content.balance.display.focus_hints.forEach((h) => target(h.target, 'display.focus_hints'));
   for (const g of content.balance.life.age_groups) {
     need(g.id in content.balance.economy.consumption_by_age_group, `economy.consumption_by_age_group: thiếu nhóm tuổi "${g.id}"`);
@@ -264,7 +271,7 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       c.weight_modifiers.forEach((m, i) => tryCond(m.condition, `mortality.${c.id}.weight_modifiers[${i}]`, []));
     }
     for (const f of content.focuses) tryCond(f.condition, `focuses.${f.id}`, []);
-    content.balance.living_standards.auto_rules.forEach((r, i) => tryCond(r.condition, `living_standards.auto_rules[${i}]`, []));
+    content.balance.economy.auto_invest.forEach((r, i) => tryCond(r.condition, `economy.auto_invest[${i}]`, []));
     for (const d of content.diseases) tryCond(d.condition, `diseases.${d.id}`, []);
     for (const a of content.ambitions) {
       tryCond(a.condition, `ambitions.${a.id}`, []);

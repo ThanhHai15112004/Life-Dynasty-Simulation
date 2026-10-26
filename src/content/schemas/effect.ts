@@ -43,6 +43,8 @@ export type Effect =
   | { type: 'set_flag'; flag: string; years?: number; label?: string }
   | { type: 'clear_flag'; flag: string }
   | { type: 'opinion'; role: string; value: number }
+  | { type: 'sell_food'; share: number; keep_months: number; price_factor: number; ledger?: string }
+  | { type: 'own_money'; value: NumberExpr; ledger?: string }
   | { type: 'property_add'; property: string; count: number }
   | { type: 'property_remove'; property: string; count: number }
   | { type: 'schedule_event'; event: string; months: number; keep_roles: boolean; label?: string }
@@ -94,6 +96,18 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
       .strict(),
     z.object({ type: z.literal('clear_flag'), flag: z.string() }).strict(),
     z.object({ type: z.literal('opinion'), role: z.string(), value: z.number() }).strict(),
+    /** [1.5] Tiền của riêng người chơi (lì xì, tiền công làm thêm, tiêu vặt...): chưa làm chủ hộ thì vào túi riêng, làm chủ rồi thì vào tiền nhà. */
+    z.object({ type: z.literal('own_money'), value: numberExprSchema, ledger: z.string().optional() }).strict(),
+    /** [1.5] Bán một phần kho thóc (phần vượt keep_months tháng ăn) theo giá chợ × price_factor. */
+    z
+      .object({
+        type: z.literal('sell_food'),
+        share: z.number().min(0).max(1),
+        keep_months: z.number().min(0).default(0),
+        price_factor: z.number().positive().default(1),
+        ledger: z.string().optional(),
+      })
+      .strict(),
     z.object({ type: z.literal('property_add'), property: z.string(), count: z.number().int().positive() }).strict(),
     z.object({ type: z.literal('property_remove'), property: z.string(), count: z.number().int().positive() }).strict(),
     z

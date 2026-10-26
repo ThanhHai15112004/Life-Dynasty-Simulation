@@ -58,16 +58,16 @@ status_ranks:
     description: Hộ có ruộng vườn ổn định, có tiếng nói trong các buổi họp giáp, họp làng.
     condition:
       any:
-        - { var: household.farmland, op: '>=', value: 3 }
-        - { var: household.net_worth, op: '>=', value: 80 }
+        - { var: household.farmland, op: '>=', value: 4 }
+        - { var: household.net_worth, op: '>=', value: 200 }   # [1.5] tài sản ròng nay tính cả thóc
   - id: phu_ho
     name: Phú hộ / Thương gia
     description: Dư dả của cải trong vùng nhưng nếu chưa có chữ nghĩa vẫn bị coi là "giàu mà chưa sang".
     condition:
       any:
-        - { var: household.net_worth, op: '>=', value: 220 }
-        - { var: household.farmland, op: '>=', value: 12 }
-        - { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.career_rank, op: '>=', value: 2 }] }
+        - { var: household.net_worth, op: '>=', value: 1000 }
+        - { var: household.farmland, op: '>=', value: 20 }
+        - { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.career_rank, op: '>=', value: 3 }] }
     modifiers:
       - { target: stress.monthly, value: -0.1 }
   - id: si_phu

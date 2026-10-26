@@ -29,6 +29,9 @@ export const SystemLog = {
   StatusRose: 'sys.dia_vi_len',
   StatusFell: 'sys.dia_vi_xuong',
   RentCollected: 'sys.thu_to',
+  SurplusSold: 'sys.ban_thoc_du',
+  AutoInvest: 'sys.mua_them_cua',
+  HeadHandover: 'sys.giao_viec_nha',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */
@@ -53,6 +56,17 @@ export const Ledger = {
   Rent: 'thu_to',
   FamilyWork: 'phu_viec',
   Medicine: 'thuoc_men',
+  /** [1.5] Túi tiền riêng của người chơi (chưa làm chủ hộ) và các khoản qua lại với nhà. */
+  ContributeOut: 'gop_cho_nha',
+  ContributeIn: 'con_gop',
+  PocketOut: 'cho_con_tieu',
+  PocketIn: 'tieu_vat',
+  BoardCost: 'an_o_nha',
+  BoardPaid: 'cha_me_lo',
+  PurseMergedIn: 'tien_rieng_gop',
+  PurseMergedOut: 'gop_vao_nha',
+  /** [1.5] Phần chênh khi chốt sổ năm không thuộc khoản nào kể trên (chênh giá mua bán, bị xiết...). */
+  Other: 'chuyen_khac',
 } as const;
 
 /** Loại dòng nhật ký không đến từ mẫu ambient. */

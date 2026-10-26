@@ -110,7 +110,7 @@ export function makeBot(name: string, seed: string): Bot {
         yearly: (v) => {
           const h = v.household;
           const cmds: Command[] = [...focusCmd(v, v.player.health < 55 ? 'suc_khoe' : workFocus(v))];
-          cmds.push({ type: 'setLivingStandard', id: h.money > 12 && h.foodMonths > 4 ? 'du_day' : 'dam_bac' });
+          // Mức sống để nhà tự chọn theo ngân sách (living_standards.auto_budget)
           if (h.debt > 0 && h.money > 3) cmds.push({ type: 'repayDebt', amount: Math.min(h.debt, h.money - 2) });
           const ruong = v.market.buyable.find((p) => p.id === 'ruong');
           if (ruong && h.debt === 0 && h.money > ruong.value + 6 && h.members.length >= 3) cmds.push({ type: 'buyProperty', id: 'ruong' });

@@ -54,3 +54,18 @@ export function useSnapshot(): StoreSnapshot {
 /** Định dạng số tiền/thóc: tối đa 1 chữ số lẻ. */
 export const num = (v: number): string => String(Math.round(v * 10) / 10);
 export const signed = (v: number): string => `${v > 0 ? '+' : ''}${num(v)}`;
+
+/**
+ * [1.5] Quy quan ra tiền ngày nay cho dễ hình dung (kiểu 1in8b): làm tròn theo độ lớn,
+ * đơn vị chữ lấy từ lang (money.modern / money.modern_million / money.modern_billion).
+ */
+export function modernMoney(t: T, quan: number, perQuan: number): string {
+  const v = quan * perQuan;
+  const abs = Math.abs(v);
+  const sign = v < 0 ? '-' : '';
+  const locale = t('format.locale');
+  const dec = (x: number) => x.toLocaleString(locale, { maximumFractionDigits: x >= 100 ? 0 : 1 });
+  if (abs >= 1e9) return sign + t('money.modern_billion', { x: dec(abs / 1e9) });
+  if (abs >= 1e6) return sign + t('money.modern_million', { x: dec(abs / 1e6) });
+  return sign + t('money.modern', { x: (Math.round(abs / 1e3) * 1e3).toLocaleString(locale) });
+}

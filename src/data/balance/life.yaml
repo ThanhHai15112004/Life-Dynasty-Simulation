@@ -98,6 +98,9 @@ age_groups:
   - { id: nguoi_lon, max_age: 55 }
   - { id: nguoi_gia, max_age: 999 }
 adult_age: 16
+# [1.5] Giao việc nhà: cha mẹ từ tuổi này giao cho lớp con đã lập gia đình (người chơi đã cưới đứng trên anh chị em)
+headship:
+  elder_age: 55
 male_ratio: 0.5
 npc_trait_count: 1
 
@@ -154,8 +157,8 @@ happiness:
     - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.children_count, op: '>=', value: 1 }] }, value: 4 }
     - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.children_count, op: '>=', value: 2 }] }, value: 4 }
     - { condition: { all: [{ has_trait: trong_gia_dinh }, { var: player.children_count, op: '>=', value: 3 }] }, value: 4 }
-    - { condition: { all: [{ has_trait: tham_vong }, { var: household.net_worth, op: '>=', value: 180 }] }, value: 8 }
-    - { condition: { all: [{ has_trait: tham_vong }, { var: household.net_worth, op: '<', value: 90 }, { var: player.age, op: '>=', value: 30 }] }, value: -8 }
+    - { condition: { all: [{ has_trait: tham_vong }, { var: household.net_worth, op: '>=', value: 500 }] }, value: 8 }
+    - { condition: { all: [{ has_trait: tham_vong }, { var: household.net_worth, op: '<', value: 200 }, { var: player.age, op: '>=', value: 30 }] }, value: -8 }
     - { condition: { all: [{ has_trait: tham_vong }, { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }] }, value: 6 }
     - { condition: { all: [{ has_trait: an_phan }, { var: household.debt, op: '<=', value: 0 }] }, value: 6 }
     - { condition: { all: [{ has_trait: an_phan }, { var: household.debt, op: '>', value: 0 }] }, value: -6 }
@@ -175,7 +178,7 @@ summary_axes:
     base: 15
     terms:
       - { var: household.farmland, factor: 7 }
-      - { var: household.net_worth, factor: 0.2, min: 0 }
+      - { var: household.net_worth, factor: 0.06, min: 0 }   # [1.5] tài sản ròng nay tính cả thóc, lớn hơn trước
       - { var: player.children_count, factor: 8 }
       - { var: household.debt, factor: -0.8 }
   - id: dau_an

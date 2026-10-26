@@ -111,7 +111,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 5
-    cooldown_years: 5
+    cooldown_years: 12   # [1.5] giãn ra: trước 5 năm, đời nào cũng gặp lại
     tension: 4
     importance: 5
     icon: tien
@@ -208,7 +208,7 @@ events:
         - { var: household.career, op: '==', value: thuong_nhan }
         - { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
     weight: 5
-    cooldown_years: 4
+    cooldown_years: 12   # [1.5] giãn ra: trước 4 năm, đời nào cũng gặp lại
     tension: 5
     importance: 5
     icon: thue
@@ -309,7 +309,7 @@ events:
         - { var: household.career, op: '==', value: thuong_nhan }
         - { var: world.settlement_type, op: '==', value: thi_tran_ben_song }
     weight: 4
-    cooldown_years: 6
+    cooldown_years: 12   # [1.5] giãn ra: trước 6 năm, đời nào cũng gặp lại
     tension: 5
     importance: 6
     icon: nguoi_la
@@ -365,7 +365,7 @@ events:
     roles:
       - { id: lb, from: village, village_role: lai_buon }
     weight: 4
-    cooldown_years: 6
+    cooldown_years: 12   # [1.5] giãn ra: trước 6 năm, đời nào cũng gặp lại
     tension: 6
     importance: 6
     icon: thue
@@ -483,7 +483,7 @@ events:
         - { var: household.money, op: '>=', value: 5 }
         - { var: household.property.sap_hang, op: '<', value: 2 }
     weight: 4
-    cooldown_years: 8
+    cooldown_years: 12   # [1.5] giãn ra: trước 8 năm, đời nào cũng gặp lại
     tension: 4
     importance: 6
     icon: cho
@@ -533,7 +533,7 @@ events:
         - { var: household.money, op: '>=', value: 6 }
         - { not: { has_flag: bs_no_chu_do } }
     weight: 4
-    cooldown_years: 6
+    cooldown_years: 12   # [1.5] giãn ra: trước 6 năm, đời nào cũng gặp lại
     tension: 4
     importance: 6
     icon: no
@@ -621,7 +621,7 @@ events:
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 4
-    cooldown_years: 6
+    cooldown_years: 12   # [1.5] giãn ra: trước 6 năm, đời nào cũng gặp lại
     tension: 3
     importance: 5
     icon: hoi
@@ -985,7 +985,7 @@ events:
         - { var: household.career, op: '==', value: thuong_nhan }
         - { not: { has_flag: bs_than_quan_tran } }
     weight: 4
-    cooldown_years: 8
+    cooldown_years: 12   # [1.5] giãn ra: trước 8 năm, đời nào cũng gặp lại
     tension: 4
     importance: 6
     icon: chen_tra

@@ -175,7 +175,7 @@ events:
       - { id: ly, from: village, village_role: ly_truong }
       - { id: do, from: village, village_role: thay_do }
     weight: 5
-    cooldown_years: 4
+    cooldown_years: 12   # [1.5] giãn ra: trước 4 năm, đời nào cũng gặp lại
     tension: 5
     importance: 6
     icon: lang
@@ -217,7 +217,7 @@ events:
     tags: [gia_dinh, van_minh]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     weight: 5
-    cooldown_years: 5
+    cooldown_years: 12   # [1.5] giãn ra: trước 5 năm, đời nào cũng gặp lại
     tension: 4
     importance: 6
     icon: nha
@@ -259,7 +259,7 @@ events:
     roles:
       - { id: do, from: village, village_role: thay_do }
     weight: 6
-    cooldown_years: 3
+    cooldown_years: 12   # [1.5] giãn ra: trước 3 năm, đời nào cũng gặp lại
     tension: 4
     importance: 5
     icon: sach

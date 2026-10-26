@@ -1,14 +1,15 @@
 // [0] Hàm tính kinh tế hộ dùng chung (không đọc modifier để tránh vòng lặp khi DSL hỏi household.food_months)
 import type { IncomeSpec } from '@content/schemas';
-import { holdingsOf } from '../../entities/Property';
+import type { LedgerEntry } from '../../entities/Household';
+import { farmlandOf, holdingsOf } from '../../entities/Property';
 import type { SimContext } from '../context';
 import { ageGroupOf, ageNow, aliveMembers, playerHousehold } from '../people';
 
-/** Thóc cả hộ ăn trong một tháng theo mức sống hiện tại (chưa tính modifier). */
-export function monthlyFoodNeed(ctx: SimContext): number {
+/** Thóc cả hộ ăn trong một tháng theo mức sống hiện tại (hoặc mức chỉ định), chưa tính modifier. */
+export function monthlyFoodNeed(ctx: SimContext, levelId?: string): number {
   const { content } = ctx;
   const h = playerHousehold(ctx);
-  const level = content.index.livingStandard.get(h.livingStandard);
+  const level = content.index.livingStandard.get(levelId ?? h.livingStandard);
   if (!level) return 0;
   const byGroup = content.balance.economy.consumption_by_age_group;
   return aliveMembers(ctx, h).reduce((sum, c) => sum + level.food_per_member * (byGroup[ageGroupOf(ctx, ageNow(ctx, c))] ?? 1), 0);
@@ -21,6 +22,12 @@ export function monthlyMoneyNeed(ctx: SimContext, levelId?: string): number {
   return level ? level.money_per_member * aliveMembers(ctx, h).length : 0;
 }
 
+/** [1.5] Chi phí cả năm của một mức sống (thóc quy theo giá gốc + tiền sinh hoạt), chưa tính modifier. */
+export function levelYearCost(ctx: SimContext, levelId: string): number {
+  const base = ctx.content.balance.economy.price.base;
+  return 12 * (monthlyFoodNeed(ctx, levelId) * base + monthlyMoneyNeed(ctx, levelId));
+}
+
 export function workers(ctx: SimContext) {
   const hv = ctx.content.balance.economy.harvest;
   return aliveMembers(ctx).filter((c) => {
@@ -31,6 +38,13 @@ export function workers(ctx: SimContext) {
 
 export function workerCount(ctx: SimContext): number {
   return workers(ctx).length;
+}
+
+/** [1.5] Người làm dư sức: nhà tự cày thì trừ phần ruộng cần người, nhà không tự cày thì trừ người lo nghề chính. */
+export function spareWorkers(ctx: SimContext): number {
+  const eco = ctx.content.balance.economy;
+  const busy = selfFarms(ctx) ? farmlandOf(playerHousehold(ctx), ctx.content) * eco.harvest.full_workers_per_sao : eco.tenancy.business_runners;
+  return Math.max(0, workerCount(ctx) - busy);
 }
 
 export function buyPrice(ctx: SimContext): number {
@@ -58,13 +72,32 @@ export function selfFarms(ctx: SimContext): boolean {
 
 /** [1] Tiền thu một tháng từ một nguồn thu đều đặn, với bậc kỹ năng cho trước. */
 export function incomeOf(ctx: SimContext, spec: IncomeSpec, skillLevel: number): number {
-  const base = spec.money_month + skillLevel * spec.per_level;
+  // [1.5] Lời theo vốn: tiền mặt bỏ vào buôn bán (có trần) sinh lời mỗi tháng
+  const capital = spec.capital ? (Math.min(Math.max(0, playerHousehold(ctx).money), spec.capital.max) * spec.capital.rate_year) / 12 : 0;
+  const base = spec.money_month + skillLevel * spec.per_level + capital;
   return spec.trade_scaled ? base * ctx.state.world.tradeIndex * localTradeFactor(ctx) : base;
 }
 
-/** Giá trị ròng của hộ (tiền mặt + giá trị tài sản − nợ). */
+/** Giá trị ròng của hộ: tiền mặt + [1.5] thóc trong kho (giá gốc) + giá trị tài sản − nợ. */
 export function householdNetWorth(ctx: SimContext): number {
   const h = playerHousehold(ctx);
   const propValue = holdingsOf(h, ctx.content).reduce((s, p) => s + p.type.value * p.count, 0);
-  return h.money + propValue - h.debt;
+  return h.money + Math.max(0, h.food) * ctx.content.balance.economy.price.base + propValue - h.debt;
+}
+
+/** [1.5] Giá trị một dòng sổ (tiền + thóc quy theo giá gốc). */
+export function ledgerValue(ctx: SimContext, e: LedgerEntry): number {
+  return e.money + e.food * ctx.content.balance.economy.price.base;
+}
+
+/** [1.5] Thu nhập của một năm sổ: tổng các khoản "làm ra" (balance.economy.income_ledgers). */
+export function incomeOfEntries(ctx: SimContext, entries: LedgerEntry[]): number {
+  const kinds = ctx.content.balance.economy.income_ledgers;
+  return Math.max(0, entries.filter((e) => kinds.includes(e.category)).reduce((s, e) => s + ledgerValue(ctx, e), 0));
+}
+
+/** [1.5] Thu nhập năm vừa chốt sổ (chưa chốt năm nào thì tính phần đã làm ra trong năm nay). */
+export function lastYearIncome(ctx: SimContext): number {
+  const last = ctx.state.ledgerHistory[ctx.state.ledgerHistory.length - 1];
+  return last ? last.income : incomeOfEntries(ctx, playerHousehold(ctx).ledger);
 }

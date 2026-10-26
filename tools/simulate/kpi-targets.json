@@ -1,5 +1,5 @@
 {
-  "$comment": "Ngưỡng KPI cân bằng (GDD 09 §3). Chỉnh ở đây, không sửa code. 25/10/2026: story_lines_per_year nâng từ 2–6 lên 4–12 theo phản hồi người chơi muốn nhật ký dày, đúng hoàn cảnh hơn (kiểu 1in8b). 25/10/2026 (tối): event_repeat_rate chỉ tính sự kiện quyết định; chuyện nhỏ đo riêng (minor_repeat_rate). Chuyện nhỏ nay dừng thời gian nên đo tổng số lần dừng (pauses_per_year). married_rate: tỷ lệ đời có lập gia đình.",
+  "$comment": "Ngưỡng KPI cân bằng (GDD 09 §3). Chỉnh ở đây, không sửa code. 25/10/2026: story_lines_per_year nâng từ 2–6 lên 4–12 theo phản hồi người chơi muốn nhật ký dày, đúng hoàn cảnh hơn (kiểu 1in8b). 25/10/2026 (tối): event_repeat_rate chỉ tính sự kiện quyết định; chuyện nhỏ đo riêng (minor_repeat_rate). Chuyện nhỏ nay dừng thời gian nên đo tổng số lần dừng (pauses_per_year). married_rate: tỷ lệ đời có lập gia đình. 26/10/2026 (GĐ1.5 kinh tế kiểu 1in8b): head_age_mean — tuổi TB người chơi làm chủ hộ (cha mẹ già giao việc nhà); rich_rate — tỷ lệ đời từng đạt bậc rich_rank trở lên (có đường làm giàu nhưng không ai cũng giàu).",
   "lifespan_mean": [
     50,
     65
@@ -45,5 +45,14 @@
   "married_rate": [
     0.8,
     1
+  ],
+  "head_age_mean": [
+    20,
+    32
+  ],
+  "rich_rank": "phu_ho",
+  "rich_rate": [
+    0.15,
+    0.6
   ]
 }

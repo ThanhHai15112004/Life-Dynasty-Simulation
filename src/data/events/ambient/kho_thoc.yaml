@@ -1,0 +1,159 @@
+# [1.5] Chuyện kho thóc thường ngày: không cần chọn, chỉ là dòng nhật ký — vừa kể chuyện, vừa ngầm báo được hay mất mùa.
+templates:
+  - id: kt_chuot_khoet_bo
+    kind: chuyen_vat
+    tags: [ruong_dong, kinh_te]
+    condition: { var: household.food_months, op: '>=', value: 5 }
+    weight: 3
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: chuot
+    short: 'chuột khoét bồ thóc'
+    variants:
+      - 'Đêm nghe sột soạt, sáng ra thấy bồ thóc thủng một lỗ to bằng nắm tay. Chuột đã khoét mất ít thóc.'
+      - 'Mẹ quét dưới chân bồ được cả đống trấu lẫn phân chuột. Thóc hao đi trông thấy.'
+    effects:
+      - { type: food, value: { var: household.food, factor: -0.04 }, ledger: hao_hut }
+
+  - id: kt_mot_nom_am
+    kind: chuyen_vat
+    tags: [ruong_dong, kinh_te]
+    months: [2, 3, 4]
+    condition: { var: household.food, op: '>=', value: 50 }
+    weight: 3
+    weight_modifiers:
+      - { condition: { var: flag.tru_thoc_cho_gia, op: '==', value: true }, factor: 2 }
+    cooldown_years: 2
+    importance: 2
+    tone: buon
+    icon: kho
+    short: 'mọt vào kho mùa nồm'
+    variants:
+      - 'Trời nồm, tường nhà rịn nước. Mở kho ra đã thấy mọt bò lổm ngổm trên mặt thóc.'
+    effects:
+      - { type: food, value: { var: household.food, factor: -0.05 }, ledger: hao_hut }
+
+  - id: kt_phoi_thoc_san
+    kind: bao_cao
+    tags: [ruong_dong]
+    months: [5, 10]
+    condition: { var: household.self_farms, op: '==', value: true }
+    weight: 3
+    cooldown_years: 2
+    importance: 1
+    tone: vui
+    icon: nang
+    short: 'phơi thóc kín sân'
+    variants:
+      - 'Thóc mới phơi vàng cả sân. Lũ trẻ chạy cào thóc, chân trần đỏ ửng vì nắng.'
+      - 'Nắng to, cả nhà đảo thóc từ sáng sớm. Mùi thóc mới thơm ngai ngái khắp ngõ.'
+
+  - id: kt_thoc_re_dau_vu
+    kind: bao_cao
+    tags: [thoi_co, buon_ban]
+    months: [5, 6, 10, 11]
+    condition: { var: world.harvest_quality, op: '==', value: duoc_mua }
+    weight: 3
+    cooldown_years: 2
+    importance: 2
+    icon: lua
+    short: 'được mùa, thóc rẻ'
+    variants:
+      - 'Năm nay được mùa, thóc rẻ như cho. Lái buôn đi qua làng mà chẳng buồn dừng.'
+      - 'Bồ nhà nào cũng đầy, chợ phiên thóc chất đống mà ít người hỏi.'
+
+  - id: kt_dong_ruong_lep
+    kind: diem_bao
+    tags: [ruong_dong, thien_tai]
+    months: [3, 4, 8, 9]
+    condition: { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
+    weight: 3
+    cooldown_years: 2
+    importance: 3
+    tone: buon
+    icon: mat_mua
+    short: 'lúa ngoài đồng trổ lép'
+    variants:
+      - 'Đi thăm đồng, bông lúa trổ ra nhẹ bẫng. Các cụ lắc đầu: năm nay giáp hạt sẽ dài.'
+      - 'Ruộng khô nứt chân chim, lúa đứng không lên nổi. Người làng bắt đầu đong thóc dè.'
+
+  - id: kt_tin_don_gia_tren_tran
+    kind: tin_the_gioi
+    tags: [thoi_co, buon_ban, tin_don]
+    months: [1, 2, 7, 8]
+    condition: { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
+    weight: 3
+    cooldown_years: 2
+    importance: 2
+    rumor: true
+    icon: tin_don
+    short: 'đồn trên trấn thóc sắp lên giá'
+    variants:
+      - 'Người đi chợ trấn về kể: lái buôn phương bắc đang gom thóc, giá sắp lên.'
+      - 'Nghe đâu trên huyện kho công đã vơi, quan sắp cấm chở thóc ra ngoài.'
+
+  - id: kt_cha_cho_thoc_len_tran
+    kind: nguoi_quanh
+    tags: [gia_dinh, buon_ban]
+    months: [2, 3, 8, 9]
+    condition:
+      all:
+        - { var: player.is_head, op: '==', value: false }
+        - { var: household.food_months, op: '>=', value: 7 }
+        - { var: world.food_price, op: '>=', value: 0.55 }
+    roles: [{ id: cha, from: family, relation: father }]
+    weight: 3
+    cooldown_years: 2
+    importance: 3
+    tone: vui
+    icon: tien
+    short: 'cha chở thóc lên trấn bán được giá'
+    variants:
+      - '{role.cha.call} gánh thóc lên chợ trấn đúng mùa giáp hạt, bán được giá, về mua cho cả nhà mấy cân thịt.'
+    effects:
+      - { type: sell_food, share: 0.3, keep_months: 6, price_factor: 1.05 }
+
+  - id: kt_tru_thoc_lo_lang
+    kind: nguoi_quanh
+    tags: [gia_dinh, buon_ban]
+    condition: { var: flag.tru_thoc_cho_gia, op: '==', value: true }
+    weight: 4
+    cooldown_years: 1
+    importance: 1
+    icon: kho
+    short: 'đêm nào cũng ra xem kho'
+    variants:
+      - 'Từ hôm trữ thóc, đêm nào cũng có người dậy cầm đèn ra xem kho, sợ chuột, sợ trộm, sợ dột.'
+
+  - id: kt_nha_ben_rao_ruong
+    kind: tin_the_gioi
+    tags: [lang_xa, kinh_te]
+    condition:
+      all:
+        - { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
+        - { var: household.money, op: '>=', value: 35 }
+    weight: 2
+    cooldown_years: 3
+    importance: 3
+    rumor: true
+    icon: ruong
+    short: 'nhà bên túng, rao bán ruộng'
+    variants:
+      - 'Năm đói, nhà cuối xóm túng quá phải rao bán mấy sào ruộng. Ai có tiền lúc này thì mua được rẻ.'
+
+  - id: kt_tet_dong_gao_bieu
+    kind: nguoi_quanh
+    tags: [gia_dinh, le_hoi]
+    months: [12, 1]
+    condition: { var: household.food_months, op: '>=', value: 4 }
+    weight: 2
+    cooldown_years: 3
+    importance: 1
+    tone: an_ui
+    icon: tet
+    short: 'đong gạo biếu Tết'
+    variants:
+      - 'Giáp Tết, mẹ đong mấy đấu gạo nếp gói bánh, thêm một thúng biếu ông bà bên ngoại.'
+    effects:
+      - { type: food, value: -2, ledger: su_kien }

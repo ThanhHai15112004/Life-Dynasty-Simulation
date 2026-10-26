@@ -8,8 +8,8 @@ import { applyEffects } from '../../events/effects';
 import { pushLog, writeTemplate } from '../../events/journal';
 import { Ledger, LogKind, SystemLog } from '../../events/systemLogKeys';
 import { RngStream, type SimContext } from '../context';
-import { isPlayerHead } from '../economy';
-import { ageNow, player, playerHousehold } from '../people';
+import { earnPersonal, isPlayerHead, mergePurse } from '../economy';
+import { ageNow, aliveMembers, callOf, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 
 /** Nghề hiện tại có phải nghề thật (có bậc, lương, hành động) không — phụ việc nhà, thất nghiệp thì không. */
@@ -157,6 +157,12 @@ export function ensureIndependentLife(ctx: SimContext): void {
 /** [1] Vừa làm chủ hộ: chưa có nghề riêng thì thừa kế nghề nhà (kinh nghiệm phụ việc được tính); có nghề riêng thì nghề nhà đổi theo. */
 function onBecomeHead(ctx: SimContext): void {
   const { state, content } = ctx;
+  mergePurse(ctx);
+  // [1.5] Cha mẹ còn sống mà đã giao việc nhà (không phải vì mất) thì ghi một dòng nhật ký
+  const me = player(ctx);
+  const elder = aliveMembers(ctx).find((c) => c.id === me.fatherId || c.id === me.motherId);
+  const justInherited = state.ambientHistory[SystemLog.BecameHead]?.lastMonthIndex === state.clock.monthIndex;
+  if (elder && !justInherited) writeTemplate(ctx, SystemLog.HeadHandover, { self: elder.id, params: { call: callOf(ctx, elder) } });
   const cur = content.index.career.get(state.career.id);
   if (cur?.kind === 'nghe') {
     state.householdCareer = cur.id;
@@ -194,10 +200,11 @@ export function monthlyCareer(ctx: SimContext): void {
   const rank = def.ranks[state.career.rankIndex] ?? def.ranks[0];
   const h = playerHousehold(ctx);
 
-  if (rank.stipend_money_month !== 0 || rank.stipend_food_month !== 0) {
-    h.money += rank.stipend_money_month;
+  // [1.5] Lương bổng nghề riêng là tiền người chơi làm ra: chưa làm chủ hộ thì vào túi riêng (góp một phần cho nhà)
+  if (rank.stipend_money_month !== 0) earnPersonal(ctx, Ledger.Career, rank.stipend_money_month);
+  if (rank.stipend_food_month !== 0) {
     h.food = Math.max(0, h.food + rank.stipend_food_month);
-    addLedger(h, Ledger.Career, rank.stipend_money_month, rank.stipend_food_month);
+    addLedger(h, Ledger.Career, 0, rank.stipend_food_month);
   }
 
   // Mức truy nã giảm chậm nếu không phạm thêm tội

@@ -1,7 +1,7 @@
 // [0] Trạng thái tổng của một ván chơi — toàn bộ là dữ liệu thuần (JSON được) để lưu/tải và chạy headless
 import type { ExamDegreeId } from '@content/schemas';
 import type { Character } from './Character';
-import type { Household, LedgerYear } from './Household';
+import type { Household, LedgerYear, Purse } from './Household';
 
 export const SAVE_VERSION = 2;
 
@@ -110,8 +110,12 @@ export interface GameState {
 
   /** [1] Trọng tâm năm nay (một lựa chọn; '' khi còn quá nhỏ để chọn). */
   focus: { primary: string };
-  /** [1] Chủ hộ để mô phỏng tự lo: mức sống theo gia cảnh, tự trả nợ khi có dư. Chưa làm chủ hộ thì luôn tự động. */
-  autoManage: { livingStandard: boolean; repayDebt: boolean };
+  /** [1] Chủ hộ để mô phỏng tự lo: mức sống theo gia cảnh, tự trả nợ, [1.5] bán thóc dư sau gặt, mua tài sản khi có dư. Chưa làm chủ hộ thì luôn tự động. */
+  autoManage: { livingStandard: boolean; repayDebt: boolean; sellSurplus: boolean; invest: boolean };
+  /** [1.5] Tài sản ròng lúc mở sổ đầu năm nay (để chốt sổ theo mức thay đổi). */
+  yearOpenNetWorth: number;
+  /** [1.5] Túi tiền riêng của người chơi khi chưa làm chủ hộ. */
+  purse: Purse;
   /** [1] Nghề nhà: nghề nuôi cả hộ (kinh tế hộ, sự kiện "con nhà buôn"...). Chủ hộ đổi nghề thì nghề nhà đổi theo. */
   householdCareer: string;
   /** [1] Người chơi đã làm chủ hộ (để nhận biết lúc vừa tiếp quản nhà). */

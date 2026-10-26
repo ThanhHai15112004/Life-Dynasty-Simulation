@@ -1,0 +1,332 @@
+# [1.5] Chuyện kho thóc: bán hay giữ, cho vay hay đong thêm — rải rác theo hoàn cảnh, không phải chuỗi cố định hằng năm.
+# Bán thóc dùng hiệu ứng sell_food (bán một phần kho vượt keep_months tháng ăn, theo giá chợ × price_factor).
+# Cờ tru_thoc_cho_gia (đang trữ thóc chờ giá) làm các chuyện giáp hạt, bình giá, mốc kho dễ đến hơn.
+events:
+  - id: kt_lai_buon_ep_gia_dau_vu
+    title: Lái buôn đến ngay sau mùa gặt
+    tags: [buon_ban, thoi_co, ruong_dong]
+    months: [5, 6, 10, 11]
+    condition:
+      all:
+        - { var: player.is_head, op: '==', value: true }
+        - { var: household.food_months, op: '>=', value: 5 }
+    roles: [{ id: lai, from: village, village_role: lai_buon }]
+    weight: 6
+    cooldown_years: 2
+    tension: 2
+    importance: 4
+    icon: tien
+    text:
+      - 'Thóc mới phơi chưa khô hẳn, {role.lai.call} đã đánh xe vào ngõ, dỡ cân ra giữa sân. "Đầu vụ thóc rẻ, nhưng tôi trả tiền ngay. Đợi giáp hạt thì được giá hơn, mà ai biết năm nay trời thế nào."'
+    options:
+      - id: ban_ngay
+        text: 'Bán bớt một phần cho xong, cầm tiền cho chắc'
+        hint: 'Giá thấp nhưng chắc tay'
+        effects:
+          - { type: sell_food, share: 0.4, keep_months: 5 }
+        result: ['Từng thúng thóc lên xe. Tiền đếm đủ, nhẹ cả lòng, dù biết bán thế là hớ.']
+      - id: mac_ca
+        text: 'Mặc cả cho ra giá rồi mới bán'
+        hint: 'Cần con mắt buôn bán'
+        chance: { base: 0.35, skill: thuong_mai, per_level: 0.06 }
+        success:
+          - { type: sell_food, share: 0.4, keep_months: 5, price_factor: 1.25 }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+        failure:
+          - { type: opinion, role: lai, value: -4 }
+        success_result: ['{role.lai.call} gãi đầu mãi rồi cũng chịu giá của bạn. Lần này bán không hớ.']
+        failure_result: ['{role.lai.call} cười khẩy, xếp cân lên xe sang nhà khác. Thóc vẫn nằm trong kho.']
+      - id: tru_cho_gia
+        text: 'Trữ lại, đợi đến giáp hạt hẵng bán'
+        hint: 'Có thể được giá, cũng có thể chuột mọt ăn mất'
+        trait_stress: { an_phan: 2 }
+        effects:
+          - { type: set_flag, flag: tru_thoc_cho_gia, years: 1, label: 'Trữ thóc chờ giáp hạt bán được giá' }
+        result: ['Bạn đóng cửa kho, rắc thêm tro bếp quanh chân bồ. Giờ chỉ còn trông vào trời.']
+
+  - id: kt_giap_hat_gia_len
+    title: Giáp hạt, giá thóc lên vùn vụt
+    tags: [buon_ban, thoi_co, lang_xa]
+    months: [2, 3, 8, 9]
+    condition:
+      all:
+        - { var: player.is_head, op: '==', value: true }
+        - { var: household.food_months, op: '>=', value: 4 }
+        - { var: world.food_price, op: '>=', value: 0.58 }
+    roles: [{ id: lai, from: village, village_role: lai_buon }]
+    weight: 4
+    weight_modifiers:
+      - { condition: { var: flag.tru_thoc_cho_gia, op: '==', value: true }, factor: 3 }
+      - { condition: { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }, factor: 1.6 }
+    cooldown_years: 2
+    tension: 4
+    importance: 5
+    icon: kho
+    text:
+      - 'Giáp hạt, chợ phiên rao {world.food_price} quan một thúng mà người vẫn chen nhau mua. {role.lai.call} sang tận nhà hỏi đổ cả kho. Ngoài ngõ, mấy bà hàng xóm cũng đứng đợi, tay xách thúng không.'
+    options:
+      - id: ban_lai_buon
+        text: 'Bán cho lái buôn theo giá chợ'
+        hint: 'Lời to nhất, nhưng làng sẽ nói ra nói vào'
+        trait_stress: { nhan_tu: 4 }
+        effects:
+          - { type: sell_food, share: 0.6, keep_months: 2 }
+          - { type: reputation, group: dan_lang, value: -4 }
+          - { type: clear_flag, flag: tru_thoc_cho_gia }
+        result: ['Thóc theo xe lái buôn ra khỏi làng. Túi nặng, nhưng ra đình bạn nghe có tiếng xì xào "nhà ấy găm thóc".']
+      - id: ban_cho_lang
+        text: 'Bán cho bà con trong làng, bớt cho mỗi thúng một ít'
+        hint: 'Lời ít hơn, được lòng làng'
+        effects:
+          - { type: sell_food, share: 0.5, keep_months: 2, price_factor: 0.8 }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: clear_flag, flag: tru_thoc_cho_gia }
+        result: ['Người làng xếp hàng đong thóc, ai cũng cảm ơn rối rít. Lời không nhiều, nhưng đi đâu cũng có người chào.']
+      - id: giu_nua
+        text: 'Giữ thêm ít lâu nữa, giá còn lên'
+        hint: 'Được ăn cả, ngã về không'
+        trait_stress: { an_phan: 3 }
+        chance: { base: 0.45, skill: thuong_mai, per_level: 0.04 }
+        success:
+          - { type: sell_food, share: 0.6, keep_months: 2, price_factor: 1.3 }
+          - { type: clear_flag, flag: tru_thoc_cho_gia }
+        failure:
+          - { type: food, value: { var: household.food, factor: -0.12 }, ledger: hao_hut }
+          - { type: stress, value: 4 }
+        success_result: ['Nửa tháng sau giá lên thêm một nấc. Bạn bán đúng đỉnh, cả nhà mừng như bắt được vàng.']
+        failure_result: ['Thuyền thóc phương nam cập bến, giá rớt cái rụp. Kho lại bị mọt, đành ngồi nhìn thóc hao.']
+
+  - id: kt_hang_xom_xin_dong_thoc
+    title: Hàng xóm sang xin đong thóc
+    tags: [lang_xa, quan_he, no_nan]
+    months: [2, 3, 4, 8, 9]
+    condition:
+      all:
+        - { var: player.is_head, op: '==', value: true }
+        - { var: household.food_months, op: '>=', value: 3 }
+    roles: [{ id: xom, from: village, village_role: hang_xom }]
+    weight: 5
+    weight_modifiers:
+      - { condition: { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }, factor: 1.8 }
+    cooldown_years: 3
+    tension: 3
+    importance: 4
+    icon: kho
+    text:
+      - '{role.xom.call} đứng nép ngoài cổng, tay cầm cái thúng rỗng. "Nhà tôi hết gạo từ hôm kia, lũ trẻ khóc mãi. Cho tôi đong tạm mấy thúng, sau gặt tôi trả cả gốc lẫn lãi."'
+    options:
+      - id: cho_vay_lai
+        text: 'Cho vay 10 thúng, sau gặt trả 13'
+        hint: 'Có lãi, nhưng chưa chắc đòi được'
+        effects:
+          - { type: food, value: -10, ledger: cho_vay_thoc }
+          - { type: opinion, role: xom, value: 3 }
+          - { type: set_flag, flag: cho_xom_vay_thoc, years: 1, label: 'Cho {role.xom.call} vay thóc, hẹn trả sau gặt' }
+          - { type: schedule_event, event: kt_doi_no_thoc, months: 5 }
+        result: ['{role.xom.call} gánh thóc về, ngoái lại cảm ơn mấy lần.']
+      - id: cho_khong
+        text: 'Cho hẳn năm thúng, không lấy lại'
+        hint: 'Mất thóc, được tiếng'
+        trait_stress: { tham_lam: 4 }
+        effects:
+          - { type: food, value: -5, ledger: su_kien }
+          - { type: opinion, role: xom, value: 12 }
+          - { type: reputation, group: dan_lang, value: 4 }
+          - { type: stress, value: -2 }
+        result: ['"Lá lành đùm lá rách." Chuyện nhà bạn cho thóc lan khắp xóm.']
+      - id: tu_choi
+        text: 'Từ chối khéo: nhà cũng chẳng dư dả gì'
+        trait_stress: { nhan_tu: 4 }
+        effects:
+          - { type: opinion, role: xom, value: -8 }
+        result: ['{role.xom.call} cúi đầu đi về. Từ hôm ấy gặp nhau ngoài ngõ chỉ gật đầu cho có.']
+
+  - id: kt_doi_no_thoc
+    title: Đến hạn đòi thóc cho vay
+    tags: [lang_xa, quan_he, no_nan]
+    scheduled_only: true
+    condition: { var: flag.cho_xom_vay_thoc, op: '==', value: true }
+    roles: [{ id: xom, from: village, village_role: hang_xom }]
+    weight: 1
+    tension: 3
+    importance: 4
+    icon: kho
+    text:
+      - 'Gặt xong đã nửa tháng. {role.xom.call} sang nhà, đứng gãi đầu: "Ruộng nhà tôi năm nay lép quá. Tôi trả trước bảy thúng, phần còn lại xin khất sang vụ sau."'
+    options:
+      - id: doi_du
+        text: 'Đòi đủ 13 thúng như đã hẹn'
+        hint: 'Được thóc, mất lòng'
+        trait_stress: { nhan_tu: 4 }
+        effects:
+          - { type: food, value: 13, ledger: cho_vay_thoc }
+          - { type: opinion, role: xom, value: -10 }
+          - { type: reputation, group: dan_lang, value: -3 }
+          - { type: clear_flag, flag: cho_xom_vay_thoc }
+        result: ['{role.xom.call} phải đi vay chỗ khác để trả bạn. Thóc đủ, nhưng tình làng nghĩa xóm sứt mẻ.']
+      - id: nhan_bay
+        text: 'Nhận bảy thúng, phần còn lại cho khất'
+        effects:
+          - { type: food, value: 7, ledger: cho_vay_thoc }
+          - { type: opinion, role: xom, value: 6 }
+          - { type: clear_flag, flag: cho_xom_vay_thoc }
+        result: ['"Thôi thì chỗ hàng xóm." {role.xom.call} cảm ơn rối rít, hứa vụ sau trả nốt.']
+      - id: tha_het
+        text: 'Thôi, coi như giúp nhau lúc khó'
+        hint: 'Mất hẳn số thóc đã cho vay'
+        trait_stress: { tham_lam: 5 }
+        effects:
+          - { type: opinion, role: xom, value: 15 }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: clear_flag, flag: cho_xom_vay_thoc }
+        result: ['{role.xom.call} rơm rớm nước mắt. Từ đó nhà bạn có việc gì, nhà ấy là người sang đầu tiên.']
+
+  - id: kt_quan_binh_gia
+    title: Quan huyện ra lệnh bình giá thóc
+    tags: [van_minh, buon_ban, nguy_hiem]
+    months: [2, 3, 4, 8, 9]
+    condition:
+      all:
+        - { var: player.is_head, op: '==', value: true }
+        - { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
+        - { var: household.food_months, op: '>=', value: 6 }
+    roles: [{ id: ly, from: village, village_role: ly_truong }]
+    weight: 4
+    weight_modifiers:
+      - { condition: { var: flag.tru_thoc_cho_gia, op: '==', value: true }, factor: 2.5 }
+    cooldown_years: 4
+    tension: 5
+    importance: 6
+    icon: thue
+    text:
+      - 'Năm đói, trên huyện có lệnh: nhà nào trữ thóc quá ăn phải bán ra theo giá quan định, ai găm hàng thì phạt. {role.ly.call} cầm sổ đi từng nhà, dừng lâu trước cửa kho nhà bạn.'
+    options:
+      - id: ban_gia_quan
+        text: 'Bán ra theo giá quan định'
+        hint: 'Rẻ hơn giá chợ, nhưng yên chuyện'
+        effects:
+          - { type: sell_food, share: 0.5, keep_months: 4, price_factor: 0.75 }
+          - { type: reputation, group: dan_lang, value: 3 }
+          - { type: clear_flag, flag: tru_thoc_cho_gia }
+        result: ['Thóc nhà bạn được đong ra cho dân nghèo. Lỗ ít tiền, nhưng ông lý ghi tên nhà bạn vào hàng "biết điều".']
+      - id: lot_tay
+        text: 'Biếu ông lý ít tiền để ông ghi sổ nhẹ tay'
+        hint: 'Tốn tiền, giữ được thóc'
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: su_kien }
+          - { type: opinion, role: ly, value: 4 }
+        result: ['{role.ly.call} nhét gói tiền vào tay áo, ghi kho nhà bạn "vừa đủ ăn".']
+      - id: giau_thoc
+        text: 'Giấu bớt thóc xuống hầm, khai ít đi'
+        hint: 'Lộ ra thì bị phạt nặng'
+        chance: { base: 0.5, skill: muu_luoc, per_level: 0.05 }
+        failure:
+          - { type: sell_food, share: 0.5, keep_months: 2, price_factor: 0.6 }
+          - { type: money, value: -6, ledger: su_kien }
+          - { type: reputation, group: dan_lang, value: -6 }
+        success_result: ['Đêm ấy cả nhà khuân thóc xuống hầm. Sáng ra ông lý đếm kho, gật gù đi ra.']
+        failure_result: ['Có kẻ mách lẻo. Thóc bị khui ra bán rẻ, nhà còn phải nộp phạt, cả làng biết chuyện.']
+
+  - id: kt_kho_dot_thoc_am
+    title: Kho dột, thóc bắt đầu ẩm
+    tags: [ruong_dong, thien_tai]
+    months: [5, 6, 7, 8]
+    condition: { var: household.food, op: '>=', value: 40 }
+    weight: 4
+    weight_modifiers:
+      - { condition: { var: flag.tru_thoc_cho_gia, op: '==', value: true }, factor: 2 }
+      - { condition: { var: world.weather, op: '==', value: mua }, factor: 1.6 }
+    cooldown_years: 3
+    tension: 3
+    importance: 3
+    icon: mua
+    text:
+      - 'Mưa dầm cả tuần, mái kho dột một góc. Sáng ra vốc thóc lên đã thấy mùi ngai ngái, mấy hạt đã nứt mầm.'
+    options:
+      - id: phoi_lai
+        text: 'Cả nhà khuân ra phơi lại, mặc mưa nắng thất thường'
+        hint: 'Mệt, nhưng cứu được phần lớn'
+        effects:
+          - { type: food, value: { var: household.food, factor: -0.03 }, ledger: hao_hut }
+          - { type: health, value: -1 }
+          - { type: stress, value: 2 }
+        result: ['Ba ngày ra vào khuân thóc, lưng ai cũng mỏi rã. Mất ít, còn nhiều.']
+      - id: ban_gap
+        text: 'Bán gấp phần ẩm cho lái buôn, giá nào cũng được'
+        effects:
+          - { type: sell_food, share: 0.3, keep_months: 3, price_factor: 0.7 }
+        result: ['Lái buôn chê thóc ẩm, ép giá còn bảy phần. Thôi thì còn hơn để thối.']
+      - id: mac_ke
+        text: 'Kệ nó, che tạm tấm phên rồi tính sau'
+        effects:
+          - { type: food, value: { var: household.food, factor: -0.15 }, ledger: hao_hut }
+        result: ['Nửa tháng sau mở kho, cả góc thóc mốc xanh. Đành đổ cho lợn gà.']
+
+  - id: kt_dong_thoc_re_dau_vu
+    title: Thóc đầu vụ rẻ như bèo
+    tags: [buon_ban, thoi_co]
+    months: [5, 6, 10, 11]
+    condition:
+      all:
+        - { var: player.is_head, op: '==', value: true }
+        - { var: household.money, op: '>=', value: 25 }
+        - { var: world.food_price, op: '<', value: 0.48 }
+    weight: 4
+    weight_modifiers:
+      - { condition: { var: household.career, op: '==', value: thuong_nhan }, factor: 2 }
+    cooldown_years: 3
+    tension: 2
+    importance: 4
+    icon: lua
+    text:
+      - 'Được mùa, thóc đầu vụ chỉ {world.food_price} quan một thúng mà chẳng ai mua. Người ta bảo đong thóc lúc này, đến giáp hạt bán ra là lãi.'
+    options:
+      - id: dong_30
+        text: 'Đong 30 thúng về trữ'
+        hint: 'Bỏ vốn ra, chờ giáp hạt'
+        effects:
+          - { type: money, value: { var: world.food_price, factor: -30, round: false }, ledger: mua_thoc }
+          - { type: food, value: 30, ledger: mua_thoc }
+          - { type: set_flag, flag: tru_thoc_cho_gia, years: 1, label: 'Trữ thóc chờ giáp hạt bán được giá' }
+          - { type: skill_xp, skill: thuong_mai, value: 10 }
+        result: ['Thóc về đầy bồ. Giờ chỉ mong giáp hạt giá lên mà kho đừng dột.']
+      - id: thoi
+        text: 'Thôi, tiền nằm trong rương vẫn chắc hơn'
+        result: ['Bạn lắc đầu. Buôn thóc là việc của lái buôn.']
+
+  - id: kt_cha_hoi_ban_thoc
+    title: Cha hỏi ý chuyện bán thóc
+    tags: [gia_dinh, ruong_dong, buon_ban]
+    months: [5, 6, 10, 11]
+    condition:
+      all:
+        - { var: player.is_head, op: '==', value: false }
+        - { var: player.age, op: '>=', value: 14 }
+        - { var: household.food_months, op: '>=', value: 6 }
+    roles: [{ id: cha, from: family, relation: father }]
+    weight: 4
+    cooldown_years: 3
+    tension: 2
+    importance: 4
+    icon: gia_dinh
+    text:
+      - 'Tối ấy {role.cha.call} ngồi hút điếu bên bồ thóc, gọi bạn lại: "Mày lớn rồi, bàn với cha. Lái buôn trả giá đầu vụ, bán bây giờ hay để đến giáp hạt?"'
+    options:
+      - id: khuyen_ban
+        text: '"Bán bớt đi cha, có tiền trong tay cho chắc."'
+        effects:
+          - { type: sell_food, share: 0.3, keep_months: 6 }
+          - { type: opinion, role: cha, value: 2 }
+          - { type: skill_xp, skill: thuong_mai, value: 8 }
+        result: ['{role.cha.call} gật gù, sáng hôm sau gánh thóc ra chợ.']
+      - id: khuyen_giu
+        text: '"Để đến giáp hạt hẵng bán, cha ạ. Lúc ấy được giá."'
+        effects:
+          - { type: set_flag, flag: tru_thoc_cho_gia, years: 1, label: 'Nhà trữ thóc chờ giáp hạt bán được giá' }
+          - { type: opinion, role: cha, value: 2 }
+          - { type: skill_xp, skill: thuong_mai, value: 8 }
+        result: ['"Ừ, con nói phải." {role.cha.call} rít một hơi điếu dài, khóa cửa kho lại.']
+      - id: tuy_cha
+        text: '"Con chưa rành chuyện này, tùy cha liệu."'
+        result: ['{role.cha.call} cười, xoa đầu bạn: "Rồi mày cũng phải biết thôi."']

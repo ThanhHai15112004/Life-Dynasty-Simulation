@@ -112,7 +112,9 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     householdId: '',
     village: {},
     focus: { primary: '' },
-    autoManage: { livingStandard: true, repayDebt: true },
+    autoManage: { livingStandard: true, repayDebt: true, sellSurplus: true, invest: true },
+    yearOpenNetWorth: 0,
+    purse: { money: 0, ledger: [], history: [], openMoney: 0 },
     householdCareer: origin.default_career,
     wasHead: false,
     career: {

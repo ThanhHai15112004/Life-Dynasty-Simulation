@@ -153,8 +153,8 @@ ambitions:
         stress_relief: 7
         satisfaction_bonus: 12
       - id: co_nghiep_lon
-        name: Cơ nghiệp trên 600 quan
-        condition: { var: household.net_worth, op: '>=', value: 600 }
+        name: Cơ nghiệp trên 1.500 quan
+        condition: { var: household.net_worth, op: '>=', value: 1500 }
         stress_relief: 10
         satisfaction_bonus: 18
 

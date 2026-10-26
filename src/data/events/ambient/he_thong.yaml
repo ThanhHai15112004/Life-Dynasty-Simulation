@@ -299,6 +299,32 @@ templates:
     variants:
       - 'Tá điền gánh thóc tô đến nộp: được {amount} thúng từ {sao} sào ruộng phát canh.'
       - 'Mùa gặt, ruộng cho cấy rẽ nộp về {amount} thúng thóc tô.'
+  # [1.5] Nhà tự lo vun vén: bán thóc dư sau gặt, mua thêm của, cha mẹ già giao việc nhà
+  - id: sys.ban_thoc_du
+    kind: bao_cao
+    importance: 1
+    icon: tien
+    short: 'bán {amount} thúng thóc dư được {money} quan'
+    variants:
+      - 'Gặt xong, nhà để lại đủ thóc ăn, gánh {amount} thúng dư ra chợ bán được {money} quan.'
+      - 'Kho đã đầy, {amount} thúng thóc dư bán cho lái buôn, thu về {money} quan.'
+  - id: sys.mua_them_cua
+    kind: he_thong
+    importance: 5
+    highlight: true
+    icon: nha
+    short: 'mua thêm {title}'
+    variants:
+      - 'Dành dụm mấy năm, nhà mua thêm {title} hết {money} quan.'
+      - 'Có của để dành, nhà bỏ ra {money} quan sắm thêm {title}.'
+  - id: sys.giao_viec_nha
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: nha
+    variants:
+      - '{call} tuổi đã cao, gọi bạn lại giao chìa khóa rương và sổ sách. Từ nay bạn là chủ hộ, lo liệu việc nhà.'
+      - 'Thấy bạn đã yên bề gia thất, {call} giao lại việc nhà. Từ nay bạn làm chủ hộ, cha mẹ chỉ còn ngồi trông cháu.'
   - id: sys.chua_khoi
     kind: bao_cao
     importance: 4

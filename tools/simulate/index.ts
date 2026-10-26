@@ -6,7 +6,7 @@ import { BOT_NAMES, makeBot } from './bots';
 import { runLife, type LifeResult } from './run';
 
 type Range = [number, number];
-const targets = JSON.parse(readFileSync(new URL('./kpi-targets.json', import.meta.url), 'utf8')) as Record<string, Range | number>;
+const targets = JSON.parse(readFileSync(new URL('./kpi-targets.json', import.meta.url), 'utf8')) as Record<string, Range | number | string>;
 
 function arg(name: string, fallback: string): string {
   const i = process.argv.indexOf(`--${name}`);
@@ -70,6 +70,13 @@ for (const originId of origins) for (const b of bots) {
   console.log(`Phút chơi ước tính / đời:     ${minutes.toFixed(1)}${mark('minutes_per_life', minutes)}`);
   console.log(`Ruộng cuối đời TB:            ${mean(results.map((r) => r.farmlandEnd)).toFixed(2)} sào · tiền ${mean(results.map((r) => r.moneyEnd)).toFixed(1)} · nợ ${mean(results.map((r) => r.debtEnd)).toFixed(1)}`);
   console.log(`Từng nợ > 30 quan:            ${pct(results.filter((r) => r.everInDebtOver30).length / results.length)}`);
+  // [1.5] Người chơi cầm tiền sớm không, và có đường làm giàu không
+  const heads = results.filter((r) => r.headAge !== null);
+  const headAge = mean(heads.map((r) => r.headAge!));
+  const richIndex = content.civilizations[0].status_ranks.findIndex((x) => x.id === targets.rich_rank);
+  const richRate = results.filter((r) => r.bestStatusIndex >= richIndex).length / Math.max(1, results.length);
+  console.log(`Tuổi làm chủ hộ TB:           ${headAge.toFixed(1)}${mark('head_age_mean', headAge)} · chưa từng làm chủ ${pct(1 - heads.length / Math.max(1, results.length))}`);
+  console.log(`Từng lên ${String(targets.rich_rank).padEnd(20)}${pct(richRate)}${mark('rich_rate', richRate)}`);
   const share = (pick: (r: LifeResult) => string) => {
     const m = new Map<string, number>();
     results.forEach((r) => m.set(pick(r), (m.get(pick(r)) ?? 0) + 1));

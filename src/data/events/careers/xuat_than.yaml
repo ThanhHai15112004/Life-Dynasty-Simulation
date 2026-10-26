@@ -45,7 +45,7 @@ events:
     months: [2, 3, 4, 11, 12]
     condition: { var: household.career, op: '==', value: thuong_nhan }
     weight: 5
-    cooldown_years: 3
+    cooldown_years: 12   # [1.5] giãn ra: trước 3 năm, đời nào cũng gặp lại
     tension: 5
     importance: 5
     icon: tien
@@ -181,7 +181,7 @@ events:
     roles:
       - { id: hx, from: village, village_role: hang_xom }
     weight: 5
-    cooldown_years: 3
+    cooldown_years: 12   # [1.5] giãn ra: trước 3 năm, đời nào cũng gặp lại
     tension: 4
     importance: 5
     icon: no

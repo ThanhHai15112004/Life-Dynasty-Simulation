@@ -6,7 +6,8 @@ import { ModifierList } from '../../components/ModifierList';
 import { Portrait } from '../../components/Portrait';
 import { StatBar } from '../../components/StatBar';
 import { Tooltip } from '../../components/Tooltip';
-import { num, useSnapshot, useUi } from '../../context';
+import { YearClose } from '../../components/YearClose';
+import { modernMoney, num, useSnapshot, useUi } from '../../context';
 import { LedgerPanel } from './LedgerPanel';
 import { MarketPanel } from './MarketPanel';
 
@@ -109,37 +110,100 @@ export function StatusCard({ hud }: { hud: HudView }) {
   );
 }
 
+/** [1.5] Nhà ở, ruộng, kho thóc, nợ, của khác của hộ (dùng chung cho gia sản của bạn và gia cảnh nhà cha mẹ). */
+function Holdings({ hud }: { hud: HudView }) {
+  const { t } = useUi();
+  const h = hud.household;
+  const u = hud.wealthUnits;
+  const land = h.properties.filter((p) => p.farmland).reduce((sum, p) => sum + p.count, 0);
+  const home = h.properties.find((p) => p.category === 'house');
+  const others = h.properties.filter((p) => !p.farmland && p.category !== 'house');
+  return (
+    <dl className="holdings">
+      {home && (
+        <>
+          <dt>{t('wealth.home')}</dt>
+          <dd>{home.name}</dd>
+        </>
+      )}
+      <dt>{t('wealth.land')}</dt>
+      <dd>{land > 0 ? t('wealth.land_value', { sao: land, m2: Math.round(land * u.m2PerSao).toLocaleString(t('format.locale')) }) : t('wealth.no_land')}</dd>
+      <dt>{t('wealth.food')}</dt>
+      <dd className={h.foodWarning ? 'down' : ''}>
+        {t('wealth.food_value', { months: Number.isFinite(h.foodMonths) ? num(h.foodMonths) : '∞', food: num(h.food) })}
+      </dd>
+      {h.debt > 0 && (
+        <>
+          <dt>{t('ledger.debt')}</dt>
+          <dd className="down">
+            {num(h.debt)} {t('unit.money')}
+          </dd>
+        </>
+      )}
+      {others.length > 0 && (
+        <>
+          <dt>{t('wealth.others')}</dt>
+          <dd>{others.map((p) => `${p.name} ${p.count} ${p.unit}`).join(' · ')}</dd>
+        </>
+      )}
+    </dl>
+  );
+}
+
+/** [1.5] Ô số lớn kiểu 1in8b: số bằng quan, dòng nhỏ quy ra giá ngày nay (hoặc lời chú thích khi chưa có). */
+function BigMoney({ label, value, unit, note }: { label: string; value: number | null; unit: string; note?: string }) {
+  const { t } = useUi();
+  return (
+    <div>
+      <div className="muted small">{label}</div>
+      <div className={`big-num ${value !== null && value < 0 ? 'down' : ''}`}>
+        {value !== null ? num(value) : '—'} {value !== null && <small>{unit}</small>}
+      </div>
+      <div className="muted small">{note ?? t('wealth.no_income')}</div>
+    </div>
+  );
+}
+
 export function WealthCard({ hud }: { hud: HudView }) {
   const { t } = useUi();
   const h = hud.household;
   const m = hud.manage;
+  const u = hud.wealthUnits;
+  const ps = hud.personal;
   const [open, setOpen] = useState<'ledger' | 'spend' | null>(null);
+  const modern = (v: number) => t('wealth.modern', { value: modernMoney(t, v, u.modernPerQuan) });
+  // [1.5] Chưa làm chủ hộ: thẻ là của riêng bạn (kiểu 1in8b); nhà cha mẹ chỉ là gia cảnh
+  const own = ps.active;
+  const netWorth = own ? ps.money : h.netWorth;
+  const income = own ? ps.incomeYear : h.incomeYear;
+  const close = own ? ps.yearClose : h.yearClose;
   return (
     <section className="card">
       <div className="card-head">
-        <h3>{t('wealth.title')}</h3>
+        <h3>{t(own ? 'wealth.title_personal' : 'wealth.title')}</h3>
         <span className="muted small">{t(`living.short.${h.livingStandard}`)}</span>
       </div>
-      {!m.isHead && <p className="manage-note">{t('wealth.not_head', { who: m.headCall })}</p>}
+      {own && <p className="manage-note">{t('wealth.personal_note', { who: m.headCall })}</p>}
       <div className="wealth-grid">
-        <div>
-          <div className="muted small">{t('ledger.money')}</div>
-          <div className="big-num">{num(h.money)} <small>{t('unit.money')}</small></div>
-        </div>
-        <div>
-          <div className="muted small">{t('ledger.food')}</div>
-          <div className={`big-num ${h.foodWarning ? 'down' : ''}`}>{num(h.food)} <small>{t('unit.food')}</small></div>
-          <div className="muted small">{t('ledger.food_months', { months: Number.isFinite(h.foodMonths) ? num(h.foodMonths) : '∞' })}</div>
-        </div>
-        <div>
-          <div className="muted small">{t('ledger.debt')}</div>
-          <div className={`big-num ${h.debt > 0 ? 'down' : ''}`}>{num(h.debt)} <small>{t('unit.money')}</small></div>
-        </div>
-        <div>
-          <div className="muted small">{t('wealth.income')}</div>
-          <div className="big-num">{h.regularIncome > 0 ? `+${num(h.regularIncome)}` : '—'} <small>{t('wealth.per_month')}</small></div>
-        </div>
+        <BigMoney label={t('wealth.net_worth')} value={netWorth} unit={t('unit.money')} note={modern(netWorth)} />
+        <BigMoney
+          label={t('wealth.income_year')}
+          value={income > 0 ? income : null}
+          unit={t('wealth.per_year')}
+          note={income > 0 ? modern(income) : own && ps.young ? t('wealth.young_note') : t('wealth.no_income')}
+        />
       </div>
+      {close ? <YearClose close={close} /> : <p className="muted small">{t('wealth.first_year')}</p>}
+      {own ? (
+        <>
+          <h4>
+            {t('wealth.family_title', { who: m.headCall })} · <span className="muted">{t('wealth.family_band')}:</span> {t(ps.familyKey)}
+          </h4>
+          <Holdings hud={hud} />
+        </>
+      ) : (
+        <Holdings hud={hud} />
+      )}
       <div className="row">
         <button className="wide-btn" onClick={() => setOpen('ledger')}>
           {t('wealth.open_ledger')}
@@ -188,6 +252,15 @@ function SpendPanel({ hud }: { hud: HudView }) {
       <label className="toggle">
         <input type="checkbox" checked={m.autoRepayDebt} onChange={(e) => store.dispatch({ type: 'setAutoManage', key: 'repayDebt', value: e.target.checked })} />
         {t('spend.auto_repay')}
+      </label>
+      <h4>{t('spend.saving_title')}</h4>
+      <label className="toggle">
+        <input type="checkbox" checked={m.autoSellSurplus} onChange={(e) => store.dispatch({ type: 'setAutoManage', key: 'sellSurplus', value: e.target.checked })} />
+        {t('spend.auto_sell_surplus')}
+      </label>
+      <label className="toggle">
+        <input type="checkbox" checked={m.autoInvest} onChange={(e) => store.dispatch({ type: 'setAutoManage', key: 'invest', value: e.target.checked })} />
+        {t('spend.auto_invest')}
       </label>
       <h4>{t('tab.market')}</h4>
       <MarketPanel hud={hud} />

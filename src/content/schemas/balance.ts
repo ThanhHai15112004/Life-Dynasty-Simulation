@@ -97,6 +97,12 @@ export const lifeBalanceSchema = z
       .strict(),
     age_groups: z.array(z.object({ id: z.string(), max_age: z.number() }).strict()).min(1),
     adult_age: z.number().int(),
+    /** [1.5] Ai làm chủ hộ: cha mẹ từ tuổi elder_age giao việc nhà cho lớp con đã lập gia đình (người chơi đã cưới đứng trên anh chị em). */
+    headship: z
+      .object({
+        elder_age: z.number().int().positive(),
+      })
+      .strict(),
     /** Xác suất sinh con trai khi xuất thân không chỉ định giới tính. */
     male_ratio: z.number().min(0).max(1),
     /** [1] Nghề riêng lúc bắt đầu tự lập: trẻ nhà có nghề thì phụ việc nhà, không thì thất nghiệp; làm chủ hộ thì thừa kế nghề nhà. */
@@ -222,6 +228,8 @@ export const economyBalanceSchema = z
         business_runners: z.number().int().min(0),
         /** Hộ không tự cày đi chợ mua thóc để luôn có dự trữ chừng này tháng (chỉ tiêu tiền mặt, không vay). */
         food_reserve_months: z.number().min(0),
+        /** [1.5] Đong thóc dự trữ xong vẫn phải còn tiền tiêu chừng này tháng. */
+        reserve_cash_months: z.number().min(0),
         /** Làng chỉ có chừng ấy tá điền: hệ số tô mỗi sào theo tổng số sào phát canh (chống tích ruộng vô hạn). */
         rent_factor_by_sao: curve('sao', 'factor'),
       })
@@ -260,6 +268,8 @@ export const economyBalanceSchema = z
       .object({
         month: z.number().int().min(1),
         food_per_sao: z.number().min(0),
+        /** [1.5] Thuế điền mỗi sào ruộng phát canh (tá điền gánh một phần). */
+        food_per_sao_tenanted: z.number().min(0),
         money_per_adult: z.number().min(0),
       })
       .strict(),
@@ -272,6 +282,8 @@ export const economyBalanceSchema = z
         borrow_limit: z.number().min(0),
         /** Lãi không đẩy tổng nợ vượt mức này (chủ nợ biết con nợ không trả nổi hơn). */
         interest_cap: z.number().min(0),
+        /** [1.5] Lãi tính hằng tháng; có dư thì trả ngay, giữ lại tiền tiêu (cả thóc) chừng này tháng. */
+        repay_keep_months: z.number().min(0),
         /** Nợ vượt ngưỡng thì cuối năm chủ nợ xiết tài sản (mỗi năm một đơn vị). */
         seize: z
           .object({
@@ -286,6 +298,42 @@ export const economyBalanceSchema = z
       .strict(),
     /** Thiếu tiền tiêu thì tự bán thóc dư, chỉ giữ lại đủ ăn chừng này tháng; còn thiếu mới đi vay. */
     auto_sell_keep_months: z.number().min(0),
+    /** [1.5] Sau mỗi vụ gặt / thu tô, nhà tự lo bán thóc vượt quá chừng này tháng ăn (chủ hộ tắt được). */
+    surplus_keep_months: z.number().min(0),
+    /** [1.5] Đầu năm nhà tự lo dùng tiền dư mua tài sản: luật đầu tiên đúng và đủ tiền thì mua một đơn vị. */
+    auto_invest: z
+      .array(
+        z
+          .object({
+            property: z.string(),
+            condition: conditionSchema.optional(),
+            /** Mua xong vẫn phải còn tiền đủ tiêu chừng này tháng. */
+            keep_months: z.number().min(0),
+          })
+          .strict(),
+      )
+      .default([]),
+    /**
+     * [1.5] Túi tiền riêng của người chơi khi chưa làm chủ hộ (kiểu 1in8b): tiền mình làm ra (lương nghề riêng,
+     * thu nhập theo trọng tâm) vào túi, góp một phần cho nhà; cha mẹ cho tiêu vặt; ăn ở do cha mẹ lo.
+     */
+    purse: z
+      .object({
+        /** Phần tiền làm ra góp cho nhà. */
+        contribute_share: z.number().min(0).max(1),
+        /** Từ tuổi này cha mẹ cho tiền tiêu vặt mỗi tháng, theo mức sống của nhà. */
+        pocket_min_age: z.number().int().min(0),
+        pocket_money_month: z.record(z.string(), z.number().min(0)),
+        /** Từ tuổi này sổ riêng ghi "Ăn ở trong nhà" và "Cha mẹ lo ăn ở" (hai dòng triệt tiêu nhau). */
+        board_from_age: z.number().int().min(0),
+        /** Danh mục sổ riêng tính là "làm ra" (thu nhập năm của bạn). */
+        income_ledgers: z.array(z.string()).min(1),
+      })
+      .strict(),
+    /** [1.5] Danh mục sổ sách tính là "làm ra" (cộng vào thu nhập năm; thóc quy theo giá gốc). */
+    income_ledgers: z.array(z.string()).min(1),
+    /** [1.5] Danh mục chỉ đổi dạng của cải (vay, trả nợ, mua bán tài sản, mua bán thóc): không hiện thành lý do tăng giảm tài sản ròng. */
+    transfer_ledgers: z.array(z.string()).default([]),
     property_sell_factor: z.number().positive(),
     trade_amounts: z.array(z.number().positive()).min(1),
     ledger_history_years: z.number().int().positive(),
@@ -309,10 +357,19 @@ export const livingStandardsSchema = z
           .strict(),
       )
       .min(1),
-    /** [1] Mức sống tự chọn theo gia cảnh (đầu năm): luật đầu tiên đúng thắng, luật không điều kiện là mặc định. */
-    auto_rules: z.array(z.object({ level: z.string(), condition: conditionSchema.optional() }).strict()).min(1),
-    /** [1] Tự trả nợ đầu năm, giữ lại tiền đủ tiêu chừng này tháng. */
-    auto_repay_keep_months: z.number().min(0),
+    /**
+     * [1.5] Mức sống tự chọn theo ngân sách (kiểu 1in8b): chọn bậc cao nhất mà chi phí cả năm không vượt
+     * income_share × thu nhập năm qua + wealth_share × của để dành (tiền + thóc). Đang nợ thì không quá debt_cap_level.
+     */
+    auto_budget: z
+      .object({
+        income_share: z.number().min(0),
+        wealth_share: z.number().min(0),
+        debt_cap_level: z.string(),
+        /** Bậc chỉ chọn tay, nhà tự lo không bao giờ chọn. */
+        manual_only: z.array(z.string()).default([]),
+      })
+      .strict(),
   })
   .strict();
 
@@ -435,6 +492,21 @@ export const displayBalanceSchema = z
         { min: 0, key: 'axis.band.very_low' },
       ]),
     food_months_warning: z.number(),
+    /** [1.5] Gia cảnh nhà cha mẹ hiện bằng chữ khi bạn chưa làm chủ hộ (theo tài sản ròng của hộ). */
+    family_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),
+    /** [1.5] Thẻ tài sản kiểu 1in8b: quy đổi quan/sào ra giá trị ngày nay cho dễ hình dung, và cách chốt sổ năm. */
+    wealth: z
+      .object({
+        /** 1 quan ≈ chừng này đồng ngày nay (neo theo giá thóc gốc). */
+        modern_per_quan: z.number().positive(),
+        /** 1 sào ≈ chừng này m². */
+        m2_per_sao: z.number().positive(),
+        /** Số dòng lý do tối đa khi chốt sổ năm (phần còn lại gộp vào "Chuyện khác"). */
+        year_lines: z.number().int().min(1),
+        /** Bỏ qua các khoản nhỏ hơn chừng này quan. */
+        line_min: z.number().min(0),
+      })
+      .strict(),
     /** Việc dang dở suy ra từ trạng thái (GDD 01 §10.1): mọi luật đúng đều hiện, chữ có token. */
     open_loop_rules: z.array(z.object({ condition: conditionSchema, text: z.string() }).strict()),
     highlight_importance: z.number(),

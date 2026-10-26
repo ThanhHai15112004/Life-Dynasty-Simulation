@@ -6,7 +6,7 @@ import { Ledger } from '../events/systemLogKeys';
 import { resolveMinor } from '../events/decision';
 import { careerAvailable, changeCareer, executeCareerAction } from '../systems/career';
 import type { SimContext } from '../systems/context';
-import { isPlayerHead } from '../systems/economy';
+import { addToPurse, isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
 import { focusAvailable } from '../systems/focus';
 import { treatDisease, treatmentBlock } from '../systems/life';
@@ -17,7 +17,7 @@ export { focusAvailable };
 
 export type Command =
   | { type: 'setFocus'; focusId: string }
-  | { type: 'setAutoManage'; key: 'livingStandard' | 'repayDebt'; value: boolean }
+  | { type: 'setAutoManage'; key: 'livingStandard' | 'repayDebt' | 'sellSurplus' | 'invest'; value: boolean }
   | { type: 'chooseMinor'; optionId: string }
   | { type: 'joinCareer'; careerId: string }
   | { type: 'doCareerAction'; actionId: string }
@@ -91,10 +91,11 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
     case 'joinCareer': {
       if (state.career.id === cmd.careerId || !careerAvailable(ctx, cmd.careerId)) return fail('career_unavailable');
       const cost = content.index.career.get(cmd.careerId)?.join?.cost_money ?? 0;
-      // Vốn vào nghề lấy từ tiền nhà: chỉ chủ hộ mới được bỏ ra
-      if (cost > 0 && !isPlayerHead(ctx)) return fail('not_head');
-      if (cost > h.money) return fail('not_enough_money');
-      if (cost > 0) {
+      // Vốn vào nghề: chủ hộ lấy từ tiền nhà; [1.5] chưa làm chủ hộ thì bỏ tiền riêng của mình
+      const fromPurse = !isPlayerHead(ctx);
+      if (cost > (fromPurse ? state.purse.money : h.money)) return fail('not_enough_money');
+      if (cost > 0 && fromPurse) addToPurse(ctx, Ledger.Event, -cost);
+      else if (cost > 0) {
         h.money -= cost;
         addLedger(h, Ledger.Event, -cost, 0);
       }

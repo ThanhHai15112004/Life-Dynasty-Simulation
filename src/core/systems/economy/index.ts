@@ -12,9 +12,23 @@ import { RngStream, type SimContext } from '../context';
 import { computeHousehold } from '../modifiers';
 import { ageNow, aliveMembers, householdHead, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
-import { buyPrice, careerEconomy, incomeOf, monthlyFoodNeed, monthlyMoneyNeed, sellPrice, workers } from './helpers';
+import {
+  buyPrice,
+  careerEconomy,
+  householdNetWorth,
+  incomeOf,
+  incomeOfEntries,
+  levelYearCost,
+  monthlyFoodNeed,
+  monthlyMoneyNeed,
+  sellPrice,
+  spareWorkers,
+  workers,
+} from './helpers';
+import { earnPersonal, monthlyPurse, yearlyPurse } from './purse';
 
 export * from './helpers';
+export * from './purse';
 
 function quality(ctx: SimContext) {
   const { content, state } = ctx;
@@ -80,19 +94,20 @@ function collectRent(ctx: SimContext): void {
 }
 
 /** [1] Các khoản thu đều đặn trong tháng: nghề nhà (kỹ năng theo người giỏi nhất trong hộ) và Focus chính (kỹ năng người chơi). */
-export function regularIncomeParts(ctx: SimContext): { ledger: string; money: number }[] {
+export function regularIncomeParts(ctx: SimContext): { ledger: string; money: number; personal: boolean }[] {
   const { content, state } = ctx;
-  const parts: { ledger: string; money: number }[] = [];
+  const parts: { ledger: string; money: number; personal: boolean }[] = [];
   const ce = careerEconomy(ctx);
   if (ce.income) {
     const skill = ce.income.skill;
     const level = skill ? aliveMembers(ctx).reduce((m, c) => Math.max(m, c.skills[skill]?.level ?? 0), 0) : 0;
-    parts.push({ ledger: ce.income.ledger, money: incomeOf(ctx, ce.income, level) });
+    parts.push({ ledger: ce.income.ledger, money: incomeOf(ctx, ce.income, level), personal: false });
   }
   const focus = content.index.focus.get(state.focus.primary);
   if (focus?.income && evaluate(focus.condition, createResolver(ctx))) {
     const skill = focus.income.skill;
-    parts.push({ ledger: focus.income.ledger, money: incomeOf(ctx, focus.income, skill ? (player(ctx).skills[skill]?.level ?? 0) : 0) });
+    // [1.5] Thu nhập theo trọng tâm là tiền người chơi tự làm ra: chưa làm chủ hộ thì vào túi riêng
+    parts.push({ ledger: focus.income.ledger, money: incomeOf(ctx, focus.income, skill ? (player(ctx).skills[skill]?.level ?? 0) : 0), personal: true });
   }
   return parts;
 }
@@ -100,6 +115,10 @@ export function regularIncomeParts(ctx: SimContext): { ledger: string; money: nu
 function regularIncome(ctx: SimContext): void {
   const h = playerHousehold(ctx);
   for (const part of regularIncomeParts(ctx)) {
+    if (part.personal) {
+      earnPersonal(ctx, part.ledger, part.money);
+      continue;
+    }
     h.money += part.money;
     addLedger(h, part.ledger, part.money, 0);
   }
@@ -110,7 +129,9 @@ function tax(ctx: SimContext): void {
   const t = content.balance.economy.tax;
   const h = playerHousehold(ctx);
   const adults = aliveMembers(ctx, h).filter((c) => ageNow(ctx, c) >= content.balance.life.adult_age).length;
-  const food = Math.round(farmlandOf(h, content) * t.food_per_sao);
+  // [1.5] Ruộng phát canh: tá điền gánh một phần thuế điền, chủ ruộng nộp ít hơn
+  const perSao = careerEconomy(ctx).self_farm ? t.food_per_sao : t.food_per_sao_tenanted;
+  const food = Math.round(farmlandOf(h, content) * perSao);
   const money = adults * t.money_per_adult;
   h.food -= food;
   h.money -= money;
@@ -142,11 +163,13 @@ function settle(ctx: SimContext): void {
     addLedger(h, Ledger.BuyFood, -bought * price, bought);
     if (bought < need && !loggedThisYear(ctx, SystemLog.Starving)) writeTemplate(ctx, SystemLog.Starving);
   }
-  // 1b) Hộ không tự cày: có tiền thì đong thóc dự trữ vài tháng (không vay để tích trữ)
+  // 1b) Hộ không tự cày: có tiền thì đong thóc dự trữ vài tháng (không vay để tích trữ);
+  // [1.5] giữ lại tiền tiêu reserve_cash_months tháng, không dốc sạch túi rồi tháng sau lại phải vay
   if (!careerEconomy(ctx).self_farm) {
     const want = monthlyFoodNeed(ctx) * eco.tenancy.food_reserve_months - h.food;
     const price = buyPrice(ctx);
-    const amount = price > 0 ? Math.min(want, Math.max(0, h.money) / price) : 0;
+    const spendable = Math.max(0, h.money - monthlyMoneyNeed(ctx) * eco.tenancy.reserve_cash_months);
+    const amount = price > 0 ? Math.min(want, spendable / price) : 0;
     if (amount > 0) {
       h.food += amount;
       h.money -= amount * price;
@@ -208,16 +231,40 @@ export function monthlyEconomy(ctx: SimContext): void {
   // Lao động dư: nhà nông (ít ruộng, đông người) đi làm thuê — mất ruộng vẫn còn đường sống;
   // nhà không tự cày thì mọi người trừ người lo việc chính đều phụ việc nghề nhà
   const ce = careerEconomy(ctx);
-  const busy = ce.self_farm ? farmlandOf(h, content) * eco.harvest.full_workers_per_sao : eco.tenancy.business_runners;
-  const spareWorkers = Math.max(0, workers(ctx).length - busy);
-  const wages = Math.floor(spareWorkers) * (ce.family_wage_month ?? eco.harvest.spare_worker_wage_month);
+  const wages = Math.floor(spareWorkers(ctx)) * (ce.family_wage_month ?? eco.harvest.spare_worker_wage_month);
   h.money += wages;
   addLedger(h, ce.self_farm ? Ledger.Wages : Ledger.FamilyWork, wages, 0);
   regularIncome(ctx);
 
-  if (eco.harvest.months.includes(state.clock.month)) (ce.self_farm ? harvest : collectRent)(ctx);
+  if (eco.harvest.months.includes(state.clock.month)) {
+    (ce.self_farm ? harvest : collectRent)(ctx);
+    sellSurplus(ctx);
+  }
   if (eco.tax.month === state.clock.month) tax(ctx);
+  monthlyPurse(ctx);
   settle(ctx);
+  monthlyDebt(ctx);
+}
+
+/**
+ * [1.5] Nợ tính lãi theo tháng (lãi năm / 12, không vượt trần) và có dư là trả ngay trong tháng —
+ * không còn cảnh trong rương nhiều tiền mà sổ vẫn treo nợ cả năm.
+ */
+function monthlyDebt(ctx: SimContext): void {
+  const d = ctx.content.balance.economy.debt;
+  const h = playerHousehold(ctx);
+  if (h.debt <= 0) return;
+  const interest = Math.max(0, Math.min((h.debt * d.annual_interest) / 12, d.interest_cap - h.debt));
+  h.debt += interest;
+  // Lãi cộng thẳng vào nợ (không trừ tiền mặt); vẫn ghi sổ để người chơi thấy nợ phình ra vì đâu
+  addLedger(h, Ledger.Interest, -interest, 0);
+  if (!autoOn(ctx, 'repayDebt')) return;
+  const keep = (levelYearCost(ctx, h.livingStandard) / 12) * d.repay_keep_months;
+  const amount = Math.min(h.debt, Math.max(0, h.money - keep));
+  if (amount <= 0) return;
+  h.money -= amount;
+  h.debt -= amount;
+  addLedger(h, Ledger.RepayDebt, -amount, 0);
 }
 
 /** [1] Người chơi có đang là chủ hộ (người quyết chi tiêu, mua bán của nhà) không. */
@@ -225,41 +272,77 @@ export function isPlayerHead(ctx: SimContext): boolean {
   return householdHead(ctx)?.id === ctx.state.playerId;
 }
 
-/** [1] Mức sống hợp gia cảnh theo luật trong data (luật đầu tiên đúng thắng). */
-export function autoLivingStandard(ctx: SimContext): string {
-  const ls = ctx.content.balance.living_standards;
-  const r = createResolver(ctx);
-  return ls.auto_rules.find((rule) => evaluate(rule.condition, r))?.level ?? ls.default;
+/** [1.5] Việc này nhà tự lo: chưa làm chủ hộ thì luôn tự lo, làm chủ rồi thì theo công tắc của chủ hộ. */
+function autoOn(ctx: SimContext, key: keyof SimContext['state']['autoManage']): boolean {
+  return !isPlayerHead(ctx) || ctx.state.autoManage[key];
 }
 
-/** [1] Đầu năm: nhà tự lo (chủ hộ là NPC, hoặc chủ hộ để tự động) — chọn mức sống theo gia cảnh, trả nợ khi có dư. */
+/** [1.5] Sau vụ gặt / thu tô: bán phần thóc vượt mức dự trữ để của cải thành tiền (không ôm thóc vô hạn). */
+function sellSurplus(ctx: SimContext): void {
+  if (!autoOn(ctx, 'sellSurplus')) return;
+  const h = playerHousehold(ctx);
+  const amount = Math.floor(h.food - monthlyFoodNeed(ctx) * ctx.content.balance.economy.surplus_keep_months);
+  const price = sellPrice(ctx);
+  if (amount <= 0 || price <= 0) return;
+  h.food -= amount;
+  h.money += amount * price;
+  addLedger(h, Ledger.SellFood, amount * price, -amount);
+  writeTemplate(ctx, SystemLog.SurplusSold, { params: { amount, money: Math.round(amount * price) } });
+}
+
+/** [1.5] Đầu năm: có dư thì mua thêm của (luật trong economy.auto_invest, mỗi năm một món). */
+function autoInvest(ctx: SimContext): void {
+  if (!autoOn(ctx, 'invest')) return;
+  const { content } = ctx;
+  const h = playerHousehold(ctx);
+  const r = createResolver(ctx);
+  const monthCost = levelYearCost(ctx, h.livingStandard) / 12;
+  for (const rule of content.balance.economy.auto_invest) {
+    const p = content.index.property.get(rule.property);
+    if (!p?.buyable || !evaluate(rule.condition, r)) continue;
+    if (h.money - p.value < monthCost * rule.keep_months) continue;
+    h.money -= p.value;
+    h.properties[p.id] = (h.properties[p.id] ?? 0) + 1;
+    addLedger(h, Ledger.BuyProperty, -p.value, 0);
+    writeTemplate(ctx, SystemLog.AutoInvest, { params: { title: p.name, money: Math.round(p.value) } });
+    return;
+  }
+}
+
+/**
+ * [1.5] Mức sống theo ngân sách (kiểu 1in8b): bậc cao nhất mà chi phí cả năm không vượt
+ * một phần thu nhập năm qua cộng một phần của để dành. Chưa chốt sổ năm nào thì giữ nguyên.
+ */
+export function autoLivingStandard(ctx: SimContext): string {
+  const { content, state } = ctx;
+  const ls = content.balance.living_standards;
+  const b = ls.auto_budget;
+  const h = playerHousehold(ctx);
+  const last = state.ledgerHistory[state.ledgerHistory.length - 1];
+  if (!last) return h.livingStandard;
+  const savings = Math.max(0, h.money) + Math.max(0, h.food) * content.balance.economy.price.base;
+  const budget = b.income_share * last.income + b.wealth_share * savings;
+  const capIndex = h.debt > 0 ? ls.levels.findIndex((l) => l.id === b.debt_cap_level) : ls.levels.length - 1;
+  const options = ls.levels.filter((l, i) => !b.manual_only.includes(l.id) && i <= capIndex);
+  let pick = options[0]?.id ?? ls.default;
+  for (const l of options) if (levelYearCost(ctx, l.id) <= budget) pick = l.id;
+  return pick;
+}
+
+/** [1] Đầu năm: nhà tự lo (chủ hộ là NPC, hoặc chủ hộ để tự động) — chọn mức sống theo ngân sách, [1.5] mua thêm của khi có dư (trả nợ nay làm hằng tháng). */
 export function yearlyHousehold(ctx: SimContext): void {
   const { state, content } = ctx;
   const h = playerHousehold(ctx);
   const head = isPlayerHead(ctx);
+  state.yearOpenNetWorth = householdNetWorth(ctx);
   if (!head || state.autoManage.livingStandard) h.livingStandard = autoLivingStandard(ctx);
-  if ((!head || state.autoManage.repayDebt) && h.debt > 0) {
-    const keep = monthlyMoneyNeed(ctx) * content.balance.living_standards.auto_repay_keep_months;
-    const amount = Math.min(h.debt, Math.max(0, h.money - keep));
-    if (amount > 0) {
-      h.money -= amount;
-      h.debt -= amount;
-      addLedger(h, Ledger.RepayDebt, -amount, 0);
-    }
-  }
+  autoInvest(ctx);
 }
 
-/** Cuối năm: lãi nợ, bảo trì và thu nhập phụ của tài sản, chốt sổ. */
+/** Cuối năm: bảo trì và thu nhập phụ của tài sản, chốt sổ ([1.5] lãi nợ nay tính hằng tháng). */
 export function yearlyEconomy(ctx: SimContext): void {
   const { content, state } = ctx;
   const h = playerHousehold(ctx);
-  const d = content.balance.economy.debt;
-  // Lãi không đẩy nợ vượt trần: quá mức đó chủ nợ biết con nợ không trả nổi
-  const interest = Math.max(0, Math.min(h.debt * d.annual_interest, d.interest_cap - h.debt));
-  h.debt += interest;
-  // Lãi cộng thẳng vào nợ (không trừ tiền mặt); vẫn ghi sổ để người chơi thấy nợ phình ra vì đâu
-  addLedger(h, Ledger.Interest, -interest, 0);
-
   let upkeep = 0;
   let income = 0;
   for (const p of holdingsOf(h, content)) {
@@ -276,8 +359,12 @@ export function yearlyEconomy(ctx: SimContext): void {
     year: state.clock.year,
     entries: h.ledger.map((e) => ({ ...e })),
     closing: { money: h.money, food: h.food, debt: h.debt },
+    netWorth: householdNetWorth(ctx),
+    openNetWorth: state.yearOpenNetWorth,
+    income: incomeOfEntries(ctx, h.ledger),
   });
   const keep = content.balance.economy.ledger_history_years;
   if (state.ledgerHistory.length > keep) state.ledgerHistory.splice(0, state.ledgerHistory.length - keep);
   h.ledger = [];
+  yearlyPurse(ctx);
 }

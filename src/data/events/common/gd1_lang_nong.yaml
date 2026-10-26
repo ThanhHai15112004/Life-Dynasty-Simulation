@@ -127,7 +127,7 @@ events:
       - { id: hx, from: village, village_role: hang_xom }
       - { id: ly, from: village, village_role: ly_truong, optional: true }
     weight: 5
-    cooldown_years: 6
+    cooldown_years: 12   # [1.5] giãn ra: trước 6 năm, đời nào cũng gặp lại
     tension: 5
     importance: 6
     icon: ruong
@@ -658,7 +658,7 @@ events:
     roles:
       - { id: ly, from: village, village_role: ly_truong }
     weight: 4
-    cooldown_years: 6
+    cooldown_years: 12   # [1.5] giãn ra: trước 6 năm, đời nào cũng gặp lại
     tension: 4
     importance: 5
     icon: lang
@@ -818,7 +818,7 @@ events:
     weight: 5
     weight_modifiers:
       - { condition: { var: world.season, op: '==', value: dong }, factor: 2 }
-    cooldown_years: 5
+    cooldown_years: 12   # [1.5] giãn ra: trước 5 năm, đời nào cũng gặp lại
     tension: 5
     importance: 6
     icon: trau

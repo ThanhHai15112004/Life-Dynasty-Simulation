@@ -104,8 +104,9 @@ careers:
     # Nhà buôn không tự cày: ruộng phát canh thu tô, người nhà phụ sạp hàng, tiền lời theo Thời cơ giá buôn
     economy:
       self_farm: false
-      family_wage_month: 0.4
-      income: { money_month: 0.2, skill: thuong_mai, per_level: 0.045, trade_scaled: true, ledger: buon_ban }
+      family_wage_month: 0.28   # [1.5] hạ từ 0.4: người nhà phụ sạp không phải nguồn giàu chính
+      # [1.5] Lời theo vốn: tiền mặt quay vòng buôn bán (tối đa max quan) sinh lời rate_year mỗi năm, nhân Thời cơ
+      income: { money_month: 0.2, skill: thuong_mai, per_level: 0.045, trade_scaled: true, capital: { rate_year: 0.08, max: 150 }, ledger: buon_ban }
     entry_condition:
       all:
         - { var: player.skill.thuong_mai, op: '>=', value: 2 }
@@ -437,7 +438,7 @@ careers:
     # Nhà nho không cầm cày: ruộng phát canh thu tô, sống bằng nghề chữ; người nhà chỉ dệt vải, chép sách kiếm thêm
     economy:
       self_farm: false
-      family_wage_month: 0.3
+      family_wage_month: 0.2    # [1.5] hạ từ 0.3
       income: { money_month: 0.4, skill: hoc_van, per_level: 0.07, ledger: day_hoc }
     ranks:
       - id: nho_sinh

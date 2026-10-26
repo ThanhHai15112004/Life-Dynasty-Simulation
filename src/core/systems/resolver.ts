@@ -5,7 +5,8 @@ import { UnknownVariableError, type Resolver } from '../engine/RuleEvaluator';
 import { fullName, type Character } from '../entities/Character';
 import { farmlandOf } from '../entities/Property';
 import type { SimContext } from './context';
-import { householdNetWorth, localTradeFactor, monthlyFoodNeed, selfFarms, workerCount } from './economy/helpers';
+import { householdNetWorth, lastYearIncome, localTradeFactor, monthlyFoodNeed, selfFarms, spareWorkers, workerCount } from './economy/helpers';
+import { purseActive } from './economy/purse';
 import { aliveChildrenOf } from './family';
 import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
 import { ExamStage, examStage } from './status';
@@ -44,6 +45,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
     switch (field) {
       case 'age':
         return ageNow(ctx, c);
+      // [1.5] Tiền của riêng người chơi: chưa làm chủ hộ là túi riêng, làm chủ rồi là tiền nhà
+      case 'own_money':
+        if (c.id !== state.playerId) return 0;
+        return purseActive(ctx) ? state.purse.money : playerHousehold(ctx).money;
       case 'sex':
         return c.sex;
       case 'health':
@@ -177,6 +182,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
             return state.householdCareer;
           case 'self_farms':
             return selfFarms(ctx);
+          case 'spare_workers':
+            return spareWorkers(ctx);
+          case 'income_year':
+            return lastYearIncome(ctx);
           case 'food_months': {
             const need = monthlyFoodNeed(ctx);
             return need > 0 ? h.food / need : 99;

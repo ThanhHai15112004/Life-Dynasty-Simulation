@@ -10,6 +10,8 @@ import { createResolver, type Bindings, type StateResolver } from '../systems/re
 import { addSkillXp } from '../systems/skills';
 import { cureCharacter, infectCharacter } from '../systems/life';
 import { healthCap } from '../systems/life/health';
+import { monthlyFoodNeed, sellPrice } from '../systems/economy/helpers';
+import { ownMoney } from '../systems/economy/purse';
 import { addCareerMerit, addWanted, changeCareer } from '../systems/career';
 import { marryPlayer } from '../systems/family';
 import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
@@ -64,6 +66,23 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           h.food += v;
           addLedger(h, e.ledger ?? Ledger.Event, 0, v);
           bump(deltas, 'food', v);
+          break;
+        }
+        case 'own_money': {
+          const v = evalNumber(e.value, r);
+          ownMoney(ctx, e.ledger ?? Ledger.Event, v);
+          bump(deltas, 'money', v);
+          break;
+        }
+        case 'sell_food': {
+          const amount = Math.floor(Math.max(0, h.food - monthlyFoodNeed(ctx) * e.keep_months) * e.share);
+          if (amount <= 0) break;
+          const money = amount * sellPrice(ctx) * e.price_factor;
+          h.food -= amount;
+          h.money += money;
+          addLedger(h, e.ledger ?? Ledger.SellFood, money, -amount);
+          bump(deltas, 'food', -amount);
+          bump(deltas, 'money', money);
           break;
         }
         case 'debt': {

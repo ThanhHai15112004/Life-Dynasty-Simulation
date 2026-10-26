@@ -32,6 +32,10 @@ export interface LifeResult {
   statusRankEnd: string;
   examDegreeEnd: string;
   careerEnd: string;
+  /** [1.5] Tuổi người chơi lần đầu làm chủ hộ (null: chưa từng). */
+  headAge: number | null;
+  /** [1.5] Bậc địa vị cao nhất từng đạt (index trong thang). */
+  bestStatusIndex: number;
 }
 
 export function runLife(
@@ -47,6 +51,8 @@ export function runLife(
   let openLoopsSum = 0;
   let deepDebt = false;
   let married = false;
+  let headAge: number | null = null;
+  let bestStatusIndex = 0;
   const apply = (cmds: ReturnType<Bot['yearly']>) => cmds.forEach((c) => s.dispatch(c));
 
   apply(bot.yearly(s.read(getHudView)));
@@ -62,6 +68,8 @@ export function runLife(
     apply(bot.monthly(v));
     if (v.household.debt > 30) deepDebt = true;
     if (s.state.characters[s.state.playerId].spouseId) married = true;
+    if (headAge === null && v.manage.isHead) headAge = v.player.age;
+    bestStatusIndex = Math.max(bestStatusIndex, v.player.statusRank.index);
     openLoopsSum += v.openLoops.length / 12;
     if (r.newYear) {
       years += 1;
@@ -101,9 +109,11 @@ export function runLife(
     familyChildDeaths: childDeaths,
     playerDiedYoung: (st.gameOver?.age ?? 99) < 6 && player.alive === false,
     everInDebtOver30: deepDebt,
-    netWorthEnd: view.household.money + view.household.properties.reduce((a, p) => a + p.value * p.count, 0) - view.household.debt,
+    netWorthEnd: view.household.netWorth,
     statusRankEnd: view.player.statusRank.id,
     examDegreeEnd: st.civilization.examDegree,
     careerEnd: st.career.id,
+    headAge,
+    bestStatusIndex,
   };
 }

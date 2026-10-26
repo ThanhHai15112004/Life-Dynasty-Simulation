@@ -33,7 +33,15 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
     raw.career = { ...raw.career, id: '', rankIndex: 0, merit: 0 };
   }
   raw.focus = { primary: raw.focus?.primary ?? '' };
-  raw.autoManage = raw.autoManage ?? { livingStandard: true, repayDebt: true };
+  raw.autoManage = { livingStandard: true, repayDebt: true, sellSurplus: true, invest: true, ...raw.autoManage };
+  raw.yearOpenNetWorth = raw.yearOpenNetWorth ?? 0;
+  raw.purse = raw.purse ?? { money: 0, ledger: [], history: [], openMoney: 0 };
+  // Sổ năm của save cũ chưa có tài sản ròng / thu nhập: để 0, chốt sổ năm sau sẽ có số thật
+  for (const y of raw.ledgerHistory ?? []) {
+    y.netWorth = y.netWorth ?? 0;
+    y.openNetWorth = y.openNetWorth ?? y.netWorth;
+    y.income = y.income ?? 0;
+  }
   // Chuyện nhỏ của save cũ có hạn tự chọn (expiresAt); nay chờ người chơi chọn như sự kiện thường
   if (raw.minor) delete (raw.minor as { expiresAt?: number }).expiresAt;
   raw.minor = raw.minor ?? null;

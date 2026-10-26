@@ -147,7 +147,7 @@ events:
     condition: { var: household.money, op: '>=', value: 22 }
     roles: [{ id: hx, from: village, village_role: hang_xom }, { id: ba_ho, from: village, village_role: ba_ho, optional: true }]
     weight: 6
-    cooldown_years: 3
+    cooldown_years: 12   # [1.5] giãn ra: trước 3 năm, đời nào cũng gặp lại
     tension: 3
     importance: 6
     icon: ruong
