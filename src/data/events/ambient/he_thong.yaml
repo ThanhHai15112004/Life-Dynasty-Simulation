@@ -482,6 +482,101 @@ templates:
     variants:
       - 'Theo sự thu xếp trong nhà, {call} chuyển sang làm nghề {title}.'
       - '{call} bắt đầu theo nghề {title} để góp sức nuôi gia đình.'
+  # [6] Cơ nghiệp kinh doanh, Nâng cấp nhà ở & Vay/cho vay NPC (Phase 6)
+  - id: sys.mo_co_nghiep
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: tien
+    variants:
+      - 'Xuất {money} quan tiền vốn, gia đình chính thức mở {title}, bắt đầu gây dựng cơ nghiệp riêng.'
+      - 'Chọn ngày lành tháng tốt, nhà bạn khai trương {title} với {money} quan tiền vốn ban đầu.'
+  - id: sys.mo_rong_co_nghiep
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: tien
+    variants:
+      - 'Làm ăn khấm khá, bạn bỏ ra {money} quan mở rộng cơ nghiệp lên thành {title}.'
+      - 'Bỏ thêm {money} quan tiền vốn, cơ nghiệp của gia đình nay đã nâng lên tầm {title}.'
+  - id: sys.co_nghiep_sa_sut
+    kind: bao_cao
+    importance: 6
+    highlight: true
+    tone: buon
+    icon: buon
+    variants:
+      - 'Buôn bán đình trệ, nhân lực thiếu hụt khiến {title} của nhà bạn ngày một sa sút.'
+      - 'Năm qua {title} làm ăn chật vật, vốn liếng hao hụt thấy rõ.'
+  - id: sys.co_nghiep_pha_san
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: buon
+    icon: no_nan
+    variants:
+      - 'Thua lỗ chồng chất không còn sức cầm cự, {title} đành phải đóng cửa phá sản.'
+      - 'Cạn kiệt vốn liếng sau nhiều phen thất bát, cơ nghiệp {title} của gia đình tan vỡ.'
+  - id: sys.sang_nhuong_co_nghiep
+    kind: he_thong
+    importance: 6
+    tone: trung_tinh
+    icon: tien
+    variants:
+      - 'Bạn sang nhượng lại {title}, thu về cho gia đình {money} quan tiền mặt.'
+      - 'Khép lại việc kinh doanh {title}, nhà bạn thu hồi được {money} quan tiền vốn.'
+  - id: sys.nang_cap_nha
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: nha
+    variants:
+      - 'Sau bao năm tích góp, gia đình bỏ ra {money} quan dựng lại cơ ngơi thành {title} khang trang bề thế.'
+      - 'Tiếng đục chạm rộn ràng suốt mấy tháng: ngôi {title} ({money} quan) đã hoàn thành, cả họ nở mày nở mặt.'
+  - id: sys.vay_tien_npc
+    kind: bao_cao
+    importance: 5
+    tone: buon
+    icon: no_nan
+    variants:
+      - 'Túng thiếu, bạn tìm đến hỏi vay {call} {money} quan tiền, hẹn ngày trả cả gốc lẫn lãi.'
+      - 'Bạn ký giấy vay {call} {money} quan tiền để xoay xở việc nhà.'
+  - id: sys.tra_no_npc
+    kind: bao_cao
+    importance: 5
+    tone: vui
+    icon: tien
+    variants:
+      - 'Bạn mang {money} quan tiền sang trả nợ cho {call}, giữ trọn chữ tín.'
+      - 'Đem {money} quan thanh toán khoản nợ với {call}, lòng nhẹ bớt một nỗi lo.'
+  - id: sys.cho_vay_npc
+    kind: bao_cao
+    importance: 5
+    tone: vui
+    icon: tien
+    variants:
+      - 'Thấy {call} qua hỏi vay lúc ngặt nghèo, bạn xuất {money} quan cho vay, vừa có chút lãi vừa kết thêm ân tình.'
+      - 'Bạn cho {call} vay {money} quan tiền, hẹn mùa sau hoàn trả.'
+  - id: sys.thu_no_npc
+    kind: bao_cao
+    importance: 5
+    tone: vui
+    icon: tien
+    variants:
+      - 'Đến kỳ thanh toán, bạn thu hồi {money} quan tiền cả gốc lẫn lãi từ khoản cho {call} vay.'
+      - '{call} đem trả {money} quan tiền nợ cho gia đình bạn.'
+  - id: sys.xoa_no_npc
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Thương cảnh {call} túng quẫn, bạn đốt văn tự xóa khoản nợ {money} quan. Cả làng đều trọng nghĩa khí của bạn.'
+      - 'Bạn xé giấy nợ {money} quan cho {call}, đổi lại mối đại ân tình khắc cốt ghi tâm.'
 
 
 

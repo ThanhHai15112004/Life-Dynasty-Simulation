@@ -3,7 +3,7 @@
 import type { Primitive } from '@content/schemas/condition';
 import { UnknownVariableError, type Resolver } from '../engine/RuleEvaluator';
 import { fullName, type Character } from '../entities/Character';
-import { farmlandOf } from '../entities/Property';
+import { farmlandOf, mainHouse } from '../entities/Property';
 import type { SimContext } from './context';
 import { householdNetWorth, lastYearIncome, localTradeFactor, monthlyFoodNeed, selfFarms, spareWorkers, workerCount } from './economy/helpers';
 import { purseActive } from './economy/purse';
@@ -216,6 +216,10 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
       case 'household': {
         const key = rest.join('.');
         if (key.startsWith('property.')) return h.properties[key.slice(9)] ?? 0;
+        if (key.startsWith('venture.')) {
+          const vId = key.slice(8);
+          return (h.ventures ?? []).some((v) => v.id === vId) ? 1 : 0;
+        }
         switch (key) {
           case 'money':
             return h.money;
@@ -247,6 +251,18 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
           }
           case 'is_split':
             return Boolean(h.parentHouseholdId);
+          case 'ventures_count':
+            return (h.ventures ?? []).length;
+          case 'has_declining_venture':
+            return (h.ventures ?? []).some((v) => v.health < content.balance.economy.ventures.decline_threshold);
+          case 'has_npc_debt':
+            return (h.loans ?? []).some((l) => l.kind === 'borrowed' && l.amount > 0);
+          case 'has_overdue_loan':
+            return (h.loans ?? []).some((l) => l.kind === 'borrowed' && l.overdueYears > 0);
+          case 'lent_loans_count':
+            return (h.loans ?? []).filter((l) => l.kind === 'lent').length;
+          case 'house_tier':
+            return mainHouse(h, content)?.house_tier ?? 1;
           case 'distinct_careers': {
             const adultAge = content.balance.life.adult_age;
             const set = new Set<string>();

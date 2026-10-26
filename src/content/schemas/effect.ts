@@ -72,6 +72,11 @@ export type Effect =
   | { type: 'fulfill_wish'; wishId?: string }
   | { type: 'clan_relation'; clan?: string; value: number; tie?: 'none' | 'in_law' | 'ally' | 'feud'; reason?: string }
   | { type: 'arrange_child_marriage'; sex?: 'm' | 'f'; status?: string }
+  | { type: 'venture_add'; venture: string; stage?: number; health?: number }
+  | { type: 'venture_remove'; venture?: string }
+  | { type: 'venture_health'; venture?: string; value: number }
+  | { type: 'npc_loan_add'; kind: 'borrowed' | 'lent'; role?: string; amount: number; overdue_years?: number }
+  | { type: 'upgrade_house'; target?: string }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -171,6 +176,42 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
         type: z.literal('arrange_child_marriage'),
         sex: z.enum(['m', 'f']).optional(),
         status: z.string().optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('venture_add'),
+        venture: z.string(),
+        stage: z.number().int().min(1).max(3).optional(),
+        health: z.number().min(1).max(100).optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('venture_remove'),
+        venture: z.string().optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('venture_health'),
+        venture: z.string().optional(),
+        value: z.number(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('npc_loan_add'),
+        kind: z.enum(['borrowed', 'lent']),
+        role: z.string().optional(),
+        amount: z.number().positive(),
+        overdue_years: z.number().int().min(0).optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('upgrade_house'),
+        target: z.string().optional(),
       })
       .strict(),
     z

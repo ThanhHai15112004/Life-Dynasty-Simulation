@@ -342,6 +342,7 @@ export function applyScenario(
     const w = scenario.world_setup;
     if (w.harvestQuality) state.world.harvestQuality = w.harvestQuality;
     if (w.foodPrice !== undefined) state.world.foodPrice = w.foodPrice;
+    if (w.tradeIndex !== undefined) state.world.tradeIndex = w.tradeIndex;
     if (w.weather) state.world.weather = w.weather;
   }
 

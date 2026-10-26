@@ -94,7 +94,16 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     income(f.income, `focuses.${f.id}.income`);
     f.life_stages.forEach((st) => need(stageIds.has(st), `focuses.${f.id}: giai đoạn đời lạ "${st}"`));
   }
-  for (const p of content.properties) p.modifiers.forEach((m) => target(m.target, `properties.${p.id}`));
+  for (const p of content.properties) {
+    p.modifiers.forEach((m) => target(m.target, `properties.${p.id}`));
+    if (p.upgrade_from) property(p.upgrade_from, `properties.${p.id}.upgrade_from`);
+  }
+  for (const v of content.ventures) {
+    skill(v.skill, `ventures.${v.id}.skill`);
+    v.settlement_types.forEach((st) => need(idx.settlementType.has(st), `ventures.${v.id}.settlement_types: khu định cư lạ "${st}"`));
+    if (v.upgrade_to) need(idx.venture.has(v.upgrade_to), `ventures.${v.id}.upgrade_to: cơ nghiệp lạ "${v.upgrade_to}"`);
+    v.modifiers.forEach((m) => target(m.target, `ventures.${v.id}.modifiers`));
+  }
   for (const l of content.balance.living_standards.levels) l.modifiers.forEach((m) => target(m.target, `living_standards.${l.id}`));
   for (const c of content.balance.modifiers.conditional) target(c.target, `modifiers.${c.id}`);
   need(idx.livingStandard.has(content.balance.living_standards.default), 'living_standards.default: mức sống lạ');
@@ -199,6 +208,11 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       if (e.type === 'skill_xp') skill(e.skill, w);
       if (e.type === 'modifier') target(e.target, w);
       if (e.type === 'property_add' || e.type === 'property_remove') property(e.property, w);
+      if (e.type === 'venture_add') need(idx.venture.has(e.venture), `${w}: cơ nghiệp lạ "${e.venture}"`);
+      if (e.type === 'venture_remove' && e.venture) need(idx.venture.has(e.venture), `${w}: cơ nghiệp lạ "${e.venture}"`);
+      if (e.type === 'venture_health' && e.venture) need(idx.venture.has(e.venture), `${w}: cơ nghiệp lạ "${e.venture}"`);
+      if (e.type === 'upgrade_house' && e.target) property(e.target, w);
+      if (e.type === 'npc_loan_add' && e.role && !roles.has(e.role)) errors.push(`${w}: vai trò lạ "${e.role}"`);
       if (e.type === 'add_trait') trait(e.trait, w);
       if (e.type === 'schedule_event') need(idx.event.has(e.event), `${w}: sự kiện lạ "${e.event}"`);
       if (e.type === 'cutscene') cutscene(e.id, w);
@@ -361,6 +375,9 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     }
     for (const sj of content.sideJobs) {
       tryCond(sj.condition, `side_jobs.${sj.id}.condition`, []);
+    }
+    for (const v of content.ventures) {
+      tryCond(v.condition, `ventures.${v.id}.condition`, []);
     }
     for (const [i, r] of [...content.balance.scene.condition_rules, ...content.balance.scene.particle_rules].entries()) {
       tryCond(r.condition, `scene.rules[${i}]`, []);

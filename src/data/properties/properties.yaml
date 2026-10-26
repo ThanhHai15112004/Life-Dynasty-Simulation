@@ -61,6 +61,8 @@ properties:
     description: Cột gỗ, mái ngói, nền cao ráo. Cả làng nhìn vào biết nhà đã khá.
     value: 90
     house_tier: 2
+    upgrade_from: nha_tranh
+    upgrade_cost: 80
     upkeep_money_year: 0.5
     modifiers:
       - { target: health.monthly, value: 0.12 }
@@ -77,14 +79,16 @@ properties:
     modifiers: [{ target: xp.thuong_mai, value: 1.1, op: mul }]
     scene: { layer: props, sprite: sap_hang, max_draw: 1 }
   - id: phu_nho
-    name: Tư dinh ngói cổ
+    name: Phủ đệ năm gian
     category: house
     unit: tòa
-    description: Ngôi nhà năm gian cột lim của dòng dõi hương hào cũ, bề thế nhưng tốn kém tu sửa.
-    value: 130
+    description: Ngôi phủ đệ năm gian cột lim, mái ngói mũi hài bề thế của bậc hào phú danh gia, rạng rỡ cả một vùng.
+    value: 180
     house_tier: 3
+    upgrade_from: nha_go
+    upgrade_cost: 120
     upkeep_money_year: 1.2
     modifiers:
       - { target: health.monthly, value: 0.18 }
       - { target: stress.monthly, value: -0.15 }
-    scene: { layer: buildings, sprite: nha_go }
+    scene: { layer: buildings, sprite: phu_nho }

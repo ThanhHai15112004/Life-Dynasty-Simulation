@@ -10,6 +10,7 @@ import { YearClose } from '../../components/YearClose';
 import { modernMoney, num, useSnapshot, useUi } from '../../context';
 import { LedgerPanel } from './LedgerPanel';
 import { MarketPanel } from './MarketPanel';
+import { PropertiesPanel } from '../Properties/PropertiesPanel';
 
 /** Bỏ dấu tiếng Việt để in dòng mã kiểu tờ khai (chỉ trang trí). */
 const plain = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
@@ -146,6 +147,27 @@ function Holdings({ hud }: { hud: HudView }) {
           <dd>{others.map((p) => `${p.name} ${p.count} ${p.unit}`).join(' · ')}</dd>
         </>
       )}
+      {hud.ventures.owned.length > 0 && (
+        <>
+          <dt>{t('wealth.ventures_label')}</dt>
+          <dd>
+            {hud.ventures.owned
+              .map(
+                (v) =>
+                  `${v.name} (${v.profitYear >= 0 ? '+' : ''}${num(v.profitYear)} ${t('unit.money')}/${t('wealth.per_year')})`,
+              )
+              .join(' · ')}
+          </dd>
+        </>
+      )}
+      {hud.npcLoans.lent.length > 0 && (
+        <>
+          <dt>{t('wealth.loans_lent_label')}</dt>
+          <dd>
+            {hud.npcLoans.lent.map((l) => `${l.npcCall}: ${num(l.amount)} ${t('unit.money')}`).join(' · ')}
+          </dd>
+        </>
+      )}
     </dl>
   );
 }
@@ -170,7 +192,7 @@ export function WealthCard({ hud }: { hud: HudView }) {
   const m = hud.manage;
   const u = hud.wealthUnits;
   const ps = hud.personal;
-  const [open, setOpen] = useState<'ledger' | 'spend' | null>(null);
+  const [open, setOpen] = useState<'ledger' | 'spend' | 'properties' | null>(null);
   const modern = (v: number) => t('wealth.modern', { value: modernMoney(t, v, u.modernPerQuan) });
   // [1.5] Chưa làm chủ hộ: thẻ là của riêng bạn (kiểu 1in8b); nhà cha mẹ chỉ là gia cảnh
   const own = ps.active;
@@ -209,14 +231,24 @@ export function WealthCard({ hud }: { hud: HudView }) {
           {t('wealth.open_ledger')}
         </button>
         {m.isHead && (
-          <button className="wide-btn" onClick={() => setOpen('spend')}>
-            {t('wealth.open_spend')}
-          </button>
+          <>
+            <button className="wide-btn" onClick={() => setOpen('properties')}>
+              {t('wealth.open_properties')}
+            </button>
+            <button className="wide-btn" onClick={() => setOpen('spend')}>
+              {t('wealth.open_spend')}
+            </button>
+          </>
         )}
       </div>
       {open === 'ledger' && (
         <Modal title={t('tab.ledger')} onClose={() => setOpen(null)}>
           <LedgerPanel hud={hud} />
+        </Modal>
+      )}
+      {open === 'properties' && (
+        <Modal title={t('properties.modal_title')} onClose={() => setOpen(null)}>
+          <PropertiesPanel hud={hud} />
         </Modal>
       )}
       {open === 'spend' && (

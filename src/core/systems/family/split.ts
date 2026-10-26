@@ -115,6 +115,8 @@ export function splitPlayerHousehold(ctx: SimContext, shareFactor = 1): boolean 
       ...(giveSao > 0 ? { ruong: giveSao } : {}),
     },
     ledger: [],
+    ventures: [],
+    loans: [],
     parentHouseholdId: oldH.id,
     splitFromYear: state.clock.year,
   };
@@ -206,6 +208,8 @@ export function splitSiblingToNewHousehold(ctx: SimContext, sibling: Character, 
       ...(giveSao > 0 ? { ruong: giveSao } : {}),
     },
     ledger: [],
+    ventures: [],
+    loans: [],
     parentHouseholdId: h.parentHouseholdId ?? h.id,
     splitFromYear: state.clock.year,
   };

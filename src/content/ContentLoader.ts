@@ -20,6 +20,7 @@ import {
   settlementTypeFileSchema,
   skillFileSchema,
   traitFileSchema,
+  ventureFileSchema,
   type Ambition,
   type AmbientTemplate,
   type Balance,
@@ -40,6 +41,7 @@ import {
   type SideJob,
   type Skill,
   type Trait,
+  type VentureDef,
 } from './schemas';
 
 export interface RawFile {
@@ -54,6 +56,7 @@ export interface ContentBundle {
   traits: Trait[];
   focuses: Focus[];
   properties: PropertyType[];
+  ventures: VentureDef[];
   diseases: Disease[];
   ambitions: Ambition[];
   careers: Career[];
@@ -73,6 +76,7 @@ export interface ContentBundle {
     trait: Map<string, Trait>;
     focus: Map<string, Focus>;
     property: Map<string, PropertyType>;
+    venture: Map<string, VentureDef>;
     disease: Map<string, Disease>;
     ambition: Map<string, Ambition>;
     career: Map<string, Career>;
@@ -173,6 +177,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const traits = collect('traits', traitFileSchema, 'traits');
   const focuses = collect('focuses', focusFileSchema, 'focuses');
   const properties = collect('properties', propertyFileSchema, 'properties');
+  const ventures = collect('ventures', ventureFileSchema, 'ventures');
   const diseases = collect('diseases', diseaseFileSchema, 'diseases');
   const ambitions = collect('ambitions', ambitionFileSchema, 'ambitions');
   const careerFiles = single('careers', careerFileSchema);
@@ -216,6 +221,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     trait: indexBy(traits, 'traits'),
     focus: indexBy(focuses, 'focuses'),
     property: indexBy(properties, 'properties'),
+    venture: indexBy(ventures, 'ventures'),
     disease: indexBy(diseases, 'diseases'),
     ambition: indexBy(ambitions, 'ambitions'),
     career: indexBy(careers, 'careers'),
@@ -243,6 +249,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     traits,
     focuses,
     properties,
+    ventures,
     diseases,
     ambitions,
     careers,

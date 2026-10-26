@@ -72,6 +72,20 @@ export function settleInheritance(ctx: SimContext, shareFactor = 1, deceasedPare
     playerH.food += food;
     playerH.debt += debt;
 
+    // [6] Cơ nghiệp gia truyền: con trưởng hoặc người chơi thừa kế nếu hộ gốc còn cơ nghiệp
+    let inheritedVentureVal = 0;
+    if ((eldest || count === 1) && ancestralH.ventures && ancestralH.ventures.length > 0) {
+      if (!playerH.ventures) playerH.ventures = [];
+      for (const v of ancestralH.ventures) {
+        if (!playerH.ventures.some((x) => x.id === v.id)) {
+          playerH.ventures.push({ ...v });
+          const def = content.index.venture.get(v.id);
+          if (def) inheritedVentureVal += def.capital_cost;
+        }
+      }
+      ancestralH.ventures = [];
+    }
+
     // Chia phần còn lại cho các anh chị em khác
     const otherHeirs = heirs.filter(
     (c) =>
@@ -92,7 +106,7 @@ export function settleInheritance(ctx: SimContext, shareFactor = 1, deceasedPare
       }
     }
 
-    const netLedgerMoney = money + sao * ruongPrice - debt;
+    const netLedgerMoney = money + sao * ruongPrice + inheritedVentureVal - debt;
     addLedger(playerH, Ledger.Inheritance, netLedgerMoney !== 0 ? netLedgerMoney : 1, food);
     writeTemplate(ctx, SystemLog.Inheritance, {
       self: parentChar?.id,
@@ -165,6 +179,8 @@ export function settleInheritance(ctx: SimContext, shareFactor = 1, deceasedPare
             ...(eachSao > 0 ? { ruong: eachSao } : {}),
           },
           ledger: [],
+          ventures: [],
+          loans: [],
           parentHouseholdId: ancestralH.id,
           splitFromYear: state.clock.year,
         };
@@ -191,7 +207,11 @@ export function settleInheritance(ctx: SimContext, shareFactor = 1, deceasedPare
   const otherPropVal = Object.entries(ancestralH.properties)
     .filter(([k]) => k !== 'ruong')
     .reduce((sum, [k, cnt]) => sum + (content.index.property.get(k)?.value ?? 0) * cnt, 0);
-  const netInherited = keepMoney + keepSao * ruongPrice + otherPropVal - keepDebt;
+  const ventureVal = (ancestralH.ventures ?? []).reduce((sum, v) => {
+    const def = content.index.venture.get(v.id);
+    return sum + (def ? def.capital_cost * v.stage : 0);
+  }, 0);
+  const netInherited = keepMoney + keepSao * ruongPrice + otherPropVal + ventureVal - keepDebt;
 
   // Đặt mốc đầu năm về 0 để dòng Thừa kế phản ánh đúng phần di sản người chơi chính thức tiếp nhận
   state.yearOpenNetWorth = 0;

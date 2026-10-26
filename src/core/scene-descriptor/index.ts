@@ -42,9 +42,20 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
   const h = playerHousehold(ctx);
   const r = createResolver(ctx);
   const house = mainHouse(h, content);
-  const props = holdingsOf(h, content)
-    .filter((p) => p.type.scene?.layer === 'props')
-    .map((p) => ({ sprite: p.type.scene!.sprite, count: Math.min(p.count, p.type.scene!.max_draw) }));
+  const propMap = new Map<string, number>();
+  for (const p of holdingsOf(h, content)) {
+    if (p.type.scene?.layer === 'props') {
+      const cur = propMap.get(p.type.scene.sprite) ?? 0;
+      propMap.set(p.type.scene.sprite, Math.min(cur + p.count, p.type.scene.max_draw));
+    }
+  }
+  for (const v of h.ventures ?? []) {
+    const vDef = content.index.venture.get(v.id);
+    if (vDef?.scene_prop) {
+      propMap.set(vDef.scene_prop, Math.max(1, propMap.get(vDef.scene_prop) ?? 0));
+    }
+  }
+  const props = Array.from(propMap.entries()).map(([sprite, count]) => ({ sprite, count }));
 
   return {
     location: content.index.settlementType.get(state.world.settlementType)?.scene_location ?? sc.location,

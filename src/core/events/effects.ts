@@ -12,6 +12,15 @@ import { cureCharacter, infectCharacter } from '../systems/life';
 import { healthCap } from '../systems/life/health';
 import { monthlyFoodNeed, sellPrice } from '../systems/economy/helpers';
 import { ownMoney } from '../systems/economy/purse';
+import {
+  availableBorrowers,
+  availableCreditors,
+  borrowFromNpc,
+  closeVenture,
+  lendToNpc,
+  openVenture,
+  upgradeHouse,
+} from '../systems/economy/ventures';
 import { addCareerMerit, addWanted, changeCareer, setPlayerCareerTenure, setSideJob } from '../systems/career';
 import { changeClanRelation } from '../systems/ai';
 import {
@@ -245,6 +254,49 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           break;
         case 'property_remove':
           h.properties[e.property] = Math.max(0, (h.properties[e.property] ?? 0) - e.count);
+          break;
+        case 'venture_add':
+          openVenture(ctx, e.venture, {
+            free: true,
+            stage: e.stage,
+            health: e.health,
+            silent: true,
+          });
+          break;
+        case 'venture_remove': {
+          const targetId = e.venture ?? h.ventures?.[0]?.id;
+          if (targetId) closeVenture(ctx, targetId);
+          break;
+        }
+        case 'venture_health': {
+          const list = e.venture
+            ? (h.ventures ?? []).filter((v) => v.id === e.venture)
+            : (h.ventures ?? []);
+          for (const v of list) {
+            v.health = clamp(v.health + e.value, 0, 100);
+          }
+          break;
+        }
+        case 'npc_loan_add': {
+          const roleChar = e.role ? r.character(e.role) : undefined;
+          const fallback =
+            e.kind === 'borrowed' ? availableCreditors(ctx)[0] : availableBorrowers(ctx)[0];
+          const targetNpc = roleChar ?? fallback;
+          if (targetNpc) {
+            if (e.kind === 'borrowed') {
+              borrowFromNpc(ctx, targetNpc.id, e.amount, {
+                overdueYears: e.overdue_years,
+                silent: true,
+              });
+            } else {
+              h.money += e.amount;
+              lendToNpc(ctx, targetNpc.id, e.amount, { silent: true });
+            }
+          }
+          break;
+        }
+        case 'upgrade_house':
+          upgradeHouse(ctx, { targetId: e.target, free: true });
           break;
         case 'schedule_event':
           state.scheduled.push({

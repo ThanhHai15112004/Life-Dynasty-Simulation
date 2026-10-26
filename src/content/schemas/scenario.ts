@@ -105,6 +105,7 @@ export const scenarioSchema = z.object({
     .object({
       harvestQuality: z.string().optional(),
       foodPrice: z.number().optional(),
+      tradeIndex: z.number().optional(),
       weather: z.string().optional(),
     })
     .optional(),

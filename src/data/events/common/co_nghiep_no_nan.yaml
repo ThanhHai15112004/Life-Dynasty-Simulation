@@ -1,0 +1,196 @@
+# [6] Sự kiện Cơ nghiệp kinh doanh & Vay/cho vay NPC (Phase 6)
+events:
+  - id: kt_chu_no_den_doi
+    title: Chủ nợ dẫn người đến đòi
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 3
+    weight: 2.2
+    tags: [kinh_te, lang_xa]
+    roles:
+      - { id: chu_no, from: village, village_role: ba_ho }
+    condition:
+      all:
+        - { var: household.debt, op: '>=', value: 25 }
+    text:
+      - '{role.chu_no.call} cầm xấp văn tự bước vào sân, theo sau là hai gia đinh mặt mũi bặm trợn. Ông ta gõ đầu gậy xuống thềm gạch, lớn tiếng đòi nhà bạn phải thanh toán ngay khoản nợ {household.debt} quan đã quá kỳ hạn.'
+      - 'Mặt trời vừa lên cao, {role.chu_no.call} đã đứng chắn ngay cổng ngõ, giơ tờ giấy nợ ra trước mặt hàng xóm láng giềng mà thúc ép gia đình bạn trả nợ.'
+    options:
+      - id: d_tra_bot_no
+        text: 'Vét rương trả ngay 25 quan để giữ thể diện'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 25 }
+        effects:
+          - { type: money, value: -25, ledger: tra_no }
+          - { type: debt, value: -25, ledger: tra_no }
+          - { type: opinion, role: chu_no, value: 8 }
+          - { type: reputation, group: dan_lang, value: 2 }
+          - { type: stress, value: -4 }
+        result:
+          - 'Nhận đủ chồng tiền kẽm, {role.chu_no.call} dịu giọng hẳn, gạch bớt sổ nợ rồi dẫn người ra về.'
+      - id: d_khat_no_van_nai
+        text: 'Dọn trà ngon, lấy lời khéo léo xin khất đến vụ sau'
+        hint: 'Cần tài Ngoại giao để thuyết phục chủ nợ'
+        chance:
+          base: 0.45
+          skill: ngoai_giao
+          per_level: 0.06
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 8 }
+        success:
+          - { type: opinion, role: chu_no, value: 2 }
+          - { type: stress, value: 3 }
+        failure:
+          - { type: debt, value: 8, ledger: lai_no }
+          - { type: opinion, role: chu_no, value: -10 }
+          - { type: reputation, group: dan_lang, value: -3 }
+          - { type: stress, value: 10 }
+        success_result:
+          - 'Nghe bạn trình bày hoàn cảnh hợp tình hợp lý, {role.chu_no.call} thở dài chấp thuận cho gia hạn thêm một mùa.'
+        failure_result:
+          - '{role.chu_no.call} đập bàn không nghe, bắt viết thêm giấy phạt lãi 8 quan rồi mới chịu bước ra khỏi cổng.'
+      - id: d_gan_bot_ruong
+        text: 'Đành cắt 1 sào ruộng gán nợ cho yên chuyện'
+        condition:
+          all:
+            - { var: household.farmland, op: '>=', value: 1 }
+        effects:
+          - { type: property_remove, property: ruong, count: 1 }
+          - { type: debt, value: -30, ledger: tra_no }
+          - { type: opinion, role: chu_no, value: 5 }
+          - { type: stress, value: 8 }
+        result:
+          - 'Nhìn mảnh bờ thửa cha ông để lại về tay {role.chu_no.call}, lòng bạn xót xa như cắt nhưng khoản nợ nặng lãi đã vơi đi phần lớn.'
+      - id: d_cung_ran_doi_co
+        text: 'Đứng chắn trước thềm, tuyên bố có tiền sẽ trả chứ không chịu ép bức'
+        trait_stress: { an_phan: 6 }
+        effects:
+          - { type: opinion, role: chu_no, value: -15 }
+          - { type: clan_relation, value: -18, tie: feud, reason: 'Tranh chấp nợ nần gay gắt' }
+          - { type: stress, value: 6 }
+        result:
+          - 'Thấy thái độ cứng rắn của bạn, {role.chu_no.call} tức tối chỉ tay hẹn ngày tính sổ rồi hằm hằm bỏ đi. Mối hiềm khích giữa hai nhà càng thêm sâu nặng.'
+
+  - id: kt_co_nghiep_thoi_co_lon
+    title: Thời cơ buôn bán hiếm có
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 4
+    weight: 2.0
+    tags: [buon_ban, kinh_te]
+    condition:
+      all:
+        - { var: household.ventures_count, op: '>=', value: 1 }
+        - { var: world.trade_index, op: '>=', value: 1.15 }
+    text:
+      - 'Thương thuyền từ các nơi đổ về tấp nập, giá hàng hóa trên chợ tăng vọt. Cơ nghiệp của gia đình bạn đang đứng trước một đợt Thời cơ hiếm có trong nhiều năm.'
+    options:
+      - id: d_doc_von_gom_hang
+        text: 'Xuất 20 quan gom thêm nguyên liệu, mở hết công suất'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 20 }
+        chance:
+          base: 0.65
+          skill: thuong_mai
+          per_level: 0.05
+        effects:
+          - { type: money, value: -20, ledger: mua_tai_san }
+          - { type: skill_xp, skill: thuong_mai, value: 12 }
+        success:
+          - { type: money, value: 42, ledger: co_nghiep }
+          - { type: venture_health, value: 15 }
+          - { type: reputation, group: dan_lang, value: 3 }
+        failure:
+          - { type: money, value: 12, ledger: co_nghiep }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Chuyến hàng trúng lớn! Khách tranh nhau đặt mua, cơ nghiệp thu về khoản lãi ròng hậu hĩnh và ngày càng thịnh vượng.'
+        failure_result:
+          - 'Giá chợ hạ nhiệt nhanh hơn dự tính, bạn chỉ thu hồi được một phần vốn liếng.'
+      - id: d_giu_nhip_vung_vang
+        text: 'Làm ăn chắc chắn theo sức hiện có, giữ chữ tín với khách quen'
+        effects:
+          - { type: money, value: 10, ledger: co_nghiep }
+          - { type: venture_health, value: 8 }
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+        result:
+          - 'Nhờ giữ giá phải chăng và hàng hóa đều đặn, cơ nghiệp thu lời ổn định và giữ chân được nhiều mối khách lâu dài.'
+
+  - id: kt_co_nghiep_sa_sut
+    title: Cơ nghiệp gặp cơn bĩ cực
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 3
+    weight: 2.4
+    tags: [buon_ban, kinh_te]
+    condition:
+      all:
+        - { var: household.has_declining_venture, op: '==', value: true }
+    text:
+      - 'Mấy tháng nay cơ nghiệp của gia đình buôn bán ế ẩm, nguyên liệu hư hao, thợ thuyền bắt đầu chán nản. Nếu không sớm chấn chỉnh, e rằng cơ nghiệp khó tránh khỏi cảnh phá sản.'
+    options:
+      - id: d_bom_von_chan_chinh
+        text: 'Bỏ 18 quan tu sửa cơ sở và thưởng thêm cho thợ'
+        condition:
+          all:
+            - { var: household.money, op: '>=', value: 18 }
+        effects:
+          - { type: money, value: -18, ledger: bao_tri }
+          - { type: venture_health, value: 35 }
+          - { type: skill_xp, skill: quan_tri, value: 10 }
+        result:
+          - 'Có thêm vốn xoay vòng và sự khích lệ kịp thời, thợ thuyền hăng hái làm việc trở lại, cơ nghiệp dần qua cơn sóng gió.'
+      - id: d_tu_tay_trong_coi
+        text: 'Đích thân thức khuya dậy sớm kiểm từng cuốn sổ, từng kiện hàng'
+        effects:
+          - { type: venture_health, value: 22 }
+          - { type: health, value: -4 }
+          - { type: stress, value: 7 }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        result:
+          - 'Nhờ bạn sát sao ngày đêm, các khoản thất thoát được chặn đứng, cơ nghiệp từng bước hồi phục dù người gầy rộc đi.'
+      - id: d_sang_nhuong_thu_von
+        text: 'Chấp nhận sang nhượng cơ nghiệp ngay lúc này để bảo toàn chút vốn'
+        effects:
+          - { type: venture_remove }
+          - { type: stress, value: -5 }
+        result:
+          - 'Dứt khoát sang nhượng lại cơ nghiệp trước khi lún sâu thêm, bạn giữ lại được một khoản tiền mặt cho gia đình.'
+
+  - id: kt_nguoi_quen_vay_tien
+    title: Láng giềng sang hỏi vay tiền
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 4
+    weight: 1.5
+    tags: [lang_xa, kinh_te]
+    roles:
+      - { id: nguoi_vay, from: village, village_role: hang_xom }
+    condition:
+      all:
+        - { var: household.money, op: '>=', value: 25 }
+    text:
+      - '{role.nguoi_vay.call} vẻ mặt lo âu sang gõ cửa nhà bạn lúc chập tối, ngỏ ý muốn vay 12 quan tiền để lo việc gấp trong nhà và hứa sang năm sẽ hoàn trả cả gốc lẫn lãi.'
+    options:
+      - id: d_cho_vay_lay_lai
+        text: 'Xuất 12 quan cho vay, viết giấy hẹn kỳ hạn rõ ràng'
+        effects:
+          - { type: npc_loan_add, kind: lent, role: nguoi_vay, amount: 12 }
+          - { type: opinion, role: nguoi_vay, value: 8 }
+          - { type: favor, role: nguoi_vay, value: 5 }
+        result:
+          - '{role.nguoi_vay.call} mừng rỡ nhận tiền, ký vào tờ văn tự và cảm tạ tấm lòng cứu giúp đúng lúc của gia đình bạn.'
+      - id: d_giup_khong_lay_lai
+        text: 'Đưa tặng luôn 5 quan giúp đỡ tình làng nghĩa xóm, không tính chuyện vay trả'
+        trait_stress: { tham_lam: 6 }
+        effects:
+          - { type: money, value: -5, ledger: su_kien }
+          - { type: opinion, role: nguoi_vay, value: 15 }
+          - { type: favor, role: nguoi_vay, value: 12 }
+          - { type: reputation, group: dan_lang, value: 3 }
+        result:
+          - 'Cảm kích trước nghĩa cử hào hiệp của bạn, {role.nguoi_vay.call} rơm rớm nước mắt nguyện ghi nhớ ân tình này.'
+      - id: d_tu_choi_kheo
+        text: 'Than thở nhà cũng đang kẹt vốn làm ăn để từ chối khéo'
+        effects:
+          - { type: opinion, role: nguoi_vay, value: -4 }
+        result:
+          - '{role.nguoi_vay.call} thở dài rồi lặng lẽ cáo từ sang hỏi nhà khác.'

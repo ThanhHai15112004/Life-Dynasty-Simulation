@@ -10,6 +10,18 @@ import type { SimContext } from '../systems/context';
 import { addToPurse, isPlayerHead } from '../systems/economy';
 import { buyPrice, sellPrice } from '../systems/economy/helpers';
 import {
+  borrowFromNpc,
+  closeVenture,
+  collectNpcLoan,
+  expandVenture,
+  forgiveNpcLoan,
+  lendToNpc,
+  openVenture,
+  repayNpcLoan,
+  setVentureWorkers,
+  upgradeHouse,
+} from '../systems/economy/ventures';
+import {
   adoptChild,
   adoptDistantRelative,
   arrangeMarriage,
@@ -39,6 +51,16 @@ export type Command =
   | { type: 'buyFood'; amount: number }
   | { type: 'buyProperty'; id: string }
   | { type: 'sellProperty'; id: string }
+  | { type: 'upgradeHouse' }
+  | { type: 'openVenture'; ventureId: string }
+  | { type: 'expandVenture'; ventureId: string }
+  | { type: 'setVentureWorkers'; ventureId: string; hiredWorkers: number }
+  | { type: 'closeVenture'; ventureId: string }
+  | { type: 'borrowFromNpc'; npcId: string; amount: number }
+  | { type: 'repayNpcLoan'; loanId: string; amount: number }
+  | { type: 'lendToNpc'; npcId: string; amount: number }
+  | { type: 'collectNpcLoan'; loanId: string }
+  | { type: 'forgiveNpcLoan'; loanId: string }
   | { type: 'repayDebt'; amount: number }
   | { type: 'treatDisease'; characterId: string; diseaseId: string }
   | { type: 'chooseHeir'; heirId: string }
@@ -99,7 +121,26 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
   if (state.pending && cmd.type !== 'chooseOption' && cmd.type !== 'chooseMinor') return fail('event_pending');
   const h = playerHousehold(ctx);
   // Việc chi tiêu, mua bán của cả nhà chỉ chủ hộ mới quyết
-  const householdOnly = ['setLivingStandard', 'setAutoManage', 'sellFood', 'buyFood', 'buyProperty', 'sellProperty', 'repayDebt', 'treatDisease'];
+  const householdOnly = [
+    'setLivingStandard',
+    'setAutoManage',
+    'sellFood',
+    'buyFood',
+    'buyProperty',
+    'sellProperty',
+    'upgradeHouse',
+    'openVenture',
+    'expandVenture',
+    'setVentureWorkers',
+    'closeVenture',
+    'borrowFromNpc',
+    'repayNpcLoan',
+    'lendToNpc',
+    'collectNpcLoan',
+    'forgiveNpcLoan',
+    'repayDebt',
+    'treatDisease',
+  ];
   if (householdOnly.includes(cmd.type) && !isPlayerHead(ctx)) return fail('not_head');
 
   switch (cmd.type) {
@@ -194,6 +235,49 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
       h.money += money;
       addLedger(h, Ledger.SellProperty, money, 0);
       return ok;
+    }
+
+    case 'upgradeHouse': {
+      return upgradeHouse(ctx) ? ok : fail('not_enough_money');
+    }
+
+    case 'openVenture': {
+      const def = content.index.venture.get(cmd.ventureId);
+      if (!def) return fail('not_tradeable');
+      if (h.money < def.capital_cost) return fail('not_enough_money');
+      return openVenture(ctx, cmd.ventureId) ? ok : fail('not_tradeable');
+    }
+
+    case 'expandVenture': {
+      return expandVenture(ctx, cmd.ventureId) ? ok : fail('not_enough_money');
+    }
+
+    case 'setVentureWorkers': {
+      return setVentureWorkers(ctx, cmd.ventureId, cmd.hiredWorkers) ? ok : fail('not_owned');
+    }
+
+    case 'closeVenture': {
+      return closeVenture(ctx, cmd.ventureId) ? ok : fail('not_owned');
+    }
+
+    case 'borrowFromNpc': {
+      return borrowFromNpc(ctx, cmd.npcId, cmd.amount) ? ok : fail('not_tradeable');
+    }
+
+    case 'repayNpcLoan': {
+      return repayNpcLoan(ctx, cmd.loanId, cmd.amount) ? ok : fail('not_enough_money');
+    }
+
+    case 'lendToNpc': {
+      return lendToNpc(ctx, cmd.npcId, cmd.amount) ? ok : fail('not_enough_money');
+    }
+
+    case 'collectNpcLoan': {
+      return collectNpcLoan(ctx, cmd.loanId) ? ok : fail('not_owned');
+    }
+
+    case 'forgiveNpcLoan': {
+      return forgiveNpcLoan(ctx, cmd.loanId) ? ok : fail('not_owned');
     }
 
     case 'treatDisease': {

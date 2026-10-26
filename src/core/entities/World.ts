@@ -4,7 +4,7 @@ import type { Character } from './Character';
 import type { DynastyState, NpcClan } from './Dynasty';
 import type { Household, LedgerYear, Purse } from './Household';
 
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 5;
 
 export interface CareerHistoryEntry {
   careerId: string;

@@ -28,9 +28,11 @@ import {
   workers,
 } from './helpers';
 import { earnPersonal, monthlyPurse, yearlyPurse } from './purse';
+import { yearlyNpcLoans, yearlyVentures } from './ventures';
 
 export * from './helpers';
 export * from './purse';
+export * from './ventures';
 
 function quality(ctx: SimContext) {
   const { content, state } = ctx;
@@ -300,6 +302,16 @@ function monthlyDebt(ctx: SimContext): void {
   if (amount <= 0) return;
   h.money -= amount;
   h.debt -= amount;
+  if (h.loans && h.loans.length > 0) {
+    let rem = amount;
+    for (const l of h.loans) {
+      if (l.kind !== 'borrowed' || rem <= 0) continue;
+      const cut = Math.min(l.amount, rem);
+      l.amount = Math.max(0, Math.round((l.amount - cut) * 10) / 10);
+      rem -= cut;
+    }
+    h.loans = h.loans.filter((l) => l.kind !== 'borrowed' || l.amount > 0.05);
+  }
   addLedger(h, Ledger.RepayDebt, -amount, 0);
 }
 
@@ -388,6 +400,8 @@ export function yearlyEconomy(ctx: SimContext): void {
   h.money += income - upkeep;
   addLedger(h, Ledger.Upkeep, -upkeep, 0);
   addLedger(h, Ledger.OtherIncome, income, 0);
+  yearlyVentures(ctx);
+  yearlyNpcLoans(ctx);
   settle(ctx);
   seizeForDebt(ctx);
 

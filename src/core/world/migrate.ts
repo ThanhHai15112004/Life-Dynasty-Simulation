@@ -102,6 +102,13 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   raw.chronicle = raw.chronicle ?? {};
   raw.lifeMap = raw.lifeMap ?? [];
   raw.villageClans = raw.villageClans ?? {};
+  // [6] Bù danh sách cơ nghiệp (ventures) và khoản vay NPC (loans) cho hộ gia đình của save cũ
+  if (raw.households) {
+    for (const h of Object.values(raw.households)) {
+      h.ventures = h.ventures ?? [];
+      h.loans = h.loans ?? [];
+    }
+  }
   // [5] Bù nghề riêng mặc định cho người lớn trong hộ của save cũ
   if (raw.characters && raw.clock) {
     const adultAge = content.balance.life.adult_age;

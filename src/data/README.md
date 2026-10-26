@@ -67,6 +67,9 @@ Toán tử: `==` `!=` `>` `>=` `<` `<=` `between` `in`.
 | `household.members` · `workers` · `farmland` · `food_months` | Số người, người làm được, số sào, thóc đủ ăn mấy tháng |
 | `household.net_worth` · `household.self_farms` | Giá trị ròng (tiền + tài sản − nợ), hộ có tự cày không (`false`: phát canh thu tô) |
 | `household.property.<id>` | Số lượng một loại tài sản |
+| `household.venture.<id>` · `household.ventures_count` · `household.has_declining_venture` | Đang sở hữu cơ nghiệp `<id>` (1/0), tổng số cơ nghiệp, có cơ nghiệp đang sa sút |
+| `household.has_npc_debt` · `household.has_overdue_loan` · `household.lent_loans_count` | Có khoản nợ NPC, có khoản nợ quá hạn, số khoản đang cho NPC vay |
+| `household.house_tier` | Bậc nhà ở hiện tại (1 = Nhà tranh, 2 = Nhà gỗ ba gian, 3 = Phủ đệ năm gian) |
 | `focus.primary` | Trọng tâm đang chọn ('' khi còn quá nhỏ) |
 | `flag.<id>` | Cờ đang bật (true/false) |
 | `year.decisions` · `year.mourning` | Số quyết định năm nay, năm nay có tang |
@@ -97,6 +100,9 @@ roles:
 | `set_flag` / `clear_flag` | `flag`, `years?`, `label?` | Có `label` thì hiện ở "Việc dang dở" |
 | `opinion` | `role`, `value` | |
 | `property_add` / `property_remove` | `property`, `count` | |
+| `venture_add` / `venture_remove` / `venture_health` | `venture`, `stage?`, `health?`, `value?` | Mở cơ nghiệp, sang nhượng cơ nghiệp, hoặc cộng/trừ điểm tình trạng cơ nghiệp |
+| `npc_loan_add` | `kind` (`borrowed`/`lent`), `role?`, `amount`, `overdue_years?` | Tạo khoản vay hoặc cho vay gắn với NPC |
+| `upgrade_house` | `target?` | Nâng cấp nhà ở lên bậc cao hơn |
 | `schedule_event` | `event`, `months`, `keep_roles?`, `label?` | Chuỗi sự kiện: vài năm sau mới xảy ra |
 | `leave_household` | `who` | Người đó rời hộ thật (lấy chồng, ra ở riêng) |
 | `add_trait` | `trait`, `who?` | Bỏ qua nếu đã có tính cách đối lập |

@@ -174,6 +174,8 @@ export function generateVillageClans(ctx: SimContext): void {
         ruong: sao,
       },
       ledger: [],
+      ventures: [],
+      loans: [],
     };
     state.households[hId] = h;
 

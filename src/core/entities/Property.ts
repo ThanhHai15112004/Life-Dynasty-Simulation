@@ -27,3 +27,12 @@ export function mainHouse(h: Household, content: ContentBundle): PropertyType | 
     .filter((p) => p.type.category === 'house')
     .sort((a, b) => (b.type.house_tier ?? 0) - (a.type.house_tier ?? 0))[0]?.type;
 }
+
+/** [6] Tìm bậc nhà kế tiếp có thể nâng cấp lên từ nhà hiện tại của hộ. */
+export function nextHouseUpgrade(h: Household, content: ContentBundle): PropertyType | undefined {
+  const cur = mainHouse(h, content);
+  if (!cur) return undefined;
+  return content.properties.find(
+    (p) => p.category === 'house' && (p.upgrade_from === cur.id || p.house_tier === (cur.house_tier ?? 0) + 1),
+  );
+}

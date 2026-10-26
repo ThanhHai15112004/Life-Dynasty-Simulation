@@ -216,6 +216,8 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
     livingStandard: hh.living_standard,
     properties: Object.fromEntries(hh.properties.map((p) => [p.id, rng.range(p.count)])),
     ledger: [],
+    ventures: [],
+    loans: [],
   };
   state.households[household.id] = household;
   state.householdId = household.id;

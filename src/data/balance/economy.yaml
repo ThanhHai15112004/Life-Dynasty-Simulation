@@ -144,9 +144,9 @@ purse:
   income_ledgers: [luong_nghe, buon_ban, day_hoc, tien_cong, nghe_tay_trai]   # khoản tính là thu nhập của bạn (tiêu vặt, lì xì thì không)
 
 # [1.5] Khoản "làm ra" cộng vào thu nhập năm (thóc quy theo giá gốc)
-income_ledgers: [thu_hoach, thu_to, lam_thue, phu_viec, buon_ban, day_hoc, luong_nghe, nghe_tay_trai, thu_khac]
+income_ledgers: [thu_hoach, thu_to, lam_thue, phu_viec, buon_ban, day_hoc, luong_nghe, nghe_tay_trai, co_nghiep, thu_khac]
 # [1.5] Khoản chỉ đổi dạng của cải: không hiện thành lý do tài sản ròng tăng giảm (chênh giá dồn vào "Chuyện khác")
-transfer_ledgers: [vay, tra_no, mua_thoc, ban_thoc, mua_tai_san, ban_tai_san]
+transfer_ledgers: [vay, tra_no, cho_vay, thu_no, mua_thoc, ban_thoc, mua_tai_san, ban_tai_san]
 
 property_sell_factor: 0.8
 trade_amounts: [10, 30, 100]

@@ -1,0 +1,184 @@
+# [6] Cơ nghiệp kinh doanh & sản xuất (Phase 6):
+# - Chuỗi buôn bán: Sạp nhỏ (sap_nho) -> Cửa hiệu (cua_hieu) -> Hiệu buôn lớn (hieu_buon)
+# - Cơ nghiệp chuyên ngành: Lò gốm (lo_gom), Xưởng mộc (xuong_moc), Thuyền buôn (thuyen_buon), Quán rượu (quan_ruou)
+ventures:
+  - id: sap_nho
+    name: Sạp hàng nhỏ
+    description: Một sạp tre bày vải vóc, muối mắm và nông sản nơi đầu chợ. Vốn nhẹ, dễ xoay xở và là bước đầu gây dựng cơ nghiệp buôn bán.
+    icon: tien
+    sector: thuong_mai
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    capital_cost: 28
+    upgrade_to: cua_hieu
+    upgrade_cost: 48
+    max_stage: 1
+    workers_needed: 1
+    hire_wage_year: 2.5
+    skill: thuong_mai
+    skill_bonus_per_level: 0.06
+    base_revenue_year: 8.5
+    upkeep_year: 1.8
+    trade_sensitivity: 0.85
+    reputation_bonus_per_10: 0.03
+    risk:
+      chance_year: 0.14
+      loss_min: 1.5
+      loss_max: 4.5
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.1, op: mul }
+    scene_prop: sap_hang
+
+  - id: cua_hieu
+    name: Cửa hiệu phố chợ
+    description: Gian hàng lợp ngói khang trang giữa phố chợ, có kho chứa hàng khô và sổ sách riêng. Thu hút khách khắp tổng.
+    icon: tien
+    sector: thuong_mai
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    capital_cost: 76
+    upgrade_to: hieu_buon
+    upgrade_cost: 95
+    max_stage: 2
+    expand_cost_factor: 0.65
+    workers_needed: 2
+    hire_wage_year: 3.0
+    skill: thuong_mai
+    skill_bonus_per_level: 0.07
+    base_revenue_year: 21.0
+    upkeep_year: 5.0
+    trade_sensitivity: 1.0
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.16
+      loss_min: 3.5
+      loss_max: 10.0
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.18, op: mul }
+      - { target: xp.quan_tri, value: 1.1, op: mul }
+    scene_prop: sap_hang
+
+  - id: hieu_buon
+    name: Hiệu buôn lớn
+    description: Thương hiệu bề thế giao thương khắp bến sông và phủ huyện, buôn lụa là, gốm sứ, thóc gạo số lượng lớn. Cơ nghiệp truyền đời của bậc phú thương.
+    icon: tien
+    sector: thuong_mai
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    capital_cost: 170
+    max_stage: 3
+    expand_cost_factor: 0.7
+    workers_needed: 3
+    hire_wage_year: 3.8
+    skill: thuong_mai
+    skill_bonus_per_level: 0.08
+    base_revenue_year: 44.0
+    upkeep_year: 11.5
+    trade_sensitivity: 1.2
+    reputation_bonus_per_10: 0.05
+    risk:
+      chance_year: 0.18
+      loss_min: 7.0
+      loss_max: 20.0
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.25, op: mul }
+      - { target: xp.quan_tri, value: 1.18, op: mul }
+    scene_prop: sap_hang
+
+  - id: lo_gom
+    name: Lò gốm gia truyền
+    description: Lò bầu nung chum vại, bát đĩa và ngói mũi hài. Mỗi mẻ lò ra lò thuận buồm xuôi gió mang lại nguồn lợi lớn, nhưng sợ nhất mưa dầm làm sập bầu nung.
+    icon: focus
+    sector: thu_cong
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    capital_cost: 55
+    max_stage: 3
+    expand_cost_factor: 0.75
+    workers_needed: 2
+    hire_wage_year: 3.0
+    skill: quan_tri
+    skill_bonus_per_level: 0.07
+    base_revenue_year: 16.5
+    upkeep_year: 4.0
+    trade_sensitivity: 0.65
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.17
+      loss_min: 3.0
+      loss_max: 9.0
+    modifiers:
+      - { target: xp.quan_tri, value: 1.2, op: mul }
+    scene_prop: sap_hang
+
+  - id: xuong_moc
+    name: Xưởng mộc
+    description: Xưởng cưa xẻ gỗ lim, gỗ mít đóng bàn ghế, rương hòm và nhận dựng nhà gỗ cho các hộ khá giả trong vùng.
+    icon: focus
+    sector: thu_cong
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    capital_cost: 48
+    max_stage: 3
+    expand_cost_factor: 0.75
+    workers_needed: 2
+    hire_wage_year: 3.0
+    skill: quan_tri
+    skill_bonus_per_level: 0.07
+    base_revenue_year: 14.5
+    upkeep_year: 3.4
+    trade_sensitivity: 0.55
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.13
+      loss_min: 2.0
+      loss_max: 6.5
+    modifiers:
+      - { target: xp.quan_tri, value: 1.18, op: mul }
+    scene_prop: sap_hang
+
+  - id: thuyen_buon
+    name: Thuyền buôn đường sông
+    description: Con thuyền gỗ mũi cong chở lúa gạo, mắm muối và hàng chuyến xuôi ngược bến sông. Lợi nhuận rất dày khi Thời cơ lên cao, song sóng gió và thủy tặc luôn rình rập.
+    icon: tien
+    sector: thuong_mai
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    capital_cost: 85
+    max_stage: 3
+    expand_cost_factor: 0.8
+    workers_needed: 2
+    hire_wage_year: 3.5
+    skill: thuong_mai
+    skill_bonus_per_level: 0.08
+    base_revenue_year: 24.5
+    upkeep_year: 5.8
+    trade_sensitivity: 1.35
+    reputation_bonus_per_10: 0.03
+    risk:
+      chance_year: 0.22
+      loss_min: 5.0
+      loss_max: 15.0
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.2, op: mul }
+      - { target: xp.sinh_ton, value: 1.1, op: mul }
+    scene_prop: sap_hang
+
+  - id: quan_ruou
+    name: Quán rượu đầu bến
+    description: Quán rượu nếp và trà nóng nơi ngã ba đường, nơi thương khách, phu phen và nha dịch ghé chân. Vừa thu tiền mặt đều đặn vừa nghe ngóng đủ chuyện thiên hạ.
+    icon: vui
+    sector: dich_vu
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    capital_cost: 36
+    max_stage: 3
+    expand_cost_factor: 0.7
+    workers_needed: 1
+    hire_wage_year: 2.5
+    skill: ngoai_giao
+    skill_bonus_per_level: 0.06
+    base_revenue_year: 11.0
+    upkeep_year: 2.6
+    trade_sensitivity: 0.75
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.15
+      loss_min: 1.5
+      loss_max: 5.0
+    modifiers:
+      - { target: xp.ngoai_giao, value: 1.15, op: mul }
+    scene_prop: sap_hang

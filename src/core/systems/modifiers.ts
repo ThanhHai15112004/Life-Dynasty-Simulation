@@ -41,6 +41,10 @@ export function gatherModifiers(ctx: SimContext, characterId: string): Modifier[
     for (const hold of holdingsOf(h, content)) {
       hold.type.modifiers.forEach((m) => out.push(fromDef(m, `property:${hold.type.id}`, hold.type.name, hold.count)));
     }
+    for (const v of h.ventures ?? []) {
+      const vDef = content.index.venture.get(v.id);
+      vDef?.modifiers.forEach((m) => out.push(fromDef(m, `venture:${vDef.id}`, vDef.name, v.stage)));
+    }
   }
 
   if (isPlayer) {

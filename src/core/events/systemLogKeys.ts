@@ -46,6 +46,17 @@ export const SystemLog = {
   ChildRebelledMarriage: 'sys.con_cai_loi_hon_su',
   SideJobChanged: 'sys.chon_nghe_tay_trai',
   FamilyMemberCareerChanged: 'sys.nguoi_nha_chuyen_nghe',
+  VentureOpened: 'sys.mo_co_nghiep',
+  VentureExpanded: 'sys.mo_rong_co_nghiep',
+  VentureDeclined: 'sys.co_nghiep_sa_sut',
+  VentureBankrupt: 'sys.co_nghiep_pha_san',
+  VentureClosed: 'sys.sang_nhuong_co_nghiep',
+  HouseUpgraded: 'sys.nang_cap_nha',
+  NpcBorrowed: 'sys.vay_tien_npc',
+  NpcRepaid: 'sys.tra_no_npc',
+  NpcLent: 'sys.cho_vay_npc',
+  NpcLoanCollected: 'sys.thu_no_npc',
+  NpcLoanForgiven: 'sys.xoa_no_npc',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */
@@ -70,6 +81,9 @@ export const Ledger = {
   Rent: 'thu_to',
   FamilyWork: 'phu_viec',
   SideJob: 'nghe_tay_trai',
+  VentureRevenue: 'co_nghiep',
+  LoanLent: 'cho_vay',
+  LoanCollected: 'thu_no',
   Medicine: 'thuoc_men',
   /** [1.5] Túi tiền riêng của người chơi (chưa làm chủ hộ) và các khoản qua lại với nhà. */
   ContributeOut: 'gop_cho_nha',

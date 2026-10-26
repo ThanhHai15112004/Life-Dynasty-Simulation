@@ -80,11 +80,19 @@ export function incomeOf(ctx: SimContext, spec: IncomeSpec, skillLevel: number):
   return spec.trade_scaled ? base * ctx.state.world.tradeIndex * localTradeFactor(ctx) : base;
 }
 
-/** Giá trị ròng của hộ: tiền mặt + [1.5] thóc trong kho (giá gốc) + giá trị tài sản − nợ. */
+/** Giá trị ròng của hộ: tiền mặt + [1.5] thóc trong kho (giá gốc) + giá trị tài sản + [6] cơ nghiệp & khoản cho vay − nợ. */
 export function householdNetWorth(ctx: SimContext): number {
   const h = playerHousehold(ctx);
   const propValue = holdingsOf(h, ctx.content).reduce((s, p) => s + p.type.value * p.count, 0);
-  return h.money + Math.max(0, h.food) * ctx.content.balance.economy.price.base + propValue - h.debt;
+  const ventureValue = (h.ventures ?? []).reduce((s, v) => {
+    const def = ctx.content.index.venture.get(v.id);
+    if (!def) return s;
+    const stageCapital = def.capital_cost * (1 + (v.stage - 1) * def.expand_cost_factor);
+    const healthFactor = Math.min(1.1, Math.max(0.25, 0.35 + (v.health / 100) * 0.65));
+    return s + Math.round(stageCapital * healthFactor);
+  }, 0);
+  const lentValue = (h.loans ?? []).filter((l) => l.kind === 'lent').reduce((s, l) => s + l.amount, 0);
+  return h.money + Math.max(0, h.food) * ctx.content.balance.economy.price.base + propValue + ventureValue + lentValue - h.debt;
 }
 
 /** [1.5] Giá trị một dòng sổ (tiền + thóc quy theo giá gốc). */

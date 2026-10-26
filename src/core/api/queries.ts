@@ -11,7 +11,19 @@ import { farmlandOf, holdingsOf } from '../entities/Property';
 import type { CareerHistoryEntry, LogYear, PendingEvent, Resolution } from '../entities/World';
 import { aliveClanMembers } from '../systems/ai';
 import type { SimContext } from '../systems/context';
-import { purseActive, regularIncomeParts } from '../systems/economy';
+import {
+  availableBorrowers,
+  availableCreditors,
+  canOpenVenture,
+  estimateVentureYear,
+  houseUpgradeInfo,
+  isUpgradeTargetVenture,
+   purseActive,
+  regularIncomeParts,
+  ventureAssetValue,
+  ventureExpandCost,
+  ventureStatusKey,
+} from '../systems/economy';
 import { buyPrice, householdNetWorth, lastYearIncome, ledgerValue, monthlyFoodNeed, monthlyMoneyNeed, selfFarms, sellPrice } from '../systems/economy/helpers';
 import { Ledger } from '../events/systemLogKeys';
 import {
@@ -128,7 +140,7 @@ export interface HudView {
       /** null = chữa được; còn lại là mã lỗi (error.<mã>). */
       block: string | null;
     }[];
-    properties: { id: string; name: string; unit: string; count: number; value: number; sellable: boolean; category: string; farmland: boolean }[];
+    properties: { id: string; name: string; description: string; unit: string; count: number; value: number; sellable: boolean; category: string; farmland: boolean }[];
     harvestYield: ModifierResult;
     /** [1] Nơi hộ sinh sống. */
     settlement: { name: string; typeName: string; typeDescription: string };
@@ -180,6 +192,94 @@ export interface HudView {
     tradeAmounts: number[];
     buyable: { id: string; name: string; unit: string; value: number; description: string }[];
     propertySellFactor: number;
+  };
+  /** [6] Nâng cấp nhà ở lên bậc cao hơn kế tiếp (nhà tranh -> nhà gỗ -> phủ đệ). */
+  houseUpgrade: {
+    currentId: string;
+    currentName: string;
+    nextId: string;
+    nextName: string;
+    nextDescription: string;
+    cost: number;
+    canAfford: boolean;
+  } | null;
+  /** [6] Cơ nghiệp kinh doanh & sản xuất (đang sở hữu và có thể mở mới). */
+  ventures: {
+    owned: {
+      id: string;
+      name: string;
+      description: string;
+      icon: string;
+      stage: number;
+      maxStage: number;
+      health: number;
+      statusKey: 'thriving' | 'normal' | 'declining' | 'critical';
+      hiredWorkers: number;
+      workersNeeded: number;
+      familyWorkersUsed: number;
+      hireWageYear: number;
+      revenueYear: number;
+      upkeepYear: number;
+      profitYear: number;
+      assetValue: number;
+      sellPrice: number;
+      expandCost: number | null;
+      expandName: string | null;
+      canExpand: boolean;
+    }[];
+    openable: {
+      id: string;
+      name: string;
+      description: string;
+      icon: string;
+      capitalCost: number;
+      baseRevenueYear: number;
+      upkeepYear: number;
+      workersNeeded: number;
+      skillName: string;
+      canOpen: boolean;
+      canAfford: boolean;
+    }[];
+  };
+  /** [6] Vay & cho vay gắn với NPC cụ thể (ân tình, thù oán, đòi nợ). */
+  npcLoans: {
+    borrowed: {
+      id: string;
+      npcId: string;
+      npcName: string;
+      npcCall: string;
+      principal: number;
+      amount: number;
+      interestRate: number;
+      dueYear: number;
+      overdueYears: number;
+    }[];
+    lent: {
+      id: string;
+      npcId: string;
+      npcName: string;
+      npcCall: string;
+      principal: number;
+      amount: number;
+      interestRate: number;
+      dueYear: number;
+      overdueYears: number;
+    }[];
+    creditors: {
+      id: string;
+      name: string;
+      call: string;
+      interestRate: number;
+    }[];
+    borrowers: {
+      id: string;
+      name: string;
+      call: string;
+      opinion: number;
+      favor: number;
+    }[];
+    borrowAmounts: number[];
+    lendAmounts: number[];
   };
   focus: {
     primary: string;
@@ -676,6 +776,7 @@ export function getHudView(ctx: SimContext): HudView {
       properties: holdingsOf(h, content).map((p) => ({
         id: p.type.id,
         name: p.type.name,
+        description: p.type.description,
         unit: p.type.unit,
         count: p.count,
         value: p.type.value,
@@ -769,6 +870,120 @@ export function getHudView(ctx: SimContext): HudView {
         .filter((p) => p.buyable)
         .map((p) => ({ id: p.id, name: p.name, unit: p.unit, value: p.value, description: p.description })),
       propertySellFactor: content.balance.economy.property_sell_factor,
+    },
+    houseUpgrade: (() => {
+      const info = houseUpgradeInfo(ctx, h);
+      if (!info) return null;
+      return {
+        currentId: info.current.id,
+        currentName: info.current.name,
+        nextId: info.next.id,
+        nextName: info.next.name,
+        nextDescription: info.next.description,
+        cost: info.cost,
+        canAfford: h.money >= info.cost,
+      };
+    })(),
+    ventures: {
+      owned: (h.ventures ?? []).map((v) => {
+        const def = content.index.venture.get(v.id);
+        const est = estimateVentureYear(ctx, v);
+        const exp = ventureExpandCost(ctx, v);
+        const assetVal = ventureAssetValue(ctx, v);
+        return {
+          id: v.id,
+          name: def?.name ?? v.id,
+          description: def?.description ?? '',
+          icon: def?.icon ?? 'focus',
+          stage: v.stage,
+          maxStage: def?.max_stage ?? 3,
+          health: Math.round(v.health),
+          statusKey: ventureStatusKey(ctx, v.health),
+          hiredWorkers: v.hiredWorkers,
+          workersNeeded: est.workersNeeded,
+          familyWorkersUsed: est.familyWorkersUsed,
+          hireWageYear: def?.hire_wage_year ?? 3,
+          revenueYear: est.revenue,
+          upkeepYear: est.upkeep,
+          profitYear: est.profit,
+          assetValue: assetVal,
+          sellPrice: Math.round(assetVal * content.balance.economy.property_sell_factor),
+          expandCost: exp?.cost ?? null,
+          expandName: exp?.nextName ?? null,
+          canExpand: Boolean(exp && h.money >= exp.cost),
+        };
+      }),
+      openable: content.ventures
+        .filter((v) => !isUpgradeTargetVenture(ctx, v.id) && !(h.ventures ?? []).some((o) => o.id === v.id))
+        .map((v) => ({
+          id: v.id,
+          name: v.name,
+          description: v.description,
+          icon: v.icon,
+          capitalCost: v.capital_cost,
+          baseRevenueYear: v.base_revenue_year,
+          upkeepYear: v.upkeep_year,
+          workersNeeded: v.workers_needed,
+          skillName: content.index.skill.get(v.skill)?.name ?? v.skill,
+          canOpen: canOpenVenture(ctx, v.id),
+          canAfford: h.money >= v.capital_cost,
+        })),
+    },
+    npcLoans: {
+      borrowed: (h.loans ?? [])
+        .filter((l) => l.kind === 'borrowed')
+        .map((l) => {
+          const npc = state.characters[l.npcId];
+          return {
+            id: l.id,
+            npcId: l.npcId,
+            npcName: npc ? fullName(npc) : l.npcId,
+            npcCall: npc ? callOf(ctx, npc) : l.npcId,
+            principal: l.principal,
+            amount: l.amount,
+            interestRate: l.interestRate,
+            dueYear: l.dueYear,
+            overdueYears: l.overdueYears,
+          };
+        }),
+      lent: (h.loans ?? [])
+        .filter((l) => l.kind === 'lent')
+        .map((l) => {
+          const npc = state.characters[l.npcId];
+          return {
+            id: l.id,
+            npcId: l.npcId,
+            npcName: npc ? fullName(npc) : l.npcId,
+            npcCall: npc ? callOf(ctx, npc) : l.npcId,
+            principal: l.principal,
+            amount: l.amount,
+            interestRate: l.interestRate,
+            dueYear: l.dueYear,
+            overdueYears: l.overdueYears,
+          };
+        }),
+      creditors: availableCreditors(ctx).map((c) => {
+        const cfg = content.balance.economy.npc_loans;
+        const rate =
+          (c.opinionOfPlayer ?? 0) >= 20 || (c.favorWithPlayer ?? 0) >= 10
+            ? cfg.friendly_annual_interest
+            : cfg.creditor_annual_interest;
+        return {
+          id: c.id,
+          name: fullName(c),
+          call: callOf(ctx, c),
+          interestRate: rate,
+        };
+      }),
+      borrowers: availableBorrowers(ctx).map((c) => ({
+        id: c.id,
+        name: fullName(c),
+        call: callOf(ctx, c),
+        opinion: c.opinionOfPlayer ?? 0,
+        favor: c.favorWithPlayer ?? 0,
+      })),
+      borrowAmounts: content.balance.economy.npc_loans.borrow_amounts,
+      lendAmounts: content.balance.economy.npc_loans.lend_amounts,
     },
     focus: {
       primary: state.focus.primary,

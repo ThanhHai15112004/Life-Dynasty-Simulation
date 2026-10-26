@@ -81,6 +81,9 @@ export const propertySchema = z
     farmland: z.boolean().default(false),
     /** Với nhà: bậc nhà, nhà bậc cao nhất được vẽ lên cảnh. */
     house_tier: z.number().int().optional(),
+    /** [6] Chuỗi nâng cấp nhà ở: nhà bậc trước và chi phí nâng cấp trực tiếp. */
+    upgrade_from: z.string().optional(),
+    upgrade_cost: z.number().min(0).optional(),
     modifiers: z.array(modifierDefSchema).default([]),
     scene: z
       .object({ layer: z.enum(['buildings', 'props']), sprite: z.string(), max_draw: z.number().int().default(1) })
@@ -511,6 +514,58 @@ export const settlementTypeSchema = z
   .strict();
 export const settlementTypeFileSchema = z.object({ settlement_types: z.array(settlementTypeSchema).min(1) }).strict();
 export type SettlementType = z.infer<typeof settlementTypeSchema>;
+
+/** [6] Cơ nghiệp kinh doanh & sản xuất (sạp → cửa hiệu → hiệu buôn, lò gốm, xưởng mộc, thuyền buôn, quán rượu). */
+export const ventureSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    icon: z.string().default('focus'),
+    sector: z.enum(careerSectors).default('thuong_mai'),
+    /** Nơi có thể mở cơ nghiệp (trống = mọi khu định cư). */
+    settlement_types: z.array(z.string()).default([]),
+    /** Vốn mở ban đầu (quan). */
+    capital_cost: z.number().min(0),
+    /** Cơ nghiệp bậc tiếp theo khi nâng cấp (ví dụ: sap_nho -> cua_hieu -> hieu_buon). */
+    upgrade_to: z.string().optional(),
+    /** Chi phí nâng cấp lên cơ nghiệp bậc tiếp theo. */
+    upgrade_cost: z.number().min(0).optional(),
+    /** Số bậc mở rộng quy mô nội bộ (1..3). */
+    max_stage: z.number().int().min(1).max(3).default(3),
+    /** Hệ số vốn để mở rộng thêm 1 bậc quy mô nội bộ (nhân với capital_cost × stage hiện tại). */
+    expand_cost_factor: z.number().min(0.2).default(0.75),
+    /** Số người làm cần thiết ở bậc 1 (tăng theo stage). */
+    workers_needed: z.number().int().min(1).default(1),
+    /** Tiền công thuê 1 thợ ngoài cả năm (quan/năm). */
+    hire_wage_year: z.number().min(0).default(3),
+    /** Kỹ năng chính ảnh hưởng doanh thu. */
+    skill: z.string().default('thuong_mai'),
+    skill_bonus_per_level: z.number().min(0).default(0.06),
+    /** Doanh thu gốc mỗi năm ở bậc 1 (quan/năm). */
+    base_revenue_year: z.number().min(0),
+    /** Chi phí vận hành/nguyên liệu cố định mỗi năm ở bậc 1 (quan/năm). */
+    upkeep_year: z.number().min(0).default(1),
+    /** Độ nhạy với Thời cơ buôn bán (0 = không phụ thuộc, 1 = nhân thẳng trade_index × local_trade_factor). */
+    trade_sensitivity: z.number().min(0).max(2).default(0.8),
+    /** Hệ số thưởng doanh thu mỗi 10 điểm danh tiếng làng. */
+    reputation_bonus_per_10: z.number().min(0).default(0.03),
+    /** Rủi ro biến cố kinh doanh hằng năm (hàng ế, hỏng mẻ gốm, bão gió...). */
+    risk: z
+      .object({
+        chance_year: z.number().min(0).max(1).default(0.15),
+        loss_min: z.number().min(0).default(2),
+        loss_max: z.number().min(0).default(8),
+      })
+      .strict()
+      .default({}),
+    condition: conditionSchema.optional(),
+    modifiers: z.array(modifierDefSchema).default([]),
+    scene_prop: z.string().optional(),
+  })
+  .strict();
+export const ventureFileSchema = z.object({ ventures: z.array(ventureSchema).min(1) }).strict();
+export type VentureDef = z.infer<typeof ventureSchema>;
 
 /** [1] Biên niên vương triều (giả tưởng): biến cố thế giới chạy song song với đời nhân vật. */
 export const chronicleEntrySchema = z

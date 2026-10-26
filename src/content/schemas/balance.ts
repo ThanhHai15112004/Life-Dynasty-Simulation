@@ -444,6 +444,42 @@ export const economyBalanceSchema = z
     property_sell_factor: z.number().positive(),
     trade_amounts: z.array(z.number().positive()).min(1),
     ledger_history_years: z.number().int().positive(),
+    /** [6] Cân bằng Cơ nghiệp kinh doanh & Vay/cho vay NPC. */
+    ventures: z
+      .object({
+        start_health: z.number().min(10).max(100).default(80),
+        thriving_threshold: z.number().min(50).max(100).default(75),
+        decline_threshold: z.number().min(20).max(70).default(45),
+        critical_threshold: z.number().min(5).max(40).default(25),
+        profit_health_gain: z.number().min(0).default(6),
+        loss_health_drop: z.number().min(0).default(16),
+        understaffed_health_drop: z.number().min(0).default(10),
+        stage_revenue_factor: z.tuple([z.number(), z.number(), z.number()]).default([1, 1.55, 2.2]),
+        stage_upkeep_factor: z.tuple([z.number(), z.number(), z.number()]).default([1, 1.45, 2.0]),
+        max_loss_years_before_bankrupt: z.number().int().min(1).default(3),
+      })
+      .strict()
+      .default({}),
+    npc_loans: z
+      .object({
+        default_term_years: z.number().int().min(1).default(2),
+        creditor_annual_interest: z.number().min(0).default(0.22),
+        friendly_annual_interest: z.number().min(0).default(0.1),
+        lend_annual_interest: z.number().min(0).default(0.15),
+        borrow_amounts: z.array(z.number().positive()).default([10, 25, 50]),
+        lend_amounts: z.array(z.number().positive()).default([10, 25, 50]),
+        repay_opinion_gain: z.number().default(5),
+        repay_favor_gain: z.number().default(2),
+        lend_opinion_gain: z.number().default(8),
+        lend_favor_gain: z.number().default(5),
+        forgive_opinion_gain: z.number().default(16),
+        forgive_favor_gain: z.number().default(15),
+        forgive_reputation_gain: z.number().default(3),
+        overdue_opinion_drop: z.number().default(10),
+        overdue_feud_years: z.number().int().min(1).default(2),
+      })
+      .strict()
+      .default({}),
   })
   .strict();
 
