@@ -1,0 +1,247 @@
+# [1.8] Chuỗi sự kiện Vị trí địa lý & Đường xa đi học / Y tế vùng sâu (học theo chiều sâu địa lý 1in8b)
+events:
+  - id: duong_xa_di_hoc
+    title: Đường xa tìm chữ
+    text:
+      - 'Nhà ở nơi thôn xóm xa xôi, muốn đến lớp học phải lội qua con suối đá và đi bộ hơn một canh giờ. Sáng sớm sương mù còn đặc quánh, đôi chân đã mỏi nhừ trước khi kịp cầm tới quyển sách.'
+      - 'Ở vùng quê hẻo lánh này, trường học cách nhà cả chục dặm đường đất. Những hôm mưa dầm, đường trơn như đổ mỡ, nhiều đứa trẻ cùng lứa đã bỏ học ở nhà chăn trâu.'
+    tags: [hoc_hanh, lang_xa]
+    life_stages: [thieu_thoi, thanh_nien]
+    condition:
+      all:
+        - { var: world.school_tier, op: '<=', value: 1 }
+        - { var: player.age, op: between, value: [7, 18] }
+    weight: 10
+    cooldown_years: 4
+    importance: 6
+    icon: sach
+    options:
+      - id: kien_tri_vuot_duong
+        text: Dậy từ gà gáy, kiên trì vượt đường xa đi học mỗi ngày
+        trait_stress: { nong_nay: 3 }
+        chance:
+          base: 0.65
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: skill_xp, skill: hoc_van, value: 32 }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: add_trait, trait: kien_nhan }
+        failure:
+          - { type: skill_xp, skill: hoc_van, value: 16 }
+          - { type: health, value: -4 }
+          - { type: stress, value: 5 }
+        success_result:
+          - 'Đôi bàn chân chai sần vì sỏi đá, nhưng từng trang sách học được càng thấm sâu vào trí nhớ.'
+        failure_result:
+          - 'Đường quá xa khiến bạn nhiều hôm đến lớp muộn, người ướt sũng vì sương lạnh.'
+      - id: xin_o_tro_gan_truong
+        text: Xin gia đình tốn chút gạo tiền gửi trọ gần chỗ thầy dạy
+        hint: Tốn 2 quan tiền trọ học
+        condition: { var: household.money, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: -2 }
+          - { type: skill_xp, skill: hoc_van, value: 35 }
+          - { type: set_flag, flag: tro_hoc_xa_nha, years: 3, label: 'Đang trọ học xa nhà' }
+        result:
+          - 'Ở trọ gần trường giúp bạn không còn cảnh vượt suối mỗi sáng, có thêm thì giờ chong đèn đọc sách.'
+      - id: nghi_hoc_phu_nha
+        text: Đường xa vất vả quá, đành nghỉ học ở nhà phụ việc đồng áng
+        trait_stress: { tham_vong: 6 }
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 24 }
+          - { type: food, value: 8 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Bạn xếp sách vở vào góc rương, cầm lấy cái cuốc ra đồng phụ giúp gia đình.'
+
+  - id: mua_lu_chan_duong_hoc
+    title: Nước lũ chắn đường tới trường
+    text:
+      - 'Mưa lớn kéo dài suốt ba ngày khiến con ngầm nối xóm nhỏ với trường học ngập sâu trong dòng nước đục ngầu chảy xiết.'
+    tags: [hoc_hanh, ruong_dong]
+    life_stages: [thieu_thoi, thanh_nien]
+    months: [6, 7, 8, 9]
+    condition:
+      all:
+        - { var: world.is_remote, op: '==', value: true }
+        - { var: focus.primary, op: 'in', value: [hoc_tap, hoc_chu] }
+    weight: 8
+    cooldown_years: 3
+    importance: 5
+    icon: mua
+    options:
+      - id: di_vong_deo_xa
+        text: Đi vòng qua sườn đồi xa gấp đôi để không bỏ buổi học
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 24 }
+          - { type: health, value: -3 }
+          - { type: stress, value: 3 }
+        result:
+          - 'Lội bùn đi vòng qua sườn đồi đến tận trưa mới tới lớp, thầy nhìn bộ quần áo lấm lem của bạn mà cảm kích.'
+      - id: o_nha_tu_on_bai
+        text: Ở nhà chép lại sách cũ, đợi nước rút mới đi
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Bạn ngồi bên hiên nhà nghe tiếng mưa rơi, tự ôn lại những trang sách đã học.'
+
+  - id: het_chu_lang_que
+    title: Hết chữ thầy làng
+    text:
+      - 'Sau nhiều năm dùi mài, thầy giáo trong vùng gập sách lại bảo: "Chữ nghĩa ở chốn thôn dã này ta đã dạy hết cho con. Muốn học lên cao nữa thì phải ra thị trấn hoặc lên phủ thành, chứ ở quê không còn trường lớp nào hơn."'
+    tags: [hoc_hanh, van_minh]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: world.school_tier, op: '<=', value: 1 }
+        - { var: player.skill.hoc_van, op: '>=', value: 2 }
+        - { not: { has_flag: tro_hoc_xa_nha } }
+    weight: 12
+    cooldown_years: 5
+    once_per_life: true
+    importance: 7
+    icon: sach
+    options:
+      - id: khan_goi_tro_hoc_thi_tran
+        text: Khăn gói lên thị trấn thuê chỗ trọ học lên cao
+        hint: Tốn 4 quan lộ phí và tiền trọ
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4 }
+          - { type: set_flag, flag: tro_hoc_xa_nha, years: 4, label: 'Trọ học tại thị trấn' }
+          - { type: skill_xp, skill: hoc_van, value: 40 }
+          - { type: schedule_event, event: tro_hoc_noi_thi_tran, months: 8, keep_roles: false }
+        result:
+          - 'Bạn buộc lại tay nải sách vở, tạm biệt quê nhà để lên thị trấn tìm trường lớn.'
+      - id: chuyen_ca_nha_ra_thi_tran
+        text: Bàn với gia đình dời hẳn ra thị trấn để tiện đường học tập và làm ăn
+        condition:
+          all:
+            - { var: player.is_head, op: '==', value: true }
+            - { var: household.money, op: '>=', value: 8 }
+        effects:
+          - { type: money, value: -8 }
+          - { type: relocate_settlement, settlement: thi_tran_ben_song, free: true }
+          - { type: set_flag, flag: o_nha_thue, years: 5, label: 'Đang ở thuê nơi phố thị' }
+          - { type: skill_xp, skill: hoc_van, value: 30 }
+        result:
+          - 'Cả nhà thu xếp đồ đạc chuyển ra {world.town_name}, mở ra chân trời học hành rộng lớn hơn.'
+      - id: dung_viec_hoc_o_que
+        text: Chấp nhận dừng việc học ở đây, đem chút chữ nghĩa giúp việc sổ sách trong làng
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 25 }
+          - { type: reputation, group: dan_lang, value: 5 }
+        result:
+          - 'Dù không đi học xa được, vốn chữ nghĩa sẵn có cũng đủ để bạn trở thành người biết tính toán sổ sách trong vùng.'
+
+  - id: tro_hoc_noi_thi_tran
+    title: Đêm đèn sách nơi quán trọ
+    text:
+      - 'Căn gác trọ nơi phố thị chật hẹp nhưng lúc nào cũng rộn tiếng đọc bài của học trò tứ xứ. Chi phí ăn ở đắt đỏ khiến túi tiền vơi đi nhanh chóng, đổi lại bạn được tiếp xúc với nhiều sách vở quý hiếm.'
+    tags: [hoc_hanh, van_minh]
+    scheduled_only: true
+    weight: 10
+    importance: 6
+    icon: sach
+    options:
+      - id: vua_hoc_vua_chep_thue
+        text: Ban ngày nghe giảng, ban đêm nhận chép sách thuê kiếm tiền trọ
+        effects:
+          - { type: own_money, value: 2 }
+          - { type: skill_xp, skill: hoc_van, value: 32 }
+          - { type: stress, value: 5 }
+        result:
+          - 'Đôi mắt cay xè dưới ngọn đèn dầu, nhưng bạn vừa tự trang trải được tiền trọ vừa thuộc làu nhiều kinh sử.'
+      - id: tap_trung_hoc_nhanh
+        text: Dốc toàn bộ tiền tiết kiệm mua sách học thật nhanh rồi về
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3 }
+          - { type: skill_xp, skill: hoc_van, value: 50 }
+          - { type: scholarly_prestige, value: 6 }
+        result:
+          - 'Có đủ sách vở, học lực của bạn tiến bộ vượt bậc khiến thầy giáo và bạn đồng môn đều nể phục.'
+      - id: het_tien_quay_ve
+        text: Chi phí đắt đỏ quá sức, đành thu xếp quay về quê sớm
+        effects:
+          - { type: clear_flag, flag: tro_hoc_xa_nha }
+          - { type: skill_xp, skill: hoc_van, value: 15 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Bạn gói ghém sách vở trở về quê sau những tháng ngày mở mang tầm mắt nơi phố thị.'
+
+  - id: dem_mua_con_om_xa_thay
+    title: Đêm khuya người ốm nơi hẻo lánh
+    text:
+      - 'Giữa đêm mưa gió, trong nhà có người lên cơn sốt cao co giật. Ở nơi thôn xóm xa xôi này không có y quán hay thầy thuốc giỏi, muốn tìm thầy lang lớn phải vượt đường đêm ra tận thị trấn.'
+    tags: [benh_tat, gia_dinh]
+    condition:
+      all:
+        - { var: world.medical_tier, op: '<=', value: 1 }
+        - { var: household.members, op: '>=', value: 2 }
+    weight: 8
+    cooldown_years: 4
+    importance: 7
+    icon: om
+    options:
+      - id: doi_mua_di_moi_thay_xa
+        text: Đốt đuốc đội mưa chạy bộ ra thị trấn rước thầy thuốc giỏi
+        hint: Tốn 3 quan tiền thuốc và tiền đò đêm
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: thuoc_men }
+          - { type: health, value: 6, who: household }
+          - { type: stress, value: 4 }
+        result:
+          - 'Gần sáng bạn mới cõng được thầy thuốc về tới nhà, kịp thời cắt cơn sốt nguy kịch.'
+      - id: hai_la_thuoc_quanh_nha
+        text: Dùng kinh nghiệm dân gian hái lá thuốc quanh vườn sắc uống cầm cự
+        chance:
+          base: 0.55
+          skill: sinh_ton
+          per_level: 0.06
+        success:
+          - { type: health, value: 4, who: household }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        failure:
+          - { type: health, value: -8, who: household }
+          - { type: stress, value: 8 }
+        success_result:
+          - 'May mắn thay bát nước lá rừng ấm nóng làm cơn sốt dịu dần khi trời vừa hửng sáng.'
+        failure_result:
+          - 'Thuốc lá chỉ cầm chừng được phần ngọn, trận ốm kéo dài làm cả nhà kiệt quệ vì ở quá xa thầy thuốc.'
+
+  - id: gui_con_ra_pho_hoc
+    title: Tương lai con trẻ nơi vùng xa
+    text:
+      - 'Nhìn con cái lớn lên giữa chốn thôn quê thiếu trường thiếu lớp, bạn trăn trở không biết nên giữ con ở lại nối nghiệp cày cấy hay bấm bụng gửi con ra phố học chữ.'
+    tags: [gia_dinh, hoc_hanh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: world.school_tier, op: '<=', value: 1 }
+        - { var: player.children_count, op: '>=', value: 1 }
+    weight: 8
+    cooldown_years: 5
+    importance: 6
+    icon: gia_dinh
+    options:
+      - id: chat_chiu_gui_con_di_hoc
+        text: Thắt lưng buộc bụng gửi con lên thị trấn ăn học
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4 }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: dynasty_prestige, value: 4 }
+        result:
+          - 'Dù bữa cơm trong nhà đạm bạc hơn, nhìn con được cắp sách đến trường lớn khiến lòng bạn tràn đầy hy vọng.'
+      - id: day_con_nghe_que
+        text: Ở xa trường quá, giữ con ở nhà truyền dạy nghề làm ăn của gia đình
+        effects:
+          - { type: food, value: 10 }
+          - { type: skill_xp, skill: sinh_ton, value: 18 }
+        result:
+          - 'Con cái sớm quen việc đồng áng và phụ giúp gia đình vững vàng qua từng mùa vụ.'
+

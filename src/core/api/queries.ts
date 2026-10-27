@@ -163,6 +163,8 @@ export interface HudView {
     regularIncome: number;
     /** [1.5] Tài sản ròng (tiền + thóc theo giá gốc + tài sản − nợ), quan. */
     netWorth: number;
+    /** [1.8] Tài sản ròng hiển thị chốt theo năm (cập nhật đầu mỗi năm + khi có quyết định/chi tiêu trực tiếp, không nhảy số lặt vặt mỗi tháng). */
+    annualNetWorth: number;
     netWorthBreakdown: ModifierResult;
     /** [1.5] Thu nhập năm vừa chốt sổ (thóc quy ra tiền); chưa chốt năm nào thì phần đã làm ra năm nay. */
     incomeYear: number;
@@ -193,6 +195,8 @@ export interface HudView {
   personal: {
     active: boolean;
     money: number;
+    /** [1.8] Túi tiền riêng hiển thị chốt theo năm (cộng trừ ngay khi có sự kiện/hành động trực tiếp). */
+    annualMoney: number;
     incomeYear: number;
     yearClose: YearCloseView | null;
     closes: YearCloseView[];
@@ -1037,6 +1041,24 @@ export function getHudView(ctx: SimContext): HudView {
       selfFarm: selfFarms(ctx),
       regularIncome: regularIncomeParts(ctx).reduce((sum, p) => sum + p.money, 0),
       netWorth: householdNetWorth(ctx),
+      annualNetWorth: (() => {
+        const immediateSet = new Set<string>([
+          Ledger.Event,
+          Ledger.Medicine,
+          Ledger.Funeral,
+          Ledger.PurseMergedIn,
+          Ledger.HouseholdSplit,
+          Ledger.Inheritance,
+        ]);
+        const baseOpen =
+          state.ledgerHistory.length > 0 || state.yearOpenNetWorth !== 0
+            ? state.yearOpenNetWorth
+            : householdNetWorth(ctx);
+        const immediateDelta = h.ledger
+          .filter((e) => immediateSet.has(e.category))
+          .reduce((sum, e) => sum + ledgerValue(ctx, e), 0);
+        return Math.round(baseOpen + immediateDelta);
+      })(),
       netWorthBreakdown: computeNetWorthBreakdown(ctx),
       incomeYear: lastYearIncome(ctx),
       incomeBreakdown: computeIncomeBreakdown(ctx),
@@ -1101,6 +1123,13 @@ export function getHudView(ctx: SimContext): HudView {
       return {
         active: purseActive(ctx),
         money: p.money,
+        annualMoney: (() => {
+          const baseOpen = p.history.length > 0 || p.openMoney !== 0 ? p.openMoney : p.money;
+          const immediateDelta = p.ledger
+            .filter((e) => e.category === Ledger.Event || e.category === Ledger.PurseMergedOut)
+            .reduce((sum, e) => sum + e.money, 0);
+          return Math.max(0, Math.round(baseOpen + immediateDelta));
+        })(),
         incomeYear: last ? last.income : current,
         yearClose: last ? yearCloseOf(ctx, last) : null,
         closes: p.history.map((y) => yearCloseOf(ctx, y)),

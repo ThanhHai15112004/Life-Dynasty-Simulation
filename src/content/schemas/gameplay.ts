@@ -537,6 +537,14 @@ export const settlementTypeSchema = z
     region_node: z.boolean().default(false),
     /** [7] Chi phí cơ bản để chuyển cả hộ tới định cư tại đây (quan). */
     relocate_cost: z.number().min(0).default(8),
+    /** [1.8] Bậc trường học tại chỗ (0 = vùng sâu không có thầy, 1 = thầy đồ làng, 2 = trường thị trấn/huyện, 3 = học đường phủ/kinh thành). */
+    school_tier: z.number().int().min(0).max(3).default(1),
+    /** [1.8] Bậc y tế tại chỗ (0 = hẻo lánh tự hái lá, 1 = thầy lang làng, 2 = tiệm thuốc thị trấn, 3 = y quán phủ/kinh thành). */
+    medical_tier: z.number().int().min(0).max(3).default(1),
+    /** [1.8] Độ xa xôi hẻo lánh (0 = đô thị sầm uất, 0.5 = làng quê, 0.9 = vùng sâu biên viễn). */
+    remoteness: z.number().min(0).max(1).default(0.4),
+    /** [1.8] Tiền thuê trọ/nhà mỗi năm khi ở đô thị mà đang ở thuê (quan/năm). */
+    housing_rent_year: z.number().min(0).default(0),
     /** [7] Xác suất cơ bản bùng phát dịch bệnh mỗi năm tại khu định cư này. */
     epidemic_base_chance_year: z.number().min(0).max(1).default(0.04),
     /** [7] Các tuyến đường nối từ khu định cư này sang khu định cư khác trong vùng. */

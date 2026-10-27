@@ -192,6 +192,29 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'exam_stage') return examStage(ctx);
         if (key === 'is_exam_year') return examStage(ctx) === ExamStage.Huong;
         if (key === 'settlement_type') return state.world.settlementType;
+        if (key === 'school_tier') {
+          const st = content.index.settlementType.get(activeSettlementId(ctx));
+          return st?.school_tier ?? 1;
+        }
+        if (key === 'medical_tier') {
+          const st = content.index.settlementType.get(activeSettlementId(ctx));
+          return st?.medical_tier ?? 1;
+        }
+        if (key === 'remoteness') {
+          const st = content.index.settlementType.get(activeSettlementId(ctx));
+          return st?.remoteness ?? 0.5;
+        }
+        if (key === 'is_urban') {
+          const stId = activeSettlementId(ctx);
+          return stId === 'thi_tran_ben_song' || stId === 'phu_thanh' || stId === 'huyen_ly' || stId === 'kinh_thanh';
+        }
+        if (key === 'is_remote') {
+          const st = content.index.settlementType.get(activeSettlementId(ctx));
+          return (st?.remoteness ?? 0.5) >= 0.5;
+        }
+        if (key === 'era_id') return state.bookmarkId ?? '';
+        if (key === 'polity_id') return state.polityId ?? '';
+        if (key === 'civilization_id') return state.civilization.id;
         if (key === 'local_trade_factor') return localTradeFactor(ctx);
         if (key === 'has_epidemic') return Boolean(currentSettlement(ctx)?.epidemic || homeSettlement(ctx)?.epidemic);
         if (key === 'home_epidemic') return Boolean(homeSettlement(ctx)?.epidemic);

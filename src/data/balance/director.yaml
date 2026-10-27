@@ -2,8 +2,8 @@
 max_decisions_per_year: 3
 base_monthly_chance: 0.14
 # Đã gặp n lần thì trọng số × hệ số^n: chuyện mới được ưu tiên, chuyện cũ vẫn có thể quay lại
-repeat_weight_factor: 0.08   # [1.5] hạ từ 0.15: chuyện đã gặp lùi xa hơn, nhường chỗ chuyện mới
-ambient_repeat_weight_factor: 0.5
+repeat_weight_factor: 0.05   # [1.8] hạ từ 0.08: ưu tiên tối đa sự kiện chưa từng gặp trong đời
+ambient_repeat_weight_factor: 0.25
 min_months_between: 2
 # [1] Chuyện nhỏ: hiện ngay trong nhật ký, dừng thời gian chờ chọn (bật "Tự quyết chuyện nhỏ" thì game chọn phương án default)
 # Nhịp mục tiêu: quyết định + chuyện nhỏ ≈ 1,5–2,5 lần dừng/năm (KPI pauses_per_year)

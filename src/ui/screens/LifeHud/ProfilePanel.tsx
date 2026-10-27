@@ -265,7 +265,7 @@ export function WealthCard({ hud }: { hud: HudView }) {
   const modern = (v: number) => t('wealth.modern', { value: modernMoney(t, v, u.modernPerQuan) });
   // [1.5] Chưa làm chủ hộ: thẻ là của riêng bạn (kiểu 1in8b); nhà cha mẹ chỉ là gia cảnh
   const own = ps.active;
-  const netWorth = own ? ps.money : h.netWorth;
+  const netWorth = own ? ps.annualMoney : h.annualNetWorth;
   const income = own ? ps.incomeYear : h.incomeYear;
   const close = own ? ps.yearClose : h.yearClose;
   return (

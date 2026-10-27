@@ -1,0 +1,222 @@
+# [1.8] Chuỗi sự kiện Đi lính -> Giải ngũ -> Thất nghiệp & Tái hòa nhập (học theo nhân quả 1in8b)
+events:
+  - id: lenh_giai_ngu_tro_ve
+    title: Ngày giải ngũ rời doanh trại
+    text:
+      - 'Chiến dịch biên thùy khép lại, trống thu quân đã điểm. Sau những năm tháng cầm giáo gác đêm nơi gió cát, bạn nhận tờ giấy giải ngũ cùng mấy đồng tiền thưởng ít ỏi để trở về quê nhà.'
+      - 'Đợt cắt giảm binh lính sau mùa chinh chiến khiến đội ngũ của bạn được cho giải ngũ. Khoác chiếc tay nải bạc màu lên vai, trước mắt bạn là con đường về quê sau bao năm xa cách.'
+    tags: [quan_ngu, buoc_ngoat]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.career, op: '==', value: linh }
+        - { var: player.career_years, op: '>=', value: 2 }
+    weight: 14
+    cooldown_years: 6
+    importance: 8
+    icon: kiem
+    options:
+      - id: nhan_tien_thuong_giai_ngu
+        text: Nhận tiền trợ cấp giải ngũ rồi khoác tay nải trở về quê
+        effects:
+          - { type: money, value: 6 }
+          - { type: set_career, career: that_nghiep }
+          - { type: set_flag, flag: cuu_binh, years: 15, label: 'Cựu binh trở về từ quân ngũ' }
+          - { type: schedule_event, event: ngay_ve_lang_cu, months: 2, keep_roles: false }
+        result:
+          - 'Bạn giã từ anh em đồng đội, cầm khoản tiền trợ cấp lên đường về lại cố hương.'
+      - id: xin_o_lai_lam_linh_canh
+        text: Xin ở lại đồn trú làm lính tuần tra lâu dài dù lương bổng eo hẹp
+        effects:
+          - { type: career_merit, value: 15 }
+          - { type: skill_xp, skill: quan_su, value: 25 }
+          - { type: stress, value: 4 }
+        result:
+          - 'Bạn tiếp tục gắn bó với đời binh nghiệp, giữ nhịp tuần tra nơi doanh trại.'
+
+  - id: ngay_ve_lang_cu
+    title: Bước chân người lính về làng
+    text:
+      - 'Trở về quê nhà sau những năm tháng chinh chiến, cảnh vật vừa quen vừa lạ. Mảnh vườn cũ cỏ mọc lút đầu gối, bạn bè cùng trang lứa người đã yên bề gia thất, người đã có nghề ngỗng ổn định, còn bạn đang đứng giữa ngã ba đường không nghề nghiệp.'
+    tags: [quan_ngu, gia_dinh]
+    scheduled_only: true
+    weight: 10
+    importance: 7
+    icon: gia_dinh
+    options:
+      - id: bat_tay_cuoc_lai_ruong_hoang
+        text: Xắn tay áo phát cỏ, làm quen lại với lưỡi cày lưỡi cuốc
+        effects:
+          - { type: set_career, career: nong_dan }
+          - { type: skill_xp, skill: sinh_ton, value: 20 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Đôi bàn tay quen cầm giáo mác giờ lại cầm cuốc cày, từng nhát đất lật lên mang lại cảm giác bình yên.'
+      - id: tam_nghi_ngoi_tim_viec
+        text: Tạm nghỉ ngơi ít tháng cho lại sức rồi tìm kế sinh nhai mới
+        effects:
+          - { type: set_career, career: that_nghiep }
+          - { type: health, value: 6 }
+          - { type: schedule_event, event: cuu_binh_that_nghiep, months: 5, keep_roles: false }
+        result:
+          - 'Bạn dành thời gian thăm hỏi họ hàng và dưỡng lại sức vóc sau những năm sương gió.'
+      - id: ra_ben_cho_xin_viec_nang
+        text: Ra bến chợ nhận việc khuân vác, bảo vệ hàng hóa kiếm sống ngay
+        effects:
+          - { type: set_career, career: lam_thue }
+          - { type: money, value: 3 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        result:
+          - 'Sức vóc dạn dày nơi quân ngũ giúp bạn dễ dàng nhận được việc nặng ngoài bến chợ.'
+
+  - id: cuu_binh_that_nghiep
+    title: Nỗi chật vật sau ngày rời quân ngũ
+    text:
+      - 'Rời quân ngũ đã lâu mà vẫn chưa tìm được công việc ổn định, tiền trợ cấp vơi dần. Ra đồng thì lóng ngóng không bằng người làm quen tay, xin vào cửa hiệu thì chủ tiệm ngại dáng vẻ phong trần của người từng đi lính.'
+    tags: [quan_ngu, nghe_nghiep]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      any:
+        - { all: [{ has_flag: cuu_binh }, { var: player.career, op: 'in', value: [that_nghiep, lam_thue] }] }
+        - { all: [{ var: player.career, op: '==', value: that_nghiep }, { var: player.skill.quan_su, op: '>=', value: 2 }] }
+    weight: 12
+    cooldown_years: 3
+    importance: 7
+    icon: kiem
+    options:
+      - id: xin_hoc_nghe_ren_moc
+        text: Hạ mình xin vào lò rèn, xưởng mộc học nghề thủ công từ đầu
+        effects:
+          - { type: set_career, career: tho_ren }
+          - { type: skill_xp, skill: quan_tri, value: 20 }
+          - { type: stress, value: 2 }
+        result:
+          - 'Quen với lửa đỏ và sắt thép, bạn nhanh chóng bắt nhịp với công việc bên bễ lò rèn.'
+      - id: theo_doan_buon_lam_ho_ve
+        text: Nhận làm hộ vệ theo các đoàn thuyền buôn đi dọc bến sông
+        effects:
+          - { type: set_career, career: lam_thue }
+          - { type: money, value: 5 }
+          - { type: skill_xp, skill: quan_su, value: 20 }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+        result:
+          - 'Các chủ buôn rất cần người có võ nghệ đi áp tải hàng, bạn vừa có thu nhập vừa học thêm chuyện buôn bán.'
+      - id: uong_ruou_than_thoi
+        text: Ngồi quán rượu thở dài nhớ thời ngang dọc nơi biên ải
+        effects:
+          - { type: money, value: -1 }
+          - { type: stress, value: 6 }
+        result:
+          - 'Men rượu không làm vơi đi nỗi lo cơm áo khi tháng ngày cứ thế trôi qua.'
+
+  - id: dong_doi_cu_ru_re
+    title: Người đồng đội cũ tìm đến
+    text:
+      - 'Một người bạn từng vào sinh ra tử trong quân ngũ bất ngờ ghé thăm. Sau tuần trà hàn huyên, người ấy rủ bạn cùng tụ tập mấy anh em cũ đi làm ăn lớn — hoặc bảo tiêu chuyến hàng đường xa, hoặc lập toán chiếm giữ đèo cao.'
+    tags: [quan_ngu, giang_ho]
+    condition:
+      any:
+        - { has_flag: cuu_binh }
+        - { var: player.skill.quan_su, op: '>=', value: 3 }
+    weight: 9
+    cooldown_years: 4
+    importance: 7
+    icon: kiem
+    options:
+      - id: di_bao_tieu_hang_buon
+        text: Chỉ nhận lời đi hộ tống đoàn hàng chính đáng lên thị trấn
+        chance:
+          base: 0.72
+          skill: quan_su
+          per_level: 0.05
+        success:
+          - { type: money, value: 8 }
+          - { type: skill_xp, skill: quan_su, value: 20 }
+          - { type: reputation, group: dan_lang, value: 4 }
+        failure:
+          - { type: money, value: 2 }
+          - { type: health, value: -6 }
+        success_result:
+          - 'Chuyến hàng qua đèo an toàn, chủ buôn trả công hậu hĩnh cho toán cựu binh.'
+        failure_result:
+          - 'Đoàn hàng đụng độ kẻ cướp giữa đường, bạn bị thương nhẹ nhưng vẫn giữ được hàng.'
+      - id: theo_anh_em_lac_ao_giang_ho
+        text: Thời buổi khó khăn, theo anh em lên núi lập trại tự tìm đường sống
+        trait_stress: { nhan_tu: 8, than_trong: 6 }
+        effects:
+          - { type: set_career, career: thao_khau }
+          - { type: money, value: 10 }
+          - { type: wanted, value: 15 }
+        result:
+          - 'Bạn bước chân vào con đường thảo khấu đầy hiểm nguy nơi rừng sâu núi thẳm.'
+      - id: tu_choi_giu_doi_binh_yen
+        text: Đãi bạn bữa cơm quê rồi từ chối, quyết giữ cuộc sống yên lành
+        effects:
+          - { type: food, value: -2 }
+          - { type: stress, value: -4 }
+        result:
+          - 'Tiễn người đồng đội cũ ra đầu ngõ, bạn quay về với mái ấm bình dị của mình.'
+
+  - id: vet_thuong_cu_trai_gio
+    title: Vết thương cũ tái phát mùa gió bấc
+    text:
+      - 'Gió bấc đầu đông tràn về khiến vết thương từ thời còn trong quân ngũ đau nhức âm ỉ suốt đêm, cử động tay chân cũng nặng nề hơn trước.'
+    tags: [quan_ngu, benh_tat]
+    months: [10, 11, 12, 1]
+    condition:
+      any:
+        - { has_flag: cuu_binh }
+        - { var: player.career, op: '==', value: linh }
+    weight: 8
+    cooldown_years: 3
+    importance: 5
+    icon: om
+    options:
+      - id: mua_thuoc_ngam_ruou_xoa_bop
+        text: Mua thang thuốc cốt khí ngâm rượu xoa bóp và nghỉ ngơi
+        condition: { var: household.money, op: '>=', value: 2 }
+        effects:
+          - { type: money, value: -2, ledger: thuoc_men }
+          - { type: health, value: 4 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Hơi thuốc nóng ấm làm dịu cơn đau nhức, giúp bạn ngủ trọn giấc qua mùa đông.'
+      - id: can_rang_chiu_dung
+        text: Cắn răng chịu đựng để khỏi tốn tiền của gia đình
+        effects:
+          - { type: health, value: -5 }
+          - { type: stress, value: 4 }
+        result:
+          - 'Cơn đau kéo dài hết đợt rét đậm khiến sức lực của bạn hao hụt ít nhiều.'
+
+  - id: khan_hoang_dat_linh
+    title: Đợt cấp đất khẩn hoang cho cựu binh
+    text:
+      - 'Quan sở tại mở đợt khuyến khích những người từng đi lính đứng ra khai khẩn bãi đất bồi ven sông. Đất chưa vỡ hoang đầy cỏ lác nhưng nếu chịu khó đổ mồ hôi thì sẽ thành ruộng tư lâu dài.'
+    tags: [quan_ngu, ruong_dong]
+    condition:
+      all:
+        - { has_flag: cuu_binh }
+        - { var: household.farmland, op: '<=', value: 2 }
+    weight: 9
+    cooldown_years: 6
+    once_per_life: true
+    importance: 8
+    icon: ruong
+    options:
+      - id: doc_suc_vo_hoang_lap_ruong
+        text: Dốc toàn lực phát cỏ đắp bờ suốt mùa khô để lập ruộng mới
+        effects:
+          - { type: property_add, property: ruong, count: 1 }
+          - { type: set_career, career: nong_dan }
+          - { type: health, value: -6 }
+          - { type: skill_xp, skill: sinh_ton, value: 30 }
+        result:
+          - 'Sau những tháng ngày đổ mồ hôi trên bãi đất hoang, gia đình bạn đã có thêm một sào ruộng màu mỡ.'
+      - id: nhuong_suat_nhan_tien
+        text: Sức không kham nổi việc vỡ hoang, nhượng lại suất khai khẩn lấy ít vốn
+        effects:
+          - { type: money, value: 8 }
+        result:
+          - 'Bạn nhượng lại suất đất bãi cho người khác để lấy một khoản tiền mặt xoay xở cuộc sống.'
+

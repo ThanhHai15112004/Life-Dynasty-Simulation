@@ -1,0 +1,441 @@
+# [1.8] Sự kiện quyết định theo Thời đại lịch sử & Văn minh thế giới (8000 TCN -> 2025 CN, học theo 1in8b)
+events:
+  # ══════════════════════════════════════════════════════════════════════════
+  # 1. THỜI NGUYÊN THỦY / ĐÁ MỚI (world.year < -1000)
+  # ══════════════════════════════════════════════════════════════════════════
+  - id: san_ban_thu_lon_nguyen_thuy
+    title: Dấu chân đàn thú lớn đầu mùa
+    text:
+      - 'Trinh sát của bộ lạc phát hiện dấu chân một đàn thú lớn đi qua thung lũng phía bắc. Nếu săn thành công, cả thị tộc sẽ dư dả thịt sấy khô và da thú suốt mùa lạnh, nhưng mũi lao đá rất dễ gãy trước thú dữ.'
+    tags: [co_hoi, quan_ngu]
+    condition:
+      all:
+        - { var: world.year, op: '<', value: -1000 }
+        - { var: player.age, op: '>=', value: 14 }
+    weight: 14
+    cooldown_years: 3
+    importance: 7
+    icon: kiem
+    options:
+      - id: dan_dau_toan_san_vay_bat
+        text: Cầm giáo đá dẫn đầu toán thợ săn trẻ dồn đàn thú vào hẻm núi
+        chance:
+          base: 0.65
+          skill: sinh_ton
+          per_level: 0.06
+        success:
+          - { type: food, value: 28 }
+          - { type: reputation, group: dan_lang, value: 10 }
+          - { type: skill_xp, skill: sinh_ton, value: 30 }
+          - { type: skill_xp, skill: quan_su, value: 20 }
+        failure:
+          - { type: food, value: 6 }
+          - { type: health, value: -10 }
+        success_result:
+          - 'Đàn thú sập bẫy trong hẻm đá, đêm ấy lửa trại bập bùng tiếng hát mừng chiến lợi phẩm.'
+        failure_result:
+          - 'Con thú đầu đàn vùng thoát làm bạn bị thương ở bả vai, chỉ thu được ít thịt nhỏ.'
+      - id: dat_bay_quanh_suoi_an_toan
+        text: Đào hố bẫy và hái lượm hạt rừng quanh bờ suối cho chắc ăn
+        effects:
+          - { type: food, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 18 }
+        result:
+          - 'Không mạo hiểm đối đầu thú lớn, bạn vẫn mang về đủ thịt thú nhỏ và củ rừng cho gia đình.'
+
+  - id: giu_lua_hang_da_mua_dong
+    title: Đêm băng giá giữ ngọn lửa thiêng
+    text:
+      - 'Gió tuyết gào thét bên ngoài vách đá, củi khô trong lán đã gần cạn mà ngọn lửa chung của thị tộc đang lụi dần trong đêm đen.'
+    tags: [tai_hoa, gia_dinh]
+    months: [11, 12, 1, 2]
+    condition:
+      all:
+        - { var: world.year, op: '<', value: -1000 }
+    weight: 12
+    cooldown_years: 4
+    importance: 6
+    icon: mua
+    options:
+      - id: vuot_gio_lanh_kiem_cui_kho
+        text: Khoác áo da thú lao ra rừng đêm tìm cành khô giữ cho lửa không tắt
+        effects:
+          - { type: health, value: -5 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: sinh_ton, value: 25 }
+        result:
+          - 'Đôi bàn tay tê cóng vì sương giá, nhưng ngọn lửa bùng lên sưởi ấm cả lán trại qua đêm dài.'
+      - id: chum_chan_da_thu_giu_am
+        text: Gom tro nóng ủ kín và quây kín tấm da thú giữ ấm cho người nhà
+        effects:
+          - { type: food, value: -4 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Cả nhà nương tựa hơi ấm của nhau chờ đến khi mặt trời ló rạng.'
+
+  - id: thu_thuan_hoa_hat_giong
+    title: Hạt cỏ dại nảy mầm bên bãi sông
+    text:
+      - 'Bạn nhận thấy những hạt ngũ cốc rơi vãi trên bãi phù sa ven sông năm ngoái nay mọc lên xanh tốt đều đặn. Nhiều người trong bộ lạc cho rằng cứ đi hái lượm tự nhiên là đủ, không cần mất công gieo hạt.'
+    tags: [ruong_dong, co_hoi]
+    condition:
+      all:
+        - { var: world.year, op: '<', value: -1000 }
+    weight: 11
+    cooldown_years: 6
+    once_per_life: true
+    importance: 8
+    icon: ruong
+    options:
+      - id: kien_tri_khoanh_dat_gieo_hat
+        text: Dùng cuốc đá xới bãi đất ven sông, giữ lại hạt mẩy để gieo trồng
+        effects:
+          - { type: food, value: 20 }
+          - { type: skill_xp, skill: sinh_ton, value: 35 }
+          - { type: skill_xp, skill: quan_tri, value: 20 }
+        result:
+          - 'Vụ thu hoạch đầu tiên từ mảnh đất tự gieo trồng khiến cả bộ lạc kinh ngạc.'
+      - id: doi_hat_giong_lay_cong_cu_da
+        text: Đem số hạt giống và đồ gốm nung đổi lấy rìu đá sắc bén từ bộ lạc láng giềng
+        effects:
+          - { type: money, value: 6 }
+          - { type: skill_xp, skill: thuong_mai, value: 25 }
+        result:
+          - 'Những lưỡi rìu đá sắc lẹm giúp việc chặt gỗ dựng lán nhanh gấp đôi trước kia.'
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # 2. CỔ ĐẠI & TRUNG ĐẠI THẾ GIỚI (-1000 -> 1750)
+  # ══════════════════════════════════════════════════════════════════════════
+  - id: doan_lac_da_con_duong_to_lua
+    title: Đoàn thương lữ đi qua ốc đảo
+    text:
+      - 'Một đoàn thương lữ lớn chở lụa là, hương liệu và ngựa tốt đang dừng chân nghỉ ngơi. Các trưởng đoàn cần người thông thuộc địa hình hoặc hùn vốn cho chặng đường xuyên qua vùng biên viễn.'
+    tags: [buon_ban, co_hoi]
+    condition:
+      all:
+        - { var: world.year, op: between, value: [-1000, 1750] }
+        - { var: world.civilization_id, op: 'in', value: [trung_dong_hoi_giao, thao_nguyen_du_muc, nam_a_an_do, dia_trung_hai] }
+    weight: 11
+    cooldown_years: 4
+    importance: 7
+    icon: thuyen
+    options:
+      - id: gop_von_gui_hang_theo_doan
+        text: Gửi kiện hàng đặc sản địa phương theo đoàn thương lữ để chia lãi
+        condition: { var: household.money, op: '>=', value: 5 }
+        chance:
+          base: 0.68
+          skill: thuong_mai
+          per_level: 0.05
+        success:
+          - { type: money, value: 14 }
+          - { type: skill_xp, skill: thuong_mai, value: 28 }
+        failure:
+          - { type: money, value: -3 }
+        success_result:
+          - 'Đoàn thương lữ trở về vào mùa thu, mang theo túi tiền vàng lời gấp gần ba lần vốn bỏ ra.'
+        failure_result:
+          - 'Bão cát làm đoàn hàng về trễ, trừ chi phí bảo quản chỉ còn thu hồi được một phần vốn.'
+      - id: dan_duong_va_tiep_luong
+        text: Cung cấp lương thảo, nước ngọt và dẫn đường qua vùng hiểm trở
+        effects:
+          - { type: money, value: 6 }
+          - { type: skill_xp, skill: ngoai_giao, value: 20 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        result:
+          - 'Trưởng đoàn hậu tạ bạn bằng những đồng bạc sáng loáng và tấm thảm dệt tinh xảo.'
+
+  - id: hoi_phuong_tho_thu_cong
+    title: Quy ước của Phường hội thành bang
+    text:
+      - 'Các bậc thầy trong phường hội địa phương mở đợt sát hạch tay nghề và kết nạp thành viên chính thức. Có con dấu của phường hội thì hàng làm ra bán được giá cao, nhưng phải đóng lệ phí hằng năm.'
+    tags: [nghe_nghiep, buon_ban]
+    condition:
+      all:
+        - { var: world.year, op: between, value: [-500, 1780] }
+        - { var: world.civilization_id, op: 'in', value: [au_co_dien, trung_co_au, dia_trung_hai] }
+    weight: 10
+    cooldown_years: 5
+    importance: 6
+    icon: tien
+    options:
+      - id: nop_le_phi_thi_tay_nghe
+        text: Nộp lệ phí và dốc sức chế tác sản phẩm mẫu để gia nhập phường hội
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4 }
+          - { type: career_merit, value: 20 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: quan_tri, value: 25 }
+        result:
+          - 'Tác phẩm của bạn được các trưởng lão phường hội gật đầu công nhận.'
+      - id: tu_lam_tu_ban_ngoai_cho
+        text: Không cần danh hiệu phường hội, tự bán hàng giá mềm cho dân thường
+        effects:
+          - { type: money, value: 4 }
+          - { type: skill_xp, skill: thuong_mai, value: 18 }
+        result:
+          - 'Dù không vào phường hội lớn, khách bình dân vẫn tìm đến bạn vì giá cả phải chăng.'
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # 3. THỜI CÔNG NGHIỆP (1750 -> 1945)
+  # ══════════════════════════════════════════════════════════════════════════
+  - id: tieng_coi_nha_may_hoi_nuoc
+    title: Tiếng còi xưởng máy hơi nước
+    text:
+      - 'Những ống khói gạch cao vút mọc lên bên rìa thị trấn, tiếng máy hơi nước chạy ầm ầm suốt ngày đêm. Các xưởng dệt và xưởng cơ khí đang rầm rộ tuyển nhân công với mức lương trả bằng tiền mặt đều đặn.'
+    tags: [nghe_nghiep, buoc_ngoat]
+    condition:
+      all:
+        - { var: world.year, op: between, value: [1750, 1945] }
+        - { var: player.age, op: between, value: [15, 50] }
+    weight: 13
+    cooldown_years: 4
+    importance: 7
+    icon: tien
+    options:
+      - id: xin_vao_lam_cong_nhan_xuong_may
+        text: Vào xưởng máy làm việc theo ca để có đồng lương cố định
+        effects:
+          - { type: set_career, career: lam_thue }
+          - { type: money, value: 8 }
+          - { type: health, value: -4 }
+          - { type: skill_xp, skill: quan_tri, value: 20 }
+        result:
+          - 'Nhịp sống của bạn giờ đây xoay quanh tiếng còi tầm và những guồng máy quay không nghỉ.'
+      - id: cung_cap_than_cui_va_luong_thuc
+        text: Đứng ngoài nhận chở than củi và bán cơm nước cho công nhân xưởng máy
+        effects:
+          - { type: money, value: 6 }
+          - { type: skill_xp, skill: thuong_mai, value: 25 }
+        result:
+          - 'Hàng trăm thợ máy tan ca mỗi chiều mang lại nguồn khách đông đúc cho gánh hàng của bạn.'
+
+  - id: duong_sat_va_ben_cang_moi
+    title: Tuyến đường sắt và bến tàu hơi nước mở thông
+    text:
+      - 'Đoàn tàu lửa và tàu thủy hơi nước bắt đầu chạy qua vùng, rút ngắn hành trình đi các thành phố lớn từ cả tháng trời xuống chỉ còn vài ngày.'
+    tags: [buon_ban, co_hoi]
+    condition:
+      all:
+        - { var: world.year, op: between, value: [1800, 1945] }
+    weight: 11
+    cooldown_years: 5
+    importance: 7
+    icon: thuyen
+    options:
+      - id: chuyen_hang_theo_tau_moi
+        text: Nhanh nhạy gửi nông sản và hàng hóa đi tiêu thụ ở thành phố lớn
+        effects:
+          - { type: money, value: 11 }
+          - { type: skill_xp, skill: thuong_mai, value: 28 }
+        result:
+          - 'Nhờ vận chuyển nhanh, hàng của bạn tới phố lớn vẫn tươi mới và bán được giá rất cao.'
+      - id: mua_ve_tau_len_thanh_pho
+        text: Mua vé tàu đưa gia đình lên đô thị lớn tìm cơ hội mới
+        condition:
+          all:
+            - { var: world.is_urban, op: '==', value: false }
+            - { var: player.is_head, op: '==', value: true }
+            - { var: household.money, op: '>=', value: 5 }
+        effects:
+          - { type: money, value: -5 }
+          - { type: relocate_settlement, settlement: phu_thanh, free: true }
+          - { type: set_flag, flag: o_nha_thue, years: 8, label: 'Đang thuê nhà nơi đô thị' }
+        result:
+          - 'Chuyến tàu đưa gia đình bạn rời quê hương tiến thẳng vào nhịp sống công nghiệp sôi động.'
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # 4. THỜI HIỆN ĐẠI / THẾ GIỚI 8 TỶ NGƯỜI (world.year >= 1945, chuẩn 1in8b)
+  # ══════════════════════════════════════════════════════════════════════════
+  - id: ky_thi_tuyen_sinh_hien_dai
+    title: Kỳ thi chuyển cấp và ngưỡng cửa học đường
+    text:
+      - 'Mùa thi cử đã đến. Ở nơi bạn sống, muốn vào được trường tốt hoặc học tiếp lên cao đẳng, đại học thì vừa phải có điểm số vượt trội vừa phải lo đủ học phí và chi phí trọ học trên thành phố.'
+    tags: [hoc_hanh, buoc_ngoat]
+    life_stages: [thieu_thoi, thanh_nien]
+    condition:
+      all:
+        - { var: world.year, op: '>=', value: 1945 }
+        - { var: player.age, op: between, value: [14, 22] }
+    weight: 14
+    cooldown_years: 4
+    importance: 8
+    icon: sach
+    options:
+      - id: quyet_tam_on_thi_len_thanh_pho_hoc
+        text: Thức đêm ôn luyện và đóng học phí lên thành phố học tiếp
+        condition: { var: household.money, op: '>=', value: 4 }
+        chance:
+          base: 0.65
+          skill: hoc_van
+          per_level: 0.07
+        success:
+          - { type: money, value: -4 }
+          - { type: skill_xp, skill: hoc_van, value: 45 }
+          - { type: scholarly_prestige, value: 10 }
+          - { type: set_flag, flag: tro_hoc_xa_nha, years: 4, label: 'Sinh viên trọ học xa nhà' }
+        failure:
+          - { type: money, value: -2 }
+          - { type: skill_xp, skill: hoc_van, value: 20 }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Giấy báo trúng tuyển gửi về tận nhà! Bạn bước vào giảng đường lớn với bao ước mơ phía trước.'
+        failure_result:
+          - 'Thiếu một chút điểm để vào trường top đầu, nhưng bạn vẫn tích lũy được nền tảng kiến thức vững chắc.'
+      - id: hoc_nghe_ngan_han_di_lam_som
+        text: Chọn học nghề thực hành ngắn hạn để sớm đi làm phụ giúp gia đình
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 28 }
+          - { type: money, value: 5 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Có tay nghề thực tế trong tay, bạn nhanh chóng được nhận vào làm việc ngay sau khóa học.'
+
+  - id: di_lam_khu_cong_nghiep
+    title: Làn sóng tuyển dụng tại Khu công nghiệp & Đô thị
+    text:
+      - 'Các nhà máy, công ty vận tải và khu dịch vụ trên thành phố đang tuyển dụng hàng loạt lao động trẻ. Ở quê thu nhập bấp bênh theo mùa, nhiều thanh niên trong xóm đã rủ nhau khăn gói lên thành phố thuê phòng trọ đi làm.'
+    tags: [nghe_nghiep, buoc_ngoat]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: world.year, op: '>=', value: 1945 }
+        - { var: player.age, op: between, value: [18, 42] }
+    weight: 13
+    cooldown_years: 4
+    importance: 7
+    icon: duong
+    options:
+      - id: nop_ho_so_di_lam_cong_ty
+        text: Nộp hồ sơ đi làm công ty, tăng ca kiếm thu nhập ổn định hằng năm
+        effects:
+          - { type: set_career, career: lam_thue }
+          - { type: money, value: 10 }
+          - { type: skill_xp, skill: quan_tri, value: 22 }
+          - { type: stress, value: 4 }
+        result:
+          - 'Những khoản lương thưởng cuối năm giúp kinh tế của bạn khởi sắc rõ rệt.'
+      - id: chuyen_han_len_thanh_pho_lap_nghiep
+        text: Dọn hẳn lên thành phố thuê trọ để nắm bắt cơ hội thăng tiến lâu dài
+        condition:
+          all:
+            - { var: world.is_urban, op: '==', value: false }
+            - { var: player.is_head, op: '==', value: true }
+        effects:
+          - { type: relocate_settlement, settlement: thi_tran_ben_song, free: true }
+          - { type: set_flag, flag: o_nha_thue, years: 6, label: 'Đang thuê căn hộ / phòng trọ đô thị' }
+          - { type: money, value: 6 }
+        result:
+          - 'Bạn hòa mình vào dòng người hối hả nơi đô thị hiện đại.'
+      - id: phat_trien_kinh_te_tai_que
+        text: Ở lại địa phương mở dịch vụ cung ứng và làm kinh tế trang trại
+        effects:
+          - { type: money, value: 5 }
+          - { type: skill_xp, skill: sinh_ton, value: 20 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Không cần chen chúc nơi phố thị đắt đỏ, bạn vẫn tạo dựng được thu nhập ổn định ngay tại quê nhà.'
+
+  - id: cat_giam_nhan_su_chuyen_nghe
+    title: Biến động kinh tế và đợt cắt giảm việc làm
+    text:
+      - 'Thị trường suy thoái khiến nhiều cơ sở kinh doanh thu hẹp quy mô, cắt giảm nhân sự hàng loạt. Công việc hiện tại của bạn bị đình trệ, buộc phải tìm hướng xoay xở cho năm tới.'
+    tags: [nghe_nghiep, no_nan]
+    condition:
+      all:
+        - { var: world.year, op: '>=', value: 1945 }
+        - { var: player.age, op: between, value: [20, 55] }
+    weight: 10
+    cooldown_years: 4
+    importance: 7
+    icon: buon
+    options:
+      - id: hoc_ky_nang_moi_chuyen_nganh
+        text: Bỏ chút tiền tiết kiệm học thêm kỹ năng quản lý và thương mại để chuyển nghề
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3 }
+          - { type: skill_xp, skill: quan_tri, value: 30 }
+          - { type: skill_xp, skill: thuong_mai, value: 25 }
+          - { type: set_career, career: thuong_nhan }
+        result:
+          - 'Nhờ chủ động nâng cấp bản thân, bạn nhanh chóng tìm được vị trí mới có thu nhập tốt hơn trước.'
+      - id: chay_dich_vu_giao_hang_tu_do
+        text: Chấp nhận làm nghề tự do, chạy giao hàng và buôn bán nhỏ qua giai đoạn khó khăn
+        effects:
+          - { type: set_career, career: ban_rong }
+          - { type: money, value: 6 }
+          - { type: stress, value: 3 }
+        result:
+          - 'Rong ruổi trên khắp các con phố suốt ngày nắng cũng như ngày mưa, bạn vẫn giữ vững được nguồn thu cho gia đình.'
+      - id: tam_nghi_cho_thoi_co
+        text: Tạm nghỉ ngơi cắt giảm chi tiêu chờ thị trường hồi phục
+        effects:
+          - { type: set_career, career: that_nghiep }
+          - { type: stress, value: -2 }
+        result:
+          - 'Bạn thắt chặt chi tiêu trong nhà, chờ đợt tuyển dụng năm sau.'
+
+  - id: khoi_nghiep_kinh_doanh_hien_dai
+    title: Làn sóng tự mở cửa hàng & Kinh doanh riêng
+    text:
+      - 'Nhu cầu tiêu dùng trong khu vực tăng nhanh. Nhiều người xung quanh bắt đầu tự mở cửa tiệm dịch vụ, quán ăn hoặc đại lý phân phối hàng hóa. Bạn nhận thấy một ngách thị trường rất tiềm năng.'
+    tags: [buon_ban, co_hoi]
+    condition:
+      all:
+        - { var: world.year, op: '>=', value: 1945 }
+        - { var: player.age, op: between, value: [20, 55] }
+    weight: 11
+    cooldown_years: 5
+    importance: 7
+    icon: tien
+    options:
+      - id: dau_tu_mo_cua_tiem_rieng
+        text: Đầu tư vốn mở cửa tiệm bài bản để đón đầu xu hướng
+        condition: { var: household.money, op: '>=', value: 15 }
+        effects:
+          - { type: money, value: -15, ledger: co_nghiep }
+          - { type: venture_add, venture: sap_nho, stage: 1, health: 95 }
+          - { type: skill_xp, skill: thuong_mai, value: 35 }
+        result:
+          - 'Cửa tiệm sáng đèn từ sáng tới tối, lượng khách quen tăng đều qua từng tháng.'
+      - id: nhan_lam_dai_ly_phan_phoi_nho
+        text: Làm đại lý nhận hàng ký gửi để kiếm lời mà không lo chôn vốn
+        effects:
+          - { type: money, value: 8 }
+          - { type: skill_xp, skill: thuong_mai, value: 22 }
+        result:
+          - 'Cách làm ăn chắc mặc bền giúp bạn tích lũy thêm một khoản vốn đáng kể cuối năm.'
+
+  - id: vien_phi_va_cham_soc_y_te
+    title: Đợt kiểm tra sức khỏe và chi phí y tế
+    text:
+      - 'Nhịp sống hiện đại nhiều áp lực khiến sức khỏe suy giảm. Bác sĩ khuyên nên điều trị dứt điểm và nghỉ dưỡng tại bệnh viện tuyến trên, nhưng chi phí viện phí và đi lại không hề rẻ.'
+    tags: [benh_tat, gia_dinh]
+    condition:
+      all:
+        - { var: world.year, op: '>=', value: 1945 }
+        - { var: player.health, op: '<=', value: 75 }
+    weight: 10
+    cooldown_years: 4
+    importance: 6
+    icon: om
+    options:
+      - id: dieu_tri_tuyen_tren_day_du
+        text: Chi tiền khám chữa bài bản tại bệnh viện lớn để hồi phục hoàn toàn
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4, ledger: thuoc_men }
+          - { type: health, value: 14 }
+          - { type: stress, value: -6 }
+        result:
+          - 'Nhờ y học hiện đại và phác đồ điều trị kịp thời, cơ thể bạn khỏe khoắn trở lại.'
+      - id: mua_thuoc_uong_tai_nha
+        text: Chỉ mua thuốc uống tại nhà và tự tập thể dục điều độ
+        effects:
+          - { type: money, value: -1, ledger: thuoc_men }
+          - { type: health, value: 5 }
+        result:
+          - 'Bạn duy trì chế độ sinh hoạt điều độ để sức khỏe hồi phục từ từ.'
+

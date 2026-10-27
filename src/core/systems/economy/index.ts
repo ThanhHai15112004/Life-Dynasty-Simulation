@@ -412,6 +412,13 @@ export function yearlyEconomy(ctx: SimContext): void {
   h.money += income - upkeep;
   addLedger(h, Ledger.Upkeep, -upkeep, 0);
   addLedger(h, Ledger.OtherIncome, income, 0);
+  // [1.8] Ở đô thị / thị trấn và đang mang cờ ở nhà thuê: cuối năm đóng tiền trọ theo bậc đô thị
+  const st = content.index.settlementType.get(state.world.settlementType);
+  const rentFlag = state.flags.o_nha_thue;
+  if (st && st.housing_rent_year > 0 && rentFlag && (rentFlag.expiresAt === null || rentFlag.expiresAt > state.clock.monthIndex)) {
+    h.money -= st.housing_rent_year;
+    addLedger(h, Ledger.Living, -st.housing_rent_year, 0);
+  }
   yearlyObligations(ctx);
   yearlyVentures(ctx);
   yearlyNpcLoans(ctx);

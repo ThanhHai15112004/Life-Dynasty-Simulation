@@ -1,0 +1,156 @@
+# [1.8] Chuỗi sự kiện Kinh doanh & Thương trường thăng trầm (học theo chiều sâu kinh tế 1in8b)
+events:
+  - id: gom_von_khoi_nghiep
+    title: Cơ hội mở sạp khởi nghiệp buôn bán
+    text:
+      - 'Một vị trí đẹp ngay góc chợ vừa trống chỗ. Nếu kịp gom vốn dựng sạp buôn bán ngay lúc này thì có thể đón trọn luồng khách qua lại, nhưng số vốn ban đầu không hề nhỏ.'
+    tags: [buon_ban, co_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: household.ventures_count, op: '==', value: 0 }
+        - { any: [{ var: focus.primary, op: '==', value: kinh_doanh }, { var: player.career_sector, op: '==', value: thuong_mai }] }
+    weight: 10
+    cooldown_years: 5
+    importance: 7
+    icon: tien
+    options:
+      - id: tu_bo_von_mo_sap_nho
+        text: Xuất tiền tích cóp mở ngay sạp hàng riêng
+        hint: Tốn 18 quan để dựng sạp hàng nhỏ
+        condition: { var: household.money, op: '>=', value: 18 }
+        effects:
+          - { type: money, value: -18, ledger: co_nghiep }
+          - { type: venture_add, venture: sap_nho, stage: 1, health: 90 }
+          - { type: skill_xp, skill: thuong_mai, value: 30 }
+        result:
+          - 'Sạp hàng mới khai trương đông khách, mở đầu cho con đường kinh doanh riêng của gia đình.'
+      - id: hun_von_cung_ban_buon
+        text: Rủ người quen hùn một nửa vốn để giảm gánh nặng tiền mặt
+        hint: Chỉ tốn 10 quan vốn ban đầu
+        condition: { var: household.money, op: '>=', value: 10 }
+        effects:
+          - { type: money, value: -10, ledger: co_nghiep }
+          - { type: venture_add, venture: sap_nho, stage: 1, health: 75 }
+          - { type: skill_xp, skill: ngoai_giao, value: 20 }
+        result:
+          - 'Nhờ có người hùn vốn chia sẻ rủi ro, bạn nhẹ gánh mở được sạp hàng đầu tiên.'
+      - id: chua_du_luc_danh_cho_dip_khac
+        text: Vốn còn mỏng, tiếp tục buôn nhỏ tích lũy thêm đã
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 12 }
+        result:
+          - 'Bạn cẩn trọng giữ chặt túi tiền, chờ khi đủ thực lực mới mở cơ nghiệp lớn.'
+
+  - id: con_sot_hang_hoa_kiem_dam
+    title: Cơn sốt hàng hóa ngoài bến chợ
+    text:
+      - 'Thuyền buôn phương xa cập bến muộn khiến mặt hàng vải vóc và muối mắm tăng giá từng ngày. Ai có sẵn hàng trong kho lúc này đều có thể kiếm lời gấp bội.'
+    tags: [buon_ban, co_hoi]
+    condition:
+      any:
+        - { var: player.career_sector, op: '==', value: thuong_mai }
+        - { var: household.ventures_count, op: '>=', value: 1 }
+    weight: 10
+    cooldown_years: 3
+    importance: 6
+    icon: tien
+    options:
+      - id: doc_von_om_hang_ban_kip_thoi
+        text: Dốc vốn gom hàng từ các thôn lân cận đưa ra chợ bán ngay đỉnh giá
+        condition: { var: household.money, op: '>=', value: 6 }
+        chance:
+          base: 0.65
+          skill: thuong_mai
+          per_level: 0.06
+        success:
+          - { type: money, value: 16, ledger: co_nghiep }
+          - { type: skill_xp, skill: thuong_mai, value: 30 }
+        failure:
+          - { type: money, value: -4, ledger: co_nghiep }
+          - { type: stress, value: 6 }
+        success_result:
+          - 'Nhạy bén nắm bắt thời cơ, bạn thu về khoản lãi lớn chỉ trong một phiên chợ.'
+        failure_result:
+          - 'Thuyền hàng lớn bất ngờ cập bến làm giá hạ nhanh, bạn phải xả hàng chịu lỗ nhẹ.'
+      - id: ban_gia_vua_phai_giu_khach_quen
+        text: Bán đúng giá thường ngày để giữ chữ tín với khách quen lâu năm
+        effects:
+          - { type: money, value: 6, ledger: co_nghiep }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: venture_health, value: 10 }
+        result:
+          - 'Khách hàng truyền tai nhau sự tử tế của bạn, cơ nghiệp ngày càng thêm vững chắc.'
+
+  - id: doi_thu_ep_gia_gianh_khach
+    title: Đối thủ mở tiệm cạnh tranh sát vách
+    text:
+      - 'Một tay buôn có vốn mạnh vừa mở gian hàng ngay đối diện chỗ bạn, cố tình hạ giá bán thấp hơn để kéo hết khách quen sang phía họ.'
+    tags: [buon_ban]
+    condition:
+      any:
+        - { var: player.career_sector, op: '==', value: thuong_mai }
+        - { var: household.ventures_count, op: '>=', value: 1 }
+    weight: 9
+    cooldown_years: 4
+    importance: 6
+    icon: tien
+    options:
+      - id: doi_sang_hang_tinh_xao_rieng
+        text: Tuyển chọn mặt hàng chất lượng cao và gói ghém kỹ lưỡng để tạo khác biệt
+        chance:
+          base: 0.62
+          skill: muu_luoc
+          per_level: 0.06
+        success:
+          - { type: money, value: 10, ledger: co_nghiep }
+          - { type: venture_health, value: 12 }
+          - { type: skill_xp, skill: thuong_mai, value: 25 }
+        failure:
+          - { type: money, value: -3, ledger: co_nghiep }
+          - { type: venture_health, value: -8 }
+        success_result:
+          - 'Khách sành sỏi nhanh chóng nhận ra hàng của bạn bền đẹp hơn hẳn, tiệm lại đông như trước.'
+        failure_result:
+          - 'Mất vài tháng đầu vắng khách trước khi người mua quay lại.'
+      - id: sang_gap_ban_chia_mat_hang
+        text: Chủ động sang mời trà, bàn cách mỗi bên chuyên một mặt hàng để cùng có lợi
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 25 }
+          - { type: money, value: 5, ledger: co_nghiep }
+          - { type: stress, value: -3 }
+        result:
+          - 'Buôn có bạn bán có phường, hai bên thống nhất không phá giá nhau nữa.'
+
+  - id: tai_co_cau_sau_thua_lo
+    title: Bão táp thương trường và bài toán xoay chuyển
+    text:
+      - 'Sổ sách năm nay thâm hụt nặng vì sức mua sụt giảm và hàng tồn đọng. Đứng trước nguy cơ cơ nghiệp sụp đổ, bạn phải đưa ra quyết định dứt khoát.'
+    tags: [buon_ban, no_nan]
+    condition:
+      all:
+        - { var: household.ventures_count, op: '>=', value: 1 }
+        - { any: [{ var: household.has_declining_venture, op: '==', value: true }, { var: household.debt, op: '>=', value: 12 }] }
+    weight: 12
+    cooldown_years: 3
+    importance: 7
+    icon: tien
+    options:
+      - id: cat_giam_hang_ton_xoc_lai_co_nghiep
+        text: Bán thanh lý hàng tồn thu hồi tiền mặt và chấn chỉnh lại sổ sách
+        effects:
+          - { type: money, value: 8, ledger: co_nghiep }
+          - { type: venture_health, value: 22 }
+          - { type: skill_xp, skill: quan_tri, value: 25 }
+        result:
+          - 'Chấp nhận cắt bỏ phần hàng kém hiệu quả giúp cơ nghiệp của bạn thoát khỏi đà suy thoái.'
+      - id: sang_nhuong_bot_de_tra_dut_no
+        text: Sang nhượng lại cơ nghiệp lấy cục tiền lớn trả sạch nợ nần rồi làm lại từ đầu
+        effects:
+          - { type: venture_remove }
+          - { type: money, value: 20, ledger: ban_tai_san }
+          - { type: debt, value: -20, ledger: tra_no }
+          - { type: stress, value: -8 }
+        result:
+          - 'Bạn thu hồi được vốn liếng, trút bỏ gánh nặng nợ nần để chuẩn bị cho bước tiến mới.'
+

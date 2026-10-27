@@ -3,10 +3,10 @@ start_year: 1042
 start_month: 1
 # Một tháng game ở tốc độ 1× kéo dài bao nhiêu mili-giây thực (5000 → một năm ≈ 1 phút)
 ms_per_month_at_1x: 5000
-speeds: [1, 2, 4, 8, 12]
-default_speed_index: 1
+speeds: [1, 2, 3, 5, 8]
+default_speed_index: 0
 autosave_every_years: 1
-# Ấu thơ (0–5 tuổi) chưa có quyết định: thời gian trôi nhanh gấp chừng này lần
-stage_speed_factor: { au_tho: 3 }
+# Ấu thơ (0–5 tuổi) chưa có quyết định: thời gian trôi nhanh hơn nhẹ nhưng đủ để cảm nhận từng năm
+stage_speed_factor: { au_tho: 1.5 }
 # "Tới quyết định tiếp theo" tua tối đa 2 năm
 skip_max_months: 24
