@@ -1,6 +1,7 @@
 // [1] Bản tổng kết đời 5 trục độc lập (GDD 01 §7.3): Mãn nguyện, Di sản, Dấu ấn, Gia đình, Tham vọng
 import type { LifeSummaryView } from '@core/index';
 import { StatBar } from '../../components/StatBar';
+import { LifeCardSection } from '../../components/StoryModals';
 import { num, useUi } from '../../context';
 
 export function LifeSummary({ summary }: { summary: LifeSummaryView }) {
@@ -11,6 +12,7 @@ export function LifeSummary({ summary }: { summary: LifeSummaryView }) {
         <div className="event-kicker">{t('summary.kicker')}</div>
         <h2>{summary.name}</h2>
         <p className="event-text">{t('summary.death', { age: summary.age, year: summary.year, cause: summary.causeName })}</p>
+        {summary.card && <LifeCardSection card={summary.card} />}
         <div className="summary-grid">
           <div>{t('summary.years', { n: summary.yearsPlayed })}</div>
           <div>{t('summary.decisions', { n: summary.decisions })}</div>

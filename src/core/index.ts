@@ -44,4 +44,5 @@ export {
   type SaveErrorCode,
 } from './engine/SaveSystem';
 export type { NewGameOptions } from './world/generate';
-export type { GameState, LogEntry, LogYear, PendingEvent } from './entities/World';
+export type { GameState, LogEntry, LogYear, PendingEvent, Resolution } from './entities/World';
+export type { StoryView, PeerView, BirthCardView, LifeCardView } from './api/storyQueries';

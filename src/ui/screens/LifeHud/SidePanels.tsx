@@ -224,6 +224,33 @@ export function RelationsCard({ hud, onOpenRelations }: { hud: HudView; onOpenRe
   );
 }
 
+/** Bạn cùng lứa: mấy đứa trẻ sinh cùng năm trong làng — cùng bảng tử vong, khác gia cảnh. */
+export function PeersCard({ hud }: { hud: HudView }) {
+  const { t } = useUi();
+  const peers = hud.story.peers;
+  if (peers.length === 0) return null;
+  return (
+    <section className="card peers-card">
+      <div className="card-head">
+        <h3>{t('peers.title')}</h3>
+      </div>
+      <ul className="peer-list">
+        {peers.map((p) => (
+          <li key={p.id} className={p.alive ? '' : 'dead'}>
+            <div className="peer-head">
+              <b>{p.name}</b>
+              <span className="muted small">
+                {p.label} · {p.alive ? t('peers.alive', { age: p.age }) : t('peers.dead', { age: p.age, cause: p.causeName ?? '' })}
+              </span>
+            </div>
+            <div className="small peer-news">{p.lastText ?? <span className="muted">{t('peers.nothing_yet')}</span>}</div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function LifeMapCard({ hud }: { hud: HudView }) {
   const { t, store } = useUi();
   const map = hud.lifeMap;

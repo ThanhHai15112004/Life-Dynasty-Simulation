@@ -66,6 +66,7 @@ import { computeSummaryAxes, type SummaryAxisView } from '../systems/happiness';
 import { xpToNext } from '../systems/skills';
 import { currentCivilization, currentStatusRank } from '../systems/status';
 import { ambitionAvailable, focusAvailable } from './commands';
+import { getLifeCard, getStoryView, type LifeCardView, type StoryView } from './storyQueries';
 
 export interface HudView {
   date: { year: number; month: number; monthsPerYear: number; can: number; chi: number; seasonName: string; weatherName: string };
@@ -456,6 +457,8 @@ export interface HudView {
   pending: (Omit<PendingEvent, 'options'> & { options: (PendingEvent['options'][number] & { chanceKey?: string })[] }) | null;
   lastResolution: Resolution | null;
   gameOver: LifeSummaryView | null;
+  /** Lớp câu chuyện: bạn cùng lứa, mốc suy ngẫm, giấy khai sinh. */
+  story: StoryView;
   /** [2] Dòng họ truyền đời: gia phả nhiều đời, sử sách các đời đã qua, di nguyện và thoát hiểm tuyệt tự. */
   dynasty: DynastyView;
   /** [2] Dữ liệu màn hình Truyền đời & Tổng kết dòng họ khi người chơi qua đời ở chế độ dynasty. */
@@ -622,6 +625,8 @@ export interface LifeSummaryView {
     endYear: number | null;
     months: number;
   }[];
+  /** Thẻ đời để chia sẻ (bạn cùng lứa, mốc suy ngẫm, văn bia, bản đồ đời). */
+  card: LifeCardView | null;
 }
 
 /** [1] Gợi ý tác động của một trọng tâm, đọc từ data: kỹ năng được XP, thu nhập, rồi các chỉ số modifier. */
@@ -1489,6 +1494,7 @@ export function getHudView(ctx: SimContext): HudView {
       : null,
     lastResolution: state.lastResolution,
     gameOver: state.gameOver ? getLifeSummary(ctx) : null,
+    story: getStoryView(ctx),
     dynasty: getDynastyView(ctx),
     succession: state.gameOver && state.playMode === 'dynasty' ? getSuccessionView(ctx) : null,
     villageClans: getVillageClansView(ctx),
@@ -1832,5 +1838,6 @@ export function getLifeSummary(ctx: SimContext): LifeSummaryView | null {
         months: entry.months,
       };
     }),
+    card: getLifeCard(ctx),
   };
 }

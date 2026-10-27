@@ -47,7 +47,7 @@ import { Ledger, LogKind } from './systemLogKeys';
 import { pushLog } from './journal';
 
 /** Khóa tác động hiển thị cuối dòng nhật ký (nhãn ở data/lang: delta.<khóa>). */
-export type DeltaKey = 'money' | 'food' | 'debt' | 'health' | 'stress' | 'reputation';
+export type DeltaKey = 'money' | 'food' | 'debt' | 'health' | 'stress' | 'reputation' | 'opinion';
 
 export function evalNumber(expr: NumberExpr, r: StateResolver): number {
   if (typeof expr === 'number') return expr;
@@ -155,7 +155,10 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
           break;
         case 'opinion': {
           const c = r.character(e.role);
-          if (c) addOpinionChange(ctx, c, e.value, `opinion:${ctx.state.clock.year}`);
+          if (c) {
+            addOpinionChange(ctx, c, e.value, `opinion:${ctx.state.clock.year}`);
+            bump(deltas, 'opinion', e.value);
+          }
           break;
         }
         case 'marry': {

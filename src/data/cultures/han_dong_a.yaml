@@ -1,0 +1,51 @@
+# Văn hóa Đông Á (Trung Hoa, Nhật Bản, Triều Tiên)
+id: han_dong_a
+name: Đông Á
+calendar_style: can_chi
+lexicon:
+  currency: quan tiền / lạng bạc
+  food: thạch
+  land: mẫu
+  staple_crop: lúa gạo & kê
+family_names:
+  - { name: Vương, weight: 16 }
+  - { name: Lý, weight: 15 }
+  - { name: Trương, weight: 14 }
+  - { name: Lưu, weight: 12 }
+  - { name: Trần, weight: 10 }
+  - { name: Dương, weight: 8 }
+  - { name: Triệu, weight: 8 }
+  - { name: Chu, weight: 6 }
+  - { name: Ngô, weight: 6 }
+  - { name: Lâm, weight: 5 }
+given_names:
+  m: [Văn, Minh, Hạo, Vũ, Kiệt, Phong, Long, Hiên, Bác, Thành, Trạch, Quân, Nghị, Khiêm, Tín, Đạt]
+  f: [Uyển, Tĩnh, Nhã, Tuyết, Mai, Lan, Ngọc, Dao, Thanh, Linh, Nguyệt, Yến, Hân, Như, Châu, Hà]
+village_names: [Thanh Khê Thôn, Bạch Vân Trang, Hạnh Hoa Thôn, Liễu Gia Tập, Phong Hòa Lý, Giang Nam Thôn, Long Tuyền Xóm]
+town_names: [Bến Vận Hà, Thị Trấn Dương Châu, Giang Khẩu Trấn, Phố Tơ Lụa, Cảng Tuyền Châu]
+prefecture_names: [Trường An, Lạc Dương, Khai Phong, Hàng Châu, Tô Châu, Kim Lăng, Kinh Đô]
+kin_calls:
+  father: phụ thân
+  mother: mẫu thân
+  older_m: huynh {given}
+  older_f: tỷ {given}
+  younger: đệ/muội {given}
+  husband: phu quân ({given})
+  wife: thê tử ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: nghĩa tử {given}
+  adopted_daughter: nghĩa nữ {given}
+  grandchild: tôn nhi {given}
+  nephew: chất nhi {given}
+  uncle: thúc phụ {given}
+  aunt: cô mẫu {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: viên ngoại, call: '{family} viên ngoại' }
+  ly_truong: { title: lý chính, call: 'lý chính {family}' }
+  thay_do: { title: tiên sinh tư thục, call: '{family} tiên sinh' }
+  thay_lang: { title: đại phu, call: '{family} đại phu' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: hành thương, call: 'chưởng quỹ {given}' }
+

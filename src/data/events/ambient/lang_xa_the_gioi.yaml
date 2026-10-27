@@ -115,7 +115,7 @@ templates:
     kind: chuyen_vat
     tags: [gia_dinh]
     months: [1]
-    condition: { any: [{ var: household.food_months, op: '<', value: 2 }, { var: household.living_standard, op: '==', value: kho_cuc }] }
+    condition: { all: [{ any: [{ var: household.food_months, op: '<', value: 2 }, { var: household.living_standard, op: '==', value: kho_cuc }] }, { var: household.money, op: '<', value: 10 }] }
     weight: 8
     cooldown_years: 1
     importance: 3

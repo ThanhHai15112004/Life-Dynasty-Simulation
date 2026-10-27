@@ -87,14 +87,46 @@ export function onCooldown(ctx: SimContext, item: Selectable, history: History):
   return ctx.state.clock.monthIndex - h.lastMonthIndex < months;
 }
 
+/** Bộ phân giải không vai trò, dùng chung trong một lượt tính (đọc trạng thái trực tiếp nên không bị cũ). */
+const baseResolverCache = new WeakMap<SimContext, ReturnType<typeof createResolver>>();
+function baseResolver(ctx: SimContext): ReturnType<typeof createResolver> {
+  let r = baseResolverCache.get(ctx);
+  if (!r) {
+    r = createResolver(ctx);
+    baseResolverCache.set(ctx, r);
+  }
+  return r;
+}
+
+/** Điều kiện có nhắc tới vai trò (role.*) không — không nhắc thì xét được trước khi gán vai trò. */
+const roleRefCache = new WeakMap<Condition, boolean>();
+function referencesRoles(cond: Condition): boolean {
+  const cached = roleRefCache.get(cond);
+  if (cached !== undefined) return cached;
+  let out: boolean;
+  if ('all' in cond) out = cond.all.some(referencesRoles);
+  else if ('any' in cond) out = cond.any.some(referencesRoles);
+  else if ('not' in cond) out = referencesRoles(cond.not);
+  else if ('var' in cond) out = cond.var.startsWith('role.');
+  else if ('role' in cond) out = true;
+  else if ('has_trait' in cond) out = cond.who !== undefined && cond.who !== 'player';
+  else out = false;
+  roleRefCache.set(cond, out);
+  return out;
+}
+
 /** Kiểm tra đủ điều kiện (không tính cooldown) và trả về vai trò đã gán. */
 export function eligibleRoles(ctx: SimContext, item: Selectable, preset: Record<string, string> = {}): Record<string, string> | null {
   const { state } = ctx;
   const stage = lifeStageOf(ctx, ageNow(ctx, player(ctx))).id;
   if (item.life_stages && !item.life_stages.includes(stage)) return null;
   if (item.months && !item.months.includes(state.clock.month)) return null;
+  // Điều kiện không cần vai trò thì xét trước: tránh gán vai trò cho hàng trăm mẫu không đủ điều kiện
+  const early = item.condition !== undefined && !referencesRoles(item.condition);
+  if (early && !evaluate(item.condition, baseResolver(ctx))) return null;
   const roles = bindRoles(ctx, item.roles, preset);
   if (!roles) return null;
+  if (early) return roles;
   return evaluate(item.condition, createResolver(ctx, { roles })) ? roles : null;
 }
 

@@ -241,7 +241,7 @@ templates:
   - id: cha_me_cai_nhau
     kind: chuyen_vat
     tags: [gia_dinh]
-    condition: { any: [{ var: household.debt, op: '>', value: 15 }, { var: household.food_months, op: '<', value: 2 }] }
+    condition: { any: [{ var: household.debt, op: '>', value: 15 }, { all: [{ var: household.food_months, op: '<', value: 2 }, { var: household.money, op: '<', value: 10 }] }] }
     roles: [{ id: cha, from: family, relation: father }, { id: me, from: family, relation: mother }]
     weight: 5
     cooldown_years: 2

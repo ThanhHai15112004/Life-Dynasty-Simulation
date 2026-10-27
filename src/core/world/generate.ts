@@ -1,7 +1,7 @@
 // [0] Sinh dân cư ban đầu từ xuất thân + văn hóa (data/origins, data/cultures) — tất định theo seed
 import type { ContentBundle } from '@content/ContentLoader';
 import type { Origin } from '@content/schemas';
-import type { Rng } from '../engine/Rng';
+import { Rng } from '../engine/Rng';
 import type { Character, Sex, SkillState } from '../entities/Character';
 import type { Household } from '../entities/Household';
 import { SAVE_VERSION, type GameState } from '../entities/World';
@@ -12,10 +12,16 @@ import { initRegionSettlements } from './region';
 export interface NewGameOptions {
   seed: string;
   originId?: string;
+  /** Mốc thời đại (id trong data/world/bookmarks/ hoặc 'random_all' để quay xổ số mọi thời đại). */
+  bookmarkId?: string;
+  /** Quốc gia / Vùng lãnh thổ trên thế giới (id trong data/world/polities/). */
+  polityId?: string;
   startAge?: number;
   sex?: Sex;
   fateMode?: string;
   playMode?: string;
+  /** Bốc thăm số phận toàn thế giới: rút thăm vùng lãnh thổ theo dân số thật và xuất thân theo phân tầng xã hội. */
+  lottery?: boolean;
 }
 
 type Range = readonly [number, number];
@@ -84,9 +90,18 @@ export function spawnVillageNpc(ctx: SimContext, npc: Origin['village_npcs'][num
   return c;
 }
 
-function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin): GameState {
+function emptyState(
+  content: ContentBundle,
+  opts: NewGameOptions,
+  origin: Origin,
+  bookmarkId: string,
+  polityId: string,
+  cultureId: string,
+  civId: string,
+  startYear: number,
+): GameState {
   const time = content.balance.time;
-  const civ = content.civilizations[0];
+  const civ = content.index.civilization.get(civId) ?? content.index.civilization.get('nho_giao') ?? content.civilizations[0];
   if (!civ) throw new Error('Không có khuôn văn minh nào trong src/data/civilizations');
   const defaultFate = content.balance.fate_modes.default_mode;
   const fateMode = opts.fateMode && content.index.fateMode.has(opts.fateMode) ? opts.fateMode : defaultFate;
@@ -96,10 +111,12 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     version: SAVE_VERSION,
     seed: opts.seed,
     originId: origin.id,
-    cultureId: origin.culture,
+    cultureId,
+    bookmarkId,
+    polityId,
     fateMode,
     playMode,
-    generationStartYear: time.start_year,
+    generationStartYear: startYear,
     dynasty: {
       familyName: '',
       founderId: '',
@@ -113,7 +130,7 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     badLuckCounter: 0,
     rng: {},
     nextId: 0,
-    clock: { year: time.start_year, month: time.start_month, monthIndex: 0 },
+    clock: { year: startYear, month: time.start_month, monthIndex: 0 },
     world: {
       settlementName: '',
       settlementType: origin.settlement,
@@ -125,7 +142,7 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
       militaryAlert: content.balance.opportunity.military_alerts[0].id,
       patrolLevel: content.balance.opportunity.start_patrol_level,
       reignName: content.chronicle.startReign,
-      reignStartYear: time.start_year,
+      reignStartYear: startYear,
       alertLock: null,
     },
     characters: {},
@@ -137,7 +154,7 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     settlements: {},
     activeTrip: null,
     focus: { primary: '' },
-    autoManage: { livingStandard: true, repayDebt: true, sellSurplus: true, invest: true },
+    autoManage: { ...content.balance.economy.auto_manage_defaults },
     yearOpenNetWorth: 0,
     purse: { money: 0, ledger: [], history: [], openMoney: 0 },
     householdCareer: origin.default_career,
@@ -193,18 +210,61 @@ function emptyState(content: ContentBundle, opts: NewGameOptions, origin: Origin
     ledgerHistory: [],
     stats: { decisions: 0, minorDecisions: 0, eventsSeen: {} },
     gameOver: null,
+    peers: [],
+    reflections: [],
+    reflectionDue: null,
   };
 }
 
-/** Tạo ván mới: người chơi, hộ gia đình theo xuất thân, NPC làng. */
+/** Tạo ván mới: người chơi, hộ gia đình theo xuất thân, vùng lãnh thổ & văn hóa thế giới. */
 export function generateNewGame(content: ContentBundle, opts: NewGameOptions, makeCtx: (s: GameState) => SimContext): GameState {
-  const origin = content.index.origin.get(opts.originId ?? '') ?? content.origins[0];
+  const defaultBm = content.index.bookmark.get(content.defaultBookmarkId) ?? content.bookmarks[0];
+  const explicitWorld = Boolean(opts.bookmarkId || opts.polityId || opts.lottery);
+
+  // 1. Chọn Mốc thời đại (Bookmark)
+  const bookmark =
+    opts.bookmarkId === 'random_all'
+      ? (Rng.fromSeed(`${opts.seed}::world_bm`).weighted(content.bookmarks, (b) => b.lottery_weight) ?? defaultBm)
+      : opts.bookmarkId && content.index.bookmark.has(opts.bookmarkId)
+        ? content.index.bookmark.get(opts.bookmarkId)!
+        : opts.polityId && content.index.polity.has(opts.polityId)
+          ? (content.index.bookmark.get(content.index.polity.get(opts.polityId)!.bookmarks[0]) ?? defaultBm)
+          : defaultBm;
+
+  // 2. Chọn Vùng lãnh thổ / Quốc gia trên Thế giới (Polity)
+  const bmPolities = bookmark ? content.polities.filter((p) => p.bookmarks.includes(bookmark.id)) : content.polities;
+  const candidatePolities = bmPolities.length > 0 ? bmPolities : content.polities;
+  const polity =
+    opts.polityId && content.index.polity.has(opts.polityId)
+      ? content.index.polity.get(opts.polityId)!
+      : opts.lottery
+        ? (Rng.fromSeed(`${opts.seed}::world_polity`).weighted(candidatePolities, (p) => p.population_weight) ?? candidatePolities[0])
+        : (candidatePolities.find((p) => p.id === 'dai_viet_nha_ly_1000ce' || p.culture === 'viet') ?? candidatePolities[0]);
+
+  // 3. Chọn Xuất thân (Origin) theo phân tầng thực tế của vùng hoặc birth_weight mặc định
+  const origin = opts.lottery
+    ? Rng.fromSeed(`${opts.seed}::lottery`).weighted(content.origins, (o) => polity?.origin_weights?.[o.id] ?? o.birth_weight)
+    : (content.index.origin.get(opts.originId ?? '') ?? content.origins[0]);
   if (!origin) throw new Error('Không có xuất thân nào trong src/data/origins');
-  const state = emptyState(content, opts, origin);
+
+  const cultureId = explicitWorld && polity ? polity.culture : origin.culture;
+  const civId = explicitWorld && polity ? polity.civilization : 'nho_giao';
+  const startYear = explicitWorld && bookmark ? bookmark.year : content.balance.time.start_year;
+
+  const state = emptyState(
+    content,
+    opts,
+    origin,
+    bookmark?.id ?? 'trung_co_1000ce',
+    polity?.id ?? 'dai_viet_nha_ly_1000ce',
+    cultureId,
+    civId,
+    startYear,
+  );
   const ctx = makeCtx(state);
   const rng = ctx.rng.get(RngStream.Generate);
-  const culture = content.index.culture.get(origin.culture);
-  if (!culture) throw new Error(`Xuất thân "${origin.id}" dùng văn hóa không tồn tại: ${origin.culture}`);
+  const culture = content.index.culture.get(state.cultureId) ?? content.index.culture.get(origin.culture);
+  if (!culture) throw new Error(`Xuất thân "${origin.id}" dùng văn hóa không tồn tại: ${state.cultureId}`);
 
   state.world.settlementName = rng.pick(culture.village_names);
   initRegionSettlements(ctx);

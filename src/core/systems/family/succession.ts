@@ -15,6 +15,7 @@ import { computeSummaryAxes } from '../happiness';
 import { ensureFocus } from '../focus';
 import { ageNow, callOf, player, playerHousehold, relationToPlayer, type Relation } from '../people';
 import { computeStatusRank, currentCivilization } from '../status';
+import { createPeers } from '../story';
 
 export interface HeirCandidate {
   characterId: string;
@@ -518,6 +519,9 @@ export function transitionToHeir(ctx: SimContext, heirId: string): boolean {
   state.lastResolution = null;
   state.stats = { decisions: 0, minorDecisions: 0, eventsSeen: {} };
   state.gameOver = null;
+  state.reflections = [];
+  state.reflectionDue = null;
+  createPeers(ctx);
 
   // 5) Kế thừa danh tiếng dòng họ, danh vọng sĩ phu (không kế thừa học vị và kỹ năng)
   state.reputation.dan_lang = Math.round((state.reputation.dan_lang ?? 0) * law.reputation_carry_factor);

@@ -52,9 +52,11 @@ function treatCmds(view: HudView, severities: string[], reserve: number): Comman
   return cmds;
 }
 
-/** Làm hành động nghề đầu tiên đang khả dụng (đủ tuổi, hết hồi, đủ vốn). */
-function careerActions(view: HudView): Command[] {
-  const act = view.career.actions.find((a) => a.available);
+/** Làm hành động nghề đầu tiên đang khả dụng (đủ tuổi, hết hồi, đủ vốn dự phòng). */
+function careerActions(view: HudView, reserveMoney = 0): Command[] {
+  const act = view.career.actions.find(
+    (a) => a.available && (a.costMoney === 0 || view.household.money - a.costMoney >= reserveMoney),
+  );
   return act ? [{ type: 'doCareerAction', actionId: act.id }] : [];
 }
 
@@ -188,7 +190,14 @@ export function makeBot(name: string, seed: string): Bot {
           if (v.region.canAppointOfficial) cmds.push({ type: 'appointOfficial' });
           return cmds;
         },
-        monthly: (v) => [...treatCmds(v, ['nang', 'nguy_kich'], 3), ...reserveTrading(v, 4, v.market.sellPrice > 0 ? 0.55 : 0), ...careerActions(v)],
+        monthly: (v) => [
+          ...(v.household.debt > 0 && v.household.money > 5
+            ? [{ type: 'repayDebt' as const, amount: Math.min(v.household.debt, v.household.money - 4) }]
+            : []),
+          ...treatCmds(v, ['nang', 'nguy_kich'], 3),
+          ...reserveTrading(v, 4, v.market.sellPrice > 0 ? 0.55 : 0),
+          ...careerActions(v, 5),
+        ],
         choose: (v) => {
           const opts = v.pending!.options;
           const good = opts.filter((o) => (mid(o) ?? 0) >= 0.45).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];
@@ -213,7 +222,14 @@ export function makeBot(name: string, seed: string): Bot {
           if (v.region.canAppointOfficial) cmds.push({ type: 'appointOfficial' });
           return cmds;
         },
-        monthly: (v) => [...treatCmds(v, ['nhe', 'nang', 'nguy_kich'], 1), ...reserveTrading(v, 6, 0.6), ...careerActions(v)],
+        monthly: (v) => [
+          ...(v.household.debt > 0 && v.household.money > 4
+            ? [{ type: 'repayDebt' as const, amount: Math.min(v.household.debt, v.household.money - 3) }]
+            : []),
+          ...treatCmds(v, ['nhe', 'nang', 'nguy_kich'], 1),
+          ...reserveTrading(v, 6, 0.6),
+          ...careerActions(v, 6),
+        ],
         choose: (v) => {
           const opts = v.pending!.options;
           const best = opts.filter((o) => (mid(o) ?? 0) >= 0.55).sort((a, b) => (mid(b) ?? 0) - (mid(a) ?? 0))[0];

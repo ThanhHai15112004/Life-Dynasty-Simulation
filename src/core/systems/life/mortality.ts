@@ -4,7 +4,8 @@ import type { FateMode } from '@content/schemas';
 import type { Character } from '../../entities/Character';
 import { evaluate } from '../../engine/RuleEvaluator';
 import { StatTarget } from '../../engine/statTargets';
-import { SystemLog } from '../../events/systemLogKeys';
+import { addLedger } from '../../entities/Household';
+import { Ledger, SystemLog } from '../../events/systemLogKeys';
 import { writeTemplate } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
 import { checkParentInheritance } from '../family/inheritance';
@@ -23,26 +24,33 @@ export function currentFateMode(ctx: SimContext): FateMode {
   );
 }
 
+/** Lấy hệ số tử vong thực tế của Quốc gia / Thời đại đang chơi (mặc định 1.0). */
+export function polityMortalityFactor(ctx: SimContext): number {
+  const polity = ctx.state.polityId ? ctx.content.index.polity.get(ctx.state.polityId) : undefined;
+  return polity?.demographics.mortality_factor ?? 1.0;
+}
+
 /** Xác suất chết trong một tháng của một nhân vật. */
 export function monthlyDeathRisk(ctx: SimContext, c: Character): number {
   const m = ctx.content.balance.life.mortality;
   const months = ctx.content.balance.calendar.months_per_year;
-  const annual = interpolate(m.annual_by_age, 'age', 'rate', ageNow(ctx, c));
-  const monthly = 1 - Math.pow(1 - clamp(annual, 0, 1), 1 / months);
+  const annual = clamp(interpolate(m.annual_by_age, 'age', 'rate', ageNow(ctx, c)) * polityMortalityFactor(ctx), 0, 1);
+  const monthly = 1 - Math.pow(1 - annual, 1 / months);
   const healthFactor = interpolate(m.health_factor, 'health', 'factor', c.health);
   const mod = computeFor(ctx, c.id, StatTarget.DeathRisk, 1).value;
   const fateFactor = currentFateMode(ctx).mortality_factor;
   return clamp(monthly * healthFactor * mod * fateFactor, 0, m.max_monthly);
 }
 
-/** [1] Tuổi thọ kỳ vọng lúc sinh theo bảng tử vong của thời này (chưa tính sức khỏe, modifier). */
+/** [1] Tuổi thọ kỳ vọng lúc sinh theo bảng tử vong của thời đại & vùng lãnh thổ này (chưa tính sức khỏe, modifier). */
 export function lifeExpectancyAtBirth(ctx: SimContext): number {
   const curve = ctx.content.balance.life.mortality.annual_by_age;
+  const pFactor = polityMortalityFactor(ctx);
   const maxAge = curve[curve.length - 1].age;
   let alive = 1;
   let years = 0;
   for (let age = 0; age <= maxAge && alive > 0; age++) {
-    const q = clamp(interpolate(curve, 'age', 'rate', age), 0, 1);
+    const q = clamp(interpolate(curve, 'age', 'rate', age) * pFactor, 0, 1);
     years += alive * (1 - q / 2);
     alive *= 1 - q;
   }
@@ -52,7 +60,7 @@ export function lifeExpectancyAtBirth(ctx: SimContext): number {
 /** Xác suất chết trong một năm của NPC làng (mô phỏng thưa — T2). */
 export function annualNpcDeathRisk(ctx: SimContext, c: Character): number {
   const m = ctx.content.balance.life.mortality;
-  const annual = interpolate(m.annual_by_age, 'age', 'rate', ageNow(ctx, c));
+  const annual = interpolate(m.annual_by_age, 'age', 'rate', ageNow(ctx, c)) * polityMortalityFactor(ctx);
   const fateFactor = currentFateMode(ctx).mortality_factor;
   return clamp(annual * interpolate(m.health_factor, 'health', 'factor', c.health) * fateFactor, 0, 1);
 }
@@ -98,6 +106,7 @@ export function kill(ctx: SimContext, c: Character, causeId: string): void {
     state.director.mourningThisYear = true;
     state.badLuckCounter = (state.badLuckCounter ?? 0) + 1;
     writeTemplate(ctx, SystemLog.FamilyDeath, { self: c.id, params: { call, age, cause: causeName } });
+    if (c.householdId === state.householdId) payFuneral(ctx, age);
     if (isParent) {
       startMourning(ctx, call);
       checkParentInheritance(ctx, c);
@@ -105,6 +114,16 @@ export function kill(ctx: SimContext, c: Character, causeId: string): void {
     const newHead = householdHead(ctx);
     if (wasHead === c.id && newHead?.id === state.playerId) writeTemplate(ctx, SystemLog.BecameHead, {});
   }
+}
+
+/** Ma chay: nhà chịu tiền lo đám theo tuổi người mất (thiếu tiền thì vay như mọi khoản chi khác khi chốt sổ). */
+function payFuneral(ctx: SimContext, age: number): void {
+  const f = ctx.content.balance.life.funeral;
+  const cost = age < ctx.content.balance.life.adult_age ? f.child_money : age >= f.elder_age ? f.elder_money : f.adult_money;
+  if (cost <= 0) return;
+  const h = playerHousehold(ctx);
+  h.money -= cost;
+  addLedger(h, Ledger.Funeral, -cost, 0);
 }
 
 /** [2] Phát điềm báo trước cái chết khi sức khỏe suy kiệt (< ngưỡng) hoặc bệnh nặng kéo dài (tối đa 1 lần/năm). */

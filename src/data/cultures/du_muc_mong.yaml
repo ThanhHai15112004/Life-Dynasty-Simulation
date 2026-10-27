@@ -1,0 +1,48 @@
+# Văn hóa Thảo nguyên Du mục Âu–Á (Mông Cổ, Đột Quyết, Trung Á)
+id: du_muc_mong
+name: Thảo nguyên Du mục
+calendar_style: bce_ce
+lexicon:
+  currency: nén bạc
+  food: bao sữa khô
+  land: bãi cỏ
+  staple_crop: thịt cừu & sữa ngựa
+family_names:
+  - { name: Borjigin, weight: 20 }
+  - { name: Jalair, weight: 16 }
+  - { name: Tatar, weight: 14 }
+  - { name: Kereit, weight: 14 }
+  - { name: Naiman, weight: 12 }
+  - { name: Barga, weight: 12 }
+  - { name: Oirat, weight: 12 }
+given_names:
+  m: [Temujin, Batu, Subutai, Jochi, Kublai, Baidar, Chagatai, Arslan, Timur, Berke, Kadan, Toghrul, Altan, Dayan]
+  f: [Borte, Sorghaghtani, Mandukhai, Khutulun, Altani, Chabi, Oelun, Temulun, Orqina, Samar, Tuya, Sarangerel]
+village_names: [Bãi Cỏ Sông Onon, Trại Lều Sông Kerulen, Thung Lũng Ngựa Trắng, Đồi Gió Phương Bắc, Suối Vàng Thảo Nguyên]
+town_names: [Chợ Đổi Ngựa Biên Ải, Trạm Dịch Thảo Nguyên, Bến Sông Orkhon]
+prefecture_names: [Karakorum, Vương Đình Thảo Nguyên, Thành Sarai, Đô Thành Thượng Đô]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: chủ đàn vạn mã, call: 'chủ bầy {given}' }
+  ly_truong: { title: bách hộ trưởng, call: 'bách hộ {given}' }
+  thay_do: { title: trưởng lão bộ tộc, call: 'trưởng lão {given}' }
+  thay_lang: { title: pháp sư Shaman, call: 'pháp sư {given}' }
+  hang_xom: { title: lều bên cạnh, call: '{given} lều bên' }
+  lai_buon: { title: thương đoàn lữ hành, call: 'thương khách {given}' }
+

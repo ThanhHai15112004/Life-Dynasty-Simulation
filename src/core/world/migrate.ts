@@ -5,7 +5,19 @@ import { SAVE_VERSION, type GameState } from '../entities/World';
 
 export function migrateState(raw: Partial<GameState>, content: ContentBundle): GameState {
   const origin = content.index.origin.get(raw.originId ?? '') ?? content.origins[0];
-  const civ = content.civilizations[0];
+  const defaultBm = content.defaultBookmarkId || content.bookmarks[0]?.id || 'trung_co_1000ce';
+  raw.bookmarkId = raw.bookmarkId && content.index.bookmark.has(raw.bookmarkId) ? raw.bookmarkId : defaultBm;
+  const defaultPolity =
+    content.index.polity.get('dai_viet_nha_ly_1000ce') ??
+    content.polities.find((p) => p.bookmarks.includes(raw.bookmarkId!)) ??
+    content.polities[0];
+  raw.polityId = raw.polityId && content.index.polity.has(raw.polityId) ? raw.polityId : (defaultPolity?.id ?? '');
+  const polity = content.index.polity.get(raw.polityId);
+  const civ =
+    (raw.civilization?.id ? content.index.civilization.get(raw.civilization.id) : undefined) ??
+    (polity ? content.index.civilization.get(polity.civilization) : undefined) ??
+    content.index.civilization.get('nho_giao') ??
+    content.civilizations[0];
   const opp = content.balance.opportunity;
   const happy = content.balance.life.happiness;
 
@@ -29,6 +41,9 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   };
 
   raw.ambition = raw.ambition ?? { id: null, achievedMilestones: [] };
+  raw.peers = raw.peers ?? [];
+  raw.reflections = raw.reflections ?? [];
+  raw.reflectionDue = raw.reflectionDue ?? null;
   raw.reputation = raw.reputation ?? {};
   raw.happiness = raw.happiness ?? { mood: happy.start, satisfaction: happy.start, baselineWealth: 0, ambitionBonus: 0 };
   raw.career = {

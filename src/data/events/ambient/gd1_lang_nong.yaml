@@ -115,6 +115,7 @@ templates:
       all:
         - { var: household.self_farms, op: '==', value: true }
         - { var: household.food_months, op: '<', value: 3 }
+        - { var: household.money, op: '<', value: 10 }
     weight: 5
     cooldown_years: 2
     importance: 2

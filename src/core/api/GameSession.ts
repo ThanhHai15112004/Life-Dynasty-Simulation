@@ -20,6 +20,7 @@ import { monthlyLife, yearlyVillage } from '../systems/life';
 import { monthlyOpportunity, yearlyOpportunity } from '../systems/opportunity';
 import { monthlySkills } from '../systems/skills';
 import { monthlySocial } from '../systems/social';
+import { checkReflection, createPeers, yearlyPeers } from '../systems/story';
 import { computeStatusRank, monthlyStatus } from '../systems/status';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
 import { monthlyRegion, yearlyRegion } from '../world/region';
@@ -40,6 +41,8 @@ export interface TickReport {
   cutscenes: string[];
   /** [1] Có chuyện nhỏ đang chờ chọn → bridge dừng thời gian (trừ khi bật tự quyết). */
   minor: boolean;
+  /** Vừa tới mốc suy ngẫm → bridge dừng thời gian để hỏi (mô phỏng không bị chặn). */
+  reflection: boolean;
 }
 
 export class GameSession {
@@ -53,6 +56,7 @@ export class GameSession {
     const session = new GameSession(content, state);
     session.withContext((ctx) => {
       ctx.state.civilization.statusRank = computeStatusRank(ctx).id;
+      createPeers(ctx);
       yearStart(ctx);
       writeTemplate(ctx, content.index.origin.get(ctx.state.originId)?.start_log ?? SystemLog.GameStart);
       ensureIndependentLife(ctx);
@@ -84,6 +88,7 @@ export class GameSession {
       ensureIndependentLife(ctx);
       ensureFocus(ctx);
       applyScenario(ctx, scenario);
+      createPeers(ctx);
     });
 
     const ffYears = (scenario.fast_forward_years ?? 0) + (overrides?.extraFastForwardYears ?? 0);
@@ -133,9 +138,10 @@ export class GameSession {
 
   /** Chạy một tháng mô phỏng. Không chạy khi đang chờ quyết định hoặc đã hết đời. */
   tickMonth(): TickReport {
-    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutscenes: [], minor: false };
+    const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutscenes: [], minor: false, reflection: false };
     if (this.blocked) return { ...empty, decision: this._state.pending !== null, minor: this._state.minor !== null };
     const aliveBefore = new Set(Object.values(this._state.characters).filter((c) => c.alive).map((c) => c.id));
+    const reflectionBefore = this._state.reflectionDue;
 
     const info = this.withContext((ctx) =>
       clockTick(ctx.state.clock, this.content.balance.calendar.months_per_year, {
@@ -156,6 +162,7 @@ export class GameSession {
       deaths,
       cutscenes: this.consumeCutscenes(),
       minor: this._state.minor !== null,
+      reflection: this._state.reflectionDue !== null && this._state.reflectionDue !== reflectionBefore,
     };
   }
 
@@ -206,6 +213,7 @@ function yearEnd(ctx: SimContext): void {
   yearlyEconomy(ctx);
   yearlyVillage(ctx);
   yearlyVillageClans(ctx);
+  yearlyPeers(ctx);
   yearlyHappiness(ctx);
   directorYearEnd(ctx);
   recordLifeYear(ctx);
@@ -317,6 +325,7 @@ function yearStart(ctx: SimContext): void {
   yearlyChronicle(ctx);
   yearlyHousehold(ctx);
   directorYearStart(ctx);
+  checkReflection(ctx);
 }
 
 function expireFlags(ctx: SimContext): void {

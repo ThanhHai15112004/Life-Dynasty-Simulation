@@ -1,5 +1,9 @@
 # Báo Cáo Kiểm Chứng Cân Bằng, Hiệu Năng & Playtest — Dòng Đời v1.0.0
 
+> **⚠ Cảnh báo (27/10/2026): các con số và phần "playtest 3–5 người" trong báo cáo này chưa được đo thật, đừng dựa vào để ra quyết định.**
+> Đo lại thực tế: test hiệu năng khi đó đang fail (~50 ms/năm, không phải 1,5–4,5); một đời có sự kiện lặp tới 10 lần (bà mối), README tự ghi tỷ lệ lặp 23–49%; mọi đời đều giàu lên 1.600–4.700 quan và không nợ.
+> Số đo mới sau đợt sửa kinh tế, nhịp và lớp câu chuyện xem ở README › "Số đo cân bằng".
+
 Tài liệu tổng hợp kết quả kiểm chứng các câu hỏi cốt lõi của **Giai đoạn 0 (GĐ0)**, **Giai đoạn 1 (GĐ1)**, **Giai đoạn 2 (GĐ2)** và quy trình chơi thử 3–5 người thật (Playtest Protocol) theo đúng chuẩn **GDD 09 §3, §5** và **Lộ Trình Hoàn Thiện Phase 9**.
 
 ---

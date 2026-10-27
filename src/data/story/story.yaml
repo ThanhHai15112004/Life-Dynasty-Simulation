@@ -1,0 +1,244 @@
+# Lớp câu chuyện của một đời (schema: src/content/schemas/story.ts)
+# - peers: mấy đứa trẻ sinh cùng năm, cùng làng, khác gia cảnh — sống song song theo cùng bảng tử vong.
+#   Cuối đời đặt số phận của chúng cạnh đời mình. Token: {name} (họ tên), {label} (gia cảnh), {age}, {cause}.
+# - reflections: đến tuổi này thì thời gian dừng lại, hỏi một câu; người chơi viết một dòng, cuối đời đọc lại.
+# - epitaphs: câu văn bia trên thẻ đời (token như sự kiện: {player.name}, {player.age}...).
+
+peers:
+  count: 4
+  icon: tre_em
+  milestone_importance: 2
+  death_importance: 5
+  death_text:
+    - '{name}, {label} cùng lứa với bạn, đã mất năm {age} tuổi vì {cause}.'
+    - 'Tin về làng: {name} ({label}) không qua khỏi, mới {age} tuổi. Người ta bảo vì {cause}.'
+    - 'Làng có đám: {name}, đứa {label} sinh cùng năm với bạn, đi rồi, {age} tuổi, vì {cause}.'
+  death_causes:
+    - { cause: soi, weight: 6, max_age: 9 }
+    - { cause: benh, weight: 4 }
+    - { cause: sot_ret, weight: 2 }
+    - { cause: doi_ret, weight: 1 }
+    - { cause: lao_luc, weight: 1, min_age: 16 }
+    - { cause: tai_nan, weight: 1, min_age: 6 }
+    - { cause: gia_yeu, weight: 6, min_age: 58 }
+  archetypes:
+    - id: con_ba_ho
+      label: con nhà bá hộ
+      weight: 2
+      death_factor: 0.65
+      milestones:
+        - age: 7
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) được rước thầy đồ về tận nhà dạy chữ, ngày ngày ngồi chiếu hoa đọc sách.' }
+            - { weight: 2, text: '{name} ({label}) có áo the mới mặc Tết, lũ trẻ trong xóm đứng xa mà nhìn.' }
+        - age: 15
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) theo cha lên huyện, học cách thu tô, đong thóc.' }
+            - { weight: 2, text: '{name} ({label}) ăn chơi, thua bạc một lần mất nửa con trâu, bị cha đánh cho một trận.' }
+            - { weight: 2, text: '{name} ({label}) học giỏi, thầy đồ khen là có chữ.' }
+        - age: 19
+          chance: 0.9
+          outcomes:
+            - { weight: 4, text: '{name} ({label}) cưới vợ con nhà lý trưởng, cỗ bày ba ngày, cả làng được mời.' }
+            - { weight: 1, text: '{name} ({label}) được gả về một nhà quan trên phủ, kiệu hoa đi qua đầu làng.' }
+        - age: 28
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) mua thêm hai mẫu ruộng bãi, làm nhà ngói năm gian.' }
+            - { weight: 2, text: '{name} ({label}) đi thi Hương, đỗ sinh đồ, về làng khao vọng linh đình.' }
+            - { weight: 2, text: '{name} ({label}) kiện nhau với nhà bên về bờ ruộng, mất ba năm cửa quan, tốn kém không ít.' }
+        - age: 40
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) được bầu vào hội đồng kỳ mục, ngồi chiếu trên ở đình.' }
+            - { weight: 2, text: '{name} ({label}) bị quan huyện mới sách nhiễu, phải bán bớt ruộng lo lót.' }
+        - age: 55
+          chance: 0.6
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) mừng thọ, con cháu đầy nhà, có cả gánh chèo về hát.' }
+            - { weight: 2, text: '{name} ({label}) chia ruộng cho các con, mấy anh em giận nhau không nhìn mặt.' }
+
+    - id: con_ta_dien
+      label: con nhà tá điền
+      weight: 4
+      death_factor: 1.45
+      milestones:
+        - age: 6
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) đi chăn trâu thuê cho nhà bá hộ, công là hai bữa cơm.' }
+            - { weight: 2, text: '{name} ({label}) mò cua bắt ốc cả ngày ngoài đồng, về nhà đen nhẻm.' }
+        - age: 12
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) đã gánh được nửa gánh thóc, theo cha mẹ đi cấy rẽ.' }
+            - { weight: 2, text: 'Nhà {name} ({label}) mất mùa, phải đi ăn mày mấy tháng giáp hạt.' }
+            - { weight: 1, text: '{name} ({label}) bị gán đi ở đợ cho nhà giàu ba năm để trừ nợ cho cha.' }
+        - age: 18
+          chance: 0.9
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lấy vợ, cỗ cưới chỉ có nồi xôi và con gà.' }
+            - { weight: 2, text: '{name} ({label}) bị bắt đi lính thú thay con nhà giàu.' }
+            - { weight: 1, text: '{name} ({label}) bỏ làng đi biệt, có người bảo theo thuyền buôn xuống phía nam.' }
+        - age: 26
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) vẫn cấy rẽ, năm nào cũng chia đôi thóc cho chủ ruộng.' }
+            - { weight: 2, text: '{name} ({label}) dành dụm mười năm, mua được sào ruộng đầu tiên mang tên mình.' }
+            - { weight: 1, text: '{name} ({label}) vay nặng lãi, nợ chồng nợ, phải bán con gái lớn đi ở.' }
+        - age: 38
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: 'Lưng {name} ({label}) còng hẳn, ai nhìn cũng tưởng ngoài năm mươi.' }
+            - { weight: 2, text: '{name} ({label}) có con trai biết chữ, cả nhà mong nó thoát cái nghèo.' }
+        - age: 50
+          chance: 0.6
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) vẫn ra đồng mỗi sáng, chưa một ngày được nghỉ.' }
+            - { weight: 2, text: 'Con cháu {name} ({label}) đã có ba sào ruộng riêng. Ông bà bảo thế là mát mặt tổ tiên.' }
+
+    - id: con_nha_nho
+      label: con nhà thầy đồ
+      weight: 2
+      death_factor: 0.9
+      milestones:
+        - age: 6
+          chance: 0.9
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) đã thuộc Tam tự kinh, đọc vanh vách cho khách nghe.' }
+            - { weight: 2, text: '{name} ({label}) bị cha bắt ngồi viết chữ cả ngày, trốn ra bờ sông bị đòn.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lên phủ học trường quan, gánh gạo theo thầy.' }
+            - { weight: 2, text: 'Nhà {name} ({label}) nghèo quá, phải bỏ học về làm ruộng.' }
+        - age: 21
+          chance: 0.8
+          outcomes:
+            - { weight: 2, text: '{name} ({label}) đỗ thi Hương, làng ra tận đầu đình đón.' }
+            - { weight: 3, text: '{name} ({label}) trượt thi Hương, về nhà đóng cửa ba tháng không ra ngoài.' }
+            - { weight: 1, text: '{name} ({label}) cưới con gái nhà buôn, nhà vợ nuôi ăn học.' }
+        - age: 30
+          chance: 0.7
+          outcomes:
+            - { weight: 2, text: '{name} ({label}) ra làm quan nhỏ ở huyện bên, áo xanh mũ cánh chuồn.' }
+            - { weight: 3, text: '{name} ({label}) mở lớp dạy trẻ ở đình, học trò trả công bằng thóc.' }
+            - { weight: 1, text: '{name} ({label}) viết đơn hộ dân kiện quan, bị bắt giam nửa năm.' }
+        - age: 45
+          chance: 0.6
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) được người làng nhờ viết văn tế, câu đối, ai cũng phục.' }
+            - { weight: 2, text: '{name} ({label}) mắt kém dần, giao lớp học lại cho con trai.' }
+        - age: 60
+          chance: 0.6
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) có học trò đỗ đạt về lạy tạ, ông cười mà mắt đỏ hoe.' }
+            - { weight: 2, text: '{name} ({label}) ngồi chép lại gia phả họ mình, nét chữ vẫn đều như xưa.' }
+
+    - id: con_nha_buon
+      label: con nhà buôn bến sông
+      weight: 2
+      death_factor: 0.95
+      milestones:
+        - age: 8
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) ngồi sạp với mẹ, tính nhẩm còn nhanh hơn người lớn.' }
+            - { weight: 2, text: '{name} ({label}) theo thuyền hàng của cha lên trấn lần đầu, về kể mãi không thôi.' }
+        - age: 17
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tự đánh chuyến hàng muối đầu tiên, lời được một quan.' }
+            - { weight: 2, text: 'Thuyền hàng nhà {name} ({label}) đắm ở khúc sông dữ, nhà mất trắng một mùa.' }
+        - age: 23
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lấy vợ con nhà buôn vải, hai nhà góp vốn mở hiệu.' }
+            - { weight: 1, text: '{name} ({label}) bị cướp trên đường buôn chuyến, may mà giữ được mạng.' }
+        - age: 33
+          chance: 0.7
+          outcomes:
+            - { weight: 2, text: '{name} ({label}) giàu lên nhanh, xây nhà gạch đầu bến, người ta gọi là "ông chủ".' }
+            - { weight: 2, text: '{name} ({label}) vỡ nợ vì buôn thóc tích trữ gặp năm được mùa, bán nhà trả nợ.' }
+            - { weight: 2, text: '{name} ({label}) bỏ tiền cho con học chữ, mong nhà có người đỗ đạt cho khỏi bị khinh.' }
+        - age: 47
+          chance: 0.6
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) đứng đầu phường buôn bến sông, nói một câu cả bến nghe.' }
+            - { weight: 2, text: '{name} ({label}) bị quan thuế bắt nộp lệ gấp ba, đóng cửa hiệu mấy tháng.' }
+
+    - id: con_nha_chai
+      label: con nhà thuyền chài
+      weight: 2
+      death_factor: 1.3
+      milestones:
+        - age: 7
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) bơi giỏi như rái cá, lặn một hơi qua cả khúc sông.' }
+            - { weight: 2, text: '{name} ({label}) theo cha thả lưới đêm, ngủ gục trên mạn thuyền.' }
+        - age: 15
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) đã tự chèo một chiếc thuyền nan đi đánh cá.' }
+            - { weight: 2, text: 'Cha {name} ({label}) mất trong một trận bão, thuyền lật không tìm thấy xác.' }
+        - age: 20
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lấy một cô gái làng chài bên kia sông, cưới trên thuyền.' }
+            - { weight: 1, text: '{name} ({label}) lên bờ làm phu khuân vác ở bến, bỏ hẳn nghề chài.' }
+        - age: 32
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) vẫn sống trên thuyền, cả nhà sáu miệng ăn trong một khoang.' }
+            - { weight: 2, text: '{name} ({label}) dành tiền dựng được túp lều trên bãi, lần đầu nhà có chỗ đặt chân.' }
+        - age: 48
+          chance: 0.6
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) mắt mờ vì gió sông, giao thuyền lại cho con trai.' }
+            - { weight: 2, text: '{name} ({label}) được dân chài bầu làm trùm vạn, lo việc cúng thần sông.' }
+
+reflections:
+  - { age: 5, question: 'Lên năm tuổi. Điều đầu tiên bạn nhớ được trong đời là gì?' }
+  - { age: 15, question: 'Mười lăm tuổi, sắp thành người lớn. Bạn mong sau này mình thành người thế nào?' }
+  - { age: 30, question: 'Ba mươi tuổi — "tam thập nhi lập". Bạn đã dựng được gì, còn thiếu gì?' }
+  - { age: 50, question: 'Năm mươi tuổi — "ngũ thập tri thiên mệnh". Nhìn lại nửa đời, có điều gì bạn muốn làm khác đi?' }
+  - { age: 70, question: 'Bảy mươi tuổi — "thất thập cổ lai hy". Nếu được dặn con cháu một câu, bạn sẽ dặn gì?' }
+
+epitaphs:
+  - condition: { var: player.age, op: '<', value: 6 }
+    weight: 10
+    text: 'Chưa kịp biết mặt cánh đồng, đã về với đất.'
+  - condition: { var: player.age, op: between, value: [6, 17] }
+    weight: 10
+    text: 'Đời ngắn như một mùa diều, gió chưa kịp lên đã đứt dây.'
+  - condition: { var: household.debt, op: '>', value: 30 }
+    weight: 4
+    text: 'Cả đời gánh nợ, nằm xuống rồi nợ vẫn còn đứng đó.'
+  - condition: { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }
+    weight: 6
+    text: 'Chữ nghĩa thành danh, tên còn trên bia làng.'
+  - condition: { var: player.reputation, op: '>=', value: 40 }
+    weight: 4
+    text: 'Sống ở làng thì được làng thương, chết đi làng còn nhắc.'
+  - condition: { var: player.children_count, op: '>=', value: 4 }
+    weight: 3
+    text: 'Con cháu đầy nhà, hương khói chẳng bao giờ tắt.'
+  - condition: { var: player.children_count, op: '==', value: 0 }
+    weight: 3
+    text: 'Không người nối dõi, chỉ có lũy tre đầu làng nhớ.'
+  - condition: { var: household.net_worth, op: '>=', value: 600 }
+    weight: 3
+    text: 'Ruộng thẳng cánh cò bay, mà nằm xuống cũng chỉ vừa một nấm đất.'
+  - condition: { var: player.satisfaction, op: '>=', value: 70 }
+    weight: 3
+    text: 'Nghèo hay giàu chẳng biết, chỉ biết đời này sống đủ.'
+  - condition: { var: player.satisfaction, op: '<', value: 35 }
+    weight: 3
+    text: 'Bao nhiêu điều muốn làm, mang theo cả xuống mồ.'
+  - weight: 1
+    text: 'Một đời như bao người trong làng: cày, cấy, sinh, già, rồi thành tên trong sổ họ.'
+  - weight: 1
+    text: 'Sinh ra không chọn được nhà, sống thì chọn được đôi điều.'

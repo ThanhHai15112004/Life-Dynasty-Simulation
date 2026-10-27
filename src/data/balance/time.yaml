@@ -6,3 +6,7 @@ ms_per_month_at_1x: 5000
 speeds: [1, 2, 4, 8, 12]
 default_speed_index: 1
 autosave_every_years: 1
+# Ấu thơ (0–5 tuổi) chưa có quyết định: thời gian trôi nhanh gấp chừng này lần
+stage_speed_factor: { au_tho: 3 }
+# "Tới quyết định tiếp theo" tua tối đa 2 năm
+skip_max_months: 24

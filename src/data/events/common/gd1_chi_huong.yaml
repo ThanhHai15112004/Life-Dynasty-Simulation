@@ -83,7 +83,7 @@ events:
           - { type: skill_xp, skill: thuong_mai, value: 10 }
         result: ['Bạn nhìn những chiếc thuyền buồm cập bến mà thầm hứa: một ngày nào đó, thuyền ấy mang tên nhà mình.']
       - id: mai_am_yen
-        text: 'Đủ ăn đủ tiêu, lo cho vợ con ấm êm'
+        text: 'Đủ ăn đủ tiêu, lo cho gia quyến ấm êm'
         effects:
           - { type: set_ambition, ambition: gia_dinh_am_em }
         result: ['Tiền nhiều để làm gì, bạn nghĩ, khi cơm chiều chẳng có ai ngồi cùng.']
@@ -180,7 +180,8 @@ events:
           - { type: filial_piety, value: 6 }
         result: ['Bạn sửa lại bàn thờ, chép lại gia phả. Nếp nhà từ nay trên vai bạn.']
       - id: sang_gia_dinh
-        text: 'Thôi danh lợi, ở bên vợ con nhiều hơn'
+        text: 'Thôi danh lợi, ở bên người nhà nhiều hơn'
+        condition: { var: player.married, op: '==', value: true }
         effects:
           - { type: set_ambition, ambition: gia_dinh_am_em }
           - { type: stress, value: -4 }
@@ -400,7 +401,7 @@ events:
     importance: 7
     icon: sach
     text:
-      - 'Lại một khoa thi trượt. Bạn bè cùng học người làm quan, người đã có cháu bế. Vợ con bạn vẫn ăn độn khoai. Có lẽ đã đến lúc chọn đường khác.'
+      - 'Lại một khoa thi trượt. Bạn bè cùng học người làm quan, người đã có cháu bế. Cả nhà bạn vẫn ăn độn khoai. Có lẽ đã đến lúc chọn đường khác.'
     options:
       - id: van_den_sach
         text: 'Chưa đỗ chưa thôi — khoa sau nhất định đỗ'
@@ -416,7 +417,7 @@ events:
           - { type: stress, value: -4 }
         result: ['Không làm quan thì làm thầy. Tiếng trẻ con ê a đọc bài làm bạn thấy đời mình vẫn có ích.']
       - id: sang_buon
-        text: 'Bỏ sách, theo nghề buôn nuôi vợ con'
+        text: 'Bỏ sách, theo nghề buôn nuôi cả nhà'
         effects:
           - { type: set_career, career: thuong_nhan }
           - { type: scholarly_prestige, value: -5 }

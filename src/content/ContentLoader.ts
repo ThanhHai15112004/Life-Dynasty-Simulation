@@ -6,6 +6,7 @@ import {
   ambitionFileSchema,
   ambientFileSchema,
   balanceSchemas,
+  bookmarkFileSchema,
   careerFileSchema,
   chronicleFileSchema,
   civilizationSchema,
@@ -15,8 +16,10 @@ import {
   focusFileSchema,
   langSchema,
   originSchema,
+  polityFileSchema,
   propertyFileSchema,
   scenarioFileSchema,
+  storySchema,
   settlementTypeFileSchema,
   skillFileSchema,
   traitFileSchema,
@@ -24,6 +27,7 @@ import {
   type Ambition,
   type AmbientTemplate,
   type Balance,
+  type Bookmark,
   type Career,
   type ChronicleEntry,
   type Civilization,
@@ -35,11 +39,13 @@ import {
   type LangPack,
   type Origin,
   type PlayMode,
+  type Polity,
   type PropertyType,
   type Scenario,
   type SettlementType,
   type SideJob,
   type Skill,
+  type StoryContent,
   type Trait,
   type VentureDef,
 } from './schemas';
@@ -63,10 +69,15 @@ export interface ContentBundle {
   sideJobs: SideJob[];
   civilizations: Civilization[];
   settlementTypes: SettlementType[];
+  bookmarks: Bookmark[];
+  defaultBookmarkId: string;
+  polities: Polity[];
   chronicle: { startReign: string; entries: ChronicleEntry[] };
   origins: Origin[];
   cultures: Culture[];
   events: DecisionEvent[];
+  /** Lớp câu chuyện: bạn cùng lứa, mốc suy ngẫm, văn bia (src/data/story/). */
+  story: StoryContent;
   ambient: AmbientTemplate[];
   scenarios: Scenario[];
   lang: Record<string, LangPack>;
@@ -83,6 +94,8 @@ export interface ContentBundle {
     sideJob: Map<string, SideJob>;
     civilization: Map<string, Civilization>;
     settlementType: Map<string, SettlementType>;
+    bookmark: Map<string, Bookmark>;
+    polity: Map<string, Polity>;
     chronicle: Map<string, ChronicleEntry>;
     origin: Map<string, Origin>;
     culture: Map<string, Culture>;
@@ -183,8 +196,14 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const careerFiles = single('careers', careerFileSchema);
   const careers = careerFiles.flatMap((f) => f.careers);
   const sideJobs = careerFiles.flatMap((f) => f.side_jobs);
-  const civilizations = single('civilizations', civilizationSchema);
+  const civilizations = single('civilizations', civilizationSchema).sort((a, b) =>
+    a.id === 'nho_giao' ? -1 : b.id === 'nho_giao' ? 1 : a.id.localeCompare(b.id),
+  );
   const settlementTypes = collect('world', settlementTypeFileSchema, 'settlement_types');
+  const bookmarkFiles = single('world/bookmarks', bookmarkFileSchema);
+  const bookmarks = bookmarkFiles.flatMap((f) => f.bookmarks);
+  const defaultBookmarkId = bookmarkFiles.find((f) => f.default_bookmark)?.default_bookmark ?? bookmarks[0]?.id ?? '';
+  const polities = collect('world/polities', polityFileSchema, 'polities');
   const chronicleFiles = single('chronicle', chronicleFileSchema);
   const chronicle = {
     startReign: chronicleFiles.find((f) => f.start_reign)?.start_reign ?? '',
@@ -196,10 +215,19 @@ export function loadContent(files: RawFile[]): ContentBundle {
     ...collect('events/crossover', decisionEventFileSchema, 'events'),
     ...collect('events/civilizations', decisionEventFileSchema, 'events'),
   ];
+  // Sự kiện không ghi giai đoạn đời: gán giai đoạn mặc định (sự kiện hẹn trước giữ nguyên để chuỗi không đứt)
+  const defaultStages = (balance.director as Balance['director'] | undefined)?.default_event_life_stages ?? [];
+  if (defaultStages.length > 0) {
+    for (const ev of events) if (!ev.life_stages && !ev.scheduled_only) ev.life_stages = [...defaultStages];
+  }
   const ambient = collect('events/ambient', ambientFileSchema, 'templates');
   const scenarios = collect('scenarios', scenarioFileSchema, 'scenarios');
   const origins = single('origins', originSchema);
-  const cultures = single('cultures', cultureSchema);
+  const cultures = single('cultures', cultureSchema).sort((a, b) =>
+    a.id === 'viet' ? -1 : b.id === 'viet' ? 1 : a.id.localeCompare(b.id),
+  );
+  const storyFiles = single('story', storySchema);
+  if (storyFiles.length !== 1) issues.push(`src/data/story/: cần đúng một file (đang có ${storyFiles.length})`);
 
   const lang: Record<string, LangPack> = {};
   for (const f of groups.get('lang') ?? []) {
@@ -228,6 +256,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
     sideJob: indexBy(sideJobs, 'careers/side_jobs'),
     civilization: indexBy(civilizations, 'civilizations'),
     settlementType: indexBy(settlementTypes, 'world/settlement_types'),
+    bookmark: indexBy(bookmarks, 'world/bookmarks'),
+    polity: indexBy(polities, 'world/polities'),
     chronicle: indexBy(chronicle.entries, 'chronicle'),
     origin: indexBy(origins, 'origins'),
     culture: indexBy(cultures, 'cultures'),
@@ -244,6 +274,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
   if (issues.length > 0) throw new ContentError(issues);
 
   return {
+    story: storyFiles[0],
     balance: balance as Balance,
     skills,
     traits,
@@ -256,6 +287,9 @@ export function loadContent(files: RawFile[]): ContentBundle {
     sideJobs,
     civilizations,
     settlementTypes,
+    bookmarks,
+    defaultBookmarkId,
+    polities,
     chronicle,
     origins,
     cultures,

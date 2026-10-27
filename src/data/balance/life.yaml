@@ -134,6 +134,13 @@ marriage:
 
 max_concurrent_diseases: 2
 
+# Ma chay (quan): cỗ đám, áo quan, thầy cúng, mời làng — đám người già là "đám hiếu" phải lo to
+funeral:
+  child_money: 1
+  adult_money: 6
+  elder_money: 10
+  elder_age: 60
+
 # [1] Chạy chữa bệnh (giá và xác suất khỏi ở diseases.yaml). Chưa làm chủ hộ thì nhà tự lo cho bệnh nặng.
 treatment:
   retry_months: 2

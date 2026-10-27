@@ -118,7 +118,7 @@ events:
   - id: gd_ho_hang_cuu_giup
     title: Anh em họ hàng đùm bọc lúc ngặt nghèo
     tags: [gia_dinh, tinh_lang, co_hoi]
-    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]   # trẻ con không đứng ra nhận/từ chối của họ hàng
     cooldown_years: 4
     weight: 2
     condition:

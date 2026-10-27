@@ -3,8 +3,9 @@ id: nong_dan
 name: Nông dân
 description: Con nhà nông nghèo ở một làng ven sông. Vài sào ruộng, mái nhà tranh, và cả một đời phía trước.
 culture: viet
-start_age_options: [16, 6, 0]
-default_start_age: 16
+start_age_options: [0, 6, 16]
+default_start_age: 0
+birth_weight: 80            # bốc thăm số phận: phần đông trẻ sinh ra là con nhà nông
 default_focus: lam_an
 default_career: nong_dan
 settlement: lang_nong

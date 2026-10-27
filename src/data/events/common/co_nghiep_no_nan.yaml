@@ -194,3 +194,55 @@ events:
           - { type: opinion, role: nguoi_vay, value: -4 }
         result:
           - '{role.nguoi_vay.call} thở dài rồi lặng lẽ cáo từ sang hỏi nhà khác.'
+
+  - id: kt_hoa_giai_no_nan
+    title: Tìm lối thoát khỏi vòng xoáy lãi mẹ đẻ lãi con
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 2
+    weight: 3.2
+    tags: [kinh_te, lang_xa]
+    roles:
+      - { id: chu_no, from: village, village_role: ba_ho }
+    condition:
+      all:
+        - { var: household.debt, op: '>=', value: 18 }
+    text:
+      - 'Khoản nợ {household.debt} quan với mức lãi nặng đang đè nặng lên vai gia đình. Nếu cứ để lãi mẹ đẻ lãi con qua từng mùa, cơ nghiệp sẽ chẳng bao giờ ngóc đầu lên nổi. Bạn phải tìm cách tháo gỡ dứt điểm.'
+    options:
+      - id: d_thuong_luong_khoanh_lai
+        text: 'Tìm gặp chủ nợ thương lượng xóa phần lãi chồng chất, gom công hàng trả gốc'
+        hint: 'Dùng tài Thương mại và chữ tín để xin xóa lãi gộp'
+        chance:
+          base: 0.65
+          skill: thuong_mai
+          per_level: 0.06
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 10 }
+        success:
+          - { type: debt, value: -28, ledger: tra_no }
+          - { type: opinion, role: chu_no, value: 5 }
+          - { type: stress, value: -6 }
+        failure:
+          - { type: debt, value: -12, ledger: tra_no }
+          - { type: stress, value: 3 }
+        success_result:
+          - 'Thấy bạn làm ăn chăm chỉ và trình bày phương án trả nợ rõ ràng, {role.chu_no.call} gật đầu xóa bỏ phần lãi chồng chất, giúp gánh nợ nhẹ đi trông thấy.'
+        failure_result:
+          - '{role.chu_no.call} chỉ chịu bớt cho một phần lãi nhỏ, nhưng ít ra đà tăng nợ cũng đã chững lại.'
+      - id: d_cong_trinh_tru_no
+        text: 'Nhận làm công, chở hàng và gia công mùa vụ cho nhà chủ nợ để khấu trừ nợ'
+        effects:
+          - { type: debt, value: -22, ledger: tra_no }
+          - { type: health, value: -3 }
+          - { type: stress, value: 3 }
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+        result:
+          - 'Suốt mấy tháng ròng đổ mồ hôi làm lụng trả công, bạn gạch bớt được một khoản nợ lớn trong sổ mà không phải bấm bụng vay thêm.'
+      - id: d_ho_toc_dung_ra_dan_xep
+        text: 'Nhờ bậc trưởng thượng trong họ đứng ra bảo lãnh, quy về lệ hương ước không tính lãi cắt cổ'
+        effects:
+          - { type: debt, value: -20, ledger: tra_no }
+          - { type: reputation, group: dan_lang, value: -2 }
+          - { type: stress, value: -4 }
+        result:
+          - 'Nể mặt các bậc bô lão và lệ làng không cho phép tính lãi quá vốn gốc (nhất bản nhất lợi), {role.chu_no.call} đành gạch bỏ phần lãi vượt mức.'

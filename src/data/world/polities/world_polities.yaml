@@ -1,0 +1,748 @@
+# Danh mục Vùng Lãnh Thổ / Quốc Gia / Nền Văn Minh trên Toàn Thế Giới qua 9 Thời Đại (8000 TCN → 2025 CN)
+# Nguồn số liệu: HYDE 3.3 (dân số & đô thị hóa), Maddison Project (thu nhập & phân tầng), Coale-Demeny Life Tables & UN WPP / Our World in Data.
+polities:
+  # ════════════════════════ 1. THỜI NGUYÊN THỦY (8000 TCN) ════════════════════════
+  - id: luoi_liem_mau_mo_8000bce
+    name: Lưỡi Liềm Màu Mỡ (Cận Đông Cổ)
+    region_label: Cận Đông & Địa Trung Hải
+    description: Những xóm định cư đá mới đầu tiên quanh Jericho và lưu vực sông Euphrates, nơi loài người bắt đầu thuần hóa lúa mì và dê cừu.
+    bookmarks: [nguyen_thuy_8000bce]
+    civilization: bo_lac_nguyen_thuy
+    culture: nguyen_thuy
+    population_weight: 22
+    demographics:
+      life_expectancy: 25
+      child_mortality: 0.45
+      urban_share: 0.01
+      literacy_rate: 0.0
+      mortality_factor: 1.45
+      wealth_factor: 0.85
+    origin_weights: { nong_dan: 90, thuong_nhan: 6, quy_toc_nho: 4 }
+    historical_fact: 'Theo khảo cổ học Đá Mới (HYDE 3.3), toàn thế giới năm 8000 TCN chỉ có khoảng 5 triệu người; gần một nửa trẻ sơ sinh không sống qua 5 tuổi.'
+
+  - id: dong_a_hoang_ha_8000bce
+    name: Lưu vực Hoàng Hà – Trường Giang & Bách Việt Cổ
+    region_label: Đông Á & Đông Nam Á
+    description: Các bộ lạc Hòa Bình – Bắc Sơn và Bành Đầu Sơn sống bên sông lớn, bắt đầu thuần hóa lúa nước, kê và làm gốm thừng.
+    bookmarks: [nguyen_thuy_8000bce]
+    civilization: bo_lac_nguyen_thuy
+    culture: viet
+    population_weight: 24
+    demographics:
+      life_expectancy: 24
+      child_mortality: 0.46
+      urban_share: 0.01
+      literacy_rate: 0.0
+      mortality_factor: 1.45
+      wealth_factor: 0.85
+    origin_weights: { nong_dan: 92, thuong_nhan: 5, quy_toc_nho: 3 }
+    historical_fact: 'Cư dân văn hóa Hòa Bình – Bắc Sơn tại Đông Nam Á và lưu vực Trường Giang là những người đầu tiên thuần hóa cây lúa nước cách đây gần 10.000 năm.'
+
+  - id: nam_a_nguyen_thuy_8000bce
+    name: Tiểu lục địa Nam Á (Mehrgarh Sơ kỳ)
+    region_label: Nam Á
+    description: Các bộ lạc săn bắt và trồng lúa mạch sớm tại chân đèo Bolan và lưu vực sông Ấn.
+    bookmarks: [nguyen_thuy_8000bce]
+    civilization: bo_lac_nguyen_thuy
+    culture: an_do
+    population_weight: 20
+    demographics:
+      life_expectancy: 24
+      child_mortality: 0.46
+      urban_share: 0.01
+      literacy_rate: 0.0
+      mortality_factor: 1.48
+      wealth_factor: 0.8
+    origin_weights: { nong_dan: 92, thuong_nhan: 5, quy_toc_nho: 3 }
+    historical_fact: 'Tại Nam Á thời Đá Mới, mật độ dân cư chỉ đạt chưa tới 1 người trên mỗi km², tập trung dọc các triền sông lớn.'
+
+  - id: chau_au_san_bat_8000bce
+    name: Bộ lạc Săn bắt Châu Âu Hậu Băng Hà
+    region_label: Châu Âu
+    description: Những nhóm thợ săn tuần lộc, hươu đỏ và đánh cá ven biển khi băng hà vừa rút về phương Bắc.
+    bookmarks: [nguyen_thuy_8000bce]
+    civilization: bo_lac_nguyen_thuy
+    culture: nguyen_thuy
+    population_weight: 12
+    demographics:
+      life_expectancy: 23
+      child_mortality: 0.48
+      urban_share: 0.0
+      literacy_rate: 0.0
+      mortality_factor: 1.5
+      wealth_factor: 0.75
+    origin_weights: { nong_dan: 93, thuong_nhan: 4, quy_toc_nho: 3 }
+    historical_fact: 'Châu Âu thời kỳ Mesolithic (8000 TCN) hoàn toàn chưa có nông nghiệp; con người sống trong các trại lều di động từ 20–50 người.'
+
+  - id: chau_phi_chau_my_8000bce
+    name: Thảo nguyên Châu Phi & Bộ lạc Châu Mỹ Cổ
+    region_label: Châu Phi & Châu Mỹ
+    description: Những cộng đồng săn bắt hái lượm trên Sahara Xanh ẩm ướt và các thung lũng cao nguyên Mesoamerica – Andes.
+    bookmarks: [nguyen_thuy_8000bce]
+    civilization: bo_lac_nguyen_thuy
+    culture: chau_phi
+    population_weight: 22
+    demographics:
+      life_expectancy: 23
+      child_mortality: 0.47
+      urban_share: 0.0
+      literacy_rate: 0.0
+      mortality_factor: 1.5
+      wealth_factor: 0.78
+    origin_weights: { nong_dan: 93, thuong_nhan: 4, quy_toc_nho: 3 }
+    historical_fact: 'Vào năm 8000 TCN, sa mạc Sahara vẫn là vùng thảo nguyên xanh tươi có hồ nước, voi và các bộ lạc chăn thả sinh sống.'
+
+  # ════════════════════════ 2. BÌNH MINH VĂN MINH (2500 TCN) ════════════════════════
+  - id: ai_cap_luong_ha_2500bce
+    name: Ai Cập Cổ Vương Quốc & Lưỡng Hà Sumer
+    region_label: Trung Đông & Bắc Phi
+    description: Thời đại của Đại Kim Tự Tháp Giza và các thành bang Ur, Uruk. Hệ thống thủy lợi, chữ hình nêm và bộ máy tư tế đầu tiên của nhân loại.
+    bookmarks: [co_dai_2500bce]
+    civilization: co_dai_de_che
+    culture: la_ma_hy_lap
+    population_weight: 26
+    demographics:
+      life_expectancy: 28
+      child_mortality: 0.40
+      urban_share: 0.06
+      literacy_rate: 0.02
+      mortality_factor: 1.32
+      wealth_factor: 1.0
+    origin_weights: { nong_dan: 86, thuong_nhan: 9, quy_toc_nho: 5 }
+    historical_fact: 'Khoảng năm 2500 TCN, chỉ dưới 2% dân số Ai Cập và Lưỡng Hà biết đọc viết chữ tượng hình/hình nêm (tầng lớp Ký lục Scribe).'
+
+  - id: van_minh_song_an_2500bce
+    name: Văn minh Lưu vực Sông Ấn (Harappa – Mohenjo-daro)
+    region_label: Nam Á
+    description: Những đô thị gạch nung quy hoạch bàn cờ với hệ thống thoát nước kỳ vĩ và mạng lưới buôn bán đường biển sang tận Lưỡng Hà.
+    bookmarks: [co_dai_2500bce]
+    civilization: nam_a
+    culture: an_do
+    population_weight: 28
+    demographics:
+      life_expectancy: 28
+      child_mortality: 0.41
+      urban_share: 0.05
+      literacy_rate: 0.02
+      mortality_factor: 1.32
+      wealth_factor: 0.98
+    origin_weights: { nong_dan: 85, thuong_nhan: 10, quy_toc_nho: 5 }
+    historical_fact: 'Văn minh Sông Ấn nuôi sống khoảng 5 triệu người vào năm 2500 TCN — chiếm gần 1/6 dân số toàn cầu thời bấy giờ.'
+
+  - id: long_son_bach_viet_2500bce
+    name: Văn hóa Long Sơn & Bộ tộc Bách Việt (Phùng Nguyên)
+    region_label: Đông Á & Đông Nam Á
+    description: Các tụ落 nông nghiệp lúa nước trù phú, kỹ thuật chế tác ngọc bích, gốm đen xoay bàn và khởi đầu thời đại kim khí.
+    bookmarks: [co_dai_2500bce]
+    civilization: nho_giao
+    culture: viet
+    population_weight: 26
+    demographics:
+      life_expectancy: 27
+      child_mortality: 0.42
+      urban_share: 0.03
+      literacy_rate: 0.01
+      mortality_factor: 1.35
+      wealth_factor: 0.92
+    origin_weights: { nong_dan: 88, thuong_nhan: 8, quy_toc_nho: 4 }
+    historical_fact: 'Tại đồng bằng sông Hồng và lưu vực Hoàng Hà – Trường Giang năm 2500 TCN, gần 90% cư dân sống trong các làng nông nghiệp tự cung tự cấp.'
+
+  - id: au_a_phi_my_2500bce
+    name: Bộ lạc Đồ Đồng Châu Âu, Thảo nguyên & Châu Mỹ Cổ
+    region_label: Châu Âu, Thảo nguyên & Châu Mỹ
+    description: Cư dân dựng đài đá Stonehenge ở Châu Âu, các bộ tộc thuần hóa ngựa trên thảo nguyên Pontic và văn minh Caral cổ đại ở Peru.
+    bookmarks: [co_dai_2500bce]
+    civilization: bo_lac_nguyen_thuy
+    culture: nguyen_thuy
+    population_weight: 20
+    demographics:
+      life_expectancy: 26
+      child_mortality: 0.44
+      urban_share: 0.01
+      literacy_rate: 0.0
+      mortality_factor: 1.38
+      wealth_factor: 0.85
+    origin_weights: { nong_dan: 90, thuong_nhan: 6, quy_toc_nho: 4 }
+    historical_fact: 'Việc thuần hóa ngựa trên thảo nguyên Âu–Á và kỹ thuật đúc đồng đã mở ra mạng lưới trao đổi xuyên lục địa đầu tiên.'
+
+  # ════════════════════════ 3. THỜI KỲ CỔ ĐIỂN (500 TCN) ════════════════════════
+  - id: hy_lap_ba_tu_500bce
+    name: Thành bang Hy Lạp & Đế chế Ba Tư Achaemenid
+    region_label: Địa Trung Hải & Trung Đông
+    description: Đế chế Ba Tư trải dài từ Ai Cập tới sông Ấn đối đầu với các thành bang Athens, Sparta rực rỡ triết học và thương mại hàng hải.
+    bookmarks: [co_dien_500bce]
+    civilization: co_dai_de_che
+    culture: la_ma_hy_lap
+    population_weight: 25
+    demographics:
+      life_expectancy: 30
+      child_mortality: 0.37
+      urban_share: 0.09
+      literacy_rate: 0.06
+      mortality_factor: 1.24
+      wealth_factor: 1.08
+    origin_weights: { nong_dan: 80, thuong_nhan: 13, quy_toc_nho: 7 }
+    historical_fact: 'Đế chế Ba Tư Achaemenid năm 500 TCN cai quản khoảng 18–20 triệu người (~20% dân số thế giới), kết nối bằng Con đường Hoàng gia dài 2.700 km.'
+
+  - id: xuan_thu_dong_son_500bce
+    name: Xuân Thu – Chiến Quốc & Văn hóa Đông Sơn (Âu Lạc)
+    region_label: Đông Á & Đông Nam Á
+    description: Thời đại của Khổng Tử, Lão Tử, Bách gia chư tử ở phương Bắc và nền văn minh trống đồng Đông Sơn rực rỡ bên bờ sông Hồng, sông Mã.
+    bookmarks: [co_dien_500bce]
+    civilization: nho_giao
+    culture: viet
+    population_weight: 28
+    demographics:
+      life_expectancy: 29
+      child_mortality: 0.38
+      urban_share: 0.07
+      literacy_rate: 0.05
+      mortality_factor: 1.25
+      wealth_factor: 1.0
+    origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
+    historical_fact: 'Công cụ sắt cho lưỡi cày và thủy lợi quy mô lớn thời Xuân Thu – Đông Sơn giúp năng suất lúa tăng vọt, dân số Đông Á đạt gần 30 triệu người.'
+
+  - id: an_do_co_dien_500bce
+    name: Thập Lục Quốc Ấn Độ (Mahajanapadas)
+    region_label: Nam Á
+    description: Lưu vực sông Hằng trù phú thời Đức Phật Thích Ca tại thế, với các vương quốc Magadha, Kosala và đô thị thương mại sầm uất.
+    bookmarks: [co_dien_500bce]
+    civilization: nam_a
+    culture: an_do
+    population_weight: 27
+    demographics:
+      life_expectancy: 29
+      child_mortality: 0.38
+      urban_share: 0.07
+      literacy_rate: 0.05
+      mortality_factor: 1.26
+      wealth_factor: 1.0
+    origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
+    historical_fact: 'Khoảng năm 500 TCN, lưu vực sông Hằng và Nam Á chiếm hơn 1/4 dân số toàn nhân loại nhờ nông nghiệp hai vụ mỗi năm.'
+
+  - id: thao_nguyen_chau_my_500bce
+    name: Kỵ tộc Scythia, Bộ lạc Celtic & Văn minh Maya Sơ kỳ
+    region_label: Thảo nguyên, Tây Âu & Châu Mỹ
+    description: Các chiến binh cưỡi ngựa Scythia trên thảo nguyên, bộ tộc sắt La Tène ở Châu Âu và những kim tự tháp đầu tiên của người Olmec – Maya.
+    bookmarks: [co_dien_500bce]
+    civilization: ban_dia_phi_my
+    culture: chau_my
+    population_weight: 20
+    demographics:
+      life_expectancy: 28
+      child_mortality: 0.40
+      urban_share: 0.03
+      literacy_rate: 0.02
+      mortality_factor: 1.30
+      wealth_factor: 0.9
+    origin_weights: { nong_dan: 88, thuong_nhan: 7, quy_toc_nho: 5 }
+    historical_fact: 'Tại Trung Mỹ năm 500 TCN, ngô (bắp) và đậu đã nuôi sống những thành bang đầu tiên có lịch pháp và chữ tượng hình riêng.'
+
+  # ════════════════════════ 4. THỜI ĐẠI ĐẾ CHẾ CỔ ĐẠI (100 CN) ════════════════════════
+  - id: de_che_la_ma_100ce
+    name: Đế chế La Mã (Thời kỳ Pax Romana)
+    region_label: Địa Trung Hải & Châu Âu
+    description: Đế chế La Mã ở đỉnh cao dưới triều Trajan, bao quanh Địa Trung Hải với hơn 60 triệu dân, đường đá, cầu dẫn nước và thương cảng nhộn nhịp.
+    bookmarks: [de_che_100ce]
+    civilization: co_dai_de_che
+    culture: la_ma_hy_lap
+    population_weight: 26
+    demographics:
+      life_expectancy: 30
+      child_mortality: 0.36
+      urban_share: 0.12
+      literacy_rate: 0.10
+      mortality_factor: 1.20
+      wealth_factor: 1.12
+    origin_weights: { nong_dan: 78, thuong_nhan: 14, quy_toc_nho: 8 }
+    historical_fact: 'Theo bảng xã hội của nhà kinh tế học Branko Milanovic cho Đế chế La Mã, 1,5% tầng lớp nguyên lão – kỵ sĩ nắm giữ hơn 20% tổng của cải toàn đế chế.'
+
+  - id: dong_han_giao_chi_100ce
+    name: Nhà Đông Hán & Vùng Giao Chỉ – Lĩnh Nam
+    region_label: Đông Á & Đông Nam Á
+    description: Phương Đông thời Đông Hán với gần 60 triệu nhân khẩu trong sổ hộ tịch, nghề làm giấy vừa ra đời và tuyến giao thương biển qua Giao Chỉ.
+    bookmarks: [de_che_100ce]
+    civilization: nho_giao
+    culture: han_dong_a
+    population_weight: 28
+    demographics:
+      life_expectancy: 30
+      child_mortality: 0.36
+      urban_share: 0.09
+      literacy_rate: 0.07
+      mortality_factor: 1.20
+      wealth_factor: 1.05
+    origin_weights: { nong_dan: 83, thuong_nhan: 10, quy_toc_nho: 7 }
+    historical_fact: 'Năm 100 CN, riêng hai đế chế La Mã và Đông Hán đã chiếm hơn một nửa tổng dân số toàn cầu (~230 triệu người).'
+
+  - id: an_do_kushan_100ce
+    name: Đế chế Kushan & Vương quốc Satavahana (Ấn Độ)
+    region_label: Nam Á
+    description: Ngã tư của Con đường Tơ lụa và tuyến hàng hải Ấn Độ Dương, xuất khẩu hồ tiêu, ngọc trai và vải bông đi khắp thế giới cổ đại.
+    bookmarks: [de_che_100ce]
+    civilization: nam_a
+    culture: an_do
+    population_weight: 29
+    demographics:
+      life_expectancy: 30
+      child_mortality: 0.36
+      urban_share: 0.08
+      literacy_rate: 0.06
+      mortality_factor: 1.22
+      wealth_factor: 1.02
+    origin_weights: { nong_dan: 82, thuong_nhan: 12, quy_toc_nho: 6 }
+    historical_fact: 'Thương mại biển giữa Ấn Độ và La Mã thế kỷ 1 CN lớn đến mức Pliny Già phàn nàn La Mã chảy máu hàng chục triệu đồng sesterces bạc mỗi năm để mua gia vị và lụa.'
+
+  - id: ba_tu_parthia_phi_my_100ce
+    name: Đế chế Parthia, Vương quốc Aksum & Thành Teotihuacan
+    region_label: Trung Đông, Châu Phi & Châu Mỹ
+    description: Trung tâm trung chuyển tơ lụa ở Ba Tư, thương cảng Biển Đỏ Aksum (Đông Phi) và đại đô thị Teotihuacan ở Mexico.
+    bookmarks: [de_che_100ce]
+    civilization: hoi_giao
+    culture: a_rap_ba_tu
+    population_weight: 17
+    demographics:
+      life_expectancy: 29
+      child_mortality: 0.37
+      urban_share: 0.07
+      literacy_rate: 0.05
+      mortality_factor: 1.24
+      wealth_factor: 0.98
+    origin_weights: { nong_dan: 83, thuong_nhan: 11, quy_toc_nho: 6 }
+    historical_fact: 'Thành phố Teotihuacan ở Châu Mỹ thế kỷ 1–2 CN đạt trên 100.000 dân, nằm trong nhóm 6 đô thị lớn nhất thế giới đương thời.'
+
+  # ════════════════════════ 5. TRUNG CỔ SƠ KỲ (1000 CN) ════════════════════════
+  - id: dai_viet_nha_ly_1000ce
+    name: Đại Việt (Thời Lý – Trần)
+    region_label: Đông Nam Á
+    description: Làng xã ven sông Hồng trù phú sau ngày định đô Thăng Long. Nền văn minh lúa nước kết hợp khoa cử Nho giáo, Phật giáo thịnh trị và tự trị làng xã.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: nho_giao
+    culture: viet
+    population_weight: 6
+    demographics:
+      life_expectancy: 34
+      child_mortality: 0.30
+      urban_share: 0.07
+      literacy_rate: 0.06
+      mortality_factor: 1.0
+      wealth_factor: 1.0
+    origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
+    historical_fact: 'Thế kỷ 11–13, Đại Việt áp dụng chính sách "Ngụ binh ư nông" (gửi lính ở nhà nông) và mở các khoa thi Tam trường để tuyển chọn nhân tài từ cả tầng lớp dân thường.'
+
+  - id: tong_dong_a_1000ce
+    name: Trung Hoa Thời Tống & Đông Á (Nhật Bản Heian, Cao Ly)
+    region_label: Đông Á
+    description: 'Thời kỳ cách mạng thương mại và đô thị hóa rực rỡ ở Đông Á: tiền giấy đầu tiên, la bàn hàng hải, nghề in và các đô thị triệu dân như Khai Phong, Hàng Châu.'
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: nho_giao
+    culture: han_dong_a
+    population_weight: 30
+    demographics:
+      life_expectancy: 34
+      child_mortality: 0.31
+      urban_share: 0.12
+      literacy_rate: 0.10
+      mortality_factor: 1.02
+      wealth_factor: 1.12
+    origin_weights: { nong_dan: 78, thuong_nhan: 14, quy_toc_nho: 8 }
+    historical_fact: 'Theo Maddison Project, vào năm 1000–1250 CN, khu vực Đông Á chiếm khoảng 1/3 dân số thế giới và có tỷ lệ đô thị hóa cao nhất hành tinh (~12%).'
+
+  - id: nam_a_chola_1000ce
+    name: Đế chế Chola & Các Vương quốc Ấn Độ
+    region_label: Nam Á
+    description: Những vương triều hùng mạnh ở tiểu lục địa Ấn Độ với thương đoàn biển vươn khắp Ấn Độ Dương và hệ thống đền đài đồ sộ.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: nam_a
+    culture: an_do
+    population_weight: 26
+    demographics:
+      life_expectancy: 32
+      child_mortality: 0.33
+      urban_share: 0.08
+      literacy_rate: 0.06
+      mortality_factor: 1.08
+      wealth_factor: 1.0
+    origin_weights: { nong_dan: 83, thuong_nhan: 11, quy_toc_nho: 6 }
+    historical_fact: 'Nam Á thời Trung cổ luôn duy trì từ 75–85 triệu dân (~25% nhân loại), là trung tâm xuất khẩu vải dệt lớn nhất thế giới tiền công nghiệp.'
+
+  - id: hoi_giao_hoang_kim_1000ce
+    name: Thế giới Hồi giáo Hoàng kim (Abbasid, Fatimid, Mamluk)
+    region_label: Trung Đông & Bắc Phi
+    description: Từ Cairo, Baghdad đến Córdoba — trung tâm khoa học, y học (Ibn Sina), toán học và các tuyến lữ đoàn thương mại nối liền 3 châu lục.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: hoi_giao
+    culture: a_rap_ba_tu
+    population_weight: 12
+    demographics:
+      life_expectancy: 34
+      child_mortality: 0.31
+      urban_share: 0.14
+      literacy_rate: 0.11
+      mortality_factor: 1.02
+      wealth_factor: 1.15
+    origin_weights: { nong_dan: 75, thuong_nhan: 17, quy_toc_nho: 8 }
+    historical_fact: 'Vào thế kỷ 10–13, các đô thị Hồi giáo như Baghdad và Cairo có bệnh viện công cộng miễn phí, thư viện lớn và mạng lưới tín phiếu (Suftaja) xuyên lục địa.'
+
+  - id: phong_kien_chau_au_1000ce
+    name: Châu Âu Phong kiến (Anh, Pháp, La Mã Thần Thánh, Byzantium)
+    region_label: Châu Âu
+    description: Lâu đài đá, lãnh chúa hiệp sĩ, tu viện chép sách và những phường hội thị trấn đang trỗi dậy bên cạnh ruộng đất thái ấp của nông nô.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: phong_kien_au
+    culture: au_tay
+    population_weight: 14
+    demographics:
+      life_expectancy: 32
+      child_mortality: 0.33
+      urban_share: 0.07
+      literacy_rate: 0.05
+      mortality_factor: 1.06
+      wealth_factor: 0.96
+    origin_weights: { nong_dan: 86, thuong_nhan: 9, quy_toc_nho: 5 }
+    historical_fact: 'Theo Sổ điền Domesday Book (Anh, 1086), khoảng 85–90% dân cư Châu Âu thời Trung cổ sống ở nông thôn trong thân phận nông nô (Serf) hoặc nông dân lệ thuộc.'
+
+  - id: thao_nguyen_mong_co_1250ce
+    name: Đế quốc Thảo nguyên Âu–Á (Đột Quyết / Mông Cổ)
+    region_label: Thảo nguyên Âu–Á
+    description: Những bộ tộc du mục kỵ cung thống nhất dưới ngọn cờ Đại Hãn, kiểm soát toàn bộ tuyến giao thương lục địa từ Thái Bình Dương sang Đông Âu.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: du_muc
+    culture: du_muc_mong
+    population_weight: 4
+    demographics:
+      life_expectancy: 31
+      child_mortality: 0.35
+      urban_share: 0.03
+      literacy_rate: 0.04
+      mortality_factor: 1.12
+      wealth_factor: 1.0
+    origin_weights: { nong_dan: 80, thuong_nhan: 10, quy_toc_nho: 10 }
+    historical_fact: 'Dù dân số thảo nguyên Mông Cổ thế kỷ 13 chỉ khoảng 1–2 triệu người, họ đã xây dựng đế quốc lục địa liền dải lớn nhất lịch sử nhân loại.'
+
+  - id: mali_maya_inca_1250ce
+    name: Đế chế Vàng Mali (Tây Phi) & Văn minh Maya – Andes
+    region_label: Châu Phi & Châu Mỹ
+    description: Những đoàn lạc đà chở vàng từ Timbuktu (Mali) và những thành phố đá vĩ đại của người Maya, Aztec, Inca bên kia đại dương.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: ban_dia_phi_my
+    culture: chau_phi
+    population_weight: 8
+    demographics:
+      life_expectancy: 31
+      child_mortality: 0.35
+      urban_share: 0.06
+      literacy_rate: 0.04
+      mortality_factor: 1.10
+      wealth_factor: 0.98
+    origin_weights: { nong_dan: 85, thuong_nhan: 10, quy_toc_nho: 5 }
+    historical_fact: 'Đế chế Mali ở Tây Phi thế kỷ 13–14 cung cấp hơn một nửa lượng vàng lưu thông trên toàn thế giới Cựu Lục Địa.'
+
+  # ════════════════════════ 7. CẬN ĐẠI & ĐẠI HÀNG HẢI (1600 CN) ════════════════════════
+  - id: dai_viet_can_dai_1600ce
+    name: Đại Việt Thời Lê Trung Hưng (Đàng Ngoài – Đàng Trong)
+    region_label: Đông Nam Á
+    description: Thời kỳ mở cõi về phương Nam và giao thương quốc tế sôi động tại Phố Hiến, Kẻ Chợ, Hội An. Thuyền buôn Nhật, Hoa, Bồ Đào Nha, Hà Lan tấp nập cập bến.
+    bookmarks: [can_dai_1600ce]
+    civilization: nho_giao
+    culture: viet
+    population_weight: 6
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.27
+      urban_share: 0.09
+      literacy_rate: 0.09
+      mortality_factor: 0.96
+      wealth_factor: 1.05
+    origin_weights: { nong_dan: 80, thuong_nhan: 13, quy_toc_nho: 7 }
+    historical_fact: 'Thế kỷ 17 ("Thứ nhất Kinh Kỳ, thứ nhì Phố Hiến"), tơ lụa và gốm sứ Đại Việt được các thương điếm Hà Lan (VOC) và Nhật Bản thu mua với số lượng lớn.'
+
+  - id: minh_nhat_dong_a_1600ce
+    name: Trung Hoa Thời Minh & Nhật Bản Mạc phủ Tokugawa
+    region_label: Đông Á
+    description: Xã hội đô thị, thủ công nghiệp gốm sứ – tơ lụa phát triển cực thịnh, hút phần lớn lượng bạc khai thác từ Tân Thế Giới chảy về Đông Á.
+    bookmarks: [can_dai_1600ce]
+    civilization: nho_giao
+    culture: han_dong_a
+    population_weight: 32
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.27
+      urban_share: 0.13
+      literacy_rate: 0.14
+      mortality_factor: 0.96
+      wealth_factor: 1.12
+    origin_weights: { nong_dan: 76, thuong_nhan: 16, quy_toc_nho: 8 }
+    historical_fact: 'Năm 1600, riêng khu vực Đông Á (Minh, Nhật Bản, Triều Tiên) có gần 190 triệu người — cứ 3 người trên Trái Đất thì có 1 người sinh ra tại đây.'
+
+  - id: mughal_nam_a_1600ce
+    name: Đế chế Mughal (Ấn Độ)
+    region_label: Nam Á
+    description: Một trong những nền kinh tế lớn nhất thế giới thế kỷ 17, nổi tiếng với kiến trúc kỳ vĩ, nông nghiệp trù phú và ngành dệt vải bông xuất khẩu toàn cầu.
+    bookmarks: [can_dai_1600ce]
+    civilization: nam_a
+    culture: an_do
+    population_weight: 24
+    demographics:
+      life_expectancy: 34
+      child_mortality: 0.29
+      urban_share: 0.11
+      literacy_rate: 0.08
+      mortality_factor: 1.02
+      wealth_factor: 1.08
+    origin_weights: { nong_dan: 79, thuong_nhan: 14, quy_toc_nho: 7 }
+    historical_fact: 'Vào năm 1600, Đế chế Mughal Ấn Độ tạo ra khoảng 22% tổng sản lượng kinh tế (GDP) của toàn thế giới.'
+
+  - id: tay_au_hang_hai_1600ce
+    name: Châu Âu Phục Hưng & Đại Hàng Hải (Anh, Pháp, Tây Ban Nha, Hà Lan)
+    region_label: Châu Âu
+    description: Thời đại của tàu buồm vượt đại dương, công ty Đông Ấn, in ấn sách báo, đại học khoa học và tầng lớp tư sản thương mại trỗi dậy.
+    bookmarks: [can_dai_1600ce]
+    civilization: phong_kien_au
+    culture: au_tay
+    population_weight: 16
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.26
+      urban_share: 0.14
+      literacy_rate: 0.20
+      mortality_factor: 0.95
+      wealth_factor: 1.18
+    origin_weights: { nong_dan: 74, thuong_nhan: 18, quy_toc_nho: 8 }
+    historical_fact: 'Nhờ máy in Gutenberg, tỷ lệ biết chữ ở Tây Âu tăng từ dưới 5% thời Trung cổ lên khoảng 20–30% vào thế kỷ 17.'
+
+  - id: ottoman_ba_tu_1600ce
+    name: Đế quốc Ottoman & Ba Tư Safavid
+    region_label: Trung Đông & Bắc Phi
+    description: Đế quốc nằm vắt ngang ba châu lục Á – Âu – Phi với thủ đô Istanbul hoa lệ và các thương cảng Địa Trung Hải sầm uất.
+    bookmarks: [can_dai_1600ce]
+    civilization: hoi_giao
+    culture: a_rap_ba_tu
+    population_weight: 10
+    demographics:
+      life_expectancy: 35
+      child_mortality: 0.28
+      urban_share: 0.13
+      literacy_rate: 0.10
+      mortality_factor: 0.98
+      wealth_factor: 1.08
+    origin_weights: { nong_dan: 77, thuong_nhan: 16, quy_toc_nho: 7 }
+    historical_fact: 'Istanbul năm 1600 là thành phố lớn nhất Châu Âu – Trung Đông với khoảng 700.000 cư dân từ khắp các sắc tộc.'
+
+  - id: phi_my_can_dai_1600ce
+    name: Tân Thế Giới (Châu Mỹ) & Các Vương Quốc Châu Phi
+    region_label: Châu Phi & Châu Mỹ
+    description: Những vùng đất giàu tài nguyên bạc, mía đường, cacao và ngô đang trải qua cuộc biến đổi nhân khẩu học và giao thoa văn hóa sâu sắc.
+    bookmarks: [can_dai_1600ce]
+    civilization: ban_dia_phi_my
+    culture: chau_my
+    population_weight: 12
+    demographics:
+      life_expectancy: 32
+      child_mortality: 0.32
+      urban_share: 0.07
+      literacy_rate: 0.06
+      mortality_factor: 1.08
+      wealth_factor: 0.92
+    origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
+    historical_fact: 'Cuộc "Trao đổi Columbian" sau năm 1500 đã đưa ngô, khoai tây và sắn từ Châu Mỹ sang nuôi sống hàng trăm triệu người ở Á – Âu – Phi.'
+
+  # ════════════════════════ 8. CÁCH MẠNG CÔNG NGHIỆP (1850 CN) ════════════════════════
+  - id: au_my_cong_nghiep_1850ce
+    name: Tây Âu & Bắc Mỹ Công Nghiệp Hóa (Anh, Pháp, Đức, Hoa Kỳ)
+    region_label: Châu Âu & Bắc Mỹ
+    description: Thời đại của đường sắt, tàu thủy hơi nước, nhà máy dệt cơ khí và báo chí. Đô thị mở rộng nhanh chóng và tầng lớp công nhân – tư sản hình thành.
+    bookmarks: [cong_nghiep_1850ce]
+    civilization: hien_dai
+    culture: au_tay
+    population_weight: 22
+    demographics:
+      life_expectancy: 43
+      child_mortality: 0.18
+      urban_share: 0.32
+      literacy_rate: 0.58
+      mortality_factor: 0.78
+      wealth_factor: 1.45
+    origin_weights: { nong_dan: 55, thuong_nhan: 30, quy_toc_nho: 15 }
+    historical_fact: 'Năm 1850, Vương quốc Anh trở thành quốc gia đầu tiên trong lịch sử có hơn một nửa dân số sống ở thành thị và trên 60% người lớn biết đọc viết.'
+
+  - id: thanh_nhat_dong_a_1850ce
+    name: Đông Á (Nhà Thanh, Nhật Bản Cuối Edo / Minh Trị, Triều Tiên)
+    region_label: Đông Á
+    description: Những xã hội nông nghiệp – sĩ phu đông đúc bậc nhất thế giới đứng trước ngưỡng cửa cải cách hiện đại hóa và mở cửa giao thương.
+    bookmarks: [cong_nghiep_1850ce]
+    civilization: nho_giao
+    culture: han_dong_a
+    population_weight: 36
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.25
+      urban_share: 0.09
+      literacy_rate: 0.18
+      mortality_factor: 0.94
+      wealth_factor: 0.95
+    origin_weights: { nong_dan: 80, thuong_nhan: 13, quy_toc_nho: 7 }
+    historical_fact: 'Vào giữa thế kỷ 19, riêng khu vực Đông Á có hơn 450 triệu dân — chiếm hơn 35% dân số toàn cầu.'
+
+  - id: dai_nam_dong_nam_a_1850ce
+    name: Đại Nam (Triều Nguyễn) & Đông Nam Á
+    region_label: Đông Nam Á
+    description: Xã hội làng xã truyền thống từ Bắc vào Nam với những cánh đồng lúa mới khẩn hoang ở Nam Kỳ, hệ thống khoa cử Đình – Hội – Hương và phố cảng sầm uất.
+    bookmarks: [cong_nghiep_1850ce]
+    civilization: nho_giao
+    culture: viet
+    population_weight: 5
+    demographics:
+      life_expectancy: 37
+      child_mortality: 0.24
+      urban_share: 0.09
+      literacy_rate: 0.15
+      mortality_factor: 0.92
+      wealth_factor: 0.98
+    origin_weights: { nong_dan: 80, thuong_nhan: 13, quy_toc_nho: 7 }
+    historical_fact: 'Dưới triều Nguyễn thế kỷ 19, công cuộc khẩn hoang đồng bằng sông Cửu Long đã mở thêm hàng trăm ngàn mẫu ruộng mới ở phương Nam.'
+
+  - id: nam_a_1850ce
+    name: Tiểu lục địa Nam Á (Ấn Độ)
+    region_label: Nam Á
+    description: Vùng đất đông dân thứ hai thế giới với mạng lưới đường sắt đầu tiên đang được xây dựng, trồng bông, đay và trà xuất khẩu.
+    bookmarks: [cong_nghiep_1850ce]
+    civilization: nam_a
+    culture: an_do
+    population_weight: 20
+    demographics:
+      life_expectancy: 34
+      child_mortality: 0.27
+      urban_share: 0.09
+      literacy_rate: 0.10
+      mortality_factor: 1.0
+      wealth_factor: 0.90
+    origin_weights: { nong_dan: 82, thuong_nhan: 12, quy_toc_nho: 6 }
+    historical_fact: 'Năm 1853, tuyến đường sắt chở khách đầu tiên của Châu Á được khánh thành tại Ấn Độ (nối Bombay và Thane).'
+
+  - id: trung_dong_phi_my_1850ce
+    name: Trung Đông, Châu Phi & Mỹ Latinh Thế Kỷ 19
+    region_label: Trung Đông, Châu Phi & Mỹ Latinh
+    description: Những vùng đất đang chuyển mình qua cải cách Tanzimat ở Ottoman, các nước cộng hòa non trẻ ở Mỹ Latinh và các vương quốc nội địa Châu Phi.
+    bookmarks: [cong_nghiep_1850ce]
+    civilization: hoi_giao
+    culture: a_rap_ba_tu
+    population_weight: 17
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.25
+      urban_share: 0.12
+      literacy_rate: 0.14
+      mortality_factor: 0.95
+      wealth_factor: 0.95
+    origin_weights: { nong_dan: 78, thuong_nhan: 15, quy_toc_nho: 7 }
+    historical_fact: 'Đầu tư kênh đào và tàu hơi nước giữa thế kỷ 19 đã rút ngắn thời gian đi lại giữa các châu lục từ nhiều tháng xuống chỉ còn vài tuần.'
+
+  # ════════════════════════ 9. THẾ GIỚI HIỆN ĐẠI (2025 CN — CHUẨN 1in8b) ════════════════════════
+  - id: nam_a_hien_dai_2025ce
+    name: Nam Á Hiện Đại (Ấn Độ, Pakistan, Bangladesh)
+    region_label: Nam Á
+    description: Khu vực đông dân nhất hành tinh hiện nay với những siêu đô thị công nghệ – dịch vụ đang phát triển nhanh bên cạnh hàng trăm ngàn ngôi làng nông thôn.
+    bookmarks: [hien_dai_2025ce]
+    civilization: hien_dai
+    culture: an_do
+    population_weight: 25
+    demographics:
+      life_expectancy: 71
+      child_mortality: 0.032
+      urban_share: 0.37
+      literacy_rate: 0.78
+      mortality_factor: 0.30
+      wealth_factor: 1.25
+    origin_weights: { nong_dan: 48, thuong_nhan: 36, quy_toc_nho: 16 }
+    historical_fact: 'Theo UN WPP (dữ liệu 1in8b), cứ 4 đứa trẻ chào đời trên thế giới hiện nay thì có 1 đứa sinh ra tại khu vực Nam Á.'
+
+  - id: chau_phi_hien_dai_2025ce
+    name: Châu Phi Hạ Sahara Hiện Đại (Nigeria, Ethiopia, Kenya, Congo...)
+    region_label: Châu Phi
+    description: Châu lục trẻ nhất thế giới với tốc độ tăng trưởng dân số và đô thị hóa nhanh nhất thế kỷ 21, giàu tài nguyên nhưng vẫn còn nhiều thách thức y tế – hạ tầng.
+    bookmarks: [hien_dai_2025ce]
+    civilization: hien_dai
+    culture: chau_phi
+    population_weight: 22
+    demographics:
+      life_expectancy: 62
+      child_mortality: 0.068
+      urban_share: 0.43
+      literacy_rate: 0.68
+      mortality_factor: 0.42
+      wealth_factor: 0.95
+    origin_weights: { nong_dan: 56, thuong_nhan: 32, quy_toc_nho: 12 }
+    historical_fact: 'Theo Liên Hợp Quốc, độ tuổi trung vị của Châu Phi hiện nay là 19 tuổi — hơn 28% số trẻ sơ sinh toàn cầu chào đời tại đây.'
+
+  - id: dong_a_hien_dai_2025ce
+    name: Đông Á Hiện Đại (Trung Quốc, Nhật Bản, Hàn Quốc)
+    region_label: Đông Á
+    description: Những nền kinh tế công nghiệp – công nghệ cao hàng đầu thế giới với hạ tầng hiện đại, tuổi thọ rất cao và áp lực cạnh tranh học vấn lớn.
+    bookmarks: [hien_dai_2025ce]
+    civilization: hien_dai
+    culture: han_dong_a
+    population_weight: 16
+    demographics:
+      life_expectancy: 79
+      child_mortality: 0.006
+      urban_share: 0.68
+      literacy_rate: 0.97
+      mortality_factor: 0.22
+      wealth_factor: 1.65
+    origin_weights: { nong_dan: 28, thuong_nhan: 46, quy_toc_nho: 26 }
+    historical_fact: 'Tỷ lệ tử vong trẻ dưới 5 tuổi tại Đông Á hiện nay chỉ còn 0,6% (so với hơn 30% cách đây một thế kỷ), tuổi thọ trung bình đạt 78–84 tuổi.'
+
+  - id: dong_nam_a_viet_nam_2025ce
+    name: Việt Nam & Đông Nam Á Hiện Đại (ASEAN)
+    region_label: Đông Nam Á
+    description: Vùng đất năng động kết hợp truyền thống gắn kết gia tộc với nền kinh tế sản xuất, thương mại và dịch vụ đang vươn lên mạnh mẽ.
+    bookmarks: [hien_dai_2025ce]
+    civilization: hien_dai
+    culture: viet
+    population_weight: 9
+    demographics:
+      life_expectancy: 74
+      child_mortality: 0.019
+      urban_share: 0.42
+      literacy_rate: 0.96
+      mortality_factor: 0.26
+      wealth_factor: 1.40
+    origin_weights: { nong_dan: 36, thuong_nhan: 42, quy_toc_nho: 22 }
+    historical_fact: 'Việt Nam và Đông Nam Á hiện có hơn 690 triệu dân (~8,5% thế giới), tỷ lệ biết chữ đạt trên 95% và tuổi thọ trung bình ~74–75 tuổi.'
+
+  - id: au_bac_my_hien_dai_2025ce
+    name: Châu Âu & Bắc Mỹ Hiện Đại (Hoa Kỳ, EU, Anh, Canada)
+    region_label: Châu Âu & Bắc Mỹ
+    description: Các quốc gia phát triển có thu nhập bình quân đầu người cao, phúc lợi y tế – giáo dục hoàn thiện và hơn 80% dân cư sống tại đô thị.
+    bookmarks: [hien_dai_2025ce]
+    civilization: hien_dai
+    culture: au_tay
+    population_weight: 12
+    demographics:
+      life_expectancy: 80
+      child_mortality: 0.005
+      urban_share: 0.81
+      literacy_rate: 0.99
+      mortality_factor: 0.20
+      wealth_factor: 1.95
+    origin_weights: { nong_dan: 12, thuong_nhan: 54, quy_toc_nho: 34 }
+    historical_fact: 'Theo dữ liệu 1in8b, một đứa trẻ sinh ra ở Bắc Mỹ hoặc Tây Âu tự động nằm trong nhóm 12–15% hộ gia đình có điều kiện khởi đầu cao nhất thế giới.'
+
+  - id: trung_dong_my_latinh_2025ce
+    name: Trung Đông – Bắc Phi & Mỹ Latinh Hiện Đại
+    region_label: Trung Đông & Mỹ Latinh
+    description: Những đô thị sôi động từ Cairo, Istanbul đến São Paulo, Mexico City với văn hóa gia đình nồng ấm và nền kinh tế đa dạng.
+    bookmarks: [hien_dai_2025ce]
+    civilization: hien_dai
+    culture: a_rap_ba_tu
+    population_weight: 16
+    demographics:
+      life_expectancy: 75
+      child_mortality: 0.018
+      urban_share: 0.74
+      literacy_rate: 0.92
+      mortality_factor: 0.25
+      wealth_factor: 1.42
+    origin_weights: { nong_dan: 26, thuong_nhan: 50, quy_toc_nho: 24 }
+    historical_fact: 'Mỹ Latinh và Trung Đông có tỷ lệ đô thị hóa đạt trên 74%, phần lớn cư dân sinh sống tại các thành phố và thị trấn thương mại.'

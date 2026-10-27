@@ -218,7 +218,7 @@ function settle(ctx: SimContext): void {
       addLedger(h, Ledger.Borrow, loan, 0);
       if (!loggedThisYear(ctx, SystemLog.Borrow)) {
         ctx.state.badLuckCounter = (ctx.state.badLuckCounter ?? 0) + 1;
-        writeTemplate(ctx, SystemLog.Borrow, { params: { amount: Math.round(loan) } });
+        writeTemplate(ctx, SystemLog.Borrow, { params: { amount: Math.ceil(loan) } });
       }
     }
     h.money = 0;
@@ -387,6 +387,18 @@ export function yearlyHousehold(ctx: SimContext): void {
   autoInvest(ctx);
 }
 
+/** Cuối năm: việc làng, việc họ — phần cố định + theo số người + theo phần của vượt ngưỡng. */
+function yearlyObligations(ctx: SimContext): void {
+  const ob = ctx.content.balance.economy.obligations;
+  const h = playerHousehold(ctx);
+  const members = h.memberIds.filter((id) => ctx.state.characters[id]?.alive).length;
+  const cost =
+    ob.base_money_year + ob.per_member_money_year * members + ob.wealth_rate * Math.max(0, householdNetWorth(ctx) - ob.wealth_threshold);
+  if (cost <= 0) return;
+  h.money -= cost;
+  addLedger(h, Ledger.Obligations, -cost, 0);
+}
+
 /** Cuối năm: bảo trì và thu nhập phụ của tài sản, chốt sổ ([1.5] lãi nợ nay tính hằng tháng). */
 export function yearlyEconomy(ctx: SimContext): void {
   const { content, state } = ctx;
@@ -400,6 +412,7 @@ export function yearlyEconomy(ctx: SimContext): void {
   h.money += income - upkeep;
   addLedger(h, Ledger.Upkeep, -upkeep, 0);
   addLedger(h, Ledger.OtherIncome, income, 0);
+  yearlyObligations(ctx);
   yearlyVentures(ctx);
   yearlyNpcLoans(ctx);
   settle(ctx);

@@ -65,7 +65,7 @@ describe('GameSession', () => {
   });
 
   it('nhật ký, sổ sách, cảnh pixel đều được sinh sau một năm', () => {
-    const s = GameSession.create(content, { seed: 'year' });
+    const s = GameSession.create(content, { seed: 'year', startAge: 16 });
     play(s, 12);
     const v = s.read(getHudView);
     expect(v.log.length).toBeGreaterThanOrEqual(1);
@@ -406,8 +406,20 @@ describe('GameSession', () => {
     s.read((ctx) => {
       ctx.state.householdCareer = 'that_nghiep';
     });
-    // Chơi tới đúng lúc bắt đầu tự lập (sau đó sự kiện mời nghề có thể đổi nghề, không thuộc phạm vi kiểm tra này)
-    for (let m = 0; m < 12 * 12 && !s.state.gameOver && !s.state.career.id; m++) play(s, 1);
+    // Chơi tới đúng lúc bắt đầu tự lập; luôn chọn phương án không đổi nghề (sự kiện mời học nghề không thuộc phạm vi kiểm tra này)
+    const noCareerOption = () => {
+      const ev = content.index.event.get(s.state.pending!.eventId)!;
+      const shown = s.state.pending!.options.map((o) => o.id);
+      const safe = ev.options.find(
+        (o) => shown.includes(o.id) && ![...o.effects, ...o.success, ...o.failure].some((e) => e.type === 'set_career'),
+      );
+      return safe?.id ?? shown[0];
+    };
+    for (let m = 0; m < 12 * 12 && !s.state.gameOver && !s.state.career.id; m++) {
+      const r = s.tickMonth();
+      if (r.minor) s.autoResolveMinor();
+      if (r.decision) s.dispatch({ type: 'chooseOption', optionId: noCareerOption() });
+    }
     if (s.state.gameOver) return;
     expect(s.state.career.id).toBe('that_nghiep');
     makeHead(s);
@@ -565,6 +577,43 @@ describe('GameSession', () => {
     expect(h.debt).toBe(0);
     expect(h.ledger.some((e) => e.category === 'tra_no')).toBe(true);
     expect(h.ledger.find((e) => e.category === 'lai_no')?.money).toBeCloseTo((-10 * content.balance.economy.debt.annual_interest) / 12);
+  });
+
+  it('[World Lottery] Bốc thăm số phận toàn cầu qua các thời đại (8000 TCN → 2025 SCN)', () => {
+    expect(content.bookmarks.length).toBeGreaterThanOrEqual(9);
+    expect(content.polities.length).toBeGreaterThanOrEqual(30);
+
+    // 1. Thời Nguyên Thủy (8000 TCN)
+    const pre = GameSession.create(content, {
+      lottery: true,
+      bookmarkId: 'nguyen_thuy_8000bce',
+      seed: 'neolithic-lottery',
+    });
+    expect(pre.state.bookmarkId).toBe('nguyen_thuy_8000bce');
+    expect(pre.state.clock.year).toBe(-8000);
+    const preCard = pre.read(getHudView).story.birthCard;
+    expect(preCard.eraName).toBe(content.index.bookmark.get('nguyen_thuy_8000bce')!.era_name);
+    expect(preCard.worldPopSharePct).toBeGreaterThan(0);
+
+    // 2. Thế Giới Hiện Đại (2025 SCN)
+    const mod = GameSession.create(content, {
+      lottery: true,
+      bookmarkId: 'hien_dai_2025ce',
+      seed: 'modern-lottery',
+    });
+    expect(mod.state.bookmarkId).toBe('hien_dai_2025ce');
+    expect(mod.state.clock.year).toBe(2025);
+    const modCard = mod.read(getHudView).story.birthCard;
+    expect(modCard.lifeExpectancy).toBeGreaterThanOrEqual(65);
+    expect(modCard.childSurvivalPct).toBeGreaterThanOrEqual(90);
+
+    // 3. Ngẫu nhiên mọi thời đại (random_all) tất định theo seed
+    const r1 = GameSession.create(content, { lottery: true, bookmarkId: 'random_all', seed: 'global-seed-1' });
+    const r2 = GameSession.create(content, { lottery: true, bookmarkId: 'random_all', seed: 'global-seed-1' });
+    expect(r1.state.bookmarkId).toBe(r2.state.bookmarkId);
+    expect(r1.state.polityId).toBe(r2.state.polityId);
+    expect(r1.state.cultureId).toBe(r2.state.cultureId);
+    expect(r1.state.civilization.id).toBe(r2.state.civilization.id);
   });
 });
 

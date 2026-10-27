@@ -78,7 +78,8 @@ export function applyScenario(
         }
       }
       if (f.parents !== 'both_alive') {
-        state.civilization.mourningMonthsLeft = content.civilizations[0]?.mourning_months ?? 27;
+        const civ = content.index.civilization.get(state.civilization.id) ?? content.civilizations[0];
+        state.civilization.mourningMonthsLeft = civ?.mourning_months ?? 27;
         state.director.mourningThisYear = true;
       }
     }

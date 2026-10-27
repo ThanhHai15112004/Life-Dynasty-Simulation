@@ -1,7 +1,7 @@
 // [1] Thanh tiêu đề: tuổi làm trung tâm, năm Can Chi · niên hiệu · tháng · mùa, "1 năm ≈ N giây",
 // thanh tiến độ năm trượt liên tục giữa các tick tháng, và hàng nút điều khiển thời gian
 import { useEffect, useState } from 'react';
-import { FolderOpen, Menu, Pause, Play, Save, Settings, SkipForward } from 'lucide-react';
+import { FastForward, FolderOpen, Menu, Pause, Play, Save, Settings, SkipForward } from 'lucide-react';
 import type { HudView } from '@core/index';
 import { useSnapshot, useUi } from '../context';
 
@@ -45,11 +45,10 @@ export function TimeBar({
   const { store, t } = useUi();
   const snap = useSnapshot();
   const time = store.content.balance.time;
-  const speed = time.speeds[snap.speedIndex] ?? 1;
-  const msPerMonth = time.ms_per_month_at_1x / speed;
+  const msPerMonth = store.msPerMonth();
   const secondsPerYear = Math.round((msPerMonth * hud.date.monthsPerYear) / 1000);
   const d = hud.date;
-  const blocked = !!hud.pending || !!hud.minor || !!hud.gameOver;
+  const blocked = !!hud.pending || !!hud.minor || !!hud.gameOver || !!snap.result || !!hud.story.reflectionDue || snap.showBirthCard;
   return (
     <header className="topbar">
       <div className="topbar-inner">
@@ -75,6 +74,9 @@ export function TimeBar({
           </button>
           <button disabled={blocked || snap.running} onClick={() => store.step()} title={t('time.step')}>
             <SkipForward size={15} /> {t('time.step')}
+          </button>
+          <button disabled={blocked} onClick={() => store.skipToNext()} title={t('time.skip_hint', { n: time.skip_max_months })}>
+            <FastForward size={15} /> {t('time.skip')}
           </button>
           {time.speeds.map((s, i) => (
             <button

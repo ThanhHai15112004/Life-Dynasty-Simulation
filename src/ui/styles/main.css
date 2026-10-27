@@ -1216,3 +1216,123 @@ button.danger {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Lớp câu chuyện: thẻ kết quả, giấy khai sinh, mốc suy ngẫm, bạn cùng lứa, thẻ đời ── */
+.event-kicker .tag {
+  margin-left: 8px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.tag.good {
+  background: #e3f1ea;
+  color: var(--green);
+}
+.tag.bad {
+  background: #f8e4df;
+  color: var(--red);
+}
+.result-deltas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin: 4px 0 16px;
+}
+.result-delta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 15px;
+}
+.result-delta b {
+  font-size: 18px;
+}
+.result-delta.up b {
+  color: var(--green);
+}
+.result-delta.down b {
+  color: var(--red);
+}
+.birth-origin {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent);
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.card-actions {
+  margin: 14px 0 10px;
+  gap: 8px;
+}
+.reflection-question {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.reflection-input {
+  width: 100%;
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  resize: vertical;
+  background: #fffdf8;
+}
+.peer-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.peer-list li {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0ebe1;
+}
+.peer-list li:last-child {
+  border-bottom: none;
+}
+.peer-head {
+  display: flex;
+  flex-direction: column;
+}
+.peer-list li.dead .peer-head b {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.peer-news {
+  margin-top: 2px;
+}
+.epitaph {
+  margin: 8px 0 12px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.epitaph p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  margin: 2px 0 0;
+}
+.lottery-box {
+  padding: 16px;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  margin-bottom: 12px;
+}
+.lottery-box h3 {
+  font-family: var(--serif);
+  margin-bottom: 4px;
+}
+.lottery-box p {
+  margin-bottom: 10px;
+}
+.or-choose {
+  color: var(--muted);
+  font-weight: 500;
+}

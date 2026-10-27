@@ -1,0 +1,50 @@
+# Văn hóa Cổ đại Địa Trung Hải & Cận Đông (Hy Lạp, La Mã, Ai Cập, Lưỡng Hà)
+id: la_ma_hy_lap
+name: Cổ điển Địa Trung Hải
+calendar_style: bce_ce
+lexicon:
+  currency: đồng bạc Denarius
+  food: vò
+  land: mẫu (iugera)
+  staple_crop: lúa mì & ô liu
+family_names:
+  - { name: Aurelius, weight: 16 }
+  - { name: Valerius, weight: 14 }
+  - { name: Claudius, weight: 12 }
+  - { name: Flavius, weight: 12 }
+  - { name: Cornelius, weight: 10 }
+  - { name: Nikias, weight: 10 }
+  - { name: Ptolemaios, weight: 9 }
+  - { name: Kassandros, weight: 9 }
+  - { name: Antonius, weight: 8 }
+given_names:
+  m: [Marcus, Gaius, Lucius, Tiberius, Quintus, Leonidas, Alexandros, Demetrios, Stephanos, Damon,Cyrus, Darius, Menes, Khufu, Cassius, Julian]
+  f: [Livia, Julia, Claudia, Helena, Sophia, Kleopatra, Daphne, Kassandra, Octavia, Cornelia, Irene, Ariadne,Chloe, Thalia, Nefertari, Roxana]
+village_names: [Làng Ô Liu Trắng, Thung Lũng Nho Đỏ, Thôn Cảng Biển Xanh, Xóm Đồi Cẩm Thạch, Thôn Sông Nile, Bãi Lúa Mì Vàng]
+town_names: [Cảng Ostia, Phố Chợ Agora, Thị Trấn Corinth, Bến Thuyền Memphis, Thị Trấn Ephesus]
+prefecture_names: [Thành Rome, Đô Thành Alexandria, Thành Athens, Thành Babylon, Kinh Đô Persepolis, Thành Antioch]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: điền chủ quý tộc, call: 'điền chủ {family}' }
+  ly_truong: { title: quan chấp sự, call: 'chấp sự {given}' }
+  thay_do: { title: học giả triết học, call: 'học giả {given}' }
+  thay_lang: { title: y sư, call: 'y sư {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương buôn biển, call: 'thương gia {given}' }
+

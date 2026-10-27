@@ -1,0 +1,102 @@
+# Khuôn văn minh Vương quốc Châu Phi & Đế chế Châu Mỹ (Mali, Ethiopia, Maya, Aztec, Inca — GDD 07 §3)
+id: ban_dia_phi_my
+name: Vương quốc Châu Phi & Đế chế Châu Mỹ
+description: Những nền văn minh rực rỡ từ các tuyến buôn vàng – muối Tây Phi đến những kim tự tháp đá và ruộng bậc thang trên dãy Andes và Trung Mỹ.
+culture_set: ban_dia_phi_my
+mourning_months: 6
+exam_interval_years: 4
+metropolitan_exam_offset_years: 1
+start: { filial_piety: 65, scholarly_prestige: 0 }
+prestige_reputation_factor: 0.65
+exam_skill: hoc_van
+reputation_group: dan_lang
+cutscenes: { exam_passed: vinh_quy_bai_to, mourning: tang_le }
+
+inheritance:
+  ancestor_worship_share: 0.45
+  debt_inheritance: true
+  will_eldest_bonus: 0.15
+
+succession:
+  priority_order:
+    - eldest_son
+    - other_son
+    - daughter
+    - adopted_child
+    - grandchild
+    - sibling_or_nephew
+  exclude_outlaws_from_main_share: true
+  reputation_carry_factor: 0.65
+  scholarly_prestige_carry_factor: 0.55
+  non_main_heir_start_money: 4
+  non_main_heir_start_food: 12
+
+exam_degrees:
+  - id: none
+    name: Dân thường
+    min_hoc_van: 0
+    prestige_gain: 0
+    stipend_money_month: 0
+  - id: sinh_do
+    name: Người giữ sử truyền khẩu / Quipu
+    min_hoc_van: 3
+    prestige_gain: 18
+    stipend_money_month: 0.25
+    modifiers:
+      - { target: xp.hoc_van, value: 1.15, op: mul }
+  - id: huong_cong
+    name: Học giả Thiên văn & Lịch pháp
+    min_hoc_van: 5
+    prestige_gain: 35
+    stipend_money_month: 0.6
+    modifiers:
+      - { target: xp.hoc_van, value: 1.2, op: mul }
+      - { target: xp.quan_tri, value: 1.2, op: mul }
+  - id: tien_si
+    name: Đại Tư tế / Sử gia Hoàng triều (Griot / Amauta)
+    min_hoc_van: 7
+    prestige_gain: 60
+    stipend_money_month: 1.2
+    modifiers:
+      - { target: xp.hoc_van, value: 1.3, op: mul }
+      - { target: stress.monthly, value: -0.2 }
+
+status_ranks:
+  - id: dan_ngheo
+    name: Người phu dịch
+    description: Lao động vất vả trên các công trường đền đài và ruộng công.
+    modifiers:
+      - { target: stress.monthly, value: 0.1 }
+  - id: thuong_dan
+    name: Thành viên Công xã (Ayllu / Calpulli)
+    description: Gia đình có phần đất canh tác ngô, khoai và tham gia lễ hội cộng đồng.
+    condition:
+      any:
+        - { var: household.farmland, op: '>=', value: 4 }
+        - { var: household.net_worth, op: '>=', value: 200 }
+  - id: phu_ho
+    name: Thương nhân Đường dài (Pochteca / Wangara)
+    description: Thương gia nắm giữ giao thương vàng, muối, cacao và lông vũ quý hiếm.
+    condition:
+      any:
+        - { var: household.net_worth, op: '>=', value: 1050 }
+        - { var: household.farmland, op: '>=', value: 16 }
+    modifiers:
+      - { target: stress.monthly, value: -0.1 }
+  - id: si_phu
+    name: Tư tế & Học giả
+    description: Người nắm giữ lịch pháp nông nghiệp, nghi lễ và tri thức của vương quốc.
+    condition:
+      any:
+        - { var: player.exam_degree, op: '!=', value: none }
+        - { var: player.scholarly_prestige, op: '>=', value: 55 }
+    modifiers:
+      - { target: stress.monthly, value: -0.15 }
+  - id: quan_lai
+    name: Quý tộc & Thống lĩnh
+    description: Đứng đầu quân ngũ và cai quản các vùng lãnh thổ của đế chế.
+    condition:
+      any:
+        - { all: [{ var: player.career, op: '==', value: linh }, { var: player.career_rank, op: '>=', value: 3 }] }
+        - { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
+

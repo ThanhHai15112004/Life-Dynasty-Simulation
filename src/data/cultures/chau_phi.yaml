@@ -1,0 +1,48 @@
+# Văn hóa Châu Phi (Tây Phi, Đông Phi, Hạ Sahara: Mali, Songhai, Ethiopia, Bantu)
+id: chau_phi
+name: Châu Phi
+calendar_style: bce_ce
+lexicon:
+  currency: bụi vàng / vỏ ốc Cowrie
+  food: giỏ
+  land: khoảnh ruộng
+  staple_crop: kê, lúa miến & củ từ
+family_names:
+  - { name: Keita, weight: 18 }
+  - { name: Touré, weight: 16 }
+  - { name: Diallo, weight: 15 }
+  - { name: Traoré, weight: 14 }
+  - { name: Mensah, weight: 13 }
+  - { name: Okafor, weight: 12 }
+  - { name: Bekele, weight: 12 }
+given_names:
+  m: [Sundiata, Mansa, Kofi, Kwame, Amadou, Sekou,Jabari, Zuberi, Chidi, Tunde, Haile, Solomon, Moussa, Bakari]
+  f: [Amina, Zuri, Nia, Ayo, Fatoumata, Mariama, Ashanti, Makena, Sade, Imani,Binta, Nandi, Taraji, Zola]
+village_names: [Làng Bờ Sông Niger, Thôn Cây Bao Báp Lớn, Xóm Đồi Vàng Đỏ, Bản Thảo Nguyên Xanh, Làng Gốm Đất Nung]
+town_names: [Chợ Muối Taghaza, Bến Thuyền Djenné, Thương Cảng Kilwa, Phố Chợ Kano]
+prefecture_names: [Timbuktu, Thành Niani, Đô Thành Aksum, Đại Zimbabwe, Thành Gao]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: trưởng gia giàu có, call: 'ông chủ {given}' }
+  ly_truong: { title: trưởng làng, call: 'trưởng làng {given}' }
+  thay_do: { title: nghệ nhân giữ sử (Griot), call: 'hiền giả {given}' }
+  thay_lang: { title: thầy thuốc thảo mộc, call: 'y sư {given}' }
+  hang_xom: { title: người cùng xóm, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân vàng muối, call: 'thương gia {given}' }
+

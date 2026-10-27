@@ -225,6 +225,7 @@ templates:
       all:
         - { var: household.career, op: '==', value: nong_dan }
         - { var: household.food_months, op: '<', value: 4 }
+        - { var: household.money, op: '<', value: 10 }
         - { var: player.age, op: between, value: [2, 5] }
     weight: 4
     cooldown_years: 3

@@ -1,6 +1,12 @@
 # [0] Văn hóa Việt (giả tưởng lấy cảm hứng Đại Việt thế kỷ 11) — tên người, tên làng, cách xưng hô (R11)
 id: viet
 name: Việt
+calendar_style: can_chi
+lexicon:
+  currency: quan
+  food: thúng
+  land: sào
+  staple_crop: lúa gạo
 family_names:
   - { name: Nguyễn, weight: 30 }
   - { name: Trần, weight: 11 }

@@ -93,6 +93,10 @@ export const Ledger = {
   LoanLent: 'cho_vay',
   LoanCollected: 'thu_no',
   Medicine: 'thuoc_men',
+  /** Ma chay khi người trong nhà mất (life.funeral). */
+  Funeral: 'ma_chay',
+  /** Việc làng, việc họ cuối năm (economy.obligations). */
+  Obligations: 'viec_lang_ho',
   /** [1.5] Túi tiền riêng của người chơi (chưa làm chủ hộ) và các khoản qua lại với nhà. */
   ContributeOut: 'gop_cho_nha',
   ContributeIn: 'con_gop',
@@ -115,4 +119,6 @@ export const LogKind = {
   Memory: 'ky_uc',
   Digest: 'tong_hop',
   System: 'he_thong',
+  /** Tin về bạn cùng lứa sống song song. */
+  Peer: 'ban_cung_lua',
 } as const;

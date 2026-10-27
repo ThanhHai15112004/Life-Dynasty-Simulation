@@ -1,0 +1,50 @@
+# Văn hóa Phương Tây / Châu Âu (Anh, Pháp, Đức, Tây Ban Nha, Bắc Mỹ)
+id: au_tay
+name: Phương Tây (Âu – Mỹ)
+calendar_style: bce_ce
+lexicon:
+  currency: đồng bạc (Crown)
+  food: giạ (bushel)
+  land: mẫu (acre)
+  staple_crop: lúa mì & lúa mạch
+family_names:
+  - { name: Smith, weight: 14 }
+  - { name: Miller, weight: 12 }
+  - { name: Beaumont, weight: 10 }
+  - { name: Moreau, weight: 10 }
+  - { name: Schneider, weight: 10 }
+  - { name: Weber, weight: 9 }
+  - { name: Rossi, weight: 9 }
+  - { name: Mendoza, weight: 9 }
+  - { name: Fletcher, weight: 8 }
+  - { name: Wagner, weight: 9 }
+given_names:
+  m: [William, Henry, Thomas, Edward, Richard, Jean, Louis, Pierre, Charles, Arthur, Karl, Friedrich, Lorenzo, Mateo, Robert, James]
+  f: [Eleanor, Margaret, Catherine, Mary, Elizabeth, Marie, Claire, Jeanne, Sophie, Anna, Clara, Isabella, Lucia, Emma,Charlotte, Rose]
+village_names: [Oakwood, Ashford, Clairval, Greenhill, Brookside, Falkenberg, Saint-clair, Meadowbrook, Stonebridge, Millford]
+town_names: [Bristol Port, Rouen Market, Lübeck Hafen, Yorkbury, Ghent, Sevilla Port]
+prefecture_names: [London, Paris, Vienna, Florence, Madrid, Berlin, Amsterdam]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: trang viên chủ, call: 'địa chủ {family}' }
+  ly_truong: { title: quản trang (Bailiff), call: 'quản trang {given}' }
+  thay_do: { title: tu sĩ học giả, call: 'giáo sĩ {given}' }
+  thay_lang: { title: thầy thuốc (Apothecary), call: 'y sĩ {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân phường hội, call: 'thương gia {given}' }

@@ -126,6 +126,8 @@ export const originSchema = z
     culture: z.string(),
     start_age_options: z.array(z.number().int().min(0)).min(1),
     default_start_age: z.number().int().min(0),
+    /** Bốc thăm số phận: trọng số được sinh vào xuất thân này (theo tỷ lệ dân số thời ấy). */
+    birth_weight: z.number().min(0).default(1),
     player: z
       .object({
         sex: z.enum(['m', 'f', 'any']).default('any'),
@@ -194,6 +196,17 @@ export const cultureSchema = z
       .strict(),
     /** Cách gọi người giữ vai trò trong làng: token {given}, {family}. */
     village_roles: z.record(z.string(), z.object({ title: z.string(), call: z.string() }).strict()),
+    /** Kiểu lịch hiển thị năm: can_chi (Đông Á) hoặc bce_ce (TCN/CN quốc tế). */
+    calendar_style: z.enum(['can_chi', 'bce_ce']).default('can_chi'),
+    /** Từ vựng địa phương hóa cho đơn vị tiền, lương thực, đất đai. */
+    lexicon: z
+      .object({
+        currency: z.string(),
+        food: z.string(),
+        land: z.string(),
+        staple_crop: z.string(),
+      })
+      .strict(),
   })
   .strict();
 export type Culture = z.infer<typeof cultureSchema>;

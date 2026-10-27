@@ -23,7 +23,7 @@ templates:
     kind: bao_cao
     tags: [gia_dinh, kinh_te]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: household.food_months, op: '<', value: 2 }, { var: player.children_count, op: '>=', value: 1 }] }
+    condition: { all: [{ var: household.food_months, op: '<', value: 2 }, { var: household.money, op: '<', value: 10 }, { var: player.children_count, op: '>=', value: 1 }] }
     weight: 4
     cooldown_years: 3
     importance: 2

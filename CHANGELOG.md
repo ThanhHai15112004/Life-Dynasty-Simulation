@@ -4,6 +4,29 @@ Mọi thay đổi quan trọng của dự án **Dòng Đời** (`dong-doi`) đư
 
 ---
 
+## [Chưa phát hành] — 2026-10-27 (Có thứ để mất, có chuyện để kể)
+
+### Lớp câu chuyện (học nguyên tắc từ 1in8b, theo bản sắc Đại Việt)
+- **Bốc thăm số phận**: nút "Chào đời", xuất thân rút theo `birth_weight` (`src/data/origins/*.yaml`), mặc định bắt đầu từ 0 tuổi.
+- **Giấy khai sinh** và **Thẻ đời** xuất ảnh PNG để lưu/chia sẻ (Web Share trên điện thoại); kích thước & bảng màu ở `display.life_card`.
+- **Bạn cùng lứa**: 4 đứa trẻ cùng năm, khác gia cảnh, sống song song theo cùng bảng tử vong; **mốc suy ngẫm** ở 5 · 15 · 30 · 50 · 70 tuổi; **văn bia** theo hoàn cảnh — dữ liệu ở `src/data/story/story.yaml`.
+- **Thẻ kết quả** sau mỗi quyết định (tiền, thóc, nợ, sức khỏe, căng thẳng, danh tiếng, lòng người).
+
+### Nhịp & hậu quả
+- Ấu thơ trôi nhanh gấp 3 (`time.stage_speed_factor`), nút "Tới quyết định tiếp" (`time.skip_max_months`).
+- 25 sự kiện **bước ngoặt** (`buoc_ngoat.yaml`) và 11 sự kiện **giàu rước họa** (`giau_ruoc_hoa.yaml`); 165 câu biến thể mới cho hành động nghề.
+- Luật Director mới (`director.yaml`): sự kiện không ghi giai đoạn đời chỉ cho người lớn (`default_event_life_stages`), trần lặp mỗi đời (`max_decision_repeats_per_life`), giới hạn "chưa phải lúc" (`max_defer_fires`), giãn cách bước ngoặt (`major_events`).
+
+### Kinh tế
+- Tăng chi sinh hoạt và tiền sưu; thêm **việc làng, việc họ** cuối năm theo số người và theo của cải (`economy.obligations`), **ma chay** khi người nhà mất (`life.funeral`).
+- Làm chủ hộ thì mua ruộng/trâu không còn tự động (`economy.auto_manage_defaults`).
+
+### Sửa lỗi
+- Trẻ con không còn bị hỏi chuyện mua ruộng, vay nợ; câu nhật ký "nghèo" không còn hiện khi nhà có tiền; "vay 0 quan" → làm tròn lên.
+- Hiệu năng: xét điều kiện không cần vai trò trước khi gán vai trò, dùng chung resolver — ~50 → 27–40 ms/năm mô phỏng.
+
+---
+
 ## [1.0.0] — 2026-10-26 (Bản phát hành hoàn chỉnh v1.0 — Giai đoạn 0 → 2)
 
 ### Nền tảng & Truyền đời (Phases 0–3)

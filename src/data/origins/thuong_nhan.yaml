@@ -3,8 +3,9 @@ id: thuong_nhan
 name: Thương nhân
 description: Con nhà buôn nhỏ nơi bến sông. Có một sạp hàng ngoài chợ, ít vốn liếng xoay vòng và con mắt nhìn giá cả.
 culture: viet
-start_age_options: [16, 6, 0]
-default_start_age: 16
+start_age_options: [0, 6, 16]
+default_start_age: 0
+birth_weight: 12            # bốc thăm số phận: nhà buôn ở bến sông là số ít
 default_focus: kinh_doanh
 default_career: thuong_nhan
 settlement: thi_tran_ben_song

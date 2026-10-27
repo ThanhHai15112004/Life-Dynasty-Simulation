@@ -1,0 +1,49 @@
+# Văn hóa Nam Á (Ấn Độ & Tiểu lục địa Nam Á)
+id: an_do
+name: Nam Á (Ấn Độ)
+calendar_style: bce_ce
+lexicon:
+  currency: đồng bạc (Rupiya)
+  food: giạ
+  land: mẫu (bigha)
+  staple_crop: lúa gạo & kê
+family_names:
+  - { name: Sharma, weight: 16 }
+  - { name: Verma, weight: 14 }
+  - { name: Patel, weight: 13 }
+  - { name: Singh, weight: 13 }
+  - { name: Gupta, weight: 12 }
+  - { name: Rao, weight: 11 }
+  - { name: Nair, weight: 11 }
+  - { name: Das, weight: 10 }
+given_names:
+  m: [Arjun, Vikram, Rohan, Dev, Ashoka, Raj, Sanjay, Mohan, Kiran, Surya, Hari, Anand, Gautama, Chandragupta, Kabir, Ravi]
+  f: [Priya, Ananya, Meera, Lakshmi, Devi, Maya, Sita, Radha, Kavya, Tara, Indira, Padma, Shanti, Uma, Nisha, Gauri]
+village_names: [Làng Bến Sông Hằng, Thôn Đa Cổ Thụ, Xóm Đầm Sen Trắng, Làng Dệt Lụa Vàng, Thôn Đồi Gia Vị, Làng Mùa Mưa Gió Mùa]
+town_names: [Thương Cảng Calicut, Bến Thuyền Varanasi, Chợ Vải Surat, Thị Trấn Madurai, Phố Buôn Bengal]
+prefecture_names: [Pataliputra, Delhi, Vijayanagara, Ujjain, Kanchipuram, Agra, Kolkata]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: điền chủ (Zamindar), call: 'điền chủ {given}' }
+  ly_truong: { title: trưởng làng (Sarpanch), call: 'trưởng làng {given}' }
+  thay_do: { title: đạo sư (Pandit), call: 'đạo sư {given}' }
+  thay_lang: { title: y sư (Vaidya), call: 'y sư {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân gia vị, call: 'thương gia {given}' }
+

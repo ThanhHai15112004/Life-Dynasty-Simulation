@@ -1,3 +1,4 @@
+// Bốc thăm số phận (xuất thân rút theo birth_weight) là lựa chọn chính; tự chọn xuất thân ở dưới.
 // [1] Màn hình khởi tạo ván mới: chọn 3 Xuất thân (Nông dân, Thương nhân, Quý tộc nhỏ), tuổi bắt đầu, giới tính, seed
 // [8] Bổ sung gợi ý ván đầu (xuất thân & tham vọng gợi ý) và bật/tắt hướng dẫn mở dần (GDD 08 §6.5)
 import { useState } from 'react';
@@ -7,9 +8,17 @@ export function NewGame() {
   const { store, t } = useUi();
   const snap = useSnapshot();
   const origins = store.content.origins;
+  const bookmarks = store.content.bookmarks;
+  const polities = store.content.polities;
   const onboarding = store.content.balance.display.onboarding;
   const fateModes = store.content.balance.fate_modes.modes;
   const playModes = store.content.balance.fate_modes.play_modes;
+  const [bookmarkId, setBookmarkId] = useState<string>('random_all');
+  const currentBookmark = bookmarks.find((b) => b.id === bookmarkId);
+  const eraPolities = currentBookmark ? polities.filter((p) => p.bookmarks.includes(currentBookmark.id)) : [];
+  const totalEraPopWeight = eraPolities.reduce((s, p) => s + p.population_weight, 0) || 1;
+  const [polityId, setPolityId] = useState<string>('any');
+  const currentPolity = eraPolities.find((p) => p.id === polityId);
   const [originId, setOriginId] = useState(onboarding.recommended_origin || (origins[0]?.id ?? ''));
   const origin = origins.find((o) => o.id === originId) ?? origins[0];
   const [startAge, setStartAge] = useState(origin?.default_start_age ?? 0);
@@ -19,6 +28,11 @@ export function NewGame() {
   const [fateMode, setFateMode] = useState(store.content.balance.fate_modes.default_mode);
   const currentFate = fateModes.find((m) => m.id === fateMode) ?? fateModes[0];
   const [seed, setSeed] = useState('');
+
+  const handleSelectBookmark = (id: string) => {
+    setBookmarkId(id);
+    setPolityId('any');
+  };
 
   const handleSelectOrigin = (id: string) => {
     setOriginId(id);
@@ -34,6 +48,8 @@ export function NewGame() {
       setOriginId(recOrigin.id);
       setStartAge(onboarding.recommended_start_age);
     }
+    setBookmarkId(store.content.defaultBookmarkId || 'trung_co_1000ce');
+    setPolityId('dai_viet_nha_ly_1000ce');
     setPlayMode(store.content.balance.fate_modes.default_play_mode);
     setFateMode(store.content.balance.fate_modes.default_mode);
     store.resetOnboarding();
@@ -43,9 +59,107 @@ export function NewGame() {
   const settlement = origin ? store.content.index.settlementType.get(origin.settlement) : undefined;
   const recommendedAmbitionId = origin ? onboarding.recommended_ambitions[origin.id] : undefined;
   const recommendedAmbition = recommendedAmbitionId ? store.content.index.ambition.get(recommendedAmbitionId) : undefined;
+  const selectedPolityArg = polityId !== 'any' && currentPolity ? currentPolity.id : undefined;
 
   return (
     <div className="newgame-form">
+      <h4>{t('menu.era_bookmark')}</h4>
+      <div className="row">
+        <button
+          className={bookmarkId === 'random_all' ? 'active' : ''}
+          onClick={() => handleSelectBookmark('random_all')}
+        >
+          <span>{t('newgame.era_random_all')}</span>
+        </button>
+        {bookmarks.map((b) => (
+          <button
+            key={b.id}
+            className={b.id === bookmarkId ? 'active' : ''}
+            onClick={() => handleSelectBookmark(b.id)}
+          >
+            <span>{b.era_name}</span>
+            <span className="tag soft">{b.year_label}</span>
+          </button>
+        ))}
+      </div>
+      {currentBookmark ? (
+        <div className="origin-preview">
+          <p className="muted small">{currentBookmark.description}</p>
+          <div className="muted small">
+            {t('newgame.era_stats', {
+              pop: num(currentBookmark.world_population_millions),
+              life: currentBookmark.default_life_expectancy,
+            })}
+          </div>
+        </div>
+      ) : (
+        <p className="muted small">{t('newgame.era_random_all_desc')}</p>
+      )}
+
+      {currentBookmark && eraPolities.length > 0 && (
+        <>
+          <h4>{t('menu.polity')}</h4>
+          <div className="row">
+            <button
+              className={polityId === 'any' ? 'active' : ''}
+              onClick={() => setPolityId('any')}
+            >
+              <span>{t('newgame.polity_random')}</span>
+            </button>
+            {eraPolities.map((p) => {
+              const share = Math.max(1, Math.round((p.population_weight / totalEraPopWeight) * 100));
+              return (
+                <button
+                  key={p.id}
+                  className={p.id === polityId ? 'active' : ''}
+                  onClick={() => setPolityId(p.id)}
+                >
+                  <span>{p.name}</span>
+                  <span className="tag soft">{share}%</span>
+                </button>
+              );
+            })}
+          </div>
+          {currentPolity && (
+            <div className="origin-preview">
+              <p className="muted small">
+                <b>{currentPolity.region_label}</b> — {currentPolity.historical_fact}
+              </p>
+              <div className="muted small">
+                {t('newgame.polity_stats', {
+                  life: currentPolity.demographics.life_expectancy,
+                  survival: Math.round((1 - currentPolity.demographics.child_mortality) * 100),
+                  literacy: Math.round(currentPolity.demographics.literacy_rate * 100),
+                })}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <div className="lottery-box">
+        <h3>{t('newgame.lottery_title')}</h3>
+        <p className="muted small">{t('newgame.lottery_hint')}</p>
+        <button
+          className="primary wide"
+          onClick={() =>
+            store.newGame({
+              lottery: true,
+              bookmarkId,
+              polityId: selectedPolityArg,
+              startAge: 0,
+              sex: sex === 'any' ? undefined : sex,
+              fateMode,
+              playMode,
+              seed,
+            })
+          }
+        >
+          {t('newgame.lottery_button')}
+        </button>
+      </div>
+      <h4 className="or-choose">{t('newgame.or_choose')}</h4>
+
       <div className="onboarding-preset-box">
         <div className="card-head" style={{ marginBottom: 4 }}>
           <b>{t('newgame.first_game_title')}</b>
@@ -142,7 +256,18 @@ export function NewGame() {
 
       <button
         className="primary wide"
-        onClick={() => store.newGame({ originId, startAge, sex: sex === 'any' ? undefined : sex, fateMode, playMode, seed })}
+        onClick={() =>
+          store.newGame({
+            bookmarkId,
+            polityId: selectedPolityArg,
+            originId,
+            startAge,
+            sex: sex === 'any' ? undefined : sex,
+            fateMode,
+            playMode,
+            seed,
+          })
+        }
       >
         {t('menu.new_game')}
       </button>

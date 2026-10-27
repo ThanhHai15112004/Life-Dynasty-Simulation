@@ -1,0 +1,47 @@
+# Văn hóa Châu Mỹ (Maya, Aztec, Inca & Mỹ Latinh)
+id: chau_my
+name: Châu Mỹ
+calendar_style: bce_ce
+lexicon:
+  currency: hạt Cacao / đồng bạc
+  food: gùi
+  land: bậc ruộng (milpa)
+  staple_crop: ngô, khoai tây & đậu
+family_names:
+  - { name: Yupanqui, weight: 18 }
+  - { name: Balam, weight: 16 }
+  - { name: Cocom, weight: 14 }
+  - { name: Huaman, weight: 14 }
+  - { name: Quispe, weight: 14 }
+  - { name: Xiu, weight: 12 }
+  - { name: Condori, weight: 12 }
+given_names:
+  m: [Tupac, Pachacuti, Atahualpa, Itzcoatl, Tenoch, Kukulkan, Balam, Inti, Amaru, Mayta,Huayna,Nezahual, Mateo, Diego]
+  f: [Citlali, Xochitl, Nayeli, Ixchel, Mama Ocllo, Killa, Sisa, Yma, Nusta,Zyanya, Itzel, Chasca, Elena, Sofia]
+village_names: [Làng Ruộng Bậc Thang, Thôn Hồ Nước Xanh, Xóm Đỉnh Mây Ngàn, Bản Thung Lũng Ngô Vàng, Làng Đá Mặt Trời]
+town_names: [Chợ Lớn Tlatelolco, Trạm Đường Đá Inca, Bến Thuyền Hồ Texcoco, Phố Chợ Yucatan]
+prefecture_names: [Tenochtitlan, Cusco, Chichen Itza, Tikal, Machu Picchu, Teotihuacan]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: quý tộc địa phương (Curaca), call: 'trưởng lão {given}' }
+  ly_truong: { title: người đứng đầu công xã, call: 'quản sự {given}' }
+  thay_do: { title: học giả lịch pháp (Amauta), call: 'hiền giả {given}' }
+  thay_lang: { title: y sư thảo dược, call: 'y sư {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân đường dài (Pochteca), call: 'thương khách {given}' }

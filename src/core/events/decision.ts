@@ -74,6 +74,7 @@ export function fireDecision(ctx: SimContext, ev: DecisionEvent, roles: Record<s
   state.director.decisionsThisYear += 1;
   state.director.lastDecisionMonthIndex = state.clock.monthIndex;
   state.director.tension += ev.tension;
+  if (ev.importance >= ctx.content.balance.director.major_events.min_importance) state.director.lastMajorMonthIndex = state.clock.monthIndex;
   return pending;
 }
 
@@ -145,7 +146,9 @@ function applyChoice(ctx: SimContext, pending: PendingEvent, optionId: string): 
     merge(applyEffects(ctx, success ? opt.success : opt.failure, b));
     texts = success ? opt.success_result : opt.failure_result;
   }
-  if (opt.defer) {
+  const fires = state.eventHistory[ev.id]?.count ?? 0;
+  const maxDefer = content.balance.director.max_defer_fires;
+  if (opt.defer && (maxDefer === 0 || fires < maxDefer)) {
     state.scheduled.push({
       eventId: ev.id,
       dueMonthIndex: state.clock.monthIndex + opt.defer.months,

@@ -83,11 +83,21 @@ consumption_by_age_group:
   nguoi_lon: 1.0
   nguoi_gia: 0.85
 
+# Việc làng, việc họ cuối năm: giỗ chạp, góp đình, khao vọng, đỡ đần họ hàng.
+# Phần theo của (wealth_rate × phần vượt ngưỡng) là cái giá của "giàu thì bị để ý" — chặn của cải phình vô hạn.
+obligations:
+  base_money_year: 1.5
+  per_member_money_year: 0.4
+  wealth_threshold: 120
+  wealth_rate: 0.03
+# Khi làm chủ hộ: mức sống, trả nợ, bán thóc dư vẫn tự lo; mua ruộng/trâu là việc người chơi tự quyết
+auto_manage_defaults: { livingStandard: true, repayDebt: true, sellSurplus: true, invest: false }
+
 tax:
   month: 11
   food_per_sao: 2.5        # thuế ruộng nộp bằng thóc (nhiều ruộng thì thuế nặng)
   food_per_sao_tenanted: 1.2   # [1.5] ruộng phát canh: tá điền gánh một phần thuế điền
-  money_per_adult: 0.4     # tiền sưu mỗi người lớn
+  money_per_adult: 0.6     # tiền sưu mỗi người lớn (trước 0.4: thuế gần như không đáng kể)
 
 debt:
   annual_interest: 0.3     # vay nặng lãi

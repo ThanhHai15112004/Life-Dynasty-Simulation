@@ -8,6 +8,7 @@ import { Modal } from '../../components/Modal';
 import { PauseMenuModal } from '../../components/PauseMenuModal';
 import { SaveLoadModal } from '../../components/SaveLoadModal';
 import { SettingsModal } from '../../components/SettingsModal';
+import { BirthCardModal, ReflectionModal, ResultCard } from '../../components/StoryModals';
 import { TimeBar } from '../../components/TimeBar';
 import { DevPanel } from '../../components/DevPanel/DevPanel';
 import { useSnapshot, useUi } from '../../context';
@@ -24,7 +25,7 @@ import { AmbitionCard, FocusCard } from './DecisionPanel';
 import { JournalPanel } from './JournalPanel';
 import { ProfileCard, SkillsCard, StatusCard, WealthCard } from './ProfilePanel';
 import { SceneCard } from './SceneCard';
-import { ChronicleCard, FamilyCard, LifeMapCard, RelationsCard, VillageClansCard } from './SidePanels';
+import { ChronicleCard, FamilyCard, LifeMapCard, PeersCard, RelationsCard, VillageClansCard } from './SidePanels';
 
 type ActiveModal =
   | null
@@ -86,7 +87,8 @@ export function LifeHud({ hud }: { hud: HudView }) {
         return;
       }
 
-      const blocked = !!hud.pending || !!hud.minor || !!hud.gameOver || modal !== null;
+      const blocked =
+        !!hud.pending || !!hud.minor || !!hud.gameOver || !!snap.result || !!hud.story.reflectionDue || snap.showBirthCard || modal !== null;
       if (blocked) return;
 
       if (e.code === 'Space') {
@@ -109,7 +111,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [hud.pending, hud.minor, hud.gameOver, modal, snap.running, store]);
+  }, [hud.pending, hud.minor, hud.gameOver, hud.story.reflectionDue, snap.result, snap.showBirthCard, modal, snap.running, store]);
 
   return (
     <div className="hud">
@@ -262,6 +264,9 @@ export function LifeHud({ hud }: { hud: HudView }) {
               <VillageClansCard hud={hud} />
             </ErrorBoundary>
           )}
+          <ErrorBoundary section="peers">
+            <PeersCard hud={hud} />
+          </ErrorBoundary>
           <ErrorBoundary section="lifemap">
             <LifeMapCard hud={hud} />
           </ErrorBoundary>
@@ -292,7 +297,17 @@ export function LifeHud({ hud }: { hud: HudView }) {
       {modal === 'map' && <RegionMapModal hud={hud} onClose={() => setModal(null)} />}
       {modal === 'chronicle' && <ChronicleModal hud={hud} onClose={() => setModal(null)} />}
 
-      {hud.pending ? <EventCard pending={hud.pending} /> : hud.minor && <EventCard pending={hud.minor} minor />}
+      {hud.pending ? (
+        <EventCard pending={hud.pending} />
+      ) : hud.minor ? (
+        <EventCard pending={hud.minor} minor />
+      ) : snap.result ? (
+        <ResultCard result={snap.result} />
+      ) : hud.story.reflectionDue && !hud.gameOver ? (
+        <ReflectionModal key={hud.story.reflectionDue.age} due={hud.story.reflectionDue} />
+      ) : (
+        snap.showBirthCard && !hud.gameOver && <BirthCardModal card={hud.story.birthCard} />
+      )}
       {hud.gameOver &&
         (hud.dynasty.playMode === 'dynasty' && hud.succession ? (
           <SuccessionModal summary={hud.gameOver} succession={hud.succession} dynasty={hud.dynasty} />

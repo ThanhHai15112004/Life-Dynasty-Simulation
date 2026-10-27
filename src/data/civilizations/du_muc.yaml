@@ -1,0 +1,103 @@
+# Khuôn văn minh Thảo nguyên Du mục Âu–Á (Mông Cổ, Đột Quyết, Hung Nô — GDD 07 §3)
+id: du_muc
+name: Thảo nguyên Du mục
+description: Những bộ tộc kỵ cung rong ruổi theo mùa cỏ xanh trên đại thảo nguyên. Tài sản tính bằng đàn gia súc và tuấn mã; địa vị quyết định bởi tài cưỡi ngựa bắn cung và lòng quả cảm.
+culture_set: du_muc
+mourning_months: 3
+exam_interval_years: 3
+metropolitan_exam_offset_years: 1
+start: { filial_piety: 60, scholarly_prestige: 0 }
+prestige_reputation_factor: 0.7
+exam_skill: sinh_ton
+reputation_group: dan_lang
+cutscenes: { exam_passed: vinh_quy_bai_to, mourning: tang_le }
+
+# Du mục Ultimogeniture / chia đàn gia súc cho các con
+inheritance:
+  ancestor_worship_share: 0.4
+  debt_inheritance: false
+  will_eldest_bonus: 0.1
+
+succession:
+  priority_order:
+    - eldest_son
+    - other_son
+    - daughter
+    - adopted_child
+    - grandchild
+    - sibling_or_nephew
+  exclude_outlaws_from_main_share: false
+  reputation_carry_factor: 0.7
+  scholarly_prestige_carry_factor: 0.5
+  non_main_heir_start_money: 5
+  non_main_heir_start_food: 15
+
+exam_degrees:
+  - id: none
+    name: Mục dân tự do (Arat)
+    min_hoc_van: 0
+    prestige_gain: 0
+    stipend_money_month: 0
+  - id: sinh_do
+    name: Kỵ sĩ thiện xạ (Mergen)
+    min_hoc_van: 3
+    prestige_gain: 18
+    stipend_money_month: 0.25
+    modifiers:
+      - { target: xp.sinh_ton, value: 1.15, op: mul }
+  - id: huong_cong
+    name: Dũng sĩ Thảo nguyên (Baghatur)
+    min_hoc_van: 5
+    prestige_gain: 35
+    stipend_money_month: 0.6
+    modifiers:
+      - { target: xp.quan_tri, value: 1.2, op: mul }
+      - { target: stress.monthly, value: -0.1 }
+  - id: tien_si
+    name: Hiền giả Hội đồng Kurultai (Bilge)
+    min_hoc_van: 7
+    prestige_gain: 60
+    stipend_money_month: 1.2
+    modifiers:
+      - { target: xp.quan_tri, value: 1.3, op: mul }
+      - { target: xp.ngoai_giao, value: 1.25, op: mul }
+
+status_ranks:
+  - id: dan_ngheo
+    name: Người chăn thuê không ngựa
+    description: Mất đàn gia súc sau bão tuyết trắng (Zud), phải chăn thuê cho chủ lều khác.
+    modifiers:
+      - { target: stress.monthly, value: 0.1 }
+  - id: thuong_dan
+    name: Mục dân có lều Ger
+    description: Gia đình du mục tự chủ với đàn cừu, ngựa và bãi chăn thả theo mùa.
+    condition:
+      any:
+        - { var: household.farmland, op: '>=', value: 4 }
+        - { var: household.net_worth, op: '>=', value: 180 }
+  - id: phu_ho
+    name: Chủ vạn mã & Thương đoàn thảo nguyên
+    description: Sở hữu đàn gia súc lớn và bảo trợ các đoàn buôn qua Con đường Tơ lụa.
+    condition:
+      any:
+        - { var: household.net_worth, op: '>=', value: 1000 }
+        - { var: household.farmland, op: '>=', value: 16 }
+    modifiers:
+      - { target: stress.monthly, value: -0.1 }
+  - id: si_phu
+    name: Dũng sĩ Baghatur
+    description: Danh hiệu cao quý dành cho những người nổi danh về tài trí và lòng dũng cảm.
+    condition:
+      any:
+        - { var: player.exam_degree, op: '!=', value: none }
+        - { var: player.reputation, op: '>=', value: 40 }
+    modifiers:
+      - { target: stress.monthly, value: -0.15 }
+  - id: quan_lai
+    name: Thủ lĩnh Vạn hộ (Noyan / Khan)
+    description: Thủ lĩnh dẫn dắt các bộ lạc trên thảo nguyên bao la.
+    condition:
+      any:
+        - { all: [{ var: player.career, op: '==', value: linh }, { var: player.career_rank, op: '>=', value: 3 }] }
+        - { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
+

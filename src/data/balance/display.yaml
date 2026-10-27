@@ -74,6 +74,20 @@ open_loop_rules:
     text: 'Đã đến tuổi dựng vợ gả chồng'
 # Dòng nhật ký có điểm quan trọng từ mức này trở lên được in đậm và vào bản tổng kết đời
 highlight_importance: 6
+# Mốc suy ngẫm: số ký tự tối đa người chơi viết
+reflection_max_length: 200
+# Thẻ đời (ảnh để chia sẻ cuối đời / giấy khai sinh): kích thước, số dấu mốc in lên thẻ, bảng màu giấy dó
+life_card:
+  width: 1080
+  height: 1350
+  max_highlights: 4
+  colors:
+    background: '#f6efe2'
+    text: '#2b2118'
+    muted: '#7a6a58'
+    accent: '#9c3d22'
+    cells: ['#c9b8a0', '#e3c77a', '#8fb36a']   # ô bản đồ đời: mãn nguyện thấp → cao
+    dead_cell: '#3a2e24'
 life_map_marks_per_year: 2   # số biểu tượng dấu mốc trên một ô Bản đồ cuộc đời
 chronicle_shown: 6           # số biến cố biên niên gần nhất hiện trên màn hình
 life_map_extra_rows: 1       # bản đồ cuộc đời vẽ thêm chừng này hàng sau tuổi thọ kỳ vọng
@@ -100,7 +114,7 @@ dev_tools: true
 # [8] Hướng dẫn mở dần & Giao diện theo giai đoạn đời (GDD 08 §6.3, §6.5)
 onboarding:
   recommended_origin: nong_dan
-  recommended_start_age: 6
+  recommended_start_age: 0
   recommended_ambitions:
     nong_dan: gia_dinh_am_em
     thuong_nhan: phu_thuong_mot_vung

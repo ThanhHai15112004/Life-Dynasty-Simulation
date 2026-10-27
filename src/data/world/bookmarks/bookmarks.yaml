@@ -1,0 +1,94 @@
+# Danh mục 9 Mốc Thời Đại (Bookmarks) từ Thời Nguyên Thủy (8000 TCN) đến Thế Giới Hiện Đại (2025 CN)
+# Nguồn dữ liệu: HYDE 3.3, Seshat Global History Databank, Maddison Project, Coale-Demeny Model Life Tables & UN WPP.
+default_bookmark: trung_co_1000ce
+
+bookmarks:
+  - id: nguyen_thuy_8000bce
+    era_name: Thời Nguyên Thủy (Đá Mới)
+    year: -8000
+    year_label: 8000 TCN
+    description: 'Bình minh của loài người sau Kỷ Băng Hà. Các bộ lạc săn bắt hái lượm bắt đầu thuần hóa lúa mì, lúa nước và dựng những xóm lều đầu tiên bên bờ sông lớn.'
+    world_population_millions: 5
+    default_life_expectancy: 24
+    default_child_mortality: 0.46
+    lottery_weight: 2
+
+  - id: co_dai_2500bce
+    era_name: Bình Minh Văn Minh (Thời Đồ Đồng)
+    year: -2500
+    year_label: 2500 TCN
+    description: 'Thời đại của những dòng sông lớn: Kim tự tháp Ai Cập, thành bang Lưỡng Hà Sumer, đô thị lưu vực sông Ấn và các bộ tộc Bách Việt – Long Sơn phương Đông.'
+    world_population_millions: 30
+    default_life_expectancy: 27
+    default_child_mortality: 0.42
+    lottery_weight: 4
+
+  - id: co_dien_500bce
+    era_name: Thời Kỳ Cổ Điển & Bách Gia
+    year: -500
+    year_label: 500 TCN
+    description: 'Kỷ nguyên trục của nhân loại: Đế chế Ba Tư Achaemenid, Thành bang Hy Lạp, thời Xuân Thu – Chiến Quốc, Đức Phật tại Ấn Độ và văn minh trống đồng Đông Sơn.'
+    world_population_millions: 100
+    default_life_expectancy: 29
+    default_child_mortality: 0.38
+    lottery_weight: 7
+
+  - id: de_che_100ce
+    era_name: Thời Đại Đế Chế Cổ Đại
+    year: 100
+    year_label: 100 CN
+    description: 'Con đường Tơ lụa nối liền bốn đế chế lớn: La Mã thời hoàng kim (Pax Romana), Nhà Đông Hán, Đế chế Parthia, Kushan Ấn Độ và vùng Giao Chỉ trù phú.'
+    world_population_millions: 230
+    default_life_expectancy: 30
+    default_child_mortality: 0.36
+    lottery_weight: 10
+
+  - id: trung_co_1000ce
+    era_name: Trung Cổ Sơ Kỳ
+    year: 1000
+    year_label: 1000 CN
+    description: 'Thế giới bước vào thiên niên kỷ mới: Đại Việt thời Lý định đô Thăng Long, Bắc Tống phồn hoa, Thời kỳ Hoàng kim Hồi giáo, Byzantium và Châu Âu Phong kiến.'
+    world_population_millions: 310
+    default_life_expectancy: 32
+    default_child_mortality: 0.33
+    lottery_weight: 14
+
+  - id: trung_co_1250ce
+    era_name: Đỉnh Cao Trung Cổ & Phong Kiến
+    year: 1250
+    year_label: 1250 CN
+    description: 'Cơn bão kỵ binh Mông Cổ làm rung chuyển Á – Âu; Đại Việt thời Trần hào khí Đông A, Vương triều Mamluk ở Ai Cập, Đế chế Mali vàng ròng và Hiệp sĩ Châu Âu.'
+    world_population_millions: 410
+    default_life_expectancy: 33
+    default_child_mortality: 0.31
+    lottery_weight: 15
+
+  - id: can_dai_1600ce
+    era_name: Cận Đại & Đại Hàng Hải
+    year: 1600
+    year_label: 1600 CN
+    description: 'Những đoàn thuyền buồm vượt đại dương kết nối toàn cầu: Thương cảng Hội An – Phố Hiến (Đại Việt), Nhà Minh, Đế quốc Ottoman, Mughal Ấn Độ và Châu Âu Phục Hưng.'
+    world_population_millions: 580
+    default_life_expectancy: 35
+    default_child_mortality: 0.28
+    lottery_weight: 16
+
+  - id: cong_nghiep_1850ce
+    era_name: Cách Mạng Công Nghiệp
+    year: 1850
+    year_label: 1850 CN
+    description: 'Tiếng còi tàu hơi nước và nhà máy dệt làm đảo lộn trật tự ngàn năm: Châu Âu và Bắc Mỹ công nghiệp hóa nhanh chóng, trong khi Á – Phi đối mặt biến động thời đại.'
+    world_population_millions: 1260
+    default_life_expectancy: 40
+    default_child_mortality: 0.22
+    lottery_weight: 16
+
+  - id: hien_dai_2025ce
+    era_name: Thế Giới Hiện Đại (1in8b)
+    year: 2025
+    year_label: 2025 CN
+    description: 'Hơn 8 tỷ con người cùng chung sống trên Trái Đất. Y học hiện đại đẩy lùi tử vong trẻ sơ sinh, nhưng nơi bạn chào đời vẫn quyết định phần lớn cơ hội cuộc đời bạn.'
+    world_population_millions: 8100
+    default_life_expectancy: 73
+    default_child_mortality: 0.037
+    lottery_weight: 20

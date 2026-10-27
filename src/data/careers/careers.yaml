@@ -100,8 +100,16 @@ careers:
           - { type: stress, value: 3 }
         success_log:
           - 'Vạt đất bãi bồi tơi xốp, gieo thử một lứa khoai đậu thu về đầy bồ.'
+          - 'Cuốc sâu xuống ba lưỡi đã gặp lớp phù sa đen nhánh, bạn bốc một nắm lên ngửi mà thấy thơm mùi đất mới.'
+          - 'Vạt bãi phát xong cỏ lau, đắp được bờ con chạch, mùa nước sau chắc gieo được một lứa đỗ xanh.'
+          - 'Mấy hôm liền cuốc từ tinh mơ, đến rằm thì vạt đất đã phẳng, khoai lang cắm hom xuống là bén rễ.'
+          - 'Ông lão chăn vịt ven sông đi qua, ngó vạt đất mà gật gù: "Đất này nuôi người được đấy."'
         failure_log:
           - 'Đất lẫn toàn sỏi đá, cuốc rộp cả tay mà chẳng trồng trọt được gì.'
+          - 'Nước sông lên bất chợt một đêm, sáng ra vạt đất mới cuốc đã ngập trắng, công sức trôi theo dòng.'
+          - 'Bãi toàn cát chạy, tưới bao nhiêu cũng ráo, mầm đậu nhú lên được ba hôm thì héo rũ.'
+          - 'Lau sậy mọc lại nhanh hơn người phát, nửa tháng trời chỉ được một khoảnh bằng cái chiếu.'
+          - 'Cuốc phải mảnh sành cũ, lưỡi mẻ một miếng, tay rách một đường, đành vác cuốc về sớm.'
       - id: giup_viec_dinh_lang
         name: Đứng ra lo việc đình đám
         description: Bỏ công sức giúp làng tu sửa đình miếu, kênh mương để gây dựng uy tín.
@@ -120,8 +128,16 @@ careers:
           - { type: stress, value: 4 }
         success_log:
           - 'Kênh mương thông suốt, các cụ bô lão ngoài đình gật gù khen ngợi.'
+          - 'Mái đình lợp lại ngói mới, hôm cúng thành hoàng các cụ cho bạn ngồi gần chiếu giữa.'
+          - 'Bạn đứng ra chia phiên đào mương, nhà nào cũng có người ra, nước về tận ruộng chân cao.'
+          - 'Ông thủ từ vỗ vai bạn: "Làng có người chịu đứng mũi chịu sào thế này thì còn lo gì."'
+          - 'Cây cầu tre qua lạch được nối lại chắc chắn, đàn bà đi chợ sớm không còn phải lội nước.'
         failure_log:
           - 'Chín người mười ý, việc làng vừa mệt người vừa chẳng ai khen.'
+          - 'Tiền góp sửa đình thiếu trước hụt sau, người ta xì xào bạn ăn bớt dù bạn chẳng đụng một đồng.'
+          - 'Mấy nhà khá giả cứ khất không ra công, việc đình bỏ dở giữa chừng, mưa xuống lại dột như cũ.'
+          - 'Hai xóm cãi nhau chuyện đắp mương qua đất ai, bạn đứng giữa bị cả hai bên trách.'
+          - 'Cụ tiên chỉ chê cách làm của bạn trước mặt cả đình, đến tối về vẫn còn ấm ức.'
 
   - id: thuong_nhan
     name: Thương nhân
@@ -227,8 +243,16 @@ careers:
           - { type: career_merit, value: 3 }
         success_log:
           - 'Đúng lúc trên trấn khan hàng! Chuyến buôn bán đắt như tôm tươi, thu lời đậm.'
+          - 'Thuyền vừa cập bến trấn đã có lái buôn chờ sẵn, cả mạn hàng bán đổ đống chẳng phải mặc cả.'
+          - 'Giá vải trên trấn đang lên, bán xong bạn còn kịp cất một chuyến muối về xuôi bán tiếp.'
+          - 'Gặp được mối quen là chủ hiệu tạp hóa đầu phố, ông ta ôm trọn chỗ hàng lại hẹn chuyến sau.'
+          - 'Xuôi về, bạn ngồi đầu mũi thuyền đếm tiền, gió sông thổi mát mà lòng thì nóng hổi.'
         failure_log:
           - 'Hàng ế ẩm lại gặp mưa ẩm mốc, chuyến đi chỉ vừa đủ bù chi phí.'
+          - 'Lên đến nơi mới biết mấy thuyền khác đã chở cùng một thứ hàng, giá rớt chỉ còn non nửa.'
+          - 'Sai nha ở trạm thu lệ đòi thêm tiền qua bến, chuyến hàng còn chưa bán đã hụt một khoản.'
+          - 'Đến trấn đúng phiên vắng, bạn nằm thuyền ba hôm chờ khách, hàng thì mỗi ngày một héo.'
+          - 'Thuyền va phải cọc ngầm, nước rỉ vào khoang làm ướt mấy bao hàng, bán được nửa giá là may.'
       - id: dau_co_mua_giap_hat
         name: Thu gom hàng hiếm chờ thời
         description: Bỏ vốn lớn gom muối mắm và lụa tốt, đợi tháng khan hiếm tung ra thị trường.
@@ -251,8 +275,16 @@ careers:
           - { type: stress, value: 6 }
         success_log:
           - 'Con mắt nhìn xa trông rộng giúp bạn thắng lớn, tiền bạc chảy đầy tay nải.'
+          - 'Tháng giáp hạt cả chợ không đâu có muối, người ta đến tận nhà bạn hỏi mua, giá gấp đôi lúc gom.'
+          - 'Mấy súc lụa tốt cất kỹ trong rương gỗ, đến dịp cưới hỏi cuối năm bán chẳng kịp đếm tiền.'
+          - 'Bạn nhả hàng ra từ từ từng mẻ một, giá cứ thế giữ vững, cả mùa lời đều tay.'
+          - 'Lái buôn trên trấn nghe tiếng tìm về tận làng, ôm hết chỗ hàng tích trữ với giá khá hời.'
         failure_log:
           - 'Thuyền hàng nơi khác ập về phá giá, đành bán tháo thu hồi một phần vốn.'
+          - 'Muối cất lâu chảy nước, chuột cắn thủng mấy bao, đến lúc giá lên thì hàng đã hao một phần.'
+          - 'Năm nay được mùa, chẳng ai thiếu thứ gì, hàng gom về nằm chật kho mà không ai hỏi.'
+          - 'Quan trên ra lệnh bình giá, cấm bán cao, bạn đành bán ngang giá vốn cho xong.'
+          - 'Người ta đồn bạn găm hàng ép giá, mấy mối quen ngoảnh mặt, hàng bán chậm như rùa.'
 
   - id: linh
     name: Lính → Tướng
@@ -373,8 +405,16 @@ careers:
           - { type: stress, value: 4 }
         success_log:
           - 'Bắt gọn toán cướp cỏ trên đèo, quan trên ban thưởng tiền và ghi sổ quân công.'
+          - 'Toán tuần bắt được hai tên trộm trâu đang lùa trâu qua khe núi, dân bản mang rượu ra tận đồn cảm tạ.'
+          - 'Đường đèo yên ắng suốt mùa, các đoàn buôn qua lại đều vái chào toán lính của bạn.'
+          - 'Bạn lần theo vết chân trên bùn, tìm ra hang ổ bọn cướp vặt, thu lại được mấy gánh hàng bị cướp.'
+          - 'Viên đội trưởng ghi tên bạn vào sổ khen, cuối tháng được thưởng thêm thóc và một bầu rượu.'
         failure_log:
           - 'Đường rừng hiểm trở lại gặp mưa tên phục kích, bạn bị xây xát nhẹ khi rút quân.'
+          - 'Đi trọn ba ngày đường rừng chẳng thấy bóng giặc, chỉ thấy vắt bám đầy chân, về đồn bị quở là lười.'
+          - 'Một tên lính trong toán trượt chân xuống vực, cả toán phải bỏ tuần để khiêng người về.'
+          - 'Bọn cướp nghe động rút trước, chỉ để lại đống lửa còn ấm, công cốc một chuyến.'
+          - 'Mưa núi đổ xuống bất chợt, suối lũ chặn đường, toán tuần mắc kẹt hai đêm, ai cũng sốt.'
       - id: xung_phong_chien_dich
         name: Xung phong lập chiến công
         description: Tình nguyện đi mũi tiên phong trong đợt tập kích sào huyệt địch.
@@ -397,8 +437,16 @@ careers:
           - { type: career_merit, value: 5 }
         success_log:
           - 'Cờ tiên phong cắm trên lũy giặc! Tiếng reo hò vang dậy, tên bạn được tâu lên trấn phủ.'
+          - 'Bạn là người đầu tiên trèo qua hàng rào chông, phá cổng trại giặc cho quân sau tràn vào.'
+          - 'Trận ấy bắt sống được tên đầu mục, quan võ trên trấn gọi tên bạn ra trước hàng quân mà khen.'
+          - 'Giữa khói lửa, bạn cõng được người đồng ngũ bị thương về hậu doanh, cả đội nhớ ơn.'
+          - 'Lũy giặc vỡ lúc trời vừa rạng, bạn đứng trên mô đất nhìn cờ phe mình bay mà nghẹn họng.'
         failure_log:
           - 'Trận đánh ác liệt hơn dự tính, bạn mang thương tích mở đường máu rút về.'
+          - 'Mũi tên găm vào vai lúc vừa lên tới chân lũy, bạn bị kéo lùi về giữa tiếng trống thu quân.'
+          - 'Quân tiên phong rơi vào bẫy hầm chông, mấy người đi cạnh bạn không còn trở về.'
+          - 'Trận đánh không thành, bạn lết về trại với cái chân sưng tấy, đêm nằm nghe tiếng người rên.'
+          - 'Giặc có phục binh hai bên sườn, cả mũi phải tan ra chạy, bạn mất cả khiên lẫn đao.'
 
   - id: thao_khau
     name: Thảo khấu
@@ -508,8 +556,16 @@ careers:
           - { type: stress, value: 5 }
         success_log:
           - 'Đoàn xe buôn vội vã nộp tiền mãi lộ rồi chạy biến. Anh em trong trại mở tiệc lớn.'
+          - 'Đoàn buôn chè đặt sẵn túi tiền bên vệ đường, chẳng cần rút đao, anh em chia nhau đủ tiêu cả tháng.'
+          - 'Tên chủ hàng run run hỏi lệ, bạn đếm đủ rồi cho đi, lại dặn lần sau qua đèo cứ nộp là yên.'
+          - 'Đón trúng chuyến hàng muối lớn, cả trại có muối ăn quanh năm, phần dư đem đổi lấy gạo.'
+          - 'Tin đồn trại trên đèo nói là giữ lời lan khắp các bến, nhà buôn tự tìm đến nộp lệ cho chắc.'
         failure_log:
           - 'Ngờ đâu gặp phải đoàn hộ tống có lính trấn đi kèm! Cả toán phải lẩn vào rừng sâu.'
+          - 'Đoàn buôn mang theo chó săn và gậy gộc, đánh nhau một trận, anh em mang thương về trại tay trắng.'
+          - 'Có kẻ trong đoàn chạy thoát về báo quan, ba hôm sau đã thấy lính trấn lùng sục dưới chân núi.'
+          - 'Chờ lõng hai đêm sương lạnh mà chẳng có ai qua, anh em chửi đổng rồi bỏ về.'
+          - 'Túi tiền giành được hóa ra toàn đồng kẽm mỏng, đem ra chợ người ta chẳng nhận.'
       - id: an_nau_xoa_dau_vet
         name: Ẩn mình xóa dấu vết
         description: Tạm đóng cửa sơn trại, tung tin giả để làm nguội lệnh truy nã của quan phủ.
@@ -528,8 +584,16 @@ careers:
           - { type: wanted, value: -5 }
         success_log:
           - 'Quan quân tưởng toán cướp đã dạt sang xứ khác, lệnh truy tầm lắng xuống hẳn.'
+          - 'Anh em tản về các làng giả làm phu gặt, mấy tháng liền không ai nhắc đến trại trên núi nữa.'
+          - 'Bạn sai người tung tin toán cướp đã bị quân triều đình đánh tan, cáo thị truy nã cũng được gỡ xuống.'
+          - 'Lối mòn lên trại được lấp kín bằng gai rừng, lính tuần đi qua mấy lượt chẳng nhận ra.'
+          - 'Một tay sai của nha môn nhận chút lễ, ghi vào sổ rằng vùng núi này đã yên.'
         failure_log:
           - 'Mấy tên tuần đinh vẫn lảng vảng dưới chân núi, chỉ giảm được chút ít nghi ngờ.'
+          - 'Một tên trong trại say rượu ở chợ huyện buột miệng khoe khoang, tin lại lọt đến tai quan.'
+          - 'Khói bếp trại bốc lên giữa ngày nắng ráo, người kiếm củi trông thấy, chẳng giấu được bao lâu.'
+          - 'Lệnh truy nã vẫn dán ở cổng chợ, mặt bạn vẽ trên đó tuy không giống lắm nhưng ai cũng nhìn kỹ.'
+          - 'Anh em nằm im lâu ngày sinh cãi cọ, có đứa bỏ trại xuống núi, chẳng biết có khai ra không.'
 
   - id: si_tu
     name: Sĩ tử → Quan văn
@@ -628,8 +692,16 @@ careers:
           - { type: stress, value: 3 }
         success_log:
           - 'Học trò kéo đến đông vui, tiếng ê a đọc sách vang cả xóm, lễ thầy cuối mùa đầy một thúng.'
+          - 'Đứa học trò nghèo nhất lớp đọc thuộc làu Tam tự kinh, mẹ nó gánh sang biếu thầy một rổ trứng.'
+          - 'Nhà bá hộ cũng gửi con sang học, lễ thầy đầu năm là cả xâu tiền với cặp gà trống thiến.'
+          - 'Tiếng bọn trẻ đọc "Nhân chi sơ" vọng ra tận ngõ, người qua đường dừng lại nghe mà mỉm cười.'
+          - 'Cuối mùa học, cả lớp viết được tên cha mẹ mình, phụ huynh rủ nhau mang gạo đến tạ thầy.'
         failure_log:
           - 'Mùa này nhà nào cũng túng, chỉ lèo tèo vài đứa trẻ theo học.'
+          - 'Vào mùa gặt, cha mẹ gọi hết con về ra đồng, lớp học vắng tanh chỉ còn tiếng ve.'
+          - 'Thằng bé nghịch nhất lớp làm đổ nghiên mực lên sách thầy, cha nó không đền lại còn bênh con.'
+          - 'Nhà nào cũng hứa lễ thầy sau mùa, đến lúc ấy lại khất, bạn ngại chẳng dám đòi.'
+          - 'Có người đồn thầy dạy chữ không chuẩn, mấy nhà rút con sang học ông đồ làng bên.'
       - id: binh_van_hoi_tho
         name: Dự hội bình văn của sĩ phu
         description: Mang văn bài đến hội tao đàn trên huyện, kết giao với các bậc khoa bảng.
@@ -650,8 +722,13 @@ careers:
         success_log:
           - 'Bài phú của bạn được cả hội chuyền tay ngâm nga, một vị Tiến sĩ hồi hưu mời bạn ghé nhà đàm đạo.'
           - 'Các bậc tiền bối gật gù khen văn khí sáng sủa.'
+          - 'Một vị Hương cống xin chép bài văn của bạn mang về cho con cháu đọc, mặt bạn nóng bừng.'
+          - 'Tan hội, mấy văn hữu trẻ rủ bạn uống rượu bên hồ, kết thành bạn đồng môn từ đấy.'
         failure_log:
           - 'Văn chương còn non, bạn chỉ ngồi nghe các bậc tiền bối bình phẩm.'
+          - 'Bạn đọc đến câu thứ ba thì có người cắt ngang bắt lỗi điển cố, cả hội cười ồ.'
+          - 'Văn hữu nhà giàu mang rượu quý đến, được chú ý hơn cả bài văn của bạn, ngồi mà chạnh lòng.'
+          - 'Bài văn bị chê là sáo, nhắc lại ý người xưa mà không có ý mình, bạn về thức trắng đêm sửa.'
       - id: viet_van_khe
         name: Viết văn khế, đơn từ thuê
         description: Viết hộ dân làng văn tự mua bán ruộng đất, đơn kiện, câu đối Tết.
@@ -669,8 +746,16 @@ careers:
           - { type: stress, value: 2 }
         success_log:
           - 'Nét chữ rồng bay phượng múa, khách cầm văn khế về còn biếu thêm buồng cau.'
+          - 'Văn tự mua bán ruộng viết rành rọt từng bờ từng thửa, hai bên đọc xong điểm chỉ chẳng ai cãi.'
+          - 'Bà góa nhờ viết đơn kêu quan, đơn được thụ lý, bà mang sang biếu bạn mấy quả bưởi đầu mùa.'
+          - 'Gần Tết người ta xếp hàng xin câu đối, bạn viết đến mỏi cổ tay mà túi tiền rủng rỉnh.'
+          - 'Ông lý xem văn khế bạn viết rồi khen chữ có nét, từ đó việc giấy tờ trong làng hay gọi đến bạn.'
         failure_log:
           - 'Viết sót một chữ trong văn tự, hai bên kiện cáo nhau rồi đổ lỗi cho bạn.'
+          - 'Khách nhờ viết đơn kiện hàng xóm, quan bác đơn, khách quay lại trách bạn viết không đủ lý.'
+          - 'Mực nhòe vì mưa hắt vào hiên, tờ văn tự phải viết lại, khách cằn nhằn mãi.'
+          - 'Người ta trả công bằng mấy bát gạo mốc, bạn ngại chẳng nói, đành ôm về.'
+          - 'Viết hộ văn khế cho kẻ gian bán ruộng không phải của mình, đến khi vỡ chuyện bạn cũng bị gọi lên hỏi.'
 
   # ═══════════════════════════════════════════════════════════════════════════
   # [2] 10 NGHỀ NHẸ VÀ VỪA MỚI (Phase 5 — GDD 04 §3, §15)
@@ -753,8 +838,16 @@ careers:
           - { type: stress, value: 4 }
         success_log:
           - 'Vụ này mưa thuận gió hòa, phần thóc chia về sau khi nộp tô vẫn dư đầy bồ.'
+          - 'Điền chủ cho cấy thêm ba sào trũng, nước rút đúng lúc, lúa trổ đều như mạ.'
+          - 'Phần thóc chia về chất đầy góc nhà, cả nhà lần đầu thấy bồ thóc cao quá đầu gối.'
+          - 'Bạn đắp lại bờ cẩn thận, ruộng trũng giữ được nước mà không úng, cả xóm tá điền sang học cách.'
+          - 'Điền chủ xuống thăm ruộng, thấy lúa tốt thì gật đầu, hẹn vụ sau cho cấy tiếp.'
         failure_log:
           - 'Ruộng trũng ngập úng, nộp tô xong chỉ còn lại mấy thúng thóc lép.'
+          - 'Mưa dầm cuối vụ, ruộng trũng thành ao, lúa đổ rạp, gặt về toàn hạt lép.'
+          - 'Điền chủ đòi tô theo vụ được mùa dù năm nay chẳng được, bạn nộp xong chỉ còn trấu.'
+          - 'Chuột đồng kéo về ruộng chân trũng cắn phá, đêm nào cũng đi đánh mà chẳng xuể.'
+          - 'Quản gia nhà điền chủ đo lại ruộng, bảo bạn cấy lấn sang, phạt thêm một thúng thóc.'
 
   - id: lam_thue
     name: Làm thuê
@@ -830,8 +923,16 @@ careers:
           - { type: stress, value: 4 }
         success_log:
           - 'Xong việc trước hạn, chủ nhà hài lòng thưởng thêm tiền rượu thịt.'
+          - 'Ao đào xong vuông vức, chủ nhà thả cá ngay hôm sau, gọi bạn ở lại ăn bữa cơm có thịt.'
+          - 'Cả đoàn khuân xong chuyến gạch trước khi trời mưa, chủ hàng mừng rỡ trả đủ lại thêm mấy đồng.'
+          - 'Bạn rủ được mấy người khỏe cùng làm, chia việc khéo, xong sớm hai ngày mà ai cũng đủ công.'
+          - 'Nền nhà đắp cao chắc chắn, gia chủ khen làm có tâm, hứa có việc lại gọi.'
         failure_log:
           - 'Việc nặng quá sức, lưng đau ê ẩm mà chỉ nhận được nửa tiền công.'
+          - 'Đang khiêng gỗ thì trẹo lưng, nằm bẹp ba hôm, tiền công chưa nhận đã phải bỏ ra mua thuốc.'
+          - 'Chủ nhà chê đất đắp không chặt, bắt làm lại một đoạn mà chẳng trả thêm đồng nào.'
+          - 'Gặp mưa dầm, ao đào dở sụt lở cả hai bờ, công cả tuần coi như mất.'
+          - 'Người cai thầu ăn chặn tiền công, đến lúc chia chỉ còn non nửa như lời hứa.'
 
   - id: tho_moc
     name: Thợ mộc
@@ -917,8 +1018,16 @@ careers:
           - { type: stress, value: 4 }
         success_log:
           - 'Mộng mẹo khít rịt, nét chạm rồng phượng tinh xảo khiến gia chủ tấm tắc thưởng hậu.'
+          - 'Ngày cất nóc, gia chủ đốt pháo, bày cỗ, mời bạn ngồi mâm trên cùng các cụ.'
+          - 'Bộ vì kèo chạm hoa sen ai đi qua cũng ngước nhìn, mấy nhà khá giả trong tổng đã hỏi đặt.'
+          - 'Dựng xong ba gian nhà không cần một cái đinh, mộng nào khít mộng ấy, gia chủ thưởng thêm tấm vải.'
+          - 'Bạn chọn được gỗ lim già, nhà dựng xong vững chãi, chắc ba đời ở chưa hỏng.'
         failure_log:
           - 'Gỗ bị cong vênh phải đẽo gọt lại mất nhiều công, tiền lời chẳng còn bao nhiêu.'
+          - 'Giữa chừng gia chủ đổi ý muốn thêm chái, bàn đi tính lại, công thì tăng mà tiền không thêm.'
+          - 'Thợ phụ đẽo hỏng một cây cột cái, bạn phải bỏ tiền túi mua gỗ thay.'
+          - 'Mưa dầm cả tháng, gỗ ngấm nước nở mộng, ráp vào không khít, phải chờ khô mới làm tiếp.'
+          - 'Gia chủ chê nét chạm không đẹp bằng nhà bên, khất lại một phần tiền công.'
 
   - id: tho_ren
     name: Thợ rèn
@@ -999,8 +1108,16 @@ careers:
           - { type: health, value: -5 }
         success_log:
           - 'Thép tôi vừa nước sắc ngọt, nông dân tranh nhau mua sạch ngay tại cửa lò.'
+          - 'Lưỡi cày bạn rèn cắm xuống đất ải ngọt như dao vào chuối, người mua truyền tai nhau tìm đến lò.'
+          - 'Mẻ liềm hái mài sáng loáng, phiên chợ đầu vụ bán hết trước khi mặt trời đứng bóng.'
+          - 'Ông trùm phường cày làng bên đặt luôn hai chục lưỡi, trả tiền trước cho chắc.'
+          - 'Lửa lò đỏ suốt ba đêm, bễ thổi phì phò, sáng ra trước cửa đã có người đứng đợi.'
         failure_log:
           - 'Than ẩm khiến lửa không đều, hỏng mất mấy phôi sắt tốt.'
+          - 'Tôi nước vội tay, mấy lưỡi cày nứt chân chim, người mua mang trả lại đòi tiền.'
+          - 'Sắt mua về là sắt pha, rèn mãi không dẻo, đập mấy nhát đã gãy.'
+          - 'Bạn bị bỏng một vệt dài trên cánh tay vì than văng, phải nghỉ lò giữa đúng mùa đông khách.'
+          - 'Lò rèn làng bên hạ giá bán rẻ, hàng của bạn nằm ế cả gian.'
 
   - id: thay_lang
     name: Thầy lang
@@ -1081,8 +1198,16 @@ careers:
           - { type: stress, value: 4 }
         success_log:
           - 'Nhiều ca bệnh nặng uống hai thang đã cắt cơn sốt, tiếng lành đồn xa khắp tổng.'
+          - 'Đứa trẻ sốt li bì ba ngày uống thang thuốc của bạn đã mở mắt đòi ăn cháo, mẹ nó quỳ xuống lạy.'
+          - 'Bạn sắc thuốc phát cho cả xóm nghèo, đến cuối mùa chẳng nhà nào phải để tang.'
+          - 'Quan huyện nghe tiếng, cho người mời bạn lên bắt mạch cho mẹ già, lễ tạ là cả tấm lụa.'
+          - 'Ông lão ho ra máu cả năm, uống thuốc bạn bốc một tháng đã ra vườn cuốc đất được.'
         failure_log:
           - 'Gặp chứng bệnh lạ khó đoán, thuốc uống chậm chuyển khiến người nhà bệnh nhân phàn nàn.'
+          - 'Người bệnh không qua khỏi, nhà họ đứng trước cổng chửi bạn là lang băm, cả xóm nghe thấy.'
+          - 'Vị thuốc quý cần dùng đã hết, đi rừng mấy ngày không tìm ra, bệnh nhân phải chuyển sang thầy khác.'
+          - 'Chính bạn bị lây cơn sốt, nằm liệt mấy ngày, thuốc phát dở dang.'
+          - 'Thuốc kê đúng mà nhà bệnh tiếc tiền chỉ mua nửa thang, bệnh dây dưa rồi lại đổ tại thầy.'
 
   - id: ngu_dan
     name: Ngư dân
@@ -1155,8 +1280,16 @@ careers:
           - { type: stress, value: 3 }
         success_log:
           - 'Mẻ lưới nặng trĩu cá chép, cá lăng! Chở thẳng ra bến chợ sớm bán hết veo.'
+          - 'Đến canh ba, lưỡi lưới bỗng nặng trịch, kéo lên được con cá trắm to bằng bắp đùi.'
+          - 'Đêm trăng mờ, luồng cá mè đi đúng chỗ bạn thả, thuyền về lưng khoang đầy cá quẫy.'
+          - 'Bán cá xong lúc trời vừa sáng, bạn mua được cho lũ trẻ chiếc bánh đa và cho người nhà xấp vải.'
+          - 'Mấy thuyền chài khác về tay không, chỉ có thuyền bạn chở nặng, cả bến xúm lại hỏi chỗ.'
         failure_log:
           - 'Gió lạnh thổi ngược dòng, thức trắng đêm chỉ vớt được mớ tép vụn.'
+          - 'Lưới mắc vào gốc cây chìm, giằng mãi không ra, đành cắt bỏ một đoạn lưới mới đan.'
+          - 'Gió đổi chiều giữa đêm, thuyền chòng chành suýt lật, bạn phải bỏ lưới chèo vội vào bờ.'
+          - 'Có kẻ thả lưới chặn trước đầu nguồn, cá chẳng xuống đến chỗ bạn, ngồi suông cả đêm.'
+          - 'Sương xuống buốt xương, bạn về nhà sốt run cầm cập, cá thì chẳng được mấy con.'
 
   - id: chu_do
     name: Chủ đò
@@ -1236,8 +1369,16 @@ careers:
           - { type: stress, value: 4 }
         success_log:
           - 'Con đò lướt êm qua khúc nước xoáy, vị khách buôn hài lòng thưởng thêm tiền trà nước.'
+          - 'Con nước êm, bạn chở liền ba chuyến kiện hàng không ướt một sợi, chủ hàng hẹn thuê dài ngày.'
+          - 'Khách buôn quen biết từ đó, mỗi lần qua bến đều gọi đò bạn trước, chẳng chịu đi đò khác.'
+          - 'Chở xong chuyến hàng nặng, bạn được trả thêm một vò mắm ngon mang về nhà.'
+          - 'Giữa sông gặp xoáy, bạn bẻ lái khéo léo, cả đò thở phào, khách vỗ vai khen tay chèo cứng.'
         failure_log:
           - 'Sóng lớn làm ướt mấy kiện vải, phải bớt tiền cước để đền cho khách.'
+          - 'Đò chở quá nặng, nước tràn qua mạn, phải ném bớt hai bao hàng xuống sông cho khỏi chìm.'
+          - 'Khách buôn quỵt tiền cước, xuống bến là đi thẳng, bạn đuổi theo không kịp.'
+          - 'Mái chèo gãy giữa dòng, đò trôi xa bến cả quãng, khách lỡ phiên chợ quay ra trách bạn.'
+          - 'Sai nha ở bến thu lệ chở hàng, tiền cước nhận được chẳng còn bao nhiêu.'
 
   - id: nha_lai
     name: Nha lại
@@ -1315,8 +1456,16 @@ careers:
           - { type: reputation, group: dan_lang, value: -3 }
         success_log:
           - 'Sổ sách rành mạch rõ ràng, quan huyện gật đầu khen ngợi, các lý dịch cũng biếu quà hậu.'
+          - 'Bạn phát hiện một xã khai man ruộng để trốn thuế, quan huyện khen là có mắt, ghi công vào sổ.'
+          - 'Sổ đinh mấy xã khớp từng người từng sào, nộp lên sớm hơn hạn, quan trên hài lòng.'
+          - 'Các ông lý trong tổng nể bạn làm việc phân minh, có việc gì đều đến hỏi ý trước.'
+          - 'Đi khắp các làng mà không ai phàn nàn bị sách nhiễu, tiếng bạn là thư lại thanh liêm lan xa.'
         failure_log:
           - 'Số liệu các thôn khai báo chồng chéo, bị quan trên quở trách phải thức đêm làm lại.'
+          - 'Một ông lý giấu bớt nhân đinh, bạn không phát hiện ra, đến khi bị tố giác thì bạn cũng chịu quở.'
+          - 'Sổ sách bị chuột cắn mất mấy trang, phải đi lại từng xã hỏi, mất cả tháng trời.'
+          - 'Thư lại đồng liêu ghen tị, mách quan rằng bạn nhận quà của các làng, bạn phải giải trình mỏi miệng.'
+          - 'Trời mưa đường lầy, đến chậm hạn nộp sổ ba ngày, quan huyện cau mặt trước cả nha môn.'
 
   - id: ban_rong
     name: Bán rong
@@ -1390,8 +1539,16 @@ careers:
           - { type: stress, value: 3 }
         success_log:
           - 'Phiên chợ đông nghịt người, mới quá trưa đôi quang gánh đã nhẹ tênh, túi tiền nặng trĩu.'
+          - 'Kim chỉ, lược bí bán hết từ sớm, bạn kịp đổi được mấy cân muối mang về bán ở chợ làng.'
+          - 'Gặp đúng phiên hội, khách thập phương đông nghịt, gánh hàng chưa kịp đặt xuống đã có người hỏi.'
+          - 'Mấy bà buôn ở chợ xa quen mặt, để dành chỗ ngồi đẹp cho bạn đầu dãy hàng.'
+          - 'Về đến cổng làng lúc trời nhá nhem, đôi vai mỏi rã nhưng túi tiền đếm lại vẫn thấy vui.'
         failure_log:
           - 'Gặp cơn mưa rào giữa đường, chợ tan sớm nên chỉ bán được một nửa gánh hàng.'
+          - 'Quãng đường qua đồng trũng trơn như mỡ, bạn ngã sóng soài, mắm đổ vỡ mất mấy vò.'
+          - 'Chợ bên ấy thu thuế chỗ ngồi cao quá, bán xong trừ lệ chẳng còn lời.'
+          - 'Kẻ móc túi lẻn vào lúc đông người, nửa số tiền bán hàng không cánh mà bay.'
+          - 'Người bán cùng hàng ngồi kín cả dãy, bạn hạ giá mấy lần vẫn phải gánh về non nửa.'
 
   - id: ba_do
     name: Bà đỡ
@@ -1463,8 +1620,16 @@ careers:
           - { type: stress, value: 5 }
         success_log:
           - 'Tiếng khóc chào đời vang lên giòn giã, cả nhà mừng rỡ biếu mâm xôi gà và tiền lễ hậu hĩnh.'
+          - 'Đứa bé nằm ngược, bạn xoay khéo được thai, mẹ tròn con vuông lúc gà gáy sáng.'
+          - 'Sản phụ mất nhiều máu, bạn đắp lá thuốc cầm được, nhà chồng chạy sang biếu nguyên con gà.'
+          - 'Ca sinh đôi đầu thôn qua khỏi bình an, từ đó cả tổng gọi bạn là người đỡ đẻ có phúc.'
+          - 'Đỡ xong, bạn tắm cho đứa bé bằng nước lá thơm, bà nội nó cứ nắm tay bạn không buông.'
         failure_log:
           - 'Ca sinh kéo dài suốt đêm làm bạn mệt nhoài, may mà cuối cùng cũng qua cơn nguy hiểm.'
+          - 'Sản phụ đau từ chiều đến sáng, đứa bé ra đời yếu ớt, nhà họ nhìn bạn với ánh mắt nặng nề.'
+          - 'Nhà ấy nghèo quá, đỡ xong chẳng có gì trả công, bạn còn để lại mấy đồng mua cháo.'
+          - 'Ca khó quá sức, phải cho người chạy đi mời thầy lang, bạn bị bà con trách là non tay.'
+          - 'Thức trắng hai đêm liền, bạn về đến nhà là lả đi, mấy hôm sau mới gượng dậy được.'
 
   # ── Chưa có nghề riêng (kind: trang_thai) — không có lương, hành động, thăng bậc ──
   - id: phu_gia_dinh

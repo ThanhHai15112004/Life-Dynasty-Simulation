@@ -430,6 +430,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep]
     condition:
       all:
+        - { var: player.sex, op: '==', value: m }
         - { var: household.career, op: '==', value: si_tu }
         - { var: player.married, op: '==', value: false }
         - { var: player.mourning_months, op: '==', value: 0 }
@@ -460,7 +461,7 @@ events:
           - { type: skill_xp, skill: hoc_van, value: 10 }
         result: ['Lễ cưới đơn sơ mà đầm ấm. Đêm đầu, hai vợ chồng cùng nhau bình một bài thơ Đường.']
       - id: chua_cuoi
-        text: 'Xin hoãn — đỗ đạt rồi mới tính chuyện vợ con'
+        text: 'Xin hoãn — đỗ đạt rồi mới tính chuyện gia thất'
         effects:
           - { type: skill_xp, skill: hoc_van, value: 12 }
           - { type: stress, value: 3 }

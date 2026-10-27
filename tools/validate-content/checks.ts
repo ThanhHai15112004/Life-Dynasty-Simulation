@@ -191,6 +191,28 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     o.village_npcs.forEach((n) => need(!!culture?.village_roles[n.role], `cultures.${o.culture}: thiếu cách gọi vai trò "${n.role}"`));
   }
 
+  for (const c of content.cultures) {
+    villageRoles.forEach((role) => need(!!c.village_roles[role], `cultures.${c.id}: thiếu cách gọi vai trò "${role}"`));
+  }
+
+  if (content.bookmarks.length > 0) {
+    need(idx.bookmark.has(content.defaultBookmarkId), `bookmarks.default_bookmark: mốc thời đại lạ "${content.defaultBookmarkId}"`);
+    for (const bm of content.bookmarks) {
+      need(
+        content.polities.some((p) => p.bookmarks.includes(bm.id)),
+        `bookmarks.${bm.id}: không có vùng lãnh thổ (polity) nào hoạt động ở mốc này`,
+      );
+    }
+  }
+
+  for (const p of content.polities) {
+    const w = `polities.${p.id}`;
+    need(idx.civilization.has(p.civilization), `${w}: khuôn văn minh lạ "${p.civilization}"`);
+    need(idx.culture.has(p.culture), `${w}: văn hóa lạ "${p.culture}"`);
+    p.bookmarks.forEach((bmId) => need(idx.bookmark.has(bmId), `${w}: mốc thời đại lạ "${bmId}"`));
+    Object.keys(p.origin_weights).forEach((oId) => need(idx.origin.has(oId), `${w}.origin_weights: xuất thân lạ "${oId}"`));
+  }
+
   const checkRole = (r: RoleSpec, where: string) => {
     if (r.from === 'village') need(!!r.village_role && villageRoles.has(r.village_role), `${where}: vai trò làng lạ "${r.village_role}"`);
   };
@@ -307,6 +329,13 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     need(civ.metropolitan_exam_offset_years < civ.exam_interval_years, `civilizations.${civ.id}: thi Hội phải mở trước khoa thi Hương kế tiếp`);
   }
 
+  // ── Lớp câu chuyện (story.yaml) ──
+  const causeIds = new Set(content.balance.life.mortality.causes.map((c) => c.id));
+  for (const dc of content.story.peers.death_causes) need(causeIds.has(dc.cause), `story.peers.death_causes: nguyên nhân lạ "${dc.cause}"`);
+  need(content.story.peers.archetypes.length >= content.story.peers.count, `story.peers: count lớn hơn số gia cảnh (mỗi người một gia cảnh)`);
+  for (const r of content.story.reflections) need(r.question.trim().length > 0, `story.reflections[${r.age}]: câu hỏi trống`);
+  need(content.origins.some((o) => o.birth_weight > 0), 'origins: cần ít nhất một xuất thân có birth_weight > 0 để bốc thăm');
+
   // ── Chạy thử điều kiện DSL và token văn bản trên một ván thật ──
   if (!origin) return { errors: [...errors, 'Không có xuất thân nào'], warnings };
   let session: GameSession;
@@ -335,6 +364,11 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
         if (r.token(tok) === undefined) warnings.push(`${where}: token không phân giải được "{${tok}}"`);
       }
     };
+
+    content.story.epitaphs.forEach((e, i) => {
+      tryCond(e.condition, `story.epitaphs[${i}]`, []);
+      tryText(e.text, `story.epitaphs[${i}]`, [], false);
+    });
 
     for (const ev of content.events) {
       const ids = ev.roles.map((r) => r.id);

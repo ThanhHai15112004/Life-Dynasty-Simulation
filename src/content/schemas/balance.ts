@@ -23,6 +23,10 @@ export const timeBalanceSchema = z
     default_speed_index: z.number().int().min(0),
     /** Tự lưu sau mỗi N năm (0 = tắt). */
     autosave_every_years: z.number().int().min(0),
+    /** Nhân tốc độ theo giai đoạn đời (ấu thơ không có quyết định thì trôi nhanh hơn). */
+    stage_speed_factor: z.record(z.string(), z.number().positive()).default({}),
+    /** Nút "Tới quyết định tiếp theo": tua tối đa chừng này tháng rồi dừng nếu chưa có gì xảy ra. */
+    skip_max_months: z.number().int().min(1).default(24),
   })
   .strict();
 
@@ -170,6 +174,16 @@ export const lifeBalanceSchema = z
       .default({}),
     /** Số bệnh tối đa một người mắc cùng lúc. */
     max_concurrent_diseases: z.number().int().min(1).default(2),
+    /** Ma chay khi người trong nhà mất: tiền theo nhóm tuổi người mất (quan). */
+    funeral: z
+      .object({
+        child_money: z.number().min(0),
+        adult_money: z.number().min(0),
+        elder_money: z.number().min(0),
+        elder_age: z.number().int().min(0),
+      })
+      .strict()
+      .default({ child_money: 0, adult_money: 0, elder_money: 0, elder_age: 60 }),
     /** [1] Cấu hình mô hình Hạnh phúc tâm lý 3 tầng (GDD 01 §7). */
     happiness: z
       .object({
@@ -371,6 +385,26 @@ export const economyBalanceSchema = z
       })
       .strict(),
     consumption_by_age_group: z.record(z.string(), z.number().min(0)),
+    /** Việc làng, việc họ cuối năm (giỗ chạp, đóng góp đình, khao vọng): theo số người và theo của — nhà càng có của càng bị bổ nhiều. */
+    obligations: z
+      .object({
+        base_money_year: z.number().min(0),
+        per_member_money_year: z.number().min(0),
+        wealth_threshold: z.number().min(0),
+        wealth_rate: z.number().min(0).max(1),
+      })
+      .strict()
+      .default({ base_money_year: 0, per_member_money_year: 0, wealth_threshold: 0, wealth_rate: 0 }),
+    /** Mặc định của "tự lo việc nhà" khi người chơi làm chủ hộ. */
+    auto_manage_defaults: z
+      .object({
+        livingStandard: z.boolean(),
+        repayDebt: z.boolean(),
+        sellSurplus: z.boolean(),
+        invest: z.boolean(),
+      })
+      .strict()
+      .default({ livingStandard: true, repayDebt: true, sellSurplus: true, invest: true }),
     tax: z
       .object({
         month: z.number().int().min(1),
@@ -575,6 +609,17 @@ export const directorBalanceSchema = z
       })
       .strict()
       .default({}),
+    /** Một sự kiện quyết định (không phải mốc đời/hẹn trước) gặp tối đa chừng này lần mỗi đời (0 = không giới hạn). */
+    max_decision_repeats_per_life: z.number().int().min(0).default(0),
+    /** Phương án "chưa phải lúc" (defer) chỉ hẹn lại khi sự kiện mới gặp ít hơn chừng này lần (0 = không giới hạn). */
+    max_defer_fires: z.number().int().min(0).default(0),
+    /** Bước ngoặt (importance ≥ min_importance) phải cách nhau tối thiểu min_gap_years — tai họa không dồn dập liền nhau. */
+    major_events: z
+      .object({ min_importance: z.number(), min_gap_years: z.number().min(0) })
+      .strict()
+      .default({ min_importance: 99, min_gap_years: 0 }),
+    /** Sự kiện quyết định không khai báo life_stages thì chỉ phát ở các giai đoạn này (tránh trẻ con quyết chuyện tiền nhà). */
+    default_event_life_stages: z.array(z.string()).default([]),
     /** [9] Ngưỡng độ dày nội dung tối thiểu để công cụ validate cảnh báo danh sách việc cần viết thêm. */
     content_density: z
       .object({
@@ -648,6 +693,33 @@ export const modifiersBalanceSchema =z.object({ conditional: z.array(conditional
 
 export const displayBalanceSchema = z
   .object({
+    /** Số ký tự tối đa người chơi viết ở một mốc suy ngẫm. */
+    reflection_max_length: z.number().int().min(1).default(200),
+    /** Thẻ đời (ảnh chia sẻ): kích thước ảnh, số dấu mốc tối đa in lên thẻ. */
+    life_card: z
+      .object({
+        width: z.number().int().positive(),
+        height: z.number().int().positive(),
+        max_highlights: z.number().int().min(0),
+        /** Bảng màu thẻ (nền, chữ, nhấn, ô bản đồ đời theo mức mãn nguyện thấp → cao). */
+        colors: z
+          .object({
+            background: z.string(),
+            text: z.string(),
+            muted: z.string(),
+            accent: z.string(),
+            cells: z.array(z.string()).min(2),
+            dead_cell: z.string(),
+          })
+          .strict(),
+      })
+      .strict()
+      .default({
+        width: 1080,
+        height: 1350,
+        max_highlights: 4,
+        colors: { background: '#f6efe2', text: '#2b2118', muted: '#7a6a58', accent: '#9c3d22', cells: ['#c9b8a0', '#e3c77a', '#8fb36a'], dead_cell: '#3a2e24' },
+      }),
     health_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),
     stress_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),
     chance_bands: z.array(z.object({ min: z.number(), key: z.string() }).strict()).min(1),

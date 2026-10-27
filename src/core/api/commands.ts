@@ -34,6 +34,7 @@ import { focusAvailable } from '../systems/focus';
 import { infectCharacter, treatDisease, treatmentBlock } from '../systems/life';
 import { player, playerHousehold } from '../systems/people';
 import { createResolver } from '../systems/resolver';
+import { answerReflection } from '../systems/story';
 import {
   appointPrefectureOfficial,
   cancelActiveTrip,
@@ -53,6 +54,8 @@ export type Command =
   | { type: 'setMemberCareer'; characterId: string; careerId: string }
   | { type: 'setLivingStandard'; id: string }
   | { type: 'chooseOption'; optionId: string }
+  /** Viết một dòng cho mốc suy ngẫm đang chờ (rỗng = bỏ qua). */
+  | { type: 'answerReflection'; text: string }
   | { type: 'sellFood'; amount: number }
   | { type: 'buyFood'; amount: number }
   | { type: 'buyProperty'; id: string }
@@ -159,6 +162,9 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
     case 'chooseOption':
       if (!state.pending) return fail('no_event');
       return resolveDecision(ctx, cmd.optionId) ? ok : fail('invalid_option');
+
+    case 'answerReflection':
+      return answerReflection(ctx, cmd.text, content.balance.display.reflection_max_length) ? ok : fail('no_event');
 
     case 'chooseMinor':
       if (!state.minor) return fail('no_event');

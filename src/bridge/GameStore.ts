@@ -9,6 +9,7 @@ import {
   type Command,
   type HudView,
   type NewGameOptions,
+  type Resolution,
   type SaveSlotInfo,
   type SaveSystem,
   type SceneDescriptor,
@@ -44,6 +45,10 @@ export interface StoreSnapshot {
   lastError: string | null;
   /** [1] Bật Dev Tools */
   devEnabled: boolean;
+  /** Kết quả quyết định vừa chọn: hiện thẻ kết quả, thời gian chờ người chơi đọc xong mới chạy tiếp. */
+  result: Resolution | null;
+  /** Giấy khai sinh đầu đời đang mở (ván mới). */
+  showBirthCard: boolean;
 }
 
 const AUTO_SLOT = 'auto';
@@ -79,6 +84,8 @@ export class GameStore {
       autoMinor: defaultSettings.autoMinor,
       lastError: null,
       devEnabled: Boolean(import.meta.env.DEV || content.balance.display.dev_tools),
+      result: null,
+      showBirthCard: false,
     };
 
     void this.initAsync();
@@ -194,8 +201,56 @@ export class GameStore {
       speedIndex: this.snapshot.settings.defaultSpeedIndex,
       autoMinor: this.snapshot.settings.autoMinor,
       lastError: null,
+      result: null,
+      showBirthCard: true,
     });
     void this.save();
+  }
+
+  /** Đóng giấy khai sinh và bắt đầu cho thời gian trôi. */
+  closeBirthCard(): void {
+    this.patch({ showBirthCard: false });
+    this.play();
+  }
+
+  /** Đọc xong thẻ kết quả: nếu trước đó thời gian đang chạy thì chạy tiếp. */
+  dismissResult(): void {
+    if (!this.snapshot.result) return;
+    this.patch({ result: null });
+    this.resumeIfWaiting();
+  }
+
+  private resumeIfWaiting(): void {
+    if (this.resumeAfterChoice && this.session && !this.isHalted()) {
+      this.resumeAfterChoice = false;
+      queueMicrotask(() => this.play());
+    }
+  }
+
+  /** Mô phỏng đang chặn (sự kiện, chuyện nhỏ, hết đời) hoặc giao diện đang chờ người chơi (thẻ kết quả, mốc suy ngẫm). */
+  private isHalted(): boolean {
+    const s = this.session;
+    if (!s) return true;
+    return s.blocked || s.state.reflectionDue !== null || this.snapshot.result !== null || this.snapshot.showBirthCard;
+  }
+
+  /** Thời lượng thực của một tháng game: theo tốc độ đã chọn và hệ số giai đoạn đời (ấu thơ trôi nhanh hơn). */
+  msPerMonth(): number {
+    const t = this.content.balance.time;
+    const stage = this.snapshot.hud?.player.lifeStageId ?? '';
+    return t.ms_per_month_at_1x / t.speeds[this.snapshot.speedIndex] / (t.stage_speed_factor[stage] ?? 1);
+  }
+
+  /** "Tới quyết định tiếp theo": tua liền các tháng cho tới khi có chuyện cần người chơi (tối đa time.skip_max_months). */
+  skipToNext(): void {
+    if (!this.session || this.isHalted()) return;
+    this.pause();
+    const max = this.content.balance.time.skip_max_months;
+    for (let i = 0; i < max; i++) {
+      const stop = this.tick({ render: false });
+      if (stop || this.isHalted()) break;
+    }
+    this.refresh();
   }
 
   startScenario(scenarioId: string, options?: { seed?: string; extraFastForwardYears?: number }): void {
@@ -204,7 +259,7 @@ export class GameStore {
     this.session = GameSession.createFromScenario(this.content, sc, options);
     this.yearsSinceSave = 0;
     this.audio.startMusicLoop();
-    this.refresh({ screen: 'life', activeSlot: AUTO_SLOT, lastError: null });
+    this.refresh({ screen: 'life', activeSlot: AUTO_SLOT, lastError: null, result: null, showBirthCard: false });
     void this.save();
   }
 
@@ -227,7 +282,7 @@ export class GameStore {
       this.session = GameSession.load(this.content, raw);
       this.yearsSinceSave = 0;
       this.audio.startMusicLoop();
-      this.refresh({ screen: 'life', activeSlot: slot, lastError: null });
+      this.refresh({ screen: 'life', activeSlot: slot, lastError: null, result: null, showBirthCard: false });
       return true;
     } catch (e) {
       const code = e instanceof SaveError ? e.code : 'save_corrupted';
@@ -249,7 +304,7 @@ export class GameStore {
       void this.save();
     }
     this.session = null;
-    this.refresh({ screen: 'menu' });
+    this.refresh({ screen: 'menu', result: null, showBirthCard: false });
   }
 
   async save(slot = AUTO_SLOT): Promise<boolean> {
@@ -285,9 +340,8 @@ export class GameStore {
 
   // ── Thời gian ──
   play(): void {
-    if (!this.session || this.session.blocked || this.timer) return;
-    const t = this.content.balance.time;
-    const interval = t.ms_per_month_at_1x / t.speeds[this.snapshot.speedIndex];
+    if (!this.session || this.isHalted() || this.timer) return;
+    const interval = this.msPerMonth();
     this.timer = setInterval(() => this.tick(), interval);
     this.audio.startMusicLoop();
     this.patch({ running: true });
@@ -343,9 +397,11 @@ export class GameStore {
     }
   }
 
-  private tick(): void {
+  /** Chạy một tháng. Trả true nếu có chuyện cần dừng lại (quyết định, người nhà mất, mốc suy ngẫm, hết đời). */
+  private tick(opts: { render?: boolean } = {}): boolean {
     const s = this.session;
-    if (!s) return;
+    if (!s) return true;
+    const stageBefore = this.snapshot.hud?.player.lifeStageId;
     let r = s.tickMonth();
     if (r.minor && this.snapshot.autoMinor) {
       s.autoResolveMinor();
@@ -366,7 +422,7 @@ export class GameStore {
       const every = this.content.balance.time.autosave_every_years;
       if (every > 0 && this.yearsSinceSave >= every) void this.save(AUTO_SLOT);
     }
-    if (r.decision || r.minor || r.gameOver) {
+    if (r.decision || r.minor || r.gameOver || r.reflection) {
       if (!r.gameOver && this.timer) this.resumeAfterChoice = true;
       this.pause();
     }
@@ -384,7 +440,15 @@ export class GameStore {
         void this.save(AUTO_SLOT);
       }
     }
-    this.refresh();
+    const stop = r.decision || r.minor || r.gameOver || r.reflection || r.deaths.length > 0;
+    if (opts.render !== false) this.refresh();
+    else this.snapshot = { ...this.snapshot, hud: s.read(getHudView) };
+    // Sang giai đoạn đời có tốc độ khác (hết ấu thơ): đặt lại nhịp đồng hồ
+    if (this.timer && r.newYear && this.snapshot.hud?.player.lifeStageId !== stageBefore) {
+      this.pause();
+      this.play();
+    }
+    return stop;
   }
 
   // ── Lệnh người chơi ──
@@ -392,11 +456,12 @@ export class GameStore {
     if (!this.session) return false;
     const res = this.session.dispatch(cmd);
     this.emitCutscenes(this.session.consumeCutscenes());
-    // Chọn xong sự kiện / chuyện nhỏ: nếu trước đó thời gian đang chạy thì chạy tiếp
-    if (res.ok && (cmd.type === 'chooseOption' || cmd.type === 'chooseMinor') && this.resumeAfterChoice && !this.session.blocked) {
-      this.resumeAfterChoice = false;
-      queueMicrotask(() => this.play());
+    // Chọn xong sự kiện quyết định: hiện thẻ kết quả, đọc xong (dismissResult) mới chạy tiếp
+    if (res.ok && cmd.type === 'chooseOption') {
+      this.snapshot = { ...this.snapshot, result: this.session.state.lastResolution };
     }
+    // Chọn xong chuyện nhỏ / viết xong mốc suy ngẫm: nếu trước đó thời gian đang chạy thì chạy tiếp
+    if (res.ok && (cmd.type === 'chooseMinor' || cmd.type === 'answerReflection')) this.resumeIfWaiting();
     if (res.ok && cmd.type === 'chooseHeir') {
       void this.save(AUTO_SLOT);
     }

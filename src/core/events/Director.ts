@@ -54,6 +54,8 @@ function tryRandomDecision(ctx: SimContext): void {
   if (state.clock.monthIndex - dir.lastDecisionMonthIndex < d.min_months_between) return;
 
   // Mốc đời đủ điều kiện thì phát ngay (vẫn tôn trọng khoảng cách tối thiểu giữa hai quyết định)
+  const seen = (id: string) => state.eventHistory[id]?.count ?? 0;
+  const underCap = (id: string) => d.max_decision_repeats_per_life === 0 || seen(id) < d.max_decision_repeats_per_life;
   const urgent = content.events
     .filter((ev) => ev.priority && !ev.minor && !onCooldown(ctx, ev, state.eventHistory))
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
@@ -69,11 +71,15 @@ function tryRandomDecision(ctx: SimContext): void {
   if (dir.tension >= d.tension.high_threshold) chance *= d.tension.high_factor;
   if (!rng.chance(chance)) return;
 
+  const major = d.major_events;
+  const majorBlocked =
+    state.clock.monthIndex - (dir.lastMajorMonthIndex ?? -Infinity) < major.min_gap_years * content.balance.calendar.months_per_year;
   const pool = content.events
-    .filter((ev) => !ev.scheduled_only && !ev.minor && !onCooldown(ctx, ev, state.eventHistory))
+    .filter((ev) => !ev.scheduled_only && !ev.minor && underCap(ev.id) && !onCooldown(ctx, ev, state.eventHistory))
+    .filter((ev) => !(majorBlocked && ev.importance >= major.min_importance))
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
     .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
-  const repeat = (id: string) => Math.pow(d.repeat_weight_factor, state.eventHistory[id]?.count ?? 0);
+  const repeat = (id: string) => Math.pow(d.repeat_weight_factor, seen(id));
   const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
   if (pick) {
     const blp = d.bad_luck_protection;

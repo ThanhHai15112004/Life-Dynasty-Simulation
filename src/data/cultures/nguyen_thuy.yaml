@@ -1,0 +1,48 @@
+# Văn hóa Bộ lạc Nguyên thủy & Tiền sử — tên thị tộc, tên người, tên xóm lều
+id: nguyen_thuy
+name: Bộ tộc Nguyên thủy
+calendar_style: bce_ce
+lexicon:
+  currency: vỏ sò
+  food: giỏ
+  land: vạt đất
+  staple_crop: hạt dại & củ mài
+family_names:
+  - { name: Đá Lửa, weight: 20 }
+  - { name: Sông Lớn, weight: 18 }
+  - { name: Sói Xám, weight: 15 }
+  - { name: Rừng Sâu, weight: 14 }
+  - { name: Chim Ưng, weight: 12 }
+  - { name: Hươu Đỏ, weight: 11 }
+  - { name: Núi Cao, weight: 10 }
+given_names:
+  m: [Kael, Tor, Orin, Bako, Tala, Rokan, Daro, Zev, Naku, Gorm, Vael, Lumo, Haru, Sena, Kori, Moro]
+  f: [Ayla, Nira, Luma, Sora, Tara, Ena, Miri, Zia, Kаla, Ona, Vani, Yara, Lira, Nomi, Sela, Maya]
+village_names: [Xóm Hang Đá, Bãi Sông Cả, Lều Gỗ Đỏ, Thung Lũng Hươu, Đồi Gió Lớn, Suối Đá Trong, Rừng Sồi Cổ]
+town_names: [Bến Đá Lửa, Chợ Đổi Muối, Gò Thần Mặt Trời, Bãi Hội Bộ Lạc]
+prefecture_names: [Thánh Địa Cự Thạch, Thành Đất Nung Cổ, Vùng Lưỡi Liềm Trù Phú]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: bạn đời ({given})
+  wife: bạn đời ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: chủ lều lớn, call: 'chủ lều {given}' }
+  ly_truong: { title: tộc trưởng, call: 'tộc trưởng {given}' }
+  thay_do: { title: trưởng lão giữ lửa, call: 'trưởng lão {given}' }
+  thay_lang: { title: pháp sư thảo dược, call: 'pháp sư {given}' }
+  hang_xom: { title: người cùng xóm lều, call: '{given} lều bên' }
+  lai_buon: { title: lữ khách đổi đá, call: 'lữ khách {given}' }
+

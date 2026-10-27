@@ -56,6 +56,20 @@ export interface OptionChanceView {
   shown: [number, number];
 }
 
+/** Một đứa trẻ sinh cùng năm, cùng làng với người chơi — sống song song theo cùng bảng tử vong. */
+export interface PeerState {
+  id: string;
+  name: string;
+  sex: 'm' | 'f';
+  archetypeId: string;
+  label: string;
+  birthYear: number;
+  alive: boolean;
+  deathAge: number | null;
+  causeName: string | null;
+  story: { age: number; text: string }[];
+}
+
 export interface PendingEvent {
   instanceId: number;
   eventId: string;
@@ -85,6 +99,10 @@ export interface GameState {
   seed: string;
   originId: string;
   cultureId: string;
+  /** Mốc thời đại đang chơi (id trong data/world/bookmarks/). */
+  bookmarkId?: string;
+  /** Quốc gia / Vùng lãnh thổ trên thế giới nơi nhân vật sinh ra (id trong data/world/polities/). */
+  polityId?: string;
   /** [2] Chế độ số phận đang chơi (id trong balance/fate_modes.yaml). */
   fateMode: string;
   /** [2] Chế độ chơi: 'one_life' (Một đời) hoặc 'dynasty' (Truyền đời). */
@@ -208,10 +226,18 @@ export interface GameState {
     /** [1] Số chuyện nhỏ năm nay và tháng của chuyện nhỏ gần nhất. */
     minorThisYear: number;
     lastMinorMonthIndex: number;
+    /** Tháng của bước ngoặt gần nhất (director.major_events). */
+    lastMajorMonthIndex?: number;
   };
 
   log: LogYear[];
   ledgerHistory: LedgerYear[];
   stats: { decisions: number; minorDecisions: number; eventsSeen: Record<string, number> };
   gameOver: { year: number; age: number; causeId: string } | null;
+  /** Bạn cùng lứa của đời đang chơi. */
+  peers: PeerState[];
+  /** Các mốc suy ngẫm đã đến (câu hỏi + dòng người chơi viết, rỗng nếu bỏ qua). */
+  reflections: { age: number; question: string; answer: string }[];
+  /** Mốc suy ngẫm đang chờ trả lời. Không chặn mô phỏng: giao diện tự dừng thời gian để hỏi. */
+  reflectionDue: { age: number; question: string } | null;
 }

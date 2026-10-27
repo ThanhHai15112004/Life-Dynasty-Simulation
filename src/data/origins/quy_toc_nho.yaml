@@ -3,8 +3,9 @@ id: quy_toc_nho
 name: Quý tộc nhỏ
 description: Hậu duệ một dòng họ hương hào từng hiển đạt nay đã sa sút. Còn giữ được nếp nhà ngói cổ, vài mẫu ruộng và vốn chữ nghĩa, nhưng nợ nần vì giữ thể diện.
 culture: viet
-start_age_options: [16, 6, 0]
-default_start_age: 16
+start_age_options: [0, 6, 16]
+default_start_age: 0
+birth_weight: 8            # bốc thăm số phận: nhà có chữ, có ruộng phát canh hiếm hơn cả
 default_focus: hoc_tap
 default_career: si_tu
 settlement: lang_nong

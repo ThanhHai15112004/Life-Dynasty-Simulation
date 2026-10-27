@@ -30,26 +30,35 @@ Câu hỏi kiểm chứng GĐ1: ***sống trọn một đời người (20–40 
 
 Tiến độ từng hạng mục: [docs/LO_TRINH_THUC_HIEN.md](docs/LO_TRINH_THUC_HIEN.md). Danh sách asset còn thiếu: [docs/ART_CAN_CHUAN_BI.md](docs/ART_CAN_CHUAN_BI.md).
 
-### KPI cân bằng hiện tại (80 đời mỗi bot × xuất thân, `npm run simulate -- --origin all`)
+### Lớp câu chuyện & nhịp chơi (27/10/2026)
 
-| Xuất thân | Bot | Tuổi thọ TB | Quyết định/năm | Dòng chuyện/năm | Lặp sự kiện | Giá trị ròng cuối đời |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| Nông dân | An phận / Tối ưu | 53.2 / 53.6 | 1.23 | 5.8 / 9.6 | 23% / 30% | 233 / 1.443 quan |
-| Thương nhân | An phận / Tối ưu | 51.2 / 55.0 | 1.18 / 1.17 | 5.6 / 9.7 | 25% / 34% | 984 / 2.461 quan |
-| Quý tộc nhỏ | An phận / Tối ưu | 53.0 / 61.6 | 1.59 / 1.28 | 6.6 / 13.1 | 49% / 37% | 176 / 1.070 quan (+ địa vị sĩ phu) |
+| Thêm | Chi tiết |
+| :--- | :--- |
+| Bốc thăm số phận | Nút "Chào đời": xuất thân rút theo `birth_weight` (nông 80 · buôn 12 · nho 8), bắt đầu từ 0 tuổi |
+| Giấy khai sinh | Nơi sinh, cha mẹ, gia cảnh, "cứ 100 đứa trẻ thì N đứa vào nhà như thế", tuổi thọ thời ấy — lưu/chia sẻ ảnh PNG |
+| Bạn cùng lứa | 4 đứa trẻ cùng năm, khác gia cảnh, sống song song theo cùng bảng tử vong (`src/data/story/story.yaml`) |
+| Mốc suy ngẫm | 5 · 15 · 30 · 50 · 70 tuổi: dừng lại hỏi một câu, người chơi viết một dòng, cuối đời đọc lại |
+| Thẻ đời | Văn bia theo hoàn cảnh, bản đồ đời, dấu mốc, số phận bạn cùng lứa — xuất ảnh PNG để chia sẻ |
+| Thẻ kết quả | Sau mỗi quyết định hiện rõ được/mất (tiền, sức khỏe, lòng người…) |
+| Nhịp | Ấu thơ trôi nhanh ×3; nút "Tới quyết định tiếp" (tua tối đa 24 tháng) |
+| Bước ngoặt | 25 sự kiện lớn mỗi đời gặp một lần (`buoc_ngoat.yaml`), cách nhau ≥ 4 năm; 11 sự kiện "giàu rước họa" (`giau_ruoc_hoa.yaml`) |
+| Kinh tế | Chi sinh hoạt, thuế sưu, việc làng việc họ (thêm phần theo của cải), ma chay; mua ruộng/trâu không còn tự động khi làm chủ hộ |
+| Luật sự kiện | Sự kiện không ghi giai đoạn đời chỉ dành cho người lớn; một sự kiện tối đa 3 lần/đời; "chưa phải lúc" hẹn lại tối đa 2 lần |
 
-Bot liều lĩnh và ngẫu nhiên chết sớm (33–42 tuổi) vì nợ chồng nợ — quyết định có hậu quả thật.
+### Số đo cân bằng (27/10/2026, 6–8 đời mỗi nhóm, bắt đầu 16 tuổi — mẫu nhỏ, chỉ để định hướng)
 
-**Vấn đề đã biết:** tỷ lệ gặp lại sự kiện còn 10–49% (mục tiêu dưới 15%), cao nhất ở nhà nho và nhà buôn vì kho sự kiện riêng của hai xuất thân này còn mỏng; cần thêm nội dung theo nghề.
+| Xuất thân | Bot | Tuổi chết TB | Tài sản ròng cuối đời p25 / trung vị / p75 (quan) | Từng nợ > 30 quan |
+| :--- | :--- | :---: | :---: | :---: |
+| Nông dân | An phận | 48 | −121 / 78 / 95 | 38% |
+| Nông dân | Tối ưu | 52 | −78 / 272 / 462 | 50% |
+| Nông dân | Liều lĩnh | 32 | −54 / 89 / 159 | 38% |
+| Thương nhân | An phận | 60 | 143 / 478 / 714 | 0% |
+| Thương nhân | Tối ưu | 56 | −70 / 85 / 91 | 88% |
+| Thương nhân | Liều lĩnh | 54 | 30 / 1.827 / 2.066 | 25% |
 
---- | :--- | :---: | :---: | :---: |
-| Nông dân | An phận / Tối ưu | 51.9 / 55.3 | 1.30 / 1.29 | 154 / 1.416 quan |
-| Thương nhân | An phận / Tối ưu | 52.3 / 56.0 | 1.16 / 1.17 | 682 / 2.251 quan |
-| Quý tộc nhỏ | An phận / Tối ưu | 50.9 / 59.0 | 1.57 / 1.27 | 149 / 1.174 quan (+ địa vị sĩ phu) |
+Trước đợt này mọi đời đều giàu dần lên 1.600–4.700 quan và không nợ suốt đời. Hiệu năng: 27–40 ms mỗi năm mô phỏng (chạy riêng).
 
-Bot liều lĩnh và ngẫu nhiên chết sớm (31–35 tuổi) vì nợ chồng nợ — quyết định có hậu quả thật.
-
-**Vấn đề đã biết:** tỷ lệ gặp lại cùng một sự kiện trong một đời còn 40–70% (mục tiêu dưới 15%). Với khoảng 1,2 quyết định mỗi năm trong một đời 50 năm, cần nhiều hơn hẳn số sự kiện hiện có trên mỗi xuất thân.
+**Vấn đề đã biết:** Nhà buôn "tối ưu" hay rơi vào nợ (bot chưa biết né rủi ro buôn chuyến). Vòng nợ lãi 30% sau hai tai họa liên tiếp rất khó thoát, cần thêm lối ra (làm thuê, bỏ làng, họ hàng cứu). Một số câu chữ còn giả định giới tính ("vợ con"). Chưa có người chơi thật thử.
 
 ---
 
