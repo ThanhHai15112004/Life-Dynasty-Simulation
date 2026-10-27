@@ -288,7 +288,15 @@ careers:
 
   - id: linh
     name: Lính → Tướng
+    names_by_civ:
+      hien_dai: Quân nhân → Sĩ quan
+      phong_kien_au: Chiến binh → Hiệp sĩ
+      du_muc: Kỵ binh → Vạn hộ trưởng
+      bo_lac_nguyen_thuy: Chiến binh bộ lạc
     description: Khoác áo lính, cầm giáo giữ biên cương. Đổi mồ hôi và máu trên chiến trường lấy quân công, bổng lộc và chức tước.
+    descriptions_by_civ:
+      hien_dai: Rèn luyện kỷ luật trong quân ngũ, bảo vệ đất nước và thăng tiến lên hàng sĩ quan chỉ huy.
+      phong_kien_au: Phục vụ trong đội quân lãnh địa, lập chiến công trên chiến trường để được phong tước Hiệp sĩ.
     icon: phu
     sector: quan_binh
     depth: sau
@@ -450,6 +458,10 @@ careers:
 
   - id: thao_khau
     name: Thảo khấu
+    names_by_civ:
+      hien_dai: Tay anh chị giang hồ
+      phong_kien_au: Kẻ ngoài vòng pháp luật
+      du_muc: Kỵ binh cướp bóc
     description: Sống ngoài vòng pháp luật nơi rừng xanh núi đỏ. Tự do tự tại, lấy của nhà giàu chia cho anh em, nhưng luôn đối mặt lệnh truy nã của quan phủ.
     icon: nguy_hiem
     sector: giang_ho
@@ -597,7 +609,17 @@ careers:
 
   - id: si_tu
     name: Sĩ tử → Quan văn
+    names_by_civ:
+      hien_dai: Học giả → Công chức
+      phong_kien_au: Học giả → Pháp quan
+      co_dai_de_che: Học giả → Quan chấp chính
+      hoi_giao: Học giả → Thẩm phán
+      du_muc: Mưu sĩ trướng đình
+      bo_lac_nguyen_thuy: Người giữ tri thức bộ lạc
     description: Dùi mài kinh sử, lều chõng đi thi. Đỗ đạt thì được bổ làm quan, rạng danh tông tộc; lận đận thì làm thầy đồ dạy chữ nuôi thân.
+    descriptions_by_civ:
+      hien_dai: Theo đuổi con đường học vấn, nghiên cứu chuyên môn và thi tuyển vào bộ máy quản lý nhà nước hoặc giáo dục.
+      phong_kien_au: Nghiên cứu triết học, luật pháp và thần học tại các học viện để trở thành cố vấn hoặc pháp quan.
     icon: sach
     sector: quan_hoc
     depth: sau
@@ -763,6 +785,9 @@ careers:
 
   - id: ta_dien
     name: Tá điền
+    names_by_civ:
+      hien_dai: Nông dân thuê đất
+      phong_kien_au: Nông nô canh tác
     description: Không đủ ruộng nhà, phải nhận ruộng của điền chủ cấy rẽ nộp tô. Cực nhọc quanh năm nhưng giữ được thóc ăn và tích lũy kinh nghiệm đồng áng.
     icon: lua
     sector: nong_nghiep
@@ -851,7 +876,11 @@ careers:
 
   - id: lam_thue
     name: Làm thuê
+    names_by_civ:
+      hien_dai: Công nhân / Lao động tự do
     description: 'Ai thuê gì làm nấy: gánh mướn, phụ hồ, đập đất, bốc vác ngoài bến. Tiền trao cháo múc mỗi ngày nhưng vất vả, ráo mồ hôi là hết tiền.'
+    descriptions_by_civ:
+      hien_dai: Làm việc theo ca tại nhà máy, công trường hoặc nhận việc tự do để có thu nhập hằng tháng.
     icon: lao_dong
     sector: dich_vu
     depth: nhe
@@ -1121,7 +1150,14 @@ careers:
 
   - id: thay_lang
     name: Thầy lang
+    names_by_civ:
+      hien_dai: Bác sĩ / Y sĩ
+      phong_kien_au: Thầy thuốc y thuật
+      hoi_giao: Y sư (Hakim)
+      bo_lac_nguyen_thuy: Người chữa bệnh thảo mộc
     description: Hái thuốc nam, bắt mạch kê đơn cứu người. Nghề tích đức trọng danh, càng già tay nghề càng cao, được dân làng kính trọng gọi bằng thầy.
+    descriptions_by_civ:
+      hien_dai: Khám chữa bệnh, chăm sóc sức khỏe cộng đồng bằng kiến thức y học và tận tâm cứu người.
     icon: binh_yen
     sector: y_dao
     depth: vua
@@ -1382,7 +1418,14 @@ careers:
 
   - id: nha_lai
     name: Nha lại
+    names_by_civ:
+      hien_dai: Viên chức hành chính
+      phong_kien_au: Thư ký lãnh địa
+      co_dai_de_che: Thư lại công vụ
+      hoi_giao: Thư ký công đường
     description: Giữ việc sổ sách, thuế khóa, trát đòi nơi cửa quan huyện lỵ. Tuy không có phẩm hàm cao như quan lớn nhưng nắm quyền thực tế dưới thôn xã, bổng lộc đều đặn.
+    descriptions_by_civ:
+      hien_dai: Phụ trách hồ sơ, giấy tờ hành chính, thống kê và dịch vụ công tại cơ quan địa phương.
     icon: quan_tri
     sector: quan_hoc
     depth: vua
@@ -1552,6 +1595,8 @@ careers:
 
   - id: ba_do
     name: Bà đỡ
+    names_by_civ:
+      hien_dai: Hộ sinh / Điều dưỡng
     description: Đón những sinh linh chào đời bình an và chăm sóc sản phụ trong làng ngoài tổng. Nghề cần bàn tay khéo léo, tấm lòng nhân hậu, đi đến đâu cũng được hậu tạ và quý mến.
     icon: sinh_nhat
     sector: y_dao

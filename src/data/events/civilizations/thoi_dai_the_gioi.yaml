@@ -114,7 +114,7 @@ events:
     condition:
       all:
         - { var: world.year, op: between, value: [-1000, 1750] }
-        - { var: world.civilization_id, op: 'in', value: [trung_dong_hoi_giao, thao_nguyen_du_muc, nam_a_an_do, dia_trung_hai] }
+        - { var: world.civilization_id, op: 'in', value: [hoi_giao, du_muc, nam_a, co_dai_de_che] }
     weight: 11
     cooldown_years: 4
     importance: 7
@@ -153,7 +153,7 @@ events:
     condition:
       all:
         - { var: world.year, op: between, value: [-500, 1780] }
-        - { var: world.civilization_id, op: 'in', value: [au_co_dien, trung_co_au, dia_trung_hai] }
+        - { var: world.civilization_id, op: 'in', value: [co_dai_de_che, phong_kien_au] }
     weight: 10
     cooldown_years: 5
     importance: 6
@@ -438,4 +438,107 @@ events:
           - { type: health, value: 5 }
         result:
           - 'Bạn duy trì chế độ sinh hoạt điều độ để sức khỏe hồi phục từ từ.'
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # 5. BẾN SÔNG, LÀNG CHÀI & CẢNG BIỂN (phù hợp sinh kế sông nước mọi thời đại)
+  # ══════════════════════════════════════════════════════════════════════════
+  - id: ben_thuyen_ca_ve_day_khoang
+    title: Luồng cá lớn dạt về cửa sông
+    text:
+      - 'Nước thủy triều dâng cao kéo theo từng đàn cá lớn trắng xóa mặt sông. Các thuyền chài và thương lái quanh bến đang hối hả chuẩn bị lưới lớn và muối ướp.'
+    tags: [co_hoi, buon_ban]
+    condition:
+      any:
+        - { var: player.career, op: 'in', value: [ngu_dan, chu_do] }
+        - { var: world.settlement_type, op: 'in', value: [lang_chai, thi_tran_ben_song, cang_bien] }
+    weight: 12
+    cooldown_years: 3
+    importance: 6
+    icon: ca
+    options:
+      - id: dong_thuyen_ra_giua_luong
+        text: Chèo thuyền ra giữa luồng nước xiết tung lưới mẻ lớn
+        chance:
+          base: 0.65
+          skill: sinh_ton
+          per_level: 0.06
+        success:
+          - { type: food, value: 18 }
+          - { type: money, value: 8, ledger: luong_nghe }
+          - { type: skill_xp, skill: sinh_ton, value: 25 }
+        failure:
+          - { type: food, value: 5 }
+          - { type: health, value: -5 }
+        success_result:
+          - 'Khoang thuyền đầy ắp cá tươi lấp lánh, bán ngay tại bến cũng thu về một khoản khá.'
+        failure_result:
+          - 'Sóng lớn làm rách một góc lưới, chỉ vớt được vài giỏ cá nhỏ.'
+      - id: thu_mua_ca_tai_ben_ban_lai
+        text: Đứng ngay cầu bến thu mua cá tươi rồi phân phối cho chợ phố
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: 7, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 22 }
+        result:
+          - 'Khách từ phố chợ đổ ra bến mua sạch các sọt cá của bạn trước giờ ngọ.'
+
+  - id: hoi_cho_lanh_dia_au_chau
+    title: Phiên chợ hội mùa thu trước cổng thành
+    text:
+      - 'Lãnh chúa và giáo구 mở phiên chợ hội lớn bên ngoài tường đá. Thương nhân mang len dạ, rượu vang, phô mai và nông cụ sắt từ khắp các vùng đổ về trao đổi.'
+    tags: [buon_ban, le_hoi]
+    condition:
+      all:
+        - { var: world.civilization_id, op: '==', value: phong_kien_au }
+        - { var: world.year, op: '<', value: 1900 }
+    weight: 12
+    cooldown_years: 3
+    importance: 6
+    icon: cho
+    options:
+      - id: bay_sap_doi_hang_len_da
+        text: Đem sản vật của gia đình ra đổi lấy vải len và tiền bạc
+        effects:
+          - { type: money, value: 8, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 22 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Phiên chợ nhộn nhịp tiếng đàn phong cầm, bạn bán hết hàng và mua được tấm áo dạ dày cho mùa đông.'
+      - id: xin_nhan_khoan_dat_trang_vien
+        text: Xin gặp quản gia trang viên nhận làm thêm việc rèn đúc và chở hàng
+        effects:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: skill_xp, skill: quan_tri, value: 18 }
+        result:
+          - 'Quản gia hài lòng với sự tháo vát của bạn và giao thêm mối hàng cố định.'
+
+  - id: di_cu_thao_nguyen_mua_dong
+    title: Chuyển trại tránh gió tuyết thảo nguyên
+    text:
+      - 'Cỏ trên vùng đồng bằng đã ngả vàng khô héo, gió bắc bắt đầu mang theo mùi tuyết lạnh. Các trưởng lão bàn tính ngày nhổ lều nỉ di chuyển đàn gia súc về thung lũng khuất gió.'
+    tags: [gia_dinh, sinh_ton]
+    condition:
+      all:
+        - { var: world.civilization_id, op: '==', value: du_muc }
+    weight: 12
+    cooldown_years: 3
+    importance: 6
+    icon: trau
+    options:
+      - id: di_som_chiem_bai_co_tot
+        text: Hạ lều nỉ lên đường sớm để giữ bãi cỏ ấm gần nguồn nước
+        effects:
+          - { type: food, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 24 }
+        result:
+          - 'Đàn cừu và ngựa của gia đình bạn béo khỏe suốt mùa đông nhờ bãi cỏ kín gió.'
+      - id: doi_da_thu_lay_tra_muoi
+        text: Ghé điểm giao thương biên giới đổi lông cừu lấy gạch trà và muối
+        effects:
+          - { type: money, value: 7, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 20 }
+        result:
+          - 'Những bánh trà nóng giúp cả gia đình ấm bụng trong lều nỉ giữa đêm tuyết.'
+
 

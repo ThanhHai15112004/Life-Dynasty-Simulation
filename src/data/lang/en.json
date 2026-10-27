@@ -1102,5 +1102,11 @@
   "newgame.polity_random": "Let Fate Decide (Weighted by Population)",
   "newgame.polity_stats": "Life expectancy: ~{life} yrs · Child survival to age 5: {survival}% · Literacy rate: {literacy}%",
   "birth.world_share": "Born in {polity} ({region}) — home to ~{pct}% of the world's population in this era.",
-  "birth.demographics": "Regional demographics: {survival}% survive past age 5 · {literacy}% literacy rate."
+  "birth.demographics": "Regional demographics: {survival}% survive past age 5 · {literacy}% literacy rate.",
+  "date.year_ce": "Year {year}",
+  "profile.card_title_polity": "Personal Dossier · {polity}",
+  "profile.born_value_ce": "{month}, {year}",
+  "birth.born_ce": "Born in the year {year}, in {village}",
+  "birth.wealth_lex": "The family owns {farmland} {land} and {money} {currency}.",
+  "card.years_ce": "{byear} — {dyear}"
 }

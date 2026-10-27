@@ -4,11 +4,12 @@ import type { AmbientTemplate } from '@content/schemas';
 import { fillTemplate } from '@shared/template';
 import type { LogEntry } from '../entities/World';
 import { RngStream, type SimContext } from '../systems/context';
+import { selfFarms } from '../systems/economy/helpers';
 import { ageNow, lifeStageOf, player } from '../systems/people';
 import { fireDecision, fireMinor, shownOptionCount } from './decision';
 import { currentLogYear, pushLog, writeTemplate } from './journal';
 import { eligibleRoles, onCooldown, weightOf } from './selection';
-import { LogKind } from './systemLogKeys';
+import { LogKind, SystemLog } from './systemLogKeys';
 
 function stageOfPlayer(ctx: SimContext) {
   return lifeStageOf(ctx, ageNow(ctx, player(ctx)));
@@ -152,8 +153,22 @@ export function directorYearEnd(ctx: SimContext): void {
   const year = currentLogYear(ctx);
   const isStory = (e: LogEntry) => e.kind !== 'he_thong' && e.kind !== 'bao_cao';
   if (!year.entries.some(isStory)) {
-    const q = content.index.harvestQuality.get(state.world.harvestQuality);
-    if (q) writeTemplate(ctx, q.quiet_year_log);
+    const isModern = state.civilization.id === 'hien_dai' || state.clock.year >= 1945;
+    const isRiverCareer =
+      state.career.id === 'ngu_dan' ||
+      state.career.id === 'chu_do' ||
+      state.householdCareer === 'ngu_dan' ||
+      state.householdCareer === 'chu_do';
+    if (isModern && content.index.ambient.has(SystemLog.QuietYearModern)) {
+      writeTemplate(ctx, SystemLog.QuietYearModern);
+    } else if (isRiverCareer && content.index.ambient.has(SystemLog.QuietYearRiver)) {
+      writeTemplate(ctx, SystemLog.QuietYearRiver);
+    } else if ((!selfFarms(ctx) || state.world.settlementType !== 'lang_nong') && content.index.ambient.has(SystemLog.QuietYearTown)) {
+      writeTemplate(ctx, SystemLog.QuietYearTown);
+    } else {
+      const q = content.index.harvestQuality.get(state.world.harvestQuality);
+      if (q) writeTemplate(ctx, q.quiet_year_log);
+    }
   }
 
   const amb = content.balance.director.ambient;

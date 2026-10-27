@@ -1102,5 +1102,11 @@
   "newgame.polity_random": "Để số phận định đoạt (Theo tỷ lệ dân số)",
   "newgame.polity_stats": "Tuổi thọ kỳ vọng: ~{life} tuổi · Tỷ lệ sống qua 5 tuổi: {survival}% · Biết chữ: {literacy}%",
   "birth.world_share": "Chào đời tại {polity} ({region}) — nơi chiếm khoảng {pct}% dân số thế giới đương thời.",
-  "birth.demographics": "Thống kê vùng này: {survival}% trẻ sống qua 5 tuổi · {literacy}% dân cư biết chữ."
+  "birth.demographics": "Thống kê vùng này: {survival}% trẻ sống qua 5 tuổi · {literacy}% dân cư biết chữ.",
+  "date.year_ce": "Năm {year}",
+  "profile.card_title_polity": "Hồ sơ cá nhân · {polity}",
+  "profile.born_value_ce": "{month} năm {year}",
+  "birth.born_ce": "Sinh năm {year}, tại {village}",
+  "birth.wealth_lex": "Nhà có {farmland} {land} và {money} {currency}.",
+  "card.years_ce": "{byear} — {dyear}"
 }

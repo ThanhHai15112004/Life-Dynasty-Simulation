@@ -22,11 +22,25 @@ export function ProfileCard({ hud, onOpenCharacter }: { hud: HudView; onOpenChar
   const scene = snap.scene;
   const code = `DD<${plain(p.name).replace(/\s+/g, '<<')}`.padEnd(34, '<').slice(0, 34);
   const code2 = `${p.birth.year}${String(p.birth.month).padStart(2, '0')}${p.sex.toUpperCase()}<${plain(hud.household.settlement.name).replace(/\s+/g, '')}`.padEnd(34, '<').slice(0, 34);
+  const birthYearLabel = p.birth.year < 0 ? t('year.bce', { year: Math.abs(p.birth.year) }) : String(p.birth.year);
+  const bornText =
+    hud.date.calendarStyle === 'bce_ce'
+      ? t('profile.born_value_ce', { month: t(`month.${p.birth.month}`), year: birthYearLabel })
+      : t('profile.born_value', {
+          month: t(`month.${p.birth.month}`),
+          can: t(`canchi.can.${p.birth.can}`),
+          chi: t(`canchi.chi.${p.birth.chi}`),
+          year: birthYearLabel,
+        });
+  const cardTitle = hud.worldContext?.polityName
+    ? t('profile.card_title_polity', { polity: hud.worldContext.polityName })
+    : t('profile.card_title');
+  const displayYear = hud.date.year < 0 ? t('year.bce', { year: Math.abs(hud.date.year) }) : String(hud.date.year);
   return (
     <section className="card profile-card">
       <div className="profile-band">
-        <span>{t('profile.card_title')}</span>
-        <span>{hud.date.year}</span>
+        <span>{cardTitle}</span>
+        <span>{displayYear}</span>
       </div>
       <div className="profile-body">
         {scene && <Portrait id={p.id} sex={p.sex} ageGroup={p.ageGroup} cultureSet={scene.cultureSet} season={scene.season} scale={4} />}
@@ -43,7 +57,7 @@ export function ProfileCard({ hud, onOpenCharacter }: { hud: HudView; onOpenChar
             <dt>{t('profile.sex')}</dt>
             <dd>{t(`menu.sex.${p.sex}`)}</dd>
             <dt>{t('profile.born')}</dt>
-            <dd>{t('profile.born_value', { month: t(`month.${p.birth.month}`), can: t(`canchi.can.${p.birth.can}`), chi: t(`canchi.chi.${p.birth.chi}`), year: p.birth.year })}</dd>
+            <dd>{bornText}</dd>
             <dt>{t('profile.home')}</dt>
             <dd>
               <Tooltip content={hud.household.settlement.typeDescription}>

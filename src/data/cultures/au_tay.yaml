@@ -2,6 +2,7 @@
 id: au_tay
 name: Phương Tây (Âu – Mỹ)
 calendar_style: bce_ce
+name_order: given_first
 lexicon:
   currency: đồng bạc (Crown)
   food: giạ (bushel)

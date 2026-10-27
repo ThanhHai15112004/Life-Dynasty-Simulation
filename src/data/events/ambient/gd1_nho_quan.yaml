@@ -7,7 +7,7 @@ templates:
     tags: [hoc_hanh]
     life_stages: [thanh_nien, lap_nghiep]
     months: [11, 12, 1]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [none, sinh_do] }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [none, sinh_do] }] }
     weight: 4
     cooldown_years: 2
     importance: 1
@@ -23,7 +23,7 @@ templates:
     kind: chuyen_vat
     tags: [hoc_hanh]
     life_stages: [thanh_nien, lap_nghiep]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [none, sinh_do] }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [none, sinh_do] }] }
     weight: 4
     cooldown_years: 3
     importance: 1
@@ -37,7 +37,7 @@ templates:
     kind: bao_cao
     tags: [hoc_hanh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [none, sinh_do, huong_cong] }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [none, sinh_do, huong_cong] }] }
     weight: 4
     cooldown_years: 2
     importance: 1
@@ -53,7 +53,7 @@ templates:
     kind: chuyen_vat
     tags: [hoc_hanh]
     life_stages: [thanh_nien]
-    condition: { var: player.career, op: '==', value: si_tu }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }] }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -71,7 +71,7 @@ templates:
     tags: [hoc_hanh]
     life_stages: [thanh_nien, lap_nghiep]
     months: [5, 6, 7]
-    condition: { var: player.career, op: '==', value: si_tu }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }] }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -85,7 +85,7 @@ templates:
     kind: nguoi_quanh
     tags: [hoc_hanh, lang_xa, tin_don]
     life_stages: [lap_nghiep, trung_nien]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '==', value: none }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '==', value: none }] }
     roles: [{ id: hx, from: village, village_role: hang_xom, optional: true }]
     weight: 3
     cooldown_years: 4
@@ -104,7 +104,7 @@ templates:
     kind: bao_cao
     tags: [hoc_hanh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: world.exam_stage, op: '==', value: huong }, { var: player.exam_degree, op: 'in', value: [none, sinh_do] }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: world.exam_stage, op: '==', value: huong }, { var: player.exam_degree, op: 'in', value: [none, sinh_do] }] }
     weight: 5
     cooldown_years: 2
     importance: 2
@@ -118,7 +118,7 @@ templates:
     kind: diem_bao
     tags: [hoc_hanh, tin_nguong]
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: world.exam_stage, op: '!=', value: none }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: world.exam_stage, op: '!=', value: none }] }
     weight: 3
     cooldown_years: 3
     importance: 2
@@ -134,7 +134,7 @@ templates:
     tags: [hoc_hanh, gia_dinh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [6, 7]
-    condition: { var: player.career, op: '==', value: si_tu }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }] }
     weight: 4
     cooldown_years: 3
     importance: 1
@@ -148,7 +148,7 @@ templates:
     kind: chuyen_vat
     tags: [hoc_hanh, gia_dinh]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { var: player.career, op: '==', value: si_tu }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }] }
     weight: 3
     cooldown_years: 4
     importance: 1
@@ -161,7 +161,7 @@ templates:
     kind: nguoi_quanh
     tags: [hoc_hanh, quan_he]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '!=', value: none }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '!=', value: none }] }
     weight: 3
     cooldown_years: 3
     importance: 2
@@ -178,7 +178,7 @@ templates:
     tags: [hoc_hanh, le_hoi]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [12, 1]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 1 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 1 }] }
     weight: 4
     cooldown_years: 2
     importance: 2
@@ -193,7 +193,7 @@ templates:
     kind: nguoi_quanh
     tags: [hoc_hanh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 1 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 1 }] }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -208,7 +208,7 @@ templates:
     kind: nguoi_quanh
     tags: [hoc_hanh, quan_he]
     life_stages: [trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 1 }, { var: player.skill.hoc_van, op: '>=', value: 4 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 1 }, { var: player.skill.hoc_van, op: '>=', value: 4 }] }
     weight: 2
     cooldown_years: 5
     importance: 3
@@ -224,7 +224,7 @@ templates:
     kind: bao_cao
     tags: [nghe_nghiep, van_minh]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 2 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 2 }] }
     weight: 5
     cooldown_years: 2
     importance: 1
@@ -239,7 +239,7 @@ templates:
     kind: nguoi_quanh
     tags: [nghe_nghiep, lang_xa]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
     weight: 4
     cooldown_years: 2
     importance: 2
@@ -253,7 +253,7 @@ templates:
     kind: nguoi_quanh
     tags: [nghe_nghiep, quan_he]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 2 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 2 }] }
     weight: 3
     cooldown_years: 4
     importance: 1
@@ -270,7 +270,7 @@ templates:
     tags: [nghe_nghiep, thien_tai]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     months: [6, 7, 8]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
     weight: 4
     cooldown_years: 2
     importance: 2
@@ -284,7 +284,7 @@ templates:
     kind: nguoi_quanh
     tags: [nghe_nghiep, quan_he]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
     weight: 3
     cooldown_years: 3
     importance: 2
@@ -300,7 +300,7 @@ templates:
     kind: chuyen_vat
     tags: [nghe_nghiep]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.career_rank, op: '>=', value: 3 }] }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -315,7 +315,7 @@ templates:
     kind: tin_the_gioi
     tags: [tin_don, van_minh, hoc_hanh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: world.exam_stage, op: '==', value: huong }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: world.exam_stage, op: '==', value: huong }] }
     weight: 4
     cooldown_years: 2
     importance: 2
@@ -329,7 +329,7 @@ templates:
     kind: tin_the_gioi
     tags: [tin_don, van_minh]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }] }
     weight: 3
     cooldown_years: 3
     importance: 2
@@ -344,7 +344,7 @@ templates:
     kind: tin_the_gioi
     tags: [tin_don, van_minh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { any: [{ var: player.career, op: '==', value: si_tu }, { var: player.status_rank, op: 'in', value: [si_phu, quan_lai] }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { any: [{ var: player.career, op: '==', value: si_tu }, { var: player.status_rank, op: 'in', value: [si_phu, quan_lai] }] }] }
     weight: 2
     cooldown_years: 5
     importance: 2
@@ -358,7 +358,7 @@ templates:
     kind: tin_the_gioi
     tags: [tin_don, van_minh]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { var: player.status_rank, op: 'in', value: [si_phu, quan_lai] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.status_rank, op: 'in', value: [si_phu, quan_lai] }] }
     weight: 2
     cooldown_years: 5
     importance: 2
@@ -372,7 +372,7 @@ templates:
     kind: tin_the_gioi
     tags: [tin_don, quan_su]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ var: player.career, op: 'in', value: [si_tu, linh] }, { var: world.military_alert, op: '==', value: chien_dich }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: 'in', value: [si_tu, linh] }, { var: world.military_alert, op: '==', value: chien_dich }] }
     weight: 3
     cooldown_years: 2
     importance: 2
@@ -388,7 +388,7 @@ templates:
     tags: [van_minh, tin_nguong, le_hoi]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [2, 8]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '!=', value: none }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '!=', value: none }] }
     weight: 4
     cooldown_years: 2
     importance: 2
@@ -402,7 +402,7 @@ templates:
     kind: chuyen_vat
     tags: [van_minh, gia_dinh, tin_nguong]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { var: player.career, op: '==', value: si_tu }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }] }
     weight: 3
     cooldown_years: 3
     importance: 2
@@ -416,7 +416,7 @@ templates:
     kind: chuyen_vat
     tags: [gia_dinh, tin_nguong]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { var: player.career, op: '==', value: si_tu }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }] }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -429,7 +429,7 @@ templates:
     kind: nguoi_quanh
     tags: [van_minh, lang_xa]
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
-    condition: { all: [{ var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '==', value: none }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }, { var: player.exam_degree, op: '==', value: none }] }
     weight: 3
     cooldown_years: 3
     importance: 1
@@ -444,7 +444,7 @@ templates:
     tags: [hoc_hanh, le_hoi]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     months: [1]
-    condition: { var: player.career, op: '==', value: si_tu }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { var: player.career, op: '==', value: si_tu }] }
     weight: 4
     cooldown_years: 2
     importance: 2
@@ -460,7 +460,7 @@ templates:
     kind: bao_cao
     tags: [gia_dinh, no_nan]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ has_property: phu_nho }, { var: household.money, op: '<', value: 6 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { has_property: phu_nho }, { var: household.money, op: '<', value: 6 }] }
     weight: 3
     cooldown_years: 3
     importance: 2
@@ -476,7 +476,7 @@ templates:
     kind: bao_cao
     tags: [gia_dinh, no_nan]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ has_property: phu_nho }, { var: household.debt, op: '>', value: 10 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { has_property: phu_nho }, { var: household.debt, op: '>', value: 10 }] }
     weight: 3
     cooldown_years: 4
     importance: 3
@@ -492,7 +492,7 @@ templates:
     kind: nguoi_quanh
     tags: [gia_dinh, no_nan]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ has_property: phu_nho }, { var: household.money, op: '<', value: 3 }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { has_property: phu_nho }, { var: household.money, op: '<', value: 3 }] }
     weight: 3
     cooldown_years: 4
     importance: 2
@@ -506,7 +506,7 @@ templates:
     kind: nguoi_quanh
     tags: [gia_dinh, lang_xa, tin_don]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
-    condition: { all: [{ has_property: phu_nho }, { var: player.status_rank, op: 'in', value: [dan_ngheo, thuong_dan] }] }
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }, { has_property: phu_nho }, { var: player.status_rank, op: 'in', value: [dan_ngheo, thuong_dan] }] }
     weight: 3
     cooldown_years: 4
     importance: 2

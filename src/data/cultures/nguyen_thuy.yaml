@@ -2,6 +2,7 @@
 id: nguyen_thuy
 name: Bộ tộc Nguyên thủy
 calendar_style: bce_ce
+name_order: given_first
 lexicon:
   currency: vỏ sò
   food: giỏ

@@ -74,10 +74,24 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
 
   const currentSettlementType = activeSettlementId(ctx);
   const isMourning = state.civilization.mourningMonthsLeft > 0;
+  const civId = state.civilization.id;
+  const cultureId = state.cultureId ?? '';
+  const cultureSet =
+    state.clock.year >= 1945 || civId === 'hien_dai'
+      ? 'hien_dai'
+      : state.clock.year < -1000 || civId === 'bo_lac_nguyen_thuy'
+        ? 'bo_lac_nguyen_thuy'
+        : civId === 'phong_kien_au' || civId === 'co_dai_de_che' || cultureId === 'au_tay' || cultureId === 'la_ma_hy_lap'
+          ? 'phong_kien_au'
+          : civId === 'hoi_giao' || civId === 'nam_a' || cultureId === 'a_rap_ba_tu' || cultureId === 'an_do'
+            ? 'trung_dong_hoi_giao'
+            : civId === 'du_muc' || cultureId === 'du_muc_mong'
+              ? 'thao_nguyen_du_muc'
+              : content.index.civilization.get(civId)?.culture_set || sc.culture_set;
 
   return {
     location: content.index.settlementType.get(currentSettlementType)?.scene_location ?? sc.location,
-    cultureSet: sc.culture_set,
+    cultureSet,
     house: house?.scene?.sprite ?? null,
     season: seasonOf(ctx),
     weather: state.world.weather,

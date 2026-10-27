@@ -19,6 +19,8 @@ export interface Character {
   id: string;
   familyName: string;
   givenName: string;
+  /** Thứ tự hiển thị họ tên theo văn hóa (mặc định family_first). */
+  nameOrder?: 'family_first' | 'given_first';
   sex: Sex;
   birthYear: number;
   birthMonth: number;
@@ -80,5 +82,5 @@ export function ageOf(c: Character, year: number, month: number): number {
 }
 
 export function fullName(c: Character): string {
-  return `${c.familyName} ${c.givenName}`;
+  return c.nameOrder === 'given_first' ? `${c.givenName} ${c.familyName}` : `${c.familyName} ${c.givenName}`;
 }

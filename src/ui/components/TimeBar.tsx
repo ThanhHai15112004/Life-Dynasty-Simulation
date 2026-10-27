@@ -48,6 +48,11 @@ export function TimeBar({
   const msPerMonth = store.msPerMonth();
   const secondsPerYear = Math.round((msPerMonth * hud.date.monthsPerYear) / 1000);
   const d = hud.date;
+  const yearLabel = d.year < 0 ? t('year.bce', { year: Math.abs(d.year) }) : String(d.year);
+  const dateText =
+    d.calendarStyle === 'bce_ce'
+      ? t('date.year_ce', { year: yearLabel })
+      : t('date.year', { can: t(`canchi.can.${d.can}`), chi: t(`canchi.chi.${d.chi}`), year: yearLabel });
   const blocked = !!hud.pending || !!hud.minor || !!hud.gameOver || !!snap.result || !!hud.story.reflectionDue || snap.showBirthCard;
   return (
     <header className="topbar">
@@ -58,7 +63,7 @@ export function TimeBar({
           <span className="age-unit">{t('header.age_unit')}</span>
           <div className="headline-meta">
             <div>
-              {t('date.year', { can: t(`canchi.can.${d.can}`), chi: t(`canchi.chi.${d.chi}`), year: d.year })} · {t(`month.${d.month}`)} · {d.seasonName}, {d.weatherName}
+              {dateText} · {t(`month.${d.month}`)} · {d.seasonName}, {d.weatherName}
             </div>
             <div className="muted">
               {hud.reign.name ? `${t('header.reign', { name: hud.reign.name, n: hud.reign.year })} · ` : ''}

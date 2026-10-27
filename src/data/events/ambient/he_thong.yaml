@@ -7,21 +7,21 @@ templates:
     highlight: true
     icon: khoi_dau
     variants:
-      - 'Bạn là {player.name}, {player.age} tuổi, con nhà nông ở làng {world.settlement}. Nhà có {household.farmland} sào ruộng, kho còn {household.food} thúng thóc.'
+      - 'Bạn là {player.name}, {player.age} tuổi, con nhà lao động ở {world.settlement}. Nhà có {household.farmland} {lex.land}, dự trữ còn {household.food} {lex.food}.'
   - id: sys.khoi_dau_nha_buon
     kind: he_thong
     importance: 7
     highlight: true
     icon: khoi_dau
     variants:
-      - 'Bạn là {player.name}, {player.age} tuổi, con nhà buôn ở bến {world.settlement}. Nhà có một sạp hàng ngoài chợ, {household.money} quan vốn xoay vòng và {household.farmland} sào ruộng cho cấy rẽ.'
+      - 'Bạn là {player.name}, {player.age} tuổi, con nhà buôn ở {world.settlement}. Gia đình có cơ sở buôn bán, {household.money} {lex.currency} vốn xoay vòng và {household.farmland} {lex.land} cho thuê.'
   - id: sys.khoi_dau_nha_nho
     kind: he_thong
     importance: 7
     highlight: true
     icon: khoi_dau
     variants:
-      - 'Bạn là {player.name}, {player.age} tuổi, con cháu một dòng hương hào ở làng {world.settlement}. Nếp nhà ngói cổ còn đó, {household.farmland} sào ruộng hương hỏa, nhưng nợ cũ đã lên {household.debt} quan.'
+      - 'Bạn là {player.name}, {player.age} tuổi, con cháu một dòng họ danh giá cũ ở {world.settlement}. Nếp nhà xưa còn đó cùng {household.farmland} {lex.land} gia sản, nhưng nợ cũ đã lên {household.debt} {lex.currency}.'
   - id: sys.sinh_nhat
     kind: bao_cao
     importance: 1
@@ -51,26 +51,26 @@ templates:
     kind: bao_cao
     importance: 1
     icon: thue
-    short: 'nộp thuế {food} thúng, {money} quan sưu'
+    short: 'nộp thuế {food} {lex.food}, {money} {lex.currency}'
     variants:
-      - 'Mõ làng gọi nộp thuế: nhà nộp {food} thúng thóc và {money} quan tiền sưu.'
-      - 'Đến kỳ thuế, nhà gánh {food} thúng thóc ra đình và nộp {money} quan sưu.'
+      - 'Đến kỳ nghĩa vụ thuế khóa: gia đình nộp {food} {lex.food} lương thực và {money} {lex.currency}.'
+      - 'Đóng thuế định kỳ: nhà nộp {food} {lex.food} và {money} {lex.currency} vào công quỹ.'
   - id: sys.vay_nang_lai
     kind: bao_cao
     importance: 4
     tone: buon
     icon: no
     variants:
-      - 'Nhà hết tiền, phải vay nặng lãi {amount} quan để xoay xở.'
-      - 'Túng quá, cha mẹ đành đi vay {amount} quan, lãi cắt cổ.'
+      - 'Nhà hết tiền, phải vay nặng lãi {amount} {lex.currency} để xoay xở.'
+      - 'Túng quá, gia đình đành đi vay {amount} {lex.currency}, lãi suất nặng nề.'
   - id: sys.ban_thoc_tieu
     kind: bao_cao
     importance: 1
     icon: tien
-    short: 'bán {amount} thúng thóc lấy tiền tiêu'
+    short: 'bán {amount} {lex.food} lấy tiền tiêu'
     variants:
-      - 'Hết tiền tiêu, nhà gánh {amount} thúng thóc ra chợ bán.'
-      - 'Túi cạn, mẹ đem bán {amount} thúng thóc đổi lấy mắm muối.'
+      - 'Hết tiền mặt chi dùng, nhà đem bán {amount} {lex.food} dự trữ ngoài chợ.'
+      - 'Ngân quỹ cạn, gia đình đổi {amount} {lex.food} lương thực lấy tiền sinh hoạt.'
   - id: sys.bi_xiet_no
     kind: he_thong
     importance: 7
@@ -78,8 +78,8 @@ templates:
     tone: buon
     icon: no
     variants:
-      - 'Nợ chồng chất quá hạn. Chủ nợ xiết mất một {title}, trừ {amount} quan vào sổ nợ.'
-      - 'Người của chủ nợ đến cắm cọc: một {title} không còn là của nhà nữa. Nợ chỉ bớt được {amount} quan.'
+      - 'Nợ chồng chất quá hạn. Chủ nợ xiết mất một {title}, trừ {amount} {lex.currency} vào sổ nợ.'
+      - 'Chủ nợ đến thu giữ tài sản: một {title} không còn là của nhà nữa. Nợ chỉ bớt được {amount} {lex.currency}.'
     effects:
       - { type: stress, value: 8 }
   - id: sys.doi_kem
@@ -131,59 +131,80 @@ templates:
     tone: vui
     icon: lua
     variants:
-      - 'Được mùa! {sao} sào ruộng cho {amount} thúng thóc, sân phơi vàng óng.'
-      - 'Lúa trĩu bông. Nhà gặt được {amount} thúng, ai cũng rạng rỡ.'
+      - 'Được mùa lớn! {sao} {lex.land} canh tác thu về {amount} {lex.food} ({lex.crop}), kho bãi đầy ắp.'
+      - 'Mùa màng bội thu ({lex.crop}): nhà thu hoạch được {amount} {lex.food}, ai cũng rạng rỡ.'
   - id: sys.thu_hoach_binh_thuong
     kind: bao_cao
     importance: 2
     icon: lua
-    short: 'gặt {amount} thúng thóc'
+    short: 'thu hoạch {amount} {lex.food}'
     variants:
-      - 'Vụ này nhà gặt được {amount} thúng thóc.'
-      - 'Gặt xong, nhà thu về {amount} thúng thóc.'
+      - 'Vụ này gia đình thu hoạch được {amount} {lex.food} ({lex.crop}).'
+      - 'Mùa vụ khép lại, nhà thu về {amount} {lex.food} lương thực.'
   - id: sys.thu_hoach_kem
     kind: bao_cao
     importance: 3
     tone: buon
     icon: lua
     variants:
-      - 'Lúa lép nhiều, vụ này chỉ được {amount} thúng.'
-      - 'Mùa kém: {sao} sào ruộng chỉ cho {amount} thúng thóc.'
+      - 'Thời tiết bất lợi, vụ này chỉ thu được {amount} {lex.food}.'
+      - 'Mùa vụ kém: {sao} {lex.land} chỉ cho {amount} {lex.food} lương thực.'
   - id: sys.thu_hoach_mat_mua
     kind: bao_cao
     importance: 5
     tone: buon
     icon: mat_mua
     variants:
-      - 'Mất mùa. Cả nhà ra đồng mót mãi được {amount} thúng thóc.'
-      - 'Ruộng xơ xác, vụ này chỉ được {amount} thúng. Mẹ thở dài nhìn kho.'
+      - 'Mất mùa nặng. Cả nhà vất vả lắm mới thu vén được {amount} {lex.food}.'
+      - 'Đồng bãi xơ xác, vụ này chỉ thu được {amount} {lex.food}. Cả nhà lo lắng nhìn kho dự trữ.'
   - id: sys.nam_yen_duoc_mua
     kind: he_thong
     importance: 2
     tone: vui
     icon: binh_yen
     variants:
-      - 'Một năm bình yên. Lúa trổ đều, cả nhà no đủ.'
+      - 'Một năm bình yên. Mùa màng ({lex.crop}) thuận lợi, cả nhà no đủ.'
   - id: sys.nam_yen_binh_thuong
     kind: he_thong
     importance: 2
     icon: binh_yen
     variants:
-      - 'Một năm trôi qua lặng lẽ, ngày ra đồng, tối về bên bếp lửa.'
+      - 'Một năm trôi qua lặng lẽ, ngày chăm chỉ làm lụng, tối quây quần bên mái nhà.'
   - id: sys.nam_yen_kem
     kind: he_thong
     importance: 2
     tone: buon
     icon: binh_yen
     variants:
-      - 'Năm nay chẳng có chuyện gì lớn, chỉ có lúa kém, bữa cơm độn thêm khoai.'
+      - 'Năm nay chẳng có biến cố lớn, nhưng làm ăn kém thuận, bữa ăn phải dè sẻn hơn.'
   - id: sys.nam_yen_mat_mua
     kind: he_thong
     importance: 2
     tone: buon
     icon: mat_mua
     variants:
-      - 'Một năm đói kém. Cả làng thắt lưng buộc bụng chờ mùa sau.'
+      - 'Một năm khó khăn. Cả vùng thắt lưng buộc bụng chờ thời vận năm sau.'
+  - id: sys.nam_yen_hien_dai
+    kind: he_thong
+    importance: 2
+    icon: binh_yen
+    variants:
+      - 'Một năm trôi qua trong nhịp sống bận rộn thường nhật: đi làm, lo toan chi phí sinh hoạt và giữ gìn mái ấm.'
+      - 'Năm tháng lặng lẽ trôi giữa dòng đời hiện đại, gia đình bình an qua bốn mùa.'
+  - id: sys.nam_yen_song_nuoc
+    kind: he_thong
+    importance: 2
+    icon: binh_yen
+    variants:
+      - 'Một năm bình yên nơi bến nước: thuyền bè vào ra theo con nước, tôm cá đủ nuôi sống cả nhà.'
+      - 'Sóng êm gió lặng trên sông: những buổi quăng chài, chở đò trôi qua êm ả.'
+  - id: sys.nam_yen_pho_cho
+    kind: he_thong
+    importance: 2
+    icon: binh_yen
+    variants:
+      - 'Một năm yên ả nơi phố thị: chợ búa họp đều, việc buôn bán và làm nghề giữ cho gia đình đủ sống.'
+      - 'Năm tháng trôi qua nhịp nhàng theo tiếng người mua kẻ bán ngoài phố chợ.'
   - id: sys.tong_hop_nam
     kind: he_thong
     importance: 2
@@ -197,8 +218,8 @@ templates:
     tone: vui
     icon: cuoi
     variants:
-      - 'Trầu cau đưa lối: bạn nên duyên vợ chồng với {call} ({age} tuổi).'
-      - 'Mâm cỗ đón dâu ấm cúng, từ nay {call} về chung một mái nhà với bạn.'
+      - 'Lễ cưới ấm cúng: bạn nên duyên vợ chồng với {call} ({age} tuổi).'
+      - 'Ngày vui sum họp, từ nay {call} về chung một mái nhà với bạn.'
     effects:
       - { type: stress, value: -6 }
   - id: sys.sinh_con
@@ -262,8 +283,8 @@ templates:
     tone: vui
     icon: sach
     variants:
-      - 'Bảng vàng xướng tên! Bạn thi đỗ học vị "{title}", cờ lọng rợp đường vinh quy bái tổ.'
-      - 'Sau bao năm đèn sách, bạn chính thức đỗ "{title}", rạng danh tông tộc!'
+      - 'Tin mừng học vị! Bạn chính thức đạt học vị "{title}", rạng danh gia đình khắp vùng.'
+      - 'Sau bao năm miệt mài đèn sách, bạn chính thức đỗ đạt học vị "{title}"!'
   - id: sys.bat_dau_cu_tang
     kind: he_thong
     importance: 7
@@ -271,8 +292,8 @@ templates:
     tone: buon
     icon: tang
     variants:
-      - 'Theo lễ Nho giáo, bạn bước vào kỳ cư tang {call} trong {amount} tháng.'
-      - 'Nhà có đại tang {call}: bạn giữ lễ cư tang {amount} tháng để trọn đạo hiếu.'
+      - 'Gia đình có đại tang {call}: bạn bước vào kỳ để tang trong {amount} tháng.'
+      - 'Tưởng nhớ {call} vừa khuất, bạn giữ lễ để tang {amount} tháng để trọn đạo hiếu nghĩa.'
   - id: sys.dia_vi_len
     kind: he_thong
     importance: 7
@@ -280,8 +301,8 @@ templates:
     tone: vui
     icon: moc_doi
     variants:
-      - 'Người trong làng nhìn nhà bạn bằng con mắt khác: từ nay bạn thuộc hàng "{title}".'
-      - 'Chỗ ngồi nơi đình trung đã đổi: bạn bước lên hàng "{title}".'
+      - 'Mọi người xung quanh nhìn gia đình bạn bằng con mắt trọng vọng: từ nay bạn thuộc tầng lớp "{title}".'
+      - 'Vị thế xã hội đã đổi khác: bạn bước lên hàng "{title}".'
   - id: sys.dia_vi_xuong
     kind: he_thong
     importance: 7
@@ -289,25 +310,25 @@ templates:
     tone: buon
     icon: moc_doi
     variants:
-      - 'Thế nhà sa sút, người làng giờ xếp bạn vào hàng "{title}".'
-      - 'Lời chào ngoài ngõ đã khác trước: bạn chỉ còn là "{title}".'
+      - 'Cơ ngơi sa sút, người đời giờ xếp gia đình bạn vào hàng "{title}".'
+      - 'Ánh mắt người xung quanh đã khác trước: bạn chỉ còn ở bậc "{title}".'
   - id: sys.thu_to
     kind: bao_cao
     importance: 2
     icon: lua
-    short: 'thu {amount} thúng thóc tô'
+    short: 'thu {amount} {lex.food} tô điền sản'
     variants:
-      - 'Tá điền gánh thóc tô đến nộp: được {amount} thúng từ {sao} sào ruộng phát canh.'
-      - 'Mùa gặt, ruộng cho cấy rẽ nộp về {amount} thúng thóc tô.'
+      - 'Người thuê đất nộp tô định kỳ: thu về {amount} {lex.food} từ {sao} {lex.land} cho thuê.'
+      - 'Mùa thu hoạch, đất cho thuê nộp về {amount} {lex.food} lợi tức.'
   # [1.5] Nhà tự lo vun vén: bán thóc dư sau gặt, mua thêm của, cha mẹ già giao việc nhà
   - id: sys.ban_thoc_du
     kind: bao_cao
     importance: 1
     icon: tien
-    short: 'bán {amount} thúng thóc dư được {money} quan'
+    short: 'bán {amount} {lex.food} dư được {money} {lex.currency}'
     variants:
-      - 'Gặt xong, nhà để lại đủ thóc ăn, gánh {amount} thúng dư ra chợ bán được {money} quan.'
-      - 'Kho đã đầy, {amount} thúng thóc dư bán cho lái buôn, thu về {money} quan.'
+      - 'Sau vụ thu hoạch, nhà giữ lại đủ ăn, đem {amount} {lex.food} dư ra chợ bán được {money} {lex.currency}.'
+      - 'Kho dự trữ đã đầy, {amount} {lex.food} dư bán cho thương lái thu về {money} {lex.currency}.'
   - id: sys.mua_them_cua
     kind: he_thong
     importance: 5
@@ -315,34 +336,34 @@ templates:
     icon: nha
     short: 'mua thêm {title}'
     variants:
-      - 'Dành dụm mấy năm, nhà mua thêm {title} hết {money} quan.'
-      - 'Có của để dành, nhà bỏ ra {money} quan sắm thêm {title}.'
+      - 'Dành dụm mấy năm, nhà mua thêm {title} hết {money} {lex.currency}.'
+      - 'Có của để dành, nhà bỏ ra {money} {lex.currency} sắm thêm {title}.'
   - id: sys.giao_viec_nha
     kind: he_thong
     importance: 7
     highlight: true
     icon: nha
     variants:
-      - '{call} tuổi đã cao, gọi bạn lại giao chìa khóa rương và sổ sách. Từ nay bạn là chủ hộ, lo liệu việc nhà.'
-      - 'Thấy bạn đã yên bề gia thất, {call} giao lại việc nhà. Từ nay bạn làm chủ hộ, cha mẹ chỉ còn ngồi trông cháu.'
+      - '{call} tuổi đã cao, gọi bạn lại giao chìa khóa và sổ sách. Từ nay bạn là chủ hộ, lo liệu việc nhà.'
+      - 'Thấy bạn đã vững vàng, {call} giao lại việc nhà. Từ nay bạn làm chủ hộ, gánh vác gia đình.'
   - id: sys.chua_khoi
     kind: bao_cao
     importance: 4
     tone: vui
     icon: binh_yen
-    short: 'chạy thuốc cho {call}, khỏi {title}'
+    short: 'chạy chữa cho {call}, khỏi {title}'
     variants:
-      - 'Bỏ ra {money} quan mời thầy bốc thuốc cho {call}. Mấy thang thuốc đắng, cơn {title} lui hẳn.'
-      - 'Thầy lang bắt mạch, kê đơn, lấy {money} quan tiền thuốc. Chẳng bao lâu {call} đã khỏi {title}.'
+      - 'Bỏ ra {money} {lex.currency} mời thầy thuốc cứu chữa cho {call}. Sau đợt điều trị, cơn {title} lui hẳn.'
+      - 'Thầy thuốc thăm khám, kê đơn với chi phí {money} {lex.currency}. Chẳng bao lâu {call} đã khỏi {title}.'
   - id: sys.chua_khong_do
     kind: bao_cao
     importance: 4
     tone: buon
     icon: om
-    short: 'chạy thuốc cho {call} mà chưa đỡ'
+    short: 'chạy chữa cho {call} mà chưa đỡ'
     variants:
-      - 'Tốn {money} quan tiền thuốc mà bệnh {title} của {call} vẫn chưa thuyên giảm. Đành chờ thêm ít lâu.'
-      - 'Thang thuốc {money} quan sắc đi sắc lại, {call} vẫn chưa dứt cơn {title}.'
+      - 'Tốn {money} {lex.currency} tiền thuốc thang mà bệnh {title} của {call} vẫn chưa thuyên giảm. Đành chờ thêm ít lâu.'
+      - 'Chi hết {money} {lex.currency} điều trị, nhưng {call} vẫn chưa dứt cơn {title}.'
   - id: sys.thua_ke_nghe
     kind: he_thong
     importance: 7
@@ -367,23 +388,23 @@ templates:
     tone: vui
     icon: nha
     variants:
-      - 'Đã yên bề gia thất, vợ chồng bạn xin phép {call} ra ở riêng. Cha mẹ cắt cho {sao} sào ruộng, {money} quan tiền và {food} thúng thóc làm vốn lập hộ mới.'
-      - 'Ngày phân gia: bạn dựng mái nhà tranh riêng cạnh vườn cũ, nhận {sao} sào ruộng cùng {money} quan tiền cha mẹ chia cho.'
+      - 'Đã yên bề gia thất, vợ chồng bạn xin phép {call} ra ở riêng. Cha mẹ chia cho {sao} {lex.land}, {money} {lex.currency} và {food} {lex.food} làm vốn lập hộ mới.'
+      - 'Ngày phân gia: bạn dựng mái nhà riêng, nhận {sao} {lex.land} cùng {money} {lex.currency} cha mẹ chia cho.'
   - id: sys.anh_em_tach_ho
     kind: he_thong
     importance: 5
     icon: nha
     variants:
-      - '{call} đã thành gia lập thất, xin tách ra ở riêng với {sao} sào ruộng và {money} quan tiền vốn.'
-      - 'Nhà chia phần cho {call} ra lập hộ mới ({sao} sào ruộng, {money} quan tiền).'
+      - '{call} đã thành gia lập thất, xin tách ra ở riêng với {sao} {lex.land} và {money} {lex.currency} vốn.'
+      - 'Nhà chia phần cho {call} ra lập hộ mới ({sao} {lex.land}, {money} {lex.currency}).'
   - id: sys.thua_ke
     kind: he_thong
     importance: 8
     highlight: true
     icon: nha
     variants:
-      - 'Sau lễ tang {call}, họ tộc mở sổ phân chia di sản theo luật Nho giáo: phần của bạn là {sao} sào ruộng và {money} quan tiền.'
-      - 'Chiếu theo lệ hương hỏa và di ngôn của {call}, bạn tiếp nhận {sao} sào ruộng cùng {money} quan tiền di sản.'
+      - 'Sau lễ tang {call}, gia tộc mở sổ phân chia di sản: phần của bạn là {sao} {lex.land} và {money} {lex.currency}.'
+      - 'Chiếu theo lệ thừa kế và di ngôn của {call}, bạn tiếp nhận {sao} {lex.land} cùng {money} {lex.currency} di sản.'
   - id: sys.diem_bao_om_yeu
     kind: he_thong
     importance: 6
@@ -391,8 +412,8 @@ templates:
     tone: buon
     icon: om
     variants:
-      - 'Điềm chẳng lành: {call} ({age} tuổi) hơi thở yếu ớt, sắc mặt xám ngoét, e chẳng qua nổi mấy tháng tới nếu không có thuốc tiên.'
-      - 'Đêm nghe tiếng cú kêu ngoài đầu hồi: bệnh tình và sức vóc của {call} ({age} tuổi) đã suy kiệt đến mức thập tử nhất sinh.'
+      - 'Điềm chẳng lành: {call} ({age} tuổi) hơi thở yếu ớt, sắc mặt xám ngoét, e chẳng qua nổi mấy tháng tới nếu không kịp chạy chữa.'
+      - 'Sức vóc của {call} ({age} tuổi) đã suy kiệt đến mức thập tử nhất sinh.'
   # [2] Truyền đời (Phase 3 — Dynasty)
   - id: sys.tiep_noi_dong_doi
     kind: he_thong
@@ -401,8 +422,8 @@ templates:
     tone: trung_tinh
     icon: moc_doi
     variants:
-      - 'Khép lại cuộc đời của {prev}, bạn tiếp bước làm chủ Đời thứ {generation} của dòng họ với {sao} sào ruộng và {money} quan tiền.'
-      - 'Tre già măng mọc: sau tang lễ {prev}, bạn đứng ra gánh vác Đời thứ {generation} ({sao} sào ruộng, {money} quan tiền).'
+      - 'Khép lại cuộc đời của {prev}, bạn tiếp bước làm chủ Đời thứ {generation} của dòng họ với {sao} {lex.land} và {money} {lex.currency}.'
+      - 'Tre già măng mọc: sau tang lễ {prev}, bạn đứng ra gánh vác Đời thứ {generation} ({sao} {lex.land}, {money} {lex.currency}).'
   - id: sys.giam_ho_tuoi_tho
     kind: he_thong
     importance: 8
@@ -490,8 +511,8 @@ templates:
     tone: vui
     icon: tien
     variants:
-      - 'Xuất {money} quan tiền vốn, gia đình chính thức mở {title}, bắt đầu gây dựng cơ nghiệp riêng.'
-      - 'Chọn ngày lành tháng tốt, nhà bạn khai trương {title} với {money} quan tiền vốn ban đầu.'
+      - 'Xuất {money} {lex.currency} vốn, gia đình chính thức mở {title}, bắt đầu gây dựng cơ nghiệp riêng.'
+      - 'Gia đình bạn khai trương {title} với {money} {lex.currency} vốn ban đầu.'
   - id: sys.mo_rong_co_nghiep
     kind: he_thong
     importance: 8
@@ -499,8 +520,8 @@ templates:
     tone: vui
     icon: tien
     variants:
-      - 'Làm ăn khấm khá, bạn bỏ ra {money} quan mở rộng cơ nghiệp lên thành {title}.'
-      - 'Bỏ thêm {money} quan tiền vốn, cơ nghiệp của gia đình nay đã nâng lên tầm {title}.'
+      - 'Làm ăn khấm khá, bạn bỏ ra {money} {lex.currency} mở rộng cơ nghiệp lên thành {title}.'
+      - 'Bỏ thêm {money} {lex.currency} vốn, cơ nghiệp của gia đình nay đã nâng lên tầm {title}.'
   - id: sys.co_nghiep_sa_sut
     kind: bao_cao
     importance: 6
@@ -525,8 +546,8 @@ templates:
     tone: trung_tinh
     icon: tien
     variants:
-      - 'Bạn sang nhượng lại {title}, thu về cho gia đình {money} quan tiền mặt.'
-      - 'Khép lại việc kinh doanh {title}, nhà bạn thu hồi được {money} quan tiền vốn.'
+      - 'Bạn sang nhượng lại {title}, thu về cho gia đình {money} {lex.currency}.'
+      - 'Khép lại việc kinh doanh {title}, nhà bạn thu hồi được {money} {lex.currency} vốn.'
   - id: sys.nang_cap_nha
     kind: he_thong
     importance: 8
@@ -534,40 +555,40 @@ templates:
     tone: vui
     icon: nha
     variants:
-      - 'Sau bao năm tích góp, gia đình bỏ ra {money} quan dựng lại cơ ngơi thành {title} khang trang bề thế.'
-      - 'Tiếng đục chạm rộn ràng suốt mấy tháng: ngôi {title} ({money} quan) đã hoàn thành, cả họ nở mày nở mặt.'
+      - 'Sau bao năm tích góp, gia đình bỏ ra {money} {lex.currency} dựng lại cơ ngơi thành {title} khang trang bề thế.'
+      - 'Công trình hoàn tất: ngôi {title} ({money} {lex.currency}) đã dựng xong, cả nhà phấn khởi.'
   - id: sys.vay_tien_npc
     kind: bao_cao
     importance: 5
     tone: buon
     icon: no_nan
     variants:
-      - 'Túng thiếu, bạn tìm đến hỏi vay {call} {money} quan tiền, hẹn ngày trả cả gốc lẫn lãi.'
-      - 'Bạn ký giấy vay {call} {money} quan tiền để xoay xở việc nhà.'
+      - 'Túng thiếu, bạn tìm đến hỏi vay {call} {money} {lex.currency}, hẹn ngày trả cả gốc lẫn lãi.'
+      - 'Bạn ký giấy vay {call} {money} {lex.currency} để xoay xở việc nhà.'
   - id: sys.tra_no_npc
     kind: bao_cao
     importance: 5
     tone: vui
     icon: tien
     variants:
-      - 'Bạn mang {money} quan tiền sang trả nợ cho {call}, giữ trọn chữ tín.'
-      - 'Đem {money} quan thanh toán khoản nợ với {call}, lòng nhẹ bớt một nỗi lo.'
+      - 'Bạn mang {money} {lex.currency} sang trả nợ cho {call}, giữ trọn chữ tín.'
+      - 'Đem {money} {lex.currency} thanh toán khoản nợ với {call}, lòng nhẹ bớt một nỗi lo.'
   - id: sys.cho_vay_npc
     kind: bao_cao
     importance: 5
     tone: vui
     icon: tien
     variants:
-      - 'Thấy {call} qua hỏi vay lúc ngặt nghèo, bạn xuất {money} quan cho vay, vừa có chút lãi vừa kết thêm ân tình.'
-      - 'Bạn cho {call} vay {money} quan tiền, hẹn mùa sau hoàn trả.'
+      - 'Thấy {call} qua hỏi vay lúc ngặt nghèo, bạn xuất {money} {lex.currency} cho vay, vừa có chút lãi vừa kết thêm ân tình.'
+      - 'Bạn cho {call} vay {money} {lex.currency}, hẹn mùa sau hoàn trả.'
   - id: sys.thu_no_npc
     kind: bao_cao
     importance: 5
     tone: vui
     icon: tien
     variants:
-      - 'Đến kỳ thanh toán, bạn thu hồi {money} quan tiền cả gốc lẫn lãi từ khoản cho {call} vay.'
-      - '{call} đem trả {money} quan tiền nợ cho gia đình bạn.'
+      - 'Đến kỳ thanh toán, bạn thu hồi {money} {lex.currency} cả gốc lẫn lãi từ khoản cho {call} vay.'
+      - '{call} đem trả {money} {lex.currency} nợ cho gia đình bạn.'
   - id: sys.xoa_no_npc
     kind: he_thong
     importance: 7
@@ -575,8 +596,8 @@ templates:
     tone: vui
     icon: moc_doi
     variants:
-      - 'Thương cảnh {call} túng quẫn, bạn đốt văn tự xóa khoản nợ {money} quan. Cả làng đều trọng nghĩa khí của bạn.'
-      - 'Bạn xé giấy nợ {money} quan cho {call}, đổi lại mối đại ân tình khắc cốt ghi tâm.'
+      - 'Thương cảnh {call} túng quẫn, bạn xóa khoản nợ {money} {lex.currency}. Cả vùng đều trọng nghĩa khí của bạn.'
+      - 'Bạn hủy giấy nợ {money} {lex.currency} cho {call}, đổi lại mối đại ân tình khắc cốt ghi tâm.'
   # [7] Một vùng 3 điểm: chuyển nhà, đi buôn chuyến, nhậm chức ở phủ, dịch bệnh lan truyền (Phase 7)
   - id: sys.chuyen_nha
     kind: he_thong
@@ -586,15 +607,15 @@ templates:
     icon: nha
     variants:
       - 'Thu xếp hành trang và sổ sách, cả nhà dời sang định cư tại {title}, mở ra một trang đời mới.'
-      - 'Xe bò chở đồ đạc lăn bánh rời chốn cũ: gia đình bạn chính thức chuyển nhà tới {title}.'
+      - 'Chuyến xe chở đồ đạc lăn bánh rời chốn cũ: gia đình bạn chính thức chuyển nhà tới {title}.'
   - id: sys.di_buon_chuyen
     kind: bao_cao
     importance: 5
     tone: trung_tinh
     icon: tien
     variants:
-      - 'Bạn gom {money} quan tiền hàng, lên đường đi buôn chuyến tới {title} trong {amount} tháng.'
-      - 'Khoác tay nải và {money} quan vốn hàng, bạn xuất hành đi chuyến buôn xa tới {title} ({amount} tháng).'
+      - 'Bạn gom {money} {lex.currency} vốn hàng, lên đường đi buôn chuyến tới {title} trong {amount} tháng.'
+      - 'Mang theo {money} {lex.currency} vốn hàng, bạn xuất hành đi chuyến buôn xa tới {title} ({amount} tháng).'
   - id: sys.ve_buon_chuyen
     kind: he_thong
     importance: 7
@@ -602,16 +623,16 @@ templates:
     tone: vui
     icon: tien
     variants:
-      - 'Trở về bình an sau chuyến buôn ở {title}, bạn thu hồi cả vốn lẫn lời được {money} quan (lãi ròng {amount} quan).'
-      - 'Thuyền hàng cập bến quê nhà từ {title}: chuyến đi mang về tổng cộng {money} quan, lời ròng {amount} quan!'
+      - 'Trở về bình an sau chuyến buôn ở {title}, bạn thu hồi cả vốn lẫn lời được {money} {lex.currency} (lãi ròng {amount} {lex.currency}).'
+      - 'Chuyến hàng cập bến quê nhà từ {title}: mang về tổng cộng {money} {lex.currency}, lời ròng {amount} {lex.currency}!'
   - id: sys.bo_do_buon_chuyen
     kind: he_thong
     importance: 6
     tone: buon
     icon: buon
     variants:
-      - 'Bỏ dở chuyến đi tới {title} để quay về gấp, bạn đành bán tháo hàng hóa giữa đường, thu hồi được {money} quan.'
-      - 'Nghe tin nhà có việc phải vội vã quay về từ đường đi {title}, bạn chỉ thu lại được {money} quan vốn hàng.'
+      - 'Bỏ dở chuyến đi tới {title} để quay về gấp, bạn đành bán tháo hàng hóa giữa đường, thu hồi được {money} {lex.currency}.'
+      - 'Nghe tin nhà có việc phải vội vã quay về từ đường đi {title}, bạn chỉ thu lại được {money} {lex.currency} vốn hàng.'
   - id: sys.nham_chuc_phu
     kind: he_thong
     importance: 9
@@ -619,8 +640,8 @@ templates:
     tone: vui
     icon: sach
     variants:
-      - 'Có sắc chỉ bổ nhiệm từ nha môn, bạn đưa gia quyến lên {title} nhậm chức ({stage}), nhận {money} quan bổng lộc an gia!'
-      - 'Trống chiêng rước quan tân nhiệm: bạn chính thức lên {title} nhận ấn tín bậc "{stage}", triều đình cấp {money} quan tiền lộ phí.'
+      - 'Có quyết định bổ nhiệm từ cấp trên, bạn đưa gia quyến lên {title} nhậm chức ({stage}), nhận {money} {lex.currency} phụ cấp an gia!'
+      - 'Bạn chính thức lên {title} nhận chức vụ bậc "{stage}", được cấp {money} {lex.currency} lộ phí.'
   - id: sys.dich_bung_phat
     kind: he_thong
     importance: 7

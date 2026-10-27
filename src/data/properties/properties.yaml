@@ -2,22 +2,47 @@
 properties:
   - id: ruong
     name: Ruộng lúa
+    names_by_civ:
+      hien_dai: Đất canh tác
+      phong_kien_au: Ruộng lúa mì
+      co_dai_de_che: Ruộng ngũ cốc
+      hoi_giao: Vườn canh tác ốc đảo
+      du_muc: Đồng cỏ chăn thả
+      bo_lac_nguyen_thuy: Bãi đất trồng trọt
     category: land
     unit: sào
     description: Mỗi sào cho hai vụ mỗi năm. Cần đủ người làm. Tấc đất tấc vàng — dành dụm nhiều năm mới mua nổi.
+    descriptions_by_civ:
+      hien_dai: Đất nông nghiệp màu mỡ mang lại nguồn nông sản và thu nhập ổn định mỗi năm.
+      phong_kien_au: Cánh đồng lúa mì và mạch đen nuôi sống cả gia đình qua mùa đông.
+      du_muc: Khoảnh đồng cỏ tốt giúp đàn gia súc sinh sôi và cho sản lượng đều đặn.
     value: 35
     farmland: true
   - id: trau
     name: Trâu cày
+    names_by_civ:
+      hien_dai: Máy cày & nông cụ
+      phong_kien_au: Đôi bò kéo cày
+      co_dai_de_che: Bò kéo cày
+      hoi_giao: Lạc đà thồ hàng
+      du_muc: Đàn ngựa thảo nguyên
+      bo_lac_nguyen_thuy: Chó săn & nông cụ đá
     category: livestock
     unit: con
     description: Con trâu là đầu cơ nghiệp. Cày nhanh, gặt nhiều hơn; ăn rơm cỏ và chút thóc.
+    descriptions_by_civ:
+      hien_dai: Máy móc và công cụ hỗ trợ giúp tăng năng suất lao động vượt bậc.
+      phong_kien_au: Sức kéo bền bỉ giúp cày xới đất đai nhanh chóng và tăng sản lượng mùa vụ.
+      du_muc: Tuấn mã dẻo dai giúp chăn dắt gia súc và di chuyển nhanh trên thảo nguyên.
     value: 20
     upkeep_food_month: 0.3
     modifiers: [{ target: harvest.yield, value: 1.15, op: mul }]
     scene: { layer: props, sprite: trau, max_draw: 2 }
   - id: dan_ga
     name: Đàn gà
+    names_by_civ:
+      hien_dai: Đàn gia cầm
+      du_muc: Đàn cừu nhỏ
     category: livestock
     unit: đàn
     description: Trứng gà bán chợ phiên, thêm chút tiền tiêu vặt.
@@ -27,6 +52,9 @@ properties:
     scene: { layer: props, sprite: dan_ga, max_draw: 1 }
   - id: ao_ca
     name: Ao cá
+    names_by_civ:
+      hien_dai: Hồ nuôi thủy sản
+      phong_kien_au: Ao cá trang trại
     category: other
     unit: ao
     description: Đào ao thả cá, cuối năm tát ao bán được tiền.
@@ -36,18 +64,42 @@ properties:
     scene: { layer: props, sprite: ao_ca, max_draw: 1 }
   - id: kho_lua
     name: Kho lúa
+    names_by_civ:
+      hien_dai: Kho chứa hàng
+      phong_kien_au: Nhà kho ngũ cốc
+      co_dai_de_che: Kho trữ lương
+      hoi_giao: Kho lương thực
+      du_muc: Xe lều trữ lương
+      bo_lac_nguyen_thuy: Hầm trữ lương thực
     category: other
     unit: gian
     description: Kho kín, thóc ít hao vì chuột mọt và ẩm.
+    descriptions_by_civ:
+      hien_dai: Nhà kho kiên cố giúp bảo quản lương thực và hàng hóa không bị hư hại.
+      phong_kien_au: Nhà kho gỗ đá cao ráo giữ cho lúa mì khô thoáng suốt mùa đông.
     value: 8
     upkeep_money_year: 0.1
     modifiers: [{ target: food.consumption, value: 0.96, op: mul }]
     scene: { layer: props, sprite: kho_lua, max_draw: 1 }
   - id: nha_tranh
     name: Nhà tranh vách đất
+    names_by_civ:
+      hien_dai: Nhà cấp 4
+      phong_kien_au: Nhà gỗ mái rạ
+      co_dai_de_che: Nhà gạch thô
+      hoi_giao: Nhà đất nung
+      du_muc: Lều nỉ (Ger)
+      bo_lac_nguyen_thuy: Lều cỏ da thú
+      ban_dia_phi_my: Nhà vách đất mái lá
+      nam_a: Nhà đất mái lá
     category: house
     unit: căn
     description: Mái rạ dột mùa mưa, gió lùa mùa đông.
+    descriptions_by_civ:
+      hien_dai: Căn nhà cấp 4 giản dị, che mưa che nắng cho gia đình những năm đầu lập nghiệp.
+      phong_kien_au: Căn nhà gỗ trát đất lợp mái rạ đơn sơ của dân thường.
+      du_muc: Chiếc lều nỉ tròn gọn nhẹ, dễ dàng tháo lắp theo mùa di cư trên thảo nguyên.
+      bo_lac_nguyen_thuy: Túp lều dựng từ khung gỗ, cỏ khô và da thú che chở qua đêm lạnh.
     value: 5
     buyable: false
     sellable: false
@@ -56,9 +108,21 @@ properties:
     scene: { layer: buildings, sprite: nha_tranh }
   - id: nha_go
     name: Nhà gỗ ba gian
+    names_by_civ:
+      hien_dai: Nhà phố 2 tầng
+      phong_kien_au: Nhà khung gỗ đá
+      co_dai_de_che: Nhà ngói sân trong
+      hoi_giao: Nhà gạch mái vòm
+      du_muc: Trướng nỉ lớn
+      bo_lac_nguyen_thuy: Nhà sàn gỗ lớn
+      ban_dia_phi_my: Nhà đá vững chãi
+      nam_a: Nhà gỗ chạm khắc
     category: house
     unit: căn
     description: Cột gỗ, mái ngói, nền cao ráo. Cả làng nhìn vào biết nhà đã khá.
+    descriptions_by_civ:
+      hien_dai: Ngôi nhà xây kiên cố, khang trang và đầy đủ tiện nghi sinh hoạt cho cả gia đình.
+      phong_kien_au: Ngôi nhà hai tầng khung gỗ sồi và tường đá ấm áp, bề thế trong thị trấn.
     value: 90
     house_tier: 2
     upgrade_from: nha_tranh
@@ -70,9 +134,19 @@ properties:
     scene: { layer: buildings, sprite: nha_go }
   - id: sap_hang
     name: Sạp hàng chợ huyện
+    names_by_civ:
+      hien_dai: Cửa tiệm mặt phố
+      phong_kien_au: Quầy hàng phường hội
+      co_dai_de_che: Quầy buôn quảng trường
+      hoi_giao: Quầy hàng chợ Bazaar
+      du_muc: Quầy đổi hàng biên mậu
+      bo_lac_nguyen_thuy: Bãi trao đổi sản vật
     category: other
     unit: sạp
     description: Một sạp bán vải vóc, muối mắm và nông sản nơi bến chợ. Đều đặn sinh lời mỗi năm.
+    descriptions_by_civ:
+      hien_dai: Mặt bằng kinh doanh buôn bán sầm uất, mang lại dòng tiền đều đặn hằng năm.
+      phong_kien_au: Quầy hàng cố định tại khu chợ trung tâm, buôn bán vải vóc và nông sản.
     value: 28
     income_money_year: 4.5
     upkeep_money_year: 0.6
@@ -80,9 +154,21 @@ properties:
     scene: { layer: props, sprite: sap_hang, max_draw: 1 }
   - id: phu_nho
     name: Phủ đệ năm gian
+    names_by_civ:
+      hien_dai: Biệt thự sân vườn
+      phong_kien_au: Trang viên đá
+      co_dai_de_che: Dinh thự cột đá
+      hoi_giao: Dinh thự sân vườn
+      du_muc: Đại trướng quý tộc
+      bo_lac_nguyen_thuy: Nhà dài Thủ lĩnh
+      ban_dia_phi_my: Dinh thự bậc thang đá
+      nam_a: Dinh thự đá hoa cương
     category: house
     unit: tòa
     description: Ngôi phủ đệ năm gian cột lim, mái ngói mũi hài bề thế của bậc hào phú danh gia, rạng rỡ cả một vùng.
+    descriptions_by_civ:
+      hien_dai: Khu biệt thự sang trọng rộng rãi với sân vườn xanh mát, biểu tượng của sự thành đạt.
+      phong_kien_au: Trang viên bằng đá kiên cố và sang trọng của giới quý tộc, thương gia giàu có.
     value: 180
     house_tier: 3
     upgrade_from: nha_go

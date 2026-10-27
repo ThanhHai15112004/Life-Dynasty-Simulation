@@ -32,9 +32,8 @@ export function SceneCard({ hud }: { hud: HudView }) {
   const region = hud.region;
   const others = h.members.filter((m) => !m.isPlayer);
   const house = h.properties
-    .map((p) => store.content.index.property.get(p.id))
-    .filter((p) => p?.category === 'house')
-    .sort((a, b) => (b?.house_tier ?? 0) - (a?.house_tier ?? 0))[0];
+    .filter((p) => p.category === 'house')
+    .sort((a, b) => (store.content.index.property.get(b.id)?.house_tier ?? 0) - (store.content.index.property.get(a.id)?.house_tier ?? 0))[0];
   const withWhom = others.length ? t('scene.with', { list: others.map((m) => m.call).join(', ') }) : t('scene.alone');
   const epidemicNodes = region.settlements.filter((s) => s.epidemic !== null);
 

@@ -6,6 +6,8 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: world.exam_stage, op: '==', value: huong }
         - { var: player.exam_degree, op: 'in', value: [none, sinh_do] }
         - { var: player.skill.hoc_van, op: '>=', value: 3 }
@@ -82,6 +84,8 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: world.exam_stage, op: '==', value: hoi }
         - { var: player.exam_degree, op: '==', value: huong_cong }
         - { var: player.skill.hoc_van, op: '>=', value: 5 }
@@ -137,6 +141,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
         - { var: player.mourning_months, op: '>', value: 0 }
     weight: 7
     cooldown_years: 3
@@ -171,6 +176,10 @@ events:
     title: Chiếu trên, chiếu dưới nơi đình trung
     tags: [lang_xa, van_minh, quan_he]
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
     roles:
       - { id: ly, from: village, village_role: ly_truong }
       - { id: do, from: village, village_role: thay_do }
@@ -216,6 +225,9 @@ events:
     title: Tu sửa từ đường và cuốn gia phả họ tộc
     tags: [gia_dinh, van_minh]
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
     weight: 5
     cooldown_years: 12   # [1.5] giãn ra: trước 5 năm, đời nào cũng gặp lại
     tension: 4
@@ -256,6 +268,10 @@ events:
     title: Buổi khảo bài kinh sử bên hiên trường làng
     tags: [hoc_hanh, van_minh]
     life_stages: [thieu_thoi, thanh_nien]
+    condition:
+      all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
     roles:
       - { id: do, from: village, village_role: thay_do }
     weight: 6

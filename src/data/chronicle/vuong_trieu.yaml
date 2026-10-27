@@ -3,10 +3,11 @@
 # Token: {world.reign} (niên hiệu), {world.reign_year}, {world.settlement}... Effects dùng chung với sự kiện.
 start_reign: Thuận Hòa
 entries:
-  # ── Đổi vua, đổi niên hiệu ──
+  # ── Đổi vua, đổi niên hiệu (Khuôn Nho giáo tiền hiện đại) ──
   - id: vua_bang_ha_1
     years: [4, 22]
     chance_per_year: 0.07
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     reign: Bảo An
     importance: 8
     icon: tang
@@ -19,6 +20,7 @@ entries:
   - id: vua_bang_ha_2
     years: [26, 48]
     chance_per_year: 0.07
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     reign: Gia Phúc
     importance: 8
     icon: tang
@@ -30,6 +32,7 @@ entries:
   - id: vua_bang_ha_3
     years: [52, 85]
     chance_per_year: 0.07
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     reign: Minh Khánh
     importance: 8
     icon: tang
@@ -41,6 +44,7 @@ entries:
   - id: giac_phuong_bac
     years: [6, 70]
     chance_per_year: 0.035
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     importance: 8
     icon: kiem
     tone: buon
@@ -52,6 +56,7 @@ entries:
   - id: giac_phuong_nam
     years: [10, 80]
     chance_per_year: 0.03
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     importance: 7
     icon: kiem
     tone: buon
@@ -62,19 +67,21 @@ entries:
       - { type: set_flag, flag: chien_tranh, years: 2, label: 'Cửa biển có giặc — thuyền buôn đi vòng, dân phu đắp lũy' }
   - id: noi_loan_dia_phuong
     chance_per_year: 0.04
+    condition: { all: [{ var: world.year, op: '>=', value: -500 }, { var: world.year, op: '<', value: 1945 }] }
     once: false
     cooldown_years: 12
     importance: 6
     icon: nguoi_la
     military_alert: { id: tuan_tra, years: 2 }
     text:
-      - 'Có kẻ xưng vương ở vùng núi phía tây, tụ tập dân đói nổi lên. Quan quân đóng đồn khắp các ngả đường, đi đâu cũng bị hỏi giấy.'
-      - 'Một toán giặc cỏ đốt phá mấy làng bên kia sông. Phủ huyện tăng tuần tra, đêm đêm có lính gõ mõ canh.'
+      - 'Có đám loạn quân nổi lên ở vùng biên viễn, tụ tập dân lưu tán. Quân đồn trú lập trạm gác khắp các ngả đường.'
+      - 'Một toán cướp lớn quấy phá mấy vùng lân cận. Việc tuần tra được thắt chặt, ban đêm hạn chế đi lại.'
 
   # ── Thiên tai, dịch bệnh ──
   - id: nan_doi_lon
     years: [3, 9999]
     chance_per_year: 0.035
+    condition: { var: world.year, op: '<', value: 1945 }
     once: false
     cooldown_years: 10
     importance: 8
@@ -82,10 +89,10 @@ entries:
     tone: buon
     harvest_quality: mat_mua
     text:
-      - 'Trời hạn suốt từ đầu xuân, sông cạn trơ đáy. Các cụ bảo chưa thấy năm nào hạn như năm nay, đền thành hoàng khói hương nghi ngút.'
-      - 'Nạn châu chấu kéo về từ phương bắc, đen kịt cả một góc trời. Người ta đốt rơm đánh trống suốt đêm mà không xua nổi.'
+      - 'Trời hạn suốt từ đầu xuân, sông suối cạn trơ đáy. Người già bảo hiếm thấy năm nào khô hạn gay gắt như năm nay.'
+      - 'Đàn châu chấu tràn qua vùng canh tác, mùa màng thất bát nặng nề.'
     effects:
-      - { type: set_flag, flag: nan_doi, years: 1, label: 'Năm đói kém — giá thóc sẽ lên cao' }
+      - { type: set_flag, flag: nan_doi, years: 1, label: 'Năm đói kém — giá lương thực tăng cao' }
   - id: dich_benh
     years: [2, 9999]
     chance_per_year: 0.03
@@ -95,13 +102,14 @@ entries:
     icon: om
     tone: buon
     text:
-      - 'Dịch tả lan dọc theo bến sông, làng nào cũng có đám ma. Người ta treo lá bùa ngoài cổng, đóng cửa không tiếp khách lạ.'
+      - 'Dịch bệnh lan dọc theo các tuyến giao thương, nhiều nhà đóng cửa hạn chế tiếp xúc với người lạ.'
     effects:
       - { type: set_flag, flag: dich_benh, years: 1, label: 'Dịch bệnh đang lan — giữ sức khỏe cho cả nhà' }
       - { type: modifier, target: death_risk, value: 1.25, op: mul, months: 12, label: 'Dịch bệnh lan rộng', who: household }
   - id: dap_de_lon
     years: [5, 9999]
     chance_per_year: 0.04
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     once: false
     cooldown_years: 20
     importance: 5
@@ -116,6 +124,7 @@ entries:
   - id: dinh_le_khoa_cu
     years: [1, 8]
     chance_per_year: 0.3
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     importance: 6
     icon: sach
     text:
@@ -123,6 +132,7 @@ entries:
   - id: giam_thue
     years: [3, 9999]
     chance_per_year: 0.035
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     once: false
     cooldown_years: 15
     importance: 6
@@ -135,6 +145,7 @@ entries:
   - id: tang_thue_xay_thanh
     years: [5, 9999]
     chance_per_year: 0.035
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     once: false
     cooldown_years: 15
     importance: 6
@@ -147,6 +158,7 @@ entries:
   - id: dai_xa
     years: [8, 9999]
     chance_per_year: 0.03
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     once: false
     cooldown_years: 20
     importance: 5
@@ -159,14 +171,16 @@ entries:
   # ── Điềm lạ, chuyện thiên hạ ──
   - id: sao_choi
     chance_per_year: 0.04
+    condition: { var: world.year, op: '<', value: 1900 }
     once: false
     cooldown_years: 20
     importance: 4
     icon: trang
     text:
-      - 'Mấy đêm liền có sao chổi quét ngang trời đông. Người làng xì xào điềm binh đao, các thầy cúng được dịp kiếm bộn.'
+      - 'Mấy đêm liền có sao chổi quét ngang bầu trời đêm. Người trong vùng xì xào bàn tán về vận niên sắp tới.'
   - id: su_thanh_sang_cong
     chance_per_year: 0.05
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     once: false
     cooldown_years: 8
     importance: 3
@@ -176,9 +190,77 @@ entries:
   - id: xay_chua_lon
     years: [2, 9999]
     chance_per_year: 0.03
+    condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
     once: false
     cooldown_years: 25
     importance: 4
     icon: hoi
     text:
       - 'Hoàng thái hậu bỏ tiền dựng một ngôi chùa lớn trên núi gần trấn. Thiện nam tín nữ khắp vùng nô nức gánh gạch lên công đức.'
+
+  # ── Biên niên thế giới & thời hiện đại ──
+  - id: kinh_te_bung_no_hien_dai
+    years: [2, 9999]
+    chance_per_year: 0.06
+    condition: { var: world.year, op: '>=', value: 1945 }
+    once: false
+    cooldown_years: 10
+    importance: 6
+    icon: tien
+    tone: vui
+    text:
+      - 'Giao thương và đầu tư hạ tầng tại {world.settlement} tăng trưởng mạnh. Hàng hóa lưu thông nhộn nhịp, cơ hội việc làm và thu nhập của các hộ gia đình đều khởi sắc.'
+    effects:
+      - { type: money, value: 3, ledger: su_kien }
+  - id: suy_thoai_kinh_te_toan_cau
+    years: [4, 9999]
+    chance_per_year: 0.045
+    condition: { var: world.year, op: '>=', value: 1945 }
+    once: false
+    cooldown_years: 12
+    importance: 7
+    icon: buon
+    tone: buon
+    text:
+      - 'Làn sóng lạm phát và suy giảm thương mại lan tới {world.settlement}. Giá sinh hoạt leo thang khiến nhiều gia đình phải thắt chặt chi tiêu.'
+    effects:
+      - { type: money, value: -2, ledger: su_kien }
+  - id: dot_pha_khoa_hoc_y_te
+    years: [3, 9999]
+    chance_per_year: 0.05
+    condition: { var: world.year, op: '>=', value: 1945 }
+    once: false
+    cooldown_years: 14
+    importance: 6
+    icon: thuoc
+    tone: vui
+    text:
+      - 'Chương trình y tế cộng đồng và nước sạch được mở rộng khắp vùng {world.settlement}, giúp sức khỏe người dân cải thiện rõ rệt.'
+    effects:
+      - { type: health, value: 4 }
+  - id: mo_tuyen_giao_thuong_the_gioi
+    years: [2, 9999]
+    chance_per_year: 0.05
+    condition: { all: [{ var: world.civilization_id, op: '!=', value: nho_giao }, { var: world.year, op: between, value: [-500, 1944] }] }
+    once: false
+    cooldown_years: 12
+    importance: 6
+    icon: thuyen
+    tone: vui
+    text:
+      - 'Một tuyến thương đạo mới kết nối qua {world.settlement}, thương đoàn các nơi đổ về trao đổi hàng hóa tấp nập.'
+    effects:
+      - { type: money, value: 2, ledger: su_kien }
+  - id: mua_san_duoc_mua_nguyen_thuy
+    years: [2, 9999]
+    chance_per_year: 0.06
+    condition: { var: world.year, op: '<', value: -500 }
+    once: false
+    cooldown_years: 10
+    importance: 6
+    icon: ca
+    tone: vui
+    text:
+      - 'Năm nay khí hậu ấm áp, thú rừng và cá sông sinh sôi dồi dào quanh vùng {world.settlement}, các thị tộc đều tích trữ được nhiều lương thực.'
+    effects:
+      - { type: food, value: 6 }

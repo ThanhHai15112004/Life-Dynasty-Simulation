@@ -29,6 +29,7 @@ templates:
   - id: be_duoc_ba_cung
     kind: chuyen_vat
     life_stages: [au_tho]
+    condition: { var: world.civilization_id, op: '==', value: nho_giao }
     roles: [{ id: me, from: family, relation: mother }]
     weight: 5
     cooldown_years: 2
@@ -43,7 +44,7 @@ templates:
   - id: cho_nha_ba_ho_duoi
     kind: chuyen_vat
     tags: [lang_xa]
-    condition: { var: player.age, op: between, value: [5, 13] }
+    condition: { all: [{ var: player.age, op: between, value: [5, 13] }, { var: world.year, op: '<', value: 1945 }] }
     roles: [{ id: ba_ho, from: village, village_role: ba_ho }]
     weight: 6
     cooldown_years: 5
@@ -150,7 +151,7 @@ templates:
   - id: o_an_quan
     kind: chuyen_vat
     life_stages: [au_tho, thieu_thoi]
-    condition: { var: player.age, op: '>=', value: 4 }
+    condition: { all: [{ var: player.age, op: '>=', value: 4 }, { var: world.civilization_id, op: '==', value: nho_giao }] }
     weight: 5
     cooldown_years: 2
     importance: 1

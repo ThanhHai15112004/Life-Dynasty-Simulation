@@ -2,6 +2,7 @@
 id: a_rap_ba_tu
 name: Trung Đông & Ba Tư
 calendar_style: bce_ce
+name_order: given_first
 lexicon:
   currency: đồng Dinar
   food: bao

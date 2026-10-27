@@ -176,13 +176,34 @@
         "chance": 0.55
       },
       "hats": {
-        "non_la": { "part": "non_la", "offsetY": 3 },
-        "khan_dong": { "part": "khan_dong", "offsetY": 3 },
-        "mao_quan": { "part": "mao_quan", "offsetY": 4 },
-        "non_dau": { "part": "non_dau", "offsetY": 3 },
-        "khan_mo_qua": { "part": "khan_mo_qua", "offsetY": 3 },
-        "khan_vanh": { "part": "khan_vanh", "offsetY": 3 },
-        "khan_tang": { "part": "khan_tang", "offsetY": 3 }
+        "non_la": {
+          "part": "non_la",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_dong",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mao_quan",
+          "offsetY": 4
+        },
+        "non_dau": {
+          "part": "non_dau",
+          "offsetY": 3
+        },
+        "khan_mo_qua": {
+          "part": "khan_mo_qua",
+          "offsetY": 3
+        },
+        "khan_vanh": {
+          "part": "khan_vanh",
+          "offsetY": 3
+        },
+        "khan_tang": {
+          "part": "khan_tang",
+          "offsetY": 3
+        }
       },
       "palettes": {
         "skin": [
@@ -266,64 +287,198 @@
       },
       "outfitPalettes": {
         "cu_tang": {
-          "top_m": ["#e8e5dc", "#dcd8ce"],
-          "top_f": ["#e8e5dc", "#dcd8ce"],
-          "collar": ["#f4f2ec"],
-          "yem": ["#d8d4ca"],
-          "belt": ["#b8b3a8"],
-          "bottom": ["#e2dfd6"],
-          "skirt": ["#dad6cc"]
+          "top_m": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "top_f": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "collar": [
+            "#f4f2ec"
+          ],
+          "yem": [
+            "#d8d4ca"
+          ],
+          "belt": [
+            "#b8b3a8"
+          ],
+          "bottom": [
+            "#e2dfd6"
+          ],
+          "skirt": [
+            "#dad6cc"
+          ]
         },
         "quan_lai": {
-          "top_m": ["#9e2622", "#1e3a5f", "#245445"],
-          "top_f": ["#b02e2a", "#2b4c78", "#7a3568"],
-          "collar": ["#eab83e", "#f0dec0"],
-          "yem": ["#d93b32", "#eab83e"],
-          "belt": ["#eab83e"],
-          "bottom": ["#f0ece1", "#262b36"],
-          "skirt": ["#38242e", "#1e2938"],
-          "hat_main": ["#1d2026"],
-          "hat_trim": ["#eab83e"]
+          "top_m": [
+            "#9e2622",
+            "#1e3a5f",
+            "#245445"
+          ],
+          "top_f": [
+            "#b02e2a",
+            "#2b4c78",
+            "#7a3568"
+          ],
+          "collar": [
+            "#eab83e",
+            "#f0dec0"
+          ],
+          "yem": [
+            "#d93b32",
+            "#eab83e"
+          ],
+          "belt": [
+            "#eab83e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#262b36"
+          ],
+          "skirt": [
+            "#38242e",
+            "#1e2938"
+          ],
+          "hat_main": [
+            "#1d2026"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
         },
         "si_phu": {
-          "top_m": ["#2c4d6e", "#385e54", "#46526e", "#5c4869"],
-          "top_f": ["#3c668a", "#487568", "#85486e"],
-          "collar": ["#f0ece1", "#d8cfa8"],
-          "yem": ["#cf463c", "#e0a445"],
-          "belt": ["#c99a3e", "#26384a"],
-          "bottom": ["#ede9de", "#2b323b"],
-          "skirt": ["#282d38", "#362b32"],
-          "hat_main": ["#232832", "#2d3846"]
+          "top_m": [
+            "#2c4d6e",
+            "#385e54",
+            "#46526e",
+            "#5c4869"
+          ],
+          "top_f": [
+            "#3c668a",
+            "#487568",
+            "#85486e"
+          ],
+          "collar": [
+            "#f0ece1",
+            "#d8cfa8"
+          ],
+          "yem": [
+            "#cf463c",
+            "#e0a445"
+          ],
+          "belt": [
+            "#c99a3e",
+            "#26384a"
+          ],
+          "bottom": [
+            "#ede9de",
+            "#2b323b"
+          ],
+          "skirt": [
+            "#282d38",
+            "#362b32"
+          ],
+          "hat_main": [
+            "#232832",
+            "#2d3846"
+          ]
         },
         "phu_ho": {
-          "top_m": ["#b88228", "#8c2f39", "#2e6352", "#693b6e"],
-          "top_f": ["#c74350", "#d49435", "#367363", "#85427d"],
-          "collar": ["#f2e2b6", "#eab83e"],
-          "yem": ["#d9382e", "#f0b643"],
-          "belt": ["#eab83e", "#b8372e"],
-          "bottom": ["#f0ece1", "#332926"],
-          "skirt": ["#3b262c", "#2b2436"],
-          "hat_main": ["#3d2822", "#292333"],
-          "hat_trim": ["#eab83e"]
+          "top_m": [
+            "#b88228",
+            "#8c2f39",
+            "#2e6352",
+            "#693b6e"
+          ],
+          "top_f": [
+            "#c74350",
+            "#d49435",
+            "#367363",
+            "#85427d"
+          ],
+          "collar": [
+            "#f2e2b6",
+            "#eab83e"
+          ],
+          "yem": [
+            "#d9382e",
+            "#f0b643"
+          ],
+          "belt": [
+            "#eab83e",
+            "#b8372e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#332926"
+          ],
+          "skirt": [
+            "#3b262c",
+            "#2b2436"
+          ],
+          "hat_main": [
+            "#3d2822",
+            "#292333"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
         },
         "linh": {
-          "top_m": ["#363b42", "#47332b"],
-          "top_f": ["#453632", "#363b42"],
-          "collar": ["#c93b2b"],
-          "yem": ["#c93b2b"],
-          "belt": ["#c93b2b", "#d99b38"],
-          "bottom": ["#26292e"],
-          "skirt": ["#26292e"],
-          "hat_main": ["#4a3525"],
-          "hat_trim": ["#d93829"]
+          "top_m": [
+            "#363b42",
+            "#47332b"
+          ],
+          "top_f": [
+            "#453632",
+            "#363b42"
+          ],
+          "collar": [
+            "#c93b2b"
+          ],
+          "yem": [
+            "#c93b2b"
+          ],
+          "belt": [
+            "#c93b2b",
+            "#d99b38"
+          ],
+          "bottom": [
+            "#26292e"
+          ],
+          "skirt": [
+            "#26292e"
+          ],
+          "hat_main": [
+            "#4a3525"
+          ],
+          "hat_trim": [
+            "#d93829"
+          ]
         },
         "thao_khau": {
-          "top_m": ["#2e332b", "#3d312a"],
-          "top_f": ["#3d312a", "#2e332b"],
-          "collar": ["#8a4b38"],
-          "belt": ["#8a3329"],
-          "bottom": ["#24211e"],
-          "skirt": ["#24211e"]
+          "top_m": [
+            "#2e332b",
+            "#3d312a"
+          ],
+          "top_f": [
+            "#3d312a",
+            "#2e332b"
+          ],
+          "collar": [
+            "#8a4b38"
+          ],
+          "belt": [
+            "#8a3329"
+          ],
+          "bottom": [
+            "#24211e"
+          ],
+          "skirt": [
+            "#24211e"
+          ]
         }
       },
       "trees": [
@@ -334,6 +489,1249 @@
         "cau_viet"
       ],
       "fence": "rao_tre_viet"
+    },
+    "hien_dai": {
+      "colors": {
+        "thatch": "#c85a48",
+        "thatch_dark": "#983e30",
+        "thatch_light": "#df7664",
+        "tile": "#48627a",
+        "tile_dark": "#324658",
+        "tile_light": "#64829c",
+        "wall": "#f0ece4",
+        "wall_dark": "#d4cec2",
+        "wood": "#6b5340",
+        "wood_dark": "#473628",
+        "wood_light": "#8e725a",
+        "shadow": "#2b2c30",
+        "stone": "#8e949c",
+        "stone_light": "#b6bcc4",
+        "stone_dark": "#646a72",
+        "bamboo": "#567d46",
+        "bamboo_dark": "#3b5930",
+        "trunk": "#6e5239",
+        "trunk_light": "#8c6d4e",
+        "lantern": "#f2b84b",
+        "gold": "#eab83e",
+        "cloth_red": "#3b78a8",
+        "cloth_yellow": "#e8eef2",
+        "lotus_pink": "#e67399",
+        "goods1": "#e07a5f",
+        "goods2": "#81b29a",
+        "goods3": "#f2cc8f",
+        "buffalo": "#5c646d",
+        "buffalo_dark": "#3d434a",
+        "buffalo_light": "#7b848f",
+        "horn": "#d8dce0",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5294b8",
+        "water_light": "#9ad0eb",
+        "boat": "#56687a",
+        "boat_dark": "#384654",
+        "sail": "#f0f4f8",
+        "sail_dark": "#c8d4e0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#222428",
+        "path": "#92969c",
+        "path_dark": "#6e7278",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#2c2e33",
+        "mourning_shade": "#1e2024",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#82c2e6",
+          "sky_bottom": "#e4f2f7",
+          "hill_far": "#9dbab0",
+          "hill_near": "#78a48c",
+          "grass": "#6ab054",
+          "ground": "#9ea2a8",
+          "ground_dark": "#767a80",
+          "foliage": "#48964e",
+          "foliage_dark": "#327238",
+          "foliage_light": "#72bf60",
+          "paddy": "#7cc45e",
+          "paddy_light": "#a4de84",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#66b6eb",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#8cb6a0",
+          "hill_near": "#649e78",
+          "grass": "#5ea848",
+          "ground": "#9a9ea4",
+          "ground_dark": "#72767c",
+          "foliage": "#3b8c42",
+          "foliage_dark": "#296930",
+          "foliage_light": "#66b048",
+          "paddy": "#58ab44",
+          "paddy_light": "#80c758",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#98c2de",
+          "sky_bottom": "#f0eee2",
+          "hill_far": "#b0ba9c",
+          "hill_near": "#92a276",
+          "grass": "#8fa354",
+          "ground": "#9c9a94",
+          "ground_dark": "#75736e",
+          "foliage": "#c97a36",
+          "foliage_dark": "#995622",
+          "foliage_light": "#e3a24a",
+          "paddy": "#d9b448",
+          "paddy_light": "#ebd074",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#aebec9",
+          "sky_bottom": "#dfe5e8",
+          "hill_far": "#a2aeb0",
+          "hill_near": "#849490",
+          "grass": "#829468",
+          "ground": "#909498",
+          "ground_dark": "#6c7074",
+          "foliage": "#4c7552",
+          "foliage_dark": "#38593e",
+          "foliage_light": "#6b8c64",
+          "paddy": "#92a178",
+          "paddy_light": "#b0ba94",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_cap_4_hien_dai",
+        "nha_go": "nha_pho_hien_dai",
+        "phu_nho": "biet_thu_hien_dai",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_cua_tiem_hien_dai",
+        "ruong_lua_viet": "vuon_cay_hien_dai"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_hien_dai",
+        "nguoi_lon_f": "nguoi_lon_f_hien_dai",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#f6d5b8",
+          "#ecc19c",
+          "#dca87e",
+          "#b88258",
+          "#8c5a38"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1c1815",
+          "#3b2a1e",
+          "#6b482b",
+          "#b88a44",
+          "#8c3b28"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#c8c2b8",
+          "#a8a298"
+        ],
+        "top_m": [
+          "#2b547e",
+          "#3b6e5c",
+          "#ebeef2",
+          "#4a525d",
+          "#8c3832",
+          "#34495e",
+          "#5b6e82"
+        ],
+        "top_f": [
+          "#c94a58",
+          "#3d7899",
+          "#e8eef2",
+          "#588c73",
+          "#8a5285",
+          "#d98248",
+          "#3b526b"
+        ],
+        "collar": [
+          "#ffffff",
+          "#e2e6ec",
+          "#2c3e50",
+          "#c94a58"
+        ],
+        "yem": [
+          "#ffffff",
+          "#f2d6ae",
+          "#d95b66",
+          "#5c92b8"
+        ],
+        "belt": [
+          "#2b2d30",
+          "#4a382b",
+          "#38424d"
+        ],
+        "bottom": [
+          "#26384d",
+          "#333840",
+          "#4a525a",
+          "#6e6558",
+          "#1f2933"
+        ],
+        "skirt": [
+          "#2b3d54",
+          "#383d45",
+          "#6b3842",
+          "#3d594e",
+          "#4a4258"
+        ],
+        "hat_main": [
+          "#2c3e50"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#26282b",
+            "#1e2024"
+          ],
+          "top_f": [
+            "#26282b",
+            "#1e2024"
+          ],
+          "collar": [
+            "#e8eaed"
+          ],
+          "yem": [
+            "#26282b"
+          ],
+          "belt": [
+            "#18191c"
+          ],
+          "bottom": [
+            "#1e2024"
+          ],
+          "skirt": [
+            "#1e2024"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#1f2d3d",
+            "#2c3e50"
+          ],
+          "top_f": [
+            "#2c3e50",
+            "#34495e"
+          ],
+          "collar": [
+            "#ffffff"
+          ],
+          "yem": [
+            "#c0392b",
+            "#2980b9"
+          ],
+          "belt": [
+            "#1a1c20"
+          ],
+          "bottom": [
+            "#1f2d3d"
+          ],
+          "skirt": [
+            "#2c3e50"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#34495e",
+            "#2b547e",
+            "#ebeef2"
+          ],
+          "top_f": [
+            "#3d668a",
+            "#ebeef2",
+            "#587a68"
+          ],
+          "collar": [
+            "#ffffff"
+          ],
+          "yem": [
+            "#3b6e8c"
+          ],
+          "belt": [
+            "#2c3036"
+          ],
+          "bottom": [
+            "#2c3540"
+          ],
+          "skirt": [
+            "#2c3540"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#22303f",
+            "#4a2e35",
+            "#2c473e"
+          ],
+          "top_f": [
+            "#9c2f3b",
+            "#294d66",
+            "#6e3b68"
+          ],
+          "collar": [
+            "#f5e6c8",
+            "#ffffff"
+          ],
+          "yem": [
+            "#d94a38",
+            "#eab83e"
+          ],
+          "belt": [
+            "#2b2623"
+          ],
+          "bottom": [
+            "#222830"
+          ],
+          "skirt": [
+            "#282330"
+          ]
+        }
+      },
+      "trees": [
+        "cay_xanh_do_thi",
+        "cay_soi_au",
+        "cay_xanh_do_thi"
+      ],
+      "fence": "rao_sat_hien_dai"
+    },
+    "phong_kien_au": {
+      "colors": {
+        "thatch": "#c49e58",
+        "thatch_dark": "#947236",
+        "thatch_light": "#dab872",
+        "tile": "#8c3b2e",
+        "tile_dark": "#63261c",
+        "tile_light": "#ad5242",
+        "wall": "#efe6d5",
+        "wall_dark": "#cfc2aa",
+        "wood": "#6b462a",
+        "wood_dark": "#452b18",
+        "wood_light": "#8f6340",
+        "shadow": "#2b221b",
+        "stone": "#8f8d88",
+        "stone_light": "#b5b2ab",
+        "stone_dark": "#696762",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#63462d",
+        "trunk_light": "#826042",
+        "lantern": "#e6a83e",
+        "gold": "#eab83e",
+        "cloth_red": "#8f2c24",
+        "cloth_yellow": "#e3c565",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#d9b86c",
+        "goods2": "#7aa856",
+        "goods3": "#b85d42",
+        "buffalo": "#6e4d36",
+        "buffalo_dark": "#4a3221",
+        "buffalo_light": "#8c664a",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5692b5",
+        "water_light": "#9ac8e3",
+        "boat": "#6b482b",
+        "boat_dark": "#472e1a",
+        "sail": "#eee6d3",
+        "sail_dark": "#c9bda3",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#261e18",
+        "path": "#b59b78",
+        "path_dark": "#8f7858",
+        "hat_cone": "#5c4632",
+        "hat_shade": "#3d2e20",
+        "mourning_white": "#262322",
+        "mourning_shade": "#171514",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#8cc4e6",
+          "sky_bottom": "#e2f0ec",
+          "hill_far": "#9bb8a8",
+          "hill_near": "#76a184",
+          "grass": "#6ca850",
+          "ground": "#a8865c",
+          "ground_dark": "#826442",
+          "foliage": "#488f48",
+          "foliage_dark": "#326b34",
+          "foliage_light": "#72b856",
+          "paddy": "#94c458",
+          "paddy_light": "#b8de7c",
+          "paddy_water": "#826442"
+        },
+        "ha": {
+          "sky_top": "#6eb8e8",
+          "sky_bottom": "#d8ecf2",
+          "hill_far": "#8ab29c",
+          "hill_near": "#629974",
+          "grass": "#629e46",
+          "ground": "#a68256",
+          "ground_dark": "#80603c",
+          "foliage": "#3b823e",
+          "foliage_dark": "#28612c",
+          "foliage_light": "#62a644",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#80603c"
+        },
+        "thu": {
+          "sky_top": "#9cc0db",
+          "sky_bottom": "#ede8d8",
+          "hill_far": "#ada88c",
+          "hill_near": "#8f8c68",
+          "grass": "#949652",
+          "ground": "#a68052",
+          "ground_dark": "#805e38",
+          "foliage": "#bf6b2e",
+          "foliage_dark": "#8f4a1c",
+          "foliage_light": "#de9242",
+          "paddy": "#d9a63e",
+          "paddy_light": "#edc464",
+          "paddy_water": "#805e38"
+        },
+        "dong": {
+          "sky_top": "#b0c0cc",
+          "sky_bottom": "#e4e8eb",
+          "hill_far": "#b8c2c7",
+          "hill_near": "#9aa8ad",
+          "grass": "#9aa68a",
+          "ground": "#96826a",
+          "ground_dark": "#73624e",
+          "foliage": "#4a6e52",
+          "foliage_dark": "#36523c",
+          "foliage_light": "#68876c",
+          "paddy": "#a8a286",
+          "paddy_light": "#c2bca0",
+          "paddy_water": "#73624e"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_go_au",
+        "nha_go": "nha_da_au",
+        "phu_nho": "trang_vien_au",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_au",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "mao_quan": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f7dac0",
+          "#f0c8a8",
+          "#e5b590",
+          "#d9a279"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#c99b42",
+          "#8c5828",
+          "#59381f",
+          "#a84424",
+          "#241d18"
+        ],
+        "hair_elder": [
+          "#e6e2da",
+          "#cfc9be",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#5c432d",
+          "#2e4b66",
+          "#3d5e45",
+          "#7a332e",
+          "#69543e",
+          "#3b4254"
+        ],
+        "top_f": [
+          "#8c3532",
+          "#385a7c",
+          "#456b52",
+          "#70426e",
+          "#a86b32",
+          "#5c4233"
+        ],
+        "collar": [
+          "#f2ead8",
+          "#dfd3b8",
+          "#eab83e"
+        ],
+        "yem": [
+          "#f2ead8",
+          "#e6d8be",
+          "#d9b86c"
+        ],
+        "belt": [
+          "#3b2818",
+          "#543822",
+          "#8c6d32"
+        ],
+        "bottom": [
+          "#382e26",
+          "#2b333d",
+          "#4a3b2c",
+          "#2d3b2e"
+        ],
+        "skirt": [
+          "#382b24",
+          "#283342",
+          "#592826",
+          "#334739"
+        ],
+        "hat_main": [
+          "#332922",
+          "#263342",
+          "#5c2422"
+        ],
+        "hat_trim": [
+          "#eab83e",
+          "#f2ead8"
+        ]
+      },
+      "trees": [
+        "cay_soi_au",
+        "cay_thong_au",
+        "cay_soi_au"
+      ],
+      "fence": "rao_go_au"
+    },
+    "trung_dong_hoi_giao": {
+      "colors": {
+        "thatch": "#d9b882",
+        "thatch_dark": "#b5925a",
+        "thatch_light": "#ebd0a0",
+        "tile": "#2e788c",
+        "tile_dark": "#1d5261",
+        "tile_light": "#4aa0b5",
+        "wall": "#edd6b4",
+        "wall_dark": "#cbb08a",
+        "wood": "#754f30",
+        "wood_dark": "#4d321c",
+        "wood_light": "#996b45",
+        "shadow": "#33261a",
+        "stone": "#b8a68a",
+        "stone_light": "#d4c4a8",
+        "stone_dark": "#8c7b62",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#7a5838",
+        "trunk_light": "#9c7450",
+        "lantern": "#eab83e",
+        "gold": "#f0c242",
+        "cloth_red": "#a83228",
+        "cloth_yellow": "#ebd068",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#e0b252",
+        "goods2": "#3b8278",
+        "goods3": "#c44d34",
+        "buffalo": "#8c6d46",
+        "buffalo_dark": "#634b2e",
+        "buffalo_light": "#ab895e",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4692b0",
+        "water_light": "#8ecce3",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#f2e8d0",
+        "sail_dark": "#cfc0a0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#e8e2d8",
+        "outline": "#261c14",
+        "path": "#d4b684",
+        "path_dark": "#b09262",
+        "hat_cone": "#f2ece0",
+        "hat_shade": "#cfc6b4",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#72b8e6",
+          "sky_bottom": "#efe6d0",
+          "hill_far": "#c9b28c",
+          "hill_near": "#ab946c",
+          "grass": "#7ca352",
+          "ground": "#cfa972",
+          "ground_dark": "#a6824e",
+          "foliage": "#488c48",
+          "foliage_dark": "#326934",
+          "foliage_light": "#6eb356",
+          "paddy": "#8cc25a",
+          "paddy_light": "#b0db80",
+          "paddy_water": "#8ab8b5"
+        },
+        "ha": {
+          "sky_top": "#5caae0",
+          "sky_bottom": "#f5e4c0",
+          "hill_far": "#d4b888",
+          "hill_near": "#b59664",
+          "grass": "#8aa154",
+          "ground": "#d6af74",
+          "ground_dark": "#ad864e",
+          "foliage": "#42823e",
+          "foliage_dark": "#2d612b",
+          "foliage_light": "#66a648",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#ad864e"
+        },
+        "thu": {
+          "sky_top": "#88bce0",
+          "sky_bottom": "#f2e4ca",
+          "hill_far": "#ccb084",
+          "hill_near": "#ad9062",
+          "grass": "#969c56",
+          "ground": "#cca46c",
+          "ground_dark": "#a37d48",
+          "foliage": "#688c42",
+          "foliage_dark": "#4d6b2e",
+          "foliage_light": "#8fb052",
+          "paddy": "#d9b048",
+          "paddy_light": "#eccb6e",
+          "paddy_water": "#a37d48"
+        },
+        "dong": {
+          "sky_top": "#9cc0d6",
+          "sky_bottom": "#e8e2d6",
+          "hill_far": "#bfb098",
+          "hill_near": "#9e8f76",
+          "grass": "#889664",
+          "ground": "#bda074",
+          "ground_dark": "#967b52",
+          "foliage": "#4c784e",
+          "foliage_dark": "#385c3a",
+          "foliage_light": "#6b9464",
+          "paddy": "#9ea376",
+          "paddy_light": "#b8bd92",
+          "paddy_water": "#967b52"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_dat_nung_hoi_giao",
+        "nha_go": "nha_vua_hoi_giao",
+        "phu_nho": "dinh_thu_hoi_giao",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "non_la": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#d9a47c",
+          "#c88f65",
+          "#b57a50",
+          "#e3b590"
+        ],
+        "skin_sick": [
+          "#d0c8a8",
+          "#bfb694"
+        ],
+        "hair": [
+          "#1a1614",
+          "#28201b",
+          "#362a22"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc"
+        ],
+        "top_m": [
+          "#f0ece1",
+          "#d9ccb4",
+          "#2b546e",
+          "#386652",
+          "#7a3b32"
+        ],
+        "top_f": [
+          "#2b546e",
+          "#7a3548",
+          "#3b6654",
+          "#8c5832",
+          "#583b6e"
+        ],
+        "collar": [
+          "#eab83e",
+          "#f5f0e6"
+        ],
+        "yem": [
+          "#eab83e",
+          "#d95b48",
+          "#f5f0e6"
+        ],
+        "belt": [
+          "#c99a3e",
+          "#8c382b",
+          "#2e4b5c"
+        ],
+        "bottom": [
+          "#f0ece1",
+          "#d4c8b0",
+          "#2e333b"
+        ],
+        "skirt": [
+          "#2b3d4f",
+          "#592b36",
+          "#364f42"
+        ],
+        "hat_main": [
+          "#f5f2eb",
+          "#e6dec8",
+          "#2b4c66"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "trees": [
+        "cay_cha_la",
+        "cay_cha_la"
+      ],
+      "fence": "rao_go_au"
+    },
+    "thao_nguyen_du_muc": {
+      "colors": {
+        "thatch": "#e6dfd3",
+        "thatch_dark": "#c4bba8",
+        "thatch_light": "#f5f0e6",
+        "tile": "#b54930",
+        "tile_dark": "#82311f",
+        "tile_light": "#d16448",
+        "wall": "#dfd6c4",
+        "wall_dark": "#bfb29b",
+        "wood": "#7a4e2d",
+        "wood_dark": "#52321b",
+        "wood_light": "#9e6b43",
+        "shadow": "#2b221a",
+        "stone": "#8f8b82",
+        "stone_light": "#b5b0a6",
+        "stone_dark": "#69655e",
+        "bamboo": "#7a994c",
+        "bamboo_dark": "#546e32",
+        "trunk": "#694b30",
+        "trunk_light": "#8a6645",
+        "lantern": "#d9412b",
+        "gold": "#eab83e",
+        "cloth_red": "#b83828",
+        "cloth_yellow": "#e6c458",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#dfc576",
+        "goods2": "#8ec25d",
+        "goods3": "#cc7152",
+        "buffalo": "#7a583b",
+        "buffalo_dark": "#543b26",
+        "buffalo_light": "#9c7452",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5294b8",
+        "water_light": "#9ad0eb",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#dfd0a8",
+        "sail_dark": "#bfa978",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#261e18",
+        "path": "#b89c72",
+        "path_dark": "#947a52",
+        "hat_cone": "#6e4c30",
+        "hat_shade": "#4a321e",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#78bce8",
+          "sky_bottom": "#e0f0ec",
+          "hill_far": "#9cb89e",
+          "hill_near": "#7ba378",
+          "grass": "#7ab354",
+          "ground": "#b08f5e",
+          "ground_dark": "#8a6d43",
+          "foliage": "#4c9448",
+          "foliage_dark": "#366e34",
+          "foliage_light": "#74ba58",
+          "paddy": "#84bd58",
+          "paddy_light": "#a8d67a",
+          "paddy_water": "#8a6d43"
+        },
+        "ha": {
+          "sky_top": "#5caee6",
+          "sky_bottom": "#d6ecf2",
+          "hill_far": "#8cb292",
+          "hill_near": "#689c6c",
+          "grass": "#6ea848",
+          "ground": "#ad8a58",
+          "ground_dark": "#87683e",
+          "foliage": "#3e873e",
+          "foliage_dark": "#2b632b",
+          "foliage_light": "#66ad48",
+          "paddy": "#76b04a",
+          "paddy_light": "#9acc6c",
+          "paddy_water": "#87683e"
+        },
+        "thu": {
+          "sky_top": "#8cbce0",
+          "sky_bottom": "#ede8d8",
+          "hill_far": "#b8b08a",
+          "hill_near": "#9c9466",
+          "grass": "#aba052",
+          "ground": "#b08954",
+          "ground_dark": "#8a683b",
+          "foliage": "#9c8236",
+          "foliage_dark": "#755f24",
+          "foliage_light": "#bfa348",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#8a683b"
+        },
+        "dong": {
+          "sky_top": "#a8bcc9",
+          "sky_bottom": "#e6ecef",
+          "hill_far": "#c4cdd1",
+          "hill_near": "#aab6ba",
+          "grass": "#b8c2be",
+          "ground": "#a39686",
+          "ground_dark": "#7d7163",
+          "foliage": "#4a6e52",
+          "foliage_dark": "#36523c",
+          "foliage_light": "#68876c",
+          "paddy": "#c2c9c6",
+          "paddy_light": "#d8e0dd",
+          "paddy_water": "#7d7163"
+        }
+      },
+      "parts": {
+        "nha_tranh": "leu_ger_du_muc",
+        "nha_go": "leu_ger_lon_du_muc",
+        "phu_nho": "trai_han_du_muc",
+        "kho_lua": "kho_thit_nguyen_thuy",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "bai_co_nguyen_thuy"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_viet",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "non_la": {
+          "part": "mu_long_du_muc",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "mu_long_du_muc",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mu_long_du_muc",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#e5b68e",
+          "#d8a379",
+          "#c99067"
+        ],
+        "skin_sick": [
+          "#d8d2b0",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc"
+        ],
+        "top_m": [
+          "#8c382b",
+          "#2e546e",
+          "#6e4e32",
+          "#3b6348"
+        ],
+        "top_f": [
+          "#a83b32",
+          "#366382",
+          "#7a4268",
+          "#b87a32"
+        ],
+        "collar": [
+          "#eab83e",
+          "#f0dec0"
+        ],
+        "yem": [
+          "#d94538",
+          "#eab83e"
+        ],
+        "belt": [
+          "#eab83e",
+          "#b83828"
+        ],
+        "bottom": [
+          "#382e26",
+          "#2b323b"
+        ],
+        "skirt": [
+          "#382d28",
+          "#262b36"
+        ],
+        "hat_main": [
+          "#5c4028",
+          "#47311e"
+        ],
+        "hat_trim": [
+          "#c93b2b",
+          "#eab83e"
+        ]
+      },
+      "trees": [
+        "cay_thong_au"
+      ],
+      "fence": "rao_go_au"
+    },
+    "bo_lac_nguyen_thuy": {
+      "colors": {
+        "thatch": "#b88e52",
+        "thatch_dark": "#876536",
+        "thatch_light": "#d4aa6a",
+        "tile": "#8c623e",
+        "tile_dark": "#614126",
+        "tile_light": "#ab7c54",
+        "wall": "#a87e52",
+        "wall_dark": "#7d5b38",
+        "wood": "#69482a",
+        "wood_dark": "#452d18",
+        "wood_light": "#8c6440",
+        "shadow": "#241b14",
+        "stone": "#827e76",
+        "stone_light": "#a8a399",
+        "stone_dark": "#5c5952",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#5e4228",
+        "trunk_light": "#7d5b3b",
+        "lantern": "#e67e22",
+        "gold": "#d9a441",
+        "cloth_red": "#9c462b",
+        "cloth_yellow": "#c99e52",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#b8864c",
+        "goods2": "#6e9648",
+        "goods3": "#9c5238",
+        "buffalo": "#5c422e",
+        "buffalo_dark": "#3d2a1c",
+        "buffalo_light": "#7a5940",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4e92b5",
+        "water_light": "#96cae6",
+        "boat": "#69482a",
+        "boat_dark": "#452d18",
+        "sail": "#c9aa7c",
+        "sail_dark": "#9e8056",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#211912",
+        "path": "#9e7e56",
+        "path_dark": "#7a5e3d",
+        "hat_cone": "#a88252",
+        "hat_shade": "#7d5e38",
+        "mourning_white": "#d9d2c4",
+        "mourning_shade": "#b5ad9e",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#88c6eb",
+          "sky_bottom": "#e0f0e8",
+          "hill_far": "#8fb59e",
+          "hill_near": "#689978",
+          "grass": "#64a648",
+          "ground": "#9c784c",
+          "ground_dark": "#755836",
+          "foliage": "#3e8c40",
+          "foliage_dark": "#29662b",
+          "foliage_light": "#66b34c",
+          "paddy": "#70ad4c",
+          "paddy_light": "#94cc68",
+          "paddy_water": "#755836"
+        },
+        "ha": {
+          "sky_top": "#6cb8e8",
+          "sky_bottom": "#d6ecf0",
+          "hill_far": "#80ad90",
+          "hill_near": "#58916a",
+          "grass": "#589c40",
+          "ground": "#997448",
+          "ground_dark": "#735432",
+          "foliage": "#348038",
+          "foliage_dark": "#225c26",
+          "foliage_light": "#5ca642",
+          "paddy": "#62a342",
+          "paddy_light": "#85bf58",
+          "paddy_water": "#735432"
+        },
+        "thu": {
+          "sky_top": "#98c0db",
+          "sky_bottom": "#ebe6d5",
+          "hill_far": "#a8a886",
+          "hill_near": "#878a62",
+          "grass": "#8c944c",
+          "ground": "#9c7648",
+          "ground_dark": "#755632",
+          "foliage": "#997834",
+          "foliage_dark": "#705622",
+          "foliage_light": "#bd9846",
+          "paddy": "#b59842",
+          "paddy_light": "#d1b560",
+          "paddy_water": "#755632"
+        },
+        "dong": {
+          "sky_top": "#aabac4",
+          "sky_bottom": "#dfe4e6",
+          "hill_far": "#9ea8a6",
+          "hill_near": "#808f88",
+          "grass": "#829166",
+          "ground": "#8c7252",
+          "ground_dark": "#69543b",
+          "foliage": "#466e4c",
+          "foliage_dark": "#325238",
+          "foliage_light": "#628560",
+          "paddy": "#8c9672",
+          "paddy_light": "#a8b08e",
+          "paddy_water": "#69543b"
+        }
+      },
+      "parts": {
+        "nha_tranh": "leu_da_thu_nguyen_thuy",
+        "nha_go": "nha_san_bo_lac",
+        "phu_nho": "nha_dai_thu_linh",
+        "kho_lua": "kho_thit_nguyen_thuy",
+        "sap_hang": "day_leu_nguyen_thuy",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_leu_nguyen_thuy",
+        "ruong_lua_viet": "bai_co_nguyen_thuy"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_nguyen_thuy",
+        "nguoi_lon_f": "nguoi_lon_f_nguyen_thuy",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#c99067",
+          "#b57c52",
+          "#a16840",
+          "#d8a379"
+        ],
+        "skin_sick": [
+          "#c4bd9c",
+          "#b3ab8a"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#3b2d22"
+        ],
+        "hair_elder": [
+          "#d4cfc6",
+          "#b8b2a6"
+        ],
+        "top_m": [
+          "#8a623e",
+          "#6e4e30",
+          "#9c744c",
+          "#593e26"
+        ],
+        "top_f": [
+          "#9c7248",
+          "#7d5836",
+          "#ad8458",
+          "#69482b"
+        ],
+        "collar": [
+          "#c49e6c",
+          "#8a623e"
+        ],
+        "yem": [
+          "#9c7248",
+          "#b58b5c"
+        ],
+        "belt": [
+          "#4a321e",
+          "#382414"
+        ],
+        "bottom": [
+          "#593e26",
+          "#47311e",
+          "#6e4e30"
+        ],
+        "skirt": [
+          "#69482b",
+          "#543820",
+          "#7d5836"
+        ],
+        "hat_main": [
+          "#6e4e30"
+        ],
+        "hat_trim": [
+          "#c49e6c"
+        ]
+      },
+      "trees": [
+        "cay_soi_au",
+        "cay_thong_au"
+      ],
+      "fence": "rao_go_au"
     }
   },
   "locations": {
@@ -567,7 +1965,7 @@
   "weather": {
     "nang": {
       "tint": "#fff3c4",
-      "alpha": 0.0
+      "alpha": 0
     },
     "mua": {
       "tint": "#4a5a6a",
@@ -901,7 +2299,12 @@
       ]
     },
     "tre_viet": {
-      "key": {"S": "bamboo", "s": "bamboo_dark", "F": "foliage_light", "f": "foliage"},
+      "key": {
+        "S": "bamboo",
+        "s": "bamboo_dark",
+        "F": "foliage_light",
+        "f": "foliage"
+      },
       "rows": [
         "...........f",
         ".......fFFfFFfFF",
@@ -945,7 +2348,13 @@
       ]
     },
     "cau_viet": {
-      "key": {"S": "trunk_light", "s": "trunk", "F": "foliage", "f": "foliage_dark", "N": "gold"},
+      "key": {
+        "S": "trunk_light",
+        "s": "trunk",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "N": "gold"
+      },
       "rows": [
         "......FFF",
         ".....FFFFF",
@@ -983,7 +2392,12 @@
       ]
     },
     "chuoi_viet": {
-      "key": {"S": "trunk_light", "s": "trunk", "F": "foliage_light", "f": "foliage"},
+      "key": {
+        "S": "trunk_light",
+        "s": "trunk",
+        "F": "foliage_light",
+        "f": "foliage"
+      },
       "rows": [
         "........F",
         ".......FFFF",
@@ -1008,7 +2422,10 @@
       ]
     },
     "rao_tre_viet": {
-      "key": {"P": "bamboo_dark", "p": "bamboo"},
+      "key": {
+        "P": "bamboo_dark",
+        "p": "bamboo"
+      },
       "rows": [
         "P...P",
         "P...P",
@@ -1021,7 +2438,12 @@
       ]
     },
     "ruong_lua_viet": {
-      "key": {"W": "paddy_water", "G": "paddy", "g": "paddy_light", "B": "ground_dark"},
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
       "rows": [
         "WggWggWggWggWggW",
         "WGGWGGWGGWGGWGGW",
@@ -1038,7 +2460,11 @@
       ]
     },
     "dat_viet": {
-      "key": {"p": "path", "P": "path_dark", "d": "ground_dark"},
+      "key": {
+        "p": "path",
+        "P": "path_dark",
+        "d": "ground_dark"
+      },
       "rows": [
         ".",
         "...................d",
@@ -1057,7 +2483,12 @@
       ]
     },
     "thuyen_viet": {
-      "key": {"B": "boat", "b": "boat_dark", "R": "thatch", "r": "thatch_dark"},
+      "key": {
+        "B": "boat",
+        "b": "boat_dark",
+        "R": "thatch",
+        "r": "thatch_dark"
+      },
       "rows": [
         "........rrrrrrrrrrr",
         ".......RRRRRRRRRRRRR",
@@ -1069,7 +2500,13 @@
       ]
     },
     "thuyen_buom_viet": {
-      "key": {"M": "wood_dark", "S": "sail", "s": "sail_dark", "B": "boat", "b": "boat_dark"},
+      "key": {
+        "M": "wood_dark",
+        "S": "sail",
+        "s": "sail_dark",
+        "B": "boat",
+        "b": "boat_dark"
+      },
       "rows": [
         "...........M",
         "...........Ms",
@@ -1088,7 +2525,11 @@
       ]
     },
     "ben_go_viet": {
-      "key": {"D": "wood", "d": "wood_light", "P": "wood_dark"},
+      "key": {
+        "D": "wood",
+        "d": "wood_light",
+        "P": "wood_dark"
+      },
       "rows": [
         "dddddddddddddddddddddddddddddddddddd",
         "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
@@ -1099,7 +2540,14 @@
       ]
     },
     "day_leu_cho_viet": {
-      "key": {"T": "thatch", "t": "thatch_dark", "W": "wall", "w": "wall_dark", "K": "shadow", "P": "wood_dark"},
+      "key": {
+        "T": "thatch",
+        "t": "thatch_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "K": "shadow",
+        "P": "wood_dark"
+      },
       "rows": [
         "....TTTT..........TTTT..........TTTT",
         "...tttttt........tttttt........tttttt",
@@ -1118,7 +2566,12 @@
       ]
     },
     "tuong_thanh_viet": {
-      "key": {"S": "stone", "s": "stone_light", "K": "shadow", "W": "wall_dark"},
+      "key": {
+        "S": "stone",
+        "s": "stone_light",
+        "K": "shadow",
+        "W": "wall_dark"
+      },
       "rows": [
         "ssss..ssss..ssss..ssss..ssss..ss",
         "SSSS..SSSS..SSSS..SSSS..SSSS..SS",
@@ -1133,7 +2586,17 @@
       ]
     },
     "cong_phu_viet": {
-      "key": {"R": "tile", "r": "tile_dark", "G": "gold", "W": "wall", "w": "wall_dark", "P": "cloth_red", "D": "wood_dark", "K": "shadow", "S": "stone"},
+      "key": {
+        "R": "tile",
+        "r": "tile_dark",
+        "G": "gold",
+        "W": "wall",
+        "w": "wall_dark",
+        "P": "cloth_red",
+        "D": "wood_dark",
+        "K": "shadow",
+        "S": "stone"
+      },
       "rows": [
         "r................GGGGGGGGGGGG................r",
         "rr............rrrrrrrrrrrrrrrrrr............rr",
@@ -1155,7 +2618,11 @@
       ]
     },
     "co_hieu_viet": {
-      "key": {"M": "wood_dark", "R": "cloth_red", "Y": "gold"},
+      "key": {
+        "M": "wood_dark",
+        "R": "cloth_red",
+        "Y": "gold"
+      },
       "rows": [
         ".Y.....",
         ".MRRRRR",
@@ -1173,7 +2640,12 @@
       ]
     },
     "duong_da_viet": {
-      "key": {"S": "stone", "s": "stone_light", "d": "ground_dark", "p": "path"},
+      "key": {
+        "S": "stone",
+        "s": "stone_light",
+        "d": "ground_dark",
+        "p": "path"
+      },
       "rows": [
         ".",
         "...................d",
@@ -1188,7 +2660,10 @@
       ]
     },
     "may_lon": {
-      "key": {"C": "cloud", "c": "cloud_shade"},
+      "key": {
+        "C": "cloud",
+        "c": "cloud_shade"
+      },
       "rows": [
         "..........CCCCCCC",
         "......CCCCCCCCCCCCCC",
@@ -1198,7 +2673,10 @@
       ]
     },
     "may_nho": {
-      "key": {"C": "cloud", "c": "cloud_shade"},
+      "key": {
+        "C": "cloud",
+        "c": "cloud_shade"
+      },
       "rows": [
         "......CCCC",
         "...CCCCCCCCCC",
@@ -1207,7 +2685,14 @@
       ]
     },
     "au_tho_m_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "Y": "yem", "B": "bottom", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "B": "bottom",
+        "F": "outline"
+      },
       "rows": [
         "...HH...",
         "..HHHH..",
@@ -1224,7 +2709,14 @@
       ]
     },
     "au_tho_f_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "Y": "yem", "B": "skirt", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "B": "skirt",
+        "F": "outline"
+      },
       "rows": [
         ".HH..HH.",
         "..HHHH..",
@@ -1241,7 +2733,16 @@
       ]
     },
     "tre_nho_m_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "C": "collar", "T": "top_m", "L": "belt", "B": "bottom", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline"
+      },
       "rows": [
         ".HH...HH.",
         "..HHHHH..",
@@ -1261,7 +2762,16 @@
       ]
     },
     "tre_nho_f_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "Y": "yem", "T": "top_f", "L": "belt", "B": "skirt", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
       "rows": [
         "HH.HHH.HH",
         ".HHHHHHH.",
@@ -1281,7 +2791,16 @@
       ]
     },
     "thieu_nien_m_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "C": "collar", "T": "top_m", "L": "belt", "B": "bottom", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline"
+      },
       "rows": [
         "...HHHH...",
         "..HHHHHH..",
@@ -1304,7 +2823,16 @@
       ]
     },
     "thieu_nien_f_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "Y": "yem", "T": "top_f", "L": "belt", "B": "skirt", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
       "rows": [
         "...HHHH...",
         "..HHHHHH..",
@@ -1327,7 +2855,16 @@
       ]
     },
     "nguoi_lon_m_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "C": "collar", "T": "top_m", "L": "belt", "B": "bottom", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline"
+      },
       "rows": [
         "....HHHH....",
         "...HHHHHH...",
@@ -1354,7 +2891,16 @@
       ]
     },
     "nguoi_lon_f_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "Y": "yem", "T": "top_f", "L": "belt", "B": "skirt", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
       "rows": [
         "...HHHHHH...",
         "..HHHHHHHH..",
@@ -1381,7 +2927,16 @@
       ]
     },
     "nguoi_mang_thai_f_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "Y": "yem", "T": "top_f", "L": "belt", "B": "skirt", "F": "outline"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
       "rows": [
         "...HHHHHH....",
         "..HHHHHHHH...",
@@ -1408,7 +2963,17 @@
       ]
     },
     "nguoi_om_m_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "C": "collar", "T": "top_m", "L": "belt", "B": "bottom", "F": "outline", "G": "wood"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline",
+        "G": "wood"
+      },
       "rows": [
         "...HHHH......",
         "..HHHHHH.....",
@@ -1432,7 +2997,17 @@
       ]
     },
     "nguoi_om_f_viet": {
-      "key": {"S": "skin", "H": "hair", "E": "eye", "Y": "yem", "T": "top_f", "L": "belt", "B": "skirt", "F": "outline", "G": "wood"},
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline",
+        "G": "wood"
+      },
       "rows": [
         "..HHHHHH.....",
         ".HHHHHHHH....",
@@ -1454,7 +3029,17 @@
       ]
     },
     "nguoi_gia_m_viet": {
-      "key": {"S": "skin", "W": "hair_elder", "E": "eye", "C": "collar", "T": "top_m", "L": "belt", "B": "bottom", "F": "outline", "G": "wood"},
+      "key": {
+        "S": "skin",
+        "W": "hair_elder",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline",
+        "G": "wood"
+      },
       "rows": [
         "....WWWW.....",
         "...WWWWWW....",
@@ -1479,7 +3064,17 @@
       ]
     },
     "nguoi_gia_f_viet": {
-      "key": {"S": "skin", "W": "hair_elder", "E": "eye", "Y": "yem", "T": "top_f", "L": "belt", "B": "skirt", "F": "outline", "G": "wood"},
+      "key": {
+        "S": "skin",
+        "W": "hair_elder",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline",
+        "G": "wood"
+      },
       "rows": [
         "...WWWWWW....",
         "..WWWWWWWW...",
@@ -1504,7 +3099,10 @@
       ]
     },
     "non_la": {
-      "key": {"N": "hat_cone", "n": "hat_shade"},
+      "key": {
+        "N": "hat_cone",
+        "n": "hat_shade"
+      },
       "rows": [
         "......NN......",
         "....NNNNNN....",
@@ -1513,7 +3111,10 @@
       ]
     },
     "khan_dong": {
-      "key": {"M": "hat_main", "G": "hat_trim"},
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
       "rows": [
         "..MMMMMM..",
         ".MMMMMMMM.",
@@ -1522,7 +3123,10 @@
       ]
     },
     "mao_quan": {
-      "key": {"M": "hat_main", "G": "gold"},
+      "key": {
+        "M": "hat_main",
+        "G": "gold"
+      },
       "rows": [
         ".....MMMM.....",
         "....MMGGMM....",
@@ -1532,7 +3136,11 @@
       ]
     },
     "non_dau": {
-      "key": {"M": "hat_main", "R": "hat_trim", "G": "gold"},
+      "key": {
+        "M": "hat_main",
+        "R": "hat_trim",
+        "G": "gold"
+      },
       "rows": [
         ".....GG.....",
         "...RRRRRR...",
@@ -1541,7 +3149,10 @@
       ]
     },
     "khan_mo_qua": {
-      "key": {"M": "hat_main", "R": "yem"},
+      "key": {
+        "M": "hat_main",
+        "R": "yem"
+      },
       "rows": [
         "..MMMMMM..",
         ".MMMMRMMM.",
@@ -1550,7 +3161,10 @@
       ]
     },
     "khan_vanh": {
-      "key": {"G": "gold", "M": "hat_main"},
+      "key": {
+        "G": "gold",
+        "M": "hat_main"
+      },
       "rows": [
         ".GGGGGGGG.",
         "GGGGGGGGGG",
@@ -1559,7 +3173,10 @@
       ]
     },
     "khan_tang": {
-      "key": {"W": "mourning_white", "w": "mourning_shade"},
+      "key": {
+        "W": "mourning_white",
+        "w": "mourning_shade"
+      },
       "rows": [
         "..WWWWWW...",
         ".WWWWWWWWw.",
@@ -1568,7 +3185,10 @@
       ]
     },
     "dau_benh": {
-      "key": {"G": "sick_badge", "Y": "gold"},
+      "key": {
+        "G": "sick_badge",
+        "Y": "gold"
+      },
       "rows": [
         ".G.",
         "GYG",
@@ -1576,7 +3196,11 @@
       ]
     },
     "den_long": {
-      "key": {"R": "#d9452f", "Y": "#f5c542", "G": "#e3b341"},
+      "key": {
+        "R": "#d9452f",
+        "Y": "#f5c542",
+        "G": "#e3b341"
+      },
       "rows": [
         "..G..",
         ".RRR.",
@@ -1586,11 +3210,1612 @@
       ]
     },
     "dau_nguoi_choi": {
-      "key": {"Y": "#ffd34d", "O": "#c97a16"},
+      "key": {
+        "Y": "#ffd34d",
+        "O": "#c97a16"
+      },
       "rows": [
         "YYYYY",
         ".YYY.",
         "..O.."
+      ]
+    },
+    "nha_cap_4_hien_dai": {
+      "key": {
+        "R": "thatch",
+        "r": "thatch_dark",
+        "l": "thatch_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "water_light",
+        "g": "water",
+        "Y": "gold",
+        "F": "foliage",
+        "C": "cloth_red",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_light"
+      },
+      "rows": [
+        "........................................SSSS............",
+        "........................................SwWS............",
+        "..........rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrSSWSrr..........",
+        ".........llllllllllllllllllllllllllllllllllllllll.......",
+        "........RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR......",
+        ".......rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.....",
+        "......llllllllllllllllllllllllllllllllllllllllllllll....",
+        ".....RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR...",
+        "....rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr..",
+        "...RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.",
+        "..rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        ".llllllllllllllllllllllllllllllllllllllllllllllllllllll.",
+        "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+        "...wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw...",
+        "...WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW...",
+        "...WWWWWWWWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWWWWWWWW...",
+        "...WWWWDDDDDDDDDDWWWWWDGGGGGGGGGGDWWWWWDDDDDDDDDDWWWW...",
+        "...WWWWDGGGGGGGGDWWWWWDddddddddddDWWWWWDGGGGGGGGDWWWW...",
+        "...WWWWDGggggggGDWWWWWDddDDDDDDddDWWWWWDGggggggGDWWWW...",
+        "...WWWWDGggYYggGDWWWWWDddDddddDddDWWWWWDGggYYggGDWWWW...",
+        "...WWWWDGggggggGDWWWWWDddDddddDddDWWWWWDGggggggGDWWWW...",
+        "...WWWWDGGGGGGGGDWWWWWDddDddddYddDWWWWWDGGGGGGGGDWWWW...",
+        "...WWWWDDDDDDDDDDWWWWWDddDddddDddDWWWWWDDDDDDDDDDWWWW...",
+        "...WWWWFCFCFCFCFCWWWWWDddDddddDddDWWWWWFCFCFCFCFCWWWW...",
+        "...WWWWddddddddddWWWWWDddDDDDDDddDWWWWWddddddddddWWWW...",
+        "...WWWWWWWWWWWWWWWWWWWDddddddddddDWWWWWWWWWWWWWWWWWWW...",
+        "...wwwwwwwwwwwwwwwwwwwDddddddddddDwwwwwwwwwwwwwwwwwww...",
+        "..ssssssssssssssssssssssssssssssssssssssssssssssssssss..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS."
+      ]
+    },
+    "nha_pho_hien_dai": {
+      "key": {
+        "R": "tile",
+        "r": "tile_dark",
+        "l": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "water_light",
+        "g": "water",
+        "Y": "gold",
+        "F": "foliage",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_light"
+      },
+      "rows": [
+        "............rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr............",
+        "..........llllllllllllllllllllllllllllllllllllllll..........",
+        "........RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR........",
+        "......rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr......",
+        "....llllllllllllllllllllllllllllllllllllllllllllllllllll....",
+        "...RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR...",
+        "..rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr..",
+        "...KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK...",
+        "....wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw....",
+        "....WWWWDDDDDDDDWWWWWWWWDDDDDDDDDDDDWWWWWWWWDDDDDDDDWWWW....",
+        "....WWWWDGGGGGGDWWWWWWWWDGGGGGGGGGGDWWWWWWWWDGGGGGGDWWWW....",
+        "....WWWWDGgYYgGDWWWWWWWWDGggggggggGDWWWWWWWWDGgYYgGDWWWW....",
+        "....WWWWDGGGGGGDWWWWWWWWDGggYYYYggGDWWWWWWWWDGGGGGGDWWWW....",
+        "....WWWWDDDDDDDDWWWWWWWWDGggggggggGDWWWWWWWWDDDDDDDDWWWW....",
+        "....WWWWwwwwwwwwWWWWWWWWDGGGGGGGGGGDWWWWWWWWwwwwwwwwWWWW....",
+        "...SSSSSSSSSSSSSSSSSSSSSDDDDDDDDDDDDSSSSSSSSSSSSSSSSSSSSS...",
+        "...S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S...",
+        "..rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr..",
+        "...KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK...",
+        "....wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw....",
+        "....WWWWWWWWWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWWWWWWWWW....",
+        "....WWWWDDDDDDDDDDWWWWWWDddddddddddDWWWWWWDDDDDDDDDDWWWW....",
+        "....WWWWDGGGGGGGGDWWWWWWDddDDDDDDddDWWWWWWDGGGGGGGGDWWWW....",
+        "....WWWWDGggggggGDWWWWWWDddDGGGGDddDWWWWWWDGggggggGDWWWW....",
+        "....WWWWDGggYYggGDWWWWWWDddDGGGGDddDWWWWWWDGggYYggGDWWWW....",
+        "....WWWWDGggggggGDWWWWWWDddDDDDDDddDWWWWWWDGggggggGDWWWW....",
+        "....WWWWDGGGGGGGGDWWWWWWDddDddddYddDWWWWWWDGGGGGGGGDWWWW....",
+        "....WWWWDDDDDDDDDDWWWWWWDddDddddDddDWWWWWWDDDDDDDDDDWWWW....",
+        "....WWWWFFFFFFFFFFFFFFWWDddDddddDddDWWFFFFFFFFFFFFFFWWWW....",
+        "....WWWWddddddddddddddWWDddddddddddDWWddddddddddddddWWWW....",
+        "....wwwwwwwwwwwwwwwwwwwwDddddddddddDwwwwwwwwwwwwwwwwwwww....",
+        "..ssssssssssssssssssssssssssssssssssssssssssssssssssssssss..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS."
+      ]
+    },
+    "biet_thu_hien_dai": {
+      "key": {
+        "R": "tile",
+        "r": "tile_dark",
+        "l": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "water_light",
+        "g": "water",
+        "Y": "gold",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_light"
+      },
+      "rows": [
+        "............................YYYY............................",
+        ".........................rrrYYYYrrr.........................",
+        "..........rrrrrrrrrrrrrrrRRRRRRRRRRrrrrrrrrrrrrrrr..........",
+        "........lllllllllllllllllRRRRRRRRRRlllllllllllllllll........",
+        ".......RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.......",
+        "......rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr......",
+        ".....llllllllllllllllllllllllllllllllllllllllllllllllll.....",
+        "....RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR....",
+        "...rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr...",
+        "..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        ".rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.",
+        "..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+        "...sWWWsWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWsWWWs...",
+        "...sWWWsWWDDDDDDDDWWWWWWDDDDDDDDDDDDWWWWWWDDDDDDDDWWsWWWs...",
+        "...sWWWsWWDGGGGGGDWWWWWWDGGGGGGGGGGDWWWWWWDGGGGGGDWWsWWWs...",
+        "...sWWWsWWDGgYYgGDWWWWWWDGggYYYYggGDWWWWWWDGgYYgGDWWsWWWs...",
+        "...sWWWsWWDGGGGGGDWWWWWWDGggggggggGDWWWWWWDGGGGGGDWWsWWWs...",
+        "...sWWWsWWDDDDDDDDWWWWWWDGGGGGGGGGGDWWWWWWDDDDDDDDWWsWWWs...",
+        "..ssssssssssssssssssssssDDDDDDDDDDDDssssssssssssssssssssss..",
+        "..S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S.S..",
+        ".rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.",
+        "..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+        "...sWWWsWWWWWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWWWWWsWWWs...",
+        "...sWWWsWWDDDDDDDDDDWWWWDddddddddddDWWWWDDDDDDDDDDWWsWWWs...",
+        "...sWWWsWWDGGGGGGGGDWWWWDddDDDDDDddDWWWWDGGGGGGGGDWWsWWWs...",
+        "...sWWWsWWDGggggggGDWWWWDddDGYYGDddDWWWWDGggggggGDWWsWWWs...",
+        "...sWWWsWWDGggYYggGDWWWWDddDGYYGDddDWWWWDGggYYggGDWWsWWWs...",
+        "...sWWWsWWDGggggggGDWWWWDddDDDDDDddDWWWWDGggggggGDWWsWWWs...",
+        "...sWWWsWWDGGGGGGGGDWWWWDddDddddYddDWWWWDGGGGGGGGDWWsWWWs...",
+        "...sWWWsWWDDDDDDDDDDWWWWDddDddddDddDWWWWDDDDDDDDDDWWsWWWs...",
+        "...sWWWsWWFFFFFFFFFFFWWWDddDddddDddDWWWFFFFFFFFFFFWWsWWWs...",
+        "...sWWWsWWfffffffffffWWWDddddddddddDWWWfffffffffffWWsWWWs...",
+        "...swwwswwwwwwwwwwwwwwwwDddddddddddDwwwwwwwwwwwwwwwwswwws...",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+      ]
+    },
+    "kho_hang_hien_dai": {
+      "key": {
+        "R": "tile",
+        "r": "tile_dark",
+        "l": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "gold",
+        "S": "stone"
+      },
+      "rows": [
+        "........rrrr........",
+        "......rrllllrr......",
+        "....rrRRRRRRRRrr....",
+        "...rRRRRRRRRRRRRr...",
+        "..rrrrrrrrrrrrrrrr..",
+        ".RRRRRRRRRRRRRRRRRR.",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "..wwwwwwwwwwwwwwww..",
+        "..WWWWWWDDDDWWWWWW..",
+        "..WWWWWWDGGDWWWWWW..",
+        "..WWWWWWDDDDWWWWWW..",
+        "..WWWWDDDDDDDDWWWW..",
+        "..WWWWDddddddDWWWW..",
+        "..WWWWDdDDDDdDWWWW..",
+        "..WWWWDdDddDdDWWWW..",
+        "..WWWWDdDddDdDWWWW..",
+        "..WWWWDddddddDWWWW..",
+        "..WWWWddddddddWWWW..",
+        "..wwwwddddddddwwww..",
+        ".SSSSSSSSSSSSSSSSSS.",
+        ".SSSSSSSSSSSSSSSSSS."
+      ]
+    },
+    "day_cua_tiem_hien_dai": {
+      "key": {
+        "R": "cloth_red",
+        "Y": "cloth_yellow",
+        "r": "tile_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "G": "water_light",
+        "D": "wood_dark",
+        "d": "wood",
+        "A": "goods1",
+        "B": "goods2",
+        "C": "goods3",
+        "S": "stone"
+      },
+      "rows": [
+        "..DDDDDDDDDD....DDDDDDDDDD....DDDDDDDDDD..",
+        ".RRRRRRRRRRRR..YYYYYYYYYYYY..RRRRRRRRRRRR.",
+        "RYRYRYRYRYRYRYRYRYRYRYRYRYRYRYRYRYRYRYRYRY",
+        "rrrrrrrrrrrrrr..rrrrrrrrrrrr..rrrrrrrrrrrr",
+        ".wwwwwwwwwwww..wwwwwwwwwwww..wwwwwwwwwwww.",
+        ".WWWWWWWWWWWW..WWWWWWWWWWWW..WWWWWWWWWWWW.",
+        ".WWDGGGGGGDWW..WWDGGGGGGDWW..WWDGGGGGGDWW.",
+        ".WWDGAABCGDWW..WWDGBCCAGDWW..WWDGCAABGDWW.",
+        ".WWDGGGGGGDWW..WWDGGGGGGDWW..WWDGGGGGGDWW.",
+        ".WWDDDDDDDDWW..WWDDDDDDDDWW..WWDDDDDDDDWW.",
+        ".WWWWddddWWWW..WWWWddddWWWW..WWWWddddWWWW.",
+        ".WWWWddddWWWW..WWWWddddWWWW..WWWWddddWWWW.",
+        ".wwwwddddwwww..wwwwddddwwww..wwwwddddwwww.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+      ]
+    },
+    "vuon_cay_hien_dai": {
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
+      "rows": [
+        "ggGggGggGggGggGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB",
+        "ggGggGggGggGggGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB"
+      ]
+    },
+    "cay_xanh_do_thi": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light",
+        "B": "stone"
+      },
+      "rows": [
+        ".......LLLLLLLL.......",
+        ".....LLFFFFFFFFLL.....",
+        "....LFFFFFFFFFFFFL....",
+        "...LFFFFFFFFFFFFFFL...",
+        "..LFFFFFFFFFFFFFFFFL..",
+        "..LFFFFFFLLLLFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFFFL.",
+        ".FFFFFFFFFFFFFFFFFFFF.",
+        ".FFFFFFFFfFFfFFFFFFFF.",
+        ".FFFFFFFffFFffFFFFFFF.",
+        ".fFFFFFFFFFFFFFFFFFFf.",
+        "..fFFFFFFFFFFFFFFFFf..",
+        "..ffFFFFFFFFFFFffFFf..",
+        "...ffFFFFsSSsFFFFff...",
+        ".....ffffsSSsffff.....",
+        "........fsSSsf........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        "........ssSSss........",
+        "......BBBBBBBBBB......",
+        "......BBBBBBBBBB......"
+      ]
+    },
+    "rao_sat_hien_dai": {
+      "key": {
+        "S": "stone_dark",
+        "s": "stone_light"
+      },
+      "rows": [
+        "s...s...",
+        "S...S...",
+        "SSSSSSSS",
+        "S...S...",
+        "S...S...",
+        "S...S...",
+        "SSSSSSSS",
+        "S...S...",
+        "S...S..."
+      ]
+    },
+    "nha_go_au": {
+      "key": {
+        "L": "thatch_light",
+        "T": "thatch",
+        "t": "thatch_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "water_light",
+        "Y": "gold",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_dark",
+        "g": "water"
+      },
+      "rows": [
+        "..........................................SSSS..........",
+        "........................tttttttt..........SssS..........",
+        "......................ttLLLLLLLLtt........SSSS..........",
+        "....................ttTTTTTTTTTTTTtt......SssS..........",
+        "..................ttTTTTTTTTTTTTTTTTtt....SSSS..........",
+        "................ttLLLLTTTTTTTTTTTTLLLLtt..SssS..........",
+        "..............ttTTTTTTTTTTTTTTTTTTTTTTTTttSSSS..........",
+        "............ttTTTTTTTTtTTTTTTTTTTtTTTTTTTTttSS..........",
+        "..........ttTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtt..........",
+        "........ttLLLLTTTTTTTTtTTTTTTTTTTtTTTTTTTTLLLLtt........",
+        "......ttTTTTTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTTTTTtt......",
+        "....ttTTTTTTTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTTTTTTTtt....",
+        "..tttttttttttttttttttttttttttttttttttttttttttttttttttt..",
+        "...KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK...",
+        "....DWWWWWWWWWWWDWWWWWWWWWWWWWWWWWWWWWWDWWWWWWWWWWWD....",
+        "....DWwWWWWWWwWWDWWWWWWDDDDDDDDDDWWWWWWWDWwWWWWWWwWWD...",
+        "....DWWwWWWWwWWWDWWWWWDGGGGGGGGDWWWWWWWDWWwWWWWwWWWD....",
+        "....DWWWDDDDWWWWDWWWWWDGggYYggGDWWWWWWWDWWWDDDDWWWWD....",
+        "....DWWWDGGDWWWWDWWWWWDGGGGGGGGDWWWWWWWDWWWDGGDWWWWD....",
+        "....DWWWDDDDWWWWDWWWWWWDDDDDDDDWWWWWWWWDWWWDDDDWWWWD....",
+        "....DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD....",
+        "....DWWWWWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWWWWWWWD....",
+        "....DWWWWDDDDDDDWWWWWDddddddddddDWWWWWDDDDDDDWWWWWD....",
+        "....DWWWWDGGGGGDWWWWWDddDDDDDDddDWWWWWDGGGGGDWWWWWD....",
+        "....DWWWWDGgYgGDWWWWWDddDddddDddDWWWWWDGgYgGDWWWWWD....",
+        "....DWWWWDGGGGGDWWWWWDddDddddYddDWWWWWDGGGGGDWWWWWD....",
+        "....DWWWWDDDDDDDWWWWWDddDddddDddDWWWWWDDDDDDDWWWWWD....",
+        "....DWWWWwwwwwwwWWWWWDddddddddddDWWWWWwwwwwwwWWWWWD....",
+        "....DwwwwwwwwwwwwwwwwDddddddddddDwwwwwwwwwwwwwwwwwD....",
+        "..ssSSSSSSSSSSSSSSSSSDddddddddddDSSSSSSSSSSSSSSSSSss..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssss."
+      ]
+    },
+    "nha_da_au": {
+      "key": {
+        "R": "tile",
+        "r": "tile_dark",
+        "l": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "water_light",
+        "Y": "gold",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_dark",
+        "L": "stone_light",
+        "g": "water"
+      },
+      "rows": [
+        "............................rrrr............................",
+        "........................rrrrRRRRrrrr........................",
+        "....................rrrrllllllllllllrrrr....................",
+        "................rrrrRRRRRRRRRRRRRRRRRRRRrrrr................",
+        "............rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr............",
+        ".........rrrllllllllllllllllllllllllllllllllllllrrr.........",
+        "......rrrRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRrrr......",
+        "....rrRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRrr....",
+        "..rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr..",
+        "...KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK...",
+        "....DWWWWWWWWWWWDWWWWWWWWWWWWWWWWWWWWWWWWWWDWWWWWWWWWWWD....",
+        "....DWwWWWWWWwWWDWWWWWWDDDDDDDDDDDDWWWWWWWWDWwWWWWWWwWWD....",
+        "....DWWDDDDDDWWWDWWWWWWDGGGGGGGGGGDWWWWWWWWDWWDDDDDDWWWD....",
+        "....DWWDGGGGDWWWDWWWWWWDGggYYYYggGDWWWWWWWWDWWDGGGGDWWWD....",
+        "....DWWDGYYGDWWWDWWWWWWDGGGGGGGGGGDWWWWWWWWDWWDGYYGDWWWD....",
+        "....DWWDDDDDDWWWDWWWWWWDDDDDDDDDDDDWWWWWWWWDWWDDDDDDWWWD....",
+        "....DWwWWWWWWwWWDWWWWWWWWWWWWWWWWWWWWWWWWWWDWwWWWWWWwWWD....",
+        "...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD...",
+        "....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....",
+        "....SLSLSLSLSLSLSLSLSLSDDDDDDDDDDDDSLSLSLSLSLSLSLSLSLSLS....",
+        "....SSSSSSSSSSSSSSSSSSDddddddddddddDSSSSSSSSSSSSSSSSSSSS....",
+        "....SSSSDDDDDDDDSSSSSSDddDDDDDDDDddDSSSSSSDDDDDDDDSSSSSS....",
+        "....SSSSDGGGGGGDSSSSSSDddDddddddDddDSSSSSSDGGGGGGDSSSSSS....",
+        "....SSSSDGGYYGGDSSSSSSDddDddddddDddDSSSSSSDGGYYGGDSSSSSS....",
+        "....SSSSDGGGGGGDSSSSSSDddDddddddYddDSSSSSSDGGGGGGDSSSSSS....",
+        "....SSSSDDDDDDDDSSSSSSDddDddddddDddDSSSSSSDDDDDDDDSSSSSS....",
+        "....SSSSssssssssSSSSSSDddDDDDDDDDddDSSSSSSssssssssSSSSSS....",
+        "....SSSSSSSSSSSSSSSSSSDddddddddddddDSSSSSSSSSSSSSSSSSSSS....",
+        "....ssssssssssssssssssDddddddddddddDssssssssssssssssssss....",
+        "..LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss."
+      ]
+    },
+    "trang_vien_au": {
+      "key": {
+        "R": "tile",
+        "r": "tile_dark",
+        "l": "tile_light",
+        "S": "stone_light",
+        "s": "stone",
+        "k": "stone_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "gold",
+        "W": "water_light",
+        "g": "water",
+        "P": "cloth_red",
+        "Y": "gold"
+      },
+      "rows": [
+        "........GG....................GG....................GG........",
+        ".......rrrr..................rrrr..................rrrr.......",
+        "......rRRRRr................rRRRRr................rRRRRr......",
+        ".....rRRRRRRr..............rRRRRRRr..............rRRRRRRr.....",
+        "....rRRRRRRRRr...rrrrrrrrrrRRRRRRRRrrrrrrrrrr...rRRRRRRRRr....",
+        "...rRRRRRRRRRRrrrllllllllllllllllllllllllllllrrrRRRRRRRRRRr...",
+        "..rRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr..",
+        ".rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.",
+        "..llllllllllllllllllllllllllllllllllllllllllllllllllllllllll..",
+        "..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        ".rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.",
+        "..kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk..",
+        "...SSSSSSSSSSSSsSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSsSSSSSSSSSSSS...",
+        "...SSSSSSSSSSSSsSSSSSSSSSSSGGGGGGGGSSSSSSSSSSSsSSSSSSSSSSSS...",
+        "...SSDDDDDDDDSSsSSDDDDDDDDSSDDDDDDDDSSDDDDDDDDSSsSSDDDDDDDDSS.",
+        "...SSDWGGGGWDSSsSSDWGGGGWDSSDWGGGGWDSSDWGGGGWDSSsSSDWGGGGWDSS.",
+        "...SSDWGYYGWDSSsSSDWGYYGWDSSDWGYYGWDSSDWGYYGWDSSsSSDWGYYGWDSS.",
+        "...SSDWGGGGWDSSsSSDWGGGGWDSSDWGGGGWDSSDWGGGGWDSSsSSDWGGGGWDSS.",
+        "...SSDDDDDDDDSSsSSDDDDDDDDSSDDDDDDDDSSDDDDDDDDSSsSSDDDDDDDDSS.",
+        "...ssssssssssssksssssssssssssssssssssssssssssskssssssssssss...",
+        "..kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk..",
+        "...SSSSSSSSSSSSsSSSSSSSSSSDDDDDDDDDDSSSSSSSSSSsSSSSSSSSSSSS...",
+        "...SSPPWWWWPPSSsSSSSSSSSSDddddddddddDSSSSSSSSSsSSPPWWWWPPSS...",
+        "...SSPPDDDDPPSSsSSDDDDDDSDddDDDDDDddDSDDDDDDSSsSSPPDDDDPPSS...",
+        "...SSPPDGGDPPSSsSSDWGGWDSDddDGGGGDddDSDWGGWDSSsSSPPDGGDPPSS...",
+        "...SSPPDGGDPPSSsSSDWGgWDSDddDGYYGDddDSDWGgWDSSsSSPPDGGDPPSS...",
+        "...SSPPDGGDPPSSsSSDWGGWDSDddDGGGGDddDSDWGGWDSSsSSPPDGGDPPSS...",
+        "...SSPPDDDDPPSSsSSDDDDDDSDddDDDDDDddDSDDDDDDSSsSSPPDDDDPPSS...",
+        "...SSSSSSSSSSSSsSSSSSSSSSDddDddddGddDSSSSSSSSSsSSSSSSSSSSSS...",
+        "...SSSSSSSSSSSSsSSSSSSSSSDddDddddDddDSSSSSSSSSsSSSSSSSSSSSS...",
+        "...SSSSSSSSSSSSsSSSSSSSSSDddddddddddDSSSSSSSSSsSSSSSSSSSSSS...",
+        "...ssssssssssssksssssssssDddddddddddDssssssssskssssssssssss...",
+        "..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss.",
+        ".kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk."
+      ]
+    },
+    "day_sap_au": {
+      "key": {
+        "R": "cloth_red",
+        "Y": "cloth_yellow",
+        "r": "tile_dark",
+        "D": "wood",
+        "d": "wood_light",
+        "P": "wood_dark",
+        "A": "goods1",
+        "B": "goods2",
+        "C": "goods3",
+        "S": "stone"
+      },
+      "rows": [
+        "....RRRRRR........YYYYYY........RRRRRR..",
+        "..RRRRRRRRRR....YYYYYYYYYY....RRRRRRRRRR",
+        ".RYRYRYRYRYRY..YRYRYRYRYRYR..RYRYRYRYRYR",
+        "rrrrrrrrrrrrrr..rrrrrrrrrrrr..rrrrrrrrrr",
+        "..P........P....P........P....P........P",
+        "..P.AAAAAA.P....P.BBBBBB.P....P.CCCCCC.P",
+        "..P.AAAAAA.P....P.BBBBBB.P....P.CCCCCC.P",
+        ".dddddddddddd..dddddddddddd..ddddddddddd",
+        ".DDDDDDDDDDDD..DDDDDDDDDDDD..DDDDDDDDDDD",
+        "..P.BBBBBB.P....P.CCCCCC.P....P.AAAAAA.P",
+        "..P.BBBBBB.P....P.CCCCCC.P....P.AAAAAA.P",
+        "..P........P....P........P....P........P",
+        "..SSSSSSSSSS....SSSSSSSSSS....SSSSSSSSSS"
+      ]
+    },
+    "dong_lua_mi_au": {
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
+      "rows": [
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB"
+      ]
+    },
+    "cay_soi_au": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light"
+      },
+      "rows": [
+        ".......LLLLLLLLLL.......",
+        ".....LLFFFFFFFFFFLL.....",
+        "...LLFFFFFFFFFFFFFFLL...",
+        "..LFFFFFFFFFFFFFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFFFFFL.",
+        ".LFFFFFFFLLLLLLFFFFFFFL.",
+        "LFFFFFFFFFFFFFFFFFFFFFFL",
+        "LFFFFFFFFFFFFFFFFFFFFFFL",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFfFFFFFFfFFFFFFFF",
+        "FFFFFFFffFFFFFFffFFFFFFF",
+        "fFFFFFFffFFFFFFffFFFFFFf",
+        ".fFFFFFFFFFFFFFFFFFFFFf.",
+        ".ffFFFFFFFFFFFFFFFFFFff.",
+        "..ffFFFFsSSssSSsFFFFff..",
+        "...fffff.ssSSss.fffff...",
+        ".........sSSSSs.........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        ".........ssSSss.........",
+        "........ssSSSSss........",
+        ".......ssS....Sss......."
+      ]
+    },
+    "cay_thong_au": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light"
+      },
+      "rows": [
+        ".........LL.........",
+        "........LFFL........",
+        ".......LFFFFL.......",
+        "......fFFFFFFf......",
+        ".......LFFFFL.......",
+        ".....LLFFFFFFLL.....",
+        "....LFFFFFFFFFFL....",
+        "...fFFFFFFFFFFFFf...",
+        ".....LFFFFFFFFL.....",
+        "...LLFFFFFFFFFFLL...",
+        "..LFFFFFFFFFFFFFFL..",
+        ".fFFFFFFFFFFFFFFFFf.",
+        "...LFFFFFFFFFFFFL...",
+        "..LFFFFFFFFFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFL.",
+        ".FFFFFFFFFFFFFFFFFF.",
+        "fFFFFFFFFFFFFFFFFFFf",
+        "..LFFFFFFFFFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFL.",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "fFFFFFFFFFFFFFFFFFFf",
+        "..ffffffffffffffff..",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        ".......ssSSss......."
+      ]
+    },
+    "rao_go_au": {
+      "key": {
+        "P": "wood_dark",
+        "p": "wood"
+      },
+      "rows": [
+        "P...P...",
+        "P...P...",
+        "pppppppp",
+        "P...P...",
+        "P...P...",
+        "pppppppp",
+        "P...P...",
+        "P...P..."
+      ]
+    },
+    "leu_ger_du_muc": {
+      "key": {
+        "L": "thatch_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "R": "cloth_red",
+        "Y": "cloth_yellow",
+        "G": "gold",
+        "D": "wood_dark",
+        "d": "wood",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "........................DDDDDDDD........................",
+        "....................RRRRGGGGGGGGRRRR....................",
+        ".................RRRRGGGGGGGGGGGGGGGRRRR................",
+        "..............wwwRRRRRRRRRRRRRRRRRRRRRRRwww.............",
+        "...........wwwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLwww..........",
+        ".........wwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLww........",
+        ".......wwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLww......",
+        "......wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw.....",
+        ".....wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw....",
+        "....wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw...",
+        "...wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw..",
+        "..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        "..GGGGYYYYGGGGYYYYGGGGYYYYGGGGYYYYGGGGYYYYGGGGYYYYGGGG..",
+        "..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        "..WWWWWWWWWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWWWWWWWWW..",
+        "..WwWwWwWwWwWwWwWwWwWWDddddddddddDWWwWwWwWwWwWwWwWwWwW..",
+        "..wWwWwWwWwWwWwWwWwWwWDddRRRRRRddDWwWwWwWwWwWwWwWwWwWw..",
+        "..WWWWWWWWWWWWWWWWWWWWDddRGGGGYddDWWWWWWWWWWWWWWWWWWWW..",
+        "..WwWwWwWwWwWwWwWwWwWWDddRGYYGYddDWWwWwWwWwWwWwWwWwWwW..",
+        "..wWwWwWwWwWwWwWwWwWwWDddRGYYGYddDWwWwWwWwWwWwWwWwWwWw..",
+        "..WWWWWWWWWWWWWWWWWWWWDddRGGGGYddDWWWWWWWWWWWWWWWWWWWW..",
+        "..WwWwWwWwWwWwWwWwWwWWDddRRRRRRddDWWwWwWwWwWwWwWwWwWwW..",
+        "..wWwWwWwWwWwWwWwWwWwWDddddddddddDWwWwWwWwWwWwWwWwWwWw..",
+        "..WWWWWWWWWWWWWWWWWWWWDddddddddddDWWWWWWWWWWWWWWWWWWWW..",
+        "..wwwwwwwwwwwwwwwwwwwwDddddddddddDwwwwwwwwwwwwwwwwwwww..",
+        ".DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD.",
+        ".dddddddddddddddddddddddddddddddddddddddddddddddddddddd.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+      ]
+    },
+    "nha_dat_nung_hoi_giao": {
+      "key": {
+        "T": "tile",
+        "t": "tile_dark",
+        "l": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "gold",
+        "R": "cloth_red",
+        "Y": "cloth_yellow",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "...........................GG...........................",
+        ".........................llTTll.........................",
+        ".......................llTTTTTTll.......................",
+        ".....................llTTTTTTTTTTll.....................",
+        "....................tTTTTTTTTTTTTTTt....................",
+        "....WW..WW..WW..WW..tttttttttttttttt..WW..WW..WW..WW....",
+        "....wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww....",
+        "....WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW....",
+        "....RRRRYYYYRRRRYYYYRRRRYYYYRRRRYYYYRRRRYYYYRRRRYYYY....",
+        "....KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK....",
+        "....WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW....",
+        "....WWWWDDDDDDDDWWWWWWWWDDDDDDDDWWWWWWWWDDDDDDDDWWWW....",
+        "....WWWWDdKdKdKdWWWWWWWWDGGGGGGDWWWWWWWWDdKdKdKdWWWW....",
+        "....WWWWDKdKdKdKWWWWWWWWDGKKKKGDWWWWWWWWDKdKdKdKWWWW....",
+        "....WWWWDdKdKdKdWWWWWWWWDGKKKKGDWWWWWWWWDdKdKdKdWWWW....",
+        "....WWWWDKdKdKdKWWWWWWWWDGKKKKGDWWWWWWWWDKdKdKdKWWWW....",
+        "....WWWWDDDDDDDDWWWWWWWWDDDDDDDDWWWWWWWWDDDDDDDDWWWW....",
+        "....wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww....",
+        "....WWWWWWWWWWWWWWWWWWWDDDDDDDDDDWWWWWWWWWWWWWWWWWWW....",
+        "....WWWWDDDDDDDDWWWWWWWDddddddddDWWWWWWWDDDDDDDDWWWW....",
+        "....WWWWDdKdKdKdWWWWWWWDddDDDDddDWWWWWWWDdKdKdKdWWWW....",
+        "....WWWWDKdKdKdKWWWWWWWDddDKKDddDWWWWWWWDKdKdKdKWWWW....",
+        "....WWWWDdKdKdKdWWWWWWWDddDKKDddDWWWWWWWDdKdKdKdWWWW....",
+        "....WWWWDKdKdKdKWWWWWWWDddDKKDddDWWWWWWWDKdKdKdKWWWW....",
+        "....WWWWDDDDDDDDWWWWWWWDddDddGddDWWWWWWWDDDDDDDDWWWW....",
+        "....WWWWwwwwwwwwWWWWWWWDddDddddDWWWWWWWWwwwwwwwwWWWW....",
+        "....WWWWWWWWWWWWWWWWWWWDddddddddDWWWWWWWWWWWWWWWWWWW....",
+        "....WWWWWWWWWWWWWWWWWWWDddddddddDWWWWWWWWWWWWWWWWWWW....",
+        "....wwwwwwwwwwwwwwwwwwwDddddddddDwwwwwwwwwwwwwwwwwww....",
+        "..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssss."
+      ]
+    },
+    "cay_cha_la": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light",
+        "N": "gold"
+      },
+      "rows": [
+        "....LLLL......LLLL....",
+        "..LLFFFFLL..LLFFFFLL..",
+        ".LFFFFFFFFLLFFFFFFFFL.",
+        "LFFFFfffFFFFFFfffFFFFL",
+        "FFFff...fFFFFf...ffFFF",
+        "Ff......fNNNNf......fF",
+        ".......f.NNNN.f.......",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        "........sSSs..........",
+        "........SSSS..........",
+        "........sSSs..........",
+        "........SSSS..........",
+        "........sSSs..........",
+        "........SSSS..........",
+        "........sSSs..........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        "........ssSSss........",
+        ".......sSSSSSSs......."
+      ]
+    },
+    "leu_da_thu_nguyen_thuy": {
+      "key": {
+        "L": "thatch_light",
+        "T": "thatch",
+        "t": "thatch_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "H": "horn",
+        "R": "cloth_red",
+        "Y": "gold",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        ".......................DD......DD.......................",
+        "........................DD....DD........................",
+        ".......................H.DDDDDD.H.......................",
+        ".......................HHDDDDDDHH.......................",
+        "........................HHHHHHHH........................",
+        "......................ttLLLLLLLLtt......................",
+        ".....................tLLTTTTTTTTLLt.....................",
+        "....................tTTTTTTTTTTTTTTt....................",
+        "...................tTTTTtTTTTTTtTTTTt...................",
+        "..................tTTTTTtTTTTTTtTTTTTt..................",
+        ".................tLLTTTTtTTTTTTtTTTTLLt.................",
+        "................tTTTTTTTtTTTTTTtTTTTTTTt................",
+        "...............tTTTTTTTTtTTTTTTtTTTTTTTTt...............",
+        "..............tWWWWWWWWWtWWWWWWtWWWWWWWWWt..............",
+        ".............tWWWWwwwwwwtWWWWWWtwwwwwwWWWWt.............",
+        "............tLLLLLWWWWWWWWWWWWWWWWWWWWLLLLLt............",
+        "...........tTTTTTTWWWWWWWWWWWWWWWWWWWWTTTTTTt...........",
+        "..........tTTTTTTTWWWWWWDDDDDDDDWWWWWWTTTTTTTt..........",
+        ".........tLLTTTTTTWWWWWWDddddddddDWWWWWWTTTTTLLt........",
+        "........tTTTTTTTTTWWWWWWDdKKKKKKdDWWWWWWTTTTTTTTt.......",
+        ".......tTTTTTTTTTTWWWWWWDKKKKKKKKDWWWWWWTTTTTTTTTt......",
+        "......tTTTTTTTTTTTWWWWWWDKKYYYYKKDWWWWWWTTTTTTTTTTt.....",
+        ".....tLLTTTTTTTTTTWWWWWWDKYYYYYYKDWWWWWWTTTTTTTTTLLt....",
+        "....tTTTTTTTTTTTTTWWWWWWDKYRRRRYYDWWWWWWTTTTTTTTTTTTt...",
+        "...tTTTTTTTTTTTTTTWWWWWWDKRRRRRRKDWWWWWWTTTTTTTTTTTTTt..",
+        "..tTTTTTTTTTTTTTTTwwwwwwDKKKKKKKKDwwwwwwTTTTTTTTTTTTTTt.",
+        "..ttttttttttttttttttttttDKKKKKKKKDtttttttttttttttttttttt",
+        "...D..D..wwwwwwwwwwwwwwwDKKKKKKKKDwwwwwwwwwwwwwww..D..D.",
+        "...D..D..WWWWWWWWWWWWWWWDKKKKKKKKDWWWWWWWWWWWWWWW..D..D.",
+        "..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssss."
+      ]
+    },
+    "bai_co_nguyen_thuy": {
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
+      "rows": [
+        ".g..g...g..g..g.",
+        "gGgGgG.gGgGgGgGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "BBBBBBBBBBBBBBBB",
+        ".g..g...g..g..g.",
+        "gGgGgG.gGgGgGgGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "BBBBBBBBBBBBBBBB"
+      ]
+    },
+    "bai_da_nguyen_thuy": {
+      "key": {
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "...SSSS.....",
+        "..SSSSSSs...",
+        ".sSSSSSSSs.."
+      ]
+    },
+    "thieu_nien_m_hien_dai": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline"
+      },
+      "rows": [
+        "...HHHH...",
+        "..HHHHHH..",
+        ".HHHHHHHH.",
+        ".HHSSSSHH.",
+        ".HSESESSH.",
+        "..SSSSSS..",
+        "...SSSS...",
+        "..CTTTTC..",
+        ".TTTTTTTT.",
+        "TTTTTTTTTT",
+        "STTTTTTTTS",
+        ".TTLLLLTT.",
+        "..BBBBBB..",
+        "..BBBBBB..",
+        "..BB..BB..",
+        "..BB..BB..",
+        "..BB..BB..",
+        "..FF..FF.."
+      ]
+    },
+    "thieu_nien_f_hien_dai": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
+      "rows": [
+        "...HHHH...",
+        "..HHHHHH..",
+        ".HHHHHHHH.",
+        "HHHSSSSHHH",
+        "HHSESESSHH",
+        "HH.SSSS.HH",
+        "H...SS...H",
+        "..TTYYTT..",
+        ".TTTTTTTT.",
+        "TTTTTTTTTT",
+        "STTTTTTTTS",
+        "..LLLLLL..",
+        "..BBBBBB..",
+        ".BBBBBBBB.",
+        ".BBBBBBBB.",
+        "..SS..SS..",
+        "..SS..SS..",
+        "..FF..FF.."
+      ]
+    },
+    "nguoi_lon_m_hien_dai": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "Y": "yem",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline"
+      },
+      "rows": [
+        "....HHHH....",
+        "...HHHHHH...",
+        "..HHHHHHHH..",
+        "..HHSSSSHH..",
+        ".HHSESESSHH.",
+        "..SSSSSSSS..",
+        "...SSSSSS...",
+        "....SSSS....",
+        "..CCYYYYCC..",
+        ".TTTTYYTTTT.",
+        "TTTTTYYTTTTT",
+        "TTTTTYYTTTTT",
+        "STTTTYYTTTTS",
+        "STTTTTTTTTTS",
+        "..LLLLLLLL..",
+        "..BBBBBBBB..",
+        "..BBBBBBBB..",
+        "..BBBBBBBB..",
+        "...BB..BB...",
+        "...BB..BB...",
+        "...BB..BB...",
+        "..FFF..FFF.."
+      ]
+    },
+    "nguoi_lon_f_hien_dai": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
+      "rows": [
+        "...HHHHHH...",
+        "..HHHHHHHH..",
+        ".HHHHHHHHHH.",
+        ".HHHSSSSHHH.",
+        ".HHSESESSHH.",
+        "HH.SSSSSS.HH",
+        "H...SSSS...H",
+        "....SSSS....",
+        "..CCYYYYCC..",
+        ".TTTTTTTTTT.",
+        "TTTTTTTTTTTT",
+        "STTTTTTTTTTS",
+        "STTTTTTTTTTS",
+        "..LLLLLLLL..",
+        "..BBBBBBBB..",
+        ".BBBBBBBBBB.",
+        ".BBBBBBBBBB.",
+        ".BBBBBBBBBB.",
+        "..BBBBBBBB..",
+        "...SS..SS...",
+        "...SS..SS...",
+        "...FF..FF..."
+      ]
+    },
+    "nguoi_gia_m_hien_dai": {
+      "key": {
+        "S": "skin",
+        "W": "hair_elder",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline",
+        "G": "wood"
+      },
+      "rows": [
+        "....WWWW.....",
+        "...WWWWWW....",
+        "..WWWWWWWW...",
+        "..WWSSSSWW...",
+        ".WWSESESSWW..",
+        "..SSSSSSSS...",
+        "...SSSSSS....",
+        "....SSSS.....",
+        "..CCTTTTCC...",
+        ".TTTTTTTTTT..",
+        "TTTTTTTTTTT..",
+        "STTTTTTTTTTSG",
+        "STTTTTTTTTTSG",
+        "..LLLLLLLL..G",
+        "..BBBBBBBB..G",
+        "..BBBBBBBB..G",
+        "...BB..BB...G",
+        "...BB..BB...G",
+        "...BB..BB...G",
+        "..FFF..FFF..G"
+      ]
+    },
+    "nguoi_gia_f_hien_dai": {
+      "key": {
+        "S": "skin",
+        "W": "hair_elder",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline",
+        "G": "wood"
+      },
+      "rows": [
+        "...WWWWWW....",
+        "..WWWWWWWW...",
+        ".WWWWWWWWWW..",
+        ".WWWSSSSWWW..",
+        ".WWSESESSWW..",
+        "WW.SSSSSS.WW.",
+        "W...SSSS...W.",
+        "..TTTYYTTT...",
+        ".TTTTTTTTTT..",
+        "TTTTTTTTTTTT.",
+        "STTTTTTTTTTSG",
+        "STTTTTTTTTTSG",
+        "..LLLLLLLL..G",
+        ".BBBBBBBBBB.G",
+        ".BBBBBBBBBB.G",
+        ".BBBBBBBBBB.G",
+        "..BBBBBBBB..G",
+        "...SS..SS...G",
+        "...SS..SS...G",
+        "...FF..FF...G"
+      ]
+    },
+    "nguoi_lon_m_au": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline"
+      },
+      "rows": [
+        "....HHHH....",
+        "...HHHHHH...",
+        "..HHHHHHHH..",
+        "..HHSSSSHH..",
+        ".HHSESESSHH.",
+        "..SSSSSSSS..",
+        "...SHHHHS...",
+        "....SSSS....",
+        "..CCTTTTCC..",
+        ".TTTTTTTTTT.",
+        "TTTTTTTTTTTT",
+        "TTTTTTTTTTTT",
+        "STTTTTTTTTTS",
+        "STTTTTTTTTTS",
+        "..LLLLLLLL..",
+        "..TTTTTTTT..",
+        "..TTTTTTTT..",
+        "..BBBBBBBB..",
+        "...BB..BB...",
+        "...BB..BB...",
+        "...BB..BB...",
+        "..FFF..FFF.."
+      ]
+    },
+    "nguoi_lon_f_au": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "Y": "yem",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
+      "rows": [
+        "...HHHHHH...",
+        "..HHHHHHHH..",
+        ".HHHHHHHHHH.",
+        ".HHHSSSSHHH.",
+        ".HHSESESSHH.",
+        "HH.SSSSSS.HH",
+        "H...SSSS...H",
+        "....SSSS....",
+        "..TTTYYTTT..",
+        ".TTTTYYTTTT.",
+        "TTTTYYYYTTTT",
+        "STTTTYYTTTTS",
+        "STTTTTTTTTTS",
+        "..LLLLLLLL..",
+        ".BBBBBBBBBB.",
+        "BBBBBBBBBBBB",
+        "BBBBBBBBBBBB",
+        "BBBBBBBBBBBB",
+        "BBBBBBBBBBBB",
+        ".BBBBBBBBBB.",
+        "...BB..BB...",
+        "...FF..FF..."
+      ]
+    },
+    "nguoi_lon_m_nguyen_thuy": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_m",
+        "L": "belt",
+        "B": "bottom",
+        "F": "outline"
+      },
+      "rows": [
+        "...HHHHHH...",
+        "..HHHHHHHH..",
+        ".HHHHHHHHHH.",
+        ".HHHSSSSHHH.",
+        ".HHSESESSHH.",
+        "..SHHHHHHS..",
+        "...HHHHHH...",
+        "....SSSS....",
+        "..CCSSSSCC..",
+        ".STTTTTTTTS.",
+        "SSTTTTTTTTSS",
+        "SSTTTTTTTTSS",
+        "S.TTTTTTTT.S",
+        "S.TTTTTTTT.S",
+        "..LLLLLLLL..",
+        "..BBBBBBBB..",
+        "..BBBBBBBB..",
+        "..BB.BB.BB..",
+        "...SS..SS...",
+        "...SS..SS...",
+        "...SS..SS...",
+        "..FFF..FFF.."
+      ]
+    },
+    "nguoi_lon_f_nguyen_thuy": {
+      "key": {
+        "S": "skin",
+        "H": "hair",
+        "E": "eye",
+        "C": "collar",
+        "T": "top_f",
+        "L": "belt",
+        "B": "skirt",
+        "F": "outline"
+      },
+      "rows": [
+        "...HHHHHH...",
+        "..HHHHHHHH..",
+        ".HHHHHHHHHH.",
+        ".HHHSSSSHHH.",
+        ".HHSESESSHH.",
+        "HH.SSSSSS.HH",
+        "H...SSSS...H",
+        "....SSSS....",
+        "..CCSSSSCC..",
+        ".STTTTTTTTS.",
+        "SSTTTTTTTTSS",
+        "S.TTTTTTTT.S",
+        "S.TTTTTTTT.S",
+        "..LLLLLLLL..",
+        "..BBBBBBBB..",
+        ".BBBBBBBBBB.",
+        ".BBBBBBBBBB.",
+        "..BB.BB.BB..",
+        "...SS..SS...",
+        "...SS..SS...",
+        "...SS..SS...",
+        "...FF..FF..."
+      ]
+    },
+    "mu_long_vu_au": {
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
+      "rows": [
+        "........GG....",
+        "...MMMMMMGG...",
+        "..MMMMMMMMM...",
+        "MMMMMMMMMMMMMM"
+      ]
+    },
+    "khan_xep_hoi_giao": {
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
+      "rows": [
+        "...MMMMMM...",
+        "..MMMMMMMM..",
+        ".MMMMGGMMMM.",
+        ".MMMMMMMMMM."
+      ]
+    },
+    "mu_long_du_muc": {
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
+      "rows": [
+        "....GGGG....",
+        "..MMMMMMMM..",
+        ".MMMMMMMMMM.",
+        ".MM......MM."
+      ]
+    },
+    "nha_vua_hoi_giao": {
+      "key": {
+        "T": "tile",
+        "t": "tile_dark",
+        "l": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "gold",
+        "R": "cloth_red",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        ".............................GG.............................",
+        "...........................llTTll...........................",
+        ".........................llTTTTTTll.........................",
+        ".......................llTTTTTTTTTTll.......................",
+        ".....................llTTTTTTTTTTTTTTll.....................",
+        "....................tTTTTTTTTTTTTTTTTTTt....................",
+        "....GG..............tttttttttttttttttttt..............GG....",
+        "...lTTl..WW..WW..WW.GGGGGGGGGGGGGGGGGGGG.WW..WW..WW..lTTl...",
+        "..tTTTTt.wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww.tTTTTt..",
+        "..tWWWWt.WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.tWWWWt..",
+        "..tWKKWt.TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT.tWKKWt..",
+        "..tWWWWt.GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG.tWWWWt..",
+        "..tWWWWt.WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDDDDDDWWWWDDDDDDDDDDDDWWWWDDDDDDWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDdKdKdWWWWDdKdKdKdKdKdWWWWDdKdKdWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDKdKdKWWWWDKdKdKdKdKdKWWWWDKdKdKWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDdKdKdWWWWDdKdKdKdKdKdWWWWDdKdKdWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDDDDDDWWWWDDDDDDDDDDDDWWWWDDDDDDWWWWWW.tWWWWt..",
+        "..twwwwt.wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww.twwwwt..",
+        "..tWWWWt.WWWWWWWWWWWWWWWDDDDDDDDDDWWWWWWWWWWWWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDDDDDDWWWWWDddddddddDWWWWWDDDDDDWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDGGGGDWWWWWDddDDDDddDWWWWWDGGGGDWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDGKKGDWWWWWDddDKKDddDWWWWWDGKKGDWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDGKKGDWWWWWDddDKKDddDWWWWWDGKKGDWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDGKKGDWWWWWDddDKKDddDWWWWWDGKKGDWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWDDDDDDWWWWWDddDddGddDWWWWWDDDDDDWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWwwwwwwWWWWWDddDddddDWWWWWWwwwwwwWWWWWW.tWWWWt..",
+        "..tWWWWt.WWWWWWWWWWWWWWWDddddddddDWWWWWWWWWWWWWWWWW.tWWWWt..",
+        "..twwwwt.wwwwwwwwwwwwwwwDddddddddDwwwwwwwwwwwwwwwww.twwwwt..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+      ]
+    },
+    "dinh_thu_hoi_giao": {
+      "key": {
+        "T": "tile",
+        "t": "tile_dark",
+        "l": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "G": "gold",
+        "L": "lantern",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_light"
+      },
+      "rows": [
+        "..............................GG..............................",
+        "............................GGTTGG............................",
+        ".........................lllTTTTTTlll.........................",
+        ".......................llTTTTTTTTTTTTll.......................",
+        ".....................llTTTTTTTTTTTTTTTTll.....................",
+        "...................llTTTTTTTTTTTTTTTTTTTTll...................",
+        "....GG............ttTTTTTTTTTTTTTTTTTTTTTTtt............GG....",
+        "...lTTl...........tttttttttttttttttttttttttt...........lTTl...",
+        "..tTTTTt..WW..WW..GGGGGGGGGGGGGGGGGGGGGGGGGG..WW..WW..tTTTTt..",
+        "..tWWWWt..wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww..tWWWWt..",
+        "..tWKKWt..TTTTTTTTGGGGGGGGGGGGGGGGGGGGGGGGGGTTTTTTTT..tWKKWt..",
+        "..tWKKWt..GGGGGGGGTTTTTTTTTTTTTTTTTTTTTTTTTTGGGGGGGG..tWKKWt..",
+        "..tWWWWt..WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDDDDDDWWWWDDDDDDDDDDDDWWWWDDDDDDWWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDGGGGDWWWWDGGGGGGGGGGDWWWWDGGGGDWWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDGKKGDWWWWDGKKGGGGKKGDWWWWDGKKGDWWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDGKKGDWWWWDGKKGGGGKKGDWWWWDGKKGDWWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDDDDDDWWWWDDDDDDDDDDDDWWWWDDDDDDWWWWWWW..tWWWWt..",
+        "..twwwwt..wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww..twwwwt..",
+        "..tWWWWt..WWWWLLWWWWWWWWDDDDDDDDDDDDWWWWWWWWLLWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWWLLWWWWWWWWDddddddddddDWWWWWWWWLLWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDDDDDDWWWWWDddDDDDDDddDWWWWWDDDDDDWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDGGGGDWWWWWDddDGKKKKDddWWWWWDGGGGDWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDGKKGDWWWWWDddDGKKKKDddWWWWWDGKKGDWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDGKKGDWWWWWDddDGKKKKDddWWWWWDGKKGDWWWWW..tWWWWt..",
+        "..tWWWWt..WWWDDDDDDWWWWWDddDDDDDDddDWWWWWDDDDDDWWWWW..tWWWWt..",
+        "..tWWWWt..WWWWwwwwwwWWWWDddDddddGddDWWWWwwwwwwWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWWWWWWWWWWWWDddddddddddDWWWWWWWWWWWWWWWW..tWWWWt..",
+        "..tWWWWt..WWWWWWWWWddddddddddddddddddddddWWWWWWWWWWW..tWWWWt..",
+        "..twwwwt..wwwwwwwwwddddddddddddddddddddddwwwwwwwwwww..twwwwt..",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+      ]
+    },
+    "leu_ger_lon_du_muc": {
+      "key": {
+        "L": "thatch_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "R": "cloth_red",
+        "Y": "cloth_yellow",
+        "G": "gold",
+        "D": "wood_dark",
+        "d": "wood",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "...........................GGGG...........................",
+        ".......................DDDDGGGGDDDD.......................",
+        "...................RRRRGGGGGGGGGGGGRRRR...................",
+        "................RRRRGGGGGGGGGGGGGGGGGGGRRRR...............",
+        ".............wwwRRRRRRRRRRRRRRRRRRRRRRRRRRRwww............",
+        "..G.......wwwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLwww......G..",
+        ".GGG....wwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLww...GGG.",
+        "..D...wwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLww..D..",
+        "..R..wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw.R..",
+        "..R.wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwR..",
+        "..D.wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw..",
+        "..D.RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        "..D.GGGGYYYYGGGGYYYYGGGGYYYYGGGGYYYYGGGGYYYYGGGGYYYYGGGG..",
+        "..D.RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        "..D.WWWWWWWWWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWWWWWWWWW..",
+        "..D.WwWwWwWwWwWwWwWwWwWWDddddddddddDWWwWwWwWwWwWwWwWwWwW..",
+        "..D.wWwWwWwWwWwWwWwWwWwWDddRRRRRRddDWwWwWwWwWwWwWwWwWwWw..",
+        "..D.WWWWWWWWWWWWWWWWWWWWDddRGGGGYddDWWWWWWWWWWWWWWWWWWWW..",
+        "..D.WwWwWwWwWwWwWwWwWwWWDddRGYYGYddDWWwWwWwWwWwWwWwWwWwW..",
+        "..D.wWwWwWwWwWwWwWwWwWwWDddRGYYGYddDWwWwWwWwWwWwWwWwWwWw..",
+        "..D.WWWWWWWWWWWWWWWWWWWWDddRGGGGYddDWWWWWWWWWWWWWWWWWWWW..",
+        "..D.WwWwWwWwWwWwWwWwWwWWDddRRRRRRddDWWwWwWwWwWwWwWwWwWwW..",
+        "..D.wWwWwWwWwWwWwWwWwWwWDddddddddddDWwWwWwWwWwWwWwWwWwWw..",
+        "..D.WWWWWWWWWWWWWWWWWWWWDddddddddddDWWWWWWWWWWWWWWWWWWWW..",
+        "..D.wwwwwwwwwwwwwwwwwwwwDddddddddddDwwwwwwwwwwwwwwwwwwww..",
+        ".DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD.",
+        ".dddddddddddddddddddddddddddddddddddddddddddddddddddddddd.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+      ]
+    },
+    "trai_han_du_muc": {
+      "key": {
+        "L": "thatch_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "R": "cloth_red",
+        "Y": "cloth_yellow",
+        "G": "gold",
+        "D": "wood_dark",
+        "d": "wood",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "..............................GG..............................",
+        "............................GGGGGG............................",
+        "........................RRRRGGGGGGGRRRR.......................",
+        "....................RRRRGGGGGGGGGGGGGGGRRRR...................",
+        ".................RRRRGGGGGGGGGGGGGGGGGGGGGRRRR................",
+        "..............wwwRRRRRRRRRRRRRRRRRRRRRRRRRRRRRwww.............",
+        "..G........wwwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLwww.......G..",
+        ".GGG.....wwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLww....GGG.",
+        ".RRR...wwLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLww..RRR.",
+        "..D...wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw..D..",
+        "..D..wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw.D..",
+        "..D..wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw.D..",
+        "..D..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.D..",
+        "..D..GGGGGGGGYYYYGGGGGGGGYYYYGGGGGGGGYYYYGGGGGGGGYYYYGGGGG.D..",
+        "..D..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.D..",
+        "..D..WWWWWWWWWWWWWWWWWWWWDDDDDDDDDDDDDDWWWWWWWWWWWWWWWWWWW.D..",
+        "..D..WwWwWwWwWwWwWwWwWwWWDddddddddddddDWWwWwWwWwWwWwWwWwWW.D..",
+        "..D..wWwWwWwWwWwWwWwWwWwWDddRRRRRRRRddDWwWwWwWwWwWwWwWwWwW.D..",
+        "..D..WWWWWWWWWWWWWWWWWWWWDddRGGGGGGYddDWWWWWWWWWWWWWWWWWWW.D..",
+        "..D..WwWwWwWwWwWwWwWwWwWWDddRGGYYYYGddDWWwWwWwWwWwWwWwWwWW.D..",
+        "..D..wWwWwWwWwWwWwWwWwWwWDddRGGYYYYGddDWwWwWwWwWwWwWwWwWwW.D..",
+        "..D..WWWWWWWWWWWWWWWWWWWWDddRGGGGGGYddDWWWWWWWWWWWWWWWWWWW.D..",
+        "..D..WwWwWwWwWwWwWwWwWwWWDddRRRRRRRRddDWWwWwWwWwWwWwWwWwWW.D..",
+        "..D..wWwWwWwWwWwWwWwWwWwWDddddddddddddDWwWwWwWwWwWwWwWwWwW.D..",
+        "..D..WWWWWWWWWWWWWWWWWWWWDddddddddddddDWWWWWWWWWWWWWWWWWWW.D..",
+        "..D..wwwwwwwwwwwwwwwwwwwwDddddddddddddDwwwwwwwwwwwwwwwwwww.D..",
+        ".DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD.",
+        ".dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+      ]
+    },
+    "nha_san_bo_lac": {
+      "key": {
+        "L": "thatch_light",
+        "T": "thatch",
+        "t": "thatch_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "H": "horn",
+        "R": "cloth_red",
+        "Y": "gold",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "...........DD..............................DD...........",
+        "............DDH..........................HDD............",
+        "...........HHDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDHH...........",
+        "..........ttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLtt..........",
+        ".........tLLTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTLLt.........",
+        "........ttTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTtt........",
+        ".......tTTTTtTTTTTTtTTTTTTTTTTTTTTTTtTTTTTTtTTTTt.......",
+        "......tTTTTTtTTTTTTtTTTTTTTTTTTTTTTTtTTTTTTtTTTTTt......",
+        ".....LLTTTTTtTTTTTTtTTTTTTTTTTTTTTTTtTTTTTTtTTTTTLL.....",
+        "....tTTTTTTTtTTTTTTtTTTTTTTTTTTTTTTTtTTTTTTtTTTTTTTt....",
+        "...tTTTTTTTTtTTTTTTtTTTTTTTTTTTTTTTTtTTTTTTtTTTTTTTTt...",
+        "..tLLTTTTTTTtTTTTTTtTTTTTTTTTTTTTTTTtTTTTTTtTTTTTTTLLt..",
+        ".tTTTTTTTTTTtTTTTTTtTTTTTTTTTTTTTTTTtTTTTTTtTTTTTTTTTTt.",
+        ".tttttttttttttttttttttttttttttttttttttttttttttttttttttt.",
+        "..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+        "...DwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwD...",
+        "...DWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWD...",
+        "...DWWYYYYWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWYYYYWWD...",
+        "...DWWRRRRWWWWWWWWWWWWDddddddddddDWWWWWWWWWWWWRRRRWWD...",
+        "...DWWDDDDDDDWWWWWWWWWDdKKKKKKKKdDWWWWWWWWWDDDDDDDWWD...",
+        "...DWWDKKKKKDWWWWWWWWWDKKKKKKKKKKDWWWWWWWWWDKKKKKDWWD...",
+        "...DWWDKYYYKDWWWWWWWWWDKKKYYYYKKKDWWWWWWWWWDKYYYKDWWD...",
+        "...DWWDKKKKKDWWWWWWWWWDKKYRRRRYYKDWWWWWWWWWDKKKKKDWWD...",
+        "...DWWDDDDDDDWWWWWWWWWDKKKKKKKKKKDWWWWWWWWWDDDDDDDWWD...",
+        "...DWWWWWWWWWWWWWWWWWWDKKKKKKKKKKDWWWWWWWWWWWWWWWWWWD...",
+        "...DwwwwwwwwwwwwwwwwwwDKKKKKKKKKKDwwwwwwwwwwwwwwwwwwD...",
+        "..DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD..",
+        "....DD......DD..........dDDDDDDd..........DD......DD....",
+        "....DD......DD..........dddddddd..........DD......DD....",
+        "....DD......DD..........dDDDDDDd..........DD......DD....",
+        "....DD......DD..........dddddddd..........DD......DD....",
+        "..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..",
+        ".ssssssssssssssssssssssssssssssssssssssssssssssssssssss."
+      ]
+    },
+    "nha_dai_thu_linh": {
+      "key": {
+        "L": "thatch_light",
+        "T": "thatch",
+        "t": "thatch_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "H": "horn",
+        "R": "cloth_red",
+        "Y": "gold",
+        "K": "shadow",
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "..............DD............HH..HH............DD..............",
+        "...............DD...........HHHHHH...........DD...............",
+        "..............HDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDH..............",
+        ".............ttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLtt.............",
+        "...........ttTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTtt...........",
+        "..........tTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTt..........",
+        "........ttLLLLTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTLLLLtt..........",
+        ".......tTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTt.........",
+        "......tttttttttttttttttttttttttttttttttttttttttttttttt........",
+        "..........DWWWWWWWWWWWWRRRRYYYYYYYYRRRRWWWWWWWWWWWWD..........",
+        "..........DWWWWWWWWWWWWYYYYRRRRRRRRYYYYWWWWWWWWWWWWD..........",
+        "..........DwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwD..........",
+        "........ttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLtt........",
+        "......ttTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTtt......",
+        ".....tTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTt.......",
+        "....tLLLLTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTLLLLt......",
+        "...tTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTt.....",
+        "..tTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTt....",
+        ".tTTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTtTTTTTTTTTTTt...",
+        ".tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt.",
+        "..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+        "...DwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwD...",
+        "...DWWYYWWWWWWWWWWWWWWWWWDDDDDDDDDDDDWWWWWWWWWWWWWWWWWYYWWD...",
+        "...DWWRRWWWWWWWWWWWWWWWWWDddddddddddDWWWWWWWWWWWWWWWWWRRWWD...",
+        "...DWWDDWWDDDDDDDDWWWWWWWDdKKKKKKKKdDWWWWWWWDDDDDDDDWWDDWWD...",
+        "...DWWDDWWDKKKKKKDWWWWWWWDKKKKKKKKKKDWWWWWWWDKKKKKKDWWDDWWD...",
+        "...DWWDDWWDKKYYKKDWWWWWWWDKKYYYYYYKKDWWWWWWWDKKYYKKDWWDDWWD...",
+        "...DWWDDWWDKKKKKKDWWWWWWWDKKYRRRRYYKDWWWWWWWDKKKKKKDWWDDWWD...",
+        "...DWWDDWWDDDDDDDDWWWWWWWDKKRRRRRRKKDWWWWWWWDDDDDDDDWWDDWWD...",
+        "...DWWWWWWWWWWWWWWWWWWWWWDKKKKKKKKKKDWWWWWWWWWWWWWWWWWWWWWD...",
+        "...DWWWWWWWWWWWWWWWWWWWWWDKKKKKKKKKKDWWWWWWWWWWWWWWWWWWWWWD...",
+        "...DwwwwwwwwwwwwwwwwwwwwwDKKKKKKKKKKDwwwwwwwwwwwwwwwwwwwwwD...",
+        "..DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD..",
+        ".SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+      ]
+    },
+    "kho_thit_nguyen_thuy": {
+      "key": {
+        "L": "thatch_light",
+        "T": "thatch",
+        "t": "thatch_dark",
+        "D": "wood_dark",
+        "d": "wood",
+        "R": "cloth_red",
+        "W": "wall",
+        "S": "stone"
+      },
+      "rows": [
+        "........DDDD........",
+        ".......tLLLLt.......",
+        "......ttTTTTtt......",
+        "....ttTTTTTTTTtt....",
+        "...tTTTTTTTTTTTTt...",
+        "..ttTTTTTTTTTTTTtt..",
+        ".tttttttttttttttttt.",
+        "..DddddddddddddddD..",
+        "..D.RR..WWWW..RR.D..",
+        "..D.RR..WWWW..RR.D..",
+        "..D.RR..WWWW..RR.D..",
+        "..D.RR..WWWW..RR.D..",
+        "..DddddddddddddddD..",
+        "..DDDDDDDDDDDDDDDD..",
+        "...D...D....D...D...",
+        "...D...D....D...D...",
+        "...D...D....D...D...",
+        "...D...D....D...D...",
+        "..SSSSSSSSSSSSSSSS..",
+        ".SSSSSSSSSSSSSSSSSS."
+      ]
+    },
+    "day_leu_nguyen_thuy": {
+      "key": {
+        "T": "thatch",
+        "t": "thatch_dark",
+        "W": "wall",
+        "D": "wood_dark",
+        "A": "goods1",
+        "B": "goods2",
+        "C": "goods3",
+        "K": "shadow"
+      },
+      "rows": [
+        "....DDDD..........DDDD..........DDDD....",
+        "...tTTTTt........tTTTTt........tTTTTt...",
+        "..TTTTTTTT......TTTTTTTT......TTTTTTTT..",
+        ".tTTTTTTTTt....tTTTTTTTTt....tTTTTTTTTt.",
+        "TTTTTTTTTTTT..TTTTTTTTTTTT..TTTTTTTTTTTT",
+        "WWWWWWWWWWWW..WWWWWWWWWWWW..WWWWWWWWWWWW",
+        "D..AAAAAA..D..D..BBBBBB..D..D..CCCCCC..D",
+        "D..AAAAAA..D..D..BBBBBB..D..D..CCCCCC..D",
+        "DDDDDDDDDDDD..DDDDDDDDDDDD..DDDDDDDDDDDD",
+        "D...KKKK...D..D...KKKK...D..D...KKKK...D",
+        "D..........D..D..........D..D..........D",
+        "D..........D..D..........D..D..........D"
       ]
     }
   }

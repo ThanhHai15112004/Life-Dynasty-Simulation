@@ -83,18 +83,21 @@ export function drawLifeCard(card: LifeCardView, style: CardStyle, t: T): HTMLCa
   y = wrap(g, card.name, x, y, W, 72, 2);
   g.font = `30px ${SANS}`;
   g.fillStyle = c.muted;
-  g.fillText(
-    t('card.years', {
-      bcan: t(`canchi.can.${card.birth.can}`),
-      bchi: t(`canchi.chi.${card.birth.chi}`),
-      byear: fmtYear(card.birth.year, t),
-      dcan: t(`canchi.can.${card.death.can}`),
-      dchi: t(`canchi.chi.${card.death.chi}`),
-      dyear: fmtYear(card.death.year, t),
-    }),
-    x,
-    y + 6,
-  );
+  const yearsText =
+    card.calendarStyle === 'bce_ce'
+      ? t('card.years_ce', {
+          byear: fmtYear(card.birth.year, t),
+          dyear: fmtYear(card.death.year, t),
+        })
+      : t('card.years', {
+          bcan: t(`canchi.can.${card.birth.can}`),
+          bchi: t(`canchi.chi.${card.birth.chi}`),
+          byear: fmtYear(card.birth.year, t),
+          dcan: t(`canchi.can.${card.death.can}`),
+          dchi: t(`canchi.chi.${card.death.chi}`),
+          dyear: fmtYear(card.death.year, t),
+        });
+  g.fillText(yearsText, x, y + 6);
   y += 50;
   g.fillStyle = c.text;
   g.font = `600 34px ${SANS}`;
@@ -194,14 +197,11 @@ export function drawBirthCard(card: BirthCardView, style: CardStyle, t: T): HTML
   y += 52;
   g.fillStyle = c.text;
   g.font = `30px ${SANS}`;
-  y = wrap(
-    g,
-    t('birth.born', { can: t(`canchi.can.${card.can}`), chi: t(`canchi.chi.${card.chi}`), year: fmtYear(card.birthYear, t), village: card.settlementName }),
-    x,
-    y,
-    W,
-    40,
-  );
+  const bornLine =
+    card.calendarStyle === 'bce_ce'
+      ? t('birth.born_ce', { year: fmtYear(card.birthYear, t), village: card.settlementName })
+      : t('birth.born', { can: t(`canchi.can.${card.can}`), chi: t(`canchi.chi.${card.chi}`), year: fmtYear(card.birthYear, t), village: card.settlementName });
+  y = wrap(g, bornLine, x, y, W, 40);
   if (card.polityName) {
     y += 10;
     g.font = `26px ${SANS}`;
@@ -219,7 +219,15 @@ export function drawBirthCard(card: BirthCardView, style: CardStyle, t: T): HTML
     g.fillText(t(`birth.parent.${p.relation}`, { name: p.name, age: p.age }), x, y);
     y += 40;
   }
-  y = wrap(g, t('birth.wealth', { farmland: card.farmland, money: Math.round(card.money) }), x, y, W, 38);
+  const wealthLine = card.lexicon?.land
+    ? t('birth.wealth_lex', {
+        farmland: card.farmland,
+        land: card.lexicon.land,
+        money: Math.round(card.money),
+        currency: card.lexicon.currency,
+      })
+    : t('birth.wealth', { farmland: card.farmland, money: Math.round(card.money) });
+  y = wrap(g, wealthLine, x, y, W, 38);
   y = wrap(g, t('birth.expectancy', { n: card.lifeExpectancy }), x, y, W, 38);
   y = wrap(g, t('birth.demographics', { survival: card.childSurvivalPct, literacy: card.literacyPct }), x, y, W, 38);
   if (card.peers.length > 0) {

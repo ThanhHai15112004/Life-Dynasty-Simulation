@@ -21,16 +21,19 @@ export function createPeers(ctx: SimContext): void {
   const me = player(ctx);
   state.peers = [];
   if (!culture) return;
-  // Mỗi người một gia cảnh khác nhau (rút không lặp theo trọng số) để thấy rõ cùng năm sinh mà khác số phận
-  const pool = [...cfg.archetypes];
+  // Mỗi người một gia cảnh khác nhau (rút không lặp theo trọng số, lọc theo bối cảnh văn minh/thời đại) để thấy rõ cùng năm sinh mà khác số phận
+  const r = createResolver(ctx);
+  const matched = cfg.archetypes.filter((a) => evaluate(a.condition, r));
+  const pool = matched.length >= cfg.count ? [...matched] : [...cfg.archetypes];
   for (let i = 0; i < cfg.count && pool.length > 0; i++) {
     const arch = rng.weighted(pool, (a) => a.weight)!;
     pool.splice(pool.indexOf(arch), 1);
     const sex = rng.chance(0.5) ? 'm' : 'f';
     const familyName = rng.weighted(culture.family_names, (f) => f.weight)!.name;
+    const givenName = rng.pick(culture.given_names[sex]);
     state.peers.push({
       id: newId(ctx, 'peer'),
-      name: `${familyName} ${rng.pick(culture.given_names[sex])}`,
+      name: culture.name_order === 'given_first' ? `${givenName} ${familyName}` : `${familyName} ${givenName}`,
       sex,
       archetypeId: arch.id,
       label: arch.label,

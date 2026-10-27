@@ -12,6 +12,8 @@ events:
     life_stages: [thanh_nien]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.exam_degree, op: 'in', value: [none, sinh_do] }
         - { var: player.skill.hoc_van, op: '>=', value: 2 }
@@ -64,6 +66,8 @@ events:
     life_stages: [thanh_nien, lap_nghiep]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.exam_degree, op: 'in', value: [none, sinh_do, huong_cong] }
     weight: 4
@@ -110,6 +114,8 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: world.exam_stage, op: '==', value: huong }
         - { var: player.exam_degree, op: '==', value: none }
@@ -173,6 +179,8 @@ events:
     life_stages: [thanh_nien, lap_nghiep]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { not: { has_flag: nq_dong_mon } }
     weight: 4
@@ -260,6 +268,8 @@ events:
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }
     weight: 3
@@ -311,6 +321,8 @@ events:
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.career_rank, op: '>=', value: 3 }
     roles:
@@ -485,6 +497,8 @@ events:
     months: [9, 10, 11, 12]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.career_rank, op: '>=', value: 3 }
         - { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
@@ -537,6 +551,8 @@ events:
     life_stages: [lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.career_rank, op: '>=', value: 2 }
     weight: 5
@@ -596,6 +612,8 @@ events:
     life_stages: [trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.career_rank, op: '>=', value: 2 }
         - { any: [{ var: player.age, op: '>=', value: 55 }, { var: player.health, op: '<', value: 50 }] }
@@ -648,6 +666,8 @@ events:
     life_stages: [trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.skill.hoc_van, op: '>=', value: 4 }
     roles:
@@ -695,6 +715,8 @@ events:
     months: [12, 1]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: si_tu }
         - { var: player.skill.hoc_van, op: '>=', value: 3 }
     roles:
@@ -747,6 +769,8 @@ events:
     life_stages: [thanh_nien, lap_nghiep]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: 'in', value: [nong_dan, thuong_nhan] }
         - { var: player.sex, op: '==', value: m }
         - { var: player.age, op: between, value: [16, 35] }
@@ -810,6 +834,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     condition:
       all:
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: linh }
         - { var: player.career_rank, op: '<=', value: 2 }
     weight: 5
@@ -856,6 +881,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     condition:
       all:
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: linh }
         - { var: world.military_alert, op: 'in', value: [tuan_tra, chien_dich] }
     weight: 5
@@ -904,6 +930,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     condition:
       all:
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: linh }
         - { var: world.military_alert, op: '==', value: chien_dich }
     roles:
@@ -959,6 +986,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     condition:
       all:
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: linh }
         - { var: world.military_alert, op: 'in', value: [tuan_tra, chien_dich] }
     weight: 5
@@ -1054,6 +1082,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
     condition:
       all:
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: thao_khau }
         - { any: [{ var: world.patrol_level, op: '>=', value: 40 }, { var: player.wanted, op: '>=', value: 30 }] }
     weight: 5
@@ -1151,6 +1180,7 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: thao_khau }
         - { var: player.career_rank, op: '>=', value: 1 }
     weight: 5
@@ -1204,6 +1234,8 @@ events:
     life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: thao_khau }
         - { var: world.harvest_quality, op: 'in', value: [kem, mat_mua] }
     roles:
@@ -1270,6 +1302,8 @@ events:
     months: [12, 1]
     condition:
       all:
+        - { var: world.civilization_id, op: '==', value: nho_giao }
+        - { var: world.year, op: '<', value: 1945 }
         - { var: player.career, op: '==', value: thao_khau }
         - { var: player.wanted, op: '>=', value: 35 }
     roles:

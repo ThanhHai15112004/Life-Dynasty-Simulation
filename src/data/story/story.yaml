@@ -11,8 +11,8 @@ peers:
   death_importance: 5
   death_text:
     - '{name}, {label} cùng lứa với bạn, đã mất năm {age} tuổi vì {cause}.'
-    - 'Tin về làng: {name} ({label}) không qua khỏi, mới {age} tuổi. Người ta bảo vì {cause}.'
-    - 'Làng có đám: {name}, đứa {label} sinh cùng năm với bạn, đi rồi, {age} tuổi, vì {cause}.'
+    - 'Tin báo về: {name} ({label}) không qua khỏi, mới {age} tuổi. Người ta bảo vì {cause}.'
+    - 'Khu phố có đám: {name}, người bạn {label} sinh cùng năm với bạn, đã qua đời ở tuổi {age} vì {cause}.'
   death_causes:
     - { cause: soi, weight: 6, max_age: 9 }
     - { cause: benh, weight: 4 }
@@ -24,6 +24,7 @@ peers:
   archetypes:
     - id: con_ba_ho
       label: con nhà bá hộ
+      condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
       weight: 2
       death_factor: 0.65
       milestones:
@@ -62,6 +63,7 @@ peers:
 
     - id: con_ta_dien
       label: con nhà tá điền
+      condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
       weight: 4
       death_factor: 1.45
       milestones:
@@ -101,6 +103,7 @@ peers:
 
     - id: con_nha_nho
       label: con nhà thầy đồ
+      condition: { all: [{ var: world.civilization_id, op: '==', value: nho_giao }, { var: world.year, op: '<', value: 1945 }] }
       weight: 2
       death_factor: 0.9
       milestones:
@@ -139,6 +142,7 @@ peers:
 
     - id: con_nha_buon
       label: con nhà buôn bến sông
+      condition: { all: [{ var: world.year, op: '>=', value: -500 }, { var: world.year, op: '<', value: 1945 }] }
       weight: 2
       death_factor: 0.95
       milestones:
@@ -146,31 +150,32 @@ peers:
           chance: 0.8
           outcomes:
             - { weight: 3, text: '{name} ({label}) ngồi sạp với mẹ, tính nhẩm còn nhanh hơn người lớn.' }
-            - { weight: 2, text: '{name} ({label}) theo thuyền hàng của cha lên trấn lần đầu, về kể mãi không thôi.' }
+            - { weight: 2, text: '{name} ({label}) theo thuyền hàng của cha đi buôn xa lần đầu, về kể mãi không thôi.' }
         - age: 17
           chance: 0.8
           outcomes:
-            - { weight: 3, text: '{name} ({label}) tự đánh chuyến hàng muối đầu tiên, lời được một quan.' }
+            - { weight: 3, text: '{name} ({label}) tự đánh chuyến hàng muối đầu tiên, thu lời khấm khá.' }
             - { weight: 2, text: 'Thuyền hàng nhà {name} ({label}) đắm ở khúc sông dữ, nhà mất trắng một mùa.' }
         - age: 23
           chance: 0.8
           outcomes:
-            - { weight: 3, text: '{name} ({label}) lấy vợ con nhà buôn vải, hai nhà góp vốn mở hiệu.' }
+            - { weight: 3, text: '{name} ({label}) kết hôn với con nhà buôn vải, hai nhà góp vốn mở hiệu.' }
             - { weight: 1, text: '{name} ({label}) bị cướp trên đường buôn chuyến, may mà giữ được mạng.' }
         - age: 33
           chance: 0.7
           outcomes:
-            - { weight: 2, text: '{name} ({label}) giàu lên nhanh, xây nhà gạch đầu bến, người ta gọi là "ông chủ".' }
-            - { weight: 2, text: '{name} ({label}) vỡ nợ vì buôn thóc tích trữ gặp năm được mùa, bán nhà trả nợ.' }
-            - { weight: 2, text: '{name} ({label}) bỏ tiền cho con học chữ, mong nhà có người đỗ đạt cho khỏi bị khinh.' }
+            - { weight: 2, text: '{name} ({label}) giàu lên nhanh, xây nhà lớn ngay đầu bến.' }
+            - { weight: 2, text: '{name} ({label}) vỡ nợ vì buôn hàng tích trữ gặp năm rớt giá, phải bán tiệm trả nợ.' }
+            - { weight: 2, text: '{name} ({label}) bỏ tiền cho con theo học thầy giỏi trong vùng.' }
         - age: 47
           chance: 0.6
           outcomes:
-            - { weight: 3, text: '{name} ({label}) đứng đầu phường buôn bến sông, nói một câu cả bến nghe.' }
-            - { weight: 2, text: '{name} ({label}) bị quan thuế bắt nộp lệ gấp ba, đóng cửa hiệu mấy tháng.' }
+            - { weight: 3, text: '{name} ({label}) đứng đầu hội buôn bến sông, nói một câu cả bến nghe.' }
+            - { weight: 2, text: '{name} ({label}) bị thu thuế nặng gấp ba, phải đóng cửa hiệu mấy tháng.' }
 
     - id: con_nha_chai
       label: con nhà thuyền chài
+      condition: { all: [{ var: world.year, op: '>=', value: -500 }, { var: world.year, op: '<', value: 1945 }] }
       weight: 2
       death_factor: 1.3
       milestones:
@@ -182,63 +187,215 @@ peers:
         - age: 15
           chance: 0.8
           outcomes:
-            - { weight: 3, text: '{name} ({label}) đã tự chèo một chiếc thuyền nan đi đánh cá.' }
-            - { weight: 2, text: 'Cha {name} ({label}) mất trong một trận bão, thuyền lật không tìm thấy xác.' }
+            - { weight: 3, text: '{name} ({label}) đã tự chèo thuyền đi đánh cá một mình.' }
+            - { weight: 2, text: 'Cha {name} ({label}) mất trong một trận bão lớn ngoài cửa sông.' }
         - age: 20
           chance: 0.8
           outcomes:
-            - { weight: 3, text: '{name} ({label}) lấy một cô gái làng chài bên kia sông, cưới trên thuyền.' }
+            - { weight: 3, text: '{name} ({label}) cưới người bên xóm chài đối diện, mở tiệc ngay trên thuyền.' }
             - { weight: 1, text: '{name} ({label}) lên bờ làm phu khuân vác ở bến, bỏ hẳn nghề chài.' }
         - age: 32
           chance: 0.7
           outcomes:
             - { weight: 3, text: '{name} ({label}) vẫn sống trên thuyền, cả nhà sáu miệng ăn trong một khoang.' }
-            - { weight: 2, text: '{name} ({label}) dành tiền dựng được túp lều trên bãi, lần đầu nhà có chỗ đặt chân.' }
+            - { weight: 2, text: '{name} ({label}) dành tiền dựng được căn nhà nhỏ trên bãi bồi.' }
         - age: 48
           chance: 0.6
           outcomes:
-            - { weight: 3, text: '{name} ({label}) mắt mờ vì gió sông, giao thuyền lại cho con trai.' }
-            - { weight: 2, text: '{name} ({label}) được dân chài bầu làm trùm vạn, lo việc cúng thần sông.' }
+            - { weight: 3, text: '{name} ({label}) mắt mờ vì gió sông, giao thuyền lại cho con.' }
+            - { weight: 2, text: '{name} ({label}) được dân chài quanh bến kính nể vì thuộc từng con nước.' }
+
+    # ── Bạn đồng trang lứa thời Hiện đại (world.year >= 1945) ──
+    - id: con_cong_nhan_hien_dai
+      label: con gia đình công nhân
+      condition: { var: world.year, op: '>=', value: 1945 }
+      weight: 3
+      death_factor: 0.9
+      milestones:
+        - age: 7
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) đeo cặp sách đi học trường công đầu phố, chiều về phụ mẹ nấu cơm.' }
+            - { weight: 2, text: '{name} ({label}) thích tháo lắp đồ điện cũ trong góc nhà.' }
+        - age: 18
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) học xong trường nghề kỹ thuật, xin vào làm tại nhà máy lớn.' }
+            - { weight: 2, text: '{name} ({label}) vừa đi làm ca đêm vừa ôn thi vào đại học.' }
+        - age: 28
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tích góp mua được căn nhà trả góp ở ngoại ô và lập gia đình.' }
+            - { weight: 2, text: '{name} ({label}) chuyển sang chạy xe vận tải đường dài, thu nhập khá nhưng ít khi ở nhà.' }
+        - age: 45
+          chance: 0.65
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lên chức tổ trưởng phân xưởng, con cái đều được ăn học đàng hoàng.' }
+            - { weight: 2, text: 'Nhà máy cắt giảm nhân sự, {name} ({label}) lấy tiền tiết kiệm mở tiệm sửa chữa cơ khí tại nhà.' }
+
+    - id: con_vien_chuc_hien_dai
+      label: con nhà viên chức
+      condition: { var: world.year, op: '>=', value: 1945 }
+      weight: 3
+      death_factor: 0.75
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) học giỏi nhất lớp, năm nào cũng mang giấy khen về treo kín tường.' }
+            - { weight: 2, text: '{name} ({label}) được cha mẹ cho học thêm ngoại ngữ và nhạc cụ từ nhỏ.' }
+        - age: 22
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tốt nghiệp đại học, vào làm chuyên viên tại một cơ quan lớn trong thành phố.' }
+            - { weight: 2, text: '{name} ({label}) nhận học bổng đi tu nghiệp xa nhà suốt mấy năm liền.' }
+        - age: 35
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) được bổ nhiệm làm trưởng phòng, cuộc sống sung túc ổn định.' }
+            - { weight: 2, text: '{name} ({label}) nghỉ việc văn phòng để tự mở công ty tư vấn riêng.' }
+        - age: 55
+          chance: 0.65
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) chuẩn bị nghỉ hưu với khoản lương hưu hậu hĩnh, cuối tuần chăm vườn cây.' }
+
+    - id: con_tieu_thuong_pho
+      label: con nhà buôn phố thị
+      condition: { var: world.year, op: '>=', value: 1945 }
+      weight: 3
+      death_factor: 0.85
+      milestones:
+        - age: 10
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tan học là ra phụ cha mẹ trông coi cửa tiệm ngoài mặt phố.' }
+        - age: 24
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) nối nghiệp cửa hàng gia đình, nhập thêm nhiều mặt hàng mới về bán.' }
+            - { weight: 2, text: '{name} ({label}) vay vốn mở chuỗi cửa hàng ăn uống, khách ra vào tấp nập.' }
+        - age: 40
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) mua thêm mặt bằng kinh doanh ngay khu trung tâm sầm uất.' }
+            - { weight: 2, text: 'Qua đợt biến động thị trường, {name} ({label}) thu gọn về bán hàng phân phối nhưng vẫn giữ vững cơ ngơi.' }
+
+    # ── Bạn đồng trang lứa Phương Tây / Thế giới tiền hiện đại (non-nho_giao, -500..1944) ──
+    - id: con_tho_thu_cong_phuong_hoi
+      label: con nhà thợ phường hội
+      condition: { all: [{ var: world.civilization_id, op: '!=', value: nho_giao }, { var: world.year, op: between, value: [-500, 1944] }] }
+      weight: 3
+      death_factor: 0.95
+      milestones:
+        - age: 12
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) bắt đầu làm thợ học việc trong xưởng rèn và xưởng gỗ của cha.' }
+        - age: 22
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) hoàn thành tác phẩm sát hạch, được công nhận là thợ chính thức của phường hội.' }
+            - { weight: 2, text: '{name} ({label}) theo đoàn thương thuyền đi làm thợ sửa chữa qua nhiều bến cảng.' }
+        - age: 38
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) mở xưởng thủ công riêng với năm người thợ phụ việc.' }
+
+    - id: con_nong_trang_the_gioi
+      label: con nhà nông trang
+      condition: { all: [{ var: world.civilization_id, op: '!=', value: nho_giao }, { var: world.year, op: between, value: [-500, 1944] }] }
+      weight: 3
+      death_factor: 1.2
+      milestones:
+        - age: 9
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lùa đàn cừu và bò ra đồng cỏ từ lúc sương sớm chưa tan.' }
+        - age: 20
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lập gia đình, dựng ngôi nhà gỗ nhỏ bên rìa cánh đồng lúa mì.' }
+            - { weight: 2, text: '{name} ({label}) đầu quân vào đội cận vệ của lãnh địa để kiếm tiền lương.' }
+        - age: 40
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tích lũy được đàn gia súc lớn và mảnh đất canh tác màu mỡ.' }
+
+    # ── Bạn đồng trang lứa thời Nguyên thủy (world.year < -500) ──
+    - id: con_tho_san_bo_lac
+      label: con người thợ săn trong thị tộc
+      condition: { var: world.year, op: '<', value: -500 }
+      weight: 4
+      death_factor: 1.35
+      milestones:
+        - age: 8
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tập đẽo mũi tên đá và theo người lớn đi lần dấu thú quanh suối.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) săn được con hươu đầu tiên trong lễ trưởng thành của bộ lạc.' }
+            - { weight: 2, text: '{name} ({label}) bị thú dữ làm bị thương ở chân nhưng vẫn dũng cảm giữ vững ngọn giáo.' }
+        - age: 30
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành người dẫn đầu toán săn của thị tộc, ai cũng nể phục.' }
+
+    - id: con_nghe_gom_bo_lac
+      label: con người giữ lửa và nặn gốm
+      condition: { var: world.year, op: '<', value: -500 }
+      weight: 3
+      death_factor: 1.15
+      milestones:
+        - age: 9
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) theo mẹ nhào đất sét ven sông, nặn những chiếc bình gốm nung lửa trại.' }
+        - age: 20
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) biết phân biệt hàng chục loại thảo mộc chữa lành vết thương cho dân trong lán.' }
 
 reflections:
   - { age: 5, question: 'Lên năm tuổi. Điều đầu tiên bạn nhớ được trong đời là gì?' }
   - { age: 15, question: 'Mười lăm tuổi, sắp thành người lớn. Bạn mong sau này mình thành người thế nào?' }
-  - { age: 30, question: 'Ba mươi tuổi — "tam thập nhi lập". Bạn đã dựng được gì, còn thiếu gì?' }
-  - { age: 50, question: 'Năm mươi tuổi — "ngũ thập tri thiên mệnh". Nhìn lại nửa đời, có điều gì bạn muốn làm khác đi?' }
-  - { age: 70, question: 'Bảy mươi tuổi — "thất thập cổ lai hy". Nếu được dặn con cháu một câu, bạn sẽ dặn gì?' }
+  - { age: 30, question: 'Ba mươi tuổi — cột mốc lập thân. Bạn đã dựng được gì, còn thiếu gì?' }
+  - { age: 50, question: 'Năm mươi tuổi — nhìn lại hơn nửa chặng đường đời, có điều gì bạn muốn làm khác đi?' }
+  - { age: 70, question: 'Bảy mươi tuổi. Nếu được dặn lại thế hệ sau một câu, bạn sẽ dặn gì?' }
 
 epitaphs:
   - condition: { var: player.age, op: '<', value: 6 }
     weight: 10
-    text: 'Chưa kịp biết mặt cánh đồng, đã về với đất.'
+    text: 'Chưa kịp biết hết mặt người thân, đã khép lại một kiếp người.'
   - condition: { var: player.age, op: between, value: [6, 17] }
     weight: 10
-    text: 'Đời ngắn như một mùa diều, gió chưa kịp lên đã đứt dây.'
+    text: 'Đời ngắn như một mùa gió sớm, ước mơ còn dang dở.'
   - condition: { var: household.debt, op: '>', value: 30 }
     weight: 4
-    text: 'Cả đời gánh nợ, nằm xuống rồi nợ vẫn còn đứng đó.'
+    text: 'Cả đời gánh nợ lo toan, nằm xuống rồi gánh nặng mới vơi.'
   - condition: { var: player.exam_degree, op: 'in', value: [huong_cong, tien_si] }
     weight: 6
-    text: 'Chữ nghĩa thành danh, tên còn trên bia làng.'
+    text: 'Chữ nghĩa thành danh, tiếng thơm còn lưu truyền.'
   - condition: { var: player.reputation, op: '>=', value: 40 }
     weight: 4
-    text: 'Sống ở làng thì được làng thương, chết đi làng còn nhắc.'
+    text: 'Sống được mọi người quý trọng, khi khuất núi ai nấy đều thương tiếc.'
   - condition: { var: player.children_count, op: '>=', value: 4 }
     weight: 3
-    text: 'Con cháu đầy nhà, hương khói chẳng bao giờ tắt.'
+    text: 'Con cháu sum vầy, nếp nhà ấm êm qua năm tháng.'
   - condition: { var: player.children_count, op: '==', value: 0 }
     weight: 3
-    text: 'Không người nối dõi, chỉ có lũy tre đầu làng nhớ.'
+    text: 'Không người nối dõi, chỉ còn ký ức ở lại với quê hương.'
   - condition: { var: household.net_worth, op: '>=', value: 600 }
     weight: 3
-    text: 'Ruộng thẳng cánh cò bay, mà nằm xuống cũng chỉ vừa một nấm đất.'
+    text: 'Cơ ngơi bề thế một vùng, khi nằm xuống cũng thảnh thơi nhẹ lòng.'
   - condition: { var: player.satisfaction, op: '>=', value: 70 }
     weight: 3
-    text: 'Nghèo hay giàu chẳng biết, chỉ biết đời này sống đủ.'
+    text: 'Dẫu thăng trầm thế cuộc, đời này đã sống trọn vẹn không hối tiếc.'
   - condition: { var: player.satisfaction, op: '<', value: 35 }
     weight: 3
-    text: 'Bao nhiêu điều muốn làm, mang theo cả xuống mồ.'
+    text: 'Bao nhiêu điều muốn làm, đành gửi lại cho thế hệ mai sau.'
   - weight: 1
-    text: 'Một đời như bao người trong làng: cày, cấy, sinh, già, rồi thành tên trong sổ họ.'
+    text: 'Một đời cần mẫn đi qua nắng mưa, để lại tên mình trong ký ức gia tộc.'
   - weight: 1
-    text: 'Sinh ra không chọn được nhà, sống thì chọn được đôi điều.'
+    text: 'Sinh ra không chọn được nơi bắt đầu, nhưng sống thì đã tự chọn con đường của mình.'

@@ -25,6 +25,8 @@ const peerArchetypeSchema = z
     /** Gọi theo gia cảnh: "con nhà bá hộ", "con nhà tá điền"... */
     label: z.string(),
     weight: z.number().positive(),
+    /** Điều kiện bối cảnh văn minh / thời đại để xuất hiện gia cảnh bạn cùng lứa này. */
+    condition: conditionSchema.optional(),
     /** Nhân rủi ro tử vong năm theo bảng life.mortality (nhà nghèo cao hơn, nhà giàu thấp hơn). */
     death_factor: z.number().positive(),
     milestones: z.array(peerMilestoneSchema).default([]),

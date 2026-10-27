@@ -2,6 +2,7 @@
 id: la_ma_hy_lap
 name: Cổ điển Địa Trung Hải
 calendar_style: bce_ce
+name_order: given_first
 lexicon:
   currency: đồng bạc Denarius
   food: vò

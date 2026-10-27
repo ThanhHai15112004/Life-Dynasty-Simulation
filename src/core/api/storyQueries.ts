@@ -29,6 +29,8 @@ export interface BirthCardView {
   birthYear: number;
   can: number;
   chi: number;
+  calendarStyle: 'can_chi' | 'bce_ce';
+  lexicon: { currency: string; food: string; land: string; stapleCrop: string };
   settlementName: string;
   originName: string;
   /** Cứ 100 đứa trẻ sinh ra thì bao nhiêu đứa vào xuất thân này (theo origin_weights / birth_weight). */
@@ -71,6 +73,7 @@ export interface LifeCardView {
   sex: 'm' | 'f';
   birth: { year: number; can: number; chi: number };
   death: { year: number; can: number; chi: number };
+  calendarStyle: 'can_chi' | 'bce_ce';
   age: number;
   causeName: string;
   originName: string;
@@ -142,6 +145,12 @@ export function getBirthCard(ctx: SimContext): BirthCardView {
   const siblings = aliveMembers(ctx).filter(
     (c) => c.id !== me.id && ((me.fatherId && c.fatherId === me.fatherId) || (me.motherId && c.motherId === me.motherId)),
   ).length;
+  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const calendarStyle: 'can_chi' | 'bce_ce' =
+    state.civilization.id === 'hien_dai' || state.clock.year >= 1945 || state.clock.year < -500
+      ? 'bce_ce'
+      : (culture?.calendar_style ?? 'can_chi');
+  const rawLex = culture?.lexicon ?? { currency: '', food: '', land: '', staple_crop: '' };
   const childMortality = polity?.demographics.child_mortality ?? bookmark?.default_child_mortality ?? 0.25;
   return {
     name: fullName(me),
@@ -149,6 +158,13 @@ export function getBirthCard(ctx: SimContext): BirthCardView {
     birthYear: me.birthYear,
     can: cc.can,
     chi: cc.chi,
+    calendarStyle,
+    lexicon: {
+      currency: rawLex.currency,
+      food: rawLex.food,
+      land: rawLex.land,
+      stapleCrop: rawLex.staple_crop,
+    },
     settlementName: state.world.settlementName,
     originName: origin?.name ?? state.originId,
     originSharePct: totalOriginWeight > 0 ? Math.round((originWeight / totalOriginWeight) * 100) : 0,
@@ -191,18 +207,26 @@ export function getLifeCard(ctx: SimContext): LifeCardView | null {
     (state.polityId ? content.index.polity.get(state.polityId) : undefined) ??
     content.index.polity.get('dai_viet_nha_ly_1000ce') ??
     content.polities[0];
+  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const calendarStyle: 'can_chi' | 'bce_ce' =
+    state.civilization.id === 'hien_dai' || state.clock.year >= 1945 || state.clock.year < -500
+      ? 'bce_ce'
+      : (culture?.calendar_style ?? 'can_chi');
+  const cDef = content.index.career.get(careerId);
+  const careerName = cDef ? (cDef.names_by_civ?.[state.civilization.id] ?? cDef.name) : '';
   return {
     name: fullName(me),
     sex: me.sex,
     birth: { year: me.birthYear, ...canChi(me.birthYear) },
     death: { year: state.gameOver.year, ...canChi(state.gameOver.year) },
+    calendarStyle,
     age: state.gameOver.age,
     causeName: content.balance.life.mortality.causes.find((c) => c.id === state.gameOver!.causeId)?.name ?? state.gameOver.causeId,
     originName: content.index.origin.get(state.originId)?.name ?? state.originId,
     settlementName: state.world.settlementName,
     eraName: bookmark?.era_name ?? '',
     polityName: polity?.name ?? '',
-    careerName: content.index.career.get(careerId)?.name ?? '',
+    careerName,
     generation: state.dynasty?.currentGeneration ?? 1,
     epitaph: pickEpitaph(ctx),
     highlights,

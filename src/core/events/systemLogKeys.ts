@@ -65,6 +65,9 @@ export const SystemLog = {
   EpidemicOutbreak: 'sys.dich_bung_phat',
   EpidemicSpread: 'sys.dich_lan_truyen',
   EpidemicEnded: 'sys.dich_lui',
+  QuietYearModern: 'sys.nam_yen_hien_dai',
+  QuietYearRiver: 'sys.nam_yen_song_nuoc',
+  QuietYearTown: 'sys.nam_yen_pho_cho',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */

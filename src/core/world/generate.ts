@@ -59,6 +59,7 @@ export function createCharacter(
     id: newId(ctx, 'c'),
     familyName: spec.familyName ?? rng.weighted(culture.family_names, (f) => f.weight)!.name,
     givenName: rng.pick(culture.given_names[spec.sex]),
+    nameOrder: culture.name_order,
     sex: spec.sex,
     birthYear,
     birthMonth,

@@ -204,7 +204,7 @@ export function composeStatic(kit: SceneKit, d: SceneDescriptor): KitRect[] {
   out.push({ x: 0, y: kit.groundY, w: W, h: 1, color: color('grass') ?? '#6f9f58' });
 
   for (const p of loc.placements) {
-    const part = kit.parts[p.part];
+    const part = kit.parts[culture.parts[p.part] ?? p.part];
     if (!part) continue;
     const step = p.repeatX ?? 0;
     for (let x = p.x; x < W; x += step || W) out.push(...partRects(part, x, p.bottom ?? kit.groundY, color));

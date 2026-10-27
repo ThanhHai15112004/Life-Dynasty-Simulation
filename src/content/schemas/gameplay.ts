@@ -68,9 +68,12 @@ export const propertySchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Tên hiển thị tùy biến theo khuôn văn minh / thời đại (ví dụ: hien_dai, phong_kien_au, bo_lac_nguyen_thuy). */
+    names_by_civ: z.record(z.string(), z.string()).default({}),
     category: z.enum(['land', 'livestock', 'house', 'other']),
     unit: z.string(),
     description: z.string().default(''),
+    descriptions_by_civ: z.record(z.string(), z.string()).default({}),
     value: z.number().min(0),
     buyable: z.boolean().default(true),
     sellable: z.boolean().default(true),
@@ -198,6 +201,8 @@ export const cultureSchema = z
     village_roles: z.record(z.string(), z.object({ title: z.string(), call: z.string() }).strict()),
     /** Kiểu lịch hiển thị năm: can_chi (Đông Á) hoặc bce_ce (TCN/CN quốc tế). */
     calendar_style: z.enum(['can_chi', 'bce_ce']).default('can_chi'),
+    /** Thứ tự hiển thị họ tên: family_first (Họ Tên — Đông Á) hoặc given_first (Tên Họ — Âu/Mỹ/Cổ đại). */
+    name_order: z.enum(['family_first', 'given_first']).default('family_first'),
     /** Từ vựng địa phương hóa cho đơn vị tiền, lương thực, đất đai. */
     lexicon: z
       .object({
@@ -361,7 +366,10 @@ export const careerSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Tên nghề tùy biến theo khuôn văn minh / thời đại. */
+    names_by_civ: z.record(z.string(), z.string()).default({}),
     description: z.string(),
+    descriptions_by_civ: z.record(z.string(), z.string()).default({}),
     icon: z.string().default('focus'),
     /** [1] nghe: nghề thật (bậc, lương, hành động) · trang_thai: chưa có nghề riêng (phụ việc nhà, thất nghiệp). */
     kind: z.enum(['nghe', 'trang_thai']).default('nghe'),

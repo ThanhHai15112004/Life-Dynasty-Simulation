@@ -45,6 +45,7 @@ function createClanMember(
     id: nextClanEntityId(ctx, 'nc_'),
     familyName: spec.familyName,
     givenName: rng.pick(culture.given_names[spec.sex]),
+    nameOrder: culture.name_order,
     sex: spec.sex,
     birthYear,
     birthMonth,

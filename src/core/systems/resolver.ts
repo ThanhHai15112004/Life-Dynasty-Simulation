@@ -215,6 +215,7 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'era_id') return state.bookmarkId ?? '';
         if (key === 'polity_id') return state.polityId ?? '';
         if (key === 'civilization_id') return state.civilization.id;
+        if (key === 'culture_id') return state.cultureId;
         if (key === 'local_trade_factor') return localTradeFactor(ctx);
         if (key === 'has_epidemic') return Boolean(currentSettlement(ctx)?.epidemic || homeSettlement(ctx)?.epidemic);
         if (key === 'home_epidemic') return Boolean(homeSettlement(ctx)?.epidemic);
@@ -381,6 +382,14 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
     if (path === 'world.season_name') return content.balance.calendar.seasons.find((s) => s.id === seasonOf(ctx))?.name;
     if (path === 'world.weather_name') return content.balance.calendar.weathers.find((w) => w.id === state.world.weather)?.name;
     if (path === 'world.harvest_name') return content.index.harvestQuality.get(state.world.harvestQuality)?.name;
+    if (path.startsWith('lex.')) {
+      const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+      const lex = culture?.lexicon;
+      if (path === 'lex.currency') return lex?.currency ?? '';
+      if (path === 'lex.food') return lex?.food ?? '';
+      if (path === 'lex.land') return lex?.land ?? '';
+      if (path === 'lex.crop') return lex?.staple_crop ?? '';
+    }
     try {
       const v = get(path);
       if (typeof v === 'boolean') return String(v);

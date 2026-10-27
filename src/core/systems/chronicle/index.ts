@@ -16,7 +16,8 @@ const CHRONICLE_KIND = 'tin_the_gioi';
 export function yearlyChronicle(ctx: SimContext): void {
   const { state, content } = ctx;
   const rng = ctx.rng.get(RngStream.World);
-  const elapsed = state.clock.year - content.balance.time.start_year;
+  const startYear = state.generationStartYear ?? content.balance.time.start_year;
+  const elapsed = state.clock.year - startYear;
   for (const entry of content.chronicle.entries) {
     const last = state.chronicle[entry.id];
     if (last !== undefined && (entry.once || state.clock.year - last < entry.cooldown_years)) continue;

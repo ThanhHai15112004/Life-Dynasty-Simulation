@@ -58,6 +58,18 @@ export function BirthCardModal({ card }: { card: BirthCardView }) {
   const { store, t } = useUi();
   const style = store.content.balance.display.life_card;
   const yearLabel = card.birthYear < 0 ? t('year.bce', { year: Math.abs(card.birthYear) }) : String(card.birthYear);
+  const bornLine =
+    card.calendarStyle === 'bce_ce'
+      ? t('birth.born_ce', { year: yearLabel, village: card.settlementName })
+      : t('birth.born', { can: t(`canchi.can.${card.can}`), chi: t(`canchi.chi.${card.chi}`), year: yearLabel, village: card.settlementName });
+  const wealthLine = card.lexicon?.land
+    ? t('birth.wealth_lex', {
+        farmland: card.farmland,
+        land: card.lexicon.land,
+        money: num(card.money),
+        currency: card.lexicon.currency,
+      })
+    : t('birth.wealth', { farmland: card.farmland, money: num(card.money) });
   return (
     <div className="modal-backdrop">
       <div className="summary panel birth-card">
@@ -71,7 +83,7 @@ export function BirthCardModal({ card }: { card: BirthCardView }) {
           {card.polityName ? ` · ${card.polityName} (${card.regionLabel})` : ''}
         </p>
         <p className="event-text">
-          {t('birth.born', { can: t(`canchi.can.${card.can}`), chi: t(`canchi.chi.${card.chi}`), year: yearLabel, village: card.settlementName })}
+          {bornLine}
         </p>
         {card.polityName && (
           <p className="birth-origin">
@@ -89,7 +101,7 @@ export function BirthCardModal({ card }: { card: BirthCardView }) {
             <li key={p.relation}>{t(`birth.parent.${p.relation}`, { name: p.name, age: p.age })}</li>
           ))}
           {card.siblings > 0 && <li>{t('birth.siblings', { n: card.siblings })}</li>}
-          <li>{t('birth.wealth', { farmland: card.farmland, money: num(card.money) })}</li>
+          <li>{wealthLine}</li>
           <li>{t('birth.expectancy', { n: card.lifeExpectancy })}</li>
           <li>{t('birth.demographics', { survival: card.childSurvivalPct, literacy: card.literacyPct })}</li>
         </ul>

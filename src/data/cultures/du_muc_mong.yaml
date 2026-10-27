@@ -2,6 +2,7 @@
 id: du_muc_mong
 name: Thảo nguyên Du mục
 calendar_style: bce_ce
+name_order: given_first
 lexicon:
   currency: nén bạc
   food: bao sữa khô

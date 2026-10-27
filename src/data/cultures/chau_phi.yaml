@@ -2,6 +2,7 @@
 id: chau_phi
 name: Châu Phi
 calendar_style: bce_ce
+name_order: given_first
 lexicon:
   currency: bụi vàng / vỏ ốc Cowrie
   food: giỏ
