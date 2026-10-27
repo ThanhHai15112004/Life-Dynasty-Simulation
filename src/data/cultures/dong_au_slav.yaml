@@ -1,0 +1,69 @@
+# Văn hóa Đông Âu Slav & Byzantium (Kievan Rus' – Đông La Mã – Ba Lan – Nga Sa hoàng – Đông Âu Hiện đại)
+id: dong_au_slav
+name: Đông Âu (Slav & Byzantium)
+ethnicity_name: Người Slav Đông Âu (Nga – Ukraina – Ba Lan – Balkan)
+phenotype: au_bac_tay
+default_religion: chinh_thong_giao
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng bạc Grivna / Ruble
+  food: bao lúa mạch đen
+  land: mẫu đất đen (Dessiatin)
+  staple_crop: lúa mạch đen, lúa mì & kiều mạch
+family_names:
+  - { name: Romanov, weight: 16 }
+  - { name: Rurikovich, weight: 14 }
+  - { name: Ivanov, weight: 16 }
+  - { name: Sokolov, weight: 14 }
+  - { name: Kowalski, weight: 14 }
+  - { name: Morozov, weight: 13 }
+  - { name: Volkov, weight: 13 }
+given_names:
+  m: [Vladimir, Yaroslav, Ivan, Aleksandr, Dmitri, Boris, Mikhail, Nikolai, Sergei, Aleksei, Casimir, Bogdan, Stefan, Yuri]
+  f: [Olga, Anastasia, Sofia, Ekaterina, Natalia, Elena, Maria, Svetlana, Tatiana, Irina, Daria, Mila, Zofia, Nadia]
+village_names: [Làng Rừng Bạch Dương, Xóm Bến Sông Dnieper, Thôn Cánh Đồng Đất Đen, Xóm Gỗ Thông Phương Bắc, Làng Chuông Vàng]
+town_names: [Phố Thương Hội Novgorod, Bến Cảng Odessa, Chợ Lông Thú Suzdal, Thành Thương Mại Krakow]
+prefecture_names: [Kyiv, Novgorod, Moskva, Sankt-Peterburg, Constantinople, Warszawa]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: đại quý tộc (Boyar), call: 'lãnh chúa {family}' }
+  ly_truong: { title: trưởng công xã (Starosta), call: 'trưởng thôn {given}' }
+  thay_do: { title: tu sĩ Chính thống giáo, call: 'cha xứ {given}' }
+  thay_lang: { title: y sư thảo mộc, call: 'y sĩ {given}' }
+  hang_xom: { title: người cùng công xã (Mir), call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân lông thú (Gost), call: 'thương gia {given}' }
+
+era_variants:
+  - max_year: 860
+    ethnicity_name: Bộ tộc Slav Cổ & Kỵ tộc Sarmatia
+    default_religion: da_than_bac_au
+    village_names: [Xóm Rừng Sâu Dnieper, Thành Gỗ Gorod, Bãi Thảo Nguyên Don, Đồi Thần Sấm Perun]
+  - min_year: 861
+    max_year: 1453
+    ethnicity_name: Người Rus' (Kievan Rus' – Novgorod) & Byzantium
+    default_religion: chinh_thong_giao
+  - min_year: 1454
+    max_year: 1917
+    ethnicity_name: Người Nga – Ba Lan – Đông Âu Cận đại
+    default_religion: chinh_thong_giao
+  - min_year: 1918
+    ethnicity_name: Người Đông Âu Hiện đại
+    default_religion: chinh_thong_giao
+

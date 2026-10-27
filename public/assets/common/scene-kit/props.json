@@ -351,6 +351,50 @@
         "R": "cloth_red",
         "O": "outline"
       }
+    },
+    "lac_da_sa_mac": {
+      "rows": [
+        "...........LL...",
+        "....LL....LLL...",
+        "...LLLL..LL.....",
+        "..LLLLLLLLL.....",
+        "..DDDDDDDD......",
+        "..D.D...D.D.....",
+        "..D.D...D.D....."
+      ],
+      "key": {
+        "L": "buffalo_light",
+        "D": "buffalo_dark"
+      }
+    },
+    "lac_da_llama_andes": {
+      "rows": [
+        "........LL..",
+        "........LLL.",
+        "........LL..",
+        "...LLLLLLL..",
+        "...DDDDDDD..",
+        "...D.D.D.D..",
+        "...D.D.D.D.."
+      ],
+      "key": {
+        "L": "wall",
+        "D": "buffalo_dark"
+      }
+    },
+    "o_to_hien_dai": {
+      "rows": [
+        "...RRRRRRRR...",
+        "..RWWWWWWWWR..",
+        "RRRRRRRRRRRRRR",
+        ".OO.RRRRRR.OO.",
+        ".OO........OO."
+      ],
+      "key": {
+        "R": "cloth_red",
+        "W": "water_light",
+        "O": "outline"
+      }
     }
   }
 }

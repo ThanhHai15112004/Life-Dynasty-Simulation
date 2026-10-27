@@ -1,0 +1,72 @@
+# Văn hóa Ai Cập Cổ đại & Lưỡng Hà (Sumer – Akkad – Babylon – Kemet Cổ Vương Quốc – Coptic)
+id: ai_cap_luong_ha
+name: Ai Cập & Lưỡng Hà Cổ đại
+ethnicity_name: Người Kemet (Ai Cập Cổ) & Sumer – Babylon
+phenotype: trung_dong_dia_trung_hai
+default_religion: da_than_ai_cap
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: vòng bạc Deben / Shekel
+  food: bao lúa mì Emmer
+  land: sào đất phù sa (Aroura)
+  staple_crop: lúa mì sông Nile, lúa mạch & chà là
+family_names:
+  - { name: Gia tộc Memphis, weight: 18 }
+  - { name: Gia tộc Thebes, weight: 16 }
+  - { name: Nhà Ur-Nammu, weight: 15 }
+  - { name: Nhà Sargon, weight: 15 }
+  - { name: Dòng dõi Imhotep, weight: 12 }
+  - { name: Nhà Hammurabi, weight: 12 }
+  - { name: Dòng dõi Ptah, weight: 12 }
+given_names:
+  m: [Khufu, Imhotep, Amenhotep, Thutmose, Ramesses, Senusret, Gilgamesh, Enkidu, Sargon, Hammurabi, Nebuchadnezzar, Ashurbanipal, Hori, Bek]
+  f: [Nefertiti, Hatshepsut, Nefertari, Ankhesenamun, Meritaten, Tiye, Enheduanna, Puabi, Ishtar-ummi, Semiramis, Ninsun,Tuya, Maia]
+village_names: [Làng Phù Sa Sông Nile, Xóm Thợ Đá Giza, Thôn Kênh Đào Euphrates, Làng Ruộng Lau Sậy Papyrus, Xóm Chà Là Ốc Đảo Faiyum]
+town_names: [Bến Thuyền Abydos, Chợ Gạch Nung Uruk, Thương Cảng Byblos, Bến Đá Aswan]
+prefecture_names: [Memphis (Inbu-Hedj), Thebes (Waset), Ur, Babylon, Nineveh, Alexandria]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: đại tư tế / quý tộc Nomarch, call: 'đại nhân {given}' }
+  ly_truong: { title: giám sát kênh đập, call: 'quản sự {given}' }
+  thay_do: { title: ký lục chữ tượng hình (Scribe), call: 'ký lục {given}' }
+  thay_lang: { title: y sư đền thờ (Swnw), call: 'y sư {given}' }
+  hang_xom: { title: người cùng xóm kênh, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân đường sông (Tamkarum), call: 'thương khách {given}' }
+
+era_variants:
+  - max_year: -3100
+    ethnicity_name: Tộc Tiền Vương Triều Sông Nile & Ubaid Lưỡng Hà
+    default_religion: van_vat_huu_linh
+  - min_year: -3099
+    max_year: -1000
+    ethnicity_name: Người Kemet (Ai Cập Cổ Vương Quốc) & Sumer – Akkad
+    default_religion: da_than_ai_cap
+  - min_year: -999
+    max_year: 30
+    ethnicity_name: Người Tân Babylon – Assyria & Ai Cập Ptolemaios
+    default_religion: da_than_luong_ha
+  - min_year: 31
+    max_year: 640
+    ethnicity_name: Cư dân Ai Cập Coptic & Syria – Lưỡng Hà
+    default_religion: chinh_thong_giao
+  - min_year: 641
+    ethnicity_name: Người Ai Cập & Iraq Ả Rập
+    default_religion: hoi_giao_islam
+

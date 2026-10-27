@@ -1,0 +1,80 @@
+# Văn hóa Nhật Bản (Jomon – Yayoi – Heian – Kamakura/Edo – Minh Trị – Hiện đại)
+id: nhat_ban
+name: Nhật Bản (Phù Tang)
+ethnicity_name: Người Nhật (Yamato)
+phenotype: dong_a_bac
+default_religion: than_dao_shinto
+calendar_style: can_chi
+name_order: family_first
+lexicon:
+  currency: lượng bạc / đồng Mon (Koku)
+  food: thạch (Koku gạo)
+  land: mẫu ruộng (Tan)
+  staple_crop: lúa gạo Nhật & trà xanh
+family_names:
+  - { name: Fujiwara, weight: 16 }
+  - { name: Minamoto, weight: 14 }
+  - { name: Taira, weight: 14 }
+  - { name: Tachibana, weight: 12 }
+  - { name: Takahashi, weight: 12 }
+  - { name: Sato, weight: 11 }
+  - { name: Suzuki, weight: 11 }
+  - { name: Watanabe, weight: 10 }
+given_names:
+  m: [Takashi, Haruto, Kenji, Masaru, Kiyoshi, Nobu, Taro, Jiro, Ichiro,Shigeru, Hiro, Ren, Daiki, Akira, Kazuki, Ryota]
+  f: [Sakura, Hana, Aoi, Yui, Akiko, Haruka, Michiko, Tomoko, Chiyo, Kaede, Mei,Rin, Yuko, Natsuki, Ayumi, Hikari]
+village_names: [Làng Hoa Anh Đào, Thôn Suối Nước Nóng, Xóm Dưới Chân Núi Tuyết, Làng Trà Uji, Xóm Chài Vịnh Biển]
+town_names: [Phố Cảng Sakai, Chợ Gạo Osaka, Trạm Dịch Tokaido, Bến Thuyền Hakata]
+prefecture_names: [Heian-kyo (Kyoto), Edo (Tokyo), Nara, Kamakura, Osaka, Nagasaki]
+kin_calls:
+  father: phụ thân
+  mother: mẫu thân
+  older_m: huynh {given}
+  older_f: tỷ {given}
+  younger: đệ/muội {given}
+  husband: phu quân ({given})
+  wife: thê tử ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: nghĩa tử {given}
+  adopted_daughter: nghĩa nữ {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: thúc phụ {given}
+  aunt: cô mẫu {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: hào tộc địa phương (Myoshu), call: 'hào trưởng {family}' }
+  ly_truong: { title: thôn trưởng (Shoya), call: 'thôn trưởng {family}' }
+  thay_do: { title: thần quan / thiền sư, call: 'hiền sư {family}' }
+  thay_lang: { title: y sư Hán phương, call: 'y sư {family}' }
+  hang_xom: { title: láng giềng cùng xóm, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân phố cảng (Chonin), call: 'thương gia {family}' }
+
+era_variants:
+  - max_year: -300
+    ethnicity_name: Cư dân Văn hóa Jomon – Săn bắt & Gốm dây thừng
+    default_religion: van_vat_huu_linh
+    family_names:
+      - { name: Rừng Tuyết, weight: 30 }
+      - { name: Suối Nóng, weight: 25 }
+      - { name: Đảo Biển, weight: 25 }
+      - { name: Hươu Sao, weight: 20 }
+    village_names: [Xóm Nhà Hố Jomon, Bãi Sò Ven Biển, Rừng Dẻ Cổ Thụ, Thung Lũng Khói Núi Lửa]
+  - min_year: -299
+    max_year: 709
+    ethnicity_name: Người Yayoi – Yamato Cổ đại
+    default_religion: than_dao_shinto
+    village_names: [Làng Lúa Nước Yoshinogari, Gò Mộ Cổ Kofun, Xóm Đền Ise, Thung Lũng Asuka]
+  - min_year: 710
+    max_year: 1184
+    ethnicity_name: Người Nhật Thời Nara – Heian
+    default_religion: phat_giao
+  - min_year: 1185
+    max_year: 1867
+    ethnicity_name: Người Nhật Thời Mạc phủ (Kamakura – Sengoku – Edo)
+    default_religion: than_dao_shinto
+  - min_year: 1868
+    ethnicity_name: Người Nhật Thời Minh Trị & Hiện đại
+    default_religion: the_tuc
+

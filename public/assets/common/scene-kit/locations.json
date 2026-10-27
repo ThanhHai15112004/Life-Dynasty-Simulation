@@ -512,6 +512,285 @@
         218
       ],
       "fence": null
+    },
+    "oc_dao_co_dai": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 62,
+          "amp": 10,
+          "freq": 0.025,
+          "phase": 0.5
+        },
+        {
+          "color": "hill_near",
+          "base": 76,
+          "amp": 6,
+          "freq": 0.04,
+          "phase": 1.6
+        }
+      ],
+      "bands": [
+        {
+          "y": 82,
+          "h": 8,
+          "color": "water"
+        },
+        {
+          "y": 84,
+          "h": 1,
+          "color": "water_light"
+        }
+      ],
+      "placements": [
+        {
+          "part": "kim_tu_thap_xa",
+          "x": 148,
+          "bottom": 82
+        },
+        {
+          "part": "dong_lua_mi_au",
+          "x": 0,
+          "bottom": 94,
+          "repeatX": 32
+        },
+        {
+          "part": "dat_viet",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        4,
+        74,
+        196,
+        220
+      ],
+      "fence": null
+    },
+    "thanh_bang_co_dien": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 58,
+          "amp": 14,
+          "freq": 0.032,
+          "phase": 0.8
+        },
+        {
+          "color": "hill_near",
+          "base": 72,
+          "amp": 9,
+          "freq": 0.048,
+          "phase": 2.0
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "cot_da_hy_la",
+          "x": 144,
+          "bottom": 94
+        },
+        {
+          "part": "dong_lua_mi_au",
+          "x": 0,
+          "bottom": 92,
+          "repeatX": 32
+        },
+        {
+          "part": "duong_da_viet",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        2,
+        72,
+        180,
+        216
+      ],
+      "fence": null
+    },
+    "lang_dong_son_co": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 58,
+          "amp": 18,
+          "freq": 0.04,
+          "phase": 0.5
+        },
+        {
+          "color": "hill_near",
+          "base": 72,
+          "amp": 11,
+          "freq": 0.055,
+          "phase": 1.9
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "ruong_lua_viet",
+          "x": 0,
+          "bottom": 92,
+          "repeatX": 16
+        },
+        {
+          "part": "trong_dong_dong_son",
+          "x": 74,
+          "bottom": 96
+        },
+        {
+          "part": "dat_viet",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        0,
+        54,
+        156,
+        192,
+        218
+      ],
+      "fence": null
+    },
+    "cao_nguyen_maya_inca": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 50,
+          "amp": 22,
+          "freq": 0.042,
+          "phase": 0.4
+        },
+        {
+          "color": "hill_near",
+          "base": 66,
+          "amp": 14,
+          "freq": 0.055,
+          "phase": 1.8
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "den_thap_maya_inca",
+          "x": 146,
+          "bottom": 94
+        },
+        {
+          "part": "dong_lua_mi_au",
+          "x": 0,
+          "bottom": 94,
+          "repeatX": 32
+        },
+        {
+          "part": "dat_da_nguyen_thuy",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        2,
+        68,
+        186,
+        218
+      ],
+      "fence": null
+    },
+    "thao_nguyen_sahel_phi": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 64,
+          "amp": 10,
+          "freq": 0.025,
+          "phase": 0.6
+        },
+        {
+          "color": "hill_near",
+          "base": 76,
+          "amp": 6,
+          "freq": 0.035,
+          "phase": 1.9
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "bai_co_nguyen_thuy",
+          "x": 0,
+          "bottom": 94,
+          "repeatX": 24
+        },
+        {
+          "part": "dat_da_nguyen_thuy",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        4,
+        72,
+        172,
+        216
+      ],
+      "fence": null
+    },
+    "pho_cong_nghiep_1850": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 60,
+          "amp": 8,
+          "freq": 0.025,
+          "phase": 0.9
+        }
+      ],
+      "bands": [
+        {
+          "y": 90,
+          "h": 6,
+          "color": "stone"
+        }
+      ],
+      "placements": [
+        {
+          "part": "tuong_thanh_viet",
+          "x": 0,
+          "bottom": 90,
+          "repeatX": 32
+        },
+        {
+          "part": "ong_khoi_nha_may_1850",
+          "x": 146,
+          "bottom": 90
+        },
+        {
+          "part": "day_sap_au",
+          "x": 162,
+          "bottom": 96
+        },
+        {
+          "part": "duong_da_viet",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        52,
+        218
+      ],
+      "fence": null
     }
   }
 }

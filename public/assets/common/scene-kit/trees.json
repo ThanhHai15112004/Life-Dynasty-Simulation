@@ -430,6 +430,105 @@
         "R": "cloth_red",
         "S": "stone_dark"
       }
+    },
+    "cay_o_liu_co_dien": {
+      "rows": [
+        "....GGGGGGGG....",
+        "..GGLLLLLLLLGG..",
+        ".GLLGGGGGGGGLLG.",
+        "GGGGDDDDDDDDGGGG",
+        ".GGDDDDDDDDDDGG.",
+        ".....TTTTTT.....",
+        "......TTTT......",
+        ".....TTTTTT.....",
+        "....TTT..TTT...."
+      ],
+      "key": {
+        "G": "foliage",
+        "L": "foliage_light",
+        "D": "foliage_dark",
+        "T": "trunk"
+      }
+    },
+    "cay_anh_dao_dong_bac_a": {
+      "rows": [
+        "....PPPPPPPP....",
+        "..PPRRRRRRRRPP..",
+        ".PRRPPPPPPPPRRP.",
+        "PPRRPPPPPPPPRRPP",
+        ".PPPPDDDDDDPPPP.",
+        ".....TTTTTT.....",
+        "......TTTT......",
+        "......TTTT......",
+        ".....TTTTTT....."
+      ],
+      "key": {
+        "P": "lotus_pink",
+        "R": "cloth_red",
+        "D": "foliage_dark",
+        "T": "trunk"
+      }
+    },
+    "cay_da_an_do": {
+      "rows": [
+        "....GGGGGGGGGGGG....",
+        "..GGLLLLLLLLLLLLGG..",
+        ".GLLGGGGGGGGGGGGLLG.",
+        "GGGGDDDDDDDDDDDDGGGG",
+        ".GGDDDDDDDDDDDDDDGG.",
+        "...V..TTTTTTTT..V...",
+        "...V...TTTTTT...V...",
+        "...V...TTTTTT...V...",
+        "......TTTTTTTT......"
+      ],
+      "key": {
+        "G": "foliage",
+        "L": "foliage_light",
+        "D": "foliage_dark",
+        "T": "trunk",
+        "V": "trunk_light"
+      }
+    },
+    "cay_baobab_chau_phi": {
+      "rows": [
+        "..GGGGGGGGGGGGGGGG..",
+        ".GLLLLGGGGGGGGLLLLG.",
+        "..DDDDDDDDDDDDDDDD..",
+        "....TTT..TT..TTT....",
+        "......TTTTTTTT......",
+        ".....TTTTTTTTTT.....",
+        ".....TTTTTTTTTT.....",
+        "....TTTTTTTTTTTT....",
+        "....TTTTTTTTTTTT....",
+        "...TTTTTTTTTTTTTT..."
+      ],
+      "key": {
+        "G": "foliage",
+        "L": "foliage_light",
+        "D": "foliage_dark",
+        "T": "trunk"
+      }
+    },
+    "cay_bach_duong_dong_au": {
+      "rows": [
+        ".....GGGGGG.....",
+        "...GGLLLLLLGG...",
+        "..GLLGGGGGGLLG..",
+        "...GGDDDDDDGG...",
+        "....DDDDDDDD....",
+        ".......WW.......",
+        ".......WK.......",
+        ".......WW.......",
+        ".......KW.......",
+        "......WWWW......"
+      ],
+      "key": {
+        "G": "foliage",
+        "L": "foliage_light",
+        "D": "foliage_dark",
+        "W": "wall",
+        "K": "outline"
+      }
     }
   }
 }

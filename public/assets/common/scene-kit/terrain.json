@@ -410,6 +410,109 @@
         "D": "stone_dark",
         "W": "#f5f5f0"
       }
+    },
+    "kim_tu_thap_xa": {
+      "rows": [
+        "..............LL..............",
+        ".............LLSS.............",
+        "............LLLLSS............",
+        "...........LLLLLLSS...........",
+        "..........LLLLLLLLSS..........",
+        ".........LLLLLLLLLLSS.........",
+        "........LLLLLLLLLLLLSS........",
+        ".......LLLLLLLLLLLLLLSS.......",
+        "......LLLLLLLLLLLLLLLLSS......",
+        ".....DDDDDDDDDDDDDDDDDDDD....."
+      ],
+      "key": {
+        "L": "stone_light",
+        "S": "stone",
+        "D": "stone_dark"
+      }
+    },
+    "cot_da_hy_la": {
+      "rows": [
+        "LLLLLLLLLLLLLLLLLLLLLLLL",
+        "SSSSSSSSSSSSSSSSSSSSSSSS",
+        ".LL....LL......LL....LL.",
+        ".LS....LS......LS....LS.",
+        ".LS....LS......LS....LS.",
+        ".LS....LS......LS....LS.",
+        ".LS....LS......LS....LS.",
+        "SSSSSSSSSSSSSSSSSSSSSSSS",
+        "DDDDDDDDDDDDDDDDDDDDDDDD"
+      ],
+      "key": {
+        "L": "stone_light",
+        "S": "stone",
+        "D": "stone_dark"
+      }
+    },
+    "trong_dong_dong_son": {
+      "rows": [
+        "..YYYYYYYYYYYY..",
+        ".YDDDDYYYYDDDDY.",
+        "..YYYYRRRRYYYY..",
+        "...YYYDDDDYYY...",
+        "..YYYYYYYYYYYY..",
+        ".WWWWWWWWWWWWWW."
+      ],
+      "key": {
+        "Y": "gold",
+        "D": "stone_dark",
+        "R": "cloth_red",
+        "W": "wood_dark"
+      }
+    },
+    "cong_torii_nhat": {
+      "rows": [
+        "RRRRRRRRRRRRRRRRRR",
+        "..DDDDDDDDDDDDDD..",
+        "....RR......RR....",
+        "..RRRRRRRRRRRRRR..",
+        "....RR......RR....",
+        "....RR......RR....",
+        "....RR......RR....",
+        "...DDDD....DDDD..."
+      ],
+      "key": {
+        "R": "cloth_red",
+        "D": "outline"
+      }
+    },
+    "den_thap_maya_inca": {
+      "rows": [
+        "..........RRRR..........",
+        ".........SSSSSS.........",
+        ".......SSLLLLLLSS.......",
+        "......SSSSSSSSSSSS......",
+        "....SSLLLLLLLLLLLLSS....",
+        "...SSSSSSSSSSSSSSSSSS...",
+        ".DDDDDDDDDDDDDDDDDDDDDD."
+      ],
+      "key": {
+        "R": "cloth_red",
+        "L": "stone_light",
+        "S": "stone",
+        "D": "stone_dark"
+      }
+    },
+    "ong_khoi_nha_may_1850": {
+      "rows": [
+        "..SS........SS..",
+        "...SS........SS.",
+        "..DD........DD..",
+        "..RR........RR..",
+        "..RR........RR..",
+        "..RR..DDDD..RR..",
+        ".RRRRDDDDDDRRRR.",
+        "DDDDDDDDDDDDDDDD"
+      ],
+      "key": {
+        "S": "cloud_shade",
+        "D": "stone_dark",
+        "R": "tile"
+      }
     }
   }
 }

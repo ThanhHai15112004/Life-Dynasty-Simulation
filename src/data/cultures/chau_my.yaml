@@ -49,3 +49,22 @@ village_roles:
   thay_lang: { title: y sư thảo dược, call: 'y sư {given}' }
   hang_xom: { title: láng giềng, call: '{given} nhà bên' }
   lai_buon: { title: thương nhân đường dài (Pochteca), call: 'thương khách {given}' }
+
+era_variants:
+  - max_year: -1500
+    ethnicity_name: Tộc Săn bắt & Trồng ngô Sơ kỳ Mesoamerica
+    default_religion: van_vat_huu_linh
+    village_names: [Thung Lũng Ngô Hoang, Hang Đá Oaxaca, Bãi Sông Ngọc Bích, Xóm Đồi Đá Đen]
+  - min_year: -1499
+    max_year: 250
+    ethnicity_name: Người Olmec – Maya – Zapotec Cổ điển Sơ kỳ
+    default_religion: da_than_maya_aztec
+    village_names: [Xóm Tượng Đá Khổng Lồ, Làng Đầm Lầy Rừng Nhiệt Đới, Bậc Đá Thần Mưa, Bản Ngô Vàng]
+  - min_year: 251
+    max_year: 1520
+    ethnicity_name: Người Maya & Nahua (Đế chế Aztec)
+    default_religion: da_than_maya_aztec
+  - min_year: 1521
+    ethnicity_name: Cư dân Bản địa Trung Mỹ (Maya – Nahua)
+    default_religion: co_doc_giao
+

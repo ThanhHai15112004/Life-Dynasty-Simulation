@@ -1,0 +1,68 @@
+# Văn hóa Bắc Âu (Norse – Viking – Scandinavia)
+id: bac_au
+name: Bắc Âu (Norse – Scandinavia)
+ethnicity_name: Người Bắc Âu (Norse – Scandinavia)
+phenotype: au_bac_tay
+default_religion: da_than_bac_au
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: vòng bạc Hacksilver / Krona
+  food: thùng cá trích & lúa mạch
+  land: trang trại vịnh hẹp (Odelsjord)
+  staple_crop: lúa mạch, yến mạch & cá biển Bắc
+family_names:
+  - { name: Eriksson, weight: 18 }
+  - { name: Haraldsson, weight: 16 }
+  - { name: Sigurdsson, weight: 16 }
+  - { name: Lindqvist, weight: 14 }
+  - { name: Bjornsson, weight: 14 }
+  - { name: Holm, weight: 11 }
+  - { name: Nystrom, weight: 11 }
+given_names:
+  m: [Ragnar, Bjorn, Leif, Harald, Erik, Sigurd, Ivar, Canute (Knut), Olaf, Gunnar, Torstein, Sven, Magnus, Frej]
+  f: [Freydis, Lagertha, Astrid, Ingrid, Sigrid, Gudrun, Helga, Thyra,Solveig, Liv, Freja, Saga, Karin, Linnea]
+village_names: [Xóm Vịnh Hẹp Fjord, Làng Nhà Dài Rừng Thông, Bến Thuyền Đầu Rồng, Thôn Đảo Đá Lạnh, Xóm Đồng Cỏ Phương Bắc]
+town_names: [Thương Cảng Birka, Chợ Biển Hedeby, Bến Thuyền Kaupang, Cảng Bergen]
+prefecture_names: [Uppsala, Nidaros (Trondheim), Roskilde, Stockholm, Oslo, Copenhagen]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: thủ lĩnh quý tộc (Jarl), call: 'thủ lĩnh {given}' }
+  ly_truong: { title: người giữ luật hội đồng (Lawspeaker), call: 'trưởng hội {given}' }
+  thay_do: { title: tư tế khắc chữ Rune (Godi), call: 'hiền giả {given}' }
+  thay_lang: { title: y sư thảo dược phương Bắc, call: 'y sư {given}' }
+  hang_xom: { title: nông dân tự do (Karls), call: '{given} trại bên' }
+  lai_buon: { title: thương nhân vượt biển, call: 'thuyền trưởng {given}' }
+
+era_variants:
+  - max_year: 750
+    ethnicity_name: Bộ tộc Tiền Bắc Âu & Thợ săn Tuần lộc
+    default_religion: da_than_bac_au
+  - min_year: 751
+    max_year: 1066
+    ethnicity_name: Người Norse – Thời đại Viking
+    default_religion: da_than_bac_au
+  - min_year: 1067
+    max_year: 1536
+    ethnicity_name: Người Đan Mạch – Na Uy – Thụy Điển Trung cổ
+    default_religion: co_doc_giao
+  - min_year: 1537
+    ethnicity_name: Người Bắc Âu Scandinavia Cận – Hiện đại
+    default_religion: tin_lanh
+

@@ -1171,7 +1171,7 @@
         "phu_nho": "dinh_thu_hoi_giao",
         "kho_lua": "kho_hang_hien_dai",
         "sap_hang": "sap_hang_viet",
-        "trau": "trau_viet",
+        "trau": "lac_da_sa_mac",
         "dan_ga": "dan_ga_viet",
         "ao_ca": "ao_ca_viet",
         "day_leu_cho_viet": "day_sap_au",
@@ -1720,6 +1720,6264 @@
         "lang_nong": "bai_trai_nguyen_thuy",
         "thi_tran_ben_song": "ben_suoi_nguyen_thuy",
         "phu_thanh": "thanh_dia_cu_thach"
+      }
+    },
+    "nguyen_thuy_can_dong": {
+      "colors": {
+        "thatch": "#cfa86e",
+        "thatch_dark": "#9e7a46",
+        "thatch_light": "#e6c48c",
+        "tile": "#8c623e",
+        "tile_dark": "#614126",
+        "tile_light": "#ab7c54",
+        "wall": "#d9b88a",
+        "wall_dark": "#b59160",
+        "wood": "#69482a",
+        "wood_dark": "#452d18",
+        "wood_light": "#8c6440",
+        "shadow": "#241b14",
+        "stone": "#827e76",
+        "stone_light": "#a8a399",
+        "stone_dark": "#5c5952",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#5e4228",
+        "trunk_light": "#7d5b3b",
+        "lantern": "#e67e22",
+        "gold": "#d9a441",
+        "cloth_red": "#9c462b",
+        "cloth_yellow": "#c99e52",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#b8864c",
+        "goods2": "#6e9648",
+        "goods3": "#9c5238",
+        "buffalo": "#5c422e",
+        "buffalo_dark": "#3d2a1c",
+        "buffalo_light": "#7a5940",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4e92b5",
+        "water_light": "#96cae6",
+        "boat": "#69482a",
+        "boat_dark": "#452d18",
+        "sail": "#c9aa7c",
+        "sail_dark": "#9e8056",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#211912",
+        "path": "#9e7e56",
+        "path_dark": "#7a5e3d",
+        "hat_cone": "#a88252",
+        "hat_shade": "#7d5e38",
+        "mourning_white": "#d9d2c4",
+        "mourning_shade": "#b5ad9e",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#7ab8e6",
+          "sky_bottom": "#efe6d0",
+          "hill_far": "#c4b08a",
+          "hill_near": "#a69268",
+          "grass": "#7da350",
+          "ground": "#c9a46e",
+          "ground_dark": "#755836",
+          "foliage": "#3e8c40",
+          "foliage_dark": "#29662b",
+          "foliage_light": "#66b34c",
+          "paddy": "#70ad4c",
+          "paddy_light": "#94cc68",
+          "paddy_water": "#755836"
+        },
+        "ha": {
+          "sky_top": "#64ace0",
+          "sky_bottom": "#f5e4be",
+          "hill_far": "#ccb284",
+          "hill_near": "#ad9260",
+          "grass": "#889e52",
+          "ground": "#d1aa70",
+          "ground_dark": "#735432",
+          "foliage": "#348038",
+          "foliage_dark": "#225c26",
+          "foliage_light": "#5ca642",
+          "paddy": "#62a342",
+          "paddy_light": "#85bf58",
+          "paddy_water": "#735432"
+        },
+        "thu": {
+          "sky_top": "#98c0db",
+          "sky_bottom": "#ebe6d5",
+          "hill_far": "#a8a886",
+          "hill_near": "#878a62",
+          "grass": "#8c944c",
+          "ground": "#9c7648",
+          "ground_dark": "#755632",
+          "foliage": "#997834",
+          "foliage_dark": "#705622",
+          "foliage_light": "#bd9846",
+          "paddy": "#b59842",
+          "paddy_light": "#d1b560",
+          "paddy_water": "#755632"
+        },
+        "dong": {
+          "sky_top": "#aabac4",
+          "sky_bottom": "#dfe4e6",
+          "hill_far": "#9ea8a6",
+          "hill_near": "#808f88",
+          "grass": "#829166",
+          "ground": "#8c7252",
+          "ground_dark": "#69543b",
+          "foliage": "#466e4c",
+          "foliage_dark": "#325238",
+          "foliage_light": "#628560",
+          "paddy": "#8c9672",
+          "paddy_light": "#a8b08e",
+          "paddy_water": "#69543b"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_tron_dat_set_can_dong",
+        "nha_go": "nha_dat_nung_hoi_giao",
+        "phu_nho": "nha_dai_thu_linh",
+        "kho_lua": "kho_thit_nguyen_thuy",
+        "sap_hang": "day_leu_nguyen_thuy",
+        "trau": "cho_san_nguyen_thuy",
+        "dan_ga": "gian_phoi_da_thu",
+        "ao_ca": "bai_da_nguyen_thuy",
+        "day_leu_cho_viet": "day_leu_nguyen_thuy",
+        "ruong_lua_viet": "bai_co_nguyen_thuy"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_nguyen_thuy",
+        "nguoi_lon_f": "nguoi_lon_f_nguyen_thuy",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#c99067",
+          "#b57c52",
+          "#a16840",
+          "#d8a379"
+        ],
+        "skin_sick": [
+          "#c4bd9c",
+          "#b3ab8a"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#3b2d22"
+        ],
+        "hair_elder": [
+          "#d4cfc6",
+          "#b8b2a6"
+        ],
+        "top_m": [
+          "#8a623e",
+          "#6e4e30",
+          "#9c744c",
+          "#593e26"
+        ],
+        "top_f": [
+          "#9c7248",
+          "#7d5836",
+          "#ad8458",
+          "#69482b"
+        ],
+        "collar": [
+          "#c49e6c",
+          "#8a623e"
+        ],
+        "yem": [
+          "#9c7248",
+          "#b58b5c"
+        ],
+        "belt": [
+          "#4a321e",
+          "#382414"
+        ],
+        "bottom": [
+          "#593e26",
+          "#47311e",
+          "#6e4e30"
+        ],
+        "skirt": [
+          "#69482b",
+          "#543820",
+          "#7d5836"
+        ],
+        "hat_main": [
+          "#6e4e30"
+        ],
+        "hat_trim": [
+          "#c49e6c"
+        ]
+      },
+      "trees": [
+        "cay_cha_la",
+        "cay_o_liu_co_dien",
+        "cay_co_thu_nguyen_thuy"
+      ],
+      "fence": "rao_go_au",
+      "locations": {
+        "lang_nong": "bai_trai_nguyen_thuy",
+        "thi_tran_ben_song": "ben_suoi_nguyen_thuy",
+        "phu_thanh": "thanh_dia_cu_thach"
+      }
+    },
+    "nguyen_thuy_bang_ha_au": {
+      "colors": {
+        "thatch": "#b88e52",
+        "thatch_dark": "#876536",
+        "thatch_light": "#d4aa6a",
+        "tile": "#8c623e",
+        "tile_dark": "#614126",
+        "tile_light": "#ab7c54",
+        "wall": "#a87e52",
+        "wall_dark": "#7d5b38",
+        "wood": "#69482a",
+        "wood_dark": "#452d18",
+        "wood_light": "#8c6440",
+        "shadow": "#241b14",
+        "stone": "#827e76",
+        "stone_light": "#a8a399",
+        "stone_dark": "#5c5952",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#5e4228",
+        "trunk_light": "#7d5b3b",
+        "lantern": "#e67e22",
+        "gold": "#d9a441",
+        "cloth_red": "#9c462b",
+        "cloth_yellow": "#c99e52",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#b8864c",
+        "goods2": "#6e9648",
+        "goods3": "#9c5238",
+        "buffalo": "#5c422e",
+        "buffalo_dark": "#3d2a1c",
+        "buffalo_light": "#7a5940",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4e92b5",
+        "water_light": "#96cae6",
+        "boat": "#69482a",
+        "boat_dark": "#452d18",
+        "sail": "#c9aa7c",
+        "sail_dark": "#9e8056",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#211912",
+        "path": "#9e7e56",
+        "path_dark": "#7a5e3d",
+        "hat_cone": "#a88252",
+        "hat_shade": "#7d5e38",
+        "mourning_white": "#d9d2c4",
+        "mourning_shade": "#b5ad9e",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#8ab8d6",
+          "sky_bottom": "#dce8ed",
+          "hill_far": "#8fa6a8",
+          "hill_near": "#688782",
+          "grass": "#689958",
+          "ground": "#9c784c",
+          "ground_dark": "#755836",
+          "foliage": "#3e8c40",
+          "foliage_dark": "#29662b",
+          "foliage_light": "#66b34c",
+          "paddy": "#70ad4c",
+          "paddy_light": "#94cc68",
+          "paddy_water": "#755836"
+        },
+        "ha": {
+          "sky_top": "#6cb8e8",
+          "sky_bottom": "#d6ecf0",
+          "hill_far": "#80ad90",
+          "hill_near": "#58916a",
+          "grass": "#589c40",
+          "ground": "#997448",
+          "ground_dark": "#735432",
+          "foliage": "#348038",
+          "foliage_dark": "#225c26",
+          "foliage_light": "#5ca642",
+          "paddy": "#62a342",
+          "paddy_light": "#85bf58",
+          "paddy_water": "#735432"
+        },
+        "thu": {
+          "sky_top": "#98c0db",
+          "sky_bottom": "#ebe6d5",
+          "hill_far": "#a8a886",
+          "hill_near": "#878a62",
+          "grass": "#8c944c",
+          "ground": "#9c7648",
+          "ground_dark": "#755632",
+          "foliage": "#997834",
+          "foliage_dark": "#705622",
+          "foliage_light": "#bd9846",
+          "paddy": "#b59842",
+          "paddy_light": "#d1b560",
+          "paddy_water": "#755632"
+        },
+        "dong": {
+          "sky_top": "#aebec9",
+          "sky_bottom": "#eef2f5",
+          "hill_far": "#d0d8dc",
+          "hill_near": "#b8c4c9",
+          "grass": "#d8e0e3",
+          "ground": "#b8bfc2",
+          "ground_dark": "#69543b",
+          "foliage": "#466e4c",
+          "foliage_dark": "#325238",
+          "foliage_light": "#628560",
+          "paddy": "#8c9672",
+          "paddy_light": "#a8b08e",
+          "paddy_water": "#69543b"
+        }
+      },
+      "parts": {
+        "nha_tranh": "leu_da_thu_nguyen_thuy",
+        "nha_go": "nha_san_bo_lac",
+        "phu_nho": "nha_dai_thu_linh",
+        "kho_lua": "kho_thit_nguyen_thuy",
+        "sap_hang": "day_leu_nguyen_thuy",
+        "trau": "cho_san_nguyen_thuy",
+        "dan_ga": "gian_phoi_da_thu",
+        "ao_ca": "bai_da_nguyen_thuy",
+        "day_leu_cho_viet": "day_leu_nguyen_thuy",
+        "ruong_lua_viet": "bai_co_nguyen_thuy"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_nguyen_thuy",
+        "nguoi_lon_f": "nguoi_lon_f_nguyen_thuy",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#c99067",
+          "#b57c52",
+          "#a16840",
+          "#d8a379"
+        ],
+        "skin_sick": [
+          "#c4bd9c",
+          "#b3ab8a"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#3b2d22"
+        ],
+        "hair_elder": [
+          "#d4cfc6",
+          "#b8b2a6"
+        ],
+        "top_m": [
+          "#8a623e",
+          "#6e4e30",
+          "#9c744c",
+          "#593e26"
+        ],
+        "top_f": [
+          "#9c7248",
+          "#7d5836",
+          "#ad8458",
+          "#69482b"
+        ],
+        "collar": [
+          "#c49e6c",
+          "#8a623e"
+        ],
+        "yem": [
+          "#9c7248",
+          "#b58b5c"
+        ],
+        "belt": [
+          "#4a321e",
+          "#382414"
+        ],
+        "bottom": [
+          "#593e26",
+          "#47311e",
+          "#6e4e30"
+        ],
+        "skirt": [
+          "#69482b",
+          "#543820",
+          "#7d5836"
+        ],
+        "hat_main": [
+          "#6e4e30"
+        ],
+        "hat_trim": [
+          "#c49e6c"
+        ]
+      },
+      "trees": [
+        "cay_thong_au",
+        "cay_bach_duong_dong_au",
+        "cay_soi_au"
+      ],
+      "fence": "rao_go_au",
+      "locations": {
+        "lang_nong": "bai_trai_nguyen_thuy",
+        "thi_tran_ben_song": "ben_suoi_nguyen_thuy",
+        "phu_thanh": "thanh_dia_cu_thach"
+      }
+    },
+    "nguyen_thuy_thao_nguyen_phi": {
+      "colors": {
+        "thatch": "#b88e52",
+        "thatch_dark": "#876536",
+        "thatch_light": "#d4aa6a",
+        "tile": "#8c623e",
+        "tile_dark": "#614126",
+        "tile_light": "#ab7c54",
+        "wall": "#a87e52",
+        "wall_dark": "#7d5b38",
+        "wood": "#69482a",
+        "wood_dark": "#452d18",
+        "wood_light": "#8c6440",
+        "shadow": "#241b14",
+        "stone": "#827e76",
+        "stone_light": "#a8a399",
+        "stone_dark": "#5c5952",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#5e4228",
+        "trunk_light": "#7d5b3b",
+        "lantern": "#e67e22",
+        "gold": "#d9a441",
+        "cloth_red": "#9c462b",
+        "cloth_yellow": "#c99e52",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#b8864c",
+        "goods2": "#6e9648",
+        "goods3": "#9c5238",
+        "buffalo": "#5c422e",
+        "buffalo_dark": "#3d2a1c",
+        "buffalo_light": "#7a5940",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4e92b5",
+        "water_light": "#96cae6",
+        "boat": "#69482a",
+        "boat_dark": "#452d18",
+        "sail": "#c9aa7c",
+        "sail_dark": "#9e8056",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#211912",
+        "path": "#9e7e56",
+        "path_dark": "#7a5e3d",
+        "hat_cone": "#a88252",
+        "hat_shade": "#7d5e38",
+        "mourning_white": "#d9d2c4",
+        "mourning_shade": "#b5ad9e",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#88c6eb",
+          "sky_bottom": "#e0f0e8",
+          "hill_far": "#9cb584",
+          "hill_near": "#7d9960",
+          "grass": "#84ab4c",
+          "ground": "#ba8b52",
+          "ground_dark": "#755836",
+          "foliage": "#3e8c40",
+          "foliage_dark": "#29662b",
+          "foliage_light": "#66b34c",
+          "paddy": "#70ad4c",
+          "paddy_light": "#94cc68",
+          "paddy_water": "#755836"
+        },
+        "ha": {
+          "sky_top": "#6cb8e8",
+          "sky_bottom": "#d6ecf0",
+          "hill_far": "#adab74",
+          "hill_near": "#8f8c52",
+          "grass": "#999c46",
+          "ground": "#c28e4e",
+          "ground_dark": "#735432",
+          "foliage": "#348038",
+          "foliage_dark": "#225c26",
+          "foliage_light": "#5ca642",
+          "paddy": "#62a342",
+          "paddy_light": "#85bf58",
+          "paddy_water": "#735432"
+        },
+        "thu": {
+          "sky_top": "#98c0db",
+          "sky_bottom": "#ebe6d5",
+          "hill_far": "#a8a886",
+          "hill_near": "#878a62",
+          "grass": "#8c944c",
+          "ground": "#9c7648",
+          "ground_dark": "#755632",
+          "foliage": "#997834",
+          "foliage_dark": "#705622",
+          "foliage_light": "#bd9846",
+          "paddy": "#b59842",
+          "paddy_light": "#d1b560",
+          "paddy_water": "#755632"
+        },
+        "dong": {
+          "sky_top": "#aabac4",
+          "sky_bottom": "#dfe4e6",
+          "hill_far": "#9ea8a6",
+          "hill_near": "#808f88",
+          "grass": "#829166",
+          "ground": "#8c7252",
+          "ground_dark": "#69543b",
+          "foliage": "#466e4c",
+          "foliage_dark": "#325238",
+          "foliage_light": "#628560",
+          "paddy": "#8c9672",
+          "paddy_light": "#a8b08e",
+          "paddy_water": "#69543b"
+        }
+      },
+      "parts": {
+        "nha_tranh": "leu_da_thu_nguyen_thuy",
+        "nha_go": "nha_san_bo_lac",
+        "phu_nho": "nha_dai_thu_linh",
+        "kho_lua": "kho_thit_nguyen_thuy",
+        "sap_hang": "day_leu_nguyen_thuy",
+        "trau": "cho_san_nguyen_thuy",
+        "dan_ga": "gian_phoi_da_thu",
+        "ao_ca": "bai_da_nguyen_thuy",
+        "day_leu_cho_viet": "day_leu_nguyen_thuy",
+        "ruong_lua_viet": "bai_co_nguyen_thuy"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_nguyen_thuy",
+        "nguoi_lon_f": "nguoi_lon_f_nguyen_thuy",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#c99067",
+          "#b57c52",
+          "#a16840",
+          "#d8a379"
+        ],
+        "skin_sick": [
+          "#c4bd9c",
+          "#b3ab8a"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#3b2d22"
+        ],
+        "hair_elder": [
+          "#d4cfc6",
+          "#b8b2a6"
+        ],
+        "top_m": [
+          "#8a623e",
+          "#6e4e30",
+          "#9c744c",
+          "#593e26"
+        ],
+        "top_f": [
+          "#9c7248",
+          "#7d5836",
+          "#ad8458",
+          "#69482b"
+        ],
+        "collar": [
+          "#c49e6c",
+          "#8a623e"
+        ],
+        "yem": [
+          "#9c7248",
+          "#b58b5c"
+        ],
+        "belt": [
+          "#4a321e",
+          "#382414"
+        ],
+        "bottom": [
+          "#593e26",
+          "#47311e",
+          "#6e4e30"
+        ],
+        "skirt": [
+          "#69482b",
+          "#543820",
+          "#7d5836"
+        ],
+        "hat_main": [
+          "#6e4e30"
+        ],
+        "hat_trim": [
+          "#c49e6c"
+        ]
+      },
+      "trees": [
+        "cay_baobab_chau_phi",
+        "cay_co_thu_nguyen_thuy",
+        "cay_duong_xi_co_dai"
+      ],
+      "fence": "rao_go_au",
+      "locations": {
+        "lang_nong": "bai_trai_nguyen_thuy",
+        "thi_tran_ben_song": "ben_suoi_nguyen_thuy",
+        "phu_thanh": "thanh_dia_cu_thach"
+      }
+    },
+    "bach_viet_dong_son": {
+      "colors": {
+        "thatch": "#d4ab66",
+        "thatch_dark": "#a67e3e",
+        "thatch_light": "#e7c685",
+        "tile": "#b54930",
+        "tile_dark": "#82311f",
+        "tile_light": "#d16448",
+        "wall": "#e8d6ad",
+        "wall_dark": "#c5a978",
+        "wood": "#82593a",
+        "wood_dark": "#563820",
+        "wood_light": "#ab7f55",
+        "shadow": "#36291f",
+        "stone": "#9c9689",
+        "stone_light": "#bfb9ab",
+        "stone_dark": "#736e63",
+        "bamboo": "#9abd54",
+        "bamboo_dark": "#668732",
+        "trunk": "#7a5a3a",
+        "trunk_light": "#9c7b54",
+        "lantern": "#d9412b",
+        "gold": "#eab83e",
+        "cloth_red": "#bf3f2c",
+        "cloth_yellow": "#ebd567",
+        "lotus_pink": "#e67399",
+        "goods1": "#dfc576",
+        "goods2": "#8ec25d",
+        "goods3": "#cc7152",
+        "buffalo": "#525158",
+        "buffalo_dark": "#36353b",
+        "buffalo_light": "#6e6d75",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#62a3c4",
+        "water_light": "#a8d5e8",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#dfd0a8",
+        "sail_dark": "#bfa978",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#292019",
+        "path": "#c8a878",
+        "path_dark": "#a88859",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#9bd0eb",
+          "sky_bottom": "#e4f3ed",
+          "hill_far": "#a6c6b6",
+          "hill_near": "#82b291",
+          "grass": "#74b358",
+          "ground": "#b38d5e",
+          "ground_dark": "#8d6b45",
+          "foliage": "#4c994c",
+          "foliage_dark": "#367839",
+          "foliage_light": "#7bc258",
+          "paddy": "#8bd166",
+          "paddy_light": "#b5e68c",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#7ac0ee",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#91bfa3",
+          "hill_near": "#68a67b",
+          "grass": "#67ad4b",
+          "ground": "#b08756",
+          "ground_dark": "#87653f",
+          "foliage": "#3d8f43",
+          "foliage_dark": "#2c6d33",
+          "foliage_light": "#6bb34a",
+          "paddy": "#5cb047",
+          "paddy_light": "#85cc5c",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#a7cce3",
+          "sky_bottom": "#f0eedf",
+          "hill_far": "#b4bf9c",
+          "hill_near": "#97a876",
+          "grass": "#9eae58",
+          "ground": "#b58d58",
+          "ground_dark": "#8f6b40",
+          "foliage": "#6e9a45",
+          "foliage_dark": "#547934",
+          "foliage_light": "#a8b85a",
+          "paddy": "#e2bf4c",
+          "paddy_light": "#f2d979",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#b5c3cd",
+          "sky_bottom": "#e2e6e4",
+          "hill_far": "#a7b2ae",
+          "hill_near": "#8a9a8e",
+          "grass": "#8f9f6e",
+          "ground": "#a3845e",
+          "ground_dark": "#7f6648",
+          "foliage": "#4d7a52",
+          "foliage_dark": "#3a5f40",
+          "foliage_light": "#6f9061",
+          "paddy": "#9aa77a",
+          "paddy_light": "#b6bf96",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_san_dong_son",
+        "nha_go": "nha_san_bo_lac",
+        "phu_nho": "nha_dai_thu_linh",
+        "kho_lua": "kho_lua_viet",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "thuyen_buom_viet": "thuyen_doc_moc_nguyen_thuy"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_viet",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hat": {
+        "part": "non_la",
+        "ageGroups": [
+          "nguoi_lon",
+          "nguoi_gia"
+        ],
+        "chance": 0.55
+      },
+      "hats": {
+        "non_la": {
+          "part": "non_la",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_dong",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mao_quan",
+          "offsetY": 4
+        },
+        "non_dau": {
+          "part": "non_dau",
+          "offsetY": 3
+        },
+        "khan_mo_qua": {
+          "part": "khan_mo_qua",
+          "offsetY": 3
+        },
+        "khan_vanh": {
+          "part": "khan_vanh",
+          "offsetY": 3
+        },
+        "khan_tang": {
+          "part": "khan_tang",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f2cba4",
+          "#e5b68e",
+          "#d8a379",
+          "#c99067"
+        ],
+        "skin_sick": [
+          "#d8d2b0",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#382b21"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#634b35",
+          "#3b4e60",
+          "#7d5e3b",
+          "#475c42",
+          "#344154",
+          "#856d4c",
+          "#5a3e36"
+        ],
+        "top_f": [
+          "#9c3b38",
+          "#46688a",
+          "#7a5285",
+          "#3d6650",
+          "#b07438",
+          "#6b4c38",
+          "#8f4a64"
+        ],
+        "collar": [
+          "#d9ceb8",
+          "#c9b27e",
+          "#bf4b3b",
+          "#5c7a99"
+        ],
+        "yem": [
+          "#d1453b",
+          "#e09f3e",
+          "#c95b7a",
+          "#df7356"
+        ],
+        "belt": [
+          "#3d6b52",
+          "#9e3a33",
+          "#c99a3e",
+          "#3c526b"
+        ],
+        "bottom": [
+          "#2e2a26",
+          "#3b3530",
+          "#4a4037",
+          "#25313a",
+          "#dcd6c8"
+        ],
+        "skirt": [
+          "#292420",
+          "#382d28",
+          "#262b36",
+          "#45362b"
+        ],
+        "hat_main": [
+          "#282c34",
+          "#3b2e28",
+          "#233647"
+        ],
+        "hat_trim": [
+          "#e3b341",
+          "#c94232"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "top_f": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "collar": [
+            "#f4f2ec"
+          ],
+          "yem": [
+            "#d8d4ca"
+          ],
+          "belt": [
+            "#b8b3a8"
+          ],
+          "bottom": [
+            "#e2dfd6"
+          ],
+          "skirt": [
+            "#dad6cc"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#9e2622",
+            "#1e3a5f",
+            "#245445"
+          ],
+          "top_f": [
+            "#b02e2a",
+            "#2b4c78",
+            "#7a3568"
+          ],
+          "collar": [
+            "#eab83e",
+            "#f0dec0"
+          ],
+          "yem": [
+            "#d93b32",
+            "#eab83e"
+          ],
+          "belt": [
+            "#eab83e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#262b36"
+          ],
+          "skirt": [
+            "#38242e",
+            "#1e2938"
+          ],
+          "hat_main": [
+            "#1d2026"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#2c4d6e",
+            "#385e54",
+            "#46526e",
+            "#5c4869"
+          ],
+          "top_f": [
+            "#3c668a",
+            "#487568",
+            "#85486e"
+          ],
+          "collar": [
+            "#f0ece1",
+            "#d8cfa8"
+          ],
+          "yem": [
+            "#cf463c",
+            "#e0a445"
+          ],
+          "belt": [
+            "#c99a3e",
+            "#26384a"
+          ],
+          "bottom": [
+            "#ede9de",
+            "#2b323b"
+          ],
+          "skirt": [
+            "#282d38",
+            "#362b32"
+          ],
+          "hat_main": [
+            "#232832",
+            "#2d3846"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#b88228",
+            "#8c2f39",
+            "#2e6352",
+            "#693b6e"
+          ],
+          "top_f": [
+            "#c74350",
+            "#d49435",
+            "#367363",
+            "#85427d"
+          ],
+          "collar": [
+            "#f2e2b6",
+            "#eab83e"
+          ],
+          "yem": [
+            "#d9382e",
+            "#f0b643"
+          ],
+          "belt": [
+            "#eab83e",
+            "#b8372e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#332926"
+          ],
+          "skirt": [
+            "#3b262c",
+            "#2b2436"
+          ],
+          "hat_main": [
+            "#3d2822",
+            "#292333"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "linh": {
+          "top_m": [
+            "#363b42",
+            "#47332b"
+          ],
+          "top_f": [
+            "#453632",
+            "#363b42"
+          ],
+          "collar": [
+            "#c93b2b"
+          ],
+          "yem": [
+            "#c93b2b"
+          ],
+          "belt": [
+            "#c93b2b",
+            "#d99b38"
+          ],
+          "bottom": [
+            "#26292e"
+          ],
+          "skirt": [
+            "#26292e"
+          ],
+          "hat_main": [
+            "#4a3525"
+          ],
+          "hat_trim": [
+            "#d93829"
+          ]
+        },
+        "thao_khau": {
+          "top_m": [
+            "#2e332b",
+            "#3d312a"
+          ],
+          "top_f": [
+            "#3d312a",
+            "#2e332b"
+          ],
+          "collar": [
+            "#8a4b38"
+          ],
+          "belt": [
+            "#8a3329"
+          ],
+          "bottom": [
+            "#24211e"
+          ],
+          "skirt": [
+            "#24211e"
+          ]
+        }
+      },
+      "trees": [
+        "tre_viet",
+        "cay_da_an_do",
+        "chuoi_viet",
+        "cau_viet"
+      ],
+      "fence": "rao_tre_viet",
+      "locations": {
+        "lang_nong": "lang_dong_son_co",
+        "thi_tran_ben_song": "ben_suoi_nguyen_thuy",
+        "phu_thanh": "phu_thanh"
+      }
+    },
+    "ai_cap_luong_ha_co_dai": {
+      "colors": {
+        "thatch": "#d9b882",
+        "thatch_dark": "#b5925a",
+        "thatch_light": "#ebd0a0",
+        "tile": "#246a8c",
+        "tile_dark": "#1d5261",
+        "tile_light": "#4aa0b5",
+        "wall": "#f0d9ad",
+        "wall_dark": "#cfb27e",
+        "wood": "#754f30",
+        "wood_dark": "#4d321c",
+        "wood_light": "#996b45",
+        "shadow": "#33261a",
+        "stone": "#b8a68a",
+        "stone_light": "#d4c4a8",
+        "stone_dark": "#8c7b62",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#7a5838",
+        "trunk_light": "#9c7450",
+        "lantern": "#eab83e",
+        "gold": "#f2c230",
+        "cloth_red": "#bf3b26",
+        "cloth_yellow": "#ebd068",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#e0b252",
+        "goods2": "#3b8278",
+        "goods3": "#c44d34",
+        "buffalo": "#8c6d46",
+        "buffalo_dark": "#634b2e",
+        "buffalo_light": "#ab895e",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4692b0",
+        "water_light": "#8ecce3",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#f2e8d0",
+        "sail_dark": "#cfc0a0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#e8e2d8",
+        "outline": "#261c14",
+        "path": "#d4b684",
+        "path_dark": "#b09262",
+        "hat_cone": "#f2ece0",
+        "hat_shade": "#cfc6b4",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#72b8e6",
+          "sky_bottom": "#efe6d0",
+          "hill_far": "#c9b28c",
+          "hill_near": "#ab946c",
+          "grass": "#7ca352",
+          "ground": "#cfa972",
+          "ground_dark": "#a6824e",
+          "foliage": "#488c48",
+          "foliage_dark": "#326934",
+          "foliage_light": "#6eb356",
+          "paddy": "#8cc25a",
+          "paddy_light": "#b0db80",
+          "paddy_water": "#8ab8b5"
+        },
+        "ha": {
+          "sky_top": "#5caae0",
+          "sky_bottom": "#f5e4c0",
+          "hill_far": "#d4b888",
+          "hill_near": "#b59664",
+          "grass": "#8aa154",
+          "ground": "#d6af74",
+          "ground_dark": "#ad864e",
+          "foliage": "#42823e",
+          "foliage_dark": "#2d612b",
+          "foliage_light": "#66a648",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#ad864e"
+        },
+        "thu": {
+          "sky_top": "#88bce0",
+          "sky_bottom": "#f2e4ca",
+          "hill_far": "#ccb084",
+          "hill_near": "#ad9062",
+          "grass": "#969c56",
+          "ground": "#cca46c",
+          "ground_dark": "#a37d48",
+          "foliage": "#688c42",
+          "foliage_dark": "#4d6b2e",
+          "foliage_light": "#8fb052",
+          "paddy": "#d9b048",
+          "paddy_light": "#eccb6e",
+          "paddy_water": "#a37d48"
+        },
+        "dong": {
+          "sky_top": "#9cc0d6",
+          "sky_bottom": "#e8e2d6",
+          "hill_far": "#bfb098",
+          "hill_near": "#9e8f76",
+          "grass": "#889664",
+          "ground": "#bda074",
+          "ground_dark": "#967b52",
+          "foliage": "#4c784e",
+          "foliage_dark": "#385c3a",
+          "foliage_light": "#6b9464",
+          "paddy": "#9ea376",
+          "paddy_light": "#b8bd92",
+          "paddy_water": "#967b52"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_gach_bun_ai_cap",
+        "nha_go": "nha_vua_hoi_giao",
+        "phu_nho": "dinh_thu_hoi_giao",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "lac_da_sa_mac",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "non_la": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#d9a47c",
+          "#c88f65",
+          "#b57a50",
+          "#e3b590"
+        ],
+        "skin_sick": [
+          "#d0c8a8",
+          "#bfb694"
+        ],
+        "hair": [
+          "#1a1614",
+          "#28201b",
+          "#362a22"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc"
+        ],
+        "top_m": [
+          "#f0ece1",
+          "#d9ccb4",
+          "#2b546e",
+          "#386652",
+          "#7a3b32"
+        ],
+        "top_f": [
+          "#2b546e",
+          "#7a3548",
+          "#3b6654",
+          "#8c5832",
+          "#583b6e"
+        ],
+        "collar": [
+          "#eab83e",
+          "#f5f0e6"
+        ],
+        "yem": [
+          "#eab83e",
+          "#d95b48",
+          "#f5f0e6"
+        ],
+        "belt": [
+          "#c99a3e",
+          "#8c382b",
+          "#2e4b5c"
+        ],
+        "bottom": [
+          "#f0ece1",
+          "#d4c8b0",
+          "#2e333b"
+        ],
+        "skirt": [
+          "#2b3d4f",
+          "#592b36",
+          "#364f42"
+        ],
+        "hat_main": [
+          "#f5f2eb",
+          "#e6dec8",
+          "#2b4c66"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "trees": [
+        "cay_cha_la",
+        "cay_cha_la"
+      ],
+      "fence": "rao_go_au",
+      "locations": {
+        "lang_nong": "oc_dao_co_dai",
+        "thi_tran_ben_song": "thi_tran_ben_song",
+        "phu_thanh": "phu_thanh"
+      }
+    },
+    "la_ma_hy_lap_co_dien": {
+      "colors": {
+        "thatch": "#c49e58",
+        "thatch_dark": "#947236",
+        "thatch_light": "#dab872",
+        "tile": "#c44d34",
+        "tile_dark": "#8f3320",
+        "tile_light": "#de6b50",
+        "wall": "#f5efe2",
+        "wall_dark": "#d9cfba",
+        "wood": "#6b462a",
+        "wood_dark": "#452b18",
+        "wood_light": "#8f6340",
+        "shadow": "#2b221b",
+        "stone": "#d8d2c5",
+        "stone_light": "#f7f4eb",
+        "stone_dark": "#696762",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#63462d",
+        "trunk_light": "#826042",
+        "lantern": "#e6a83e",
+        "gold": "#eab83e",
+        "cloth_red": "#8f2c24",
+        "cloth_yellow": "#e3c565",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#d9b86c",
+        "goods2": "#7aa856",
+        "goods3": "#b85d42",
+        "buffalo": "#6e4d36",
+        "buffalo_dark": "#4a3221",
+        "buffalo_light": "#8c664a",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5692b5",
+        "water_light": "#9ac8e3",
+        "boat": "#6b482b",
+        "boat_dark": "#472e1a",
+        "sail": "#eee6d3",
+        "sail_dark": "#c9bda3",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#261e18",
+        "path": "#b59b78",
+        "path_dark": "#8f7858",
+        "hat_cone": "#5c4632",
+        "hat_shade": "#3d2e20",
+        "mourning_white": "#262322",
+        "mourning_shade": "#171514",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#8cc4e6",
+          "sky_bottom": "#e2f0ec",
+          "hill_far": "#9bb8a8",
+          "hill_near": "#76a184",
+          "grass": "#6ca850",
+          "ground": "#a8865c",
+          "ground_dark": "#826442",
+          "foliage": "#488f48",
+          "foliage_dark": "#326b34",
+          "foliage_light": "#72b856",
+          "paddy": "#94c458",
+          "paddy_light": "#b8de7c",
+          "paddy_water": "#826442"
+        },
+        "ha": {
+          "sky_top": "#6eb8e8",
+          "sky_bottom": "#d8ecf2",
+          "hill_far": "#8ab29c",
+          "hill_near": "#629974",
+          "grass": "#629e46",
+          "ground": "#a68256",
+          "ground_dark": "#80603c",
+          "foliage": "#3b823e",
+          "foliage_dark": "#28612c",
+          "foliage_light": "#62a644",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#80603c"
+        },
+        "thu": {
+          "sky_top": "#9cc0db",
+          "sky_bottom": "#ede8d8",
+          "hill_far": "#ada88c",
+          "hill_near": "#8f8c68",
+          "grass": "#949652",
+          "ground": "#a68052",
+          "ground_dark": "#805e38",
+          "foliage": "#bf6b2e",
+          "foliage_dark": "#8f4a1c",
+          "foliage_light": "#de9242",
+          "paddy": "#d9a63e",
+          "paddy_light": "#edc464",
+          "paddy_water": "#805e38"
+        },
+        "dong": {
+          "sky_top": "#b0c0cc",
+          "sky_bottom": "#e4e8eb",
+          "hill_far": "#b8c2c7",
+          "hill_near": "#9aa8ad",
+          "grass": "#9aa68a",
+          "ground": "#96826a",
+          "ground_dark": "#73624e",
+          "foliage": "#4a6e52",
+          "foliage_dark": "#36523c",
+          "foliage_light": "#68876c",
+          "paddy": "#a8a286",
+          "paddy_light": "#c2bca0",
+          "paddy_water": "#73624e"
+        }
+      },
+      "parts": {
+        "nha_tranh": "biet_thu_la_ma_co_dien",
+        "nha_go": "biet_thu_la_ma_co_dien",
+        "phu_nho": "trang_vien_au",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_au",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "mao_quan": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f7dac0",
+          "#f0c8a8",
+          "#e5b590",
+          "#d9a279"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#c99b42",
+          "#8c5828",
+          "#59381f",
+          "#a84424",
+          "#241d18"
+        ],
+        "hair_elder": [
+          "#e6e2da",
+          "#cfc9be",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#5c432d",
+          "#2e4b66",
+          "#3d5e45",
+          "#7a332e",
+          "#69543e",
+          "#3b4254"
+        ],
+        "top_f": [
+          "#8c3532",
+          "#385a7c",
+          "#456b52",
+          "#70426e",
+          "#a86b32",
+          "#5c4233"
+        ],
+        "collar": [
+          "#f2ead8",
+          "#dfd3b8",
+          "#eab83e"
+        ],
+        "yem": [
+          "#f2ead8",
+          "#e6d8be",
+          "#d9b86c"
+        ],
+        "belt": [
+          "#3b2818",
+          "#543822",
+          "#8c6d32"
+        ],
+        "bottom": [
+          "#382e26",
+          "#2b333d",
+          "#4a3b2c",
+          "#2d3b2e"
+        ],
+        "skirt": [
+          "#382b24",
+          "#283342",
+          "#592826",
+          "#334739"
+        ],
+        "hat_main": [
+          "#332922",
+          "#263342",
+          "#5c2422"
+        ],
+        "hat_trim": [
+          "#eab83e",
+          "#f2ead8"
+        ]
+      },
+      "trees": [
+        "cay_o_liu_co_dien",
+        "cay_thong_au",
+        "cay_o_liu_co_dien"
+      ],
+      "fence": "rao_go_au",
+      "locations": {
+        "lang_nong": "thanh_bang_co_dien",
+        "thi_tran_ben_song": "thi_tran_ben_song",
+        "phu_thanh": "phu_thanh"
+      }
+    },
+    "song_an_co_dai": {
+      "colors": {
+        "thatch": "#d9b882",
+        "thatch_dark": "#b5925a",
+        "thatch_light": "#ebd0a0",
+        "tile": "#b84a32",
+        "tile_dark": "#1d5261",
+        "tile_light": "#4aa0b5",
+        "wall": "#d67a54",
+        "wall_dark": "#ab5838",
+        "wood": "#754f30",
+        "wood_dark": "#4d321c",
+        "wood_light": "#996b45",
+        "shadow": "#33261a",
+        "stone": "#b8a68a",
+        "stone_light": "#d4c4a8",
+        "stone_dark": "#8c7b62",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#7a5838",
+        "trunk_light": "#9c7450",
+        "lantern": "#eab83e",
+        "gold": "#f0b82e",
+        "cloth_red": "#d93829",
+        "cloth_yellow": "#ebd068",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#e0b252",
+        "goods2": "#3b8278",
+        "goods3": "#c44d34",
+        "buffalo": "#8c6d46",
+        "buffalo_dark": "#634b2e",
+        "buffalo_light": "#ab895e",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4692b0",
+        "water_light": "#8ecce3",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#f2e8d0",
+        "sail_dark": "#cfc0a0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#e8e2d8",
+        "outline": "#261c14",
+        "path": "#d4b684",
+        "path_dark": "#b09262",
+        "hat_cone": "#f2ece0",
+        "hat_shade": "#cfc6b4",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#72b8e6",
+          "sky_bottom": "#efe6d0",
+          "hill_far": "#c9b28c",
+          "hill_near": "#ab946c",
+          "grass": "#7ca352",
+          "ground": "#cfa972",
+          "ground_dark": "#a6824e",
+          "foliage": "#488c48",
+          "foliage_dark": "#326934",
+          "foliage_light": "#6eb356",
+          "paddy": "#8cc25a",
+          "paddy_light": "#b0db80",
+          "paddy_water": "#8ab8b5"
+        },
+        "ha": {
+          "sky_top": "#5caae0",
+          "sky_bottom": "#f5e4c0",
+          "hill_far": "#d4b888",
+          "hill_near": "#b59664",
+          "grass": "#8aa154",
+          "ground": "#d6af74",
+          "ground_dark": "#ad864e",
+          "foliage": "#42823e",
+          "foliage_dark": "#2d612b",
+          "foliage_light": "#66a648",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#ad864e"
+        },
+        "thu": {
+          "sky_top": "#88bce0",
+          "sky_bottom": "#f2e4ca",
+          "hill_far": "#ccb084",
+          "hill_near": "#ad9062",
+          "grass": "#969c56",
+          "ground": "#cca46c",
+          "ground_dark": "#a37d48",
+          "foliage": "#688c42",
+          "foliage_dark": "#4d6b2e",
+          "foliage_light": "#8fb052",
+          "paddy": "#d9b048",
+          "paddy_light": "#eccb6e",
+          "paddy_water": "#a37d48"
+        },
+        "dong": {
+          "sky_top": "#9cc0d6",
+          "sky_bottom": "#e8e2d6",
+          "hill_far": "#bfb098",
+          "hill_near": "#9e8f76",
+          "grass": "#889664",
+          "ground": "#bda074",
+          "ground_dark": "#967b52",
+          "foliage": "#4c784e",
+          "foliage_dark": "#385c3a",
+          "foliage_light": "#6b9464",
+          "paddy": "#9ea376",
+          "paddy_light": "#b8bd92",
+          "paddy_water": "#967b52"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_da_an_do",
+        "nha_go": "nha_da_an_do",
+        "phu_nho": "dinh_thu_hoi_giao",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "non_la": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#d9a47c",
+          "#c88f65",
+          "#b57a50",
+          "#e3b590"
+        ],
+        "skin_sick": [
+          "#d0c8a8",
+          "#bfb694"
+        ],
+        "hair": [
+          "#1a1614",
+          "#28201b",
+          "#362a22"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc"
+        ],
+        "top_m": [
+          "#f0ece1",
+          "#d9ccb4",
+          "#2b546e",
+          "#386652",
+          "#7a3b32"
+        ],
+        "top_f": [
+          "#2b546e",
+          "#7a3548",
+          "#3b6654",
+          "#8c5832",
+          "#583b6e"
+        ],
+        "collar": [
+          "#eab83e",
+          "#f5f0e6"
+        ],
+        "yem": [
+          "#eab83e",
+          "#d95b48",
+          "#f5f0e6"
+        ],
+        "belt": [
+          "#c99a3e",
+          "#8c382b",
+          "#2e4b5c"
+        ],
+        "bottom": [
+          "#f0ece1",
+          "#d4c8b0",
+          "#2e333b"
+        ],
+        "skirt": [
+          "#2b3d4f",
+          "#592b36",
+          "#364f42"
+        ],
+        "hat_main": [
+          "#f5f2eb",
+          "#e6dec8",
+          "#2b4c66"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "trees": [
+        "cay_da_an_do",
+        "cau_viet",
+        "chuoi_viet"
+      ],
+      "fence": "rao_go_au"
+    },
+    "dong_a_co_dai": {
+      "colors": {
+        "thatch": "#d4ab66",
+        "thatch_dark": "#a67e3e",
+        "thatch_light": "#e7c685",
+        "tile": "#525861",
+        "tile_dark": "#363b42",
+        "tile_light": "#737b87",
+        "wall": "#d8c296",
+        "wall_dark": "#b39868",
+        "wood": "#82593a",
+        "wood_dark": "#563820",
+        "wood_light": "#ab7f55",
+        "shadow": "#36291f",
+        "stone": "#9c9689",
+        "stone_light": "#bfb9ab",
+        "stone_dark": "#736e63",
+        "bamboo": "#9abd54",
+        "bamboo_dark": "#668732",
+        "trunk": "#7a5a3a",
+        "trunk_light": "#9c7b54",
+        "lantern": "#d9412b",
+        "gold": "#eab83e",
+        "cloth_red": "#bf3f2c",
+        "cloth_yellow": "#ebd567",
+        "lotus_pink": "#e67399",
+        "goods1": "#dfc576",
+        "goods2": "#8ec25d",
+        "goods3": "#cc7152",
+        "buffalo": "#525158",
+        "buffalo_dark": "#36353b",
+        "buffalo_light": "#6e6d75",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#62a3c4",
+        "water_light": "#a8d5e8",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#dfd0a8",
+        "sail_dark": "#bfa978",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#292019",
+        "path": "#c8a878",
+        "path_dark": "#a88859",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#9bd0eb",
+          "sky_bottom": "#e4f3ed",
+          "hill_far": "#a6c6b6",
+          "hill_near": "#82b291",
+          "grass": "#74b358",
+          "ground": "#b38d5e",
+          "ground_dark": "#8d6b45",
+          "foliage": "#4c994c",
+          "foliage_dark": "#367839",
+          "foliage_light": "#7bc258",
+          "paddy": "#8bd166",
+          "paddy_light": "#b5e68c",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#7ac0ee",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#91bfa3",
+          "hill_near": "#68a67b",
+          "grass": "#67ad4b",
+          "ground": "#b08756",
+          "ground_dark": "#87653f",
+          "foliage": "#3d8f43",
+          "foliage_dark": "#2c6d33",
+          "foliage_light": "#6bb34a",
+          "paddy": "#5cb047",
+          "paddy_light": "#85cc5c",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#a7cce3",
+          "sky_bottom": "#f0eedf",
+          "hill_far": "#b4bf9c",
+          "hill_near": "#97a876",
+          "grass": "#9eae58",
+          "ground": "#b58d58",
+          "ground_dark": "#8f6b40",
+          "foliage": "#6e9a45",
+          "foliage_dark": "#547934",
+          "foliage_light": "#a8b85a",
+          "paddy": "#e2bf4c",
+          "paddy_light": "#f2d979",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#b5c3cd",
+          "sky_bottom": "#e2e6e4",
+          "hill_far": "#a7b2ae",
+          "hill_near": "#8a9a8e",
+          "grass": "#8f9f6e",
+          "ground": "#a3845e",
+          "ground_dark": "#7f6648",
+          "foliage": "#4d7a52",
+          "foliage_dark": "#3a5f40",
+          "foliage_light": "#6f9061",
+          "paddy": "#9aa77a",
+          "paddy_light": "#b6bf96",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_tranh_viet",
+        "nha_go": "tu_hop_vien_hoa",
+        "phu_nho": "phu_nho_viet",
+        "kho_lua": "kho_lua_viet",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_viet",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hat": {
+        "part": "non_la",
+        "ageGroups": [
+          "nguoi_lon",
+          "nguoi_gia"
+        ],
+        "chance": 0.55
+      },
+      "hats": {
+        "non_la": {
+          "part": "non_la",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_dong",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mao_quan",
+          "offsetY": 4
+        },
+        "non_dau": {
+          "part": "non_dau",
+          "offsetY": 3
+        },
+        "khan_mo_qua": {
+          "part": "khan_mo_qua",
+          "offsetY": 3
+        },
+        "khan_vanh": {
+          "part": "khan_vanh",
+          "offsetY": 3
+        },
+        "khan_tang": {
+          "part": "khan_tang",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f2cba4",
+          "#e5b68e",
+          "#d8a379",
+          "#c99067"
+        ],
+        "skin_sick": [
+          "#d8d2b0",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#382b21"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#634b35",
+          "#3b4e60",
+          "#7d5e3b",
+          "#475c42",
+          "#344154",
+          "#856d4c",
+          "#5a3e36"
+        ],
+        "top_f": [
+          "#9c3b38",
+          "#46688a",
+          "#7a5285",
+          "#3d6650",
+          "#b07438",
+          "#6b4c38",
+          "#8f4a64"
+        ],
+        "collar": [
+          "#d9ceb8",
+          "#c9b27e",
+          "#bf4b3b",
+          "#5c7a99"
+        ],
+        "yem": [
+          "#d1453b",
+          "#e09f3e",
+          "#c95b7a",
+          "#df7356"
+        ],
+        "belt": [
+          "#3d6b52",
+          "#9e3a33",
+          "#c99a3e",
+          "#3c526b"
+        ],
+        "bottom": [
+          "#2e2a26",
+          "#3b3530",
+          "#4a4037",
+          "#25313a",
+          "#dcd6c8"
+        ],
+        "skirt": [
+          "#292420",
+          "#382d28",
+          "#262b36",
+          "#45362b"
+        ],
+        "hat_main": [
+          "#282c34",
+          "#3b2e28",
+          "#233647"
+        ],
+        "hat_trim": [
+          "#e3b341",
+          "#c94232"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "top_f": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "collar": [
+            "#f4f2ec"
+          ],
+          "yem": [
+            "#d8d4ca"
+          ],
+          "belt": [
+            "#b8b3a8"
+          ],
+          "bottom": [
+            "#e2dfd6"
+          ],
+          "skirt": [
+            "#dad6cc"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#9e2622",
+            "#1e3a5f",
+            "#245445"
+          ],
+          "top_f": [
+            "#b02e2a",
+            "#2b4c78",
+            "#7a3568"
+          ],
+          "collar": [
+            "#eab83e",
+            "#f0dec0"
+          ],
+          "yem": [
+            "#d93b32",
+            "#eab83e"
+          ],
+          "belt": [
+            "#eab83e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#262b36"
+          ],
+          "skirt": [
+            "#38242e",
+            "#1e2938"
+          ],
+          "hat_main": [
+            "#1d2026"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#2c4d6e",
+            "#385e54",
+            "#46526e",
+            "#5c4869"
+          ],
+          "top_f": [
+            "#3c668a",
+            "#487568",
+            "#85486e"
+          ],
+          "collar": [
+            "#f0ece1",
+            "#d8cfa8"
+          ],
+          "yem": [
+            "#cf463c",
+            "#e0a445"
+          ],
+          "belt": [
+            "#c99a3e",
+            "#26384a"
+          ],
+          "bottom": [
+            "#ede9de",
+            "#2b323b"
+          ],
+          "skirt": [
+            "#282d38",
+            "#362b32"
+          ],
+          "hat_main": [
+            "#232832",
+            "#2d3846"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#b88228",
+            "#8c2f39",
+            "#2e6352",
+            "#693b6e"
+          ],
+          "top_f": [
+            "#c74350",
+            "#d49435",
+            "#367363",
+            "#85427d"
+          ],
+          "collar": [
+            "#f2e2b6",
+            "#eab83e"
+          ],
+          "yem": [
+            "#d9382e",
+            "#f0b643"
+          ],
+          "belt": [
+            "#eab83e",
+            "#b8372e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#332926"
+          ],
+          "skirt": [
+            "#3b262c",
+            "#2b2436"
+          ],
+          "hat_main": [
+            "#3d2822",
+            "#292333"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "linh": {
+          "top_m": [
+            "#363b42",
+            "#47332b"
+          ],
+          "top_f": [
+            "#453632",
+            "#363b42"
+          ],
+          "collar": [
+            "#c93b2b"
+          ],
+          "yem": [
+            "#c93b2b"
+          ],
+          "belt": [
+            "#c93b2b",
+            "#d99b38"
+          ],
+          "bottom": [
+            "#26292e"
+          ],
+          "skirt": [
+            "#26292e"
+          ],
+          "hat_main": [
+            "#4a3525"
+          ],
+          "hat_trim": [
+            "#d93829"
+          ]
+        },
+        "thao_khau": {
+          "top_m": [
+            "#2e332b",
+            "#3d312a"
+          ],
+          "top_f": [
+            "#3d312a",
+            "#2e332b"
+          ],
+          "collar": [
+            "#8a4b38"
+          ],
+          "belt": [
+            "#8a3329"
+          ],
+          "bottom": [
+            "#24211e"
+          ],
+          "skirt": [
+            "#24211e"
+          ]
+        }
+      },
+      "trees": [
+        "cay_soi_au",
+        "cay_thong_au",
+        "tre_viet"
+      ],
+      "fence": "rao_tre_viet"
+    },
+    "trung_hoa_phong_kien": {
+      "colors": {
+        "thatch": "#d4ab66",
+        "thatch_dark": "#a67e3e",
+        "thatch_light": "#e7c685",
+        "tile": "#424b54",
+        "tile_dark": "#2b3138",
+        "tile_light": "#616d78",
+        "wall": "#d9dce0",
+        "wall_dark": "#b2b7bf",
+        "wood": "#82593a",
+        "wood_dark": "#563820",
+        "wood_light": "#ab7f55",
+        "shadow": "#36291f",
+        "stone": "#9c9689",
+        "stone_light": "#bfb9ab",
+        "stone_dark": "#736e63",
+        "bamboo": "#9abd54",
+        "bamboo_dark": "#668732",
+        "trunk": "#7a5a3a",
+        "trunk_light": "#9c7b54",
+        "lantern": "#d9412b",
+        "gold": "#eab83e",
+        "cloth_red": "#c92e24",
+        "cloth_yellow": "#ebd567",
+        "lotus_pink": "#e67399",
+        "goods1": "#dfc576",
+        "goods2": "#8ec25d",
+        "goods3": "#cc7152",
+        "buffalo": "#525158",
+        "buffalo_dark": "#36353b",
+        "buffalo_light": "#6e6d75",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#62a3c4",
+        "water_light": "#a8d5e8",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#dfd0a8",
+        "sail_dark": "#bfa978",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#292019",
+        "path": "#c8a878",
+        "path_dark": "#a88859",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#9bd0eb",
+          "sky_bottom": "#e4f3ed",
+          "hill_far": "#a6c6b6",
+          "hill_near": "#82b291",
+          "grass": "#74b358",
+          "ground": "#b38d5e",
+          "ground_dark": "#8d6b45",
+          "foliage": "#4c994c",
+          "foliage_dark": "#367839",
+          "foliage_light": "#7bc258",
+          "paddy": "#8bd166",
+          "paddy_light": "#b5e68c",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#7ac0ee",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#91bfa3",
+          "hill_near": "#68a67b",
+          "grass": "#67ad4b",
+          "ground": "#b08756",
+          "ground_dark": "#87653f",
+          "foliage": "#3d8f43",
+          "foliage_dark": "#2c6d33",
+          "foliage_light": "#6bb34a",
+          "paddy": "#5cb047",
+          "paddy_light": "#85cc5c",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#a7cce3",
+          "sky_bottom": "#f0eedf",
+          "hill_far": "#b4bf9c",
+          "hill_near": "#97a876",
+          "grass": "#9eae58",
+          "ground": "#b58d58",
+          "ground_dark": "#8f6b40",
+          "foliage": "#6e9a45",
+          "foliage_dark": "#547934",
+          "foliage_light": "#a8b85a",
+          "paddy": "#e2bf4c",
+          "paddy_light": "#f2d979",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#b5c3cd",
+          "sky_bottom": "#e2e6e4",
+          "hill_far": "#a7b2ae",
+          "hill_near": "#8a9a8e",
+          "grass": "#8f9f6e",
+          "ground": "#a3845e",
+          "ground_dark": "#7f6648",
+          "foliage": "#4d7a52",
+          "foliage_dark": "#3a5f40",
+          "foliage_light": "#6f9061",
+          "paddy": "#9aa77a",
+          "paddy_light": "#b6bf96",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "tu_hop_vien_hoa",
+        "nha_go": "tu_hop_vien_hoa",
+        "phu_nho": "phu_nho_viet",
+        "kho_lua": "kho_lua_viet",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_viet",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hat": {
+        "part": "non_la",
+        "ageGroups": [
+          "nguoi_lon",
+          "nguoi_gia"
+        ],
+        "chance": 0.55
+      },
+      "hats": {
+        "non_la": {
+          "part": "non_la",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_dong",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mao_quan",
+          "offsetY": 4
+        },
+        "non_dau": {
+          "part": "non_dau",
+          "offsetY": 3
+        },
+        "khan_mo_qua": {
+          "part": "khan_mo_qua",
+          "offsetY": 3
+        },
+        "khan_vanh": {
+          "part": "khan_vanh",
+          "offsetY": 3
+        },
+        "khan_tang": {
+          "part": "khan_tang",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f2cba4",
+          "#e5b68e",
+          "#d8a379",
+          "#c99067"
+        ],
+        "skin_sick": [
+          "#d8d2b0",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#382b21"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#634b35",
+          "#3b4e60",
+          "#7d5e3b",
+          "#475c42",
+          "#344154",
+          "#856d4c",
+          "#5a3e36"
+        ],
+        "top_f": [
+          "#9c3b38",
+          "#46688a",
+          "#7a5285",
+          "#3d6650",
+          "#b07438",
+          "#6b4c38",
+          "#8f4a64"
+        ],
+        "collar": [
+          "#d9ceb8",
+          "#c9b27e",
+          "#bf4b3b",
+          "#5c7a99"
+        ],
+        "yem": [
+          "#d1453b",
+          "#e09f3e",
+          "#c95b7a",
+          "#df7356"
+        ],
+        "belt": [
+          "#3d6b52",
+          "#9e3a33",
+          "#c99a3e",
+          "#3c526b"
+        ],
+        "bottom": [
+          "#2e2a26",
+          "#3b3530",
+          "#4a4037",
+          "#25313a",
+          "#dcd6c8"
+        ],
+        "skirt": [
+          "#292420",
+          "#382d28",
+          "#262b36",
+          "#45362b"
+        ],
+        "hat_main": [
+          "#282c34",
+          "#3b2e28",
+          "#233647"
+        ],
+        "hat_trim": [
+          "#e3b341",
+          "#c94232"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "top_f": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "collar": [
+            "#f4f2ec"
+          ],
+          "yem": [
+            "#d8d4ca"
+          ],
+          "belt": [
+            "#b8b3a8"
+          ],
+          "bottom": [
+            "#e2dfd6"
+          ],
+          "skirt": [
+            "#dad6cc"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#9e2622",
+            "#1e3a5f",
+            "#245445"
+          ],
+          "top_f": [
+            "#b02e2a",
+            "#2b4c78",
+            "#7a3568"
+          ],
+          "collar": [
+            "#eab83e",
+            "#f0dec0"
+          ],
+          "yem": [
+            "#d93b32",
+            "#eab83e"
+          ],
+          "belt": [
+            "#eab83e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#262b36"
+          ],
+          "skirt": [
+            "#38242e",
+            "#1e2938"
+          ],
+          "hat_main": [
+            "#1d2026"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#2c4d6e",
+            "#385e54",
+            "#46526e",
+            "#5c4869"
+          ],
+          "top_f": [
+            "#3c668a",
+            "#487568",
+            "#85486e"
+          ],
+          "collar": [
+            "#f0ece1",
+            "#d8cfa8"
+          ],
+          "yem": [
+            "#cf463c",
+            "#e0a445"
+          ],
+          "belt": [
+            "#c99a3e",
+            "#26384a"
+          ],
+          "bottom": [
+            "#ede9de",
+            "#2b323b"
+          ],
+          "skirt": [
+            "#282d38",
+            "#362b32"
+          ],
+          "hat_main": [
+            "#232832",
+            "#2d3846"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#b88228",
+            "#8c2f39",
+            "#2e6352",
+            "#693b6e"
+          ],
+          "top_f": [
+            "#c74350",
+            "#d49435",
+            "#367363",
+            "#85427d"
+          ],
+          "collar": [
+            "#f2e2b6",
+            "#eab83e"
+          ],
+          "yem": [
+            "#d9382e",
+            "#f0b643"
+          ],
+          "belt": [
+            "#eab83e",
+            "#b8372e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#332926"
+          ],
+          "skirt": [
+            "#3b262c",
+            "#2b2436"
+          ],
+          "hat_main": [
+            "#3d2822",
+            "#292333"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "linh": {
+          "top_m": [
+            "#363b42",
+            "#47332b"
+          ],
+          "top_f": [
+            "#453632",
+            "#363b42"
+          ],
+          "collar": [
+            "#c93b2b"
+          ],
+          "yem": [
+            "#c93b2b"
+          ],
+          "belt": [
+            "#c93b2b",
+            "#d99b38"
+          ],
+          "bottom": [
+            "#26292e"
+          ],
+          "skirt": [
+            "#26292e"
+          ],
+          "hat_main": [
+            "#4a3525"
+          ],
+          "hat_trim": [
+            "#d93829"
+          ]
+        },
+        "thao_khau": {
+          "top_m": [
+            "#2e332b",
+            "#3d312a"
+          ],
+          "top_f": [
+            "#3d312a",
+            "#2e332b"
+          ],
+          "collar": [
+            "#8a4b38"
+          ],
+          "belt": [
+            "#8a3329"
+          ],
+          "bottom": [
+            "#24211e"
+          ],
+          "skirt": [
+            "#24211e"
+          ]
+        }
+      },
+      "trees": [
+        "cay_thong_au",
+        "cay_soi_au",
+        "tre_viet"
+      ],
+      "fence": "rao_tre_viet"
+    },
+    "dong_bac_a_phong_kien": {
+      "colors": {
+        "thatch": "#d4ab66",
+        "thatch_dark": "#a67e3e",
+        "thatch_light": "#e7c685",
+        "tile": "#38404a",
+        "tile_dark": "#242930",
+        "tile_light": "#545f6e",
+        "wall": "#f5f2eb",
+        "wall_dark": "#d6d0c4",
+        "wood": "#82593a",
+        "wood_dark": "#563820",
+        "wood_light": "#ab7f55",
+        "shadow": "#36291f",
+        "stone": "#9c9689",
+        "stone_light": "#bfb9ab",
+        "stone_dark": "#736e63",
+        "bamboo": "#9abd54",
+        "bamboo_dark": "#668732",
+        "trunk": "#7a5a3a",
+        "trunk_light": "#9c7b54",
+        "lantern": "#d9412b",
+        "gold": "#eab83e",
+        "cloth_red": "#bf3f2c",
+        "cloth_yellow": "#ebd567",
+        "lotus_pink": "#f59bb0",
+        "goods1": "#dfc576",
+        "goods2": "#8ec25d",
+        "goods3": "#cc7152",
+        "buffalo": "#525158",
+        "buffalo_dark": "#36353b",
+        "buffalo_light": "#6e6d75",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#62a3c4",
+        "water_light": "#a8d5e8",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#dfd0a8",
+        "sail_dark": "#bfa978",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#292019",
+        "path": "#c8a878",
+        "path_dark": "#a88859",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#9bd0eb",
+          "sky_bottom": "#e4f3ed",
+          "hill_far": "#a6c6b6",
+          "hill_near": "#82b291",
+          "grass": "#74b358",
+          "ground": "#b38d5e",
+          "ground_dark": "#8d6b45",
+          "foliage": "#4c994c",
+          "foliage_dark": "#367839",
+          "foliage_light": "#7bc258",
+          "paddy": "#8bd166",
+          "paddy_light": "#b5e68c",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#7ac0ee",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#91bfa3",
+          "hill_near": "#68a67b",
+          "grass": "#67ad4b",
+          "ground": "#b08756",
+          "ground_dark": "#87653f",
+          "foliage": "#3d8f43",
+          "foliage_dark": "#2c6d33",
+          "foliage_light": "#6bb34a",
+          "paddy": "#5cb047",
+          "paddy_light": "#85cc5c",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#a7cce3",
+          "sky_bottom": "#f0eedf",
+          "hill_far": "#b4bf9c",
+          "hill_near": "#97a876",
+          "grass": "#9eae58",
+          "ground": "#b58d58",
+          "ground_dark": "#8f6b40",
+          "foliage": "#6e9a45",
+          "foliage_dark": "#547934",
+          "foliage_light": "#a8b85a",
+          "paddy": "#e2bf4c",
+          "paddy_light": "#f2d979",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#b5c3cd",
+          "sky_bottom": "#e2e6e4",
+          "hill_far": "#a7b2ae",
+          "hill_near": "#8a9a8e",
+          "grass": "#8f9f6e",
+          "ground": "#a3845e",
+          "ground_dark": "#7f6648",
+          "foliage": "#4d7a52",
+          "foliage_dark": "#3a5f40",
+          "foliage_light": "#6f9061",
+          "paddy": "#9aa77a",
+          "paddy_light": "#b6bf96",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_go_nhat_han",
+        "nha_go": "nha_go_nhat_han",
+        "phu_nho": "phu_nho_viet",
+        "kho_lua": "kho_lua_viet",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "cong_phu_viet": "cong_torii_nhat"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_viet",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hat": {
+        "part": "non_la",
+        "ageGroups": [
+          "nguoi_lon",
+          "nguoi_gia"
+        ],
+        "chance": 0.55
+      },
+      "hats": {
+        "non_la": {
+          "part": "non_la",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_dong",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mao_quan",
+          "offsetY": 4
+        },
+        "non_dau": {
+          "part": "non_dau",
+          "offsetY": 3
+        },
+        "khan_mo_qua": {
+          "part": "khan_mo_qua",
+          "offsetY": 3
+        },
+        "khan_vanh": {
+          "part": "khan_vanh",
+          "offsetY": 3
+        },
+        "khan_tang": {
+          "part": "khan_tang",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f2cba4",
+          "#e5b68e",
+          "#d8a379",
+          "#c99067"
+        ],
+        "skin_sick": [
+          "#d8d2b0",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#382b21"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#634b35",
+          "#3b4e60",
+          "#7d5e3b",
+          "#475c42",
+          "#344154",
+          "#856d4c",
+          "#5a3e36"
+        ],
+        "top_f": [
+          "#9c3b38",
+          "#46688a",
+          "#7a5285",
+          "#3d6650",
+          "#b07438",
+          "#6b4c38",
+          "#8f4a64"
+        ],
+        "collar": [
+          "#d9ceb8",
+          "#c9b27e",
+          "#bf4b3b",
+          "#5c7a99"
+        ],
+        "yem": [
+          "#d1453b",
+          "#e09f3e",
+          "#c95b7a",
+          "#df7356"
+        ],
+        "belt": [
+          "#3d6b52",
+          "#9e3a33",
+          "#c99a3e",
+          "#3c526b"
+        ],
+        "bottom": [
+          "#2e2a26",
+          "#3b3530",
+          "#4a4037",
+          "#25313a",
+          "#dcd6c8"
+        ],
+        "skirt": [
+          "#292420",
+          "#382d28",
+          "#262b36",
+          "#45362b"
+        ],
+        "hat_main": [
+          "#282c34",
+          "#3b2e28",
+          "#233647"
+        ],
+        "hat_trim": [
+          "#e3b341",
+          "#c94232"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "top_f": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "collar": [
+            "#f4f2ec"
+          ],
+          "yem": [
+            "#d8d4ca"
+          ],
+          "belt": [
+            "#b8b3a8"
+          ],
+          "bottom": [
+            "#e2dfd6"
+          ],
+          "skirt": [
+            "#dad6cc"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#9e2622",
+            "#1e3a5f",
+            "#245445"
+          ],
+          "top_f": [
+            "#b02e2a",
+            "#2b4c78",
+            "#7a3568"
+          ],
+          "collar": [
+            "#eab83e",
+            "#f0dec0"
+          ],
+          "yem": [
+            "#d93b32",
+            "#eab83e"
+          ],
+          "belt": [
+            "#eab83e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#262b36"
+          ],
+          "skirt": [
+            "#38242e",
+            "#1e2938"
+          ],
+          "hat_main": [
+            "#1d2026"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#2c4d6e",
+            "#385e54",
+            "#46526e",
+            "#5c4869"
+          ],
+          "top_f": [
+            "#3c668a",
+            "#487568",
+            "#85486e"
+          ],
+          "collar": [
+            "#f0ece1",
+            "#d8cfa8"
+          ],
+          "yem": [
+            "#cf463c",
+            "#e0a445"
+          ],
+          "belt": [
+            "#c99a3e",
+            "#26384a"
+          ],
+          "bottom": [
+            "#ede9de",
+            "#2b323b"
+          ],
+          "skirt": [
+            "#282d38",
+            "#362b32"
+          ],
+          "hat_main": [
+            "#232832",
+            "#2d3846"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#b88228",
+            "#8c2f39",
+            "#2e6352",
+            "#693b6e"
+          ],
+          "top_f": [
+            "#c74350",
+            "#d49435",
+            "#367363",
+            "#85427d"
+          ],
+          "collar": [
+            "#f2e2b6",
+            "#eab83e"
+          ],
+          "yem": [
+            "#d9382e",
+            "#f0b643"
+          ],
+          "belt": [
+            "#eab83e",
+            "#b8372e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#332926"
+          ],
+          "skirt": [
+            "#3b262c",
+            "#2b2436"
+          ],
+          "hat_main": [
+            "#3d2822",
+            "#292333"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "linh": {
+          "top_m": [
+            "#363b42",
+            "#47332b"
+          ],
+          "top_f": [
+            "#453632",
+            "#363b42"
+          ],
+          "collar": [
+            "#c93b2b"
+          ],
+          "yem": [
+            "#c93b2b"
+          ],
+          "belt": [
+            "#c93b2b",
+            "#d99b38"
+          ],
+          "bottom": [
+            "#26292e"
+          ],
+          "skirt": [
+            "#26292e"
+          ],
+          "hat_main": [
+            "#4a3525"
+          ],
+          "hat_trim": [
+            "#d93829"
+          ]
+        },
+        "thao_khau": {
+          "top_m": [
+            "#2e332b",
+            "#3d312a"
+          ],
+          "top_f": [
+            "#3d312a",
+            "#2e332b"
+          ],
+          "collar": [
+            "#8a4b38"
+          ],
+          "belt": [
+            "#8a3329"
+          ],
+          "bottom": [
+            "#24211e"
+          ],
+          "skirt": [
+            "#24211e"
+          ]
+        }
+      },
+      "trees": [
+        "cay_anh_dao_dong_bac_a",
+        "cay_thong_au",
+        "tre_viet",
+        "cay_anh_dao_dong_bac_a"
+      ],
+      "fence": "rao_tre_viet"
+    },
+    "dong_nam_a_cham_khmer": {
+      "colors": {
+        "thatch": "#d4ab66",
+        "thatch_dark": "#a67e3e",
+        "thatch_light": "#e7c685",
+        "tile": "#d4942a",
+        "tile_dark": "#9e6816",
+        "tile_light": "#d16448",
+        "wall": "#c96542",
+        "wall_dark": "#99462a",
+        "wood": "#82593a",
+        "wood_dark": "#563820",
+        "wood_light": "#ab7f55",
+        "shadow": "#36291f",
+        "stone": "#9c9689",
+        "stone_light": "#bfb9ab",
+        "stone_dark": "#736e63",
+        "bamboo": "#9abd54",
+        "bamboo_dark": "#668732",
+        "trunk": "#7a5a3a",
+        "trunk_light": "#9c7b54",
+        "lantern": "#d9412b",
+        "gold": "#f5c238",
+        "cloth_red": "#bf3f2c",
+        "cloth_yellow": "#ebd567",
+        "lotus_pink": "#e67399",
+        "goods1": "#dfc576",
+        "goods2": "#8ec25d",
+        "goods3": "#cc7152",
+        "buffalo": "#525158",
+        "buffalo_dark": "#36353b",
+        "buffalo_light": "#6e6d75",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#62a3c4",
+        "water_light": "#a8d5e8",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#dfd0a8",
+        "sail_dark": "#bfa978",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#292019",
+        "path": "#c8a878",
+        "path_dark": "#a88859",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#9bd0eb",
+          "sky_bottom": "#e4f3ed",
+          "hill_far": "#a6c6b6",
+          "hill_near": "#82b291",
+          "grass": "#74b358",
+          "ground": "#b38d5e",
+          "ground_dark": "#8d6b45",
+          "foliage": "#4c994c",
+          "foliage_dark": "#367839",
+          "foliage_light": "#7bc258",
+          "paddy": "#8bd166",
+          "paddy_light": "#b5e68c",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#7ac0ee",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#91bfa3",
+          "hill_near": "#68a67b",
+          "grass": "#67ad4b",
+          "ground": "#b08756",
+          "ground_dark": "#87653f",
+          "foliage": "#3d8f43",
+          "foliage_dark": "#2c6d33",
+          "foliage_light": "#6bb34a",
+          "paddy": "#5cb047",
+          "paddy_light": "#85cc5c",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#a7cce3",
+          "sky_bottom": "#f0eedf",
+          "hill_far": "#b4bf9c",
+          "hill_near": "#97a876",
+          "grass": "#9eae58",
+          "ground": "#b58d58",
+          "ground_dark": "#8f6b40",
+          "foliage": "#6e9a45",
+          "foliage_dark": "#547934",
+          "foliage_light": "#a8b85a",
+          "paddy": "#e2bf4c",
+          "paddy_light": "#f2d979",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#b5c3cd",
+          "sky_bottom": "#e2e6e4",
+          "hill_far": "#a7b2ae",
+          "hill_near": "#8a9a8e",
+          "grass": "#8f9f6e",
+          "ground": "#a3845e",
+          "ground_dark": "#7f6648",
+          "foliage": "#4d7a52",
+          "foliage_dark": "#3a5f40",
+          "foliage_light": "#6f9061",
+          "paddy": "#9aa77a",
+          "paddy_light": "#b6bf96",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_san_dong_son",
+        "nha_go": "nha_da_an_do",
+        "phu_nho": "dinh_thu_hoi_giao",
+        "kho_lua": "kho_lua_viet",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_viet",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hat": {
+        "part": "non_la",
+        "ageGroups": [
+          "nguoi_lon",
+          "nguoi_gia"
+        ],
+        "chance": 0.55
+      },
+      "hats": {
+        "non_la": {
+          "part": "non_la",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_dong",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mao_quan",
+          "offsetY": 4
+        },
+        "non_dau": {
+          "part": "non_dau",
+          "offsetY": 3
+        },
+        "khan_mo_qua": {
+          "part": "khan_mo_qua",
+          "offsetY": 3
+        },
+        "khan_vanh": {
+          "part": "khan_vanh",
+          "offsetY": 3
+        },
+        "khan_tang": {
+          "part": "khan_tang",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f2cba4",
+          "#e5b68e",
+          "#d8a379",
+          "#c99067"
+        ],
+        "skin_sick": [
+          "#d8d2b0",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#382b21"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#634b35",
+          "#3b4e60",
+          "#7d5e3b",
+          "#475c42",
+          "#344154",
+          "#856d4c",
+          "#5a3e36"
+        ],
+        "top_f": [
+          "#9c3b38",
+          "#46688a",
+          "#7a5285",
+          "#3d6650",
+          "#b07438",
+          "#6b4c38",
+          "#8f4a64"
+        ],
+        "collar": [
+          "#d9ceb8",
+          "#c9b27e",
+          "#bf4b3b",
+          "#5c7a99"
+        ],
+        "yem": [
+          "#d1453b",
+          "#e09f3e",
+          "#c95b7a",
+          "#df7356"
+        ],
+        "belt": [
+          "#3d6b52",
+          "#9e3a33",
+          "#c99a3e",
+          "#3c526b"
+        ],
+        "bottom": [
+          "#2e2a26",
+          "#3b3530",
+          "#4a4037",
+          "#25313a",
+          "#dcd6c8"
+        ],
+        "skirt": [
+          "#292420",
+          "#382d28",
+          "#262b36",
+          "#45362b"
+        ],
+        "hat_main": [
+          "#282c34",
+          "#3b2e28",
+          "#233647"
+        ],
+        "hat_trim": [
+          "#e3b341",
+          "#c94232"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "top_f": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "collar": [
+            "#f4f2ec"
+          ],
+          "yem": [
+            "#d8d4ca"
+          ],
+          "belt": [
+            "#b8b3a8"
+          ],
+          "bottom": [
+            "#e2dfd6"
+          ],
+          "skirt": [
+            "#dad6cc"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#9e2622",
+            "#1e3a5f",
+            "#245445"
+          ],
+          "top_f": [
+            "#b02e2a",
+            "#2b4c78",
+            "#7a3568"
+          ],
+          "collar": [
+            "#eab83e",
+            "#f0dec0"
+          ],
+          "yem": [
+            "#d93b32",
+            "#eab83e"
+          ],
+          "belt": [
+            "#eab83e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#262b36"
+          ],
+          "skirt": [
+            "#38242e",
+            "#1e2938"
+          ],
+          "hat_main": [
+            "#1d2026"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#2c4d6e",
+            "#385e54",
+            "#46526e",
+            "#5c4869"
+          ],
+          "top_f": [
+            "#3c668a",
+            "#487568",
+            "#85486e"
+          ],
+          "collar": [
+            "#f0ece1",
+            "#d8cfa8"
+          ],
+          "yem": [
+            "#cf463c",
+            "#e0a445"
+          ],
+          "belt": [
+            "#c99a3e",
+            "#26384a"
+          ],
+          "bottom": [
+            "#ede9de",
+            "#2b323b"
+          ],
+          "skirt": [
+            "#282d38",
+            "#362b32"
+          ],
+          "hat_main": [
+            "#232832",
+            "#2d3846"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#b88228",
+            "#8c2f39",
+            "#2e6352",
+            "#693b6e"
+          ],
+          "top_f": [
+            "#c74350",
+            "#d49435",
+            "#367363",
+            "#85427d"
+          ],
+          "collar": [
+            "#f2e2b6",
+            "#eab83e"
+          ],
+          "yem": [
+            "#d9382e",
+            "#f0b643"
+          ],
+          "belt": [
+            "#eab83e",
+            "#b8372e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#332926"
+          ],
+          "skirt": [
+            "#3b262c",
+            "#2b2436"
+          ],
+          "hat_main": [
+            "#3d2822",
+            "#292333"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "linh": {
+          "top_m": [
+            "#363b42",
+            "#47332b"
+          ],
+          "top_f": [
+            "#453632",
+            "#363b42"
+          ],
+          "collar": [
+            "#c93b2b"
+          ],
+          "yem": [
+            "#c93b2b"
+          ],
+          "belt": [
+            "#c93b2b",
+            "#d99b38"
+          ],
+          "bottom": [
+            "#26292e"
+          ],
+          "skirt": [
+            "#26292e"
+          ],
+          "hat_main": [
+            "#4a3525"
+          ],
+          "hat_trim": [
+            "#d93829"
+          ]
+        },
+        "thao_khau": {
+          "top_m": [
+            "#2e332b",
+            "#3d312a"
+          ],
+          "top_f": [
+            "#3d312a",
+            "#2e332b"
+          ],
+          "collar": [
+            "#8a4b38"
+          ],
+          "belt": [
+            "#8a3329"
+          ],
+          "bottom": [
+            "#24211e"
+          ],
+          "skirt": [
+            "#24211e"
+          ]
+        }
+      },
+      "trees": [
+        "cay_da_an_do",
+        "cau_viet",
+        "chuoi_viet",
+        "cay_cha_la"
+      ],
+      "fence": "rao_tre_viet"
+    },
+    "nam_a_an_do": {
+      "colors": {
+        "thatch": "#d9b882",
+        "thatch_dark": "#b5925a",
+        "thatch_light": "#ebd0a0",
+        "tile": "#c94a30",
+        "tile_dark": "#1d5261",
+        "tile_light": "#4aa0b5",
+        "wall": "#de8c66",
+        "wall_dark": "#b56945",
+        "wood": "#754f30",
+        "wood_dark": "#4d321c",
+        "wood_light": "#996b45",
+        "shadow": "#33261a",
+        "stone": "#b8a68a",
+        "stone_light": "#d4c4a8",
+        "stone_dark": "#8c7b62",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#7a5838",
+        "trunk_light": "#9c7450",
+        "lantern": "#eab83e",
+        "gold": "#f2ba2c",
+        "cloth_red": "#d93026",
+        "cloth_yellow": "#ebd068",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#e0b252",
+        "goods2": "#3b8278",
+        "goods3": "#c44d34",
+        "buffalo": "#8c6d46",
+        "buffalo_dark": "#634b2e",
+        "buffalo_light": "#ab895e",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4692b0",
+        "water_light": "#8ecce3",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#f2e8d0",
+        "sail_dark": "#cfc0a0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#e8e2d8",
+        "outline": "#261c14",
+        "path": "#d4b684",
+        "path_dark": "#b09262",
+        "hat_cone": "#f2ece0",
+        "hat_shade": "#cfc6b4",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#72b8e6",
+          "sky_bottom": "#efe6d0",
+          "hill_far": "#c9b28c",
+          "hill_near": "#ab946c",
+          "grass": "#7ca352",
+          "ground": "#cfa972",
+          "ground_dark": "#a6824e",
+          "foliage": "#488c48",
+          "foliage_dark": "#326934",
+          "foliage_light": "#6eb356",
+          "paddy": "#8cc25a",
+          "paddy_light": "#b0db80",
+          "paddy_water": "#8ab8b5"
+        },
+        "ha": {
+          "sky_top": "#5caae0",
+          "sky_bottom": "#f5e4c0",
+          "hill_far": "#d4b888",
+          "hill_near": "#b59664",
+          "grass": "#8aa154",
+          "ground": "#d6af74",
+          "ground_dark": "#ad864e",
+          "foliage": "#42823e",
+          "foliage_dark": "#2d612b",
+          "foliage_light": "#66a648",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#ad864e"
+        },
+        "thu": {
+          "sky_top": "#88bce0",
+          "sky_bottom": "#f2e4ca",
+          "hill_far": "#ccb084",
+          "hill_near": "#ad9062",
+          "grass": "#969c56",
+          "ground": "#cca46c",
+          "ground_dark": "#a37d48",
+          "foliage": "#688c42",
+          "foliage_dark": "#4d6b2e",
+          "foliage_light": "#8fb052",
+          "paddy": "#d9b048",
+          "paddy_light": "#eccb6e",
+          "paddy_water": "#a37d48"
+        },
+        "dong": {
+          "sky_top": "#9cc0d6",
+          "sky_bottom": "#e8e2d6",
+          "hill_far": "#bfb098",
+          "hill_near": "#9e8f76",
+          "grass": "#889664",
+          "ground": "#bda074",
+          "ground_dark": "#967b52",
+          "foliage": "#4c784e",
+          "foliage_dark": "#385c3a",
+          "foliage_light": "#6b9464",
+          "paddy": "#9ea376",
+          "paddy_light": "#b8bd92",
+          "paddy_water": "#967b52"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_da_an_do",
+        "nha_go": "nha_da_an_do",
+        "phu_nho": "dinh_thu_hoi_giao",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "ruong_lua_viet"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "non_la": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#d9a47c",
+          "#c88f65",
+          "#b57a50",
+          "#e3b590"
+        ],
+        "skin_sick": [
+          "#d0c8a8",
+          "#bfb694"
+        ],
+        "hair": [
+          "#1a1614",
+          "#28201b",
+          "#362a22"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc"
+        ],
+        "top_m": [
+          "#f0ece1",
+          "#d9ccb4",
+          "#2b546e",
+          "#386652",
+          "#7a3b32"
+        ],
+        "top_f": [
+          "#2b546e",
+          "#7a3548",
+          "#3b6654",
+          "#8c5832",
+          "#583b6e"
+        ],
+        "collar": [
+          "#eab83e",
+          "#f5f0e6"
+        ],
+        "yem": [
+          "#eab83e",
+          "#d95b48",
+          "#f5f0e6"
+        ],
+        "belt": [
+          "#c99a3e",
+          "#8c382b",
+          "#2e4b5c"
+        ],
+        "bottom": [
+          "#f0ece1",
+          "#d4c8b0",
+          "#2e333b"
+        ],
+        "skirt": [
+          "#2b3d4f",
+          "#592b36",
+          "#364f42"
+        ],
+        "hat_main": [
+          "#f5f2eb",
+          "#e6dec8",
+          "#2b4c66"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "trees": [
+        "cay_da_an_do",
+        "cau_viet",
+        "chuoi_viet",
+        "cay_cha_la"
+      ],
+      "fence": "rao_go_au"
+    },
+    "dong_au_byzantine": {
+      "colors": {
+        "thatch": "#c49e58",
+        "thatch_dark": "#947236",
+        "thatch_light": "#dab872",
+        "tile": "#2b688c",
+        "tile_dark": "#63261c",
+        "tile_light": "#ad5242",
+        "wall": "#d4a872",
+        "wall_dark": "#a87e4c",
+        "wood": "#6b462a",
+        "wood_dark": "#452b18",
+        "wood_light": "#8f6340",
+        "shadow": "#2b221b",
+        "stone": "#8f8d88",
+        "stone_light": "#b5b2ab",
+        "stone_dark": "#696762",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#63462d",
+        "trunk_light": "#826042",
+        "lantern": "#e6a83e",
+        "gold": "#f0c238",
+        "cloth_red": "#8f2c24",
+        "cloth_yellow": "#e3c565",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#d9b86c",
+        "goods2": "#7aa856",
+        "goods3": "#b85d42",
+        "buffalo": "#6e4d36",
+        "buffalo_dark": "#4a3221",
+        "buffalo_light": "#8c664a",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5692b5",
+        "water_light": "#9ac8e3",
+        "boat": "#6b482b",
+        "boat_dark": "#472e1a",
+        "sail": "#eee6d3",
+        "sail_dark": "#c9bda3",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#261e18",
+        "path": "#b59b78",
+        "path_dark": "#8f7858",
+        "hat_cone": "#5c4632",
+        "hat_shade": "#3d2e20",
+        "mourning_white": "#262322",
+        "mourning_shade": "#171514",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#8cc4e6",
+          "sky_bottom": "#e2f0ec",
+          "hill_far": "#9bb8a8",
+          "hill_near": "#76a184",
+          "grass": "#6ca850",
+          "ground": "#a8865c",
+          "ground_dark": "#826442",
+          "foliage": "#488f48",
+          "foliage_dark": "#326b34",
+          "foliage_light": "#72b856",
+          "paddy": "#94c458",
+          "paddy_light": "#b8de7c",
+          "paddy_water": "#826442"
+        },
+        "ha": {
+          "sky_top": "#6eb8e8",
+          "sky_bottom": "#d8ecf2",
+          "hill_far": "#8ab29c",
+          "hill_near": "#629974",
+          "grass": "#629e46",
+          "ground": "#a68256",
+          "ground_dark": "#80603c",
+          "foliage": "#3b823e",
+          "foliage_dark": "#28612c",
+          "foliage_light": "#62a644",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#80603c"
+        },
+        "thu": {
+          "sky_top": "#9cc0db",
+          "sky_bottom": "#ede8d8",
+          "hill_far": "#ada88c",
+          "hill_near": "#8f8c68",
+          "grass": "#949652",
+          "ground": "#a68052",
+          "ground_dark": "#805e38",
+          "foliage": "#bf6b2e",
+          "foliage_dark": "#8f4a1c",
+          "foliage_light": "#de9242",
+          "paddy": "#d9a63e",
+          "paddy_light": "#edc464",
+          "paddy_water": "#805e38"
+        },
+        "dong": {
+          "sky_top": "#b0c0cc",
+          "sky_bottom": "#e4e8eb",
+          "hill_far": "#b8c2c7",
+          "hill_near": "#9aa8ad",
+          "grass": "#9aa68a",
+          "ground": "#96826a",
+          "ground_dark": "#73624e",
+          "foliage": "#4a6e52",
+          "foliage_dark": "#36523c",
+          "foliage_light": "#68876c",
+          "paddy": "#a8a286",
+          "paddy_light": "#c2bca0",
+          "paddy_water": "#73624e"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_go_au",
+        "nha_go": "nha_da_au",
+        "phu_nho": "trang_vien_au",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_au",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "non_la": {
+          "part": "mu_long_du_muc",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "mu_long_du_muc",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mu_long_du_muc",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f7dac0",
+          "#f0c8a8",
+          "#e5b590",
+          "#d9a279"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#c99b42",
+          "#8c5828",
+          "#59381f",
+          "#a84424",
+          "#241d18"
+        ],
+        "hair_elder": [
+          "#e6e2da",
+          "#cfc9be",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#5c432d",
+          "#2e4b66",
+          "#3d5e45",
+          "#7a332e",
+          "#69543e",
+          "#3b4254"
+        ],
+        "top_f": [
+          "#8c3532",
+          "#385a7c",
+          "#456b52",
+          "#70426e",
+          "#a86b32",
+          "#5c4233"
+        ],
+        "collar": [
+          "#f2ead8",
+          "#dfd3b8",
+          "#eab83e"
+        ],
+        "yem": [
+          "#f2ead8",
+          "#e6d8be",
+          "#d9b86c"
+        ],
+        "belt": [
+          "#3b2818",
+          "#543822",
+          "#8c6d32"
+        ],
+        "bottom": [
+          "#382e26",
+          "#2b333d",
+          "#4a3b2c",
+          "#2d3b2e"
+        ],
+        "skirt": [
+          "#382b24",
+          "#283342",
+          "#592826",
+          "#334739"
+        ],
+        "hat_main": [
+          "#332922",
+          "#263342",
+          "#5c2422"
+        ],
+        "hat_trim": [
+          "#eab83e",
+          "#f2ead8"
+        ]
+      },
+      "trees": [
+        "cay_bach_duong_dong_au",
+        "cay_thong_au",
+        "cay_bach_duong_dong_au"
+      ],
+      "fence": "rao_go_au"
+    },
+    "bac_au_viking": {
+      "colors": {
+        "thatch": "#c49e58",
+        "thatch_dark": "#947236",
+        "thatch_light": "#dab872",
+        "tile": "#4a3828",
+        "tile_dark": "#63261c",
+        "tile_light": "#ad5242",
+        "wall": "#8c6239",
+        "wall_dark": "#614122",
+        "wood": "#6b462a",
+        "wood_dark": "#452b18",
+        "wood_light": "#8f6340",
+        "shadow": "#2b221b",
+        "stone": "#8f8d88",
+        "stone_light": "#b5b2ab",
+        "stone_dark": "#696762",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#63462d",
+        "trunk_light": "#826042",
+        "lantern": "#e6a83e",
+        "gold": "#eab83e",
+        "cloth_red": "#8f2c24",
+        "cloth_yellow": "#e3c565",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#d9b86c",
+        "goods2": "#7aa856",
+        "goods3": "#b85d42",
+        "buffalo": "#6e4d36",
+        "buffalo_dark": "#4a3221",
+        "buffalo_light": "#8c664a",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5692b5",
+        "water_light": "#9ac8e3",
+        "boat": "#6b482b",
+        "boat_dark": "#472e1a",
+        "sail": "#c93b2b",
+        "sail_dark": "#8f2418",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#261e18",
+        "path": "#b59b78",
+        "path_dark": "#8f7858",
+        "hat_cone": "#5c4632",
+        "hat_shade": "#3d2e20",
+        "mourning_white": "#262322",
+        "mourning_shade": "#171514",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#8cc4e6",
+          "sky_bottom": "#e2f0ec",
+          "hill_far": "#9bb8a8",
+          "hill_near": "#76a184",
+          "grass": "#6ca850",
+          "ground": "#a8865c",
+          "ground_dark": "#826442",
+          "foliage": "#488f48",
+          "foliage_dark": "#326b34",
+          "foliage_light": "#72b856",
+          "paddy": "#94c458",
+          "paddy_light": "#b8de7c",
+          "paddy_water": "#826442"
+        },
+        "ha": {
+          "sky_top": "#6eb8e8",
+          "sky_bottom": "#d8ecf2",
+          "hill_far": "#8ab29c",
+          "hill_near": "#629974",
+          "grass": "#629e46",
+          "ground": "#a68256",
+          "ground_dark": "#80603c",
+          "foliage": "#3b823e",
+          "foliage_dark": "#28612c",
+          "foliage_light": "#62a644",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#80603c"
+        },
+        "thu": {
+          "sky_top": "#9cc0db",
+          "sky_bottom": "#ede8d8",
+          "hill_far": "#ada88c",
+          "hill_near": "#8f8c68",
+          "grass": "#949652",
+          "ground": "#a68052",
+          "ground_dark": "#805e38",
+          "foliage": "#bf6b2e",
+          "foliage_dark": "#8f4a1c",
+          "foliage_light": "#de9242",
+          "paddy": "#d9a63e",
+          "paddy_light": "#edc464",
+          "paddy_water": "#805e38"
+        },
+        "dong": {
+          "sky_top": "#b0c0cc",
+          "sky_bottom": "#e4e8eb",
+          "hill_far": "#b8c2c7",
+          "hill_near": "#9aa8ad",
+          "grass": "#9aa68a",
+          "ground": "#96826a",
+          "ground_dark": "#73624e",
+          "foliage": "#4a6e52",
+          "foliage_dark": "#36523c",
+          "foliage_light": "#68876c",
+          "paddy": "#a8a286",
+          "paddy_light": "#c2bca0",
+          "paddy_water": "#73624e"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_go_au",
+        "nha_go": "nha_da_au",
+        "phu_nho": "trang_vien_au",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_au",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "mao_quan": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f7dac0",
+          "#f0c8a8",
+          "#e5b590",
+          "#d9a279"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#c99b42",
+          "#8c5828",
+          "#59381f",
+          "#a84424",
+          "#241d18"
+        ],
+        "hair_elder": [
+          "#e6e2da",
+          "#cfc9be",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#5c432d",
+          "#2e4b66",
+          "#3d5e45",
+          "#7a332e",
+          "#69543e",
+          "#3b4254"
+        ],
+        "top_f": [
+          "#8c3532",
+          "#385a7c",
+          "#456b52",
+          "#70426e",
+          "#a86b32",
+          "#5c4233"
+        ],
+        "collar": [
+          "#f2ead8",
+          "#dfd3b8",
+          "#eab83e"
+        ],
+        "yem": [
+          "#f2ead8",
+          "#e6d8be",
+          "#d9b86c"
+        ],
+        "belt": [
+          "#3b2818",
+          "#543822",
+          "#8c6d32"
+        ],
+        "bottom": [
+          "#382e26",
+          "#2b333d",
+          "#4a3b2c",
+          "#2d3b2e"
+        ],
+        "skirt": [
+          "#382b24",
+          "#283342",
+          "#592826",
+          "#334739"
+        ],
+        "hat_main": [
+          "#332922",
+          "#263342",
+          "#5c2422"
+        ],
+        "hat_trim": [
+          "#eab83e",
+          "#f2ead8"
+        ]
+      },
+      "trees": [
+        "cay_thong_au",
+        "cay_thong_au",
+        "cay_bach_duong_dong_au"
+      ],
+      "fence": "rao_go_au"
+    },
+    "chau_phi_ban_dia": {
+      "colors": {
+        "thatch": "#d4aa58",
+        "thatch_dark": "#b5925a",
+        "thatch_light": "#ebd0a0",
+        "tile": "#2e788c",
+        "tile_dark": "#1d5261",
+        "tile_light": "#4aa0b5",
+        "wall": "#c98a54",
+        "wall_dark": "#9c6436",
+        "wood": "#754f30",
+        "wood_dark": "#4d321c",
+        "wood_light": "#996b45",
+        "shadow": "#33261a",
+        "stone": "#b8a68a",
+        "stone_light": "#d4c4a8",
+        "stone_dark": "#8c7b62",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#7a5838",
+        "trunk_light": "#9c7450",
+        "lantern": "#eab83e",
+        "gold": "#f0c242",
+        "cloth_red": "#a83228",
+        "cloth_yellow": "#ebd068",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#e0b252",
+        "goods2": "#3b8278",
+        "goods3": "#c44d34",
+        "buffalo": "#8c6d46",
+        "buffalo_dark": "#634b2e",
+        "buffalo_light": "#ab895e",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4692b0",
+        "water_light": "#8ecce3",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#f2e8d0",
+        "sail_dark": "#cfc0a0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#e8e2d8",
+        "outline": "#261c14",
+        "path": "#d4b684",
+        "path_dark": "#b09262",
+        "hat_cone": "#f2ece0",
+        "hat_shade": "#cfc6b4",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c",
+        "ground": "#bf884c",
+        "ground_dark": "#946432"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#72b8e6",
+          "sky_bottom": "#efe6d0",
+          "hill_far": "#c9b28c",
+          "hill_near": "#ab946c",
+          "grass": "#7ca352",
+          "ground": "#cfa972",
+          "ground_dark": "#a6824e",
+          "foliage": "#488c48",
+          "foliage_dark": "#326934",
+          "foliage_light": "#6eb356",
+          "paddy": "#8cc25a",
+          "paddy_light": "#b0db80",
+          "paddy_water": "#8ab8b5"
+        },
+        "ha": {
+          "sky_top": "#5caae0",
+          "sky_bottom": "#f5e4c0",
+          "hill_far": "#d4b888",
+          "hill_near": "#b59664",
+          "grass": "#8aa154",
+          "ground": "#d6af74",
+          "ground_dark": "#ad864e",
+          "foliage": "#42823e",
+          "foliage_dark": "#2d612b",
+          "foliage_light": "#66a648",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#ad864e"
+        },
+        "thu": {
+          "sky_top": "#88bce0",
+          "sky_bottom": "#f2e4ca",
+          "hill_far": "#ccb084",
+          "hill_near": "#ad9062",
+          "grass": "#969c56",
+          "ground": "#cca46c",
+          "ground_dark": "#a37d48",
+          "foliage": "#688c42",
+          "foliage_dark": "#4d6b2e",
+          "foliage_light": "#8fb052",
+          "paddy": "#d9b048",
+          "paddy_light": "#eccb6e",
+          "paddy_water": "#a37d48"
+        },
+        "dong": {
+          "sky_top": "#9cc0d6",
+          "sky_bottom": "#e8e2d6",
+          "hill_far": "#bfb098",
+          "hill_near": "#9e8f76",
+          "grass": "#889664",
+          "ground": "#bda074",
+          "ground_dark": "#967b52",
+          "foliage": "#4c784e",
+          "foliage_dark": "#385c3a",
+          "foliage_light": "#6b9464",
+          "paddy": "#9ea376",
+          "paddy_light": "#b8bd92",
+          "paddy_water": "#967b52"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_dat_sahel_phi",
+        "nha_go": "nha_dat_sahel_phi",
+        "phu_nho": "dinh_thu_hoi_giao",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "lac_da_sa_mac",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "non_la": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "khan_xep_hoi_giao",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#d9a47c",
+          "#c88f65",
+          "#b57a50",
+          "#e3b590"
+        ],
+        "skin_sick": [
+          "#d0c8a8",
+          "#bfb694"
+        ],
+        "hair": [
+          "#1a1614",
+          "#28201b",
+          "#362a22"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc"
+        ],
+        "top_m": [
+          "#f0ece1",
+          "#d9ccb4",
+          "#2b546e",
+          "#386652",
+          "#7a3b32"
+        ],
+        "top_f": [
+          "#2b546e",
+          "#7a3548",
+          "#3b6654",
+          "#8c5832",
+          "#583b6e"
+        ],
+        "collar": [
+          "#eab83e",
+          "#f5f0e6"
+        ],
+        "yem": [
+          "#eab83e",
+          "#d95b48",
+          "#f5f0e6"
+        ],
+        "belt": [
+          "#c99a3e",
+          "#8c382b",
+          "#2e4b5c"
+        ],
+        "bottom": [
+          "#f0ece1",
+          "#d4c8b0",
+          "#2e333b"
+        ],
+        "skirt": [
+          "#2b3d4f",
+          "#592b36",
+          "#364f42"
+        ],
+        "hat_main": [
+          "#f5f2eb",
+          "#e6dec8",
+          "#2b4c66"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "trees": [
+        "cay_baobab_chau_phi",
+        "cay_cha_la",
+        "cay_baobab_chau_phi"
+      ],
+      "fence": "rao_go_au",
+      "locations": {
+        "lang_nong": "thao_nguyen_sahel_phi",
+        "thi_tran_ben_song": "thi_tran_ben_song",
+        "phu_thanh": "phu_thanh"
+      }
+    },
+    "chau_my_maya_inca": {
+      "colors": {
+        "thatch": "#b88e52",
+        "thatch_dark": "#876536",
+        "thatch_light": "#d4aa6a",
+        "tile": "#8c623e",
+        "tile_dark": "#614126",
+        "tile_light": "#ab7c54",
+        "wall": "#a87e52",
+        "wall_dark": "#7d5b38",
+        "wood": "#69482a",
+        "wood_dark": "#452d18",
+        "wood_light": "#8c6440",
+        "shadow": "#241b14",
+        "stone": "#9e988c",
+        "stone_light": "#c4beb0",
+        "stone_dark": "#736d62",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#5e4228",
+        "trunk_light": "#7d5b3b",
+        "lantern": "#e67e22",
+        "gold": "#f0c238",
+        "cloth_red": "#c93828",
+        "cloth_yellow": "#c99e52",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#b8864c",
+        "goods2": "#6e9648",
+        "goods3": "#9c5238",
+        "buffalo": "#5c422e",
+        "buffalo_dark": "#3d2a1c",
+        "buffalo_light": "#7a5940",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#4e92b5",
+        "water_light": "#96cae6",
+        "boat": "#69482a",
+        "boat_dark": "#452d18",
+        "sail": "#c9aa7c",
+        "sail_dark": "#9e8056",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#211912",
+        "path": "#9e7e56",
+        "path_dark": "#7a5e3d",
+        "hat_cone": "#a88252",
+        "hat_shade": "#7d5e38",
+        "mourning_white": "#d9d2c4",
+        "mourning_shade": "#b5ad9e",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#88c6eb",
+          "sky_bottom": "#e0f0e8",
+          "hill_far": "#8fb59e",
+          "hill_near": "#689978",
+          "grass": "#64a648",
+          "ground": "#9c784c",
+          "ground_dark": "#755836",
+          "foliage": "#3e8c40",
+          "foliage_dark": "#29662b",
+          "foliage_light": "#66b34c",
+          "paddy": "#70ad4c",
+          "paddy_light": "#94cc68",
+          "paddy_water": "#755836"
+        },
+        "ha": {
+          "sky_top": "#6cb8e8",
+          "sky_bottom": "#d6ecf0",
+          "hill_far": "#80ad90",
+          "hill_near": "#58916a",
+          "grass": "#589c40",
+          "ground": "#997448",
+          "ground_dark": "#735432",
+          "foliage": "#348038",
+          "foliage_dark": "#225c26",
+          "foliage_light": "#5ca642",
+          "paddy": "#62a342",
+          "paddy_light": "#85bf58",
+          "paddy_water": "#735432"
+        },
+        "thu": {
+          "sky_top": "#98c0db",
+          "sky_bottom": "#ebe6d5",
+          "hill_far": "#a8a886",
+          "hill_near": "#878a62",
+          "grass": "#8c944c",
+          "ground": "#9c7648",
+          "ground_dark": "#755632",
+          "foliage": "#997834",
+          "foliage_dark": "#705622",
+          "foliage_light": "#bd9846",
+          "paddy": "#b59842",
+          "paddy_light": "#d1b560",
+          "paddy_water": "#755632"
+        },
+        "dong": {
+          "sky_top": "#aabac4",
+          "sky_bottom": "#dfe4e6",
+          "hill_far": "#9ea8a6",
+          "hill_near": "#808f88",
+          "grass": "#829166",
+          "ground": "#8c7252",
+          "ground_dark": "#69543b",
+          "foliage": "#466e4c",
+          "foliage_dark": "#325238",
+          "foliage_light": "#628560",
+          "paddy": "#8c9672",
+          "paddy_light": "#a8b08e",
+          "paddy_water": "#69543b"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_da_maya_inca",
+        "nha_go": "nha_da_maya_inca",
+        "phu_nho": "nha_dai_thu_linh",
+        "kho_lua": "kho_thit_nguyen_thuy",
+        "sap_hang": "day_leu_nguyen_thuy",
+        "trau": "lac_da_llama_andes",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "bai_da_nguyen_thuy",
+        "day_leu_cho_viet": "day_leu_nguyen_thuy",
+        "ruong_lua_viet": "bai_co_nguyen_thuy"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_nguyen_thuy",
+        "nguoi_lon_f": "nguoi_lon_f_nguyen_thuy",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#c99067",
+          "#b57c52",
+          "#a16840",
+          "#d8a379"
+        ],
+        "skin_sick": [
+          "#c4bd9c",
+          "#b3ab8a"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#3b2d22"
+        ],
+        "hair_elder": [
+          "#d4cfc6",
+          "#b8b2a6"
+        ],
+        "top_m": [
+          "#8a623e",
+          "#6e4e30",
+          "#9c744c",
+          "#593e26"
+        ],
+        "top_f": [
+          "#9c7248",
+          "#7d5836",
+          "#ad8458",
+          "#69482b"
+        ],
+        "collar": [
+          "#c49e6c",
+          "#8a623e"
+        ],
+        "yem": [
+          "#9c7248",
+          "#b58b5c"
+        ],
+        "belt": [
+          "#4a321e",
+          "#382414"
+        ],
+        "bottom": [
+          "#593e26",
+          "#47311e",
+          "#6e4e30"
+        ],
+        "skirt": [
+          "#69482b",
+          "#543820",
+          "#7d5836"
+        ],
+        "hat_main": [
+          "#6e4e30"
+        ],
+        "hat_trim": [
+          "#c49e6c"
+        ]
+      },
+      "trees": [
+        "cay_co_thu_nguyen_thuy",
+        "cay_duong_xi_co_dai",
+        "cay_thong_au"
+      ],
+      "fence": "rao_go_au",
+      "locations": {
+        "lang_nong": "cao_nguyen_maya_inca",
+        "thi_tran_ben_song": "thi_tran_ben_song",
+        "phu_thanh": "cao_nguyen_maya_inca"
+      }
+    },
+    "cong_nghiep_au_my": {
+      "colors": {
+        "thatch": "#c49e58",
+        "thatch_dark": "#947236",
+        "thatch_light": "#dab872",
+        "tile": "#9e3d2b",
+        "tile_dark": "#33363b",
+        "tile_light": "#ad5242",
+        "wall": "#efe6d5",
+        "wall_dark": "#cfc2aa",
+        "wood": "#6b462a",
+        "wood_dark": "#452b18",
+        "wood_light": "#8f6340",
+        "shadow": "#2b221b",
+        "stone": "#787c82",
+        "stone_light": "#b5b2ab",
+        "stone_dark": "#4e5257",
+        "bamboo": "#6d8c42",
+        "bamboo_dark": "#4b632b",
+        "trunk": "#63462d",
+        "trunk_light": "#826042",
+        "lantern": "#e6a83e",
+        "gold": "#eab83e",
+        "cloth_red": "#8f2c24",
+        "cloth_yellow": "#e3c565",
+        "lotus_pink": "#d96b8a",
+        "goods1": "#d9b86c",
+        "goods2": "#7aa856",
+        "goods3": "#b85d42",
+        "buffalo": "#6e4d36",
+        "buffalo_dark": "#4a3221",
+        "buffalo_light": "#8c664a",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5692b5",
+        "water_light": "#9ac8e3",
+        "boat": "#6b482b",
+        "boat_dark": "#472e1a",
+        "sail": "#eee6d3",
+        "sail_dark": "#c9bda3",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#261e18",
+        "path": "#b59b78",
+        "path_dark": "#8f7858",
+        "hat_cone": "#5c4632",
+        "hat_shade": "#3d2e20",
+        "mourning_white": "#262322",
+        "mourning_shade": "#171514",
+        "sick_badge": "#7ab85c",
+        "sky_top": "#8fa8ba"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#8cc4e6",
+          "sky_bottom": "#e2f0ec",
+          "hill_far": "#9bb8a8",
+          "hill_near": "#76a184",
+          "grass": "#6ca850",
+          "ground": "#a8865c",
+          "ground_dark": "#826442",
+          "foliage": "#488f48",
+          "foliage_dark": "#326b34",
+          "foliage_light": "#72b856",
+          "paddy": "#94c458",
+          "paddy_light": "#b8de7c",
+          "paddy_water": "#826442"
+        },
+        "ha": {
+          "sky_top": "#6eb8e8",
+          "sky_bottom": "#d8ecf2",
+          "hill_far": "#8ab29c",
+          "hill_near": "#629974",
+          "grass": "#629e46",
+          "ground": "#a68256",
+          "ground_dark": "#80603c",
+          "foliage": "#3b823e",
+          "foliage_dark": "#28612c",
+          "foliage_light": "#62a644",
+          "paddy": "#c9a848",
+          "paddy_light": "#e3c668",
+          "paddy_water": "#80603c"
+        },
+        "thu": {
+          "sky_top": "#9cc0db",
+          "sky_bottom": "#ede8d8",
+          "hill_far": "#ada88c",
+          "hill_near": "#8f8c68",
+          "grass": "#949652",
+          "ground": "#a68052",
+          "ground_dark": "#805e38",
+          "foliage": "#bf6b2e",
+          "foliage_dark": "#8f4a1c",
+          "foliage_light": "#de9242",
+          "paddy": "#d9a63e",
+          "paddy_light": "#edc464",
+          "paddy_water": "#805e38"
+        },
+        "dong": {
+          "sky_top": "#b0c0cc",
+          "sky_bottom": "#e4e8eb",
+          "hill_far": "#b8c2c7",
+          "hill_near": "#9aa8ad",
+          "grass": "#9aa68a",
+          "ground": "#96826a",
+          "ground_dark": "#73624e",
+          "foliage": "#4a6e52",
+          "foliage_dark": "#36523c",
+          "foliage_light": "#68876c",
+          "paddy": "#a8a286",
+          "paddy_light": "#c2bca0",
+          "paddy_water": "#73624e"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_gach_cong_nghiep_1850",
+        "nha_go": "nha_gach_cong_nghiep_1850",
+        "phu_nho": "trang_vien_au",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_sap_au",
+        "ruong_lua_viet": "dong_lua_mi_au"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_au",
+        "nguoi_lon_f": "nguoi_lon_f_au",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hats": {
+        "mao_quan": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "mu_long_vu_au",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f7dac0",
+          "#f0c8a8",
+          "#e5b590",
+          "#d9a279"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#c99b42",
+          "#8c5828",
+          "#59381f",
+          "#a84424",
+          "#241d18"
+        ],
+        "hair_elder": [
+          "#e6e2da",
+          "#cfc9be",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#5c432d",
+          "#2e4b66",
+          "#3d5e45",
+          "#7a332e",
+          "#69543e",
+          "#3b4254"
+        ],
+        "top_f": [
+          "#8c3532",
+          "#385a7c",
+          "#456b52",
+          "#70426e",
+          "#a86b32",
+          "#5c4233"
+        ],
+        "collar": [
+          "#f2ead8",
+          "#dfd3b8",
+          "#eab83e"
+        ],
+        "yem": [
+          "#f2ead8",
+          "#e6d8be",
+          "#d9b86c"
+        ],
+        "belt": [
+          "#3b2818",
+          "#543822",
+          "#8c6d32"
+        ],
+        "bottom": [
+          "#382e26",
+          "#2b333d",
+          "#4a3b2c",
+          "#2d3b2e"
+        ],
+        "skirt": [
+          "#382b24",
+          "#283342",
+          "#592826",
+          "#334739"
+        ],
+        "hat_main": [
+          "#332922",
+          "#263342",
+          "#5c2422"
+        ],
+        "hat_trim": [
+          "#eab83e",
+          "#f2ead8"
+        ]
+      },
+      "trees": [
+        "cay_soi_au",
+        "cay_thong_au",
+        "cay_soi_au"
+      ],
+      "fence": "rao_sat_hien_dai",
+      "locations": {
+        "lang_nong": "lang_nong",
+        "thi_tran_ben_song": "thi_tran_ben_song",
+        "phu_thanh": "pho_cong_nghiep_1850"
+      }
+    },
+    "can_dai_a_dong": {
+      "colors": {
+        "thatch": "#d4ab66",
+        "thatch_dark": "#a67e3e",
+        "thatch_light": "#e7c685",
+        "tile": "#b54930",
+        "tile_dark": "#82311f",
+        "tile_light": "#d16448",
+        "wall": "#e8d6ad",
+        "wall_dark": "#c5a978",
+        "wood": "#82593a",
+        "wood_dark": "#563820",
+        "wood_light": "#ab7f55",
+        "shadow": "#36291f",
+        "stone": "#9c9689",
+        "stone_light": "#bfb9ab",
+        "stone_dark": "#736e63",
+        "bamboo": "#9abd54",
+        "bamboo_dark": "#668732",
+        "trunk": "#7a5a3a",
+        "trunk_light": "#9c7b54",
+        "lantern": "#d9412b",
+        "gold": "#eab83e",
+        "cloth_red": "#bf3f2c",
+        "cloth_yellow": "#ebd567",
+        "lotus_pink": "#e67399",
+        "goods1": "#dfc576",
+        "goods2": "#8ec25d",
+        "goods3": "#cc7152",
+        "buffalo": "#525158",
+        "buffalo_dark": "#36353b",
+        "buffalo_light": "#6e6d75",
+        "horn": "#ede4ce",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#62a3c4",
+        "water_light": "#a8d5e8",
+        "boat": "#6e4c2d",
+        "boat_dark": "#4a311b",
+        "sail": "#dfd0a8",
+        "sail_dark": "#bfa978",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#292019",
+        "path": "#c8a878",
+        "path_dark": "#a88859",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#eceae4",
+        "mourning_shade": "#cbc7be",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#9bd0eb",
+          "sky_bottom": "#e4f3ed",
+          "hill_far": "#a6c6b6",
+          "hill_near": "#82b291",
+          "grass": "#74b358",
+          "ground": "#b38d5e",
+          "ground_dark": "#8d6b45",
+          "foliage": "#4c994c",
+          "foliage_dark": "#367839",
+          "foliage_light": "#7bc258",
+          "paddy": "#8bd166",
+          "paddy_light": "#b5e68c",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#7ac0ee",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#91bfa3",
+          "hill_near": "#68a67b",
+          "grass": "#67ad4b",
+          "ground": "#b08756",
+          "ground_dark": "#87653f",
+          "foliage": "#3d8f43",
+          "foliage_dark": "#2c6d33",
+          "foliage_light": "#6bb34a",
+          "paddy": "#5cb047",
+          "paddy_light": "#85cc5c",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#a7cce3",
+          "sky_bottom": "#f0eedf",
+          "hill_far": "#b4bf9c",
+          "hill_near": "#97a876",
+          "grass": "#9eae58",
+          "ground": "#b58d58",
+          "ground_dark": "#8f6b40",
+          "foliage": "#6e9a45",
+          "foliage_dark": "#547934",
+          "foliage_light": "#a8b85a",
+          "paddy": "#e2bf4c",
+          "paddy_light": "#f2d979",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#b5c3cd",
+          "sky_bottom": "#e2e6e4",
+          "hill_far": "#a7b2ae",
+          "hill_near": "#8a9a8e",
+          "grass": "#8f9f6e",
+          "ground": "#a3845e",
+          "ground_dark": "#7f6648",
+          "foliage": "#4d7a52",
+          "foliage_dark": "#3a5f40",
+          "foliage_light": "#6f9061",
+          "paddy": "#9aa77a",
+          "paddy_light": "#b6bf96",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_tranh_viet",
+        "nha_go": "nha_pho_hien_dai",
+        "phu_nho": "phu_nho_viet",
+        "kho_lua": "kho_lua_viet",
+        "sap_hang": "sap_hang_viet",
+        "trau": "trau_viet",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_cua_tiem_hien_dai"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_viet",
+        "thieu_nien_f": "thieu_nien_f_viet",
+        "nguoi_lon_m": "nguoi_lon_m_viet",
+        "nguoi_lon_f": "nguoi_lon_f_viet",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_viet",
+        "nguoi_gia_f": "nguoi_gia_f_viet"
+      },
+      "hat": {
+        "part": "non_la",
+        "ageGroups": [
+          "nguoi_lon",
+          "nguoi_gia"
+        ],
+        "chance": 0.55
+      },
+      "hats": {
+        "non_la": {
+          "part": "non_la",
+          "offsetY": 3
+        },
+        "khan_dong": {
+          "part": "khan_dong",
+          "offsetY": 3
+        },
+        "mao_quan": {
+          "part": "mao_quan",
+          "offsetY": 4
+        },
+        "non_dau": {
+          "part": "non_dau",
+          "offsetY": 3
+        },
+        "khan_mo_qua": {
+          "part": "khan_mo_qua",
+          "offsetY": 3
+        },
+        "khan_vanh": {
+          "part": "khan_vanh",
+          "offsetY": 3
+        },
+        "khan_tang": {
+          "part": "khan_tang",
+          "offsetY": 3
+        }
+      },
+      "palettes": {
+        "skin": [
+          "#f2cba4",
+          "#e5b68e",
+          "#d8a379",
+          "#c99067"
+        ],
+        "skin_sick": [
+          "#d8d2b0",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1b1714",
+          "#2a221c",
+          "#382b21"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#ccc6bc",
+          "#b5afa4"
+        ],
+        "top_m": [
+          "#634b35",
+          "#3b4e60",
+          "#7d5e3b",
+          "#475c42",
+          "#344154",
+          "#856d4c",
+          "#5a3e36"
+        ],
+        "top_f": [
+          "#9c3b38",
+          "#46688a",
+          "#7a5285",
+          "#3d6650",
+          "#b07438",
+          "#6b4c38",
+          "#8f4a64"
+        ],
+        "collar": [
+          "#d9ceb8",
+          "#c9b27e",
+          "#bf4b3b",
+          "#5c7a99"
+        ],
+        "yem": [
+          "#d1453b",
+          "#e09f3e",
+          "#c95b7a",
+          "#df7356"
+        ],
+        "belt": [
+          "#3d6b52",
+          "#9e3a33",
+          "#c99a3e",
+          "#3c526b"
+        ],
+        "bottom": [
+          "#2e2a26",
+          "#3b3530",
+          "#4a4037",
+          "#25313a",
+          "#dcd6c8"
+        ],
+        "skirt": [
+          "#292420",
+          "#382d28",
+          "#262b36",
+          "#45362b"
+        ],
+        "hat_main": [
+          "#282c34",
+          "#3b2e28",
+          "#233647"
+        ],
+        "hat_trim": [
+          "#e3b341",
+          "#c94232"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "top_f": [
+            "#e8e5dc",
+            "#dcd8ce"
+          ],
+          "collar": [
+            "#f4f2ec"
+          ],
+          "yem": [
+            "#d8d4ca"
+          ],
+          "belt": [
+            "#b8b3a8"
+          ],
+          "bottom": [
+            "#e2dfd6"
+          ],
+          "skirt": [
+            "#dad6cc"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#9e2622",
+            "#1e3a5f",
+            "#245445"
+          ],
+          "top_f": [
+            "#b02e2a",
+            "#2b4c78",
+            "#7a3568"
+          ],
+          "collar": [
+            "#eab83e",
+            "#f0dec0"
+          ],
+          "yem": [
+            "#d93b32",
+            "#eab83e"
+          ],
+          "belt": [
+            "#eab83e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#262b36"
+          ],
+          "skirt": [
+            "#38242e",
+            "#1e2938"
+          ],
+          "hat_main": [
+            "#1d2026"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#2c4d6e",
+            "#385e54",
+            "#46526e",
+            "#5c4869"
+          ],
+          "top_f": [
+            "#3c668a",
+            "#487568",
+            "#85486e"
+          ],
+          "collar": [
+            "#f0ece1",
+            "#d8cfa8"
+          ],
+          "yem": [
+            "#cf463c",
+            "#e0a445"
+          ],
+          "belt": [
+            "#c99a3e",
+            "#26384a"
+          ],
+          "bottom": [
+            "#ede9de",
+            "#2b323b"
+          ],
+          "skirt": [
+            "#282d38",
+            "#362b32"
+          ],
+          "hat_main": [
+            "#232832",
+            "#2d3846"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#b88228",
+            "#8c2f39",
+            "#2e6352",
+            "#693b6e"
+          ],
+          "top_f": [
+            "#c74350",
+            "#d49435",
+            "#367363",
+            "#85427d"
+          ],
+          "collar": [
+            "#f2e2b6",
+            "#eab83e"
+          ],
+          "yem": [
+            "#d9382e",
+            "#f0b643"
+          ],
+          "belt": [
+            "#eab83e",
+            "#b8372e"
+          ],
+          "bottom": [
+            "#f0ece1",
+            "#332926"
+          ],
+          "skirt": [
+            "#3b262c",
+            "#2b2436"
+          ],
+          "hat_main": [
+            "#3d2822",
+            "#292333"
+          ],
+          "hat_trim": [
+            "#eab83e"
+          ]
+        },
+        "linh": {
+          "top_m": [
+            "#363b42",
+            "#47332b"
+          ],
+          "top_f": [
+            "#453632",
+            "#363b42"
+          ],
+          "collar": [
+            "#c93b2b"
+          ],
+          "yem": [
+            "#c93b2b"
+          ],
+          "belt": [
+            "#c93b2b",
+            "#d99b38"
+          ],
+          "bottom": [
+            "#26292e"
+          ],
+          "skirt": [
+            "#26292e"
+          ],
+          "hat_main": [
+            "#4a3525"
+          ],
+          "hat_trim": [
+            "#d93829"
+          ]
+        },
+        "thao_khau": {
+          "top_m": [
+            "#2e332b",
+            "#3d312a"
+          ],
+          "top_f": [
+            "#3d312a",
+            "#2e332b"
+          ],
+          "collar": [
+            "#8a4b38"
+          ],
+          "belt": [
+            "#8a3329"
+          ],
+          "bottom": [
+            "#24211e"
+          ],
+          "skirt": [
+            "#24211e"
+          ]
+        }
+      },
+      "trees": [
+        "tre_viet",
+        "cau_viet",
+        "chuoi_viet",
+        "tre_viet",
+        "cau_viet"
+      ],
+      "fence": "rao_tre_viet"
+    },
+    "hien_dai_au_dong_a": {
+      "colors": {
+        "thatch": "#c85a48",
+        "thatch_dark": "#983e30",
+        "thatch_light": "#df7664",
+        "tile": "#48627a",
+        "tile_dark": "#324658",
+        "tile_light": "#64829c",
+        "wall": "#f0ece4",
+        "wall_dark": "#d4cec2",
+        "wood": "#6b5340",
+        "wood_dark": "#473628",
+        "wood_light": "#8e725a",
+        "shadow": "#2b2c30",
+        "stone": "#8e949c",
+        "stone_light": "#b6bcc4",
+        "stone_dark": "#646a72",
+        "bamboo": "#567d46",
+        "bamboo_dark": "#3b5930",
+        "trunk": "#6e5239",
+        "trunk_light": "#8c6d4e",
+        "lantern": "#f2b84b",
+        "gold": "#eab83e",
+        "cloth_red": "#3b78a8",
+        "cloth_yellow": "#e8eef2",
+        "lotus_pink": "#e67399",
+        "goods1": "#e07a5f",
+        "goods2": "#81b29a",
+        "goods3": "#f2cc8f",
+        "buffalo": "#5c646d",
+        "buffalo_dark": "#3d434a",
+        "buffalo_light": "#7b848f",
+        "horn": "#d8dce0",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5294b8",
+        "water_light": "#9ad0eb",
+        "boat": "#56687a",
+        "boat_dark": "#384654",
+        "sail": "#f0f4f8",
+        "sail_dark": "#c8d4e0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#222428",
+        "path": "#92969c",
+        "path_dark": "#6e7278",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#2c2e33",
+        "mourning_shade": "#1e2024",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#82c2e6",
+          "sky_bottom": "#e4f2f7",
+          "hill_far": "#9dbab0",
+          "hill_near": "#78a48c",
+          "grass": "#6ab054",
+          "ground": "#9ea2a8",
+          "ground_dark": "#767a80",
+          "foliage": "#48964e",
+          "foliage_dark": "#327238",
+          "foliage_light": "#72bf60",
+          "paddy": "#7cc45e",
+          "paddy_light": "#a4de84",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#66b6eb",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#8cb6a0",
+          "hill_near": "#649e78",
+          "grass": "#5ea848",
+          "ground": "#9a9ea4",
+          "ground_dark": "#72767c",
+          "foliage": "#3b8c42",
+          "foliage_dark": "#296930",
+          "foliage_light": "#66b048",
+          "paddy": "#58ab44",
+          "paddy_light": "#80c758",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#98c2de",
+          "sky_bottom": "#f0eee2",
+          "hill_far": "#b0ba9c",
+          "hill_near": "#92a276",
+          "grass": "#8fa354",
+          "ground": "#9c9a94",
+          "ground_dark": "#75736e",
+          "foliage": "#c97a36",
+          "foliage_dark": "#995622",
+          "foliage_light": "#e3a24a",
+          "paddy": "#d9b448",
+          "paddy_light": "#ebd074",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#aebec9",
+          "sky_bottom": "#dfe5e8",
+          "hill_far": "#a2aeb0",
+          "hill_near": "#849490",
+          "grass": "#829468",
+          "ground": "#909498",
+          "ground_dark": "#6c7074",
+          "foliage": "#4c7552",
+          "foliage_dark": "#38593e",
+          "foliage_light": "#6b8c64",
+          "paddy": "#92a178",
+          "paddy_light": "#b0ba94",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_pho_hien_dai",
+        "nha_go": "biet_thu_hien_dai",
+        "phu_nho": "biet_thu_hien_dai",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "o_to_hien_dai",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_cua_tiem_hien_dai",
+        "ruong_lua_viet": "vuon_cay_hien_dai"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_hien_dai",
+        "nguoi_lon_f": "nguoi_lon_f_hien_dai",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#f6d5b8",
+          "#ecc19c",
+          "#dca87e",
+          "#b88258",
+          "#8c5a38"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1c1815",
+          "#3b2a1e",
+          "#6b482b",
+          "#b88a44",
+          "#8c3b28"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#c8c2b8",
+          "#a8a298"
+        ],
+        "top_m": [
+          "#2b547e",
+          "#3b6e5c",
+          "#ebeef2",
+          "#4a525d",
+          "#8c3832",
+          "#34495e",
+          "#5b6e82"
+        ],
+        "top_f": [
+          "#c94a58",
+          "#3d7899",
+          "#e8eef2",
+          "#588c73",
+          "#8a5285",
+          "#d98248",
+          "#3b526b"
+        ],
+        "collar": [
+          "#ffffff",
+          "#e2e6ec",
+          "#2c3e50",
+          "#c94a58"
+        ],
+        "yem": [
+          "#ffffff",
+          "#f2d6ae",
+          "#d95b66",
+          "#5c92b8"
+        ],
+        "belt": [
+          "#2b2d30",
+          "#4a382b",
+          "#38424d"
+        ],
+        "bottom": [
+          "#26384d",
+          "#333840",
+          "#4a525a",
+          "#6e6558",
+          "#1f2933"
+        ],
+        "skirt": [
+          "#2b3d54",
+          "#383d45",
+          "#6b3842",
+          "#3d594e",
+          "#4a4258"
+        ],
+        "hat_main": [
+          "#2c3e50"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#26282b",
+            "#1e2024"
+          ],
+          "top_f": [
+            "#26282b",
+            "#1e2024"
+          ],
+          "collar": [
+            "#e8eaed"
+          ],
+          "yem": [
+            "#26282b"
+          ],
+          "belt": [
+            "#18191c"
+          ],
+          "bottom": [
+            "#1e2024"
+          ],
+          "skirt": [
+            "#1e2024"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#1f2d3d",
+            "#2c3e50"
+          ],
+          "top_f": [
+            "#2c3e50",
+            "#34495e"
+          ],
+          "collar": [
+            "#ffffff"
+          ],
+          "yem": [
+            "#c0392b",
+            "#2980b9"
+          ],
+          "belt": [
+            "#1a1c20"
+          ],
+          "bottom": [
+            "#1f2d3d"
+          ],
+          "skirt": [
+            "#2c3e50"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#34495e",
+            "#2b547e",
+            "#ebeef2"
+          ],
+          "top_f": [
+            "#3d668a",
+            "#ebeef2",
+            "#587a68"
+          ],
+          "collar": [
+            "#ffffff"
+          ],
+          "yem": [
+            "#3b6e8c"
+          ],
+          "belt": [
+            "#2c3036"
+          ],
+          "bottom": [
+            "#2c3540"
+          ],
+          "skirt": [
+            "#2c3540"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#22303f",
+            "#4a2e35",
+            "#2c473e"
+          ],
+          "top_f": [
+            "#9c2f3b",
+            "#294d66",
+            "#6e3b68"
+          ],
+          "collar": [
+            "#f5e6c8",
+            "#ffffff"
+          ],
+          "yem": [
+            "#d94a38",
+            "#eab83e"
+          ],
+          "belt": [
+            "#2b2623"
+          ],
+          "bottom": [
+            "#222830"
+          ],
+          "skirt": [
+            "#282330"
+          ]
+        }
+      },
+      "trees": [
+        "cay_soi_au",
+        "cay_anh_dao_dong_bac_a",
+        "cay_xanh_do_thi"
+      ],
+      "fence": "rao_sat_hien_dai",
+      "locations": {
+        "lang_nong": "lang_nong_hien_dai",
+        "phu_thanh": "do_thi_hien_dai"
+      }
+    },
+    "hien_dai_nam_ban_cau": {
+      "colors": {
+        "thatch": "#c85a48",
+        "thatch_dark": "#983e30",
+        "thatch_light": "#df7664",
+        "tile": "#c95838",
+        "tile_dark": "#324658",
+        "tile_light": "#64829c",
+        "wall": "#f2d6ae",
+        "wall_dark": "#d4b082",
+        "wood": "#6b5340",
+        "wood_dark": "#473628",
+        "wood_light": "#8e725a",
+        "shadow": "#2b2c30",
+        "stone": "#8e949c",
+        "stone_light": "#b6bcc4",
+        "stone_dark": "#646a72",
+        "bamboo": "#567d46",
+        "bamboo_dark": "#3b5930",
+        "trunk": "#6e5239",
+        "trunk_light": "#8c6d4e",
+        "lantern": "#f2b84b",
+        "gold": "#eab83e",
+        "cloth_red": "#3b78a8",
+        "cloth_yellow": "#e8eef2",
+        "lotus_pink": "#e67399",
+        "goods1": "#e07a5f",
+        "goods2": "#81b29a",
+        "goods3": "#f2cc8f",
+        "buffalo": "#5c646d",
+        "buffalo_dark": "#3d434a",
+        "buffalo_light": "#7b848f",
+        "horn": "#d8dce0",
+        "eye": "#1a1714",
+        "chicken": "#f6ead0",
+        "chicken_dark": "#cfb688",
+        "rooster": "#c95b2e",
+        "comb": "#d93426",
+        "water": "#5294b8",
+        "water_light": "#9ad0eb",
+        "boat": "#56687a",
+        "boat_dark": "#384654",
+        "sail": "#f0f4f8",
+        "sail_dark": "#c8d4e0",
+        "cloud": "#ffffff",
+        "cloud_shade": "#dce8ef",
+        "outline": "#222428",
+        "path": "#92969c",
+        "path_dark": "#6e7278",
+        "hat_cone": "#dfd098",
+        "hat_shade": "#baa66a",
+        "mourning_white": "#2c2e33",
+        "mourning_shade": "#1e2024",
+        "sick_badge": "#7ab85c"
+      },
+      "seasons": {
+        "xuan": {
+          "sky_top": "#82c2e6",
+          "sky_bottom": "#e4f2f7",
+          "hill_far": "#9dbab0",
+          "hill_near": "#78a48c",
+          "grass": "#6ab054",
+          "ground": "#9ea2a8",
+          "ground_dark": "#767a80",
+          "foliage": "#48964e",
+          "foliage_dark": "#327238",
+          "foliage_light": "#72bf60",
+          "paddy": "#7cc45e",
+          "paddy_light": "#a4de84",
+          "paddy_water": "#9ac9c4"
+        },
+        "ha": {
+          "sky_top": "#66b6eb",
+          "sky_bottom": "#d8eef5",
+          "hill_far": "#8cb6a0",
+          "hill_near": "#649e78",
+          "grass": "#5ea848",
+          "ground": "#9a9ea4",
+          "ground_dark": "#72767c",
+          "foliage": "#3b8c42",
+          "foliage_dark": "#296930",
+          "foliage_light": "#66b048",
+          "paddy": "#58ab44",
+          "paddy_light": "#80c758",
+          "paddy_water": "#8dbfb5"
+        },
+        "thu": {
+          "sky_top": "#98c2de",
+          "sky_bottom": "#f0eee2",
+          "hill_far": "#b0ba9c",
+          "hill_near": "#92a276",
+          "grass": "#8fa354",
+          "ground": "#9c9a94",
+          "ground_dark": "#75736e",
+          "foliage": "#c97a36",
+          "foliage_dark": "#995622",
+          "foliage_light": "#e3a24a",
+          "paddy": "#d9b448",
+          "paddy_light": "#ebd074",
+          "paddy_water": "#c9bf8c"
+        },
+        "dong": {
+          "sky_top": "#aebec9",
+          "sky_bottom": "#dfe5e8",
+          "hill_far": "#a2aeb0",
+          "hill_near": "#849490",
+          "grass": "#829468",
+          "ground": "#909498",
+          "ground_dark": "#6c7074",
+          "foliage": "#4c7552",
+          "foliage_dark": "#38593e",
+          "foliage_light": "#6b8c64",
+          "paddy": "#92a178",
+          "paddy_light": "#b0ba94",
+          "paddy_water": "#a9b8b6"
+        }
+      },
+      "parts": {
+        "nha_tranh": "nha_cap_4_hien_dai",
+        "nha_go": "nha_pho_hien_dai",
+        "phu_nho": "biet_thu_hien_dai",
+        "kho_lua": "kho_hang_hien_dai",
+        "sap_hang": "sap_hang_viet",
+        "trau": "xe_may_hien_dai",
+        "dan_ga": "dan_ga_viet",
+        "ao_ca": "ao_ca_viet",
+        "day_leu_cho_viet": "day_cua_tiem_hien_dai",
+        "ruong_lua_viet": "vuon_cay_hien_dai"
+      },
+      "people": {
+        "au_tho_m": "au_tho_m_viet",
+        "au_tho_f": "au_tho_f_viet",
+        "tre_nho_m": "tre_nho_m_viet",
+        "tre_nho_f": "tre_nho_f_viet",
+        "thieu_nien_m": "thieu_nien_m_hien_dai",
+        "thieu_nien_f": "thieu_nien_f_hien_dai",
+        "nguoi_lon_m": "nguoi_lon_m_hien_dai",
+        "nguoi_lon_f": "nguoi_lon_f_hien_dai",
+        "nguoi_mang_thai_f": "nguoi_mang_thai_f_viet",
+        "nguoi_om_m": "nguoi_om_m_viet",
+        "nguoi_om_f": "nguoi_om_f_viet",
+        "nguoi_gia_m": "nguoi_gia_m_hien_dai",
+        "nguoi_gia_f": "nguoi_gia_f_hien_dai"
+      },
+      "hats": {},
+      "palettes": {
+        "skin": [
+          "#f6d5b8",
+          "#ecc19c",
+          "#dca87e",
+          "#b88258",
+          "#8c5a38"
+        ],
+        "skin_sick": [
+          "#dcd6b8",
+          "#cbc49e"
+        ],
+        "hair": [
+          "#1c1815",
+          "#3b2a1e",
+          "#6b482b",
+          "#b88a44",
+          "#8c3b28"
+        ],
+        "hair_elder": [
+          "#e2ded6",
+          "#c8c2b8",
+          "#a8a298"
+        ],
+        "top_m": [
+          "#2b547e",
+          "#3b6e5c",
+          "#ebeef2",
+          "#4a525d",
+          "#8c3832",
+          "#34495e",
+          "#5b6e82"
+        ],
+        "top_f": [
+          "#c94a58",
+          "#3d7899",
+          "#e8eef2",
+          "#588c73",
+          "#8a5285",
+          "#d98248",
+          "#3b526b"
+        ],
+        "collar": [
+          "#ffffff",
+          "#e2e6ec",
+          "#2c3e50",
+          "#c94a58"
+        ],
+        "yem": [
+          "#ffffff",
+          "#f2d6ae",
+          "#d95b66",
+          "#5c92b8"
+        ],
+        "belt": [
+          "#2b2d30",
+          "#4a382b",
+          "#38424d"
+        ],
+        "bottom": [
+          "#26384d",
+          "#333840",
+          "#4a525a",
+          "#6e6558",
+          "#1f2933"
+        ],
+        "skirt": [
+          "#2b3d54",
+          "#383d45",
+          "#6b3842",
+          "#3d594e",
+          "#4a4258"
+        ],
+        "hat_main": [
+          "#2c3e50"
+        ],
+        "hat_trim": [
+          "#eab83e"
+        ]
+      },
+      "outfitPalettes": {
+        "cu_tang": {
+          "top_m": [
+            "#26282b",
+            "#1e2024"
+          ],
+          "top_f": [
+            "#26282b",
+            "#1e2024"
+          ],
+          "collar": [
+            "#e8eaed"
+          ],
+          "yem": [
+            "#26282b"
+          ],
+          "belt": [
+            "#18191c"
+          ],
+          "bottom": [
+            "#1e2024"
+          ],
+          "skirt": [
+            "#1e2024"
+          ]
+        },
+        "quan_lai": {
+          "top_m": [
+            "#1f2d3d",
+            "#2c3e50"
+          ],
+          "top_f": [
+            "#2c3e50",
+            "#34495e"
+          ],
+          "collar": [
+            "#ffffff"
+          ],
+          "yem": [
+            "#c0392b",
+            "#2980b9"
+          ],
+          "belt": [
+            "#1a1c20"
+          ],
+          "bottom": [
+            "#1f2d3d"
+          ],
+          "skirt": [
+            "#2c3e50"
+          ]
+        },
+        "si_phu": {
+          "top_m": [
+            "#34495e",
+            "#2b547e",
+            "#ebeef2"
+          ],
+          "top_f": [
+            "#3d668a",
+            "#ebeef2",
+            "#587a68"
+          ],
+          "collar": [
+            "#ffffff"
+          ],
+          "yem": [
+            "#3b6e8c"
+          ],
+          "belt": [
+            "#2c3036"
+          ],
+          "bottom": [
+            "#2c3540"
+          ],
+          "skirt": [
+            "#2c3540"
+          ]
+        },
+        "phu_ho": {
+          "top_m": [
+            "#22303f",
+            "#4a2e35",
+            "#2c473e"
+          ],
+          "top_f": [
+            "#9c2f3b",
+            "#294d66",
+            "#6e3b68"
+          ],
+          "collar": [
+            "#f5e6c8",
+            "#ffffff"
+          ],
+          "yem": [
+            "#d94a38",
+            "#eab83e"
+          ],
+          "belt": [
+            "#2b2623"
+          ],
+          "bottom": [
+            "#222830"
+          ],
+          "skirt": [
+            "#282330"
+          ]
+        }
+      },
+      "trees": [
+        "cay_da_an_do",
+        "cay_cha_la",
+        "cay_baobab_chau_phi",
+        "cay_xanh_do_thi"
+      ],
+      "fence": "rao_sat_hien_dai",
+      "locations": {
+        "lang_nong": "lang_nong_hien_dai",
+        "phu_thanh": "do_thi_hien_dai"
       }
     }
   }

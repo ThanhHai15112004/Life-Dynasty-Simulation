@@ -1,0 +1,64 @@
+# Văn hóa Mỹ Latinh Cận – Hiện đại (Mexico, Brazil, Colombia, Argentina)
+id: my_latinh
+name: Mỹ Latinh
+ethnicity_name: Người Mỹ Latinh (Mestizo – Criollo – Bản địa)
+phenotype: ban_dia_chau_my
+default_religion: co_doc_giao
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng bạc Peso / Real
+  food: bao bột ngô & đậu đen
+  land: mẫu đồn điền (Hacienda)
+  staple_crop: ngô, cà phê, mía đường & đậu
+family_names:
+  - { name: Garcia, weight: 16 }
+  - { name: Rodriguez, weight: 15 }
+  - { name: Hernandez, weight: 15 }
+  - { name: Silva, weight: 14 }
+  - { name: Santos, weight: 14 }
+  - { name: Morales, weight: 13 }
+  - { name: Mendoza, weight: 13 }
+given_names:
+  m: [Mateo, Santiago, Diego, Emiliano, Alejandro, Gabriel, Lucas, Carlos, Rafael, Miguel, Joao, Pedro, Thiago, Fernando]
+  f: [Sofia, Valentina, Isabella, Camila, Valeria, Mariana, Gabriela, Elena, Carmen, Lucia, Julia, Beatriz, Fernanda, Rosa]
+village_names: [Làng Đồi Cà Phê Xanh, Thôn Thung Lũng Mía Đường, Xóm Quảng Trường Nhà Thờ Trắng, Bản Sông Nhiệt Đới, Làng Gốm Màu Puebla]
+town_names: [Phố Cảng Veracruz, Chợ Bạc Zacatecas, Cảng Biển Bahia, Phố Thương Mại Cartagena]
+prefecture_names: [Mexico City, São Paulo, Buenos Aires, Lima, Bogotá, Rio de Janeiro]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: chủ đồn điền (Hacendado), call: 'ông chủ {family}' }
+  ly_truong: { title: thị trưởng (Alcalde), call: 'thị trưởng {given}' }
+  thay_do: { title: linh mục giáo xứ / thầy giáo, call: 'cha xứ {given}' }
+  thay_lang: { title: thầy thuốc bản địa (Curandero), call: 'y sĩ {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân đồn điền, call: 'thương gia {given}' }
+
+era_variants:
+  - max_year: 1810
+    ethnicity_name: Cư dân Thuộc địa Tân Tây Ban Nha & Brazil
+    default_religion: co_doc_giao
+  - min_year: 1811
+    max_year: 1920
+    ethnicity_name: Công dân Các Nước Cộng hòa Mỹ Latinh
+    default_religion: co_doc_giao
+  - min_year: 1921
+    ethnicity_name: Người Mỹ Latinh Hiện đại
+    default_religion: co_doc_giao
+

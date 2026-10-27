@@ -1,0 +1,72 @@
+# Văn hóa Đông Phi (Kush – Vương quốc Aksum – Đế quốc Ethiopia – Thương cảng Swahili)
+id: dong_phi
+name: Đông Phi (Ethiopia & Swahili)
+ethnicity_name: Người Đông Phi (Habesha / Ethiopia & Swahili)
+phenotype: chau_phi_sub_sahara
+default_religion: chinh_thong_giao
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng vàng Aksum / muối thỏi Amole
+  food: giỏ ngũ cốc Teff
+  land: thửa đất cao nguyên (Gult)
+  staple_crop: hạt Teff, lúa miến & cà phê cao nguyên
+family_names:
+  - { name: Solomonid, weight: 18 }
+  - { name: Zagwe, weight: 16 }
+  - { name: Bekele, weight: 16 }
+  - { name: Tadesse, weight: 15 }
+  - { name: Abebe, weight: 13 }
+  - { name: Mwinyi, weight: 11 }
+  - { name: Bakari, weight: 11 }
+given_names:
+  m: [Ezana, Caleb, Lalibela, Yekuno, Amda Seyon, Zara Yaqob, Tewodros, Menelik, Haile, Dawit, Solomon, Tariku, Juma, Jabari]
+  f: [Makeda (Sheba), Gudit, Eleni, Taytu, Zewditu, Selam, Mihret, Abeba, Liya, Mekdes, Amina, Zuri, Zawadi, Nia]
+village_names: [Làng Đá Nguyên Khối Lalibela, Xóm Rừng Cà Phê Kaffa, Thôn Cao Nguyên Simien, Bến Thuyền Đảo San Hô, Xóm Đồi Xanh Thượng Nguồn Nile]
+town_names: [Thương Cảng Adulis, Phố Cảng Kilwa, Chợ Ngà Voi Mombasa, Cảng Đảo Zanzibar]
+prefecture_names: [Aksum, Gondar, Lalibela, Kilwa Kisiwani, Addis Ababa, Nairobi]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: lãnh chúa cao nguyên (Ras), call: 'lãnh chúa {given}' }
+  ly_truong: { title: trưởng làng (Chika Shum), call: 'trưởng làng {given}' }
+  thay_do: { title: tu sĩ học giả (Debtera), call: 'học giả {given}' }
+  thay_lang: { title: y sư thảo dược cao nguyên, call: 'y sư {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân Biển Đỏ & Ấn Độ Dương, call: 'thương gia {given}' }
+
+era_variants:
+  - max_year: -1000
+    ethnicity_name: Cư dân Xứ Punt & Vương quốc Kush (Nubia Cổ)
+    default_religion: da_than_ai_cap
+  - min_year: -999
+    max_year: 329
+    ethnicity_name: Người Kush (Meroë) & Tiền Aksum
+    default_religion: da_than_co_dai
+  - min_year: 330
+    max_year: 1270
+    ethnicity_name: Người Aksum & Zagwe (Đông Phi Cổ – Trung đại)
+    default_religion: chinh_thong_giao
+  - min_year: 1271
+    max_year: 1900
+    ethnicity_name: Người Ethiopia (Abyssinia) & Thương cảng Swahili
+    default_religion: chinh_thong_giao
+  - min_year: 1901
+    ethnicity_name: Cư dân Đông Phi Hiện đại (Ethiopia – Kenya – Tanzania)
+    default_religion: chinh_thong_giao
+

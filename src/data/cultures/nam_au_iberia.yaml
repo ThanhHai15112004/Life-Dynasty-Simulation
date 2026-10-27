@@ -1,0 +1,68 @@
+# Văn hóa Nam Âu Địa Trung Hải (Thành bang Ý Phục Hưng – Tây Ban Nha – Bồ Đào Nha Đại Hàng Hải)
+id: nam_au_iberia
+name: Nam Âu (Ý & Iberia)
+ethnicity_name: Người Nam Âu (Ý – Tây Ban Nha – Bồ Đào Nha)
+phenotype: trung_dong_dia_trung_hai
+default_religion: co_doc_giao
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng vàng Florin / Real bạc
+  food: giạ lúa mì
+  land: trang trại nho & ô-liu
+  staple_crop: lúa mì, nho rượu vang & dầu ô-liu
+family_names:
+  - { name: Medici, weight: 16 }
+  - { name: Visconti, weight: 14 }
+  - { name: Rossi, weight: 15 }
+  - { name: Mendoza, weight: 15 }
+  - { name: Silva, weight: 14 }
+  - { name: Navarro, weight: 13 }
+  - { name: Conti, weight: 13 }
+given_names:
+  m: [Lorenzo, Leonardo, Marco, Dante, Giovanni, Cesare, Fernando, Rodrigo, Carlos, Diego, Vasco, Afonso, Mateo, Luca]
+  f: [Isabella, Caterina, Beatrice, Lucrezia, Giulia, Bianca, Elena, Sofia, Carmen, Teresa, Ines, Clara, Lucia, Rosa]
+village_names: [Làng Đồi Nho Tuscany, Xóm Vườn Ô-liu Andalusia, Thôn Bến Biển Địa Trung Hải, Làng Đá Cẩm Thạch, Xóm Cối Xay Gió La Mancha]
+town_names: [Thương Cảng Genova, Bến Tàu Sevilla, Cảng Lisboa, Phố Ngân Hàng Siena]
+prefecture_names: [Firenze (Florence), Venezia, Roma, Sevilla, Lisboa, Madrid, Napoli]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: quý tộc hiệp sĩ (Hidalgo / Signor), call: 'đại nhân {family}' }
+  ly_truong: { title: thị trưởng (Alcalde / Podestà), call: 'thị trưởng {given}' }
+  thay_do: { title: học giả nhân văn / giáo sĩ, call: 'học giả {given}' }
+  thay_lang: { title: y sư đại học, call: 'y sĩ {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương gia hàng hải, call: 'thương gia {family}' }
+
+era_variants:
+  - max_year: 476
+    ethnicity_name: Công dân La Mã – Hispania – Italia Cổ đại
+    default_religion: da_than_hy_la
+  - min_year: 477
+    max_year: 1350
+    ethnicity_name: Người Ý Thành bang & Vương quốc Castile – Aragon
+    default_religion: co_doc_giao
+  - min_year: 1351
+    max_year: 1800
+    ethnicity_name: Người Ý Phục Hưng & Iberia Thời đại Đại Hàng Hải
+    default_religion: co_doc_giao
+  - min_year: 1801
+    ethnicity_name: Người Nam Âu Hiện đại (Ý – Tây Ban Nha – Bồ Đào Nha)
+    default_religion: co_doc_giao
+

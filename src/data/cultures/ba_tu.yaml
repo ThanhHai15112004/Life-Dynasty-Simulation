@@ -1,0 +1,68 @@
+# Văn hóa Ba Tư – Iran (Elam – Achaemenid – Parthia – Sassanid – Safavid – Iran Hiện đại)
+id: ba_tu
+name: Ba Tư (Iran)
+ethnicity_name: Người Ba Tư (Iranian / Persian)
+phenotype: trung_dong_dia_trung_hai
+default_religion: bai_hoa_giao
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng vàng Daric / Dinar
+  food: bao lúa mì
+  land: vườn ốc đảo (Pairidaeza)
+  staple_crop: lúa mì, lựu & nghệ tây (Saffron)
+family_names:
+  - { name: Suren, weight: 16 }
+  - { name: Karen, weight: 15 }
+  - { name: Mihran, weight: 14 }
+  - { name: Shirazi, weight: 15 }
+  - { name: Isfahani, weight: 14 }
+  - { name: Khorasan, weight: 13 }
+  - { name: Rostami, weight: 13 }
+given_names:
+  m: [Cyrus (Kourosh), Darius (Dariush), Xerxes, Ardashir, Shapur, Khosrow, Rostam, Kaveh, Bahram, Farhad, Jamshid, Abbas, Reza, Navid]
+  f: [Atossa, Roxana, Shirin, Purandokht, Azar, Parisa, Soraya, Yasmin, Darya, Golnar, Laleh, Narges, Mitra, Farah]
+village_names: [Làng Kênh Ngầm Qanat, Xóm Vườn Hồng Shiraz, Thôn Thung Lũng Nghệ Tây, Làng Dệt Thảm Kashan, Xóm Chân Núi Zagros]
+town_names: [Trạm Lữ Đoàn Nishapur, Chợ Thảm Tabriz, Thương Cảng Hormuz, Phố Chợ Yazd]
+prefecture_names: [Persepolis, Ctesiphon, Isfahan, Shiraz, Samarkand, Tehran]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: quý tộc kỵ sĩ (Dehqan), call: 'lãnh chúa {given}' }
+  ly_truong: { title: trưởng làng (Kadkhoda), call: 'trưởng làng {given}' }
+  thay_do: { title: tư tế giữ lửa / học giả, call: 'hiền giả {given}' }
+  thay_lang: { title: danh y Ba Tư (Hakim), call: 'danh y {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân Con đường Tơ lụa, call: 'thương gia {given}' }
+
+era_variants:
+  - max_year: -600
+    ethnicity_name: Người Elam & Media Cổ đại
+    default_religion: da_than_luong_ha
+  - min_year: -599
+    max_year: 651
+    ethnicity_name: Người Ba Tư Đế chế Achaemenid – Parthia – Sassanid
+    default_religion: bai_hoa_giao
+  - min_year: 652
+    max_year: 1500
+    ethnicity_name: Người Ba Tư Thời kỳ Phục hưng Văn học (Samanid – Timurid)
+    default_religion: hoi_giao_islam
+  - min_year: 1501
+    ethnicity_name: Người Ba Tư (Triều Safavid & Iran Cận – Hiện đại)
+    default_religion: hoi_giao_shia
+

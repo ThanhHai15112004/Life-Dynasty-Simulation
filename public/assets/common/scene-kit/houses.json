@@ -900,6 +900,238 @@
         "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
         "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
       ]
+    },
+    "nha_tron_dat_set_can_dong": {
+      "key": {
+        "T": "thatch",
+        "D": "thatch_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "K": "shadow",
+        "S": "stone_dark"
+      },
+      "rows": [
+        "............TTTTTTTT............",
+        ".........TTTDDDDDDDDTTT.........",
+        ".......TTDDDDDDDDDDDDDDTT.......",
+        ".....WWWWWWWWWWWWWWWWWWWWWW.....",
+        "....WWWWwwwwwwwwwwwwwwwwWWWW....",
+        "...WWWWWWWWWWWWWWWWWWWWWWWWWW...",
+        "..WWWWWWKKKKWWWWWWWWKKKKWWWWWW..",
+        "..WWWWWWKKKKWWWWWWWWKKKKWWWWWW..",
+        "..WWWWWWWWWWWWKKKKWWWWWWWWWWWW..",
+        "..WWWWWWWWWWWKKKKKKWWWWWWWWWWW..",
+        "..wwwwwwwwwwwKKKKKKwwwwwwwwwww..",
+        ".SSSSSSSSSSSSKKKKKKSSSSSSSSSSSS."
+      ]
+    },
+    "nha_san_dong_son": {
+      "key": {
+        "T": "thatch",
+        "L": "thatch_light",
+        "D": "thatch_dark",
+        "W": "wood",
+        "w": "wood_dark",
+        "H": "horn",
+        "Y": "gold",
+        "K": "shadow"
+      },
+      "rows": [
+        "HH................................HH",
+        ".HHw............................wHH.",
+        "..wwLLLLLLLLLLLLLLLLLLLLLLLLLLLLww..",
+        "...LLTTTTTTTTTTTTTTTTTTTTTTTTTTLL...",
+        "....TTTTTTTTTTTTTTTTTTTTTTTTTTTT....",
+        "...TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT...",
+        "..DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD..",
+        "....wWWWWWWYYYYYYYYYYYYWWWWWWw......",
+        "....wWWWWWwKKKKKKKKKKKKwWWWWWw......",
+        "....wWWWWWwKKKKKKKKKKKKwWWWWWw......",
+        "...wwwwwwwwwwwwwwwwwwwwwwwwwwww.....",
+        ".....ww....ww........ww....ww.......",
+        ".....ww....ww........ww....ww.......",
+        ".....ww....ww........ww....ww......."
+      ]
+    },
+    "nha_gach_bun_ai_cap": {
+      "key": {
+        "W": "wall",
+        "w": "wall_dark",
+        "R": "cloth_red",
+        "B": "tile",
+        "Y": "gold",
+        "K": "shadow",
+        "S": "stone_dark"
+      },
+      "rows": [
+        "..wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww..",
+        "..RRRRBBBBYYYYRRRRBBBBYYYYRRRRBBBB..",
+        "..WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW..",
+        "..WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW..",
+        "..WWWWKKKKWWWWWWWWWWWWWWWWKKKKWWWW..",
+        "..WWWWKKKKWWWWWWWWWWWWWWWWKKKKWWWW..",
+        "..WWWWWWWWWWWWWWWYYYYWWWWWWWWWWWWW..",
+        "..WWWWWWWWWWWWWWYKKKKYWWWWWWWWWWWW..",
+        "..WWWWWWWWWWWWWWYKKKKYWWWWWWWWWWWW..",
+        "..wwwwwwwwwwwwwwYKKKKYwwwwwwwwwwww..",
+        ".SSSSSSSSSSSSSSSSKKKKKKKKSSSSSSSSSS."
+      ]
+    },
+    "biet_thu_la_ma_co_dien": {
+      "key": {
+        "T": "tile",
+        "t": "tile_dark",
+        "L": "tile_light",
+        "W": "wall",
+        "w": "wall_dark",
+        "S": "stone_light",
+        "s": "stone",
+        "K": "shadow"
+      },
+      "rows": [
+        "..............TTTTTTTT..............",
+        "..........TTTTLLLLLLLLTTTT..........",
+        "......TTTTLLLLTTTTTTTTLLLLTTTT......",
+        "..ttttTTTTTTTTTTTTTTTTTTTTTTTTtttt..",
+        "..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..",
+        "...sWWs..sWWs..sWWWWWWs..sWWs..sWWs.",
+        "...sWWs..sWWs..sWWKKKKs..sWWs..sWWs.",
+        "...sWWs..sWWs..sWWKKKKs..sWWs..sWWs.",
+        "...sWWs..sWWs..sWWKKKKs..sWWs..sWWs.",
+        "..ssssssssssssssssKKKKssssssssssssss",
+        ".wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww."
+      ]
+    },
+    "tu_hop_vien_hoa": {
+      "key": {
+        "T": "tile",
+        "t": "tile_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "R": "cloth_red",
+        "Y": "gold",
+        "K": "shadow",
+        "S": "stone_dark"
+      },
+      "rows": [
+        ".t................................t.",
+        "..ttTTTTTTTTTTTTTTTTTTTTTTTTTTTTtt..",
+        "...tTTTTTTTTTTTTTTTTTTTTTTTTTTTTt...",
+        "..tttttttttttttttttttttttttttttttt..",
+        "...RRRRYYYYRRRRRRRRRRRRYYYYRRRRRR...",
+        "...WWWWWWWWWWWWRRRRRRRRWWWWWWWWWW...",
+        "...WWWWKKKKWWWWROOOOOORWWWWKKKKWW...",
+        "...WWWWWWWWWWWWROOOOOORWWWWWWWWWW...",
+        "...wwwwwwwwwwwwROOOOOORwwwwwwwwww...",
+        "..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.."
+      ]
+    },
+    "nha_go_nhat_han": {
+      "key": {
+        "T": "tile_dark",
+        "t": "stone_dark",
+        "W": "wall",
+        "D": "wood_dark",
+        "d": "wood",
+        "K": "shadow"
+      },
+      "rows": [
+        "..T..............................T..",
+        "...TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT...",
+        "..tttttttttttttttttttttttttttttttt..",
+        ".TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT.",
+        "...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD...",
+        "...DWWDWWDWWDWWDKKKKDWWDWWDWWDWWD...",
+        "...DWWDWWDWWDWWDKKKKDWWDWWDWWDWWD...",
+        "...DDDDDDDDDDDDDKKKKDDDDDDDDDDDDD...",
+        "..dddddddddddddddddddddddddddddddd.."
+      ]
+    },
+    "nha_da_an_do": {
+      "key": {
+        "T": "tile",
+        "t": "tile_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "Y": "gold",
+        "R": "cloth_red",
+        "K": "shadow"
+      },
+      "rows": [
+        "................YYYY................",
+        "..............TTTTTTTT..............",
+        "............TTTTTTTTTTTT............",
+        "....YY....tttttttttttttttt....YY....",
+        "...TTTT..WWWWWWWWWWWWWWWWWW..TTTT...",
+        "..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        "..WWWWKKKKWWWWWWKKKKWWWWWWKKKKWWWW..",
+        "..WWWKKKKKKWWWWKKKKKKWWWWKKKKKKWWW..",
+        "..WWWKKKKKKWWWWKKKKKKWWWWKKKKKKWWW..",
+        "..wwwwwwwwwwwwwwKKKKKKwwwwwwwwwwww.."
+      ]
+    },
+    "nha_dat_sahel_phi": {
+      "key": {
+        "W": "wall",
+        "w": "wall_dark",
+        "D": "wood_dark",
+        "K": "shadow"
+      },
+      "rows": [
+        "....WW......WW........WW......WW....",
+        "...WWWW....WWWW......WWWW....WWWW...",
+        "..DWWWWDDDDWWWWDDDDDDWWWWDDDDWWWWD..",
+        "..WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW..",
+        ".DWWWWWDWWWWWWWDWWWWWDWWWWWWWDWWWWD.",
+        "..WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW..",
+        "..WWWWKKKKWWWWWWWKKKKWWWWWWWKKKKWW..",
+        "..WWWWKKKKWWWWWWKKKKKKWWWWWWKKKKWW..",
+        "..wwwwwwwwwwwwwwKKKKKKwwwwwwwwwwww.."
+      ]
+    },
+    "nha_da_maya_inca": {
+      "key": {
+        "S": "stone",
+        "s": "stone_dark",
+        "L": "stone_light",
+        "R": "cloth_red",
+        "Y": "gold",
+        "K": "shadow"
+      },
+      "rows": [
+        "..........SSSSSSSSSSSSSSSS..........",
+        "........SSLLLLLLLLLLLLLLLLSS........",
+        "......RRRRYYYYRRRRRRRRYYYYRRRR......",
+        "....SSSSSSSSSSSSSSSSSSSSSSSSSSSS....",
+        "..ssLLLLSSSSSSSSSSSSSSSSSSSSLLLLss..",
+        "..SSSSSSSSSSSSSSKKKKSSSSSSSSSSSSSS..",
+        "..SSSSKKKKSSSSSKKKKKKSSSSSKKKKSSSS..",
+        "..SSSSKKKKSSSSSKKKKKKSSSSSKKKKSSSS..",
+        ".ssssssssssssssKKKKKKssssssssssssss."
+      ]
+    },
+    "nha_gach_cong_nghiep_1850": {
+      "key": {
+        "T": "tile_dark",
+        "R": "tile",
+        "r": "cloth_red",
+        "W": "wall",
+        "K": "shadow",
+        "S": "stone_dark"
+      },
+      "rows": [
+        "....SS......................SS......",
+        "....SS......................SS......",
+        "...TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT...",
+        "..TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT..",
+        "...RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR...",
+        "...RRWWWRRRRWWWRRRRWWWRRRRWWWRRRR...",
+        "...RRWKWRRRRWKWRRRRWKWRRRRWKWRRRR...",
+        "...RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR...",
+        "...RRWWWRRRRWWWRRRRKKKKRRRWWWRRRR...",
+        "...RRWKWRRRRWKWRRRRKKKKRRRWKWRRRR...",
+        "..SSSSSSSSSSSSSSSSSKKKKSSSSSSSSSSS.."
+      ]
     }
   }
 }

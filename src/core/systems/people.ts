@@ -26,7 +26,7 @@ export function resolveCultureForYear(culture: Culture, year: number): Culture {
   return {
     ...culture,
     ethnicity_name: v.ethnicity_name ?? culture.ethnicity_name,
-    default_religion: v.religion ?? culture.default_religion,
+    default_religion: v.default_religion ?? v.religion ?? culture.default_religion,
     phenotype: v.phenotype ?? culture.phenotype,
     name_order: v.name_order ?? culture.name_order,
     lexicon: v.lexicon ?? culture.lexicon,

@@ -1,0 +1,73 @@
+# Văn hóa Triều Tiên / Hàn Quốc (Gojoseon – Tam Quốc – Goryeo – Joseon – Hàn Quốc Hiện đại)
+id: trieu_tien
+name: Triều Tiên (Hàn)
+ethnicity_name: Người Triều Tiên / Hàn
+phenotype: dong_a_bac
+default_religion: nho_giao_chinh_thong
+calendar_style: can_chi
+name_order: family_first
+lexicon:
+  currency: đồng Mun / lượng bạc
+  food: bao gạo
+  land: mẫu ruộng (Majigi)
+  staple_crop: lúa gạo, đại mạch & nhân sâm
+family_names:
+  - { name: Kim, weight: 22 }
+  - { name: Lý (Yi), weight: 18 }
+  - { name: Phác (Park), weight: 15 }
+  - { name: Thôi (Choi), weight: 12 }
+  - { name: Trịnh (Jeong), weight: 11 }
+  - { name: Khương (Kang), weight: 11 }
+  - { name: 윤 (Yoon), weight: 11 }
+given_names:
+  m: [Sejong, Sun-sin, Seong-gye, Ji-hoon, Min-jun, Hyun-woo, Dong-hyun, Tae-yang, Kwang-su, Joon, Jin-woo, Sung-min]
+  f: [Seondeok, Jini, Ji-은, Seo-yeon, Min-ji, Soo-jin, Eun-ju, Hye-kyo, Bo-ra, Ha-na, Yu-na,Hye-jin]
+village_names: [Làng Hanok Namsan, Thôn Rừng Thông Xanh, Xóm Bến Sông Hán, Làng Nhân Sâm Geumsan, Thôn Gốm Thanh Từ]
+town_names: [Phố Cảng Incheon, Chợ Lớn Kaesong, Bến Thuyền Busan, Trạm Dịch Mungyeong]
+prefecture_names: [Hanyang (Seoul), Kaesong, Gyeongju, Pyongyang, Jeonju]
+kin_calls:
+  father: phụ thân
+  mother: mẫu thân
+  older_m: huynh {given}
+  older_f: tỷ {given}
+  younger: đệ/muội {given}
+  husband: phu quân ({given})
+  wife: thê tử ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: nghĩa tử {given}
+  adopted_daughter: nghĩa nữ {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: thúc phụ {given}
+  aunt: cô mẫu {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: lưỡng ban điền chủ (Yangban), call: 'đại nhân {family}' }
+  ly_truong: { title: lý trưởng, call: 'lý trưởng {family}' }
+  thay_do: { title: nho sinh thư viện (Seowon), call: 'tiên sinh {family}' }
+  thay_lang: { title: y quan Đông y, call: 'y sư {family}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân Kaesong, call: 'thương khách {family}' }
+
+era_variants:
+  - max_year: -108
+    ethnicity_name: Tộc Đông Di – Cổ Triều Tiên (Gojoseon)
+    default_religion: shaman_bac_a
+    village_names: [Xóm Mộ Đá Dolmen, Trại Sông Liêu Hà, Thung Lũng Núi Bạch Đầu, Bãi Đá Đàn Quân]
+  - min_year: -107
+    max_year: 917
+    ethnicity_name: Người Cao Câu Ly – Bách Tế – Tân La
+    default_religion: phat_giao
+  - min_year: 918
+    max_year: 1391
+    ethnicity_name: Người Cao Ly (Goryeo)
+    default_religion: phat_giao
+  - min_year: 1392
+    max_year: 1910
+    ethnicity_name: Người Triều Tiên (Thời Joseon)
+    default_religion: nho_giao_chinh_thong
+  - min_year: 1911
+    ethnicity_name: Người Hàn Quốc Hiện đại
+    default_religion: the_tuc
+

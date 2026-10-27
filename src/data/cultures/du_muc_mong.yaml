@@ -50,3 +50,26 @@ village_roles:
   hang_xom: { title: lều bên cạnh, call: '{given} lều bên' }
   lai_buon: { title: thương đoàn lữ hành, call: 'thương khách {given}' }
 
+era_variants:
+  - max_year: -500
+    ethnicity_name: Bộ tộc Chăn ngựa Thảo nguyên Cổ (Pontic – Altai)
+    default_religion: shaman_bac_a
+    village_names: [Bãi Thuần Ngựa Cổ, Gò Mộ Đá Kurgan, Thảo Nguyên Sông Volga, Chân Núi Vàng Altai]
+  - min_year: -499
+    max_year: 550
+    ethnicity_name: Kỵ tộc Hung Nô – Tiên Ti (Xiongnu – Xianbei)
+    default_religion: tengri_thao_nguyen
+    village_names: [Long Thành Thảo Nguyên, Bãi Cỏ Âm Sơn, Trại Lều Hồ Baikal, Đồi Cờ Lông Vũ]
+  - min_year: 551
+    max_year: 1205
+    ethnicity_name: Bộ tộc Đột Quyết – Khiết Đan – Mông Cổ Sơ kỳ
+    default_religion: tengri_thao_nguyen
+  - min_year: 1206
+    max_year: 1650
+    ethnicity_name: Đại Mông Cổ & Hãn quốc Thảo nguyên
+    default_religion: tengri_thao_nguyen
+  - min_year: 1651
+    ethnicity_name: Người Mông Cổ & Du mục Nội Á
+    default_religion: phat_giao
+
+

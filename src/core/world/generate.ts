@@ -272,9 +272,14 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
   const baseCulture = content.index.culture.get(state.cultureId) ?? content.index.culture.get(origin.culture);
   if (!baseCulture) throw new Error(`Xuất thân "${origin.id}" dùng văn hóa không tồn tại: ${state.cultureId}`);
   const culture = resolveCultureForYear(baseCulture, startYear);
-  state.religionId = polity?.religions?.length
-    ? rng.weighted(polity.religions, (r) => r.weight)?.id
-    : (polity?.religion ?? culture.default_religion ?? 'tho_to_tien');
+  const pickPolityReligion = () => {
+    const list = polity?.religions;
+    if (!opts.lottery || !list || list.length === 0) return undefined;
+    const relRng = Rng.fromSeed(`${opts.seed}::religion`);
+    const picked = relRng.weighted(list, (r) => (typeof r === 'string' ? 1 : r.weight));
+    return typeof picked === 'string' ? picked : picked?.id;
+  };
+  state.religionId = pickPolityReligion() ?? polity?.religion ?? culture.default_religion ?? 'tho_to_tien';
 
   state.world.settlementName = rng.pick(culture.village_names);
   initRegionSettlements(ctx);

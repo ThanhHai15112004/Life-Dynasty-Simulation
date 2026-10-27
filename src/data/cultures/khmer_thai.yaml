@@ -1,0 +1,69 @@
+# Văn hóa Khmer – Thái – Môn – Miến (Phù Nam, Chân Lạp Angkor, Ayutthaya, Pagan)
+id: khmer_thai
+name: Khmer – Thái – Môn
+ethnicity_name: Người Khmer – Thái – Môn
+phenotype: bach_viet_dong_nam_a
+default_religion: phat_giao_nguyen_thuy
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng bạc Tical
+  food: thúng
+  land: mẫu ruộng nước
+  staple_crop: lúa gạo thơm & đường thốt nốt
+family_names:
+  - { name: Varman, weight: 18 }
+  - { name: Preah, weight: 16 }
+  - { name: Chakri, weight: 14 }
+  - { name: Sok, weight: 14 }
+  - { name: Chan, weight: 14 }
+  - { name: Thong, weight: 12 }
+  - { name: Meas, weight: 12 }
+given_names:
+  m: [Jayavarman, Suryavarman, Yasovarman, Ramkhamhaeng, Narai, Naresuan, Somchai, Arthit, Sokha, Dara, Vannak, Rith, Phirun, Boon]
+  f: [Indradevi, Soma, Bopha, Champa, Romduol, Sreyneath, Kalyani, Malai, Dao, Ploy, Siriporn, Chantrea, Kolab, Pich]
+village_names: [Phum Rừng Thốt Nốt, Bản Bên Dòng Mekong, Xóm Hồ Biển Hồ, Thôn Chùa Tháp Vàng, Làng Kênh Đào Baray]
+town_names: [Cảng Óc Eo Cổ, Phố Chợ Ayutthaya, Bến Thuyền Biển Hồ Tonle Sap, Chợ Nổi Sông Chao Phraya]
+prefecture_names: [Angkor Thom (Yasodharapura), Ayutthaya, Sukhothai, Pagan, Óc Eo, Krung Thep]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu {given}
+  uncle: chú {given}
+  aunt: dì {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: điền chủ vùng hồ, call: 'ông chủ {given}' }
+  ly_truong: { title: trưởng phum (Me Phum), call: 'trưởng phum {given}' }
+  thay_do: { title: sư cả chùa tháp, call: 'sư thầy {given}' }
+  thay_lang: { title: thầy thuốc thảo dược, call: 'y sư {given}' }
+  hang_xom: { title: người cùng phum, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân sông Mekong, call: 'thương khách {given}' }
+
+era_variants:
+  - max_year: 801
+    ethnicity_name: Cư dân Phù Nam – Chân Lạp & Môn Cổ
+    default_religion: an_do_giao
+    village_names: [Xóm Kênh Đào Óc Eo, Bến Thuyền Phù Nam, Bản Chân Núi Thiêng, Làng Lúa Nổi Đồng Bằng]
+  - min_year: 802
+    max_year: 1350
+    ethnicity_name: Người Khmer Đế chế Angkor & Vương quốc Sukhothai
+    default_religion: an_do_giao
+  - min_year: 1351
+    max_year: 1900
+    ethnicity_name: Người Khmer – Xiêm (Ayutthaya / Rattanakosin) – Miến Điện
+    default_religion: phat_giao_nguyen_thuy
+  - min_year: 1901
+    ethnicity_name: Cư dân Tiểu vùng Sông Mekong Hiện đại
+    default_religion: phat_giao_nguyen_thuy
+

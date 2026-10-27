@@ -8,9 +8,10 @@ polities:
     description: Những xóm định cư đá mới đầu tiên quanh Jericho và lưu vực sông Euphrates, nơi loài người bắt đầu thuần hóa lúa mì và dê cừu.
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
-    culture: nguyen_thuy
+    culture: ai_cap_luong_ha
+    culture_set: nguyen_thuy_can_dong
     ethnicity_name: Tộc Natufian – Jericho Cổ
-    phenotype: trung_dong
+    phenotype: trung_dong_a_rap
     religion: van_vat_huu_linh
     religions: [van_vat_huu_linh, tho_vat_to]
     population_weight: 22
@@ -31,8 +32,9 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: viet
+    culture_set: bo_lac_nguyen_thuy
     ethnicity_name: Người Hòa Bình – Bắc Sơn Cổ
-    phenotype: dong_nam_a
+    phenotype: bach_viet_dong_nam_a
     religion: van_vat_huu_linh
     religions: [van_vat_huu_linh, tho_vat_to]
     population_weight: 24
@@ -53,8 +55,9 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: an_do
+    culture_set: bo_lac_nguyen_thuy
     ethnicity_name: Tộc Mehrgarh – Tiền Ấn Cổ
-    phenotype: nam_a
+    phenotype: nam_a_an_do
     religion: van_vat_huu_linh
     religions: [van_vat_huu_linh, tho_vat_to]
     population_weight: 20
@@ -74,11 +77,12 @@ polities:
     description: Những nhóm thợ săn tuần lộc, hươu đỏ và đánh cá ven biển khi băng hà vừa rút về phương Bắc.
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
-    culture: nguyen_thuy
+    culture: bac_au
+    culture_set: nguyen_thuy_bang_ha_au
     ethnicity_name: Thợ săn Mesolithic Châu Âu
-    phenotype: au_bac
+    phenotype: bac_au_scandinavia
     religion: tho_vat_to
-    religions: [tho_vat_to, van_vat_huu_linh]
+    religions: [tho_vat_to, shaman_bac_a]
     population_weight: 12
     demographics:
       life_expectancy: 23
@@ -97,10 +101,11 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: chau_phi
+    culture_set: nguyen_thuy_thao_nguyen_phi
     ethnicity_name: Tộc Thảo nguyên Sahara Xanh
-    phenotype: chau_phi
+    phenotype: chau_phi_sub_sahara
     religion: van_vat_huu_linh
-    religions: [van_vat_huu_linh, tho_vat_to]
+    religions: [van_vat_huu_linh, tin_nguong_chau_phi]
     population_weight: 22
     demographics:
       life_expectancy: 23
@@ -119,10 +124,12 @@ polities:
     description: Thời đại của Đại Kim Tự Tháp Giza và các thành bang Ur, Uruk. Hệ thống thủy lợi, chữ hình nêm và bộ máy tư tế đầu tiên của nhân loại.
     bookmarks: [co_dai_2500bce]
     civilization: co_dai_de_che
-    culture: la_ma_hy_lap
+    culture: ai_cap_luong_ha
+    culture_set: ai_cap_luong_ha_co_dai
     ethnicity_name: Người Kemet (Ai Cập Cổ) & Sumer
-    phenotype: trung_dong
-    religion: da_than_co_dai
+    phenotype: trung_dong_a_rap
+    religion: da_than_ai_cap
+    religions: [da_than_ai_cap, da_than_luong_ha]
     population_weight: 26
     demographics:
       life_expectancy: 28
@@ -141,10 +148,11 @@ polities:
     bookmarks: [co_dai_2500bce]
     civilization: nam_a
     culture: an_do
+    culture_set: song_an_co_dai
     ethnicity_name: Cư dân Harappa – Sông Ấn Cổ
-    phenotype: nam_a
-    religion: da_than_co_dai
-    religions: [da_than_co_dai, an_do_giao]
+    phenotype: nam_a_dravidian
+    religion: an_do_giao
+    religions: [an_do_giao, da_than_co_dai]
     population_weight: 28
     demographics:
       life_expectancy: 28
@@ -159,12 +167,13 @@ polities:
   - id: long_son_bach_viet_2500bce
     name: Văn hóa Long Sơn & Bộ tộc Bách Việt (Phùng Nguyên)
     region_label: Đông Á & Đông Nam Á
-    description: Các tụ落 nông nghiệp lúa nước trù phú, kỹ thuật chế tác ngọc bích, gốm đen xoay bàn và khởi đầu thời đại kim khí.
+    description: Các tụ lạc nông nghiệp lúa nước trù phú, kỹ thuật chế tác ngọc bích, gốm đen xoay bàn và khởi đầu thời đại kim khí.
     bookmarks: [co_dai_2500bce]
     civilization: nho_giao
     culture: viet
+    culture_set: bach_viet_dong_son
     ethnicity_name: Tộc Lạc Việt – Phùng Nguyên
-    phenotype: dong_nam_a
+    phenotype: bach_viet_dong_nam_a
     religion: tin_nguong_dong_son
     religions: [tin_nguong_dong_son, tho_to_tien]
     population_weight: 26
@@ -185,10 +194,11 @@ polities:
     bookmarks: [co_dai_2500bce]
     civilization: bo_lac_nguyen_thuy
     culture: nguyen_thuy
+    culture_set: nguyen_thuy_bang_ha_au
     ethnicity_name: Bộ tộc Đồ Đồng & Thảo nguyên Cổ
-    phenotype: au_bac
+    phenotype: au_bac_tay
     religion: tho_vat_to
-    religions: [tho_vat_to, van_vat_huu_linh]
+    religions: [tho_vat_to, da_than_bac_au, shaman_bac_a]
     population_weight: 20
     demographics:
       life_expectancy: 26
@@ -208,10 +218,12 @@ polities:
     bookmarks: [co_dien_500bce]
     civilization: co_dai_de_che
     culture: la_ma_hy_lap
-    ethnicity_name: Người Hy Lạp (Hellas) & Ba Tư Cổ
+    culture_set: la_ma_hy_lap_co_dien
+    ethnicity_name: Người Hy Lạp (Hellas) & Địa Trung Hải
     phenotype: dia_trung_hai
-    religion: da_than_co_dai
-    population_weight: 25
+    religion: da_than_hy_la
+    religions: [da_than_hy_la, da_than_co_dai, bai_hoa_giao]
+    population_weight: 16
     demographics:
       life_expectancy: 30
       child_mortality: 0.37
@@ -222,18 +234,42 @@ polities:
     origin_weights: { nong_dan: 80, thuong_nhan: 13, quy_toc_nho: 7 }
     historical_fact: 'Đế chế Ba Tư Achaemenid năm 500 TCN cai quản khoảng 18–20 triệu người (~20% dân số thế giới), kết nối bằng Con đường Hoàng gia dài 2.700 km.'
 
+  - id: ba_tu_achaemenid_500bce
+    name: Đế quốc Ba Tư Achaemenid (Persepolis – Babylon)
+    region_label: Trung Đông & Cao nguyên Iran
+    description: Đế quốc đa sắc tộc đầu tiên của thế giới cổ đại từ sông Nile đến sông Ấn, nơi Bái Hỏa Giáo (Zoroastrianism) và hệ thống tổng trấn Satrap hưng thịnh.
+    bookmarks: [co_dien_500bce]
+    civilization: co_dai_de_che
+    culture: ba_tu
+    culture_set: ai_cap_luong_ha_co_dai
+    ethnicity_name: Người Ba Tư Cổ (Parsa – Media)
+    phenotype: ba_tu_trung_a
+    religion: bai_hoa_giao
+    religions: [bai_hoa_giao, da_than_luong_ha, do_thai_giao]
+    population_weight: 12
+    demographics:
+      life_expectancy: 30
+      child_mortality: 0.37
+      urban_share: 0.09
+      literacy_rate: 0.05
+      mortality_factor: 1.24
+      wealth_factor: 1.10
+    origin_weights: { nong_dan: 80, thuong_nhan: 13, quy_toc_nho: 7 }
+    historical_fact: 'Trụ đá Cyrus của Ba Tư năm 539 TCN cho phép các dân tộc trong đế chế tự do thờ phụng thần linh và hồi hương về cố xứ.'
+
   - id: xuan_thu_dong_son_500bce
-    name: Xuân Thu – Chiến Quốc & Văn hóa Đông Sơn (Âu Lạc)
-    region_label: Đông Á & Đông Nam Á
-    description: Thời đại của Khổng Tử, Lão Tử, Bách gia chư tử ở phương Bắc và nền văn minh trống đồng Đông Sơn rực rỡ bên bờ sông Hồng, sông Mã.
+    name: Văn minh Đông Sơn (Văn Lang – Âu Lạc) & Bách Việt
+    region_label: Đông Nam Á
+    description: Nền văn minh trống đồng Đông Sơn rực rỡ bên bờ sông Hồng, sông Mã với nhà sàn mái cong, thuyền độc mộc và lễ hội cầu mùa.
     bookmarks: [co_dien_500bce]
     civilization: nho_giao
     culture: viet
+    culture_set: bach_viet_dong_son
     ethnicity_name: Người Lạc Việt – Đông Sơn
-    phenotype: dong_nam_a
+    phenotype: bach_viet_dong_nam_a
     religion: tin_nguong_dong_son
-    religions: [tin_nguong_dong_son, tho_to_tien]
-    population_weight: 28
+    religions: [tin_nguong_dong_son, tho_to_tien, tin_nguong_tho_mau]
+    population_weight: 10
     demographics:
       life_expectancy: 29
       child_mortality: 0.38
@@ -242,20 +278,44 @@ polities:
       mortality_factor: 1.25
       wealth_factor: 1.0
     origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
-    historical_fact: 'Công cụ sắt cho lưỡi cày và thủy lợi quy mô lớn thời Xuân Thu – Đông Sơn giúp năng suất lúa tăng vọt, dân số Đông Á đạt gần 30 triệu người.'
+    historical_fact: 'Công cụ sắt và kỹ thuật đúc trống đồng Đông Sơn giúp cư dân Lạc Việt mở rộng diện tích lúa nước khắp châu thổ Bắc Bộ và Bắc Trung Bộ.'
+
+  - id: xuan_thu_chien_quoc_500bce
+    name: Chư hầu Xuân Thu – Chiến Quốc (Trung Hoa Cổ)
+    region_label: Đông Á
+    description: Thời đại của Khổng Tử, Lão Tử, Mặc Tử và Bách gia chư tử. Các nước Tề, Tấn, Sở, Tần đua nhau biến pháp, rèn sắt và mở mang đô thị.
+    bookmarks: [co_dien_500bce]
+    civilization: nho_giao
+    culture: han_dong_a
+    culture_set: dong_a_co_dai
+    ethnicity_name: Người Hoa Hạ – Chư Hạ
+    phenotype: dong_a_hoa_ha
+    religion: tho_to_tien
+    religions: [tho_to_tien, nho_giao_chinh_thong, dao_giao]
+    population_weight: 20
+    demographics:
+      life_expectancy: 29
+      child_mortality: 0.38
+      urban_share: 0.08
+      literacy_rate: 0.06
+      mortality_factor: 1.25
+      wealth_factor: 1.02
+    origin_weights: { nong_dan: 83, thuong_nhan: 10, quy_toc_nho: 7 }
+    historical_fact: 'Thời Xuân Thu – Chiến Quốc chứng kiến sự ra đời của Nho gia, Đạo gia, Pháp gia — nền tảng tư tưởng định hình Đông Á suốt hơn 2.000 năm.'
 
   - id: an_do_co_dien_500bce
     name: Thập Lục Quốc Ấn Độ (Mahajanapadas)
     region_label: Nam Á
-    description: Lưu vực sông Hằng trù phú thời Đức Phật Thích Ca tại thế, với các vương quốc Magadha, Kosala và đô thị thương mại sầm uất.
+    description: Lưu vực sông Hằng trù phú thời Đức Phật Thích Ca và Mahavira tại thế, với các vương quốc Magadha, Kosala và đô thị thương mại sầm uất.
     bookmarks: [co_dien_500bce]
     civilization: nam_a
     culture: an_do
+    culture_set: song_an_co_dai
     ethnicity_name: Người Indo-Aryan & Dravidian Cổ
-    phenotype: nam_a
+    phenotype: nam_a_an_do
     religion: phat_giao
-    religions: [an_do_giao, phat_giao]
-    population_weight: 27
+    religions: [an_do_giao, phat_giao, ky_na_giao]
+    population_weight: 24
     demographics:
       life_expectancy: 29
       child_mortality: 0.38
@@ -273,11 +333,12 @@ polities:
     bookmarks: [co_dien_500bce]
     civilization: ban_dia_phi_my
     culture: chau_my
+    culture_set: chau_my_maya_inca
     ethnicity_name: Tộc Olmec – Maya Sơ kỳ
-    phenotype: ban_dia_my
-    religion: da_than_co_dai
-    religions: [da_than_co_dai, tho_vat_to]
-    population_weight: 20
+    phenotype: ban_dia_trung_my
+    religion: da_than_maya_aztec
+    religions: [da_than_maya_aztec, tho_vat_to]
+    population_weight: 18
     demographics:
       life_expectancy: 28
       child_mortality: 0.40
@@ -296,11 +357,12 @@ polities:
     bookmarks: [de_che_100ce]
     civilization: co_dai_de_che
     culture: la_ma_hy_lap
+    culture_set: la_ma_hy_lap_co_dien
     ethnicity_name: Công dân La Mã – Địa Trung Hải
     phenotype: dia_trung_hai
-    religion: da_than_co_dai
-    religions: [da_than_co_dai, co_doc_giao]
-    population_weight: 26
+    religion: da_than_hy_la
+    religions: [da_than_hy_la, co_doc_giao, do_thai_giao]
+    population_weight: 22
     demographics:
       life_expectancy: 30
       child_mortality: 0.36
@@ -318,11 +380,12 @@ polities:
     bookmarks: [de_che_100ce]
     civilization: nho_giao
     culture: han_dong_a
+    culture_set: dong_a_co_dai
     ethnicity_name: Người Hán – Giao Chỉ Cổ
-    phenotype: dong_a
+    phenotype: dong_a_hoa_ha
     religion: tho_to_tien
-    religions: [tho_to_tien, tam_giao, phat_giao]
-    population_weight: 28
+    religions: [tho_to_tien, nho_giao_chinh_thong, dao_giao, phat_giao]
+    population_weight: 22
     demographics:
       life_expectancy: 30
       child_mortality: 0.36
@@ -333,18 +396,42 @@ polities:
     origin_weights: { nong_dan: 83, thuong_nhan: 10, quy_toc_nho: 7 }
     historical_fact: 'Năm 100 CN, riêng hai đế chế La Mã và Đông Hán đã chiếm hơn một nửa tổng dân số toàn cầu (~230 triệu người).'
 
+  - id: cham_pa_phu_nam_100ce
+    name: Vương quốc Phù Nam & Lâm Ấp – Champa Cổ
+    region_label: Đông Nam Á Hải Đảo & Lục Địa
+    description: Các thương cảng quốc tế Óc Eo, Trà Kiệu nơi thuyền buôn Ấn Độ, La Mã và Trung Hoa hội tụ trao đổi trầm hương, gia vị và vàng bạc.
+    bookmarks: [de_che_100ce]
+    civilization: nam_a
+    culture: cham_nam_dao
+    culture_set: dong_nam_a_cham_khmer
+    ethnicity_name: Người Chăm – Phù Nam Cổ
+    phenotype: nam_dao_cham_malay
+    religion: an_do_giao
+    religions: [an_do_giao, phat_giao_nguyen_thuy, van_vat_huu_linh]
+    population_weight: 6
+    demographics:
+      life_expectancy: 29
+      child_mortality: 0.36
+      urban_share: 0.08
+      literacy_rate: 0.05
+      mortality_factor: 1.21
+      wealth_factor: 1.04
+    origin_weights: { nong_dan: 80, thuong_nhan: 14, quy_toc_nho: 6 }
+    historical_fact: 'Khảo cổ học tại thương cảng Óc Eo (An Giang) đã tìm thấy đồng tiền vàng hoàng đế La Mã Antoninus Pius và gương đồng Đông Hán.'
+
   - id: an_do_kushan_100ce
-    name: Đế chế Kushan & Vương quốc Satavahana (Ấn Độ)
+    name: Đế chế Kushan & Vương quốc Tamil Sangam (Ấn Độ)
     region_label: Nam Á
     description: Ngã tư của Con đường Tơ lụa và tuyến hàng hải Ấn Độ Dương, xuất khẩu hồ tiêu, ngọc trai và vải bông đi khắp thế giới cổ đại.
     bookmarks: [de_che_100ce]
     civilization: nam_a
-    culture: an_do
-    ethnicity_name: Người Ấn Độ Cổ (Kushan – Tamil)
-    phenotype: nam_a
+    culture: tamil_nam_a
+    culture_set: nam_a_an_do
+    ethnicity_name: Người Tamil Sangam & Kushan
+    phenotype: nam_a_dravidian
     religion: an_do_giao
-    religions: [an_do_giao, phat_giao]
-    population_weight: 29
+    religions: [an_do_giao, phat_giao, ky_na_giao]
+    population_weight: 24
     demographics:
       life_expectancy: 30
       child_mortality: 0.36
@@ -353,19 +440,21 @@ polities:
       mortality_factor: 1.22
       wealth_factor: 1.02
     origin_weights: { nong_dan: 82, thuong_nhan: 12, quy_toc_nho: 6 }
-    historical_fact: 'Thương mại biển giữa Ấn Độ và La Mã thế kỷ 1 CN lớn đến mức Pliny Già phàn nàn La Mã chảy máu hàng chục triệu đồng sesterces bạc mỗi năm để mua gia vị và lụa.'
+    historical_fact: 'Thương mại biển giữa Nam Ấn (Tamilakam) và La Mã thế kỷ 1 CN lớn đến mức Pliny Già phàn nàn La Mã chảy máu hàng chục triệu sesterces bạc mỗi năm.'
 
   - id: ba_tu_parthia_phi_my_100ce
     name: Đế chế Parthia, Vương quốc Aksum & Thành Teotihuacan
-    region_label: Trung Đông, Châu Phi & Châu Mỹ
-    description: Trung tâm trung chuyển tơ lụa ở Ba Tư, thương cảng Biển Đỏ Aksum (Đông Phi) và đại đô thị Teotihuacan ở Mexico.
+    region_label: Trung Đông, Đông Phi & Châu Mỹ
+    description: Trung tâm trung chuyển tơ lụa ở Ba Tư, thương cảng Biển Đỏ Aksum (Ethiopia) và đại đô thị Teotihuacan ở Mexico.
     bookmarks: [de_che_100ce]
     civilization: hoi_giao
-    culture: a_rap_ba_tu
-    ethnicity_name: Người Ba Tư Parthia & Aksum Cổ
-    phenotype: trung_dong
+    culture: dong_phi
+    culture_set: chau_phi_ban_dia
+    ethnicity_name: Người Aksum (Habesha) & Ba Tư Parthia
+    phenotype: dong_phi_sung_phi
     religion: da_than_co_dai
-    population_weight: 17
+    religions: [da_than_co_dai, bai_hoa_giao, do_thai_giao]
+    population_weight: 16
     demographics:
       life_expectancy: 29
       child_mortality: 0.37
@@ -374,9 +463,9 @@ polities:
       mortality_factor: 1.24
       wealth_factor: 0.98
     origin_weights: { nong_dan: 83, thuong_nhan: 11, quy_toc_nho: 6 }
-    historical_fact: 'Thành phố Teotihuacan ở Châu Mỹ thế kỷ 1–2 CN đạt trên 100.000 dân, nằm trong nhóm 6 đô thị lớn nhất thế giới đương thời.'
+    historical_fact: 'Vương quốc Aksum ở Đông Phi được nhà tiên tri Mani (thế kỷ 3) xếp vào một trong 4 đại cường quốc của thế giới đương thời cùng La Mã, Ba Tư và Trung Hoa.'
 
-  # ════════════════════════ 5. TRUNG CỔ SƠ KỲ (1000 CN) ════════════════════════
+  # ════════════════════════ 5 & 6. TRUNG CỔ (1000 CN & 1250 CN) ════════════════════════
   - id: dai_viet_nha_ly_1000ce
     name: Đại Việt (Thời Lý – Trần)
     region_label: Đông Nam Á
@@ -384,10 +473,11 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: nho_giao
     culture: viet
+    culture_set: dong_a_nho_giao
     ethnicity_name: Người Kinh – Đại Việt
-    phenotype: dong_nam_a
+    phenotype: bach_viet_dong_nam_a
     religion: phat_giao
-    religions: [phat_giao, tam_giao, tho_to_tien]
+    religions: [phat_giao, tam_giao, tho_to_tien, tin_nguong_tho_mau]
     population_weight: 6
     demographics:
       life_expectancy: 34
@@ -399,18 +489,42 @@ polities:
     origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
     historical_fact: 'Thế kỷ 11–13, Đại Việt áp dụng chính sách "Ngụ binh ư nông" (gửi lính ở nhà nông) và mở các khoa thi Tam trường để tuyển chọn nhân tài từ cả tầng lớp dân thường.'
 
+  - id: de_che_angkor_champa_1000ce
+    name: Đế chế Khmer Angkor & Vương quốc Champa
+    region_label: Đông Nam Á
+    description: Kinh đô Angkor Thom hơn nửa triệu dân với hệ thống hồ chứa nước Baray khổng lồ, đền Angkor Wat và các tháp Chăm gạch đỏ ven biển miền Trung.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: nam_a
+    culture: khmer_thai
+    culture_set: dong_nam_a_cham_khmer
+    ethnicity_name: Người Khmer Angkor & Chăm
+    phenotype: bach_viet_dong_nam_a
+    religion: phat_giao_nguyen_thuy
+    religions: [an_do_giao, phat_giao, phat_giao_nguyen_thuy]
+    population_weight: 5
+    demographics:
+      life_expectancy: 33
+      child_mortality: 0.31
+      urban_share: 0.08
+      literacy_rate: 0.06
+      mortality_factor: 1.04
+      wealth_factor: 1.02
+    origin_weights: { nong_dan: 83, thuong_nhan: 11, quy_toc_nho: 6 }
+    historical_fact: 'Quần thể đô thị Angkor thế kỷ 12–13 rộng gần 1.000 km², là đô thị tiền công nghiệp có diện tích trải rộng lớn nhất thế giới.'
+
   - id: tong_dong_a_1000ce
-    name: Trung Hoa Thời Tống & Đông Á (Nhật Bản Heian, Cao Ly)
+    name: Trung Hoa Thời Tống – Nguyên
     region_label: Đông Á
     description: 'Thời kỳ cách mạng thương mại và đô thị hóa rực rỡ ở Đông Á: tiền giấy đầu tiên, la bàn hàng hải, nghề in và các đô thị triệu dân như Khai Phong, Hàng Châu.'
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: nho_giao
     culture: han_dong_a
+    culture_set: trung_hoa_phong_kien
     ethnicity_name: Người Hán – Đông Á
-    phenotype: dong_a
+    phenotype: dong_a_hoa_ha
     religion: tam_giao
-    religions: [tam_giao, tho_to_tien, phat_giao]
-    population_weight: 30
+    religions: [tam_giao, nho_giao_chinh_thong, phat_giao, dao_giao]
+    population_weight: 22
     demographics:
       life_expectancy: 34
       child_mortality: 0.31
@@ -421,6 +535,29 @@ polities:
     origin_weights: { nong_dan: 78, thuong_nhan: 14, quy_toc_nho: 8 }
     historical_fact: 'Theo Maddison Project, vào năm 1000–1250 CN, khu vực Đông Á chiếm khoảng 1/3 dân số thế giới và có tỷ lệ đô thị hóa cao nhất hành tinh (~12%).'
 
+  - id: nhat_ban_cao_ly_1000ce
+    name: Nhật Bản (Heian – Kamakura) & Vương triều Cao Ly (Goryeo)
+    region_label: Đông Bắc Á
+    description: Kinh đô Heian-kyo (Kyoto) thanh lịch của quý tộc công gia, tầng lớp võ sĩ Samurai Kamakura trỗi dậy và triều đại Cao Ly rực rỡ văn hóa Phật giáo – gốm men ngọc.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: nho_giao
+    culture: nhat_ban
+    culture_set: dong_bac_a_phong_kien
+    ethnicity_name: Người Nhật (Yamato) & Cao Ly
+    phenotype: dong_bac_a_nhat_han
+    religion: than_dao_shinto
+    religions: [than_dao_shinto, phat_giao, nho_giao_chinh_thong]
+    population_weight: 6
+    demographics:
+      life_expectancy: 33
+      child_mortality: 0.31
+      urban_share: 0.08
+      literacy_rate: 0.08
+      mortality_factor: 1.03
+      wealth_factor: 1.04
+    origin_weights: { nong_dan: 82, thuong_nhan: 10, quy_toc_nho: 8 }
+    historical_fact: 'Năm 1008 tại Kyoto, nữ sĩ Murasaki Shikibu hoàn thành "Truyện kể Genji" — tiểu thuyết tâm lý dài kỳ đầu tiên của văn học thế giới.'
+
   - id: nam_a_chola_1000ce
     name: Đế chế Chola & Các Vương quốc Ấn Độ
     region_label: Nam Á
@@ -428,11 +565,12 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: nam_a
     culture: an_do
-    ethnicity_name: Người Tamil – Ấn Độ
-    phenotype: nam_a
+    culture_set: nam_a_an_do
+    ethnicity_name: Người Ấn Độ & Tamil Chola
+    phenotype: nam_a_an_do
     religion: an_do_giao
-    religions: [an_do_giao, phat_giao]
-    population_weight: 26
+    religions: [an_do_giao, phat_giao, hoi_giao_islam, ky_na_giao]
+    population_weight: 22
     demographics:
       life_expectancy: 32
       child_mortality: 0.33
@@ -444,16 +582,18 @@ polities:
     historical_fact: 'Nam Á thời Trung cổ luôn duy trì từ 75–85 triệu dân (~25% nhân loại), là trung tâm xuất khẩu vải dệt lớn nhất thế giới tiền công nghiệp.'
 
   - id: hoi_giao_hoang_kim_1000ce
-    name: Thế giới Hồi giáo Hoàng kim (Abbasid, Fatimid, Mamluk)
+    name: Thế giới Hồi giáo Hoàng kim (Abbasid, Fatimid, Mamluk, Ba Tư)
     region_label: Trung Đông & Bắc Phi
-    description: Từ Cairo, Baghdad đến Córdoba — trung tâm khoa học, y học (Ibn Sina), toán học và các tuyến lữ đoàn thương mại nối liền 3 châu lục.
+    description: Từ Cairo, Baghdad đến Nishapur — trung tâm khoa học, y học (Ibn Sina), toán học và các tuyến lữ đoàn thương mại nối liền 3 châu lục.
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: hoi_giao
     culture: a_rap_ba_tu
-    ethnicity_name: Người Ả Rập – Ba Tư
-    phenotype: trung_dong
+    culture_set: trung_dong_hoi_giao
+    ethnicity_name: Người Ả Rập – Ba Tư – Thổ Seljuk
+    phenotype: trung_dong_a_rap
     religion: hoi_giao_islam
-    population_weight: 12
+    religions: [hoi_giao_islam, hoi_giao_shia, chinh_thong_giao, do_thai_giao]
+    population_weight: 11
     demographics:
       life_expectancy: 34
       child_mortality: 0.31
@@ -465,16 +605,18 @@ polities:
     historical_fact: 'Vào thế kỷ 10–13, các đô thị Hồi giáo như Baghdad và Cairo có bệnh viện công cộng miễn phí, thư viện lớn và mạng lưới tín phiếu (Suftaja) xuyên lục địa.'
 
   - id: phong_kien_chau_au_1000ce
-    name: Châu Âu Phong kiến (Anh, Pháp, La Mã Thần Thánh, Byzantium)
-    region_label: Châu Âu
-    description: Lâu đài đá, lãnh chúa hiệp sĩ, tu viện chép sách và những phường hội thị trấn đang trỗi dậy bên cạnh ruộng đất thái ấp của nông nô.
+    name: Tây Âu Phong kiến (Anh, Pháp, La Mã Thần Thánh, Bắc Âu)
+    region_label: Tây Âu & Bắc Âu
+    description: Lâu đài đá, lãnh chúa hiệp sĩ, tu viện chép sách, thương thuyền Bắc Âu và những phường hội thị trấn đang trỗi dậy bên cạnh thái ấp của nông nô.
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: phong_kien_au
     culture: au_tay
-    ethnicity_name: Người Âu Tây (Frank – Anglo – German)
-    phenotype: au_bac
+    culture_set: phong_kien_au
+    ethnicity_name: Người Âu Tây (Frank – Anglo – German – Norse)
+    phenotype: au_bac_tay
     religion: co_doc_giao
-    population_weight: 14
+    religions: [co_doc_giao, da_than_bac_au, do_thai_giao]
+    population_weight: 10
     demographics:
       life_expectancy: 32
       child_mortality: 0.33
@@ -485,6 +627,29 @@ polities:
     origin_weights: { nong_dan: 86, thuong_nhan: 9, quy_toc_nho: 5 }
     historical_fact: 'Theo Sổ điền Domesday Book (Anh, 1086), khoảng 85–90% dân cư Châu Âu thời Trung cổ sống ở nông thôn trong thân phận nông nô (Serf) hoặc nông dân lệ thuộc.'
 
+  - id: dong_au_byzantine_rus_1000ce
+    name: Đế chế Đông La Mã (Byzantium) & Kievan Rus' (Đông Âu)
+    region_label: Đông Âu & Đông Địa Trung Hải
+    description: Kinh thành Constantinople tráng lệ bên eo biển Bosphorus và các công quốc Slav (Kiev, Novgorod) dọc tuyến thương mại đường sông từ biển Baltic tới Biển Đen.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: phong_kien_au
+    culture: dong_au_slav
+    culture_set: dong_au_byzantine
+    ethnicity_name: Người Slav (Rus') & Hy Lạp Byzantine
+    phenotype: dong_au_slav
+    religion: chinh_thong_giao
+    religions: [chinh_thong_giao, co_doc_giao, da_than_bac_au]
+    population_weight: 6
+    demographics:
+      life_expectancy: 32
+      child_mortality: 0.33
+      urban_share: 0.08
+      literacy_rate: 0.06
+      mortality_factor: 1.05
+      wealth_factor: 1.0
+    origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
+    historical_fact: 'Constantinople thời Trung cổ là thành lũy kiên cố nhất Châu Âu và là đầu mối giao thương giữa thế giới Chính Thống giáo, Tây Âu và Hồi giáo.'
+
   - id: thao_nguyen_mong_co_1250ce
     name: Đế quốc Thảo nguyên Âu–Á (Đột Quyết / Mông Cổ)
     region_label: Thảo nguyên Âu–Á
@@ -492,10 +657,11 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: du_muc
     culture: du_muc_mong
+    culture_set: thao_nguyen_du_muc
     ethnicity_name: Tộc Mông Cổ – Đột Quyết
-    phenotype: dong_a
+    phenotype: du_muc_trung_a
     religion: tengri_thao_nguyen
-    religions: [tengri_thao_nguyen, phat_giao, hoi_giao_islam]
+    religions: [tengri_thao_nguyen, shaman_bac_a, phat_giao, hoi_giao_islam]
     population_weight: 4
     demographics:
       life_expectancy: 31
@@ -508,17 +674,18 @@ polities:
     historical_fact: 'Dù dân số thảo nguyên Mông Cổ thế kỷ 13 chỉ khoảng 1–2 triệu người, họ đã xây dựng đế quốc lục địa liền dải lớn nhất lịch sử nhân loại.'
 
   - id: mali_maya_inca_1250ce
-    name: Đế chế Vàng Mali (Tây Phi) & Văn minh Maya – Andes
-    region_label: Châu Phi & Châu Mỹ
-    description: Những đoàn lạc đà chở vàng từ Timbuktu (Mali) và những thành phố đá vĩ đại của người Maya, Aztec, Inca bên kia đại dương.
+    name: Đế chế Vàng Mali (Tây Phi) & Duyên hải Swahili
+    region_label: Châu Phi
+    description: Những đoàn lạc đà chở vàng và muối tới Timbuktu (Mali), các vương quốc Hausa – Yoruba và các thương cảng đá san hô Kilwa, Mombasa bên bờ Ấn Độ Dương.
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: ban_dia_phi_my
     culture: chau_phi
-    ethnicity_name: Người Mandinka (Mali) & Bản địa
-    phenotype: chau_phi
+    culture_set: chau_phi_ban_dia
+    ethnicity_name: Người Mandinka (Mali) – Yoruba – Swahili
+    phenotype: chau_phi_sub_sahara
     religion: hoi_giao_islam
-    religions: [hoi_giao_islam, van_vat_huu_linh, tho_to_tien]
-    population_weight: 8
+    religions: [hoi_giao_islam, tin_nguong_chau_phi, van_vat_huu_linh]
+    population_weight: 5
     demographics:
       life_expectancy: 31
       child_mortality: 0.35
@@ -529,6 +696,29 @@ polities:
     origin_weights: { nong_dan: 85, thuong_nhan: 10, quy_toc_nho: 5 }
     historical_fact: 'Đế chế Mali ở Tây Phi thế kỷ 13–14 cung cấp hơn một nửa lượng vàng lưu thông trên toàn thế giới Cựu Lục Địa.'
 
+  - id: maya_inca_andes_1250ce
+    name: Thành bang Maya – Toltec & Vương quốc Cusco (Andes)
+    region_label: Châu Mỹ Cổ & Trung Cổ
+    description: Những kim tự tháp đá vôi Chichen Itza ở bán đảo Yucatan và hệ thống ruộng bậc thang trên dãy Andes hùng vĩ của nền văn minh Inca sơ kỳ.
+    bookmarks: [trung_co_1000ce, trung_co_1250ce]
+    civilization: ban_dia_phi_my
+    culture: inca_andes
+    culture_set: chau_my_maya_inca
+    ethnicity_name: Người Quechua (Inca) & Maya
+    phenotype: ban_dia_andes
+    religion: than_mat_troi_inca
+    religions: [than_mat_troi_inca, da_than_maya_aztec, van_vat_huu_linh]
+    population_weight: 3
+    demographics:
+      life_expectancy: 31
+      child_mortality: 0.35
+      urban_share: 0.06
+      literacy_rate: 0.03
+      mortality_factor: 1.10
+      wealth_factor: 0.96
+    origin_weights: { nong_dan: 86, thuong_nhan: 8, quy_toc_nho: 6 }
+    historical_fact: 'Cư dân vùng Andes đã lai tạo hơn 3.000 giống khoai tây khác nhau và ghi chép thuế khóa bằng hệ thống dây thắt nút Quipu.'
+
   # ════════════════════════ 7. CẬN ĐẠI & ĐẠI HÀNG HẢI (1600 CN) ════════════════════════
   - id: dai_viet_can_dai_1600ce
     name: Đại Việt Thời Lê Trung Hưng (Đàng Ngoài – Đàng Trong)
@@ -537,11 +727,12 @@ polities:
     bookmarks: [can_dai_1600ce]
     civilization: nho_giao
     culture: viet
+    culture_set: dong_a_nho_giao
     ethnicity_name: Người Kinh – Đại Việt
-    phenotype: dong_nam_a
+    phenotype: bach_viet_dong_nam_a
     religion: tam_giao
-    religions: [tam_giao, tho_to_tien, phat_giao, co_doc_giao]
-    population_weight: 6
+    religions: [tam_giao, tho_to_tien, phat_giao, tin_nguong_tho_mau, co_doc_giao]
+    population_weight: 5
     demographics:
       life_expectancy: 36
       child_mortality: 0.27
@@ -553,17 +744,18 @@ polities:
     historical_fact: 'Thế kỷ 17 ("Thứ nhất Kinh Kỳ, thứ nhì Phố Hiến"), tơ lụa và gốm sứ Đại Việt được các thương điếm Hà Lan (VOC) và Nhật Bản thu mua với số lượng lớn.'
 
   - id: minh_nhat_dong_a_1600ce
-    name: Trung Hoa Thời Minh & Nhật Bản Mạc phủ Tokugawa
+    name: Đại Minh (Trung Hoa)
     region_label: Đông Á
-    description: Xã hội đô thị, thủ công nghiệp gốm sứ – tơ lụa phát triển cực thịnh, hút phần lớn lượng bạc khai thác từ Tân Thế Giới chảy về Đông Á.
+    description: Xã hội đô thị, thủ công nghiệp gốm sứ Cảnh Đức Trấn – tơ lụa Giang Nam phát triển cực thịnh, hút phần lớn lượng bạc từ Tân Thế Giới chảy về Đông Á.
     bookmarks: [can_dai_1600ce]
     civilization: nho_giao
     culture: han_dong_a
-    ethnicity_name: Người Hán – Hòa (Nhật) – Hàn
-    phenotype: dong_a
+    culture_set: trung_hoa_phong_kien
+    ethnicity_name: Người Hán – Đại Minh
+    phenotype: dong_a_hoa_ha
     religion: tam_giao
-    religions: [tam_giao, tho_to_tien, phat_giao]
-    population_weight: 32
+    religions: [tam_giao, nho_giao_chinh_thong, tho_to_tien, phat_giao, dao_giao]
+    population_weight: 25
     demographics:
       life_expectancy: 36
       child_mortality: 0.27
@@ -574,17 +766,41 @@ polities:
     origin_weights: { nong_dan: 76, thuong_nhan: 16, quy_toc_nho: 8 }
     historical_fact: 'Năm 1600, riêng khu vực Đông Á (Minh, Nhật Bản, Triều Tiên) có gần 190 triệu người — cứ 3 người trên Trái Đất thì có 1 người sinh ra tại đây.'
 
+  - id: nhat_ban_trieu_tien_1600ce
+    name: Nhật Bản Mạc phủ Tokugawa & Triều Tiên Joseon
+    region_label: Đông Bắc Á
+    description: Thời kỳ Edo hòa bình với các đô thị Edo, Osaka sầm uất của thương nhân Chonin – võ sĩ Samurai, cùng xã hội Nho học Yangban tại bán đảo Triều Tiên.
+    bookmarks: [can_dai_1600ce]
+    civilization: nho_giao
+    culture: trieu_tien
+    culture_set: dong_bac_a_phong_kien
+    ethnicity_name: Người Triều Tiên (Joseon) & Nhật Bản (Edo)
+    phenotype: dong_bac_a_nhat_han
+    religion: nho_giao_chinh_thong
+    religions: [nho_giao_chinh_thong, phat_giao, than_dao_shinto]
+    population_weight: 7
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.27
+      urban_share: 0.12
+      literacy_rate: 0.15
+      mortality_factor: 0.96
+      wealth_factor: 1.10
+    origin_weights: { nong_dan: 77, thuong_nhan: 15, quy_toc_nho: 8 }
+    historical_fact: 'Bảng chữ cái Hangul do vua Sejong ban hành và mạng lưới trường tư thục Terakoya ở Nhật đã nâng tỷ lệ biết chữ ở Đông Bắc Á lên hàng đầu thế giới cận đại.'
+
   - id: mughal_nam_a_1600ce
-    name: Đế chế Mughal (Ấn Độ)
+    name: Đế chế Mughal & Nam Ấn Độ
     region_label: Nam Á
     description: Một trong những nền kinh tế lớn nhất thế giới thế kỷ 17, nổi tiếng với kiến trúc kỳ vĩ, nông nghiệp trù phú và ngành dệt vải bông xuất khẩu toàn cầu.
     bookmarks: [can_dai_1600ce]
     civilization: nam_a
     culture: an_do
-    ethnicity_name: Người Ấn Độ (Hindustani – Tamil – Bengali)
-    phenotype: nam_a
+    culture_set: nam_a_an_do
+    ethnicity_name: Người Ấn Độ (Hindustani – Tamil – Bengali – Punjabi)
+    phenotype: nam_a_an_do
     religion: an_do_giao
-    religions: [an_do_giao, hoi_giao_islam]
+    religions: [an_do_giao, hoi_giao_islam, dao_sikh, ky_na_giao]
     population_weight: 24
     demographics:
       life_expectancy: 34
@@ -597,16 +813,18 @@ polities:
     historical_fact: 'Vào năm 1600, Đế chế Mughal Ấn Độ tạo ra khoảng 22% tổng sản lượng kinh tế (GDP) của toàn thế giới.'
 
   - id: tay_au_hang_hai_1600ce
-    name: Châu Âu Phục Hưng & Đại Hàng Hải (Anh, Pháp, Tây Ban Nha, Hà Lan)
-    region_label: Châu Âu
+    name: Tây Âu Phục Hưng & Cải Cách (Anh, Pháp, Hà Lan, Đức)
+    region_label: Tây Âu
     description: Thời đại của tàu buồm vượt đại dương, công ty Đông Ấn, in ấn sách báo, đại học khoa học và tầng lớp tư sản thương mại trỗi dậy.
     bookmarks: [can_dai_1600ce]
     civilization: phong_kien_au
     culture: au_tay
-    ethnicity_name: Người Tây Âu (Anh – Pháp – Iberia – Hà Lan)
-    phenotype: au_bac
-    religion: co_doc_giao
-    population_weight: 16
+    culture_set: phong_kien_au
+    ethnicity_name: Người Tây Âu (Anh – Pháp – Hà Lan – Đức)
+    phenotype: au_bac_tay
+    religion: tin_lanh
+    religions: [co_doc_giao, tin_lanh, do_thai_giao]
+    population_weight: 11
     demographics:
       life_expectancy: 36
       child_mortality: 0.26
@@ -615,18 +833,43 @@ polities:
       mortality_factor: 0.95
       wealth_factor: 1.18
     origin_weights: { nong_dan: 74, thuong_nhan: 18, quy_toc_nho: 8 }
-    historical_fact: 'Nhờ máy in Gutenberg, tỷ lệ biết chữ ở Tây Âu tăng từ dưới 5% thời Trung cổ lên khoảng 20–30% vào thế kỷ 17.'
+    historical_fact: 'Nhờ máy in Gutenberg và phong trào Cải cách Tôn giáo, tỷ lệ biết chữ ở Tây Âu tăng từ dưới 5% thời Trung cổ lên khoảng 20–30% vào thế kỷ 17.'
+
+  - id: nam_au_iberia_hang_hai_1600ce
+    name: Đế quốc Hàng hải Iberia (Tây Ban Nha, Bồ Đào Nha & Ý)
+    region_label: Nam Âu & Địa Trung Hải
+    description: Những hạm đội Galleon chở bạc và gia vị từ Manila, Goa, Lima về Seville và Lisbon; trung tâm nghệ thuật Phục Hưng – Baroque rực rỡ.
+    bookmarks: [can_dai_1600ce]
+    civilization: phong_kien_au
+    culture: nam_au_iberia
+    culture_set: la_ma_hy_lap_co_dien
+    ethnicity_name: Người Tây Ban Nha – Bồ Đào Nha – Ý
+    phenotype: dia_trung_hai
+    religion: co_doc_giao
+    religions: [co_doc_giao]
+    population_weight: 5
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.26
+      urban_share: 0.15
+      literacy_rate: 0.18
+      mortality_factor: 0.95
+      wealth_factor: 1.20
+    origin_weights: { nong_dan: 72, thuong_nhan: 19, quy_toc_nho: 9 }
+    historical_fact: 'Đế quốc Tây Ban Nha và Bồ Đào Nha thế kỷ 16–17 thiết lập tuyến hàng hải đầu tiên vòng quanh địa cầu nối liền Châu Âu, Châu Mỹ và Châu Á.'
 
   - id: ottoman_ba_tu_1600ce
     name: Đế quốc Ottoman & Ba Tư Safavid
-    region_label: Trung Đông & Bắc Phi
-    description: Đế quốc nằm vắt ngang ba châu lục Á – Âu – Phi với thủ đô Istanbul hoa lệ và các thương cảng Địa Trung Hải sầm uất.
+    region_label: Trung Đông & Tiểu Á
+    description: Đế quốc nằm vắt ngang ba châu lục Á – Âu – Phi với thủ đô Istanbul hoa lệ cùng kinh thành Isfahan ("Nửa thế gian") của Ba Tư Safavid.
     bookmarks: [can_dai_1600ce]
     civilization: hoi_giao
-    culture: a_rap_ba_tu
-    ethnicity_name: Người Thổ Ottoman – Ả Rập – Ba Tư
-    phenotype: trung_dong
+    culture: tho_nhi_ky
+    culture_set: trung_dong_hoi_giao
+    ethnicity_name: Người Thổ Ottoman – Ba Tư Safavid – Ả Rập
+    phenotype: trung_dong_a_rap
     religion: hoi_giao_islam
+    religions: [hoi_giao_islam, hoi_giao_shia, chinh_thong_giao, do_thai_giao]
     population_weight: 10
     demographics:
       life_expectancy: 35
@@ -639,25 +882,26 @@ polities:
     historical_fact: 'Istanbul năm 1600 là thành phố lớn nhất Châu Âu – Trung Đông với khoảng 700.000 cư dân từ khắp các sắc tộc.'
 
   - id: phi_my_can_dai_1600ce
-    name: Tân Thế Giới (Châu Mỹ) & Các Vương Quốc Châu Phi
-    region_label: Châu Phi & Châu Mỹ
-    description: Những vùng đất giàu tài nguyên bạc, mía đường, cacao và ngô đang trải qua cuộc biến đổi nhân khẩu học và giao thoa văn hóa sâu sắc.
+    name: Tân Thế Giới (Phó vương quốc Châu Mỹ) & Các Vương Quốc Châu Phi
+    region_label: Châu Mỹ & Châu Phi
+    description: Những đô thị thuộc địa Mexico, Lima giàu tài nguyên bạc, mía đường, cacao và các vương quốc Benin, Kongo, Oyo ở Châu Phi.
     bookmarks: [can_dai_1600ce]
     civilization: ban_dia_phi_my
-    culture: chau_my
-    ethnicity_name: Người Bản địa Châu Mỹ & Tây Phi
-    phenotype: ban_dia_my
-    religion: van_vat_huu_linh
-    religions: [van_vat_huu_linh, co_doc_giao, tho_to_tien]
-    population_weight: 12
+    culture: my_latinh
+    culture_set: chau_my_maya_inca
+    ethnicity_name: Người Bản địa, Mestizo & Cư dân Tây Phi
+    phenotype: my_latinh_mestizo
+    religion: co_doc_giao
+    religions: [co_doc_giao, van_vat_huu_linh, tin_nguong_chau_phi]
+    population_weight: 13
     demographics:
       life_expectancy: 32
       child_mortality: 0.32
-      urban_share: 0.07
-      literacy_rate: 0.06
+      urban_share: 0.08
+      literacy_rate: 0.07
       mortality_factor: 1.08
-      wealth_factor: 0.92
-    origin_weights: { nong_dan: 84, thuong_nhan: 10, quy_toc_nho: 6 }
+      wealth_factor: 0.94
+    origin_weights: { nong_dan: 83, thuong_nhan: 11, quy_toc_nho: 6 }
     historical_fact: 'Cuộc "Trao đổi Columbian" sau năm 1500 đã đưa ngô, khoai tây và sắn từ Châu Mỹ sang nuôi sống hàng trăm triệu người ở Á – Âu – Phi.'
 
   # ════════════════════════ 8. CÁCH MẠNG CÔNG NGHIỆP (1850 CN) ════════════════════════
@@ -668,11 +912,12 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: hien_dai
     culture: au_tay
+    culture_set: cong_nghiep_au_my
     ethnicity_name: Người Âu – Bắc Mỹ
-    phenotype: au_bac
-    religion: co_doc_giao
-    religions: [co_doc_giao, the_tuc]
-    population_weight: 22
+    phenotype: au_bac_tay
+    religion: tin_lanh
+    religions: [tin_lanh, co_doc_giao, the_tuc, do_thai_giao]
+    population_weight: 18
     demographics:
       life_expectancy: 43
       child_mortality: 0.18
@@ -683,6 +928,29 @@ polities:
     origin_weights: { nong_dan: 55, thuong_nhan: 30, quy_toc_nho: 15 }
     historical_fact: 'Năm 1850, Vương quốc Anh trở thành quốc gia đầu tiên trong lịch sử có hơn một nửa dân số sống ở thành thị và trên 60% người lớn biết đọc viết.'
 
+  - id: de_quoc_nga_dong_au_1850ce
+    name: Đế quốc Nga & Đông Âu Thế kỷ 19
+    region_label: Đông Âu & Bắc Á
+    description: Đế quốc rộng lớn trải dài từ Ba Lan tới Alaska với những trang viên quý tộc, văn học Nga hoàng kim (Pushkin, Gogol) và công cuộc cải cách giải phóng nông nô đang đến gần.
+    bookmarks: [cong_nghiep_1850ce]
+    civilization: phong_kien_au
+    culture: dong_au_slav
+    culture_set: dong_au_byzantine
+    ethnicity_name: Người Nga – Ukraina – Ba Lan (Slav)
+    phenotype: dong_au_slav
+    religion: chinh_thong_giao
+    religions: [chinh_thong_giao, co_doc_giao, do_thai_giao]
+    population_weight: 6
+    demographics:
+      life_expectancy: 36
+      child_mortality: 0.25
+      urban_share: 0.11
+      literacy_rate: 0.18
+      mortality_factor: 0.92
+      wealth_factor: 1.05
+    origin_weights: { nong_dan: 78, thuong_nhan: 14, quy_toc_nho: 8 }
+    historical_fact: 'Giữa thế kỷ 19, Đế quốc Nga có hơn 68 triệu dân và bắt đầu xây dựng tuyến đường sắt nối Saint Petersburg với Moscow (1851).'
+
   - id: thanh_nhat_dong_a_1850ce
     name: Đông Á (Nhà Thanh, Nhật Bản Cuối Edo / Minh Trị, Triều Tiên)
     region_label: Đông Á
@@ -690,11 +958,12 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: nho_giao
     culture: han_dong_a
+    culture_set: can_dai_a_dong
     ethnicity_name: Người Hán – Mãn – Nhật – Triều Tiên
-    phenotype: dong_a
+    phenotype: dong_a_hoa_ha
     religion: tam_giao
-    religions: [tam_giao, tho_to_tien, phat_giao]
-    population_weight: 36
+    religions: [tam_giao, tho_to_tien, phat_giao, than_dao_shinto, co_doc_giao]
+    population_weight: 34
     demographics:
       life_expectancy: 36
       child_mortality: 0.25
@@ -706,16 +975,17 @@ polities:
     historical_fact: 'Vào giữa thế kỷ 19, riêng khu vực Đông Á có hơn 450 triệu dân — chiếm hơn 35% dân số toàn cầu.'
 
   - id: dai_nam_dong_nam_a_1850ce
-    name: Đại Nam (Triều Nguyễn) & Đông Nam Á
+    name: Đại Nam (Triều Nguyễn), Xiêm La & Đông Nam Á
     region_label: Đông Nam Á
     description: Xã hội làng xã truyền thống từ Bắc vào Nam với những cánh đồng lúa mới khẩn hoang ở Nam Kỳ, hệ thống khoa cử Đình – Hội – Hương và phố cảng sầm uất.
     bookmarks: [cong_nghiep_1850ce]
     civilization: nho_giao
     culture: viet
-    ethnicity_name: Người Kinh – Đại Nam
-    phenotype: dong_nam_a
+    culture_set: can_dai_a_dong
+    ethnicity_name: Người Kinh (Đại Nam) & Đông Nam Á
+    phenotype: bach_viet_dong_nam_a
     religion: tho_to_tien
-    religions: [tho_to_tien, tam_giao, phat_giao, co_doc_giao]
+    religions: [tho_to_tien, tam_giao, phat_giao, phat_giao_nguyen_thuy, co_doc_giao]
     population_weight: 5
     demographics:
       life_expectancy: 37
@@ -734,10 +1004,11 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: nam_a
     culture: an_do
+    culture_set: can_dai_a_dong
     ethnicity_name: Người Ấn Độ – Nam Á
-    phenotype: nam_a
+    phenotype: nam_a_an_do
     religion: an_do_giao
-    religions: [an_do_giao, hoi_giao_islam]
+    religions: [an_do_giao, hoi_giao_islam, dao_sikh, phat_giao]
     population_weight: 20
     demographics:
       life_expectancy: 34
@@ -750,16 +1021,17 @@ polities:
     historical_fact: 'Năm 1853, tuyến đường sắt chở khách đầu tiên của Châu Á được khánh thành tại Ấn Độ (nối Bombay và Thane).'
 
   - id: trung_dong_phi_my_1850ce
-    name: Trung Đông, Châu Phi & Mỹ Latinh Thế Kỷ 19
+    name: Trung Đông Ottoman, Châu Phi & Cộng hòa Mỹ Latinh Thế Kỷ 19
     region_label: Trung Đông, Châu Phi & Mỹ Latinh
-    description: Những vùng đất đang chuyển mình qua cải cách Tanzimat ở Ottoman, các nước cộng hòa non trẻ ở Mỹ Latinh và các vương quốc nội địa Châu Phi.
+    description: Những vùng đất đang chuyển mình qua cải cách Tanzimat ở Ottoman, các nước cộng hòa độc lập ở Mỹ Latinh (Brazil, Mexico, Argentina) và Châu Phi.
     bookmarks: [cong_nghiep_1850ce]
     civilization: hoi_giao
     culture: a_rap_ba_tu
+    culture_set: trung_dong_hoi_giao
     ethnicity_name: Cư dân Trung Đông – Mỹ Latinh – Châu Phi
-    phenotype: trung_dong
+    phenotype: trung_dong_a_rap
     religion: hoi_giao_islam
-    religions: [hoi_giao_islam, co_doc_giao]
+    religions: [hoi_giao_islam, co_doc_giao, hoi_giao_shia]
     population_weight: 17
     demographics:
       life_expectancy: 36
@@ -773,16 +1045,17 @@ polities:
 
   # ════════════════════════ 9. THẾ GIỚI HIỆN ĐẠI (2025 CN — CHUẨN 1in8b) ════════════════════════
   - id: nam_a_hien_dai_2025ce
-    name: Nam Á Hiện Đại (Ấn Độ, Pakistan, Bangladesh)
+    name: Nam Á Hiện Đại (Ấn Độ, Pakistan, Bangladesh, Sri Lanka)
     region_label: Nam Á
     description: Khu vực đông dân nhất hành tinh hiện nay với những siêu đô thị công nghệ – dịch vụ đang phát triển nhanh bên cạnh hàng trăm ngàn ngôi làng nông thôn.
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: an_do
-    ethnicity_name: Người Nam Á (Ấn – Bengali – Punjabi)
-    phenotype: nam_a
+    culture_set: hien_dai_nam_ban_cau
+    ethnicity_name: Người Nam Á (Ấn – Bengali – Punjabi – Tamil)
+    phenotype: nam_a_an_do
     religion: an_do_giao
-    religions: [an_do_giao, hoi_giao_islam, phat_giao, the_tuc]
+    religions: [an_do_giao, hoi_giao_islam, dao_sikh, phat_giao, the_tuc]
     population_weight: 25
     demographics:
       life_expectancy: 71
@@ -795,16 +1068,17 @@ polities:
     historical_fact: 'Theo UN WPP (dữ liệu 1in8b), cứ 4 đứa trẻ chào đời trên thế giới hiện nay thì có 1 đứa sinh ra tại khu vực Nam Á.'
 
   - id: chau_phi_hien_dai_2025ce
-    name: Châu Phi Hạ Sahara Hiện Đại (Nigeria, Ethiopia, Kenya, Congo...)
+    name: Châu Phi Hạ Sahara Hiện Đại (Nigeria, Ethiopia, Kenya, Congo, Nam Phi)
     region_label: Châu Phi
     description: Châu lục trẻ nhất thế giới với tốc độ tăng trưởng dân số và đô thị hóa nhanh nhất thế kỷ 21, giàu tài nguyên nhưng vẫn còn nhiều thách thức y tế – hạ tầng.
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: chau_phi
-    ethnicity_name: Người Châu Phi (Yoruba – Igbo – Bantu – Oromo)
-    phenotype: chau_phi
+    culture_set: hien_dai_nam_ban_cau
+    ethnicity_name: Người Châu Phi (Yoruba – Igbo – Bantu – Oromo – Swahili)
+    phenotype: chau_phi_sub_sahara
     religion: co_doc_giao
-    religions: [co_doc_giao, hoi_giao_islam, tho_to_tien]
+    religions: [co_doc_giao, tin_lanh, hoi_giao_islam, tin_nguong_chau_phi]
     population_weight: 22
     demographics:
       life_expectancy: 62
@@ -823,10 +1097,11 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: han_dong_a
+    culture_set: hien_dai_au_dong_a
     ethnicity_name: Người Đông Á (Hoa – Nhật – Hàn)
-    phenotype: dong_a
+    phenotype: dong_a_hoa_ha
     religion: the_tuc
-    religions: [the_tuc, tho_to_tien, phat_giao]
+    religions: [the_tuc, tho_to_tien, phat_giao, than_dao_shinto, co_doc_giao]
     population_weight: 16
     demographics:
       life_expectancy: 79
@@ -845,10 +1120,11 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: viet
-    ethnicity_name: Người Việt & Đông Nam Á
-    phenotype: dong_nam_a
+    culture_set: hien_dai
+    ethnicity_name: Người Việt & Cư dân ASEAN
+    phenotype: bach_viet_dong_nam_a
     religion: tho_to_tien
-    religions: [tho_to_tien, phat_giao, co_doc_giao, the_tuc]
+    religions: [tho_to_tien, phat_giao, phat_giao_nguyen_thuy, hoi_giao_islam, co_doc_giao, the_tuc]
     population_weight: 9
     demographics:
       life_expectancy: 74
@@ -867,10 +1143,11 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: au_tay
+    culture_set: hien_dai_au_dong_a
     ethnicity_name: Người Âu – Bắc Mỹ Đa sắc tộc
-    phenotype: au_bac
+    phenotype: au_bac_tay
     religion: co_doc_giao
-    religions: [co_doc_giao, the_tuc]
+    religions: [co_doc_giao, tin_lanh, chinh_thong_giao, the_tuc, do_thai_giao]
     population_weight: 12
     demographics:
       life_expectancy: 80
@@ -883,23 +1160,47 @@ polities:
     historical_fact: 'Theo dữ liệu 1in8b, một đứa trẻ sinh ra ở Bắc Mỹ hoặc Tây Âu tự động nằm trong nhóm 12–15% hộ gia đình có điều kiện khởi đầu cao nhất thế giới.'
 
   - id: trung_dong_my_latinh_2025ce
-    name: Trung Đông – Bắc Phi & Mỹ Latinh Hiện Đại
-    region_label: Trung Đông & Mỹ Latinh
-    description: Những đô thị sôi động từ Cairo, Istanbul đến São Paulo, Mexico City với văn hóa gia đình nồng ấm và nền kinh tế đa dạng.
+    name: Trung Đông – Bắc Phi Hiện Đại (Ai Cập, Thổ Nhĩ Kỳ, Ả Rập, Iran)
+    region_label: Trung Đông & Bắc Phi
+    description: Những đô thị sôi động từ Cairo, Istanbul đến Riyadh, Tehran với truyền thống văn hóa Hồi giáo lâu đời và nền kinh tế năng lượng – thương mại chiến lược.
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: a_rap_ba_tu
-    ethnicity_name: Người Ả Rập – Trung Đông & Mestizo Mỹ Latinh
-    phenotype: trung_dong
+    culture_set: hien_dai_nam_ban_cau
+    ethnicity_name: Người Ả Rập – Thổ Nhĩ Kỳ – Ba Tư
+    phenotype: trung_dong_a_rap
     religion: hoi_giao_islam
-    religions: [hoi_giao_islam, co_doc_giao, the_tuc]
-    population_weight: 16
+    religions: [hoi_giao_islam, hoi_giao_shia, do_thai_giao, chinh_thong_giao, the_tuc]
+    population_weight: 8
     demographics:
       life_expectancy: 75
       child_mortality: 0.018
-      urban_share: 0.74
-      literacy_rate: 0.92
+      urban_share: 0.72
+      literacy_rate: 0.90
       mortality_factor: 0.25
       wealth_factor: 1.42
     origin_weights: { nong_dan: 26, thuong_nhan: 50, quy_toc_nho: 24 }
-    historical_fact: 'Mỹ Latinh và Trung Đông có tỷ lệ đô thị hóa đạt trên 74%, phần lớn cư dân sinh sống tại các thành phố và thị trấn thương mại.'
+    historical_fact: 'Trung Đông và Bắc Phi hiện có hơn 500 triệu dân, nằm giữ các tuyến hàng hải huyết mạch nối liền Địa Trung Hải, Biển Đỏ và Ấn Độ Dương.'
+
+  - id: my_latinh_hien_dai_2025ce
+    name: Mỹ Latinh & vùng Caribe Hiện Đại (Brazil, Mexico, Argentina, Colombia)
+    region_label: Mỹ Latinh
+    description: Những đại đô thị São Paulo, Mexico City, Buenos Aires rực rỡ sắc màu lễ hội, âm nhạc, bóng đá và nền nông nghiệp – công nghiệp năng động.
+    bookmarks: [hien_dai_2025ce]
+    civilization: hien_dai
+    culture: my_latinh
+    culture_set: hien_dai_nam_ban_cau
+    ethnicity_name: Người Mỹ Latinh (Mestizo – Lusophone – Hispano)
+    phenotype: my_latinh_mestizo
+    religion: co_doc_giao
+    religions: [co_doc_giao, tin_lanh, the_tuc]
+    population_weight: 8
+    demographics:
+      life_expectancy: 76
+      child_mortality: 0.015
+      urban_share: 0.81
+      literacy_rate: 0.95
+      mortality_factor: 0.24
+      wealth_factor: 1.40
+    origin_weights: { nong_dan: 22, thuong_nhan: 54, quy_toc_nho: 24 }
+    historical_fact: 'Mỹ Latinh có tỷ lệ đô thị hóa đạt trên 81% — nằm trong nhóm khu vực có tỷ lệ dân cư sống ở thành thị cao nhất thế giới.'

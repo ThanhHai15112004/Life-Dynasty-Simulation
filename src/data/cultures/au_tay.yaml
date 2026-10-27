@@ -52,3 +52,32 @@ village_roles:
   thay_lang: { title: thầy thuốc (Apothecary), call: 'y sĩ {given}' }
   hang_xom: { title: láng giềng, call: '{given} nhà bên' }
   lai_buon: { title: thương nhân phường hội, call: 'thương gia {given}' }
+
+era_variants:
+  - max_year: -1000
+    ethnicity_name: Tộc Celtic – Tiền Ấn Âu Cổ
+    default_religion: da_than_bac_au
+    family_names:
+      - { name: Đá Xanh, weight: 25 }
+      - { name: Rừng Sồi, weight: 25 }
+      - { name: Đồi Cao, weight: 25 }
+      - { name: Bờ Biển, weight: 25 }
+    village_names: [Gò Cự Thạch, Trại Rừng Sồi, Bãi Đá Mũi Tên, Đồi Gió Tây]
+  - min_year: -999
+    max_year: 476
+    ethnicity_name: Tộc Celtic – Gaul – German Cổ
+    default_religion: da_than_bac_au
+    village_names: [Trại Rừng Đen, Đồi Thành Gỗ Oppidum, Xóm Bến Sông Rhine, Thung Lũng Lúa Mạch]
+  - min_year: 477
+    max_year: 1499
+    ethnicity_name: Người Frank – Anglo-Saxon – Teuton Trung cổ
+    default_religion: co_doc_giao
+    village_names: [Oakwood Manor, Ashford Shire, Clairval Abbey, Falkenberg Burg]
+  - min_year: 1500
+    max_year: 1900
+    ethnicity_name: Người Tây Âu (Anh – Pháp – Đức – Hà Lan)
+    default_religion: tin_lanh
+  - min_year: 1901
+    ethnicity_name: Công dân Tây Âu & Bắc Mỹ Hiện đại
+    default_religion: the_tuc
+

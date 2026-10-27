@@ -179,13 +179,14 @@ const lexiconSchema = z
 
 export const cultureEraVariantSchema = z
   .object({
-    id: z.string(),
+    id: z.string().optional(),
     /** Áp dụng khi năm hiện tại >= min_year. */
     min_year: z.number().int().optional(),
     /** Áp dụng khi năm hiện tại <= max_year. */
     max_year: z.number().int().optional(),
     ethnicity_name: z.string().optional(),
     religion: z.string().optional(),
+    default_religion: z.string().optional(),
     phenotype: z.string().optional(),
     name_order: z.enum(['family_first', 'given_first']).optional(),
     lexicon: lexiconSchema.optional(),

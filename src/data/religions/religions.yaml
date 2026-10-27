@@ -1,5 +1,6 @@
-# Hệ thống Tôn giáo & Tín ngưỡng xuyên suốt lịch sử nhân loại (8000 TCN → 2025 CN)
+# Hệ thống 30 Tôn giáo, Tín ngưỡng & Hệ tư tưởng xuyên suốt lịch sử nhân loại (8000 TCN → 2025 CN)
 religions:
+  # ════════════════════════ 1. NGUYÊN THỦY & BẢN ĐỊA SƠ KHAI ════════════════════════
   - id: van_vat_huu_linh
     name: Tín ngưỡng Vạn vật hữu linh
     group: nguyen_thuy
@@ -10,13 +11,23 @@ religions:
       - { target: xp.sinh_ton, value: 1.08, op: mul }
 
   - id: tho_vat_to
-    name: Thờ Vật tổ & Shaman giáo
+    name: Thờ Vật tổ (Totem) & Shaman cổ
     group: nguyen_thuy
     description: Tín ngưỡng tôn thờ Vật tổ (Sói xám, Chim ưng, Gấu lớn, Hươu đỏ) gắn kết các thị tộc săn bắt, cùng những nghi lễ cầu thần chữa bệnh của Pháp sư giữ lửa.
     min_year: -10000
     shrine_name: Cột Vật tổ (Totem) & Hang đá thiêng
     modifiers:
       - { target: xp.sinh_ton, value: 1.05, op: mul }
+      - { target: stress.monthly, value: -0.04 }
+
+  - id: shaman_bac_a
+    name: Shaman giáo Rừng Taiga & Bắc Á
+    group: nguyen_thuy
+    description: Truyền thống nhập đồng thông linh qua tiếng trống da tuần lộc, kết nối ba tầng thế giới (Thượng giới, Nhân gian, Hạ giới) của các bộ tộc phương Bắc.
+    min_year: -10000
+    shrine_name: Lều Trống Thiêng & Cây Thế Giới
+    modifiers:
+      - { target: xp.sinh_ton, value: 1.06, op: mul }
       - { target: stress.monthly, value: -0.04 }
 
   - id: tin_nguong_dong_son
@@ -28,6 +39,96 @@ religions:
     modifiers:
       - { target: harvest.yield, value: 1.05, op: mul }
 
+  - id: tin_nguong_tho_mau
+    name: Tín ngưỡng Thờ Mẫu Tam Tứ Phủ
+    group: ban_dia
+    description: Tín ngưỡng bản địa tôn vinh các bậc Thánh Mẫu cai quản Trời (Thiên), Rừng núi (Nhạc), Nước (Thoải) và Đất (Địa), gửi gắm ước vọng sức khỏe, tài lộc và bình an.
+    min_year: -1000
+    shrine_name: Phủ Mẫu & Điện Thần
+    modifiers:
+      - { target: stress.monthly, value: -0.06 }
+      - { target: xp.ngoai_giao, value: 1.04, op: mul }
+
+  - id: tin_nguong_chau_phi
+    name: Tín ngưỡng Tổ tiên & Thần linh Châu Phi (Orisha – Vodun)
+    group: ban_dia
+    description: Hệ thống tâm linh bản địa Tây & Trung Phi tôn kính Đấng Sáng Tạo tối cao thông qua các vị thần tự nhiên (Orisha) và linh hồn tổ tiên hộ trì bộ tộc.
+    min_year: -4000
+    shrine_name: Rừng Thiêng & Đàn tế Tổ tiên Bộ tộc
+    modifiers:
+      - { target: stress.monthly, value: -0.05 }
+      - { target: xp.sinh_ton, value: 1.05, op: mul }
+
+  # ════════════════════════ 2. ĐA THẦN GIÁO CỔ ĐẠI ════════════════════════
+  - id: da_than_co_dai
+    name: Đa thần giáo Cổ đại
+    group: da_than
+    description: Thờ phụng các vị thần cai quản bầu trời, biển cả, chiến tranh và mùa màng tại những đền đài cột đá đồ sộ của thế giới Cổ đại.
+    min_year: -3500
+    shrine_name: Đền Cột đá & Đàn hiến tế
+    modifiers:
+      - { target: xp.ngoai_giao, value: 1.05, op: mul }
+
+  - id: da_than_ai_cap
+    name: Tôn giáo Kemet Ai Cập Cổ đại (Ra – Osiris – Ma'at)
+    group: da_than
+    description: Đức tin xoay quanh trật tự vũ trụ Ma'at, Thần Mặt trời Ra, Thần Sông Nile và hành trình cân tim trước Osiris để bước vào cõi trường sinh.
+    min_year: -3500
+    shrine_name: Đại Đền Thần Ra & Điện Ướp xác
+    modifiers:
+      - { target: harvest.yield, value: 1.06, op: mul }
+      - { target: xp.hoc_van, value: 1.04, op: mul }
+
+  - id: da_than_luong_ha
+    name: Tôn giáo Lưỡng Hà Sumer – Babylon (Anu – Marduk – Ishtar)
+    group: da_than
+    description: Thờ phụng các vị thần bảo hộ thành bang trên đỉnh tháp bậc thang Ziggurat cao vút giữa hai dòng sông Tigris và Euphrates.
+    min_year: -4000
+    shrine_name: Đỉnh Tháp Ziggurat & Đền Thành bang
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.05, op: mul }
+      - { target: xp.hoc_van, value: 1.05, op: mul }
+
+  - id: da_than_hy_la
+    name: Đa thần giáo Hy Lạp – La Mã (Olympus & Jupiter)
+    group: da_than
+    description: Tôn vinh 12 vị thần đỉnh Olympus (Zeus/Jupiter, Athena/Minerva, Apollo...) gắn liền với triết học, kịch nghệ, thế vận hội và lễ tế công dân thành bang.
+    min_year: -1500
+    shrine_name: Đền Parthenon / Điện Pantheon & Đàn Tế Lửa Vesta
+    modifiers:
+      - { target: xp.ngoai_giao, value: 1.06, op: mul }
+      - { target: xp.hoc_van, value: 1.05, op: mul }
+
+  - id: da_than_bac_au
+    name: Đa thần giáo Bắc Âu & Celtic (Ásatrú & Druid)
+    group: da_than
+    description: Tín ngưỡng của các bộ tộc phương Bắc tôn thờ Odin, Thor, Freyja và các pháp sư Druid giữ lễ nơi vòng đá cự thạch, đề cao lòng dũng cảm và danh dự chiến binh.
+    min_year: -1500
+    shrine_name: Rừng Sồi Thiêng & Điện Gỗ Hof
+    modifiers:
+      - { target: xp.quan_su, value: 1.08, op: mul }
+
+  - id: da_than_maya_aztec
+    name: Vũ trụ quan Maya – Aztec (Quetzalcoatl & Kukulkan)
+    group: da_than
+    description: Tín ngưỡng thờ Thần Rắn Lông Vũ, Thần Mưa Chaac/Tlaloc và Thần Mặt Trời gắn chặt với lịch pháp thiên văn chính xác trên các đại kim tự tháp bậc thang.
+    min_year: -2000
+    shrine_name: Kim tự tháp Bậc thang & Giếng Thiêng Cenote
+    modifiers:
+      - { target: xp.hoc_van, value: 1.05, op: mul }
+      - { target: harvest.yield, value: 1.05, op: mul }
+
+  - id: than_mat_troi_inca
+    name: Tín ngưỡng Thờ Thần Mặt Trời Inti & Đất Mẹ Pachamama (Andes)
+    group: da_than
+    description: Tôn giáo của các nền văn minh dãy Andes tôn thờ Thần Mặt Trời Inti, Đấng Sáng Tạo Viracocha và Đất Mẹ Pachamama nuôi dưỡng ruộng bậc thang trên đỉnh núi cao.
+    min_year: -2000
+    shrine_name: Đền Mặt Trời Coricancha & Đàn Đá Huaca
+    modifiers:
+      - { target: harvest.yield, value: 1.06, op: mul }
+      - { target: xp.sinh_ton, value: 1.04, op: mul }
+
+  # ════════════════════════ 3. TRUYỀN THỐNG Á ĐÔNG & THẢO NGUYÊN ════════════════════════
   - id: tho_to_tien
     name: Thờ cúng Tổ tiên & Thành hoàng
     group: ban_dia
@@ -38,7 +139,7 @@ religions:
       - { target: stress.monthly, value: -0.05 }
 
   - id: tam_giao
-    name: Tam giáo (Nho – Phật – Đạo)
+    name: Tam giáo đồng nguyên (Nho – Phật – Đạo)
     group: ton_giao_lon
     description: Sự dung hợp hài hòa giữa lễ nghĩa cương thường của Nho gia, lòng từ bi nhân quả của Phật giáo và triết lý thuận theo tự nhiên của Đạo gia.
     min_year: -500
@@ -47,35 +148,116 @@ religions:
       - { target: xp.hoc_van, value: 1.06, op: mul }
       - { target: stress.monthly, value: -0.05 }
 
-  - id: phat_giao
-    name: Phật giáo
+  - id: nho_giao_chinh_thong
+    name: Nho giáo Chính thống (Khổng – Mạnh & Lý học)
     group: ton_giao_lon
-    description: Con đường giác ngộ, từ bi hỷ xả và gieo nhân lành gặt quả ngọt. Ngôi chùa là chốn nương tựa tâm hồn của cả bậc đế vương lẫn dân lành.
+    description: Hệ tư tưởng lấy Nhân – Lễ – Nghĩa – Trí – Tín làm gốc, đề cao đạo hiếu, trật tự tông tộc và con đường lập thân qua khoa cử kinh điển.
+    min_year: -550
+    shrine_name: Văn Miếu & Từ đường Dòng họ
+    modifiers:
+      - { target: xp.hoc_van, value: 1.09, op: mul }
+
+  - id: dao_giao
+    name: Đạo giáo (Đạo gia & Thuật dưỡng sinh)
+    group: ton_giao_lon
+    description: Triết lý Vô vi thuận theo Đạo tự nhiên của Lão – Trang, kết hợp luyện đan, dưỡng sinh, phong thủy và nghi lễ cầu an giải hạn.
     min_year: -500
-    shrine_name: Chùa & Bảo tháp
+    shrine_name: Đạo quán & Sơn am Thanh tịnh
+    modifiers:
+      - { target: stress.monthly, value: -0.07 }
+      - { target: xp.y_thuat, value: 1.06, op: mul }
+
+  - id: than_dao_shinto
+    name: Thần đạo Nhật Bản (Shinto – Kami)
+    group: ban_dia
+    description: Tín ngưỡng bản địa quần đảo Nhật Bản tôn kính tám triệu vị thần Kami ngự trị trong rừng tùng, thác nước, núi Phú Sĩ và Nữ thần Mặt trời Amaterasu.
+    min_year: -1000
+    shrine_name: Đền Jinja & Cổng Đỏ Torii
+    modifiers:
+      - { target: stress.monthly, value: -0.06 }
+      - { target: harvest.yield, value: 1.04, op: mul }
+
+  - id: tengri_thao_nguyen
+    name: Tín ngưỡng Trời Xanh Vĩnh Cửu (Kök Tengri)
+    group: ban_dia
+    description: Tín ngưỡng của các bộ tộc kỵ binh thảo nguyên tôn kính Trời Xanh Vĩnh Cửu (Tengri), Đất Mẹ Eje và linh hồn tổ tiên cưỡi gió qua ngàn dặm đồng cỏ.
+    min_year: -2000
+    shrine_name: Đống đá Ovoo dưới Trời Xanh
+    modifiers:
+      - { target: xp.quan_su, value: 1.06, op: mul }
+
+  # ════════════════════════ 4. NAM Á & PHẬT GIÁO ════════════════════════
+  - id: phat_giao
+    name: Phật giáo Đại thừa (Bắc truyền)
+    group: ton_giao_lon
+    description: Con đường giác ngộ, từ bi hỷ xả, hạnh Bồ Tát cứu khổ và gieo nhân lành gặt quả ngọt. Ngôi chùa là chốn nương tựa tâm hồn của cả bậc đế vương lẫn dân lành.
+    min_year: -500
+    shrine_name: Chùa Cổ & Bảo tháp
     modifiers:
       - { target: stress.monthly, value: -0.08 }
 
-  - id: an_do_giao
-    name: Ấn Độ giáo (Vệ Đà & Bà-la-môn)
+  - id: phat_giao_nguyen_thuy
+    name: Phật giáo Nguyên thủy (Theravada / Nam truyền)
     group: ton_giao_lon
-    description: Truyền thống tâm linh cổ xưa bên dòng sông Ấn và sông Hằng, đề cao bổn phận (Dharma), nghiệp báo (Karma) và các nghi lễ bên đền tháp uy nghiêm.
+    description: Truyền thống Phật giáo giữ gìn Tam Tạng Pāli cổ xưa, phổ biến khắp Tích Lan và Đông Nam Á lục địa, nơi thanh niên vào chùa tu học và khất thực mỗi sớm.
+    min_year: -500
+    shrine_name: Chùa Tháp Vihara & Tăng viện
+    modifiers:
+      - { target: stress.monthly, value: -0.08 }
+      - { target: xp.hoc_van, value: 1.04, op: mul }
+
+  - id: an_do_giao
+    name: Ấn Độ giáo (Vệ Đà – Bà-la-môn – Hindu)
+    group: ton_giao_lon
+    description: Truyền thống tâm linh cổ xưa bên dòng sông Ấn và sông Hằng, đề cao bổn phận (Dharma), nghiệp báo (Karma) và các nghi lễ Puja bên đền tháp uy nghiêm.
     min_year: -2500
-    shrine_name: Đền Mandiri & Bến sông thiêng
+    shrine_name: Đền Mandir & Bến sông Hằng (Ghat)
     modifiers:
       - { target: stress.monthly, value: -0.06 }
 
-  - id: da_than_co_dai
-    name: Đa thần giáo Cổ đại
-    group: da_than
-    description: Thờ phụng các vị thần cai quản bầu trời, biển cả, chiến tranh và mùa màng tại những đền đài cột đá đồ sộ của Ai Cập, Lưỡng Hà, Hy Lạp và La Mã.
-    min_year: -3500
-    shrine_name: Đền Cột đá & Đàn hiến tế
+  - id: ky_na_giao
+    name: Kỳ Na giáo (Jainism – Bất bạo động Ahimsa)
+    group: ton_giao_lon
+    description: Tôn giáo cổ xưa tại Ấn Độ thực hành nguyên tắc bất sát sinh tuyệt đối (Ahimsa), khổ hạnh thanh tịnh và uy tín cao trong giới thương nhân, học giả.
+    min_year: -600
+    shrine_name: Đền Đá Cẩm Thạch Jain Derasar
     modifiers:
+      - { target: xp.thuong_mai, value: 1.07, op: mul }
+      - { target: stress.monthly, value: -0.05 }
+
+  - id: dao_sikh
+    name: Đạo Sikh (Sikhism – Khalsa)
+    group: ton_giao_lon
+    description: Đức tin độc thần ra đời tại vùng Punjab, đề cao sự bình đẳng mọi tầng lớp, lao động chân chính, bếp ăn từ thiện miễn phí (Langar) và tinh thần thượng võ bảo vệ kẻ yếu.
+    min_year: 1469
+    shrine_name: Đền Gurdwara & Bếp ăn Cộng đồng Langar
+    modifiers:
+      - { target: xp.quan_su, value: 1.05, op: mul }
+      - { target: stress.monthly, value: -0.05 }
+
+  # ════════════════════════ 5. TRUNG ĐÔNG & CÁC TÔN GIÁO ABRAHAM ════════════════════════
+  - id: bai_hoa_giao
+    name: Bái Hỏa giáo (Zoroastrianism – Lửa Thiêng)
+    group: ton_giao_lon
+    description: Quốc giáo của các đế chế Ba Tư cổ đại tôn thờ Đấng Thông Tuệ Ahura Mazda, ngọn lửa thiêng bất diệt và châm ngôn Suy nghĩ thiện – Lời nói thiện – Việc làm thiện.
+    min_year: -1200
+    shrine_name: Đền Lửa Thiêng Atash Behram
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.05, op: mul }
       - { target: xp.ngoai_giao, value: 1.05, op: mul }
 
+  - id: do_thai_giao
+    name: Do Thái giáo (Judaism – Giao ước Torah)
+    group: ton_giao_lon
+    description: Tôn giáo độc thần cổ xưa giữ gìn Kinh Torah, ngày nghỉ lễ Sabbath và truyền thống hiếu học bền bỉ qua hàng thiên niên kỷ.
+    min_year: -1500
+    shrine_name: Giáo đường Synagogue & Học viện Kinh điển
+    modifiers:
+      - { target: xp.hoc_van, value: 1.08, op: mul }
+      - { target: xp.thuong_mai, value: 1.05, op: mul }
+
   - id: co_doc_giao
-    name: Cơ Đốc giáo
+    name: Công giáo & Cơ Đốc giáo Tây phương
     group: ton_giao_lon
     description: Đức tin xoay quanh tình yêu thương, sự cứu rỗi và giáo xứ gắn kết đời sống tinh thần từ những nhà thờ đá thời Trung cổ tới thế giới hiện đại.
     min_year: 50
@@ -83,8 +265,28 @@ religions:
     modifiers:
       - { target: stress.monthly, value: -0.06 }
 
+  - id: chinh_thong_giao
+    name: Chính thống giáo Phương Đông (Eastern Orthodoxy)
+    group: ton_giao_lon
+    description: Truyền thống Cơ Đốc giáo Đông phương rực rỡ từ Đế chế Byzantium tới các quốc gia Slav và Ethiopia, nổi bật với thánh ca, tranh thánh Icon và nhà thờ mái vòm.
+    min_year: 330
+    shrine_name: Đại Giáo đường Mái vòm & Tu viện Chính thống
+    modifiers:
+      - { target: stress.monthly, value: -0.06 }
+      - { target: xp.ngoai_giao, value: 1.04, op: mul }
+
+  - id: tin_lanh
+    name: Tin Lành / Kháng Cách (Protestantism)
+    group: ton_giao_lon
+    description: Phong trào Cải cách Tôn giáo từ thế kỷ 16 khuyến khích mỗi tín hữu tự đọc Kinh Thánh bằng tiếng mẹ đẻ, đề cao kỷ luật lao động, tiết kiệm và phổ cập chữ viết.
+    min_year: 1517
+    shrine_name: Nhà thờ Tin Lành & Trường học Giáo xứ
+    modifiers:
+      - { target: xp.hoc_van, value: 1.06, op: mul }
+      - { target: xp.thuong_mai, value: 1.05, op: mul }
+
   - id: hoi_giao_islam
-    name: Hồi giáo (Islam)
+    name: Hồi giáo Sunni (Islam)
     group: ton_giao_lon
     description: Đức tin độc thần nghiêm cẩn với năm trụ cột thiêng liêng, đề cao lòng bác ái, tri thức và sự gắn kết cộng đồng quanh các thánh đường mái vòm.
     min_year: 622
@@ -93,15 +295,17 @@ religions:
       - { target: xp.thuong_mai, value: 1.05, op: mul }
       - { target: stress.monthly, value: -0.05 }
 
-  - id: tengri_thao_nguyen
-    name: Tín ngưỡng Trời Xanh (Tengri)
-    group: ban_dia
-    description: Tín ngưỡng của các bộ tộc kỵ binh thảo nguyên tôn kính Trời Xanh Vĩnh Cửu (Kök Tengri), Đất Mẹ và linh hồn tổ tiên cưỡi gió qua ngàn dặm đồng cỏ.
-    min_year: -2000
-    shrine_name: Đống đá Ovoo dưới Trời Xanh
+  - id: hoi_giao_shia
+    name: Hồi giáo Shia (Ba Tư & Lưỡng Hà)
+    group: ton_giao_lon
+    description: Nhánh Hồi giáo lớn tôn kính dòng dõi gia tộc Tiên tri và các vị Imam, tạo nên bản sắc văn hóa – nghệ thuật – triết học rực rỡ tại Ba Tư và vùng Lưỡng Hà.
+    min_year: 650
+    shrine_name: Thánh đường Mái vòm Lam & Học viện Hồi giáo
     modifiers:
-      - { target: xp.quan_su, value: 1.06, op: mul }
+      - { target: xp.hoc_van, value: 1.06, op: mul }
+      - { target: stress.monthly, value: -0.05 }
 
+  # ════════════════════════ 6. THẾ TỤC & NHÂN VĂN HIỆN ĐẠI ════════════════════════
   - id: the_tuc
     name: Thế tục & Nhân văn Hiện đại
     group: the_tuc
@@ -110,4 +314,3 @@ religions:
     shrine_name: Quảng trường & Thư viện công cộng
     modifiers:
       - { target: xp.hoc_van, value: 1.08, op: mul }
-

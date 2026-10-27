@@ -47,6 +47,8 @@ export const politySchema = z
     bookmarks: z.array(z.string()).min(1),
     civilization: z.string(),
     culture: z.string(),
+    /** Bộ cảnh thị giác (cultureSet trong cultures.json) riêng cho vùng lãnh thổ / thời đại này. */
+    culture_set: z.string().optional(),
     /** Tên dân tộc / cư dân đặc trưng tại vùng lãnh thổ này trong thời kỳ đó. */
     ethnicity_name: z.string().optional(),
     /** Mã nhóm nhân chủng / ngoại hình đặc trưng tại vùng này. */

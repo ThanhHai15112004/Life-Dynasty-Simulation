@@ -52,3 +52,26 @@ village_roles:
   hang_xom: { title: láng giềng, call: '{given} nhà bên' }
   lai_buon: { title: thương khách lữ đoàn, call: 'thương gia {given}' }
 
+era_variants:
+  - max_year: 621
+    ethnicity_name: Bộ tộc Ả Rập Cổ (Nabataea – Saba – Bedouin)
+    default_religion: da_than_luong_ha
+    family_names:
+      - { name: Banu Qais, weight: 25 }
+      - { name: Banu Tamim, weight: 25 }
+      - { name: Banu Tayy, weight: 25 }
+      - { name: Banu Kindah, weight: 25 }
+    village_names: [Ốc Đảo Trầm Hương, Giếng Đá Sa Mạc, Trạm Lạc Đà Petra, Thung Lũng Chà Là Cổ]
+  - min_year: 622
+    max_year: 1500
+    ethnicity_name: Người Ả Rập – Hồi giáo Hoàng kim (Abbasid – Fatimid)
+    default_religion: hoi_giao_islam
+  - min_year: 1501
+    max_year: 1918
+    ethnicity_name: Cư dân Ả Rập – Cận Đông thời Ottoman
+    default_religion: hoi_giao_islam
+  - min_year: 1919
+    ethnicity_name: Người Ả Rập – Trung Đông Hiện đại
+    default_religion: hoi_giao_islam
+
+

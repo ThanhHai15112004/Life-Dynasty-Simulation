@@ -84,18 +84,53 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
   const polity = state.polityId ? content.index.polity.get(state.polityId) : undefined;
   const defaultPhenotype = polity?.phenotype ?? curCulture?.phenotype ?? 'dong_a_bac';
   const eraStyle = eraStyleOf(state.clock.year, civId);
-  const cultureSet =
-    state.clock.year >= 1945 || civId === 'hien_dai'
-      ? 'hien_dai'
-      : state.clock.year < -1000 || civId === 'bo_lac_nguyen_thuy'
-        ? 'bo_lac_nguyen_thuy'
-        : civId === 'phong_kien_au' || civId === 'co_dai_de_che' || cultureId === 'au_tay' || cultureId === 'la_ma_hy_lap'
-          ? 'phong_kien_au'
-          : civId === 'hoi_giao' || civId === 'nam_a' || cultureId === 'a_rap_ba_tu' || cultureId === 'an_do'
-            ? 'trung_dong_hoi_giao'
-            : civId === 'du_muc' || cultureId === 'du_muc_mong'
-              ? 'thao_nguyen_du_muc'
-              : content.index.civilization.get(civId)?.culture_set || sc.culture_set;
+  const resolveDefaultCultureSet = (): string => {
+    if (polity?.culture_set) return polity.culture_set;
+    const y = state.clock.year;
+    if (y >= 1945 || civId === 'hien_dai') {
+      if (cultureId === 'au_tay' || cultureId === 'bac_au' || cultureId === 'nam_au_iberia' || cultureId === 'dong_au_slav' || cultureId === 'nhat_ban' || cultureId === 'trieu_tien' || cultureId === 'han_dong_a') {
+        return 'hien_dai_au_dong_a';
+      }
+      if (cultureId === 'viet' || cultureId === 'cham_nam_dao' || cultureId === 'khmer_thai') {
+        return 'hien_dai';
+      }
+      return 'hien_dai_nam_ban_cau';
+    }
+    if (y >= 1800 && y < 1945) {
+      if (cultureId === 'au_tay' || cultureId === 'bac_au' || cultureId === 'nam_au_iberia' || cultureId === 'dong_au_slav') {
+        return 'cong_nghiep_au_my';
+      }
+      if (civId === 'nho_giao' || civId === 'nam_a') {
+        return 'can_dai_a_dong';
+      }
+    }
+    if (y < -3000 || civId === 'bo_lac_nguyen_thuy') {
+      if (cultureId === 'ai_cap_luong_ha' || cultureId === 'a_rap_ba_tu' || cultureId === 'ba_tu') return 'nguyen_thuy_can_dong';
+      if (cultureId === 'au_tay' || cultureId === 'bac_au' || cultureId === 'dong_au_slav') return 'nguyen_thuy_bang_ha_au';
+      if (cultureId === 'chau_phi' || cultureId === 'dong_phi' || cultureId === 'chau_my' || cultureId === 'inca_andes') return 'nguyen_thuy_thao_nguyen_phi';
+      return 'bo_lac_nguyen_thuy';
+    }
+    if (y < 250) {
+      if (cultureId === 'viet' || cultureId === 'cham_nam_dao' || cultureId === 'khmer_thai') return 'bach_viet_dong_son';
+      if (cultureId === 'ai_cap_luong_ha') return 'ai_cap_luong_ha_co_dai';
+      if (cultureId === 'la_ma_hy_lap' || cultureId === 'nam_au_iberia') return 'la_ma_hy_lap_co_dien';
+      if (cultureId === 'an_do' || cultureId === 'tamil_nam_a') return 'song_an_co_dai';
+      if (cultureId === 'han_dong_a' || cultureId === 'nhat_ban' || cultureId === 'trieu_tien') return 'dong_a_co_dai';
+    }
+    if (cultureId === 'nhat_ban' || cultureId === 'trieu_tien') return 'dong_bac_a_phong_kien';
+    if (cultureId === 'han_dong_a') return 'trung_hoa_phong_kien';
+    if (cultureId === 'cham_nam_dao' || cultureId === 'khmer_thai') return 'dong_nam_a_cham_khmer';
+    if (civId === 'nam_a' || cultureId === 'an_do' || cultureId === 'tamil_nam_a') return 'nam_a_an_do';
+    if (civId === 'hoi_giao' || cultureId === 'a_rap_ba_tu' || cultureId === 'ba_tu' || cultureId === 'tho_nhi_ky' || cultureId === 'ai_cap_luong_ha') return 'trung_dong_hoi_giao';
+    if (cultureId === 'dong_au_slav') return 'dong_au_byzantine';
+    if (cultureId === 'bac_au') return 'bac_au_viking';
+    if (civId === 'phong_kien_au' || civId === 'co_dai_de_che' || cultureId === 'au_tay' || cultureId === 'la_ma_hy_lap' || cultureId === 'nam_au_iberia') return 'phong_kien_au';
+    if (civId === 'du_muc' || cultureId === 'du_muc_mong') return 'thao_nguyen_du_muc';
+    if (cultureId === 'chau_phi' || cultureId === 'dong_phi') return 'chau_phi_ban_dia';
+    if (cultureId === 'chau_my' || cultureId === 'inca_andes' || cultureId === 'my_latinh') return 'chau_my_maya_inca';
+    return content.index.civilization.get(civId)?.culture_set || sc.culture_set;
+  };
+  const cultureSet = resolveDefaultCultureSet();
 
   return {
     location: content.index.settlementType.get(currentSettlementType)?.scene_location ?? sc.location,

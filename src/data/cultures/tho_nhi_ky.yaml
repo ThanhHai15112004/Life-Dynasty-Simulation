@@ -1,0 +1,68 @@
+# Văn hóa Đột Quyết – Thổ Nhĩ Kỳ (Oghuz Thảo nguyên – Seljuk – Đế quốc Ottoman – Thổ Nhĩ Kỳ Hiện đại)
+id: tho_nhi_ky
+name: Thổ Nhĩ Kỳ – Ottoman
+ethnicity_name: Người Thổ Nhĩ Kỳ (Turkic – Ottoman)
+phenotype: trung_dong_dia_trung_hai
+default_religion: hoi_giao_islam
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng bạc Akçe / đồng vàng Sultani
+  food: bao lúa mì
+  land: thái ấp kỵ binh (Timar)
+  staple_crop: lúa mì, quả vả & ô-liu
+family_names:
+  - { name: Osmanli, weight: 18 }
+  - { name: Seljuk, weight: 15 }
+  - { name: Karaman, weight: 15 }
+  - { name: Yilmaz, weight: 14 }
+  - { name: Kaya, weight: 13 }
+  - { name: Demir, weight: 13 }
+  - { name: Sahin, weight: 12 }
+given_names:
+  m: [Alp Arslan, Osman, Orhan, Murad, Mehmed, Selim, Suleiman, Mustafa, Kemal, Sinan, Emre, Burak, Hakan, Timur]
+  f: [Hurrem, Mihrimah, Kosem, Hatice, Safiye, Zeynep, Elif, Ayse, Fatma, Defne, Leyla, Aylin, Selin, Yasemin]
+village_names: [Làng Thung Lũng Anatolia, Xóm Bến Eo Biển Bosphorus, Thôn Đồi Ô-liu, Làng Thảm Tuấn Mã, Xóm Suối Đá Trắng]
+town_names: [Phố Chợ Bursa, Thương Cảng Izmir (Smyrna), Trạm Lữ Đoàn Konya, Bến Thuyền Trebizond]
+prefecture_names: [Istanbul (Constantinople), Edirne, Konya, Bursa, Ankara, Samarkand]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu họ {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: kỵ sĩ thái ấp (Sipahi / Bey), call: 'lãnh chúa {given} Bey' }
+  ly_truong: { title: trưởng trấn (Muhtar), call: 'trưởng trấn {given}' }
+  thay_do: { title: thẩm phán học giả (Qadi), call: 'học giả {given} Efendi' }
+  thay_lang: { title: y sư cung đình (Hekim), call: 'danh y {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương nhân Đại Baza, call: 'thương gia {given}' }
+
+era_variants:
+  - max_year: 1036
+    ethnicity_name: Bộ tộc Đột Quyết Oghuz Thảo nguyên
+    default_religion: tengri_thao_nguyen
+  - min_year: 1037
+    max_year: 1298
+    ethnicity_name: Người Thổ Seljuk (Đại Seljuk & Rum)
+    default_religion: hoi_giao_islam
+  - min_year: 1299
+    max_year: 1922
+    ethnicity_name: Người Thổ Đế quốc Ottoman
+    default_religion: hoi_giao_islam
+  - min_year: 1923
+    ethnicity_name: Người Thổ Nhĩ Kỳ Hiện đại
+    default_religion: hoi_giao_islam
+

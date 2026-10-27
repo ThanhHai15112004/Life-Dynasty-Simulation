@@ -50,3 +50,13 @@ village_roles:
   hang_xom: { title: người cùng xóm lều, call: '{given} lều bên' }
   lai_buon: { title: lữ khách đổi đá, call: 'lữ khách {given}' }
 
+era_variants:
+  - max_year: -4000
+    ethnicity_name: Thị tộc Săn bắt – Hái lượm Đá Mới (Natufian – Cro-Magnon)
+    default_religion: van_vat_huu_linh
+  - min_year: -3999
+    ethnicity_name: Bộ tộc Cự Thạch & Đồ Đồng Sơ kỳ (Bell Beaker – Stonehenge)
+    default_religion: tho_vat_to
+    village_names: [Vòng Đá Mặt Trời, Xóm Lò Đúc Đồng, Đồi Mộ Cự Thạch, Bến Đá Hổ Phách]
+
+

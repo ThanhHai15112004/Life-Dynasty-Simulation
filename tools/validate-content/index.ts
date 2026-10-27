@@ -9,7 +9,7 @@ try {
   for (const w of warnings) console.warn(`⚠  ${w}`);
   for (const e of errors) console.error(`✖  ${e}`);
   console.log(
-    `\nNội dung: ${content.bookmarks.length} mốc thời đại, ${content.polities.length} vùng thế giới, ${content.civilizations.length} khuôn văn minh, ${content.cultures.length} văn hóa, ${content.origins.length} xuất thân, ${content.careers.length} nghề, ` +
+    `\nNội dung: ${content.bookmarks.length} mốc thời đại, ${content.polities.length} vùng thế giới, ${content.civilizations.length} khuôn văn minh, ${content.cultures.length} văn hóa, ${content.religions.length} tôn giáo, ${content.origins.length} xuất thân, ${content.careers.length} nghề, ` +
       `${content.events.length} sự kiện quyết định, ${content.ambient.length} mẫu nhật ký, ` +
       `${content.focuses.length} Focus, ${content.ambitions.length} tham vọng, ${content.diseases.length} bệnh, ` +
       `${content.properties.length} tài sản, ${content.ventures.length} cơ nghiệp, ${content.traits.length} tính cách.`,

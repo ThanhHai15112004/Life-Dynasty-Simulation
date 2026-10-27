@@ -1,0 +1,68 @@
+# Văn hóa Nam Ấn Dravidian – Tamil (Sangam – Chola – Pandya – Vijayanagara – Nam Ấn Hiện đại)
+id: tamil_nam_a
+name: Nam Ấn (Tamil – Dravidian)
+ethnicity_name: Người Tamil – Dravidian (Nam Ấn & Tích Lan)
+phenotype: nam_a_an_do
+default_religion: an_do_giao
+calendar_style: bce_ce
+name_order: given_first
+lexicon:
+  currency: đồng vàng Kasu
+  food: bao gạo
+  land: mẫu ruộng (Veli)
+  staple_crop: lúa gạo, hồ tiêu & dừa
+family_names:
+  - { name: Chola, weight: 18 }
+  - { name: Pandya, weight: 16 }
+  - { name: Pillai, weight: 16 }
+  - { name: Iyer, weight: 14 }
+  - { name: Mudaliar, weight: 12 }
+  - { name: Nair, weight: 12 }
+  - { name: Reddy, weight: 12 }
+given_names:
+  m: [Rajaraja, Rajendra, Karikala, Sundara, Murugan, Karthik, Arvind,Subramania, Ganesh, Vivek, Anand, Madhavan, Senthil,Prakash]
+  f: [Meenakshi, Kannagi, Kundavai, Lakshmi, Parvati, Anjali, Divya, Kavitha, Nithya, Padma, Revathi, Saroja, Vasuki, Yamini]
+village_names: [Làng Đền Đá Thanjavur, Xóm Bến Sông Kaveri, Thôn Vườn Hồ Tiêu, Xóm Dừa Ven Biển Malabar, Làng Dệt Lụa Kanchi]
+town_names: [Thương Cảng Puhar, Bến Ngọc Trai Korkai, Cảng Gia Vị Calicut, Phố Chợ Madurai]
+prefecture_names: [Thanjavur, Madurai, Kanchipuram, Vijayanagara, Chennai, Colombo]
+kin_calls:
+  father: cha
+  mother: mẹ
+  older_m: anh {given}
+  older_f: chị {given}
+  younger: em {given}
+  husband: chồng ({given})
+  wife: vợ ({given})
+  son: con trai {given}
+  daughter: con gái {given}
+  adopted_son: con nuôi {given}
+  adopted_daughter: con gái nuôi {given}
+  grandchild: cháu {given}
+  nephew: cháu {given}
+  uncle: chú {given}
+  aunt: cô {given}
+  other: '{given}'
+village_roles:
+  ba_ho: { title: đại điền chủ (Vellalar), call: 'ông chủ {given}' }
+  ly_truong: { title: trưởng hội đồng làng (Sabha), call: 'trưởng lão {given}' }
+  thay_do: { title: tu sĩ Bà-la-môn đền tháp, call: 'đạo sư {given}' }
+  thay_lang: { title: y sư Siddha, call: 'y sư {given}' }
+  hang_xom: { title: láng giềng, call: '{given} nhà bên' }
+  lai_buon: { title: thương đoàn biển Ayyavole, call: 'thương gia {given}' }
+
+era_variants:
+  - max_year: 300
+    ethnicity_name: Người Tamil Thời đại Sangam Cổ điển
+    default_religion: an_do_giao
+  - min_year: 301
+    max_year: 1335
+    ethnicity_name: Người Tamil – Đế chế Hàng hải Chola & Pandya
+    default_religion: an_do_giao
+  - min_year: 1336
+    max_year: 1850
+    ethnicity_name: Cư dân Vijayanagara & Nam Ấn Cận đại
+    default_religion: an_do_giao
+  - min_year: 1851
+    ethnicity_name: Người Nam Ấn (Tamil – Telugu – Malayalam – Kannada)
+    default_religion: an_do_giao
+

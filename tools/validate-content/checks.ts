@@ -35,10 +35,12 @@ export interface ValidationReport {
   warnings: string[];
 }
 
-/** Id khai báo ở public/assets (không thuộc ContentBundle): chủ đề hoạt cảnh, địa điểm cảnh. */
+/** Id khai báo ở public/assets (không thuộc ContentBundle): chủ đề hoạt cảnh, địa điểm cảnh, bộ cảnh văn hóa, bảng màu sắc tộc. */
 export interface AssetIds {
   cutsceneThemes: string[];
   sceneLocations: string[];
+  sceneCultureSets?: string[];
+  scenePhenotypes?: string[];
 }
 
 export function validateContent(content: ContentBundle, assets?: AssetIds): ValidationReport {
@@ -151,6 +153,37 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
   }
   for (const st of content.settlementTypes) {
     if (st.scene_location && assets) need(assets.sceneLocations.includes(st.scene_location), `settlement_types.${st.id}: địa điểm cảnh lạ "${st.scene_location}"`);
+  }
+  for (const r of content.religions) {
+    r.modifiers.forEach((m) => target(m.target, `religions.${r.id}.modifiers`));
+  }
+  for (const cu of content.cultures) {
+    need(idx.religion.has(cu.default_religion), `cultures.${cu.id}: default_religion lạ "${cu.default_religion}"`);
+    if (assets?.scenePhenotypes) {
+      need(assets.scenePhenotypes.includes(cu.phenotype), `cultures.${cu.id}: phenotype lạ "${cu.phenotype}" (chưa có trong base.json)`);
+    }
+    for (const v of cu.era_variants) {
+      const vRel = v.default_religion ?? v.religion;
+      if (vRel) need(idx.religion.has(vRel), `cultures.${cu.id}.era_variants: religion lạ "${vRel}"`);
+      if (v.phenotype && assets?.scenePhenotypes) {
+        need(assets.scenePhenotypes.includes(v.phenotype), `cultures.${cu.id}.era_variants: phenotype lạ "${v.phenotype}" (chưa có trong base.json)`);
+      }
+    }
+  }
+  for (const po of content.polities) {
+    need(idx.culture.has(po.culture), `polities.${po.id}: culture lạ "${po.culture}"`);
+    need(idx.civilization.has(po.civilization), `polities.${po.id}: civilization lạ "${po.civilization}"`);
+    if (po.culture_set && assets?.sceneCultureSets) {
+      need(assets.sceneCultureSets.includes(po.culture_set), `polities.${po.id}: culture_set lạ "${po.culture_set}" (chưa có trong cultures.json)`);
+    }
+    if (po.phenotype && assets?.scenePhenotypes) {
+      need(assets.scenePhenotypes.includes(po.phenotype), `polities.${po.id}: phenotype lạ "${po.phenotype}" (chưa có trong base.json)`);
+    }
+    if (po.religion) need(idx.religion.has(po.religion), `polities.${po.id}: religion lạ "${po.religion}"`);
+    for (const r of po.religions ?? []) {
+      const rid = typeof r === 'string' ? r : r.id;
+      need(idx.religion.has(rid), `polities.${po.id}.religions: religion lạ "${rid}"`);
+    }
   }
   template(content.balance.director.ambient.digest_template, 'director.ambient.digest_template');
   Object.values(SystemLog).forEach((id) => template(id, 'systemLogKeys'));
