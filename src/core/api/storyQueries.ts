@@ -6,7 +6,7 @@ import type { PeerState } from '../entities/World';
 import { SystemLog } from '../events/systemLogKeys';
 import type { SimContext } from '../systems/context';
 import { lifeExpectancyAtBirth } from '../systems/life/mortality';
-import { ageNow, aliveMembers, player, playerHousehold } from '../systems/people';
+import { activeCulture, ageNow, aliveMembers, player, playerHousehold } from '../systems/people';
 import { pickEpitaph } from '../systems/story';
 
 export interface PeerView {
@@ -145,7 +145,7 @@ export function getBirthCard(ctx: SimContext): BirthCardView {
   const siblings = aliveMembers(ctx).filter(
     (c) => c.id !== me.id && ((me.fatherId && c.fatherId === me.fatherId) || (me.motherId && c.motherId === me.motherId)),
   ).length;
-  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const culture = activeCulture(ctx);
   const calendarStyle: 'can_chi' | 'bce_ce' =
     state.civilization.id === 'hien_dai' || state.clock.year >= 1945 || state.clock.year < -500
       ? 'bce_ce'
@@ -207,7 +207,7 @@ export function getLifeCard(ctx: SimContext): LifeCardView | null {
     (state.polityId ? content.index.polity.get(state.polityId) : undefined) ??
     content.index.polity.get('dai_viet_nha_ly_1000ce') ??
     content.polities[0];
-  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const culture = activeCulture(ctx);
   const calendarStyle: 'can_chi' | 'bce_ce' =
     state.civilization.id === 'hien_dai' || state.clock.year >= 1945 || state.clock.year < -500
       ? 'bce_ce'

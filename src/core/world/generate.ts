@@ -7,6 +7,7 @@ import type { Household } from '../entities/Household';
 import { SAVE_VERSION, type GameState } from '../entities/World';
 import { generateVillageClans } from '../systems/ai';
 import { RngStream, newId, type SimContext } from '../systems/context';
+import { activeCulture, resolveCultureForYear } from '../systems/people';
 import { initRegionSettlements } from './region';
 
 export interface NewGameOptions {
@@ -51,7 +52,8 @@ export function createCharacter(
   rng: Rng,
   spec: { sex: Sex; age: number; familyName?: string; health: number; skills?: Record<string, SkillState>; traits?: string[] },
 ): Character {
-  const culture = ctx.content.index.culture.get(ctx.state.cultureId)!;
+  const culture = activeCulture(ctx);
+  const polity = ctx.state.polityId ? ctx.content.index.polity.get(ctx.state.polityId) : undefined;
   const { year, month } = ctx.state.clock;
   const birthMonth = rng.int(1, ctx.content.balance.calendar.months_per_year);
   const birthYear = year - spec.age - (birthMonth > month ? 1 : 0);
@@ -60,6 +62,9 @@ export function createCharacter(
     familyName: spec.familyName ?? rng.weighted(culture.family_names, (f) => f.weight)!.name,
     givenName: rng.pick(culture.given_names[spec.sex]),
     nameOrder: culture.name_order,
+    ethnicityName: polity?.ethnicity_name ?? culture.ethnicity_name ?? culture.name,
+    phenotypeId: polity?.phenotype ?? culture.phenotype ?? 'dong_a_bac',
+    religionId: ctx.state.religionId ?? polity?.religion ?? culture.default_religion ?? 'tho_to_tien',
     sex: spec.sex,
     birthYear,
     birthMonth,
@@ -264,20 +269,25 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
   );
   const ctx = makeCtx(state);
   const rng = ctx.rng.get(RngStream.Generate);
-  const culture = content.index.culture.get(state.cultureId) ?? content.index.culture.get(origin.culture);
-  if (!culture) throw new Error(`Xuất thân "${origin.id}" dùng văn hóa không tồn tại: ${state.cultureId}`);
+  const baseCulture = content.index.culture.get(state.cultureId) ?? content.index.culture.get(origin.culture);
+  if (!baseCulture) throw new Error(`Xuất thân "${origin.id}" dùng văn hóa không tồn tại: ${state.cultureId}`);
+  const culture = resolveCultureForYear(baseCulture, startYear);
+  state.religionId = polity?.religions?.length
+    ? rng.weighted(polity.religions, (r) => r.weight)?.id
+    : (polity?.religion ?? culture.default_religion ?? 'tho_to_tien');
 
   state.world.settlementName = rng.pick(culture.village_names);
   initRegionSettlements(ctx);
   const startAge = opts.startAge ?? origin.default_start_age;
 
   const hh = origin.household;
+  const noUsuryEra = civId === 'bo_lac_nguyen_thuy' || startYear < -2500;
   const household: Household = {
     id: newId(ctx, 'h'),
     memberIds: [],
     money: rng.range(hh.money),
     food: rng.range(hh.food),
-    debt: rng.range(hh.debt),
+    debt: noUsuryEra ? 0 : rng.range(hh.debt),
     livingStandard: hh.living_standard,
     properties: Object.fromEntries(hh.properties.map((p) => [p.id, rng.range(p.count)])),
     ledger: [],

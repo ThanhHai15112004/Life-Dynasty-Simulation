@@ -1,7 +1,15 @@
 # [0] Xuất thân Nông dân (GDD 05 §7.1): sinh tồn và vươn lên — mỗi bước tiến đều đáng giá
 id: nong_dan
 name: Nông dân
+names_by_civ:
+  bo_lac_nguyen_thuy: Thợ săn & Hái lượm
+  du_muc: Mục dân chăn thả
+  hien_dai: Gia đình lao động
 description: Con nhà nông nghèo ở một làng ven sông. Vài sào ruộng, mái nhà tranh, và cả một đời phía trước.
+descriptions_by_civ:
+  bo_lac_nguyen_thuy: Chào đời trong một thị tộc sống dưới mái đá và lán cỏ bên bờ suối, mưu sinh bằng săn bắt thú rừng và hái lượm củ quả theo mùa.
+  du_muc: Sinh ra trong chiếc lều nỉ trên thảo nguyên mênh mông, theo cha mẹ chăn dắt đàn cừu và ngựa qua từng mùa cỏ.
+  hien_dai: Sinh ra trong một gia đình lao động bình dân, cha mẹ tần tảo sớm hôm lo cho con cái ăn học nên người.
 culture: viet
 start_age_options: [0, 6, 16]
 default_start_age: 0

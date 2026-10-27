@@ -31,6 +31,6 @@ export function loadNodeAssetIds(root = projectRoot): { cutsceneThemes: string[]
   const ids = (o: unknown) => Object.keys((o ?? {}) as object).filter((k) => !k.startsWith('$'));
   return {
     cutsceneThemes: ids(read('common/placeholder/cutscenes.json').themes),
-    sceneLocations: ids(read('common/scene-kit.json').locations),
+    sceneLocations: ids(read('common/scene-kit/locations.json').locations),
   };
 }

@@ -17,6 +17,7 @@ export function Portrait({
   cultureSet,
   season,
   scale,
+  phenotype,
 }: {
   id: string;
   sex: 'm' | 'f';
@@ -24,13 +25,14 @@ export function Portrait({
   cultureSet: string;
   season: string;
   scale: number;
+  phenotype?: string;
 }) {
   const { kit } = useUi();
   const snap = useSnapshot();
   const ref = useRef<HTMLCanvasElement>(null);
   const culture = kit ? cultureOf(kit, cultureSet) : null;
   const scenePerson = snap.scene?.people.find((sp) => sp.id === id);
-  const person: PersonVisualInput = scenePerson ?? { id, sex, ageGroup };
+  const person: PersonVisualInput = scenePerson ?? { id, sex, ageGroup, phenotype };
   const partId = culture ? resolvePersonPartId(culture, person) : '';
   const part = kit && partId ? kit.parts[partId] : undefined;
   const size = part ? partSize(part) : { w: 0, h: 0 };
@@ -66,6 +68,7 @@ export function Portrait({
     person.healthState,
     person.isPregnant,
     person.isMourning,
+    person.phenotype,
   ]);
 
   if (!part) return <div className="portrait empty" />;

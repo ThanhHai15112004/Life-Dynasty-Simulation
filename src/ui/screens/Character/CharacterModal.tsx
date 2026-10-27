@@ -54,6 +54,7 @@ export function CharacterModal({ hud, onClose }: { hud: HudView; onClose: () => 
                 cultureSet={scene.cultureSet}
                 season={scene.season}
                 scale={4}
+                phenotype={p.phenotypeId}
               />
             )}
             <div className="profile-main">
@@ -63,12 +64,24 @@ export function CharacterModal({ hud, onClose }: { hud: HudView; onClose: () => 
                 <dd>{t(`menu.sex.${p.sex}`)}</dd>
                 <dt>{t('profile.born')}</dt>
                 <dd>
-                  {t('profile.born_value', {
-                    month: t(`month.${p.birth.month}`),
-                    can: t(`canchi.can.${p.birth.can}`),
-                    chi: t(`canchi.chi.${p.birth.chi}`),
-                    year: p.birth.year,
-                  })}
+                  {hud.date.calendarStyle === 'bce_ce'
+                    ? t('profile.born_value_ce', {
+                        month: t(`month.${p.birth.month}`),
+                        year: p.birth.year < 0 ? t('year.bce', { year: Math.abs(p.birth.year) }) : String(p.birth.year),
+                      })
+                    : t('profile.born_value', {
+                        month: t(`month.${p.birth.month}`),
+                        can: t(`canchi.can.${p.birth.can}`),
+                        chi: t(`canchi.chi.${p.birth.chi}`),
+                        year: p.birth.year < 0 ? t('year.bce', { year: Math.abs(p.birth.year) }) : String(p.birth.year),
+                      })}
+                </dd>
+                <dt>{t('profile.ethnicity')}</dt>
+                <dd>{p.ethnicityName}</dd>
+                <dt>{t('profile.religion')}</dt>
+                <dd>
+                  <b>{p.religionName}</b> ({t('profile.shrine_note', { shrine: p.shrineName })})
+                  <div className="muted small">{p.religionDescription}</div>
                 </dd>
                 <dt>{t('profile.origin')}</dt>
                 <dd>{p.originName}</dd>

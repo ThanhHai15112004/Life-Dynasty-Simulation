@@ -9,7 +9,7 @@ import { writeTemplate } from '../events/journal';
 import { Ledger, SystemLog } from '../events/systemLogKeys';
 import { RngStream, type SimContext } from '../systems/context';
 import { currentFateMode } from '../systems/life';
-import { ageNow, player, playerHousehold } from '../systems/people';
+import { activeCulture, ageNow, player, playerHousehold } from '../systems/people';
 import { addSkillXp } from '../systems/skills';
 
 /** ID khu định cư mà người chơi đang có mặt (đang đi chuyến xa thì là điểm đến, ở nhà thì là nơi hộ định cư). */
@@ -31,7 +31,7 @@ export function currentSettlement(ctx: SimContext): Settlement | undefined {
 export function initRegionSettlements(ctx: SimContext): void {
   const { content, state } = ctx;
   const rng = ctx.rng.get(RngStream.Region);
-  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const culture = activeCulture(ctx);
   const civId = state.civilization?.id ?? content.civilizations[0]?.id ?? 'nho_giao';
 
   if (!state.settlements) state.settlements = {};

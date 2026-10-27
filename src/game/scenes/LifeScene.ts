@@ -90,10 +90,14 @@ export class LifeScene extends Phaser.Scene {
     if (cond.flood) drawRects(this.overlayGfx, [{ x: 0, y: kit.groundY - 4, w: kit.width, h: kit.height, color: cond.flood, alpha: cond.alpha ?? 1 }]);
     else if (cond.tint) drawRects(this.overlayGfx, [{ x: 0, y: 0, w: kit.width, h: kit.height, color: cond.tint, alpha: cond.alpha ?? 0.2 }]);
 
-    // Ống khói: góc phải mái nhà chính
+    // Ống khói hoặc đống lửa trại ngoài trời
     const culture = cultureOf(kit, d.cultureSet);
+    const locKey = culture.locations?.[d.location] ?? d.location;
+    const loc = kit.locations[locKey] ?? kit.locations[d.location];
     const housePart = d.house ? kit.parts[culture.parts[d.house] ?? d.house] : undefined;
-    if (housePart) {
+    if (loc?.campfire) {
+      this.chimney = loc.campfire;
+    } else if (housePart) {
       const { w, h } = partSize(housePart);
       this.chimney = [kit.slots.house.x + Math.round(w * 0.7), kit.groundY - h + 2];
     } else this.chimney = null;

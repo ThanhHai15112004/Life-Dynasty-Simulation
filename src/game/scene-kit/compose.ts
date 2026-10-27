@@ -23,7 +23,7 @@ export function sceneColors(culture: KitCulture, season: string): Resolve {
 }
 
 export type PersonVisualInput = Pick<ScenePerson, 'id' | 'sex' | 'ageGroup'> &
-  Partial<Pick<ScenePerson, 'age' | 'career' | 'statusRank' | 'examDegree' | 'healthState' | 'isPregnant' | 'isMourning'>>;
+  Partial<Pick<ScenePerson, 'age' | 'phenotype' | 'career' | 'statusRank' | 'examDegree' | 'healthState' | 'isPregnant' | 'isMourning'>>;
 
 /** Xác định nhóm trang phục theo cư tang, khoa cử, địa vị và nghề nghiệp. */
 export function resolveOutfitGroup(p: PersonVisualInput): string | null {
@@ -121,12 +121,24 @@ export function resolveHatSpec(
   return null;
 }
 
-/** Màu riêng của một người: mỗi ô màu (da, tóc, áo, quần...) chọn trong bảng của văn hóa + tầng lớp/nghề theo id người. */
-export function personColors(culture: KitCulture, p: PersonVisualInput | string, base: Resolve): Resolve {
+/** Màu riêng của một người: mỗi ô màu (da, tóc, áo, quần...) chọn trong bảng của văn hóa + chủng tộc + tầng lớp/nghề theo id người. */
+export function personColors(
+  culture: KitCulture,
+  p: PersonVisualInput | string,
+  base: Resolve,
+  phenotypePalettes?: SceneKit['phenotypePalettes'],
+): Resolve {
   const person: PersonVisualInput = typeof p === 'string' ? { id: p, sex: 'm', ageGroup: 'nguoi_lon' } : p;
   const picked: Record<string, string> = {};
   for (const [slot, options] of Object.entries(culture.palettes)) {
     if (options.length) picked[slot] = options[hashOf(`${person.id}:${slot}`) % options.length];
+  }
+  const pheno = person.phenotype && phenotypePalettes ? phenotypePalettes[person.phenotype] : undefined;
+  if (pheno?.skin?.length) {
+    picked.skin = pheno.skin[hashOf(`${person.id}:pheno_skin`) % pheno.skin.length];
+  }
+  if (pheno?.hair?.length) {
+    picked.hair = pheno.hair[hashOf(`${person.id}:pheno_hair`) % pheno.hair.length];
   }
   const group = resolveOutfitGroup(person);
   const groupPalettes = group && culture.outfitPalettes ? culture.outfitPalettes[group] : undefined;
@@ -177,7 +189,8 @@ export function partRects(part: KitPart | undefined, x: number, bottom: number, 
 export function composeStatic(kit: SceneKit, d: SceneDescriptor): KitRect[] {
   const culture = cultureOf(kit, d.cultureSet);
   const color = sceneColors(culture, d.season);
-  const loc = kit.locations[d.location] ?? Object.values(kit.locations)[0];
+  const locKey = culture.locations?.[d.location] ?? d.location;
+  const loc = kit.locations[locKey] ?? kit.locations[d.location] ?? Object.values(kit.locations)[0];
   const out: KitRect[] = [];
   const W = kit.width;
 
@@ -269,7 +282,7 @@ export function personRects(
 ) {
   const partId = resolvePersonPartId(culture, p);
   const part = kit.parts[partId];
-  const colors = personColors(culture, p, base);
+  const colors = personColors(culture, p, base, kit.phenotypePalettes);
   const rects = partRects(part, x, bottom, colors, flip);
   const size = part ? partSize(part) : { w: 0, h: 0 };
   const height = size.h;

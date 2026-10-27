@@ -1,8 +1,24 @@
 # Văn hóa Châu Phi (Tây Phi, Đông Phi, Hạ Sahara: Mali, Songhai, Ethiopia, Bantu)
 id: chau_phi
 name: Châu Phi
+ethnicity_name: Cư dân Châu Phi (Mandinka, Yoruba, Bantu, Cushitic)
+phenotype: chau_phi_sub_sahara
+default_religion: van_vat_huu_linh
 calendar_style: bce_ce
 name_order: given_first
+era_variants:
+  - id: sahara_xanh_nguyen_thuy
+    max_year: -1500
+    ethnicity_name: Bộ tộc Săn bắt Thảo nguyên Sahara Xanh & Lưu vực Nile Cổ
+    religion: van_vat_huu_linh
+    lexicon:
+      currency: hạt đà điểu & đá vỏ chai
+      food: giỏ hạt dại
+      land: bãi cỏ thảo nguyên
+      staple_crop: lúa miến hoang & củ rừng
+    village_names: [Hang Đá Tassili, Bãi Hồ Chad Cổ, Lán Thảo Nguyên Xanh, Suối Đá Đỏ, Thung Lũng Voi Lớn]
+    town_names: [Bãi Hội Bộ Lạc Thảo Nguyên, Bến Đá Thượng Nguồn Nile]
+    prefecture_names: [Thánh Địa Đá Vẽ Sahara, Đại Bản Doanh Nabta Playa]
 lexicon:
   currency: bụi vàng / vỏ ốc Cowrie
   food: giỏ

@@ -2,7 +2,14 @@
 careers:
   - id: nong_dan
     name: Nông dân
+    names_by_civ:
+      bo_lac_nguyen_thuy: Săn bắt & Hái lượm
+      du_muc: Mục dân chăn thả
+      hien_dai: Nông trang & Canh tác
     description: Bám đất bám làng, trông trời trông đất trông mây. Chậm mà chắc, tích lũy ruộng vườn qua từng mùa gặt.
+    descriptions_by_civ:
+      bo_lac_nguyen_thuy: Theo dấu đàn thú rừng, đặt bẫy ven suối và thu hái hạt dại, củ mài nuôi sống cả thị tộc qua bốn mùa.
+      du_muc: Chăn dắt đàn gia súc trên đồng cỏ mênh mông, thu hoạch thịt, sữa và lông cừu.
     icon: lua
     sector: nong_nghiep
     depth: sau
@@ -41,12 +48,20 @@ careers:
     ranks:
       - id: ta_dien
         name: Dân cày nghèo
+        names_by_civ:
+          bo_lac_nguyen_thuy: Người hái lượm
+          du_muc: Người chăn thuê
+          hien_dai: Lao động thời vụ
         min_merit: 0
         min_years: 0
         income_range: [2, 6]
         condition: { var: household.farmland, op: '<', value: 3 }
       - id: nong_dan_tu_canh
         name: Nông phu tự canh
+        names_by_civ:
+          bo_lac_nguyen_thuy: Thợ săn & Người làm nương
+          du_muc: Mục dân tự chủ
+          hien_dai: Chủ hộ canh tác
         min_merit: 15
         min_years: 0
         income_range: [6, 14]
@@ -55,6 +70,10 @@ careers:
           - { target: harvest.yield, value: 1.05, op: mul }
       - id: phu_nong
         name: Phú nông có của
+        names_by_civ:
+          bo_lac_nguyen_thuy: Thợ săn thiện nghệ
+          du_muc: Chủ đàn gia súc lớn
+          hien_dai: Chủ trang trại
         min_merit: 45
         min_years: 3
         income_range: [14, 28]
@@ -67,6 +86,10 @@ careers:
           - { target: harvest.yield, value: 1.12, op: mul }
       - id: dien_chu
         name: Điền chủ trong vùng
+        names_by_civ:
+          bo_lac_nguyen_thuy: Thủ lĩnh săn bộ lạc
+          du_muc: Đại chủ bầy thảo nguyên
+          hien_dai: Chủ trang trại lớn
         min_merit: 90
         min_years: 6
         min_reputation: 15

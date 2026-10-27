@@ -9,14 +9,14 @@ import { LogKind } from '../../events/systemLogKeys';
 import { RngStream, newId, type SimContext } from '../context';
 import { currentFateMode } from '../life';
 import { polityMortalityFactor } from '../life/mortality';
-import { ageNow, player } from '../people';
+import { activeCulture, ageNow, player } from '../people';
 import { createResolver } from '../resolver';
 
 /** Sinh bạn cùng lứa cho đời đang chơi: các gia cảnh khác nhau, cùng năm sinh với người chơi. */
 export function createPeers(ctx: SimContext): void {
   const { state, content } = ctx;
   const cfg = content.story.peers;
-  const culture = content.index.culture.get(state.cultureId);
+  const culture = activeCulture(ctx);
   const rng = ctx.rng.get(RngStream.Peers);
   const me = player(ctx);
   state.peers = [];

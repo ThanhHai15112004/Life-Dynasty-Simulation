@@ -3,7 +3,7 @@ import { SystemLog } from '../../events/systemLogKeys';
 import { writeTemplate } from '../../events/journal';
 import { spawnVillageNpc } from '../../world/generate';
 import { RngStream, type SimContext } from '../context';
-import { ageNow, callOf, lifeStageOf, player } from '../people';
+import { activeCulture, ageNow, callOf, lifeStageOf, player } from '../people';
 import { monthlyHealth } from './health';
 import { autoTreatment, monthlyDiseases, infectCharacter, cureCharacter } from './disease';
 import { annualNpcDeathRisk, monthlyMortality, pickCause } from './mortality';
@@ -49,7 +49,7 @@ export function yearlyVillage(ctx: SimContext): void {
       const successor = spawnVillageNpc(ctx, spec);
       writeTemplate(ctx, SystemLog.VillageNewRole, {
         self: successor.id,
-        params: { call: callOf(ctx, successor), title: content.index.culture.get(state.cultureId)?.village_roles[role]?.title ?? role },
+        params: { call: callOf(ctx, successor), title: activeCulture(ctx)?.village_roles[role]?.title ?? role },
       });
     }
   }

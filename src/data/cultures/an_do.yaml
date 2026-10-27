@@ -1,8 +1,30 @@
 # Văn hóa Nam Á (Ấn Độ & Tiểu lục địa Nam Á)
 id: an_do
 name: Nam Á (Ấn Độ)
+ethnicity_name: Cư dân Indo-Aryan & Dravidian
+phenotype: nam_a_an_do
+default_religion: an_do_giao
 calendar_style: bce_ce
 name_order: given_first
+era_variants:
+  - id: mehrgarh_song_an
+    max_year: -1500
+    ethnicity_name: Cư dân Mehrgarh & Lưu vực Sông Ấn (Harappa)
+    religion: van_vat_huu_linh
+    lexicon:
+      currency: hạt mã não & ấn đá
+      food: vò đất nung
+      land: bãi bồi sông Ấn
+      staple_crop: lúa mạch & vừng
+    family_names:
+      - { name: Sindhu, weight: 25 }
+      - { name: Meluhha, weight: 20 }
+      - { name: Bolan, weight: 20 }
+      - { name: Ravi, weight: 20 }
+      - { name: Dravida, weight: 15 }
+    village_names: [Xóm Đồi Mehrgarh, Bãi Bồi Sông Ấn, Làng Gạch Nung Cổ, Xóm Chăn Bò Zebu, Thung Lũng Đèo Bolan]
+    town_names: [Bến Cảng Lothal, Chợ Ấn Đá Harappa, Bến Thuyền Sông Ấn]
+    prefecture_names: [Mohenjo-daro, Đô Thị Harappa, Thành Dholavira, Thành Rakhigarhi]
 lexicon:
   currency: đồng bạc (Rupiya)
   food: giạ

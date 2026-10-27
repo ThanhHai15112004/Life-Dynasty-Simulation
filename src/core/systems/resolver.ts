@@ -8,7 +8,7 @@ import type { SimContext } from './context';
 import { householdNetWorth, lastYearIncome, localTradeFactor, monthlyFoodNeed, selfFarms, spareWorkers, workerCount } from './economy/helpers';
 import { purseActive } from './economy/purse';
 import { aliveChildrenOf, canPlayerSplitHousehold, getHeirCandidates, getMarriageableMembers, isEldestChild } from './family';
-import { ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
+import { activeCulture, ageNow, callOf, householdHead, lifeStageOf, player, playerHousehold, villageNpc } from './people';
 import { ExamStage, examStage } from './status';
 import { activeSettlementId, currentSettlement, homeSettlement } from '../world/region';
 
@@ -383,7 +383,7 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
     if (path === 'world.weather_name') return content.balance.calendar.weathers.find((w) => w.id === state.world.weather)?.name;
     if (path === 'world.harvest_name') return content.index.harvestQuality.get(state.world.harvestQuality)?.name;
     if (path.startsWith('lex.')) {
-      const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+      const culture = activeCulture(ctx);
       const lex = culture?.lexicon;
       if (path === 'lex.currency') return lex?.currency ?? '';
       if (path === 'lex.food') return lex?.food ?? '';

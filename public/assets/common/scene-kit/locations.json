@@ -1,0 +1,517 @@
+{
+  "$comment": "[1] Bố cục địa hình và bối cảnh (đồi núi, mặt nước, vị trí đặt cây, hàng rào, bộ phận nền).",
+  "locations": {
+    "lang_nong": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 64,
+          "amp": 16,
+          "freq": 0.04,
+          "phase": 0.6
+        },
+        {
+          "color": "hill_near",
+          "base": 75,
+          "amp": 10,
+          "freq": 0.055,
+          "phase": 2.1
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "ruong_lua_viet",
+          "x": 0,
+          "bottom": 92,
+          "repeatX": 16
+        },
+        {
+          "part": "dat_viet",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        2,
+        74,
+        164,
+        216
+      ],
+      "fence": [
+        0,
+        240
+      ]
+    },
+    "thi_tran_ben_song": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 60,
+          "amp": 13,
+          "freq": 0.035,
+          "phase": 1.4
+        }
+      ],
+      "bands": [
+        {
+          "y": 68,
+          "h": 20,
+          "color": "water"
+        },
+        {
+          "y": 72,
+          "h": 1,
+          "color": "water_light"
+        },
+        {
+          "y": 80,
+          "h": 1,
+          "color": "water_light"
+        },
+        {
+          "y": 88,
+          "h": 8,
+          "color": "ground_dark"
+        }
+      ],
+      "placements": [
+        {
+          "part": "thuyen_buom_viet",
+          "x": 54,
+          "bottom": 85
+        },
+        {
+          "part": "thuyen_viet",
+          "x": 126,
+          "bottom": 82
+        },
+        {
+          "part": "ben_go_viet",
+          "x": 86,
+          "bottom": 94
+        },
+        {
+          "part": "day_leu_cho_viet",
+          "x": 162,
+          "bottom": 96
+        },
+        {
+          "part": "dat_viet",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        2,
+        218
+      ],
+      "fence": null
+    },
+    "phu_thanh": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 58,
+          "amp": 10,
+          "freq": 0.03,
+          "phase": 0.9
+        }
+      ],
+      "bands": [
+        {
+          "y": 92,
+          "h": 4,
+          "color": "stone"
+        }
+      ],
+      "placements": [
+        {
+          "part": "tuong_thanh_viet",
+          "x": 0,
+          "bottom": 90,
+          "repeatX": 32
+        },
+        {
+          "part": "cong_phu_viet",
+          "x": 82,
+          "bottom": 92
+        },
+        {
+          "part": "co_hieu_viet",
+          "x": 68,
+          "bottom": 92
+        },
+        {
+          "part": "co_hieu_viet",
+          "x": 146,
+          "bottom": 92
+        },
+        {
+          "part": "duong_da_viet",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        52,
+        156,
+        218
+      ],
+      "fence": null
+    },
+    "bai_trai_nguyen_thuy": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 54,
+          "amp": 22,
+          "freq": 0.045,
+          "phase": 0.4
+        },
+        {
+          "color": "hill_near",
+          "base": 68,
+          "amp": 14,
+          "freq": 0.06,
+          "phase": 1.8
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "vach_da_hang_nguyen_thuy",
+          "x": 34,
+          "bottom": 96
+        },
+        {
+          "part": "bui_qua_rung_nguyen_thuy",
+          "x": 0,
+          "bottom": 96,
+          "repeatX": 48
+        },
+        {
+          "part": "cot_vat_to_da",
+          "x": 60,
+          "bottom": 96
+        },
+        {
+          "part": "lua_trai_bo_lac",
+          "x": 78,
+          "bottom": 96
+        },
+        {
+          "part": "dat_da_nguyen_thuy",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        0,
+        22,
+        48,
+        70,
+        146,
+        168,
+        190,
+        210,
+        228
+      ],
+      "fence": null,
+      "campfire": [
+        84,
+        89
+      ]
+    },
+    "ben_suoi_nguyen_thuy": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 56,
+          "amp": 18,
+          "freq": 0.04,
+          "phase": 1.1
+        },
+        {
+          "color": "hill_near",
+          "base": 70,
+          "amp": 12,
+          "freq": 0.05,
+          "phase": 2.3
+        }
+      ],
+      "bands": [
+        {
+          "y": 72,
+          "h": 16,
+          "color": "water"
+        },
+        {
+          "y": 76,
+          "h": 1,
+          "color": "water_light"
+        },
+        {
+          "y": 82,
+          "h": 1,
+          "color": "water_light"
+        },
+        {
+          "y": 88,
+          "h": 8,
+          "color": "ground_dark"
+        }
+      ],
+      "placements": [
+        {
+          "part": "bai_da_nguyen_thuy",
+          "x": 16,
+          "bottom": 92
+        },
+        {
+          "part": "thuyen_doc_moc_nguyen_thuy",
+          "x": 64,
+          "bottom": 86
+        },
+        {
+          "part": "thuyen_doc_moc_nguyen_thuy",
+          "x": 118,
+          "bottom": 84
+        },
+        {
+          "part": "day_leu_nguyen_thuy",
+          "x": 164,
+          "bottom": 96
+        },
+        {
+          "part": "lua_trai_bo_lac",
+          "x": 80,
+          "bottom": 96
+        },
+        {
+          "part": "dat_da_nguyen_thuy",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        0,
+        24,
+        46,
+        148,
+        196,
+        218
+      ],
+      "fence": null,
+      "campfire": [
+        86,
+        89
+      ]
+    },
+    "thanh_dia_cu_thach": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 52,
+          "amp": 20,
+          "freq": 0.038,
+          "phase": 0.7
+        },
+        {
+          "color": "hill_near",
+          "base": 66,
+          "amp": 12,
+          "freq": 0.052,
+          "phase": 1.9
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "vach_da_hang_nguyen_thuy",
+          "x": 112,
+          "bottom": 94
+        },
+        {
+          "part": "cot_vat_to_da",
+          "x": 52,
+          "bottom": 96
+        },
+        {
+          "part": "cot_vat_to_da",
+          "x": 92,
+          "bottom": 96
+        },
+        {
+          "part": "cot_vat_to_da",
+          "x": 142,
+          "bottom": 96
+        },
+        {
+          "part": "cot_vat_to_da",
+          "x": 178,
+          "bottom": 96
+        },
+        {
+          "part": "lua_trai_bo_lac",
+          "x": 74,
+          "bottom": 96
+        },
+        {
+          "part": "dat_da_nguyen_thuy",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        0,
+        20,
+        38,
+        156,
+        192,
+        212,
+        228
+      ],
+      "fence": null,
+      "campfire": [
+        80,
+        89
+      ]
+    },
+    "trai_du_muc_thao_nguyen": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 62,
+          "amp": 18,
+          "freq": 0.025,
+          "phase": 0.3
+        },
+        {
+          "color": "hill_near",
+          "base": 76,
+          "amp": 10,
+          "freq": 0.035,
+          "phase": 1.7
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "bai_co_nguyen_thuy",
+          "x": 0,
+          "bottom": 94,
+          "repeatX": 24
+        },
+        {
+          "part": "cot_vat_to_da",
+          "x": 64,
+          "bottom": 94
+        },
+        {
+          "part": "dat_da_nguyen_thuy",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        4,
+        222
+      ],
+      "fence": null
+    },
+    "lang_nong_hien_dai": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 66,
+          "amp": 12,
+          "freq": 0.035,
+          "phase": 0.6
+        },
+        {
+          "color": "hill_near",
+          "base": 78,
+          "amp": 8,
+          "freq": 0.05,
+          "phase": 2.1
+        }
+      ],
+      "bands": [],
+      "placements": [
+        {
+          "part": "vuon_cay_hien_dai",
+          "x": 0,
+          "bottom": 92,
+          "repeatX": 16
+        },
+        {
+          "part": "duong_nhua_hien_dai",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        2,
+        74,
+        164,
+        216
+      ],
+      "fence": [
+        0,
+        240
+      ]
+    },
+    "do_thi_hien_dai": {
+      "hills": [
+        {
+          "color": "hill_far",
+          "base": 60,
+          "amp": 8,
+          "freq": 0.025,
+          "phase": 0.9
+        }
+      ],
+      "bands": [
+        {
+          "y": 90,
+          "h": 6,
+          "color": "stone"
+        }
+      ],
+      "placements": [
+        {
+          "part": "tuong_thanh_viet",
+          "x": 0,
+          "bottom": 90,
+          "repeatX": 32
+        },
+        {
+          "part": "day_cua_tiem_hien_dai",
+          "x": 152,
+          "bottom": 96
+        },
+        {
+          "part": "duong_nhua_hien_dai",
+          "x": 0,
+          "bottom": 120,
+          "repeatX": 32
+        }
+      ],
+      "treeXs": [
+        52,
+        140,
+        218
+      ],
+      "fence": null
+    }
+  }
+}

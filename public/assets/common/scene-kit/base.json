@@ -1,0 +1,351 @@
+{
+  "$comment": "[1] Khung cảnh gốc, vị trí đặt (slots), mây, thời tiết, tình trạng và hiệu ứng hạt.",
+  "width": 240,
+  "height": 120,
+  "groundY": 96,
+  "skyBands": 6,
+  "clouds": [
+    {
+      "part": "may_lon",
+      "y": 20,
+      "speed": 1.1,
+      "x": 28
+    },
+    {
+      "part": "may_nho",
+      "y": 12,
+      "speed": 1.8,
+      "x": 135
+    },
+    {
+      "part": "may_lon",
+      "y": 28,
+      "speed": 0.75,
+      "x": 195
+    }
+  ],
+  "slots": {
+    "house": {
+      "x": 6
+    },
+    "people": {
+      "x": 96,
+      "spacing": 14
+    },
+    "props": {
+      "kho_lua": [
+        {
+          "x": 68
+        }
+      ],
+      "sap_hang": [
+        {
+          "x": 196
+        }
+      ],
+      "trau": [
+        {
+          "x": 168
+        },
+        {
+          "x": 196
+        }
+      ],
+      "dan_ga": [
+        {
+          "x": 108,
+          "bottom": 113
+        }
+      ],
+      "ao_ca": [
+        {
+          "x": 144,
+          "bottom": 115
+        }
+      ]
+    }
+  },
+  "conditions": {
+    "ngheo_doi": {
+      "tint": "#3a3228",
+      "alpha": 0.22
+    },
+    "thinh_vuong": {
+      "tint": "#ffd27a",
+      "alpha": 0.08
+    },
+    "cu_tang": {
+      "tint": "#e8ecf0",
+      "alpha": 0.25
+    },
+    "ngap_lut": {
+      "flood": "#5d8fb0",
+      "alpha": 0.75
+    },
+    "mat_mua": {
+      "tint": "#a07a40",
+      "alpha": 0.16
+    },
+    "binh_yen": {}
+  },
+  "weather": {
+    "nang": {
+      "tint": "#fff3c4",
+      "alpha": 0
+    },
+    "mua": {
+      "tint": "#4a5a6a",
+      "alpha": 0.22
+    },
+    "mua_phun": {
+      "tint": "#8a9aa8",
+      "alpha": 0.14
+    },
+    "han": {
+      "tint": "#e8b060",
+      "alpha": 0.12
+    },
+    "suong_mu": {
+      "tint": "#e6ebee",
+      "alpha": 0.32
+    },
+    "gio_bac": {
+      "tint": "#b0c4d6",
+      "alpha": 0.12
+    }
+  },
+  "particles": {
+    "khoi_bep": {
+      "color": "#d8d4cc",
+      "count": 7,
+      "speed": 4
+    },
+    "la_roi": {
+      "color": "#c96f2c",
+      "count": 10,
+      "speed": 6
+    },
+    "dom_dom": {
+      "color": "#f5f08a",
+      "count": 12,
+      "speed": 1
+    },
+    "mua_roi": {
+      "color": "#a9c0d8",
+      "count": 70,
+      "speed": 60
+    }
+  },
+  "phenotypePalettes": {
+    "dong_a_bac": {
+      "skin": [
+        "#f5d5b8",
+        "#ecc4a0",
+        "#dfb28b",
+        "#d19f75"
+      ],
+      "hair": [
+        "#181412",
+        "#241d18",
+        "#30261f"
+      ]
+    },
+    "bach_viet_dong_nam_a": {
+      "skin": [
+        "#dfb088",
+        "#cf9b70",
+        "#be865b",
+        "#ab7348"
+      ],
+      "hair": [
+        "#181412",
+        "#221b16",
+        "#2e241d"
+      ]
+    },
+    "nam_a_an_do": {
+      "skin": [
+        "#c68858",
+        "#b37344",
+        "#9c5e34",
+        "#824b26"
+      ],
+      "hair": [
+        "#14110f",
+        "#1f1916",
+        "#2b221d"
+      ]
+    },
+    "trung_dong_dia_trung_hai": {
+      "skin": [
+        "#e6be98",
+        "#d6a97f",
+        "#c49468",
+        "#b07f54"
+      ],
+      "hair": [
+        "#1c1613",
+        "#2b211b",
+        "#3d2e24"
+      ]
+    },
+    "au_bac_tay": {
+      "skin": [
+        "#fae0cc",
+        "#f2ceb4",
+        "#e6bc9e",
+        "#d9ab8a"
+      ],
+      "hair": [
+        "#d9b44a",
+        "#8c5832",
+        "#b54d28",
+        "#4a3423",
+        "#261d17"
+      ]
+    },
+    "chau_phi_sub_sahara": {
+      "skin": [
+        "#855234",
+        "#6e3f23",
+        "#573019",
+        "#422311"
+      ],
+      "hair": [
+        "#120f0e",
+        "#1c1715"
+      ]
+    },
+    "ban_dia_chau_my": {
+      "skin": [
+        "#cc885e",
+        "#b87349",
+        "#a36038",
+        "#8f4f2b"
+      ],
+      "hair": [
+        "#161311",
+        "#241d18"
+      ]
+    },
+    "dong_a": {
+      "skin": [
+        "#f5d5b8",
+        "#ecc4a0",
+        "#dfb28b",
+        "#d19f75"
+      ],
+      "hair": [
+        "#181412",
+        "#241d18",
+        "#30261f"
+      ]
+    },
+    "dong_nam_a": {
+      "skin": [
+        "#dfb088",
+        "#cf9b70",
+        "#be865b",
+        "#ab7348"
+      ],
+      "hair": [
+        "#181412",
+        "#221b16",
+        "#2e241d"
+      ]
+    },
+    "nam_a": {
+      "skin": [
+        "#c68858",
+        "#b37344",
+        "#9c5e34",
+        "#824b26"
+      ],
+      "hair": [
+        "#14110f",
+        "#1f1916",
+        "#2b221d"
+      ]
+    },
+    "trung_dong": {
+      "skin": [
+        "#e6be98",
+        "#d6a97f",
+        "#c49468",
+        "#b07f54"
+      ],
+      "hair": [
+        "#1c1613",
+        "#2b211b",
+        "#3d2e24"
+      ]
+    },
+    "dia_trung_hai": {
+      "skin": [
+        "#e6be98",
+        "#d6a97f",
+        "#c49468",
+        "#b07f54"
+      ],
+      "hair": [
+        "#1c1613",
+        "#2b211b",
+        "#3d2e24"
+      ]
+    },
+    "au_bac": {
+      "skin": [
+        "#fae0cc",
+        "#f2ceb4",
+        "#e6bc9e",
+        "#d9ab8a"
+      ],
+      "hair": [
+        "#d9b44a",
+        "#8c5832",
+        "#b54d28",
+        "#4a3423",
+        "#261d17"
+      ]
+    },
+    "au_tay": {
+      "skin": [
+        "#fae0cc",
+        "#f2ceb4",
+        "#e6bc9e",
+        "#d9ab8a"
+      ],
+      "hair": [
+        "#d9b44a",
+        "#8c5832",
+        "#b54d28",
+        "#4a3423",
+        "#261d17"
+      ]
+    },
+    "chau_phi": {
+      "skin": [
+        "#855234",
+        "#6e3f23",
+        "#573019",
+        "#422311"
+      ],
+      "hair": [
+        "#120f0e",
+        "#1c1715"
+      ]
+    },
+    "ban_dia_my": {
+      "skin": [
+        "#cc885e",
+        "#b87349",
+        "#a36038",
+        "#8f4f2b"
+      ],
+      "hair": [
+        "#161311",
+        "#241d18"
+      ]
+    }
+  }
+}

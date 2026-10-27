@@ -21,6 +21,12 @@ export interface Character {
   givenName: string;
   /** Thứ tự hiển thị họ tên theo văn hóa (mặc định family_first). */
   nameOrder?: 'family_first' | 'given_first';
+  /** Dân tộc / tộc người của nhân vật theo thời kỳ lịch sử. */
+  ethnicityName?: string;
+  /** Nhóm nhân chủng / ngoại hình hiển thị trên cảnh pixel và chân dung. */
+  phenotypeId?: string;
+  /** Tôn giáo / tín ngưỡng của nhân vật. */
+  religionId?: string;
   sex: Sex;
   birthYear: number;
   birthMonth: number;

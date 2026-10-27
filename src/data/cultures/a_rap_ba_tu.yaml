@@ -1,6 +1,9 @@
 # Văn hóa Trung Đông & Bắc Phi (Ả Rập, Ba Tư, Ai Cập, Ottoman)
 id: a_rap_ba_tu
 name: Trung Đông & Ba Tư
+ethnicity_name: Người Ả Rập – Ba Tư – Thổ Nhĩ Kỳ
+phenotype: trung_dong_dia_trung_hai
+default_religion: hoi_giao_islam
 calendar_style: bce_ce
 name_order: given_first
 lexicon:

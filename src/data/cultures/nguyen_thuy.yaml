@@ -1,6 +1,9 @@
 # Văn hóa Bộ lạc Nguyên thủy & Tiền sử — tên thị tộc, tên người, tên xóm lều
 id: nguyen_thuy
 name: Bộ tộc Nguyên thủy
+ethnicity_name: Bộ tộc Săn bắt – Hái lượm Đá Mới
+phenotype: trung_dong_dia_trung_hai
+default_religion: tho_vat_to
 calendar_style: bce_ce
 name_order: given_first
 lexicon:

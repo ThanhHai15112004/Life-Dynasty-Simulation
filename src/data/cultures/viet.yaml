@@ -1,12 +1,103 @@
-# [0] Văn hóa Việt (giả tưởng lấy cảm hứng Đại Việt thế kỷ 11) — tên người, tên làng, cách xưng hô (R11)
+# [0] Văn hóa Việt — tự động biến đổi họ tên, địa danh, đơn vị tiền tệ và tín ngưỡng qua 4 thời kỳ lịch sử
 id: viet
 name: Việt
+ethnicity_name: Người Kinh (Đại Việt)
+phenotype: bach_viet_dong_nam_a
+default_religion: tam_giao
 calendar_style: can_chi
 lexicon:
   currency: quan
   food: thúng
   land: sào
   staple_crop: lúa gạo
+era_variants:
+  - id: hoa_binh_bac_son
+    max_year: -3000
+    ethnicity_name: Cư dân Hòa Bình – Bắc Sơn (Bách Việt Sơ kỳ)
+    religion: van_vat_huu_linh
+    phenotype: bach_viet_dong_nam_a
+    name_order: given_first
+    lexicon:
+      currency: vật đổi chác
+      food: giỏ
+      land: khoảnh nương
+      staple_crop: củ mài & lúa hoang
+    family_names:
+      - { name: Suối Đá, weight: 20 }
+      - { name: Rừng Xanh, weight: 18 }
+      - { name: Đá Lửa, weight: 16 }
+      - { name: Sông Cả, weight: 15 }
+      - { name: Chim Lạc, weight: 12 }
+      - { name: Hươu Sao, weight: 10 }
+      - { name: Đồi Mây, weight: 9 }
+    given_names:
+      m: [Đá, Lửa, Suối, Rừng, Khỏe, Nhanh, Sơn, Mộc, Vũ, Phong, Tùng, Lộc, Gió, Sấm, Nắng, Khe]
+      f: [Mây, Suối, Lá, Mầm, Hạt, Hoa, Trúc, Sương, Mai, Nụ, Ánh, Thảo, Cỏ, Nước, Xuân, Ngân]
+    village_names: [Hang Muối, Mái Đá Ngườm, Bãi Sông Cả, Lán Rừng Xanh, Thung Lũng Tre, Đồi Đá Lửa, Suối Nguồn Cổ]
+    town_names: [Bãi Đổi Đá Mài, Bến Độc Mộc, Gò Hội Thị Tộc, Bãi Muối Ven Biển]
+    prefecture_names: [Thánh Địa Đá Thiêng, Đại Bản Doanh Bộ Lạc, Thung Lũng Lửa Thiêng]
+    village_roles:
+      ba_ho: { title: chủ lán lớn, call: 'chủ lán {given}' }
+      ly_truong: { title: tộc trưởng, call: 'tộc trưởng {given}' }
+      thay_do: { title: trưởng lão giữ lửa, call: 'trưởng lão {given}' }
+      thay_lang: { title: pháp sư thảo mộc, call: 'pháp sư {given}' }
+      hang_xom: { title: người cùng lán, call: '{given} lán bên' }
+      lai_buon: { title: người đổi đá muối, call: 'lữ khách {given}' }
+
+  - id: van_lang_au_lac
+    min_year: -2999
+    max_year: 0
+    ethnicity_name: Người Lạc Việt – Âu Việt (Đông Sơn)
+    religion: tin_nguong_dong_son
+    phenotype: bach_viet_dong_nam_a
+    lexicon:
+      currency: thoi đồng / vỏ sò
+      food: bồ
+      land: khoảnh ruộng Lạc
+      staple_crop: lúa nếp & lúa tẻ
+    family_names:
+      - { name: Lạc, weight: 28 }
+      - { name: Âu, weight: 20 }
+      - { name: Hùng, weight: 16 }
+      - { name: Thục, weight: 12 }
+      - { name: Hồng, weight: 10 }
+      - { name: Vũ, weight: 8 }
+      - { name: Cao, weight: 6 }
+    given_names:
+      m: [Lang, Quân, Sơn, Hải, Long, Lân, Hưng, Đạt, Kiên, Mạnh, Tùng, Lâm, Bách, Hạc, Giao, Phong]
+      f: [Nương, Tiên, Hoa, Ngọc, Mai, Đào, Liên, Thảo, Xuân, Lan, Quế, Hương, Thủy, Vân, Nguyệt]
+    village_names: [Kẻ Chèm, Kẻ Dóng, Kẻ Lũ, Trang Bạch Hạc, Xóm Bến Hát, Làng Dâu, Trang Mê Linh, Kẻ Cổ Loa]
+    town_names: [Bến Luy Lâu, Chợ Bạch Hạc, Bến Sông Thiếp, Cửa Biển Thần Phù]
+    prefecture_names: [Phong Châu, Cổ Loa Thành, Bộ Giao Chỉ, Bộ Cửu Chân, Bộ Vũ Ninh]
+    village_roles:
+      ba_ho: { title: hào trưởng bộ lạc, call: 'hào trưởng {given}' }
+      ly_truong: { title: bồ chính, call: 'bồ chính {given}' }
+      thay_do: { title: người giữ trống đồng, call: 'trưởng lễ {given}' }
+      thay_lang: { title: thầy thuốc bản địa, call: 'y sư {given}' }
+      hang_xom: { title: dân cày Lạc điền, call: '{given} nhà bên' }
+      lai_buon: { title: khách thuyền buôn đồng, call: 'lái thuyền {given}' }
+
+  - id: viet_hien_dai
+    min_year: 1945
+    ethnicity_name: Người Việt (Kinh)
+    religion: tho_to_tien
+    phenotype: bach_viet_dong_nam_a
+    lexicon:
+      currency: triệu đồng
+      food: bao gạo
+      land: sào đất
+      staple_crop: lúa gạo & nông sản
+    village_names: [Xã Tân Lập, Phường Hòa Bình, Xã Phú Thịnh, Khu Phố Đông Hòa, Xã An Khánh, Phường Bình Minh]
+    town_names: [Thị Xã Sơn Tây, Thị Trấn Phố Mới, Khu Công Nghiệp Ven Sông, Bến Cảng Hải Phòng]
+    prefecture_names: [Hà Nội, TP. Hồ Chí Minh, Đà Nẵng, Hải Phòng, Cần Thơ, Huế]
+    village_roles:
+      ba_ho: { title: chủ doanh nghiệp địa phương, call: 'ông chủ {given}' }
+      ly_truong: { title: trưởng thôn / tổ trưởng dân phố, call: 'tổ trưởng {given}' }
+      thay_do: { title: thầy giáo trường phố, call: 'thầy giáo {given}' }
+      thay_lang: { title: bác sĩ trạm y tế, call: 'bác sĩ {given}' }
+      hang_xom: { title: hàng xóm, call: '{given} nhà bên' }
+      lai_buon: { title: thương lái nông sản, call: 'thương lái {given}' }
+
 family_names:
   - { name: Nguyễn, weight: 30 }
   - { name: Trần, weight: 11 }

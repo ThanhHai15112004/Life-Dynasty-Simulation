@@ -1,6 +1,9 @@
 # Văn hóa Châu Mỹ (Maya, Aztec, Inca & Mỹ Latinh)
 id: chau_my
 name: Châu Mỹ
+ethnicity_name: Cư dân Bản địa Châu Mỹ (Maya, Nahua, Quechua)
+phenotype: ban_dia_chau_my
+default_religion: da_than_co_dai
 calendar_style: bce_ce
 name_order: given_first
 lexicon:

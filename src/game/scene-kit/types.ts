@@ -19,6 +19,8 @@ export interface KitCulture {
   seasons: Record<string, SeasonColors>;
   /** Sprite nhà / tài sản trong SceneDescriptor → id bộ phận. */
   parts: Record<string, string>;
+  /** Ánh xạ địa điểm gốc (lang_nong, thi_tran_ben_song, phu_thanh) sang bố cục địa điểm riêng của thời đại/văn hóa. */
+  locations?: Record<string, string>;
   /** Bộ phận người theo nhóm tuổi_giới ('nguoi_lon_m', 'tre_nho_f'...). */
   people: Record<string, string>;
   /** Mũ/nón đội khi ra ngoài (bộ phận, vẽ chồng lên đầu người lớn), bỏ trống thì không đội. */
@@ -55,6 +57,8 @@ export interface KitLocation {
   treeXs: number[];
   /** Hàng rào: từ x đến x. */
   fence: [number, number] | null;
+  /** Tọa độ nguồn khói ngoài trời (ví dụ đống lửa trại bộ lạc [x, y]) thay cho ống khói trên mái nhà. */
+  campfire?: [number, number];
 }
 
 export interface SceneKit {
@@ -79,6 +83,8 @@ export interface SceneKit {
   weather: Record<string, { tint: string; alpha: number }>;
   /** Hiệu ứng hạt (khói bếp, lá rơi, đom đóm, mưa). */
   particles: Record<string, { color: string; count: number; speed: number }>;
+  /** Bảng màu da và tóc theo nhóm nhân chủng (phenotype). */
+  phenotypePalettes?: Record<string, { skin?: string[]; hair?: string[] }>;
   parts: Record<string, KitPart>;
 }
 

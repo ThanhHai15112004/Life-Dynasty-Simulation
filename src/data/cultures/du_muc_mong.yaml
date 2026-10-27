@@ -1,6 +1,9 @@
 # Văn hóa Thảo nguyên Du mục Âu–Á (Mông Cổ, Đột Quyết, Trung Á)
 id: du_muc_mong
 name: Thảo nguyên Du mục
+ethnicity_name: Bộ tộc Du mục Thảo nguyên (Mông Cổ – Đột Quyết)
+phenotype: dong_a_bac
+default_religion: tengri_thao_nguyen
 calendar_style: bce_ce
 name_order: given_first
 lexicon:

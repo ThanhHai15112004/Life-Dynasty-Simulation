@@ -114,7 +114,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
   }, [hud.pending, hud.minor, hud.gameOver, hud.story.reflectionDue, snap.result, snap.showBirthCard, modal, snap.running, store]);
 
   return (
-    <div className="hud">
+    <div className="hud" data-era={hud.worldContext?.eraStyle ?? 'feudal'}>
       <TimeBar
         hud={hud}
         onOpenPauseMenu={() => {

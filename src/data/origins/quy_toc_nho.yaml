@@ -1,7 +1,15 @@
 # [1] Xuất thân Quý tộc nhỏ / Dòng dõi sa sút: có chữ nghĩa, tư dinh và ruộng đất nhưng gánh nợ thể diện
 id: quy_toc_nho
 name: Quý tộc nhỏ
+names_by_civ:
+  bo_lac_nguyen_thuy: Dòng dõi Thủ lĩnh & Giữ lửa
+  du_muc: Dòng dõi Quý tộc Bộ tộc
+  hien_dai: Gia đình Trí thức & Viên chức
 description: Hậu duệ một dòng họ hương hào từng hiển đạt nay đã sa sút. Còn giữ được nếp nhà ngói cổ, vài mẫu ruộng và vốn chữ nghĩa, nhưng nợ nần vì giữ thể diện.
+descriptions_by_civ:
+  bo_lac_nguyen_thuy: Con cháu người giữ lửa thiêng và dẫn đầu các cuộc săn lớn của bộ lạc, được cả thị tộc kính nể nhưng gánh nặng trách nhiệm bảo vệ xóm lán.
+  du_muc: Hậu duệ một nhánh quý tộc thảo nguyên từng nắm quyền chỉ huy kỵ binh, nay quyết tâm khôi phục uy danh của gia tộc.
+  hien_dai: Sinh ra trong gia đình có truyền thống học vấn và làm việc trong các cơ quan, trường học nơi đô thị.
 culture: viet
 start_age_options: [0, 6, 16]
 default_start_age: 0

@@ -1,8 +1,49 @@
-// [0] Tra cứu người: người chơi, hộ, giai đoạn đời, cách gọi tên (R11)
+// [0] Tra cứu người: người chơi, hộ, giai đoạn đời, cách gọi tên (R11), văn hóa theo thời đại
+import type { Culture } from '@content/schemas';
 import { fillTemplate } from '@shared/template';
 import { ageOf, fullName, type Character } from '../entities/Character';
 import type { Household } from '../entities/Household';
 import type { SimContext } from './context';
+
+export type EraStyle = 'prehistoric' | 'ancient' | 'feudal' | 'industrial' | 'modern';
+
+/** Xác định phong cách thời đại (5 kỷ nguyên) từ năm lịch sử và khuôn văn minh. */
+export function eraStyleOf(year: number, civId?: string): EraStyle {
+  if (year >= 1945 || civId === 'hien_dai') return 'modern';
+  if (year >= 1750) return 'industrial';
+  if (year < -2500 || civId === 'bo_lac_nguyen_thuy') return 'prehistoric';
+  if (year <= 200 || civId === 'co_dai_de_che') return 'ancient';
+  return 'feudal';
+}
+
+/** Áp dụng biến thể văn hóa theo năm lịch sử (họ tên, địa danh, đơn vị tiền tệ, dân tộc, tôn giáo). */
+export function resolveCultureForYear(culture: Culture, year: number): Culture {
+  if (!culture.era_variants || culture.era_variants.length === 0) return culture;
+  const v = culture.era_variants.find(
+    (ev) => (ev.min_year === undefined || year >= ev.min_year) && (ev.max_year === undefined || year <= ev.max_year),
+  );
+  if (!v) return culture;
+  return {
+    ...culture,
+    ethnicity_name: v.ethnicity_name ?? culture.ethnicity_name,
+    default_religion: v.religion ?? culture.default_religion,
+    phenotype: v.phenotype ?? culture.phenotype,
+    name_order: v.name_order ?? culture.name_order,
+    lexicon: v.lexicon ?? culture.lexicon,
+    family_names: v.family_names ?? culture.family_names,
+    given_names: v.given_names ?? culture.given_names,
+    village_names: v.village_names ?? culture.village_names,
+    town_names: v.town_names ?? culture.town_names,
+    prefecture_names: v.prefecture_names ?? culture.prefecture_names,
+    village_roles: v.village_roles ?? culture.village_roles,
+  };
+}
+
+/** Văn hóa đang hoạt động trong ván chơi, đã tự động áp dụng biến thể theo năm hiện tại. */
+export function activeCulture(ctx: SimContext): Culture {
+  const base = ctx.content.index.culture.get(ctx.state.cultureId) ?? ctx.content.cultures[0];
+  return resolveCultureForYear(base, ctx.state.clock.year);
+}
 
 export function player(ctx: SimContext): Character {
   return ctx.state.characters[ctx.state.playerId];
@@ -118,9 +159,9 @@ export function relationToPlayer(ctx: SimContext, c: Character): Relation {
   return 'other';
 }
 
-/** Cách người chơi gọi nhân vật này, theo mẫu trong data/cultures. */
+/** Cách người chơi gọi nhân vật này, theo mẫu trong data/cultures (đã tính biến thể theo thời đại). */
 export function callOf(ctx: SimContext, c: Character): string {
-  const culture = ctx.content.index.culture.get(ctx.state.cultureId);
+  const culture = activeCulture(ctx);
   if (!culture) return c.givenName;
   const tokens = (path: string) => (path === 'given' ? c.givenName : path === 'family' ? c.familyName : undefined);
   const rel = relationToPlayer(ctx, c);

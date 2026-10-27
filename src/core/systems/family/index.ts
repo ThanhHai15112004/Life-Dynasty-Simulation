@@ -6,7 +6,7 @@ import { writeTemplate } from '../../events/journal';
 import { SystemLog } from '../../events/systemLogKeys';
 import { createCharacter } from '../../world/generate';
 import { RngStream, type SimContext } from '../context';
-import { ageNow, aliveMembers, callOf, player, playerHousehold } from '../people';
+import { activeCulture, ageNow, aliveMembers, callOf, player, playerHousehold } from '../people';
 import { monthlyChildUpbringing } from './upbringing';
 
 export * from './split';
@@ -160,7 +160,7 @@ export function monthlyFamily(ctx: SimContext): void {
       ctx.state.characters[child.id] = child;
       h.memberIds.push(child.id);
 
-      const culture = ctx.content.index.culture.get(ctx.state.cultureId);
+      const culture = activeCulture(ctx);
       const k = culture?.kin_calls;
       const genderTitle = sex === 'm' ? (k?.son ?? 'son') : (k?.daughter ?? 'daughter');
       writeTemplate(ctx, SystemLog.ChildBorn, {

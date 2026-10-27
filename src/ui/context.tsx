@@ -1,6 +1,7 @@
 // [0] Ngữ cảnh React: GameStore + hàm dịch chữ từ src/data/lang (hỗ trợ đổi ngôn ngữ & cỡ chữ từ Settings)
 import { createContext, useContext, useEffect, useState, useSyncExternalStore, type ReactNode } from 'react';
 import type { GameStore, StoreSnapshot } from '@bridge/GameStore';
+import { fetchSceneKit } from '@game/scene-kit/loader';
 import type { SceneKit } from '@game/scene-kit/types';
 import { translate } from '@shared/template';
 
@@ -18,8 +19,6 @@ interface UiContext {
 
 /** Danh mục sprite do npm run process-art sinh ra; UI chỉ cần phần icon. */
 const SPRITE_MANIFEST_URL = 'assets/sprites.json';
-/** Bộ cảnh lắp ghép — cùng file Phaser dùng để vẽ cảnh. */
-const SCENE_KIT_URL = 'assets/common/scene-kit.json';
 
 const Ctx = createContext<UiContext | null>(null);
 
@@ -52,8 +51,7 @@ export function UiProvider({ store, children }: { store: GameStore; children?: R
       .then((r) => r.json() as Promise<{ icons?: Record<string, { url: string }> }>)
       .then((m) => setIcons(Object.fromEntries(Object.entries(m.icons ?? {}).map(([k, v]) => [k, v.url]))))
       .catch(() => setIcons({}));
-    fetch(SCENE_KIT_URL)
-      .then((r) => r.json() as Promise<SceneKit>)
+    fetchSceneKit()
       .then(setKit)
       .catch(() => setKit(null));
   }, []);

@@ -125,7 +125,10 @@ export const originSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Tên xuất thân tùy biến theo khuôn văn minh / thời đại. */
+    names_by_civ: z.record(z.string(), z.string()).default({}),
     description: z.string(),
+    descriptions_by_civ: z.record(z.string(), z.string()).default({}),
     culture: z.string(),
     start_age_options: z.array(z.number().int().min(0)).min(1),
     default_start_age: z.number().int().min(0),
@@ -165,10 +168,49 @@ export const originSchema = z
   .strict();
 export type Origin = z.infer<typeof originSchema>;
 
+const lexiconSchema = z
+  .object({
+    currency: z.string(),
+    food: z.string(),
+    land: z.string(),
+    staple_crop: z.string(),
+  })
+  .strict();
+
+export const cultureEraVariantSchema = z
+  .object({
+    id: z.string(),
+    /** Áp dụng khi năm hiện tại >= min_year. */
+    min_year: z.number().int().optional(),
+    /** Áp dụng khi năm hiện tại <= max_year. */
+    max_year: z.number().int().optional(),
+    ethnicity_name: z.string().optional(),
+    religion: z.string().optional(),
+    phenotype: z.string().optional(),
+    name_order: z.enum(['family_first', 'given_first']).optional(),
+    lexicon: lexiconSchema.optional(),
+    family_names: z.array(z.object({ name: z.string(), weight: z.number().positive() }).strict()).min(1).optional(),
+    given_names: z.object({ m: z.array(z.string()).min(1), f: z.array(z.string()).min(1) }).strict().optional(),
+    village_names: z.array(z.string()).min(1).optional(),
+    town_names: z.array(z.string()).optional(),
+    prefecture_names: z.array(z.string()).optional(),
+    village_roles: z.record(z.string(), z.object({ title: z.string(), call: z.string() }).strict()).optional(),
+  })
+  .strict();
+export type CultureEraVariant = z.infer<typeof cultureEraVariantSchema>;
+
 export const cultureSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Tên dân tộc / tộc người mặc định (ví dụ: Người Kinh, Người Hán, Bộ tộc Hòa Bình...). */
+    ethnicity_name: z.string().optional(),
+    /** Mã nhóm nhân chủng / ngoại hình hiển thị trên cảnh pixel và chân dung. */
+    phenotype: z.string().default('dong_a_bac'),
+    /** Tôn giáo / tín ngưỡng mặc định của văn hóa này. */
+    default_religion: z.string().default('tho_to_tien'),
+    /** Biến thể văn hóa – ngôn ngữ – họ tên – địa danh theo từng thời kỳ lịch sử. */
+    era_variants: z.array(cultureEraVariantSchema).default([]),
     family_names: z.array(z.object({ name: z.string(), weight: z.number().positive() }).strict()).min(1),
     given_names: z.object({ m: z.array(z.string()).min(1), f: z.array(z.string()).min(1) }).strict(),
     village_names: z.array(z.string()).min(1),
@@ -204,17 +246,29 @@ export const cultureSchema = z
     /** Thứ tự hiển thị họ tên: family_first (Họ Tên — Đông Á) hoặc given_first (Tên Họ — Âu/Mỹ/Cổ đại). */
     name_order: z.enum(['family_first', 'given_first']).default('family_first'),
     /** Từ vựng địa phương hóa cho đơn vị tiền, lương thực, đất đai. */
-    lexicon: z
-      .object({
-        currency: z.string(),
-        food: z.string(),
-        land: z.string(),
-        staple_crop: z.string(),
-      })
-      .strict(),
+    lexicon: lexiconSchema,
   })
   .strict();
 export type Culture = z.infer<typeof cultureSchema>;
+
+export const religionGroups = ['nguyen_thuy', 'ban_dia', 'da_than', 'ton_giao_lon', 'the_tuc'] as const;
+export type ReligionGroup = (typeof religionGroups)[number];
+
+export const religionSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    group: z.enum(religionGroups),
+    description: z.string(),
+    /** Năm sớm nhất tôn giáo/tín ngưỡng này xuất hiện trong lịch sử. */
+    min_year: z.number().int().default(-10000),
+    /** Tên không gian tâm linh / nơi thờ tự đặc trưng. */
+    shrine_name: z.string(),
+    modifiers: z.array(modifierDefSchema).default([]),
+  })
+  .strict();
+export const religionFileSchema = z.object({ religions: z.array(religionSchema).min(1) }).strict();
+export type Religion = z.infer<typeof religionSchema>;
 
 /** [1] Bệnh tật cụ thể (GDD 03 §2): mức nặng, tiến triển, chi phí chữa, nguyên nhân tử vong liên kết. */
 export const diseaseSchema = z
@@ -288,6 +342,8 @@ export const careerRankSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Tên bậc nghề tùy biến theo khuôn văn minh / thời đại. */
+    names_by_civ: z.record(z.string(), z.string()).default({}),
     min_merit: z.number().min(0).default(0),
     /** [5] Số năm thâm niên nghề tối thiểu để lên bậc. */
     min_years: z.number().min(0).default(0),
@@ -538,7 +594,10 @@ export const settlementTypeSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Tên loại khu định cư tùy biến theo khuôn văn minh / thời đại. */
+    names_by_civ: z.record(z.string(), z.string()).default({}),
     description: z.string(),
+    descriptions_by_civ: z.record(z.string(), z.string()).default({}),
     population_band: z.tuple([z.number(), z.number()]),
     trade_factor: z.number().positive().default(1),
     /** [7] Có phải là một trong 3 điểm chính của bản đồ vùng (làng – thị trấn – phủ) không. */

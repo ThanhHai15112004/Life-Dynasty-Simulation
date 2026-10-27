@@ -18,6 +18,7 @@ import {
   originSchema,
   polityFileSchema,
   propertyFileSchema,
+  religionFileSchema,
   scenarioFileSchema,
   storySchema,
   settlementTypeFileSchema,
@@ -41,6 +42,7 @@ import {
   type PlayMode,
   type Polity,
   type PropertyType,
+  type Religion,
   type Scenario,
   type SettlementType,
   type SideJob,
@@ -75,6 +77,7 @@ export interface ContentBundle {
   chronicle: { startReign: string; entries: ChronicleEntry[] };
   origins: Origin[];
   cultures: Culture[];
+  religions: Religion[];
   events: DecisionEvent[];
   /** Lớp câu chuyện: bạn cùng lứa, mốc suy ngẫm, văn bia (src/data/story/). */
   story: StoryContent;
@@ -99,6 +102,7 @@ export interface ContentBundle {
     chronicle: Map<string, ChronicleEntry>;
     origin: Map<string, Origin>;
     culture: Map<string, Culture>;
+    religion: Map<string, Religion>;
     event: Map<string, DecisionEvent>;
     ambient: Map<string, AmbientTemplate>;
     scenario: Map<string, Scenario>;
@@ -226,6 +230,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const cultures = single('cultures', cultureSchema).sort((a, b) =>
     a.id === 'viet' ? -1 : b.id === 'viet' ? 1 : a.id.localeCompare(b.id),
   );
+  const religions = collect('religions', religionFileSchema, 'religions');
   const storyFiles = single('story', storySchema);
   if (storyFiles.length !== 1) issues.push(`src/data/story/: cần đúng một file (đang có ${storyFiles.length})`);
 
@@ -261,6 +266,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     chronicle: indexBy(chronicle.entries, 'chronicle'),
     origin: indexBy(origins, 'origins'),
     culture: indexBy(cultures, 'cultures'),
+    religion: indexBy(religions, 'religions'),
     event: indexBy(events, 'events'),
     ambient: indexBy(ambient, 'events/ambient'),
     scenario: indexBy(scenarios, 'scenarios'),
@@ -293,6 +299,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     chronicle,
     origins,
     cultures,
+    religions,
     events,
     ambient,
     scenarios,

@@ -47,6 +47,15 @@ export const politySchema = z
     bookmarks: z.array(z.string()).min(1),
     civilization: z.string(),
     culture: z.string(),
+    /** Tên dân tộc / cư dân đặc trưng tại vùng lãnh thổ này trong thời kỳ đó. */
+    ethnicity_name: z.string().optional(),
+    /** Mã nhóm nhân chủng / ngoại hình đặc trưng tại vùng này. */
+    phenotype: z.string().optional(),
+    /** Tôn giáo / tín ngưỡng chính hoặc phân bố tôn giáo tại vùng này. */
+    religion: z.string().optional(),
+    religions: z
+      .array(z.union([z.string(), z.object({ id: z.string(), weight: z.number().positive() }).strict()]))
+      .optional(),
     /** Trọng số dân số thực tế trong thời kỳ (dùng để quay xổ số nơi sinh kiểu 1in8b). */
     population_weight: z.number().positive(),
     demographics: polityDemographicsSchema,

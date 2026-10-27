@@ -51,16 +51,38 @@ wealth:
   line_min: 0.5             # bỏ qua khoản nhỏ hơn chừng này quan
 # Việc dang dở (GDD 01 §10.1) — luôn có vài việc chờ để "chơi thêm một năm nữa"
 open_loop_rules:
-  - condition: { var: world.months_to_harvest, op: between, value: [1, 3] }
+  - condition:
+      all:
+        - { var: world.months_to_harvest, op: between, value: [1, 3] }
+        - { var: world.civilization_id, op: '==', value: bo_lac_nguyen_thuy }
+    text: 'Còn {world.months_to_harvest} tháng nữa đến mùa thu hái & săn lớn'
+  - condition:
+      all:
+        - { var: world.months_to_harvest, op: between, value: [1, 3] }
+        - { var: world.civilization_id, op: '!=', value: bo_lac_nguyen_thuy }
     text: 'Còn {world.months_to_harvest} tháng nữa đến mùa gặt'
-  - condition: { var: world.months_to_harvest, op: '==', value: 0 }
+  - condition:
+      all:
+        - { var: world.months_to_harvest, op: '==', value: 0 }
+        - { var: world.civilization_id, op: '==', value: bo_lac_nguyen_thuy }
+    text: 'Đang mùa thu hái & săn lớn của bộ lạc'
+  - condition:
+      all:
+        - { var: world.months_to_harvest, op: '==', value: 0 }
+        - { var: world.civilization_id, op: '!=', value: bo_lac_nguyen_thuy }
     text: 'Đang mùa gặt'
-  - condition: { var: household.debt, op: '>', value: 0 }
+  - condition:
+      all:
+        - { var: household.debt, op: '>', value: 0 }
+        - { var: world.civilization_id, op: '!=', value: bo_lac_nguyen_thuy }
     text: 'Món nợ {household.debt} quan, lãi mẹ đẻ lãi con'
-  - condition: { var: household.debt, op: '>', value: 35 }
+  - condition:
+      all:
+        - { var: household.debt, op: '>', value: 35 }
+        - { var: world.civilization_id, op: '!=', value: bo_lac_nguyen_thuy }
     text: 'Nợ sắp quá ngưỡng — chủ nợ có thể xiết ruộng cuối năm'
   - condition: { var: household.food_months, op: '<', value: 3 }
-    text: 'Kho thóc chỉ đủ ăn {household.food_months} tháng'
+    text: 'Kho lương thực chỉ đủ ăn {household.food_months} tháng'
   - condition: { var: player.age, op: between, value: [14, 15] }
     text: 'Sắp đến tuổi trưởng thành'
   - condition: { var: player.health, op: '<', value: 40 }

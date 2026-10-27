@@ -40,7 +40,7 @@ import { healthCap, treatmentBlock } from '../systems/life';
 import { lifeExpectancyAtBirth } from '../systems/life/mortality';
 import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
 import { computeFor } from '../systems/modifiers';
-import { ageGroupOf, ageNow, aliveMembers, callOf, householdHead, lifeStageOf, player, playerHousehold, relationToPlayer } from '../systems/people';
+import { activeCulture, ageGroupOf, ageNow, aliveMembers, callOf, eraStyleOf, householdHead, lifeStageOf, player, playerHousehold, relationToPlayer, type EraStyle } from '../systems/people';
 import { createResolver, seasonOf } from '../systems/resolver';
 import {
   activeSettlementId,
@@ -83,8 +83,14 @@ export interface HudView {
   worldContext: {
     polityName: string;
     eraName: string;
+    eraStyle: EraStyle;
     civilizationId: string;
     civilizationName: string;
+    ethnicityName: string;
+    religionId: string;
+    religionName: string;
+    religionDescription: string;
+    shrineName: string;
     calendarStyle: 'can_chi' | 'bce_ce';
     lexicon: { currency: string; food: string; land: string; stapleCrop: string };
   };
@@ -96,6 +102,12 @@ export interface HudView {
     ageGroup: string;
     birth: { year: number; month: number; can: number; chi: number };
     originName: string;
+    ethnicityName: string;
+    phenotypeId: string;
+    religionId: string;
+    religionName: string;
+    religionDescription: string;
+    shrineName: string;
     age: number;
     sex: 'm' | 'f';
     lifeStageId: string;
@@ -724,6 +736,30 @@ function careerNameOf(ctx: SimContext, c: { name: string; names_by_civ?: Record<
   return c.names_by_civ?.[ctx.state.civilization.id] ?? c.name;
 }
 
+/** Tên bậc nghề tùy biến theo khuôn văn minh hiện tại (fallback về tên gốc). */
+function careerRankNameOf(ctx: SimContext, r: { name: string; names_by_civ?: Record<string, string> } | undefined): string {
+  if (!r) return '';
+  return r.names_by_civ?.[ctx.state.civilization.id] ?? r.name;
+}
+
+/** Tên xuất thân tùy biến theo khuôn văn minh hiện tại. */
+function originNameOf(ctx: SimContext, o: { name: string; names_by_civ?: Record<string, string> } | undefined): string {
+  if (!o) return '';
+  return o.names_by_civ?.[ctx.state.civilization.id] ?? o.name;
+}
+
+/** Tên khu định cư tùy biến theo khuôn văn minh hiện tại. */
+function settlementNameOf(ctx: SimContext, st: { name: string; names_by_civ?: Record<string, string> } | undefined): string {
+  if (!st) return '';
+  return st.names_by_civ?.[ctx.state.civilization.id] ?? st.name;
+}
+
+/** Mô tả khu định cư tùy biến theo khuôn văn minh hiện tại. */
+function settlementDescOf(ctx: SimContext, st: { description: string; descriptions_by_civ?: Record<string, string> } | undefined): string {
+  if (!st) return '';
+  return st.descriptions_by_civ?.[ctx.state.civilization.id] ?? st.description;
+}
+
 /** Mô tả nghề tùy biến theo khuôn văn minh hiện tại. */
 function careerDescOf(ctx: SimContext, c: { description: string; descriptions_by_civ?: Record<string, string> } | undefined): string {
   if (!c) return '';
@@ -919,7 +955,7 @@ export function getHudView(ctx: SimContext): HudView {
       .map((s) => ({ text: s.label!, monthsLeft: s.dueMonthIndex - state.clock.monthIndex })),
   ];
 
-  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const culture = activeCulture(ctx);
   const calendarStyle: 'can_chi' | 'bce_ce' =
     state.civilization.id === 'hien_dai' || state.clock.year >= 1945 || state.clock.year < -500
       ? 'bce_ce'
@@ -929,6 +965,11 @@ export function getHudView(ctx: SimContext): HudView {
   const bookmark = state.bookmarkId ? content.index.bookmark.get(state.bookmarkId) : undefined;
   const civDef = currentCivilization(ctx);
   const rawLex = culture?.lexicon ?? { currency: '', food: '', land: '', staple_crop: '' };
+  const eraStyle = eraStyleOf(state.clock.year, civDef.id);
+  const ethnicityName = me.ethnicityName ?? polity?.ethnicity_name ?? culture?.ethnicity_name ?? culture?.name ?? '';
+  const phenotypeId = me.phenotypeId ?? polity?.phenotype ?? culture?.phenotype ?? 'dong_a_bac';
+  const relId = me.religionId ?? state.religionId ?? polity?.religion ?? culture?.default_religion ?? 'tho_to_tien';
+  const relDef = content.index.religion.get(relId) ?? content.religions[0];
 
   return {
     date: {
@@ -944,8 +985,14 @@ export function getHudView(ctx: SimContext): HudView {
     worldContext: {
       polityName: polity?.name ?? '',
       eraName: bookmark?.era_name ?? '',
+      eraStyle,
       civilizationId: civDef.id,
       civilizationName: civDef.name,
+      ethnicityName,
+      religionId: relDef?.id ?? relId,
+      religionName: relDef?.name ?? relId,
+      religionDescription: relDef?.description ?? '',
+      shrineName: relDef?.shrine_name ?? '',
       calendarStyle,
       lexicon: {
         currency: rawLex.currency,
@@ -960,7 +1007,13 @@ export function getHudView(ctx: SimContext): HudView {
       name: fullName(me),
       ageGroup: ageGroupOf(ctx, age),
       birth: { year: me.birthYear, month: me.birthMonth, ...canChi(me.birthYear) },
-      originName: content.index.origin.get(state.originId)?.name ?? '',
+      originName: originNameOf(ctx, content.index.origin.get(state.originId)),
+      ethnicityName,
+      phenotypeId,
+      religionId: relDef?.id ?? relId,
+      religionName: relDef?.name ?? relId,
+      religionDescription: relDef?.description ?? '',
+      shrineName: relDef?.shrine_name ?? '',
       age,
       sex: me.sex,
       lifeStageId: stage.id,
@@ -1053,7 +1106,8 @@ export function getHudView(ctx: SimContext): HudView {
             const cid = c.id === me.id ? state.career.id : c.careerId;
             const rIdx = c.id === me.id ? state.career.rankIndex : (c.careerRankIndex ?? 0);
             const cDef = cid ? content.index.career.get(cid) : undefined;
-            return cDef?.ranks[rIdx]?.name ?? cDef?.ranks[0]?.name ?? null;
+            const rDef = cDef?.ranks[rIdx] ?? cDef?.ranks[0];
+            return rDef ? careerRankNameOf(ctx, rDef) : null;
           })(),
           careerMonths:
             c.id === me.id
@@ -1101,8 +1155,8 @@ export function getHudView(ctx: SimContext): HudView {
       harvestYield: computeFor(ctx, me.id, StatTarget.HarvestYield, 1),
       settlement: {
         name: state.world.settlementName,
-        typeName: content.index.settlementType.get(state.world.settlementType)?.name ?? '',
-        typeDescription: content.index.settlementType.get(state.world.settlementType)?.description ?? '',
+        typeName: settlementNameOf(ctx, content.index.settlementType.get(state.world.settlementType)),
+        typeDescription: settlementDescOf(ctx, content.index.settlementType.get(state.world.settlementType)),
       },
       selfFarm: selfFarms(ctx),
       regularIncome: regularIncomeParts(ctx).reduce((sum, p) => sum + p.money, 0),
@@ -1411,8 +1465,8 @@ export function getHudView(ctx: SimContext): HudView {
           level: me.skills[skId]?.level ?? 0,
         })),
         rankIndex: state.career.rankIndex,
-        rankName: rank?.name ?? '',
-        nextRankName: nextRank?.name ?? null,
+        rankName: careerRankNameOf(ctx, rank),
+        nextRankName: nextRank ? careerRankNameOf(ctx, nextRank) : null,
         nextRankMerit: nextRank?.min_merit ?? null,
         nextRankRequirements: nextRank
           ? {
@@ -1494,7 +1548,7 @@ export function getHudView(ctx: SimContext): HudView {
               isPlayer,
               careerId: mCareerId,
               careerName: mDef ? careerNameOf(ctx, mDef) : mCareerId,
-              rankName: mRank?.name ?? '',
+              rankName: careerRankNameOf(ctx, mRank),
               months: mMonths,
               monthlyIncome: isPlayer
                 ? Math.round((rank?.stipend_money_month ?? 0) * senFactor * 10) / 10
@@ -1639,9 +1693,9 @@ export function getRegionView(ctx: SimContext): RegionView {
 
       return {
         id: st.id,
-        name: s?.name ?? st.name,
-        typeName: st.name,
-        description: st.description,
+        name: s?.name ?? settlementNameOf(ctx, st),
+        typeName: settlementNameOf(ctx, st),
+        description: settlementDescOf(ctx, st),
         population: s?.population ?? Math.round((st.population_band[0] + st.population_band[1]) / 2),
         foodPrice: s?.foodPrice ?? state.world.foodPrice,
         tradeIndex: s?.tradeIndex ?? state.world.tradeIndex,
@@ -1693,10 +1747,10 @@ export function getRegionView(ctx: SimContext): RegionView {
   return {
     currentSettlementId: curId,
     currentSettlementName: curNode?.name ?? state.world.settlementName,
-    currentSettlementTypeName: curType?.name ?? '',
+    currentSettlementTypeName: settlementNameOf(ctx, curType),
     homeSettlementId: homeId,
     homeSettlementName: homeNode?.name ?? state.world.settlementName,
-    homeSettlementTypeName: homeType?.name ?? '',
+    homeSettlementTypeName: settlementNameOf(ctx, homeType),
     activeTrip: activeTripView,
     cargoOptions: regionCfg.trip_cargo_options,
     canAppointOfficial: canAppointPrefectureOfficial(ctx),

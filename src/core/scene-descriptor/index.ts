@@ -3,7 +3,7 @@
 import { evaluate } from '../engine/RuleEvaluator';
 import { holdingsOf, mainHouse } from '../entities/Property';
 import type { SimContext } from '../systems/context';
-import { ageGroupOf, ageNow, aliveMembers, playerHousehold } from '../systems/people';
+import { activeCulture, ageGroupOf, ageNow, aliveMembers, eraStyleOf, playerHousehold, type EraStyle } from '../systems/people';
 import { createResolver, seasonOf } from '../systems/resolver';
 import { activeSettlementId } from '../world/region';
 
@@ -14,6 +14,8 @@ export interface ScenePerson {
   isPlayer: boolean;
   /** Tuổi thực để phân biệt bé ẵm ngửa / trẻ nhỏ / người lớn / cao niên. */
   age?: number;
+  /** Mã nhóm nhân chủng / ngoại hình để chọn màu da, màu tóc phù hợp. */
+  phenotype?: string;
   /** Nghề nghiệp của nhân vật (để chọn màu áo, mũ nón, phụ kiện). */
   career?: string;
   /** Bậc địa vị của hộ/nhân vật (dan_ngheo, thuong_dan, phu_ho, si_phu, quan_lai). */
@@ -32,6 +34,8 @@ export interface SceneDescriptor {
   /** Lớp 1 — địa hình/địa điểm. */
   location: string;
   cultureSet: string;
+  /** Phong cách thời đại (prehistoric, ancient, feudal, industrial, modern). */
+  eraStyle?: EraStyle;
   /** Lớp 2 — công trình chính (sprite id) hoặc null. */
   house: string | null;
   /** Lớp 3 — mùa và thời tiết. */
@@ -76,6 +80,10 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
   const isMourning = state.civilization.mourningMonthsLeft > 0;
   const civId = state.civilization.id;
   const cultureId = state.cultureId ?? '';
+  const curCulture = activeCulture(ctx);
+  const polity = state.polityId ? content.index.polity.get(state.polityId) : undefined;
+  const defaultPhenotype = polity?.phenotype ?? curCulture?.phenotype ?? 'dong_a_bac';
+  const eraStyle = eraStyleOf(state.clock.year, civId);
   const cultureSet =
     state.clock.year >= 1945 || civId === 'hien_dai'
       ? 'hien_dai'
@@ -92,6 +100,7 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
   return {
     location: content.index.settlementType.get(currentSettlementType)?.scene_location ?? sc.location,
     cultureSet,
+    eraStyle,
     house: house?.scene?.sprite ?? null,
     season: seasonOf(ctx),
     weather: state.world.weather,
@@ -113,6 +122,7 @@ export function buildSceneDescriptor(ctx: SimContext): SceneDescriptor {
         ageGroup: ageGroupOf(ctx, age),
         isPlayer,
         age,
+        phenotype: c.phenotypeId ?? defaultPhenotype,
         career,
         statusRank: state.civilization.statusRank,
         examDegree: isPlayer ? state.civilization.examDegree : 'none',

@@ -1,7 +1,30 @@
 # Văn hóa Đông Á (Trung Hoa, Nhật Bản, Triều Tiên)
 id: han_dong_a
 name: Đông Á
+ethnicity_name: Người Hán / Cư dân Đông Á
+phenotype: dong_a_bac
+default_religion: tam_giao
 calendar_style: can_chi
+era_variants:
+  - id: nguong_thieu_long_son
+    max_year: -1500
+    ethnicity_name: Bộ tộc Ngưỡng Thiều – Long Sơn (Hoàng Hà Cổ)
+    religion: tho_vat_to
+    lexicon:
+      currency: vỏ sò (Bối)
+      food: vò gốm
+      land: vạt đất kê
+      staple_crop: kê vàng & lúa mạch
+    family_names:
+      - { name: Cơ, weight: 25 }
+      - { name: Khương, weight: 22 }
+      - { name: Tử, weight: 18 }
+      - { name: Tự, weight: 15 }
+      - { name: Doanh, weight: 10 }
+      - { name: Phong, weight: 10 }
+    village_names: [Tụ Lạc Bán Pha, Xóm Gốm Hoàng Hà, Gò Đá Ngọc Long Sơn, Bãi Bồi Lạc Thủy, Lán Đất Nện Cổ]
+    town_names: [Chợ Đổi Ngọc Bích, Bến Hoàng Hà Cổ, Đài Tế Thần Nông]
+    prefecture_names: [Thành Đất Nhị Lý Đầu, Đô Ấp Đào Tự, Thành Lương Chử]
 lexicon:
   currency: quan tiền / lạng bạc
   food: thạch

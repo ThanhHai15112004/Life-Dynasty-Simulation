@@ -9,6 +9,10 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: nguyen_thuy
+    ethnicity_name: Tộc Natufian – Jericho Cổ
+    phenotype: trung_dong
+    religion: van_vat_huu_linh
+    religions: [van_vat_huu_linh, tho_vat_to]
     population_weight: 22
     demographics:
       life_expectancy: 25
@@ -27,6 +31,10 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: viet
+    ethnicity_name: Người Hòa Bình – Bắc Sơn Cổ
+    phenotype: dong_nam_a
+    religion: van_vat_huu_linh
+    religions: [van_vat_huu_linh, tho_vat_to]
     population_weight: 24
     demographics:
       life_expectancy: 24
@@ -45,6 +53,10 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: an_do
+    ethnicity_name: Tộc Mehrgarh – Tiền Ấn Cổ
+    phenotype: nam_a
+    religion: van_vat_huu_linh
+    religions: [van_vat_huu_linh, tho_vat_to]
     population_weight: 20
     demographics:
       life_expectancy: 24
@@ -63,6 +75,10 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: nguyen_thuy
+    ethnicity_name: Thợ săn Mesolithic Châu Âu
+    phenotype: au_bac
+    religion: tho_vat_to
+    religions: [tho_vat_to, van_vat_huu_linh]
     population_weight: 12
     demographics:
       life_expectancy: 23
@@ -81,6 +97,10 @@ polities:
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: chau_phi
+    ethnicity_name: Tộc Thảo nguyên Sahara Xanh
+    phenotype: chau_phi
+    religion: van_vat_huu_linh
+    religions: [van_vat_huu_linh, tho_vat_to]
     population_weight: 22
     demographics:
       life_expectancy: 23
@@ -100,6 +120,9 @@ polities:
     bookmarks: [co_dai_2500bce]
     civilization: co_dai_de_che
     culture: la_ma_hy_lap
+    ethnicity_name: Người Kemet (Ai Cập Cổ) & Sumer
+    phenotype: trung_dong
+    religion: da_than_co_dai
     population_weight: 26
     demographics:
       life_expectancy: 28
@@ -118,6 +141,10 @@ polities:
     bookmarks: [co_dai_2500bce]
     civilization: nam_a
     culture: an_do
+    ethnicity_name: Cư dân Harappa – Sông Ấn Cổ
+    phenotype: nam_a
+    religion: da_than_co_dai
+    religions: [da_than_co_dai, an_do_giao]
     population_weight: 28
     demographics:
       life_expectancy: 28
@@ -136,6 +163,10 @@ polities:
     bookmarks: [co_dai_2500bce]
     civilization: nho_giao
     culture: viet
+    ethnicity_name: Tộc Lạc Việt – Phùng Nguyên
+    phenotype: dong_nam_a
+    religion: tin_nguong_dong_son
+    religions: [tin_nguong_dong_son, tho_to_tien]
     population_weight: 26
     demographics:
       life_expectancy: 27
@@ -154,6 +185,10 @@ polities:
     bookmarks: [co_dai_2500bce]
     civilization: bo_lac_nguyen_thuy
     culture: nguyen_thuy
+    ethnicity_name: Bộ tộc Đồ Đồng & Thảo nguyên Cổ
+    phenotype: au_bac
+    religion: tho_vat_to
+    religions: [tho_vat_to, van_vat_huu_linh]
     population_weight: 20
     demographics:
       life_expectancy: 26
@@ -173,6 +208,9 @@ polities:
     bookmarks: [co_dien_500bce]
     civilization: co_dai_de_che
     culture: la_ma_hy_lap
+    ethnicity_name: Người Hy Lạp (Hellas) & Ba Tư Cổ
+    phenotype: dia_trung_hai
+    religion: da_than_co_dai
     population_weight: 25
     demographics:
       life_expectancy: 30
@@ -191,6 +229,10 @@ polities:
     bookmarks: [co_dien_500bce]
     civilization: nho_giao
     culture: viet
+    ethnicity_name: Người Lạc Việt – Đông Sơn
+    phenotype: dong_nam_a
+    religion: tin_nguong_dong_son
+    religions: [tin_nguong_dong_son, tho_to_tien]
     population_weight: 28
     demographics:
       life_expectancy: 29
@@ -209,6 +251,10 @@ polities:
     bookmarks: [co_dien_500bce]
     civilization: nam_a
     culture: an_do
+    ethnicity_name: Người Indo-Aryan & Dravidian Cổ
+    phenotype: nam_a
+    religion: phat_giao
+    religions: [an_do_giao, phat_giao]
     population_weight: 27
     demographics:
       life_expectancy: 29
@@ -227,6 +273,10 @@ polities:
     bookmarks: [co_dien_500bce]
     civilization: ban_dia_phi_my
     culture: chau_my
+    ethnicity_name: Tộc Olmec – Maya Sơ kỳ
+    phenotype: ban_dia_my
+    religion: da_than_co_dai
+    religions: [da_than_co_dai, tho_vat_to]
     population_weight: 20
     demographics:
       life_expectancy: 28
@@ -246,6 +296,10 @@ polities:
     bookmarks: [de_che_100ce]
     civilization: co_dai_de_che
     culture: la_ma_hy_lap
+    ethnicity_name: Công dân La Mã – Địa Trung Hải
+    phenotype: dia_trung_hai
+    religion: da_than_co_dai
+    religions: [da_than_co_dai, co_doc_giao]
     population_weight: 26
     demographics:
       life_expectancy: 30
@@ -264,6 +318,10 @@ polities:
     bookmarks: [de_che_100ce]
     civilization: nho_giao
     culture: han_dong_a
+    ethnicity_name: Người Hán – Giao Chỉ Cổ
+    phenotype: dong_a
+    religion: tho_to_tien
+    religions: [tho_to_tien, tam_giao, phat_giao]
     population_weight: 28
     demographics:
       life_expectancy: 30
@@ -282,6 +340,10 @@ polities:
     bookmarks: [de_che_100ce]
     civilization: nam_a
     culture: an_do
+    ethnicity_name: Người Ấn Độ Cổ (Kushan – Tamil)
+    phenotype: nam_a
+    religion: an_do_giao
+    religions: [an_do_giao, phat_giao]
     population_weight: 29
     demographics:
       life_expectancy: 30
@@ -300,6 +362,9 @@ polities:
     bookmarks: [de_che_100ce]
     civilization: hoi_giao
     culture: a_rap_ba_tu
+    ethnicity_name: Người Ba Tư Parthia & Aksum Cổ
+    phenotype: trung_dong
+    religion: da_than_co_dai
     population_weight: 17
     demographics:
       life_expectancy: 29
@@ -319,6 +384,10 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: nho_giao
     culture: viet
+    ethnicity_name: Người Kinh – Đại Việt
+    phenotype: dong_nam_a
+    religion: phat_giao
+    religions: [phat_giao, tam_giao, tho_to_tien]
     population_weight: 6
     demographics:
       life_expectancy: 34
@@ -337,6 +406,10 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: nho_giao
     culture: han_dong_a
+    ethnicity_name: Người Hán – Đông Á
+    phenotype: dong_a
+    religion: tam_giao
+    religions: [tam_giao, tho_to_tien, phat_giao]
     population_weight: 30
     demographics:
       life_expectancy: 34
@@ -355,6 +428,10 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: nam_a
     culture: an_do
+    ethnicity_name: Người Tamil – Ấn Độ
+    phenotype: nam_a
+    religion: an_do_giao
+    religions: [an_do_giao, phat_giao]
     population_weight: 26
     demographics:
       life_expectancy: 32
@@ -373,6 +450,9 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: hoi_giao
     culture: a_rap_ba_tu
+    ethnicity_name: Người Ả Rập – Ba Tư
+    phenotype: trung_dong
+    religion: hoi_giao_islam
     population_weight: 12
     demographics:
       life_expectancy: 34
@@ -391,6 +471,9 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: phong_kien_au
     culture: au_tay
+    ethnicity_name: Người Âu Tây (Frank – Anglo – German)
+    phenotype: au_bac
+    religion: co_doc_giao
     population_weight: 14
     demographics:
       life_expectancy: 32
@@ -409,6 +492,10 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: du_muc
     culture: du_muc_mong
+    ethnicity_name: Tộc Mông Cổ – Đột Quyết
+    phenotype: dong_a
+    religion: tengri_thao_nguyen
+    religions: [tengri_thao_nguyen, phat_giao, hoi_giao_islam]
     population_weight: 4
     demographics:
       life_expectancy: 31
@@ -427,6 +514,10 @@ polities:
     bookmarks: [trung_co_1000ce, trung_co_1250ce]
     civilization: ban_dia_phi_my
     culture: chau_phi
+    ethnicity_name: Người Mandinka (Mali) & Bản địa
+    phenotype: chau_phi
+    religion: hoi_giao_islam
+    religions: [hoi_giao_islam, van_vat_huu_linh, tho_to_tien]
     population_weight: 8
     demographics:
       life_expectancy: 31
@@ -446,6 +537,10 @@ polities:
     bookmarks: [can_dai_1600ce]
     civilization: nho_giao
     culture: viet
+    ethnicity_name: Người Kinh – Đại Việt
+    phenotype: dong_nam_a
+    religion: tam_giao
+    religions: [tam_giao, tho_to_tien, phat_giao, co_doc_giao]
     population_weight: 6
     demographics:
       life_expectancy: 36
@@ -464,6 +559,10 @@ polities:
     bookmarks: [can_dai_1600ce]
     civilization: nho_giao
     culture: han_dong_a
+    ethnicity_name: Người Hán – Hòa (Nhật) – Hàn
+    phenotype: dong_a
+    religion: tam_giao
+    religions: [tam_giao, tho_to_tien, phat_giao]
     population_weight: 32
     demographics:
       life_expectancy: 36
@@ -482,6 +581,10 @@ polities:
     bookmarks: [can_dai_1600ce]
     civilization: nam_a
     culture: an_do
+    ethnicity_name: Người Ấn Độ (Hindustani – Tamil – Bengali)
+    phenotype: nam_a
+    religion: an_do_giao
+    religions: [an_do_giao, hoi_giao_islam]
     population_weight: 24
     demographics:
       life_expectancy: 34
@@ -500,6 +603,9 @@ polities:
     bookmarks: [can_dai_1600ce]
     civilization: phong_kien_au
     culture: au_tay
+    ethnicity_name: Người Tây Âu (Anh – Pháp – Iberia – Hà Lan)
+    phenotype: au_bac
+    religion: co_doc_giao
     population_weight: 16
     demographics:
       life_expectancy: 36
@@ -518,6 +624,9 @@ polities:
     bookmarks: [can_dai_1600ce]
     civilization: hoi_giao
     culture: a_rap_ba_tu
+    ethnicity_name: Người Thổ Ottoman – Ả Rập – Ba Tư
+    phenotype: trung_dong
+    religion: hoi_giao_islam
     population_weight: 10
     demographics:
       life_expectancy: 35
@@ -536,6 +645,10 @@ polities:
     bookmarks: [can_dai_1600ce]
     civilization: ban_dia_phi_my
     culture: chau_my
+    ethnicity_name: Người Bản địa Châu Mỹ & Tây Phi
+    phenotype: ban_dia_my
+    religion: van_vat_huu_linh
+    religions: [van_vat_huu_linh, co_doc_giao, tho_to_tien]
     population_weight: 12
     demographics:
       life_expectancy: 32
@@ -555,6 +668,10 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: hien_dai
     culture: au_tay
+    ethnicity_name: Người Âu – Bắc Mỹ
+    phenotype: au_bac
+    religion: co_doc_giao
+    religions: [co_doc_giao, the_tuc]
     population_weight: 22
     demographics:
       life_expectancy: 43
@@ -573,6 +690,10 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: nho_giao
     culture: han_dong_a
+    ethnicity_name: Người Hán – Mãn – Nhật – Triều Tiên
+    phenotype: dong_a
+    religion: tam_giao
+    religions: [tam_giao, tho_to_tien, phat_giao]
     population_weight: 36
     demographics:
       life_expectancy: 36
@@ -591,6 +712,10 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: nho_giao
     culture: viet
+    ethnicity_name: Người Kinh – Đại Nam
+    phenotype: dong_nam_a
+    religion: tho_to_tien
+    religions: [tho_to_tien, tam_giao, phat_giao, co_doc_giao]
     population_weight: 5
     demographics:
       life_expectancy: 37
@@ -609,6 +734,10 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: nam_a
     culture: an_do
+    ethnicity_name: Người Ấn Độ – Nam Á
+    phenotype: nam_a
+    religion: an_do_giao
+    religions: [an_do_giao, hoi_giao_islam]
     population_weight: 20
     demographics:
       life_expectancy: 34
@@ -627,6 +756,10 @@ polities:
     bookmarks: [cong_nghiep_1850ce]
     civilization: hoi_giao
     culture: a_rap_ba_tu
+    ethnicity_name: Cư dân Trung Đông – Mỹ Latinh – Châu Phi
+    phenotype: trung_dong
+    religion: hoi_giao_islam
+    religions: [hoi_giao_islam, co_doc_giao]
     population_weight: 17
     demographics:
       life_expectancy: 36
@@ -646,6 +779,10 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: an_do
+    ethnicity_name: Người Nam Á (Ấn – Bengali – Punjabi)
+    phenotype: nam_a
+    religion: an_do_giao
+    religions: [an_do_giao, hoi_giao_islam, phat_giao, the_tuc]
     population_weight: 25
     demographics:
       life_expectancy: 71
@@ -664,6 +801,10 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: chau_phi
+    ethnicity_name: Người Châu Phi (Yoruba – Igbo – Bantu – Oromo)
+    phenotype: chau_phi
+    religion: co_doc_giao
+    religions: [co_doc_giao, hoi_giao_islam, tho_to_tien]
     population_weight: 22
     demographics:
       life_expectancy: 62
@@ -682,6 +823,10 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: han_dong_a
+    ethnicity_name: Người Đông Á (Hoa – Nhật – Hàn)
+    phenotype: dong_a
+    religion: the_tuc
+    religions: [the_tuc, tho_to_tien, phat_giao]
     population_weight: 16
     demographics:
       life_expectancy: 79
@@ -700,6 +845,10 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: viet
+    ethnicity_name: Người Việt & Đông Nam Á
+    phenotype: dong_nam_a
+    religion: tho_to_tien
+    religions: [tho_to_tien, phat_giao, co_doc_giao, the_tuc]
     population_weight: 9
     demographics:
       life_expectancy: 74
@@ -718,6 +867,10 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: au_tay
+    ethnicity_name: Người Âu – Bắc Mỹ Đa sắc tộc
+    phenotype: au_bac
+    religion: co_doc_giao
+    religions: [co_doc_giao, the_tuc]
     population_weight: 12
     demographics:
       life_expectancy: 80
@@ -736,6 +889,10 @@ polities:
     bookmarks: [hien_dai_2025ce]
     civilization: hien_dai
     culture: a_rap_ba_tu
+    ethnicity_name: Người Ả Rập – Trung Đông & Mestizo Mỹ Latinh
+    phenotype: trung_dong
+    religion: hoi_giao_islam
+    religions: [hoi_giao_islam, co_doc_giao, the_tuc]
     population_weight: 16
     demographics:
       life_expectancy: 75

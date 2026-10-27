@@ -5,7 +5,7 @@ import type { ClanTie, NpcClan } from '../../entities/Dynasty';
 import type { Household } from '../../entities/Household';
 import { RngStream, type SimContext } from '../context';
 import { annualNpcDeathRisk, pickCause } from '../life/mortality';
-import { ageNow } from '../people';
+import { activeCulture, ageNow } from '../people';
 
 function nextClanEntityId(ctx: SimContext, prefix: string): string {
   let idx = Object.keys(ctx.state.characters).length + Object.keys(ctx.state.households).length + Object.keys(ctx.state.villageClans ?? {}).length + 1;
@@ -31,7 +31,7 @@ function createClanMember(
   },
 ): Character {
   const rng = ctx.rng.get(RngStream.Clans);
-  const culture = ctx.content.index.culture.get(ctx.state.cultureId) ?? ctx.content.cultures[0];
+  const culture = activeCulture(ctx);
   const { year, month } = ctx.state.clock;
   const birthMonth = rng.int(1, ctx.content.balance.calendar.months_per_year);
   const birthYear = year - spec.age - (birthMonth > month ? 1 : 0);
@@ -120,7 +120,7 @@ export function generateVillageClans(ctx: SimContext): void {
   const { state, content } = ctx;
   const cfg = content.balance.life.village_clans;
   const rng = ctx.rng.get(RngStream.Clans);
-  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const culture = activeCulture(ctx);
   if (!culture) return;
 
   state.villageClans ??= {};
@@ -295,7 +295,7 @@ export function yearlyVillageClans(ctx: SimContext): void {
 
   const cfg = content.balance.life.village_clans;
   const rng = ctx.rng.get(RngStream.Clans);
-  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const culture = activeCulture(ctx);
 
   // 1) Sinh tử & kế vị Tộc trưởng
   for (const clan of clans) {

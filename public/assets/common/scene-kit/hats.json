@@ -1,0 +1,149 @@
+{
+  "$comment": "[1] Bộ phận pixel: Mũ nón, khăn đội đầu theo tầng lớp/văn hóa và biểu tượng trên đầu nhân vật.",
+  "parts": {
+    "non_la": {
+      "key": {
+        "N": "hat_cone",
+        "n": "hat_shade"
+      },
+      "rows": [
+        "......NN......",
+        "....NNNNNN....",
+        "..NNNNnnnnNN..",
+        "NNNNNNNNNNNNNN"
+      ]
+    },
+    "khan_dong": {
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
+      "rows": [
+        "..MMMMMM..",
+        ".MMMMMMMM.",
+        ".MMMGGMMM.",
+        "MMMMMMMMMM"
+      ]
+    },
+    "mao_quan": {
+      "key": {
+        "M": "hat_main",
+        "G": "gold"
+      },
+      "rows": [
+        ".....MMMM.....",
+        "....MMGGMM....",
+        "MMMMMMGGMMMMMM",
+        "MMMMGGGGGGMMMM",
+        "...MMMMMMMM..."
+      ]
+    },
+    "non_dau": {
+      "key": {
+        "M": "hat_main",
+        "R": "hat_trim",
+        "G": "gold"
+      },
+      "rows": [
+        ".....GG.....",
+        "...RRRRRR...",
+        ".MMMMMMMMMM.",
+        "RRRRRRRRRRRR"
+      ]
+    },
+    "khan_mo_qua": {
+      "key": {
+        "M": "hat_main",
+        "R": "yem"
+      },
+      "rows": [
+        "..MMMMMM..",
+        ".MMMMRMMM.",
+        "MMMMMMMMMM",
+        ".M......M."
+      ]
+    },
+    "khan_vanh": {
+      "key": {
+        "G": "gold",
+        "M": "hat_main"
+      },
+      "rows": [
+        ".GGGGGGGG.",
+        "GGGGGGGGGG",
+        "GMMGGGGMMG",
+        ".GGGGGGGG."
+      ]
+    },
+    "khan_tang": {
+      "key": {
+        "W": "mourning_white",
+        "w": "mourning_shade"
+      },
+      "rows": [
+        "..WWWWWW...",
+        ".WWWWWWWWw.",
+        "WWWWWWWWWWw",
+        ".........ww"
+      ]
+    },
+    "mu_long_vu_au": {
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
+      "rows": [
+        "........GG....",
+        "...MMMMMMGG...",
+        "..MMMMMMMMM...",
+        "MMMMMMMMMMMMMM"
+      ]
+    },
+    "khan_xep_hoi_giao": {
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
+      "rows": [
+        "...MMMMMM...",
+        "..MMMMMMMM..",
+        ".MMMMGGMMMM.",
+        ".MMMMMMMMMM."
+      ]
+    },
+    "mu_long_du_muc": {
+      "key": {
+        "M": "hat_main",
+        "G": "hat_trim"
+      },
+      "rows": [
+        "....GGGG....",
+        "..MMMMMMMM..",
+        ".MMMMMMMMMM.",
+        ".MM......MM."
+      ]
+    },
+    "dau_benh": {
+      "key": {
+        "G": "sick_badge",
+        "Y": "gold"
+      },
+      "rows": [
+        ".G.",
+        "GYG",
+        ".G."
+      ]
+    },
+    "dau_nguoi_choi": {
+      "key": {
+        "Y": "#ffd34d",
+        "O": "#c97a16"
+      },
+      "rows": [
+        "YYYYY",
+        ".YYY.",
+        "..O.."
+      ]
+    }
+  }
+}

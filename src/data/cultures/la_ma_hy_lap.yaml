@@ -1,8 +1,30 @@
 # Văn hóa Cổ đại Địa Trung Hải & Cận Đông (Hy Lạp, La Mã, Ai Cập, Lưỡng Hà)
 id: la_ma_hy_lap
 name: Cổ điển Địa Trung Hải
+ethnicity_name: Cư dân Địa Trung Hải (Hy-La & Cận Đông Cổ)
+phenotype: trung_dong_dia_trung_hai
+default_religion: da_than_co_dai
 calendar_style: bce_ce
 name_order: given_first
+era_variants:
+  - id: sumer_ai_cap_co
+    max_year: -1000
+    ethnicity_name: Cư dân Sumer Lưỡng Hà & Ai Cập Cổ
+    religion: da_than_co_dai
+    lexicon:
+      currency: thoi bạc Shekel
+      food: vò lúa mạch
+      land: dải đất phù sa Nile
+      staple_crop: lúa mì Emmer & chà là
+    family_names:
+      - { name: Ur-Nammu, weight: 22 }
+      - { name: Enlil, weight: 18 }
+      - { name: Ptahhotep, weight: 20 }
+      - { name: Amenemhat, weight: 20 }
+      - { name: Sargon, weight: 20 }
+    village_names: [Xóm Kênh Đào Euphrates, Thôn Bờ Sông Nile, Làng Gạch Bùn Uruk, Xóm Cói Papyrus, Thôn Chà Là Memphis]
+    town_names: [Bến Thuyền Ur, Chợ Đền Karnak, Cảng Byblos, Bến Sông Tigris]
+    prefecture_names: [Thành Uruk, Kinh Đô Memphis, Thành Babylon Cổ, Đô Thành Thebes, Thành Ur]
 lexicon:
   currency: đồng bạc Denarius
   food: vò

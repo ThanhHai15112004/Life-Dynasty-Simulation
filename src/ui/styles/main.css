@@ -361,6 +361,85 @@ h4 {
   overflow: hidden;
   white-space: nowrap;
 }
+.era-seal {
+  border-top: 1px dashed var(--line-strong);
+  padding: 9px 16px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--accent-soft);
+  font-size: 11px;
+}
+.era-seal-badge {
+  font-family: var(--serif);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.era-seal-meta {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Giao diện thích ứng theo Thời đại (Adaptive Era Theme) ── */
+.hud[data-era='prehistoric'] {
+  --bg: #ece4d4;
+  --card: #faf5eb;
+  --line: #d8ccb4;
+  --line-strong: #bca98a;
+  --ink: #2c241b;
+  --muted: #6e5f4d;
+  --accent: #7a3e1d;
+  --accent-soft: #f2e5d5;
+  background: var(--bg);
+}
+.hud[data-era='ancient'] {
+  --bg: #efe8d8;
+  --card: #fcf8ef;
+  --line: #dfd3bc;
+  --line-strong: #c7b698;
+  --ink: #2a241c;
+  --muted: #726553;
+  --accent: #8c4a20;
+  --accent-soft: #f5e8d8;
+  background: var(--bg);
+}
+.hud[data-era='feudal'] {
+  --bg: #f3efe6;
+  --card: #ffffff;
+  --line: #e4ddcf;
+  --line-strong: #cfc5b2;
+  --ink: #2a2622;
+  --muted: #7d766b;
+  --accent: #8e1f3c;
+  --accent-soft: #f6e7ea;
+  background: var(--bg);
+}
+.hud[data-era='industrial'] {
+  --bg: #eceae4;
+  --card: #fbfaf7;
+  --line: #d8d4ca;
+  --line-strong: #bab4a6;
+  --ink: #232426;
+  --muted: #686a6e;
+  --accent: #3d4f60;
+  --accent-soft: #e6ecf2;
+  background: var(--bg);
+}
+.hud[data-era='modern'] {
+  --bg: #eff2f6;
+  --card: #ffffff;
+  --line: #dde3ec;
+  --line-strong: #c2ccd8;
+  --ink: #1c222b;
+  --muted: #647080;
+  --accent: #1e4f7a;
+  --accent-soft: #e6f0f9;
+  background: var(--bg);
+}
 
 /* ── Thanh chỉ số ── */
 .stat {

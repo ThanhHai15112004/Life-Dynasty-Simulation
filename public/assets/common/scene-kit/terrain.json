@@ -1,0 +1,415 @@
+{
+  "$comment": "[1] Bộ phận pixel: Địa hình, mặt đất, ruộng đồng, sông bến, tường thành và mây trời.",
+  "parts": {
+    "ruong_lua_viet": {
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
+      "rows": [
+        "WggWggWggWggWggW",
+        "WGGWGGWGGWGGWGGW",
+        "gWggWggWggWggWgg",
+        "GWGGWGGWGGWGGWGG",
+        "ggWggWggWggWggWg",
+        "BBBBBBBBBBBBBBBB",
+        "WggWggWggWggWggW",
+        "WGGWGGWGGWGGWGGW",
+        "gWggWggWggWggWgg",
+        "GWGGWGGWGGWGGWGG",
+        "ggWggWggWggWggWg",
+        "BBBBBBBBBBBBBBBB"
+      ]
+    },
+    "dat_viet": {
+      "key": {
+        "p": "path",
+        "P": "path_dark",
+        "d": "ground_dark"
+      },
+      "rows": [
+        ".",
+        "...................d",
+        "...d",
+        "...........................d",
+        "...........d",
+        "pppppppppppppppppppppppppppppppp",
+        "pppppppppppppppppppppppppppppppp",
+        "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+        ".............d",
+        ".......................d",
+        ".......d",
+        "...............d",
+        "..............................d",
+        ".d"
+      ]
+    },
+    "thuyen_viet": {
+      "key": {
+        "B": "boat",
+        "b": "boat_dark",
+        "R": "thatch",
+        "r": "thatch_dark"
+      },
+      "rows": [
+        "........rrrrrrrrrrr",
+        ".......RRRRRRRRRRRRR",
+        "......rrrrrrrrrrrrrrr",
+        "BBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+        ".BBBBBBBBBBBBBBBBBBBBBBBBBB",
+        "...bbbbbbbbbbbbbbbbbbbbbb",
+        "......bbbbbbbbbbbbbbbb"
+      ]
+    },
+    "thuyen_buom_viet": {
+      "key": {
+        "M": "wood_dark",
+        "S": "sail",
+        "s": "sail_dark",
+        "B": "boat",
+        "b": "boat_dark"
+      },
+      "rows": [
+        "...........M",
+        "...........Ms",
+        "...........MSS",
+        "...........Msss",
+        "...........MSSSSS",
+        "...........Mssssss",
+        "...........MSSSSSSSS",
+        "...........Msssssssss",
+        "...........MSSSSSSSSSS",
+        "...........M",
+        "BBBBBBBBBBBBBBBBBBBBBBBB",
+        ".BBBBBBBBBBBBBBBBBBBBBB",
+        "...bbbbbbbbbbbbbbbbbb",
+        "......bbbbbbbbbbbb"
+      ]
+    },
+    "ben_go_viet": {
+      "key": {
+        "D": "wood",
+        "d": "wood_light",
+        "P": "wood_dark"
+      },
+      "rows": [
+        "dddddddddddddddddddddddddddddddddddd",
+        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+        ".P......P......P......P......P.....P",
+        ".P......P......P......P......P.....P",
+        ".P......P......P......P......P.....P",
+        ".P......P......P......P......P.....P"
+      ]
+    },
+    "day_leu_cho_viet": {
+      "key": {
+        "T": "thatch",
+        "t": "thatch_dark",
+        "W": "wall",
+        "w": "wall_dark",
+        "K": "shadow",
+        "P": "wood_dark"
+      },
+      "rows": [
+        "....TTTT..........TTTT..........TTTT",
+        "...tttttt........tttttt........tttttt",
+        "..TTTTTTTT......TTTTTTTT......TTTTTTTT",
+        ".tttttttttt....tttttttttt....tttttttttt",
+        "TTTTTTTTTTTT..TTTTTTTTTTTT..TTTTTTTTTTTT",
+        "wwwwwwwwwwww..wwwwwwwwwwww..wwwwwwwwwwww",
+        "WWWWWWWWWWWW..WWWWWWWWWWWW..WWWWWWWWWWWW",
+        "WWWKKKKKKWWW..WWWKKKKKKWWW..WWWKKKKKKWWW",
+        "WWWKKKKKKWWW..WWWKKKKKKWWW..WWWKKKKKKWWW",
+        "WWWKKKKKKWWW..WWWKKKKKKWWW..WWWKKKKKKWWW",
+        "P..........P..P..........P..P..........P",
+        "P..........P..P..........P..P..........P",
+        "P..........P..P..........P..P..........P",
+        "P..........P..P..........P..P..........P"
+      ]
+    },
+    "tuong_thanh_viet": {
+      "key": {
+        "S": "stone",
+        "s": "stone_light",
+        "K": "shadow",
+        "W": "wall_dark"
+      },
+      "rows": [
+        "ssss..ssss..ssss..ssss..ssss..ss",
+        "SSSS..SSSS..SSSS..SSSS..SSSS..SS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSsSSSSSSsSSSSSSsSSSSSSsSSSSSSsS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSSsSSSSSSsSSSSSSsSSSSSSsSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+      ]
+    },
+    "cong_phu_viet": {
+      "key": {
+        "R": "tile",
+        "r": "tile_dark",
+        "G": "gold",
+        "W": "wall",
+        "w": "wall_dark",
+        "P": "cloth_red",
+        "D": "wood_dark",
+        "K": "shadow",
+        "S": "stone"
+      },
+      "rows": [
+        "r................GGGGGGGGGGGG................r",
+        "rr............rrrrrrrrrrrrrrrrrr............rr",
+        ".rrr.......RRRRRRRRRRRRRRRRRRRRRRRR.......rrr.",
+        "..rrrr..rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr..rrrr..",
+        "....RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR....",
+        "......DDDDDDDDDDDGGGGGGGGGGGGDDDDDDDDDDD......",
+        "......DPPPPPPPPPPGGGGGGGGGGGGPPPPPPPPPPD......",
+        "rr....DPPWwwWPPPPDDDDDDDDDDDDPPPPWWwwPPD....rr",
+        ".rrr.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.rrr.",
+        "..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR..",
+        "...rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr...",
+        "....WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW....",
+        "....WWPPWWWWWWWWWKKKKKKKKKKKKWWWWWWWWWPPWW....",
+        "....WWPPWWWWWWWWKKKKKKKKKKKKKKWWWWWWWWPPWW....",
+        "....WWPPWWWWWWWWKKKKKKKKKKKKKKWWWWWWWWPPWW....",
+        "....WWPPWWWWWWWWKKKKKKKKKKKKKKWWWWWWWWPPWW....",
+        "....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...."
+      ]
+    },
+    "co_hieu_viet": {
+      "key": {
+        "M": "wood_dark",
+        "R": "cloth_red",
+        "Y": "gold"
+      },
+      "rows": [
+        ".Y.....",
+        ".MRRRRR",
+        ".MRYYYR",
+        ".MRRRRR",
+        ".MRRR..",
+        ".M.....",
+        ".M.....",
+        ".M.....",
+        ".M.....",
+        ".M.....",
+        ".M.....",
+        ".M.....",
+        "MMM...."
+      ]
+    },
+    "duong_da_viet": {
+      "key": {
+        "S": "stone",
+        "s": "stone_light",
+        "d": "ground_dark",
+        "p": "path"
+      },
+      "rows": [
+        ".",
+        "...................d",
+        "ssssssssssssssssssssssssssssssss",
+        "SSSSSsSSSSSSsSSSSSSsSSSSSSsSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "sSSSSSSsSSSSSSsSSSSSSsSSSSSSsSSS",
+        "dddddddddddddddddddddddddddddddd",
+        "pppppppppppppppppppppppppppppppp",
+        "...........d",
+        ".......................d"
+      ]
+    },
+    "may_lon": {
+      "key": {
+        "C": "cloud",
+        "c": "cloud_shade"
+      },
+      "rows": [
+        "..........CCCCCCC",
+        "......CCCCCCCCCCCCCC",
+        "...CCCCCCCCCCCCCCCCCCCC",
+        "...CCCCCCCCCCCCCCCCCCCC",
+        "....cccccccccccccccccc"
+      ]
+    },
+    "may_nho": {
+      "key": {
+        "C": "cloud",
+        "c": "cloud_shade"
+      },
+      "rows": [
+        "......CCCC",
+        "...CCCCCCCCCC",
+        "...CCCCCCCCCC",
+        "..cccccccccccc"
+      ]
+    },
+    "dong_lua_mi_au": {
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
+      "rows": [
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB"
+      ]
+    },
+    "bai_co_nguyen_thuy": {
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
+      "rows": [
+        ".g..g...g..g..g.",
+        "gGgGgG.gGgGgGgGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "BBBBBBBBBBBBBBBB",
+        ".g..g...g..g..g.",
+        "gGgGgG.gGgGgGgGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "BBBBBBBBBBBBBBBB"
+      ]
+    },
+    "bai_da_nguyen_thuy": {
+      "key": {
+        "S": "stone",
+        "s": "stone_dark"
+      },
+      "rows": [
+        "...SSSS.....",
+        "..SSSSSSs...",
+        ".sSSSSSSSs.."
+      ]
+    },
+    "vach_da_hang_nguyen_thuy": {
+      "rows": [
+        "......SSSSSSSSSSSS......",
+        "....SSSSLLLLLLLLSSSS....",
+        "...SSSLLLLSSSSLLLLSSS...",
+        "..SSLLLSSSSSSSSSSLLLSS..",
+        ".SSLLSSSSSSSSSSSSSSLLSS.",
+        ".SLLSSSSDDDDDDDDSSSSLLS.",
+        "SLLSSSDDDDDDDDDDDDSSSLLS",
+        "SLSSSDDDDOOOOOODDDDSSSLS",
+        "SSSSDDDDOOOOOOOODDDSSSSS",
+        "SSSSDDDOOOOOOOOOODDDSSSS",
+        "SSSSDDDOOOOOOOOOODDDSSSS",
+        "DDDDDDDOOOOOOOOOODDDDDDD"
+      ],
+      "key": {
+        "S": "stone",
+        "L": "stone_light",
+        "D": "stone_dark",
+        "O": "shadow"
+      }
+    },
+    "lua_trai_bo_lac": {
+      "rows": [
+        ".....YY.....",
+        "....YYYY....",
+        "...YYRRYY...",
+        "..YRRRRRRY..",
+        "..RRRRRRRR..",
+        ".WWWWWWWWWW.",
+        "SSDDDDDDDDSS"
+      ],
+      "key": {
+        "Y": "#ffd15c",
+        "R": "#e85d2a",
+        "W": "wood_dark",
+        "S": "stone",
+        "D": "stone_dark"
+      }
+    },
+    "cot_vat_to_da": {
+      "rows": [
+        "...LLLL...",
+        "..LSSSSL..",
+        "..SROORS..",
+        "..SSSSSS..",
+        "..SDDDDS..",
+        "..SLLLLS..",
+        "..SSSSSS..",
+        "..SDDDDS..",
+        ".SSSSSSSS.",
+        "DDDDDDDDDD"
+      ],
+      "key": {
+        "L": "stone_light",
+        "S": "stone",
+        "D": "stone_dark",
+        "R": "cloth_red",
+        "O": "outline"
+      }
+    },
+    "dat_da_nguyen_thuy": {
+      "rows": [
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGDDDDGGGGGGGGGGGGDDDDGGGGGGGG",
+        "................................",
+        "....SS..............L...........",
+        "..................SS............",
+        "........D...................S...",
+        "................................",
+        "..S.............D..............."
+      ],
+      "key": {
+        "G": "grass",
+        "D": "ground_dark",
+        "S": "stone_dark",
+        "L": "stone"
+      }
+    },
+    "thuyen_doc_moc_nguyen_thuy": {
+      "rows": [
+        "..WWWWWWWWWWWWWWWWWW..",
+        "DDDDDDDDDDDDDDDDDDDDDD",
+        ".DDDDDDDDDDDDDDDDDDDD."
+      ],
+      "key": {
+        "W": "wood_light",
+        "D": "wood_dark"
+      }
+    },
+    "duong_nhua_hien_dai": {
+      "rows": [
+        "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+        "WWWWWWWWWWWW....WWWWWWWWWWWW....",
+        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+      ],
+      "key": {
+        "L": "stone_light",
+        "S": "stone",
+        "D": "stone_dark",
+        "W": "#f5f5f0"
+      }
+    }
+  }
+}

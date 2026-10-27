@@ -1,6 +1,9 @@
 # Văn hóa Phương Tây / Châu Âu (Anh, Pháp, Đức, Tây Ban Nha, Bắc Mỹ)
 id: au_tay
 name: Phương Tây (Âu – Mỹ)
+ethnicity_name: Người Châu Âu (Frank, Anglo-Saxon, German, Latin)
+phenotype: au_bac_tay
+default_religion: co_doc_giao
 calendar_style: bce_ce
 name_order: given_first
 lexicon:

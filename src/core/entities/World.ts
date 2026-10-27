@@ -99,6 +99,8 @@ export interface GameState {
   seed: string;
   originId: string;
   cultureId: string;
+  /** Tôn giáo / tín ngưỡng chính của hộ gia đình. */
+  religionId?: string;
   /** Mốc thời đại đang chơi (id trong data/world/bookmarks/). */
   bookmarkId?: string;
   /** Quốc gia / Vùng lãnh thổ trên thế giới nơi nhân vật sinh ra (id trong data/world/polities/). */

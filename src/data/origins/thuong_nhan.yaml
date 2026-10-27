@@ -1,7 +1,15 @@
 # [1] Xuất thân Thương nhân: có vốn liếng và sạp hàng chợ bến sông, nhạy bén thời cơ giá cả
 id: thuong_nhan
 name: Thương nhân
+names_by_civ:
+  bo_lac_nguyen_thuy: Người đổi đá lửa & vỏ sò
+  du_muc: Thương khách lữ đoàn
+  hien_dai: Gia đình tiểu thương
 description: Con nhà buôn nhỏ nơi bến sông. Có một sạp hàng ngoài chợ, ít vốn liếng xoay vòng và con mắt nhìn giá cả.
+descriptions_by_civ:
+  bo_lac_nguyen_thuy: Gia đình khéo tay ghè đẽo rìu đá lửa, nung gốm thừng và đem đổi muối, vỏ sò với các thị tộc láng giềng.
+  du_muc: Gia đình dẫn đầu những đoàn lạc đà và ngựa thồ hàng trao đổi lụa, muối và ngựa chiến dọc biên ải.
+  hien_dai: Gia đình có cửa tiệm buôn bán nhỏ nơi phố thị, quen nhịp sống kinh doanh và nhạy bén với thị trường.
 culture: viet
 start_age_options: [0, 6, 16]
 default_start_age: 0

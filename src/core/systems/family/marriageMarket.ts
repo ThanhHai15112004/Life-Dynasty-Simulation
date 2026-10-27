@@ -8,7 +8,7 @@ import { writeTemplate } from '../../events/journal';
 import { Ledger, SystemLog } from '../../events/systemLogKeys';
 import { aliveClanMembers, changeClanRelation, generateVillageClans } from '../ai';
 import { RngStream, type SimContext } from '../context';
-import { ageNow, callOf, player, playerHousehold } from '../people';
+import { activeCulture, ageNow, callOf, player, playerHousehold } from '../people';
 import { changeReputation } from '../social';
 import { currentCivilization } from '../status';
 
@@ -109,7 +109,7 @@ export function ensureVillageSuitors(ctx: SimContext, targetSex: Sex, targetAge:
   if (existing.length >= minCount) return;
 
   const rng = ctx.rng.get(RngStream.Clans);
-  const culture = content.index.culture.get(state.cultureId) ?? content.cultures[0];
+  const culture = activeCulture(ctx);
   const needed = minCount - existing.length;
 
   for (let i = 0; i < needed; i++) {

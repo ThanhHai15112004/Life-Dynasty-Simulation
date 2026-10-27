@@ -36,6 +36,7 @@ export function ProfileCard({ hud, onOpenCharacter }: { hud: HudView; onOpenChar
     ? t('profile.card_title_polity', { polity: hud.worldContext.polityName })
     : t('profile.card_title');
   const displayYear = hud.date.year < 0 ? t('year.bce', { year: Math.abs(hud.date.year) }) : String(hud.date.year);
+  const eraStyle = hud.worldContext?.eraStyle ?? 'feudal';
   return (
     <section className="card profile-card">
       <div className="profile-band">
@@ -43,7 +44,17 @@ export function ProfileCard({ hud, onOpenCharacter }: { hud: HudView; onOpenChar
         <span>{displayYear}</span>
       </div>
       <div className="profile-body">
-        {scene && <Portrait id={p.id} sex={p.sex} ageGroup={p.ageGroup} cultureSet={scene.cultureSet} season={scene.season} scale={4} />}
+        {scene && (
+          <Portrait
+            id={p.id}
+            sex={p.sex}
+            ageGroup={p.ageGroup}
+            cultureSet={scene.cultureSet}
+            season={scene.season}
+            scale={4}
+            phenotype={p.phenotypeId}
+          />
+        )}
         <div className="profile-main">
           <div className="card-head" style={{ marginBottom: 6 }}>
             <h2 className="profile-name" style={{ marginBottom: 0 }}>{p.name}</h2>
@@ -58,6 +69,14 @@ export function ProfileCard({ hud, onOpenCharacter }: { hud: HudView; onOpenChar
             <dd>{t(`menu.sex.${p.sex}`)}</dd>
             <dt>{t('profile.born')}</dt>
             <dd>{bornText}</dd>
+            <dt>{t('profile.ethnicity')}</dt>
+            <dd>{p.ethnicityName}</dd>
+            <dt>{t('profile.religion')}</dt>
+            <dd>
+              <Tooltip content={`${p.religionDescription} (${t('profile.shrine_note', { shrine: p.shrineName })})`}>
+                <span className="underline">{p.religionName}</span>
+              </Tooltip>
+            </dd>
             <dt>{t('profile.home')}</dt>
             <dd>
               <Tooltip content={hud.household.settlement.typeDescription}>
@@ -104,10 +123,19 @@ export function ProfileCard({ hud, onOpenCharacter }: { hud: HudView; onOpenChar
         ))}
       </div>
       {p.mourningMonthsLeft > 0 && <div className="mourning">{t('profile.mourning', { n: p.mourningMonthsLeft })}</div>}
-      <div className="mrz">
-        <div>{code}</div>
-        <div>{code2}</div>
-      </div>
+      {eraStyle === 'modern' ? (
+        <div className="mrz">
+          <div>{code}</div>
+          <div>{code2}</div>
+        </div>
+      ) : (
+        <div className={`era-seal era-seal-${eraStyle}`}>
+          <span className="era-seal-badge">{t(`profile.seal_${eraStyle}`)}</span>
+          <span className="era-seal-meta">
+            {p.ethnicityName} · {p.shrineName}
+          </span>
+        </div>
+      )}
     </section>
   );
 }

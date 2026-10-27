@@ -19,7 +19,15 @@ settlement_types:
     event_weights: { ruong_dong: 1.3, lang_xa: 1.1, hoc_hanh: 0.4, buon_ban: 0.5 }
   - id: lang_nong
     name: Làng nông nghiệp
+    names_by_civ:
+      bo_lac_nguyen_thuy: Bãi trại săn bắt & hái lượm
+      du_muc: Trại lều du mục thảo nguyên
+      hien_dai: Xã nông thôn
     description: Ngôi làng bao quanh bởi lũy tre xanh, ruộng lúa và đình làng tự quản.
+    descriptions_by_civ:
+      bo_lac_nguyen_thuy: Cụm lán trại và mái đá nằm giữa rừng nguyên sinh ven suối, nơi thị tộc quây quần quanh đống lửa thiêng.
+      du_muc: Cụm lều nỉ dựng bên đồng cỏ và suối nước ngọt, di chuyển theo mùa chăn thả gia súc.
+      hien_dai: Vùng nông thôn yên bình với đường liên xã, cánh đồng canh tác và trường học địa phương.
     population_band: [200, 800]
     trade_factor: 0.9
     region_node: true
@@ -36,7 +44,15 @@ settlement_types:
     event_weights: { ruong_dong: 1.2, lang_xa: 1.2 }
   - id: thi_tran_ben_song
     name: Thị trấn bến sông
+    names_by_civ:
+      bo_lac_nguyen_thuy: Bãi hội đổi chác ven sông
+      du_muc: Chợ phiên biên mậu
+      hien_dai: Thị xã giao thương
     description: Nơi thuyền bè neo đậu, chợ phiên họp dày và các thương hội tụ họp.
+    descriptions_by_civ:
+      bo_lac_nguyen_thuy: Bãi đá phẳng nơi giao nhau của hai dòng suối lớn, chỗ các bộ lạc tìm đến đổi rìu đá lửa, muối và da thú.
+      du_muc: Điểm giao thương nhộn nhịp nơi các đoàn lữ hành thảo nguyên đổi ngựa, lông cừu lấy trà, vải và nông sản.
+      hien_dai: Thị xã sầm uất với bến bãi, khu chợ trung tâm, trạm xá và các cửa hiệu kinh doanh.
     population_band: [800, 3000]
     trade_factor: 1.25
     region_node: true
@@ -53,7 +69,15 @@ settlement_types:
     event_weights: { buon_ban: 1.4, tin_don: 1.3, ruong_dong: 0.5 }
   - id: phu_thanh
     name: Phủ thành
+    names_by_civ:
+      bo_lac_nguyen_thuy: Thánh địa Cự thạch
+      du_muc: Đại doanh Khả hãn
+      hien_dai: Thành phố lớn
     description: Lỵ sở phủ đường uy nghiêm, nơi đặt nha môn, trường thi, dinh thự quan lại và phố phường phồn hoa.
+    descriptions_by_civ:
+      bo_lac_nguyen_thuy: Vòng đá cự thạch thiêng liêng và khu nhà dài của Đại thủ lĩnh, nơi các thị tộc tụ hội cử hành đại lễ theo mùa.
+      du_muc: Vương đình với hàng ngàn trướng nỉ trắng xóa của Đại Khả hãn và các tộc trưởng thảo nguyên.
+      hien_dai: Đô thị hiện đại với tòa nhà cao tầng, trường đại học, bệnh viện lớn và khu công nghiệp sôi động.
     population_band: [4000, 15000]
     trade_factor: 1.4
     region_node: true

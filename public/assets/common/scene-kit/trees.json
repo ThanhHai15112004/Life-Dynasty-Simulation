@@ -1,0 +1,435 @@
+{
+  "$comment": "[1] Bộ phận pixel: Cây cối, thảm thực vật và hàng rào theo vùng sinh thái / thời đại.",
+  "parts": {
+    "tre_viet": {
+      "key": {
+        "S": "bamboo",
+        "s": "bamboo_dark",
+        "F": "foliage_light",
+        "f": "foliage"
+      },
+      "rows": [
+        "...........f",
+        ".......fFFfFFfFF",
+        "......fFFfFFfFFfF",
+        ".....fFFfFFfFFfFFf",
+        ".....FFfFFfFFfFFfF",
+        "....FFfFFfFFfFFfFFf",
+        ".....fFFfFFfFFfFFf",
+        ".....FFfFFfFFfFFfF",
+        ".....FffffffffFfFFfFF",
+        ".SfFFfFFfffffFfFFfFFfF",
+        ".fFFfFFfFF.F.fFFfFFfFF",
+        ".FFfFFfFFfFFfFFfFFfFFf",
+        "FFfFFfFFfFFfFFfFFfFFfF",
+        ".fFFfFFfFFfFFfFFfFFfFF",
+        ".FFfFFfFFfFFfFFfFFfff",
+        "..ffffFFfFFfFFfFFf..S",
+        "..S..fFfFFfFFfFFf..fS",
+        "..sf...sfffffffs..fFF",
+        ".FfFFf.S...f...S.fFFfF",
+        "FfFFfFFS...S...S.FFfFF",
+        "fFFfFFfS...S...SFFfFFf",
+        "FFfFFfFF...S...S.fFFfF",
+        "FfFFfFFS...S...S.FFfFF",
+        "fFFfFFfs...s...s..fff",
+        ".fffff.S...S...S...f",
+        "...f...S...S...S...S",
+        "...S...S...S...S...S",
+        "...S...S...S...S...S",
+        "...s...s...s...s...s",
+        "....S...S..S..S...S",
+        "....S...S..S..S...S",
+        "....S...S..S..S...S",
+        "....s...s..s..s...s",
+        "....S...S..S..S...S",
+        ".....S..S..S..S..S",
+        ".....S..S..S..S..S",
+        ".....s..s..s..s..s",
+        ".....S..S..S..S..S",
+        ".....S..S..S..S..S"
+      ]
+    },
+    "cau_viet": {
+      "key": {
+        "S": "trunk_light",
+        "s": "trunk",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "N": "gold"
+      },
+      "rows": [
+        "......FFF",
+        ".....FFFFF",
+        "......FfF",
+        "....FFf.fFF",
+        "..FF..f.f..FF",
+        ".F...f...f...F",
+        ".....fNNNf",
+        "....f.NNN.f",
+        "........s",
+        "........S",
+        "........S",
+        "........S",
+        "........s",
+        "........S",
+        "........S",
+        "........S",
+        ".......s",
+        ".......S",
+        ".......S",
+        ".......S",
+        ".......s",
+        ".......S",
+        ".......S",
+        ".......S",
+        ".......s",
+        ".......S",
+        ".......S",
+        ".......S",
+        ".......s",
+        ".......S",
+        ".......S",
+        ".......S",
+        ".......s"
+      ]
+    },
+    "chuoi_viet": {
+      "key": {
+        "S": "trunk_light",
+        "s": "trunk",
+        "F": "foliage_light",
+        "f": "foliage"
+      },
+      "rows": [
+        "........F",
+        ".......FFFF",
+        ".....fFFFFFFf",
+        "...FFfFFFFFFfFF",
+        "..fFFfFFFFFFfFFf",
+        ".FfFF..FFFF..FFfF",
+        "FFf....FFFF....fFF",
+        "FF...fFFFFFFf...FF",
+        "F..FFfFFFFFFfFF..F",
+        "..fFFfFFffFFfFFf",
+        ".FfFF...SS...FFfF",
+        "FFf.....SS.....fFF",
+        "FF......SS......FF",
+        "........SS",
+        "........SS",
+        "........sS",
+        "........SS",
+        "........Ss",
+        "........SS",
+        "........SS"
+      ]
+    },
+    "rao_tre_viet": {
+      "key": {
+        "P": "bamboo_dark",
+        "p": "bamboo"
+      },
+      "rows": [
+        "P...P",
+        "P...P",
+        "pppppppp",
+        "P...P",
+        "P...P",
+        "pppppppp",
+        "P...P",
+        "P...P"
+      ]
+    },
+    "vuon_cay_hien_dai": {
+      "key": {
+        "W": "paddy_water",
+        "G": "paddy",
+        "g": "paddy_light",
+        "B": "ground_dark"
+      },
+      "rows": [
+        "ggGggGggGggGggGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB",
+        "ggGggGggGggGggGg",
+        "GGGGGGGGGGGGGGGG",
+        "gGgGgGgGgGgGgGgG",
+        "GGGGGGGGGGGGGGGG",
+        "WggWggWggWggWggW",
+        "BBBBBBBBBBBBBBBB"
+      ]
+    },
+    "cay_xanh_do_thi": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light",
+        "B": "stone"
+      },
+      "rows": [
+        ".......LLLLLLLL.......",
+        ".....LLFFFFFFFFLL.....",
+        "....LFFFFFFFFFFFFL....",
+        "...LFFFFFFFFFFFFFFL...",
+        "..LFFFFFFFFFFFFFFFFL..",
+        "..LFFFFFFLLLLFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFFFL.",
+        ".FFFFFFFFFFFFFFFFFFFF.",
+        ".FFFFFFFFfFFfFFFFFFFF.",
+        ".FFFFFFFffFFffFFFFFFF.",
+        ".fFFFFFFFFFFFFFFFFFFf.",
+        "..fFFFFFFFFFFFFFFFFf..",
+        "..ffFFFFFFFFFFFffFFf..",
+        "...ffFFFFsSSsFFFFff...",
+        ".....ffffsSSsffff.....",
+        "........fsSSsf........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        ".........sSSs.........",
+        "........ssSSss........",
+        "......BBBBBBBBBB......",
+        "......BBBBBBBBBB......"
+      ]
+    },
+    "rao_sat_hien_dai": {
+      "key": {
+        "S": "stone_dark",
+        "s": "stone_light"
+      },
+      "rows": [
+        "s...s...",
+        "S...S...",
+        "SSSSSSSS",
+        "S...S...",
+        "S...S...",
+        "S...S...",
+        "SSSSSSSS",
+        "S...S...",
+        "S...S..."
+      ]
+    },
+    "cay_soi_au": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light"
+      },
+      "rows": [
+        ".......LLLLLLLLLL.......",
+        ".....LLFFFFFFFFFFLL.....",
+        "...LLFFFFFFFFFFFFFFLL...",
+        "..LFFFFFFFFFFFFFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFFFFFL.",
+        ".LFFFFFFFLLLLLLFFFFFFFL.",
+        "LFFFFFFFFFFFFFFFFFFFFFFL",
+        "LFFFFFFFFFFFFFFFFFFFFFFL",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFfFFFFFFfFFFFFFFF",
+        "FFFFFFFffFFFFFFffFFFFFFF",
+        "fFFFFFFffFFFFFFffFFFFFFf",
+        ".fFFFFFFFFFFFFFFFFFFFFf.",
+        ".ffFFFFFFFFFFFFFFFFFFff.",
+        "..ffFFFFsSSssSSsFFFFff..",
+        "...fffff.ssSSss.fffff...",
+        ".........sSSSSs.........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        "..........sSSs..........",
+        ".........ssSSss.........",
+        "........ssSSSSss........",
+        ".......ssS....Sss......."
+      ]
+    },
+    "cay_thong_au": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light"
+      },
+      "rows": [
+        ".........LL.........",
+        "........LFFL........",
+        ".......LFFFFL.......",
+        "......fFFFFFFf......",
+        ".......LFFFFL.......",
+        ".....LLFFFFFFLL.....",
+        "....LFFFFFFFFFFL....",
+        "...fFFFFFFFFFFFFf...",
+        ".....LFFFFFFFFL.....",
+        "...LLFFFFFFFFFFLL...",
+        "..LFFFFFFFFFFFFFFL..",
+        ".fFFFFFFFFFFFFFFFFf.",
+        "...LFFFFFFFFFFFFL...",
+        "..LFFFFFFFFFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFL.",
+        ".FFFFFFFFFFFFFFFFFF.",
+        "fFFFFFFFFFFFFFFFFFFf",
+        "..LFFFFFFFFFFFFFFL..",
+        ".LFFFFFFFFFFFFFFFFL.",
+        "FFFFFFFFFFFFFFFFFFFF",
+        "fFFFFFFFFFFFFFFFFFFf",
+        "..ffffffffffffffff..",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        "........sSSs........",
+        ".......ssSSss......."
+      ]
+    },
+    "rao_go_au": {
+      "key": {
+        "P": "wood_dark",
+        "p": "wood"
+      },
+      "rows": [
+        "P...P...",
+        "P...P...",
+        "pppppppp",
+        "P...P...",
+        "P...P...",
+        "pppppppp",
+        "P...P...",
+        "P...P..."
+      ]
+    },
+    "cay_cha_la": {
+      "key": {
+        "S": "trunk",
+        "s": "trunk_light",
+        "F": "foliage",
+        "f": "foliage_dark",
+        "L": "foliage_light",
+        "N": "gold"
+      },
+      "rows": [
+        "....LLLL......LLLL....",
+        "..LLFFFFLL..LLFFFFLL..",
+        ".LFFFFFFFFLLFFFFFFFFL.",
+        "LFFFFfffFFFFFFfffFFFFL",
+        "FFFff...fFFFFf...ffFFF",
+        "Ff......fNNNNf......fF",
+        ".......f.NNNN.f.......",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        "........sSSs..........",
+        "........SSSS..........",
+        "........sSSs..........",
+        "........SSSS..........",
+        "........sSSs..........",
+        "........SSSS..........",
+        "........sSSs..........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        ".........sSSs.........",
+        ".........SSSS.........",
+        "........ssSSss........",
+        ".......sSSSSSSs......."
+      ]
+    },
+    "cay_co_thu_nguyen_thuy": {
+      "rows": [
+        ".......GGGGGGGG.......",
+        "....GGGGLLLLLLGGGG....",
+        "..GGGLLLLLLLLLLLLGGG..",
+        ".GGLLLLLGGGGGGLLLLLGG.",
+        "GGLLLLGGGGGGGGGGLLLLGG",
+        "GLLLGGGGDDDDDDGGGGLLLG",
+        "GLLGGGDDDDDDDDDDGGGLLG",
+        ".GGGGDDDDDDDDDDDDGGGG.",
+        "..GGDDDDDDDDDDDDDDGG..",
+        "....DDDD..TT..DDDD....",
+        ".....V...TTTT...V.....",
+        ".....V...TTTT...V.....",
+        ".........TTTT.........",
+        "........TTTTTT........",
+        ".......TTTTTTTT.......",
+        "......TTT.TT.TTT......",
+        ".....TT...TT...TT....."
+      ],
+      "key": {
+        "G": "foliage",
+        "L": "foliage_light",
+        "D": "foliage_dark",
+        "T": "trunk",
+        "V": "bamboo_dark"
+      }
+    },
+    "cay_duong_xi_co_dai": {
+      "rows": [
+        "....LL..........LL....",
+        "..LLLLGG......GGLLLL..",
+        ".LLGGGGGG....GGGGGGLL.",
+        "LLGGGDDDDGGGGDDDDGGGLL",
+        ".GGGDDDDDDDDDDDDDDGGG.",
+        "...DDDD..TTTT..DDDD...",
+        ".........TTTT.........",
+        ".........TTTT.........",
+        "........TTTTTT........",
+        ".......TTTTTTTT......."
+      ],
+      "key": {
+        "G": "foliage",
+        "L": "foliage_light",
+        "D": "foliage_dark",
+        "T": "trunk"
+      }
+    },
+    "bui_qua_rung_nguyen_thuy": {
+      "rows": [
+        "....GGGG......DDDD........GGGG....",
+        "..GGLLLLGG..DDDDDDDD....GGLLLLGG..",
+        ".GLLRGGLLGDDDDSSDDDDDD.GLLGGGLLRG.",
+        "GLLGGGGGGGGDDSSSSDDDDDDGGGGGGGGLLG",
+        "DDDDDDDDDDDDSSSSSSDDDDDDDDDDDDDDDD"
+      ],
+      "key": {
+        "G": "foliage",
+        "L": "foliage_light",
+        "D": "foliage_dark",
+        "R": "cloth_red",
+        "S": "stone_dark"
+      }
+    }
+  }
+}
