@@ -165,7 +165,7 @@ religions:
     shrine_name: Đạo quán & Sơn am Thanh tịnh
     modifiers:
       - { target: stress.monthly, value: -0.07 }
-      - { target: xp.y_thuat, value: 1.06, op: mul }
+      - { target: xp.sinh_ton, value: 1.06, op: mul }
 
   - id: than_dao_shinto
     name: Thần đạo Nhật Bản (Shinto – Kami)

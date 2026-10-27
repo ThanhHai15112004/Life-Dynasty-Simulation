@@ -37,7 +37,7 @@ export function loadNodeAssetIds(root = projectRoot): {
   return {
     cutsceneThemes: ids(read('common/placeholder/cutscenes.json').themes),
     sceneLocations: ids(read('common/scene-kit/locations.json').locations),
-    sceneCultureSets: ids(read('common/scene-kit/cultures.json').cultureSets),
+    sceneCultureSets: ids(read('common/scene-kit/cultures.json').cultures),
     scenePhenotypes: ids(read('common/scene-kit/base.json').phenotypePalettes),
   };
 }
