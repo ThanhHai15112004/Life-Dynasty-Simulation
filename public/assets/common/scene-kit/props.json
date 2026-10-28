@@ -309,90 +309,147 @@
     },
     "gian_phoi_da_thu": {
       "rows": [
-        "WWWWWWWWWWWWWW",
-        "W.RRRR..TTTT.W",
-        "W.RRRR..TTTT.W",
-        "W.RRRR..TTTT.W",
-        "W..RR....TT..W",
-        "W............W",
-        "W............W"
+        ".WW..................WW.",
+        "WWWWWWWWWWWWWWWWWWWWWWWW",
+        ".WW.RRRRRR..TTTTTT..WW..",
+        ".WW.RrrrRR..TLLLLT..WW..",
+        ".WW.RrrrRR..TLLLLT..WW..",
+        ".WW.RrrrRR..TLLLLT..WW..",
+        ".WW.RRRRRR..TTTTTT..WW..",
+        ".WW..RRRR....TTTT...WW..",
+        ".WW...RR......TT....WW..",
+        ".WW.................WW..",
+        ".WW.................WW..",
+        "SSSS...............SSSS."
       ],
       "key": {
         "W": "wood_dark",
         "R": "cloth_red",
-        "T": "thatch_light"
+        "r": "tile_dark",
+        "T": "thatch",
+        "L": "thatch_light",
+        "S": "stone_dark"
       }
     },
     "cho_san_nguyen_thuy": {
       "rows": [
-        "..........DD..",
-        ".........DDDL.",
-        "..D.....DDDDD.",
-        ".DDD...DDDDD..",
-        "..DDDDDDDDD...",
-        "...DDDDDDD....",
-        "...DD...DD....",
-        "...D.....D...."
+        "..............DD....DD..",
+        "..............DDD..DDD..",
+        ".............DDDDDDDDDD.",
+        ".............DDLLLLDEDD.",
+        "..DD........DDDDDDDDDDDD",
+        ".DDD.......DDDDLLLLDDDD.",
+        "DDD.......DDDDDDDDDDDD..",
+        ".DDDDDDDDDDDDDDDDDDDD...",
+        "..DDDDDDDDLLLLDDDDDDD...",
+        "...DDDDDDDDDDDDDDDDD....",
+        "....DD..DD......DD..DD..",
+        "....DD..DD......DD..DD..",
+        "....DD..DD......DD..DD.."
       ],
       "key": {
         "D": "buffalo_dark",
-        "L": "buffalo_light"
+        "L": "buffalo_light",
+        "E": "eye"
       }
     },
     "xe_may_hien_dai": {
       "rows": [
-        "......OO....",
-        ".....RRRR...",
-        "..RRRRRRRR..",
-        ".OO.RRRR.OO.",
-        ".OO......OO."
+        "..............KK........",
+        ".............KKKK..WW...",
+        ".............KK...RR....",
+        "...KKKKKKK......RRRR....",
+        "..KKKKKKKKK....RRRR.....",
+        "..RRRRRRRRRR..RRRRR.....",
+        ".RRRRRRRRRRRRRRRRRR.....",
+        "..OOORRRRRRRRRROOO......",
+        ".OwwwO.DDDDDD.OwwwO.....",
+        ".OwOwO........OwOwO.....",
+        ".OwwwO........OwwwO.....",
+        "..OOO..........OOO......"
       ],
       "key": {
         "R": "cloth_red",
-        "O": "outline"
+        "O": "outline",
+        "K": "shadow",
+        "D": "stone_dark",
+        "w": "stone_light",
+        "W": "water_light"
       }
     },
     "lac_da_sa_mac": {
       "rows": [
-        "...........LL...",
-        "....LL....LLL...",
-        "...LLLL..LL.....",
-        "..LLLLLLLLL.....",
-        "..DDDDDDDD......",
-        "..D.D...D.D.....",
-        "..D.D...D.D....."
+        "....................LLLL....",
+        ".......LLLL........LLLLLL...",
+        ".....LLLLLLLL......LLLLLEL..",
+        "....LLLLRRLLLL.....LLLLLLL..",
+        "...LLLLRRRRLLLL....LLLL.....",
+        "..LLLLLLLLLLLLLL..LLLL......",
+        ".LLLLLLLLLLLLLLLLLLLL.......",
+        "D.LLLLLLLLLLLLLLLLLLL.......",
+        "D..DDDDDDDDDDDDDDDDD........",
+        "...DDDDDDDDDDDDDDDD.........",
+        "....DD..DD....DD..DD........",
+        "....DD..DD....DD..DD........",
+        "....DD..DD....DD..DD........",
+        "....DD..DD....DD..DD........",
+        "...DDD..DDD..DDD..DDD......."
       ],
       "key": {
         "L": "buffalo_light",
-        "D": "buffalo_dark"
+        "D": "buffalo_dark",
+        "R": "cloth_red",
+        "E": "eye"
       }
     },
     "lac_da_llama_andes": {
       "rows": [
-        "........LL..",
-        "........LLL.",
-        "........LL..",
-        "...LLLLLLL..",
-        "...DDDDDDD..",
-        "...D.D.D.D..",
-        "...D.D.D.D.."
+        ".............LL..LL...",
+        ".............LLLLLL...",
+        "............LLLLLELL..",
+        "............LLLLLLLL..",
+        "............LLLLL.....",
+        "............LLLL......",
+        "...LLLLLLLLLLLLL......",
+        "..LLLLLRRRRLLLLL......",
+        "..LLLLRYYYYRLLLL......",
+        "..LLLLLLLLLLLLLL......",
+        "...DDDDDDDDDDDD.......",
+        "...DD.DD...DD.DD......",
+        "...DD.DD...DD.DD......",
+        "...DD.DD...DD.DD......",
+        "...DD.DD...DD.DD......"
       ],
       "key": {
         "L": "wall",
-        "D": "buffalo_dark"
+        "D": "buffalo_dark",
+        "R": "cloth_red",
+        "Y": "gold",
+        "E": "eye"
       }
     },
     "o_to_hien_dai": {
       "rows": [
-        "...RRRRRRRR...",
-        "..RWWWWWWWWR..",
-        "RRRRRRRRRRRRRR",
-        ".OO.RRRRRR.OO.",
-        ".OO........OO."
+        "......RRRRRRRRRRRRRR........",
+        "....RRRRRRRRRRRRRRRRRR......",
+        "...RRRWWWWWWWRRWWWWWWWRR....",
+        "..RRRRWWWWWWWRRWWWWWWWRRR...",
+        ".RRRRRRRRRRRRRRRRRRRRRRRRRR.",
+        "YRRRRRRRRRRRRRRRRRRRRRRRRRRY",
+        "RRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+        "KKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+        "..OOOO...KKKKKKKK...OOOO....",
+        ".OwwwwO............OwwwwO...",
+        ".OwOOwO............OwOOwO...",
+        ".OwwwwO............OwwwwO...",
+        "..OOOO..............OOOO...."
       ],
       "key": {
         "R": "cloth_red",
         "W": "water_light",
+        "Y": "gold",
+        "K": "shadow",
+        "w": "stone_light",
         "O": "outline"
       }
     }
