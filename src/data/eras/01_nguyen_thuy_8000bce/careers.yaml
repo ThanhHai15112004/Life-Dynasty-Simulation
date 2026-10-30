@@ -1,7 +1,1231 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Nghề nghiệp & Việc phụ theo mùa riêng của Thời Nguyên Thủy
-# (Thợ săn thú lớn, Người hái lượm, Thợ ghè đá & nung gốm, Pháp sư Shaman, Tù trưởng thị tộc).
+# Nghề nghiệp (18 vai trò sinh tồn & cộng đồng × 4 cấp bậc) + Việc làm thêm theo mùa (12 side_jobs).
+# Không phải hợp đồng lao động hưởng lương cố định; cấp bậc biểu thị mức thành thạo và tín nhiệm.
 # ══════════════════════════════════════════════════════════════════════════════
-careers: []
-side_jobs: []
+careers:
+  # 01. Người săn thú
+  - id: nt_nguoi_san_thu
+    name: Người săn thú
+    description: Tìm dấu vết, theo dõi, săn bắt và xử lý động vật hoang dựa vào sự hợp tác, hiểu biết tập tính thú và công cụ phù hợp.
+    icon: kiem
+    sector: quan_binh
+    depth: nhe
+    skills: [quan_su, sinh_ton]
+    default_focus: nt_fc_san_bat_tim_thuc_an
+    event_tags: [san_bat, nguy_hiem]
+    event_weights: { san_bat: 1.6, nguy_hiem: 1.3 }
+    work_effects:
+      health_month: -0.03
+      stress_month: 0.04
+      skill_xp: { quan_su: 1.4, sinh_ton: 1.2 }
+    economy:
+      self_farm: true
+      income: { money_month: 0.25, skill: quan_su, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Tham gia theo dấu và săn bắt thú hoang cùng nhóm cư trú.' }
+    duties:
+      - Theo dấu đàn thú, đặt bẫy và phối hợp săn bắt theo mùa
+      - Xử lý thịt, da, xương và chia sẻ thức ăn trong cộng đồng
+    exits:
+      - { to: nt_nguoi_che_tac_da, hint: 'Khi bị thương hoặc lớn tuổi có thể chuyển sang ghè đá làm công cụ' }
+      - { to: nt_nguoi_tim_duong, hint: 'Quen địa hình rừng núi có thể chuyển sang dẫn đường cho đoàn' }
+    ranks:
+      - id: nt_san_thu_1
+        name: Người học săn
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_san_thu_2
+        name: Thợ săn thành thạo
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: quan_su, level: 2 }
+        stipend_food_month: 1.3
+        income_range: [5, 10]
+      - id: nt_san_thu_3
+        name: Thợ săn lão luyện
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: quan_su, level: 4 }
+        stipend_food_month: 1.9
+        income_range: [10, 16]
+        modifiers:
+          - { target: harvest.yield, value: 1.06, op: mul }
+      - id: nt_san_thu_4
+        name: Người dẫn đoàn săn
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: quan_su, level: 5 }
+        min_reputation: 10
+        stipend_food_month: 2.5
+        income_range: [16, 24]
+        modifiers:
+          - { target: harvest.yield, value: 1.12, op: mul }
+    actions:
+      - id: nt_act_dan_cuoc_san
+        name: Tổ chức cuộc săn theo mùa
+        description: Tập hợp các tay lao đi theo dấu đàn thú lớn khi nguồn thức ăn của nhóm vơi dần.
+        cooldown_months: 6
+        chance: { base: 0.58, skill: quan_su, per_level: 0.06 }
+        success:
+          - { type: food, value: 6, ledger: luong_nghe }
+          - { type: career_merit, value: 5 }
+          - { type: reputation, group: dan_lang, value: 2 }
+        failure:
+          - { type: health, value: -5, who: player }
+          - { type: stress, value: 4, who: player }
+        success_log:
+          - 'Cuộc săn phối hợp nhịp nhàng, cả đoàn khiêng về con mồi lớn chia khắp các bếp lửa.'
+        failure_log:
+          - 'Đàn thú đánh hơi thấy động và chạy mất trong rừng sâu; bạn bị trầy xước khi vượt dốc đá.'
+
+  # 02. Người thu hái thực vật
+  - id: nt_nguoi_thu_hai
+    name: Người thu hái thực vật
+    description: Tìm, phân biệt, thu hoạch và xử lý các nguồn củ, quả, hạt, lá và sợi thực vật hoang dã theo mùa.
+    icon: la
+    sector: nong_nghiep
+    depth: nhe
+    skills: [sinh_ton, hoc_van]
+    default_focus: nt_fc_thu_hai_bao_quan
+    event_tags: [hai_luom, thien_nhien]
+    event_weights: { hai_luom: 1.7, thien_nhien: 1.3 }
+    work_effects:
+      health_month: 0.02
+      stress_month: -0.04
+      skill_xp: { sinh_ton: 1.5, hoc_van: 0.8 }
+    economy:
+      self_farm: true
+      income: { money_month: 0.2, skill: sinh_ton, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Thu hái củ, quả, hạt rừng và nguyên liệu thực vật nuôi gia đình.' }
+    duties:
+      - Phân biệt cây ăn được với cây độc, ghi nhớ mùa quả chín và bãi củ
+      - Thu gom nguyên liệu đan sợi và xử lý thực phẩm thực vật
+    exits:
+      - { to: nt_nguoi_bao_quan_thuc_an, hint: 'Quen xử lý hạt và củ có thể chuyên tâm bảo quản dự trữ' }
+      - { to: nt_nguoi_dan_soi, hint: 'Thông thạo sợi thực vật có thể chuyển sang đan giỏ và đồ đựng' }
+    ranks:
+      - id: nt_thu_hai_1
+        name: Người nhặt quả
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_thu_hai_2
+        name: Người tìm cây
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: sinh_ton, level: 2 }
+        stipend_food_month: 1.2
+        income_range: [5, 9]
+      - id: nt_thu_hai_3
+        name: Người hiểu rừng
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: sinh_ton, level: 4 }
+        stipend_food_month: 1.8
+        income_range: [9, 15]
+        modifiers:
+          - { target: harvest.yield, value: 1.06, op: mul }
+      - id: nt_thu_hai_4
+        name: Người dẫn nhóm hái lượm
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: sinh_ton, level: 5 }
+        min_reputation: 8
+        stipend_food_month: 2.3
+        income_range: [15, 22]
+        modifiers:
+          - { target: harvest.yield, value: 1.12, op: mul }
+    actions:
+      - id: nt_act_tim_bai_cay_moi
+        name: Tìm nguồn cây ăn được mới
+        description: Khảo sát sườn đồi và thung lũng xa để tìm bãi củ mài, hạt dẻ hoặc quả rừng chưa ai thu hái.
+        cooldown_months: 6
+        chance: { base: 0.62, skill: sinh_ton, per_level: 0.06 }
+        success:
+          - { type: food, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 4 }
+        failure:
+          - { type: stress, value: 3, who: player }
+        success_log:
+          - 'Bạn tìm thấy một vạt rừng giàu củ và hạt chín, giúp nhiều gia đình có thêm lương thực.'
+        failure_log:
+          - 'Đi suốt ngày đường nhưng các bụi cây đều đã rụng quả hoặc bị thú rừng ăn trước.'
+
+  # 03. Người đánh cá
+  - id: nt_nguoi_danh_ca
+    name: Người đánh cá
+    description: Khai thác cá, cua và nhuyễn thể bằng lao xương có ngạnh, bẫy đan hoặc lưỡi câu theo con nước.
+    icon: ca
+    sector: nong_nghiep
+    depth: nhe
+    skills: [sinh_ton, muu_luoc]
+    default_focus: nt_fc_thu_hai_bao_quan
+    event_tags: [song_nuoc, hai_luom]
+    event_weights: { song_nuoc: 1.8 }
+    work_effects:
+      health_month: 0.01
+      stress_month: -0.02
+      skill_xp: { sinh_ton: 1.5, muu_luoc: 0.8 }
+    economy:
+      self_farm: true
+      income: { money_month: 0.22, skill: sinh_ton, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Đánh bắt cá, tôm cua và nhặt nhuyễn thể ở sông, hồ hoặc ven biển.' }
+    duties:
+      - Đặt bẫy cá, phóng lao xương và thu nhặt nhuyễn thể vùng nước nông
+      - Quan sát dòng chảy, mực nước và phơi khô cá dự trữ
+    exits:
+      - { to: nt_nguoi_bao_quan_thuc_an, hint: 'Quen phơi và hun khói cá có thể chuyển sang bảo quản thức ăn' }
+      - { to: nt_nguoi_tim_nguon_nuoc, hint: 'Hiểu quy luật sông suối có thể chuyển sang tìm nguồn nước' }
+    ranks:
+      - id: nt_danh_ca_1
+        name: Người bắt cá cạn
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_danh_ca_2
+        name: Người đánh cá
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: sinh_ton, level: 2 }
+        stipend_food_month: 1.3
+        income_range: [5, 10]
+      - id: nt_danh_ca_3
+        name: Người hiểu dòng nước
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: sinh_ton, level: 4 }
+        stipend_food_month: 1.8
+        income_range: [10, 15]
+      - id: nt_danh_ca_4
+        name: Người dẫn nhóm đánh cá
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: sinh_ton, level: 5 }
+        min_reputation: 8
+        stipend_food_month: 2.4
+        income_range: [15, 22]
+    actions:
+      - id: nt_act_dat_bay_con_nuoc
+        name: Đặt đăng bẫy đón luồng cá
+        description: Cùng nhóm chăng bẫy cá ở khúc sông cạn khi đàn cá di chuyển theo mùa.
+        cooldown_months: 6
+        chance: { base: 0.6, skill: sinh_ton, per_level: 0.06 }
+        success:
+          - { type: food, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 4 }
+        failure:
+          - { type: health, value: -3, who: player }
+        success_log:
+          - 'Luồng cá vào bẫy dày đặc, cả nhóm thu được đầy giỏ cá tươi đem về phơi khô.'
+        failure_log:
+          - 'Nước dâng nhanh cuốn trôi một phần đăng bẫy, bạn phải lội nước lạnh vớt lại dụng cụ.'
+
+  # 04. Người chế tác công cụ đá
+  - id: nt_nguoi_che_tac_da
+    name: Người chế tác công cụ đá
+    description: Chọn đá, ghè tách mảnh, chỉnh sửa lưỡi cắt, mũi lao, rìu tay và dụng cụ nạo phục vụ kiếm ăn và sinh hoạt.
+    icon: focus
+    sector: thu_cong
+    depth: nhe
+    skills: [quan_tri, sinh_ton]
+    default_focus: nt_fc_che_tac_cong_cu
+    event_tags: [che_tac]
+    event_weights: { che_tac: 1.8 }
+    work_effects:
+      health_month: -0.01
+      stress_month: 0.01
+      skill_xp: { quan_tri: 1.5, sinh_ton: 0.9 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.3, skill: quan_tri, per_level: 0.09, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Học chọn đá và ghè tách mảnh làm công cụ cho nhóm.' }
+    duties:
+      - Lựa chọn đá cuội, đá lửa hoặc obsidian thích hợp để ghè đẽo
+      - Chế tạo và sửa chữa mũi lao, dao đá, công cụ nạo cho cộng đồng
+    exits:
+      - { to: nt_nguoi_che_tac_xuong_go, hint: 'Mở rộng tay nghề sang chế tác xương, sừng và gỗ' }
+      - { to: nt_nguoi_trao_doi, hint: 'Mang công cụ đá đi trao đổi nguyên liệu với nhóm khác' }
+    ranks:
+      - id: nt_che_tac_da_1
+        name: Người lựa đá
+        min_merit: 0
+        min_years: 0
+        stipend_money_month: 0.2
+        income_range: [2, 5]
+      - id: nt_che_tac_da_2
+        name: Người ghè đá
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: quan_tri, level: 2 }
+        stipend_money_month: 0.4
+        income_range: [5, 10]
+      - id: nt_che_tac_da_3
+        name: Thợ đá lành nghề
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: quan_tri, level: 4 }
+        stipend_money_month: 0.7
+        income_range: [10, 16]
+      - id: nt_che_tac_da_4
+        name: Người truyền nghề chế tác
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: quan_tri, level: 5 }
+        min_reputation: 10
+        stipend_money_month: 1.1
+        income_range: [16, 24]
+    actions:
+      - id: nt_act_ghe_bo_mui_lao
+        name: Ghè bộ lưỡi cắt và mũi lao mới
+        description: Dành nhiều ngày lựa hạch đá tốt để ghè những lưỡi đá sắc và cân đối.
+        cooldown_months: 6
+        chance: { base: 0.6, skill: quan_tri, per_level: 0.06 }
+        success:
+          - { type: money, value: 2, ledger: luong_nghe }
+          - { type: career_merit, value: 5 }
+          - { type: reputation, group: dan_lang, value: 2 }
+        failure:
+          - { type: health, value: -2, who: player }
+        success_log:
+          - 'Những lưỡi đá tách ra sắc ngọt, nhiều thợ săn trong nhóm tìm đến đổi thức ăn lấy công cụ của bạn.'
+        failure_log:
+          - 'Hạch đá có vết nứt ngầm nên vỡ vụn, mảnh đá sắc làm xước bàn tay bạn.'
+
+  # 05. Người chế tác xương, sừng và gỗ
+  - id: nt_nguoi_che_tac_xuong_go
+    name: Người chế tác xương, sừng và gỗ
+    description: Tạo kim xương, mũi nhọn có ngạnh, lưỡi câu, đồ nạo, cán công cụ và vật dụng sinh hoạt tinh xảo.
+    icon: focus
+    sector: thu_cong
+    depth: nhe
+    skills: [quan_tri, sinh_ton]
+    default_focus: nt_fc_che_tac_cong_cu
+    event_tags: [che_tac]
+    event_weights: { che_tac: 1.7 }
+    work_effects:
+      health_month: 0
+      stress_month: 0
+      skill_xp: { quan_tri: 1.4, sinh_ton: 1.0 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.28, skill: quan_tri, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Chế tác kim xương, mũi lao ngạnh và cán gỗ cho cộng đồng.' }
+    duties:
+      - Chuẩn bị xương, sừng thú và gỗ cứng sau các chuyến săn và thu hái
+      - Mài chuốt kim xương, mũi đâm cá và tra cán công cụ
+    exits:
+      - { to: nt_nguoi_che_tac_da, hint: 'Kết hợp tay nghề sang ghè đẽo công cụ đá' }
+      - { to: nt_nguoi_dan_soi, hint: 'Chuyển sang đan sợi và làm vật đựng' }
+    ranks:
+      - id: nt_xuong_go_1
+        name: Người chuẩn bị nguyên liệu
+        min_merit: 0
+        min_years: 0
+        stipend_money_month: 0.2
+        income_range: [2, 5]
+      - id: nt_xuong_go_2
+        name: Người chế tác vật dụng đơn giản
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: quan_tri, level: 2 }
+        stipend_money_month: 0.4
+        income_range: [5, 9]
+      - id: nt_xuong_go_3
+        name: Người làm công cụ tinh xảo
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: quan_tri, level: 4 }
+        stipend_money_month: 0.65
+        income_range: [9, 15]
+      - id: nt_xuong_go_4
+        name: Người hướng dẫn kỹ nghệ thủ công
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: quan_tri, level: 5 }
+        min_reputation: 8
+        stipend_money_month: 1.0
+        income_range: [15, 22]
+
+  # 06. Người đan sợi và chế tác vật đựng
+  - id: nt_nguoi_dan_soi
+    name: Người đan sợi và chế tác vật đựng
+    description: Sử dụng sợi thực vật, dây leo, vỏ cây để tạo dây buộc, tấm đan, giỏ đựng và bẫy cá bền chắc.
+    icon: focus
+    sector: thu_cong
+    depth: nhe
+    skills: [quan_tri, sinh_ton]
+    default_focus: nt_fc_che_tac_cong_cu
+    event_tags: [che_tac, du_tru]
+    event_weights: { che_tac: 1.6, du_tru: 1.3 }
+    work_effects:
+      health_month: 0.01
+      stress_month: -0.02
+      skill_xp: { quan_tri: 1.4, sinh_ton: 0.9 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.25, skill: quan_tri, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Tách sợi thực vật, đan dây, giỏ và tấm trải phục vụ vận chuyển và dự trữ.' }
+    duties:
+      - Thu gom vỏ cây, cỏ dẻo và dây leo để tách sợi
+      - Đan giỏ đựng thức ăn, tấm trải chống ẩm và dây buộc săn bắt
+    exits:
+      - { to: nt_nguoi_bao_quan_thuc_an, hint: 'Sử dụng đồ đựng để chuyên tâm bảo quản thực phẩm dự trữ' }
+    ranks:
+      - id: nt_dan_soi_1
+        name: Người tách và chuẩn bị sợi
+        min_merit: 0
+        min_years: 0
+        stipend_money_month: 0.18
+        income_range: [2, 5]
+      - id: nt_dan_soi_2
+        name: Người đan dây và vật nhỏ
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: quan_tri, level: 2 }
+        stipend_money_month: 0.35
+        income_range: [5, 9]
+      - id: nt_dan_soi_3
+        name: Người chế tác đồ đựng bền chắc
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: quan_tri, level: 4 }
+        stipend_money_month: 0.6
+        income_range: [9, 14]
+      - id: nt_dan_soi_4
+        name: Người truyền dạy kỹ thuật đan và chọn nguyên liệu
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: quan_tri, level: 5 }
+        min_reputation: 8
+        stipend_money_month: 0.95
+        income_range: [14, 20]
+
+  # 07. Người dựng nơi trú
+  - id: nt_nguoi_dung_noi_tru
+    name: Người dựng nơi trú
+    description: Chọn nền đất cao ráo, chuẩn bị gỗ, đá, cành cây, đất trộn và vật liệu che phủ để dựng và bảo trì nơi cư trú.
+    icon: nha
+    sector: thu_cong
+    depth: nhe
+    skills: [quan_tri, sinh_ton]
+    default_focus: nt_fc_xay_dung_noi_tru
+    event_tags: [noi_tru, cong_dong]
+    event_weights: { noi_tru: 1.8, cong_dong: 1.3 }
+    work_effects:
+      health_month: -0.02
+      stress_month: 0.01
+      skill_xp: { quan_tri: 1.4, sinh_ton: 1.0 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.28, skill: quan_tri, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Tham gia thu gom vật liệu, dựng mái che, vách chắn và công trình chung.' }
+    duties:
+      - Chọn vị trí tránh gió lùa, ngập nước và sạt lở
+      - Dựng và gia cố lán trại, khu sinh hoạt hang đá hoặc nhà đất
+    exits:
+      - { to: nt_nguoi_dieu_hoa, hint: 'Có uy tín điều phối xây dựng chung có thể chuyển sang điều hòa cộng đồng' }
+    ranks:
+      - id: nt_dung_noi_tru_1
+        name: Người thu gom vật liệu
+        min_merit: 0
+        min_years: 0
+        stipend_money_month: 0.2
+        income_range: [2, 5]
+      - id: nt_dung_noi_tru_2
+        name: Người phụ dựng mái và vách
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: quan_tri, level: 2 }
+        stipend_money_month: 0.4
+        income_range: [5, 10]
+      - id: nt_dung_noi_tru_3
+        name: Người dựng nơi trú thành thạo
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: quan_tri, level: 4 }
+        stipend_money_month: 0.65
+        income_range: [10, 15]
+      - id: nt_dung_noi_tru_4
+        name: Người điều phối công việc xây dựng chung
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: quan_tri, level: 5 }
+        min_reputation: 10
+        stipend_money_month: 1.05
+        income_range: [15, 22]
+
+  # 08. Người khai thác ngũ cốc sơ khai (Tây Á)
+  - id: nt_nguoi_khai_thac_ngu_coc
+    name: Người khai thác ngũ cốc sơ khai
+    description: Khai thác và canh tác các loại ngũ cốc, đậu tại những cộng đồng Tây Á đang chuyển đổi sang sản xuất lương thực.
+    icon: cay_lua
+    sector: nong_nghiep
+    depth: nhe
+    skills: [sinh_ton, quan_tri]
+    components: [farmland]
+    default_focus: nt_fc_canh_tac_so_khai
+    event_tags: [canh_tac, du_tru]
+    event_weights: { canh_tac: 1.8, du_tru: 1.4 }
+    entry_condition:
+      any:
+        - { var: world.polity_id, op: 'in', value: [luoi_liem_mau_mo_8000bce, nam_a_nguyen_thuy_8000bce] }
+        - { has_property: nt_khu_cay_luong_thuc }
+    work_effects:
+      health_month: -0.01
+      stress_month: 0.02
+      skill_xp: { sinh_ton: 1.4, quan_tri: 1.0 }
+    economy:
+      self_farm: true
+      income: { money_month: 0.24, skill: sinh_ton, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Chăm sóc vạt ngũ cốc, chọn hạt giống và thu hoạch theo mùa tại Tây Á.' }
+    duties:
+      - Thu nhặt hạt chắc, làm đất ẩm và bảo vệ khu cây lương thực khỏi chim thú
+      - Đập hạt, nghiền bột và phối hợp dự trữ hạt qua mùa khô
+    exits:
+      - { to: nt_nguoi_bao_quan_thuc_an, hint: 'Chuyển sang trông coi và bảo quản kho hạt dự trữ' }
+    ranks:
+      - id: nt_ngu_coc_1
+        name: Người thu nhặt hạt
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.9
+        income_range: [3, 6]
+      - id: nt_ngu_coc_2
+        name: Người chăm khu cây và thu hoạch
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: sinh_ton, level: 2 }
+        stipend_food_month: 1.4
+        income_range: [6, 11]
+      - id: nt_ngu_coc_3
+        name: Người hiểu mùa vụ, chọn hạt và xử lý sản phẩm
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: sinh_ton, level: 4 }
+        stipend_food_month: 2.0
+        income_range: [11, 17]
+        modifiers:
+          - { target: harvest.yield, value: 1.08, op: mul }
+      - id: nt_ngu_coc_4
+        name: Người tổ chức công việc canh tác và dự trữ
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: sinh_ton, level: 5 }
+        min_reputation: 10
+        stipend_food_month: 2.6
+        income_range: [17, 25]
+        modifiers:
+          - { target: harvest.yield, value: 1.15, op: mul }
+
+  # 09. Người chăm giữ động vật sơ khai (Tây Á)
+  - id: nt_nguoi_cham_giu_dong_vat
+    name: Người chăm giữ động vật sơ khai
+    description: Trông giữ, quan sát tập tính, hạn chế động vật bỏ chạy và chăm sóc nhóm động vật đang trong quá trình được con người quản lý ở Tây Á.
+    icon: trau
+    sector: nong_nghiep
+    depth: nhe
+    skills: [sinh_ton, quan_tri]
+    default_focus: nt_fc_cham_giu_dong_vat
+    event_tags: [chan_nuoi, thien_nhien]
+    event_weights: { chan_nuoi: 1.8 }
+    entry_condition:
+      any:
+        - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+        - { has_property: nt_nhom_dong_vat_quan_ly }
+    work_effects:
+      health_month: 0
+      stress_month: 0.02
+      skill_xp: { sinh_ton: 1.4, quan_tri: 1.0 }
+    economy:
+      self_farm: true
+      income: { money_month: 0.25, skill: sinh_ton, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Trông giữ và chăm sóc nhóm động vật bán thuần hóa tại cộng đồng Tây Á.' }
+    duties:
+      - Dẫn đàn tìm cỏ và nguồn nước, giữ không cho thú hoang tấn công hoặc đàn bỏ chạy
+      - Theo dõi sinh sản và sức khỏe của nhóm động vật qua các mùa
+    exits:
+      - { to: nt_nguoi_san_thu, hint: 'Hiểu tập tính thú có thể quay lại săn bắt thú hoang' }
+    ranks:
+      - id: nt_dong_vat_1
+        name: Người quan sát và hỗ trợ
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_dong_vat_2
+        name: Người chăm giữ thành thạo
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: sinh_ton, level: 2 }
+        stipend_food_month: 1.3
+        income_range: [5, 10]
+      - id: nt_dong_vat_3
+        name: Người hiểu tập tính, sinh sản và nhu cầu của đàn
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: sinh_ton, level: 4 }
+        stipend_food_month: 1.9
+        income_range: [10, 16]
+      - id: nt_dong_vat_4
+        name: Người điều phối nhóm chăm giữ và truyền kinh nghiệm
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: sinh_ton, level: 5 }
+        min_reputation: 10
+        stipend_food_month: 2.5
+        income_range: [16, 23]
+
+  # 10. Người làm gốm sơ khai (Đông Á)
+  - id: nt_nguoi_lam_gom
+    name: Người làm gốm sơ khai
+    description: Chọn đất sét, nhào nặn vật đựng và nung sản phẩm bằng kỹ thuật địa phương tại những khu vực Đông Á đã có truyền thống gốm sớm.
+    icon: focus
+    sector: thu_cong
+    depth: nhe
+    skills: [quan_tri, hoc_van]
+    default_focus: nt_fc_che_tac_cong_cu
+    event_tags: [che_tac]
+    event_weights: { che_tac: 1.8 }
+    entry_condition:
+      any:
+        - { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+        - { has_property: nt_vat_dung_gom }
+    work_effects:
+      health_month: -0.01
+      stress_month: 0.01
+      skill_xp: { quan_tri: 1.5, hoc_van: 0.8 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.28, skill: quan_tri, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Tìm đất sét, tạo hình và nung đồ đựng gốm sơ khai tại Đông Á.' }
+    duties:
+      - Chọn đất sét dẻo, trộn phụ liệu chống nứt và nặn nồi, bình đựng
+      - Canh củi lửa nung gốm giúp cộng đồng đun nấu và cất giữ thức ăn
+    exits:
+      - { to: nt_nguoi_bao_quan_thuc_an, hint: 'Dùng đồ đựng gốm để chuyên tâm chế biến và bảo quản thức ăn' }
+    ranks:
+      - id: nt_lam_gom_1
+        name: Người tìm và chuẩn bị đất sét
+        min_merit: 0
+        min_years: 0
+        stipend_money_month: 0.2
+        income_range: [2, 5]
+      - id: nt_lam_gom_2
+        name: Người tạo vật đựng đơn giản
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: quan_tri, level: 2 }
+        stipend_money_month: 0.4
+        income_range: [5, 10]
+      - id: nt_lam_gom_3
+        name: Người kiểm soát tốt hình dáng và quá trình nung
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: quan_tri, level: 4 }
+        stipend_money_month: 0.7
+        income_range: [10, 16]
+      - id: nt_lam_gom_4
+        name: Người làm gốm giàu kinh nghiệm, có khả năng truyền dạy
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: quan_tri, level: 5 }
+        min_reputation: 10
+        stipend_money_month: 1.05
+        income_range: [16, 23]
+
+  # 11. Người bảo quản thức ăn
+  - id: nt_nguoi_bao_quan_thuc_an
+    name: Người bảo quản thức ăn
+    description: Phơi khô, hun khói, che chắn và giữ các nguồn thức ăn dự trữ khỏi ẩm mốc, côn trùng và thú gặm nhấm.
+    icon: thoc
+    sector: dich_vu
+    depth: nhe
+    skills: [quan_tri, sinh_ton]
+    default_focus: nt_fc_thu_hai_bao_quan
+    event_tags: [du_tru, gia_dinh]
+    event_weights: { du_tru: 1.9 }
+    work_effects:
+      health_month: 0.01
+      stress_month: 0.01
+      skill_xp: { quan_tri: 1.5, sinh_ton: 0.9 }
+    economy:
+      self_farm: true
+      income: { money_month: 0.24, skill: quan_tri, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Phụ trách phơi sấy, hun khói và giữ gìn nguồn thức ăn dự trữ.' }
+    duties:
+      - Phơi hạt, củ và hun khói thịt cá khi thời tiết nắng ráo
+      - Kiểm tra hầm cất giữ, ngăn ẩm mốc và phân phối dự trữ hợp lý
+    exits:
+      - { to: nt_nguoi_dieu_hoa, hint: 'Người giữ kho công tâm thường được tín nhiệm điều hòa tranh chấp' }
+    ranks:
+      - id: nt_bao_quan_1
+        name: Người phụ xử lý thực phẩm
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_bao_quan_2
+        name: Người bảo quản thông thạo
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: quan_tri, level: 2 }
+        stipend_food_month: 1.3
+        income_range: [5, 10]
+      - id: nt_bao_quan_3
+        name: Người nhận biết nguyên nhân hư hỏng và giảm thất thoát
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: quan_tri, level: 4 }
+        stipend_food_month: 1.8
+        income_range: [10, 15]
+        modifiers:
+          - { target: food.consumption, value: 0.94, op: mul }
+      - id: nt_bao_quan_4
+        name: Người tổ chức kho dự trữ chung
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: quan_tri, level: 5 }
+        min_reputation: 10
+        stipend_food_month: 2.4
+        income_range: [15, 22]
+        modifiers:
+          - { target: food.consumption, value: 0.9, op: mul }
+
+  # 12. Người tìm đường
+  - id: nt_nguoi_tim_duong
+    name: Người tìm đường
+    description: Ghi nhớ địa hình, nguồn nước, dấu hiệu thời tiết và mở lối di chuyển an toàn giữa các vùng cư trú.
+    icon: trang
+    sector: giang_ho
+    depth: nhe
+    skills: [sinh_ton, muu_luoc]
+    default_focus: nt_fc_kham_pha_diem_kiem_an
+    event_tags: [kham_pha, di_cu]
+    event_weights: { kham_pha: 1.9, di_cu: 1.5 }
+    work_effects:
+      health_month: -0.02
+      stress_month: 0.02
+      skill_xp: { sinh_ton: 1.4, muu_luoc: 1.1 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.26, skill: sinh_ton, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Đi theo các chuyến di chuyển để ghi nhớ địa hình và mở đường mới.' }
+    duties:
+      - Khảo sát đèo dốc, điểm vượt sông và nơi trú tạm trước khi đoàn di chuyển
+      - Cảnh báo sớm dấu hiệu giông bão, lũ quét hoặc thú dữ trên tuyến đường
+    exits:
+      - { to: nt_nguoi_trao_doi, hint: 'Thông thuộc đường xa có thể dẫn các chuyến trao đổi nguyên liệu' }
+      - { to: nt_nguoi_tim_nguon_nuoc, hint: 'Chuyển sang chuyên tìm kiếm và duy trì nguồn nước cho nhóm' }
+    ranks:
+      - id: nt_tim_duong_1
+        name: Người đi theo đoàn
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_tim_duong_2
+        name: Người nhớ các tuyến đường quen thuộc
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: sinh_ton, level: 2 }
+        stipend_food_month: 1.3
+        income_range: [5, 10]
+      - id: nt_tim_duong_3
+        name: Người dẫn đường thành thạo
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: sinh_ton, level: 4 }
+        stipend_food_month: 1.9
+        income_range: [10, 16]
+      - id: nt_tim_duong_4
+        name: Người dẫn đoàn khám phá
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: sinh_ton, level: 5 }
+        min_reputation: 10
+        stipend_food_month: 2.5
+        income_range: [16, 24]
+
+  # 13. Người trao đổi nguyên liệu
+  - id: nt_nguoi_trao_doi
+    name: Người trao đổi nguyên liệu
+    description: Tham gia mạng lưới trao đổi đá ghè, vỏ sò, công cụ và sản vật giữa các cộng đồng dựa trên sự tin cậy và đáp lễ.
+    icon: tien
+    sector: thuong_mai
+    depth: nhe
+    skills: [thuong_mai, ngoai_giao]
+    default_focus: nt_fc_trao_doi_nguyen_lieu
+    event_tags: [trao_doi, quan_he]
+    event_weights: { trao_doi: 2.0, quan_he: 1.4 }
+    work_effects:
+      health_month: -0.01
+      stress_month: 0.02
+      skill_xp: { thuong_mai: 1.5, ngoai_giao: 1.0 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.3, skill: thuong_mai, per_level: 0.09, trade_scaled: true, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Mang đá sắc, đồ đan và sản vật đi trao đổi với các nhóm láng giềng.' }
+    duties:
+      - Mang nguyên liệu và công cụ đến điểm gặp gỡ giữa các cộng đồng
+      - Giữ lời hứa đáp lễ, học hỏi kỹ thuật mới và duy trì hòa khí liên nhóm
+    exits:
+      - { to: nt_nguoi_dieu_hoa, hint: 'Có uy tín giao thiệp rộng có thể đứng ra điều hòa tranh chấp' }
+    ranks:
+      - id: nt_trao_doi_1
+        name: Người mang vật trao đổi
+        min_merit: 0
+        min_years: 0
+        stipend_money_month: 0.2
+        income_range: [2, 6]
+      - id: nt_trao_doi_2
+        name: Người quen biết nhóm láng giềng
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: thuong_mai, level: 2 }
+        stipend_money_month: 0.45
+        income_range: [6, 11]
+      - id: nt_trao_doi_3
+        name: Người có khả năng thương lượng và tạo quan hệ tin cậy
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: thuong_mai, level: 4 }
+        stipend_money_month: 0.75
+        income_range: [11, 17]
+      - id: nt_trao_doi_4
+        name: Người duy trì mạng lưới liên hệ rộng
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: thuong_mai, level: 5 }
+        min_reputation: 10
+        stipend_money_month: 1.15
+        income_range: [17, 25]
+
+  # 14. Người chăm sóc người bị thương
+  - id: nt_nguoi_cham_soc
+    name: Người chăm sóc người bị thương
+    description: Dùng kinh nghiệm thực tế để rửa vết thương, cố định xương gãy, đắp lá và chăm sóc người ốm, sản phụ trong nhóm.
+    icon: suc_khoe
+    sector: y_dao
+    depth: nhe
+    skills: [hoc_van, sinh_ton]
+    default_focus: nt_fc_cham_soc_nuoi_day_tre
+    event_tags: [cham_soc, gia_dinh]
+    event_weights: { cham_soc: 2.0, benh_tat: 1.5 }
+    work_effects:
+      health_month: -0.01
+      stress_month: 0.02
+      skill_xp: { hoc_van: 1.4, sinh_ton: 1.0 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.24, skill: hoc_van, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Phụ chăm sóc người bị thương, người già và trẻ nhỏ trong cộng đồng.' }
+    duties:
+      - Cầm máu, băng bó thương tích sau các chuyến săn và chăm người sốt bệnh
+      - Ghi nhớ các loại lá, rễ cây làm dịu vết thương và hỗ trợ sinh nở
+    exits:
+      - { to: nt_nguoi_gin_giu_chuyen_ke, hint: 'Truyền lại kinh nghiệm chăm sóc và nhận biết cây cỏ cho thế hệ sau' }
+    ranks:
+      - id: nt_cham_soc_1
+        name: Người phụ chăm sóc
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_cham_soc_2
+        name: Người biết xử lý thương tích thông thường
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: hoc_van, level: 2 }
+        stipend_food_month: 1.2
+        income_range: [5, 10]
+      - id: nt_cham_soc_3
+        name: Người có nhiều kinh nghiệm theo dõi người ốm
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: hoc_van, level: 4 }
+        stipend_food_month: 1.7
+        income_range: [10, 15]
+        modifiers:
+          - { target: health.monthly, value: 0.1 }
+      - id: nt_cham_soc_4
+        name: Người được cộng đồng tìm đến xin trợ giúp
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: hoc_van, level: 5 }
+        min_reputation: 12
+        stipend_food_month: 2.3
+        income_range: [15, 22]
+        modifiers:
+          - { target: health.monthly, value: 0.18 }
+
+  # 15. Người tìm nguồn nước
+  - id: nt_nguoi_tim_nguon_nuoc
+    name: Người tìm nguồn nước
+    description: Biết các khe suối, hồ, chỗ trũng giữ nước, dấu vết mạch ngầm và quy luật khô cạn theo mùa.
+    icon: la
+    sector: dich_vu
+    depth: nhe
+    skills: [sinh_ton, muu_luoc]
+    default_focus: nt_fc_tim_nuoc_cui_nguyen_lieu
+    event_tags: [thien_nhien, kham_pha]
+    event_weights: { thien_nhien: 1.8, kham_pha: 1.5 }
+    work_effects:
+      health_month: 0
+      stress_month: 0
+      skill_xp: { sinh_ton: 1.5, muu_luoc: 0.9 }
+    economy:
+      self_farm: true
+      income: { money_month: 0.24, skill: sinh_ton, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Lấy nước, ghi nhớ điểm nước quen thuộc và tìm mạch nước mới khi hạn hán.' }
+    duties:
+      - Đảm bảo nguồn nước uống sạch cho nơi trú và theo dõi mực nước theo mùa
+      - Phát hiện mạch nước mới dựa vào thảm thực vật, dấu thú và địa tầng đá
+    exits:
+      - { to: nt_nguoi_tim_duong, hint: 'Kết hợp hiểu biết nguồn nước để dẫn đoàn đi xa' }
+    ranks:
+      - id: nt_nguon_nuoc_1
+        name: Người lấy nước
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_nguon_nuoc_2
+        name: Người nhớ điểm nước quen thuộc
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: sinh_ton, level: 2 }
+        stipend_food_month: 1.2
+        income_range: [5, 9]
+      - id: nt_nguon_nuoc_3
+        name: Người phát hiện dấu hiệu nguồn nước mới
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: sinh_ton, level: 4 }
+        stipend_food_month: 1.8
+        income_range: [9, 15]
+      - id: nt_nguon_nuoc_4
+        name: Người dẫn nhóm qua vùng khô hạn
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: sinh_ton, level: 5 }
+        min_reputation: 10
+        stipend_food_month: 2.4
+        income_range: [15, 22]
+
+  # 16. Người gìn giữ chuyện kể và tri thức
+  - id: nt_nguoi_gin_giu_chuyen_ke
+    name: Người gìn giữ chuyện kể và tri thức
+    description: Ghi nhớ bằng lời nói và thực hành những câu chuyện, kinh nghiệm sinh tồn, mùa vụ và truyền thống của cộng đồng.
+    icon: sach
+    sector: quan_hoc
+    depth: nhe
+    skills: [hoc_van, ngoai_giao]
+    default_focus: nt_fc_truyen_day_ky_nang
+    event_tags: [tri_thuc, cong_dong]
+    event_weights: { tri_thuc: 2.0, cong_dong: 1.5 }
+    work_effects:
+      health_month: 0.02
+      stress_month: -0.04
+      skill_xp: { hoc_van: 1.6, ngoai_giao: 0.9 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.22, skill: hoc_van, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Lắng nghe, ghi nhớ và truyền lại chuyện kể cùng kinh nghiệm của các thế hệ trước.' }
+    duties:
+      - Nhớ tên các loài cây, tuyến đường cũ, những mùa đói lớn và bài học sinh tồn
+      - Kể chuyện bên bếp lửa và hướng dẫn lớp trẻ tiếp nối kỹ năng của nhóm
+    exits:
+      - { to: nt_nguoi_to_chuc_nghi_thuc, hint: 'Gìn giữ truyền thống và hướng dẫn các nghi thức cộng đồng' }
+    ranks:
+      - id: nt_chuyen_ke_1
+        name: Người lắng nghe
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.7
+        income_range: [2, 5]
+      - id: nt_chuyen_ke_2
+        name: Người nhớ chuyện và kinh nghiệm
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: hoc_van, level: 2 }
+        stipend_food_month: 1.2
+        income_range: [5, 9]
+      - id: nt_chuyen_ke_3
+        name: Người kể chuyện, truyền đạt hiểu biết thành thạo
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: hoc_van, level: 4 }
+        stipend_food_month: 1.7
+        income_range: [9, 15]
+      - id: nt_chuyen_ke_4
+        name: Người gìn giữ truyền thống được tín nhiệm
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: hoc_van, level: 5 }
+        min_reputation: 12
+        stipend_food_month: 2.3
+        income_range: [15, 22]
+
+  # 17. Người điều hòa tranh chấp
+  - id: nt_nguoi_dieu_hoa
+    name: Người điều hòa tranh chấp
+    description: Thành viên có uy tín, kinh nghiệm và sự công tâm đứng ra giúp các gia đình thương lượng, chia sẻ nguồn lực và giữ sự gắn kết.
+    icon: chen_tra
+    sector: quan_hoc
+    depth: nhe
+    skills: [ngoai_giao, quan_tri]
+    default_focus: nt_fc_xay_dung_uy_tin
+    event_tags: [cong_dong, quan_he]
+    event_weights: { cong_dong: 2.0, quan_he: 1.6 }
+    work_effects:
+      health_month: 0
+      stress_month: 0.03
+      skill_xp: { ngoai_giao: 1.5, quan_tri: 1.0 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.25, skill: ngoai_giao, per_level: 0.08, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Tham gia gánh vác việc chung và hòa giải bất đồng giữa các gia đình.' }
+    duties:
+      - Lắng nghe và phân xử công bằng các tranh cãi về chia thức ăn, chỗ trú và bãi kiếm ăn
+      - Điều phối sự hợp tác giữa các hộ trong những quyết định tập thể
+    exits:
+      - { to: nt_nguoi_to_chuc_nghi_thuc, hint: 'Kết hợp uy tín để tổ chức các buổi tụ họp và nghi thức chung' }
+    ranks:
+      - id: nt_dieu_hoa_1
+        name: Người tham gia việc chung
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.8
+        income_range: [2, 5]
+      - id: nt_dieu_hoa_2
+        name: Người được các thành viên tin cậy
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: ngoai_giao, level: 2 }
+        stipend_food_month: 1.2
+        income_range: [5, 10]
+      - id: nt_dieu_hoa_3
+        name: Người có kinh nghiệm hòa giải
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: ngoai_giao, level: 4 }
+        min_reputation: 8
+        stipend_food_month: 1.8
+        income_range: [10, 16]
+      - id: nt_dieu_hoa_4
+        name: Người dẫn dắt trong những quyết định tập thể
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: ngoai_giao, level: 5 }
+        min_reputation: 16
+        stipend_food_month: 2.4
+        income_range: [16, 24]
+
+  # 18. Người tổ chức nghi thức cộng đồng
+  - id: nt_nguoi_to_chuc_nghi_thuc
+    name: Người tổ chức nghi thức cộng đồng
+    description: Tham gia và hướng dẫn các tập tục, nghi thức tưởng nhớ người đã khuất, mừng mùa kiếm ăn hoặc gắn kết tinh thần của nhóm.
+    icon: moc_doi
+    sector: quan_hoc
+    depth: nhe
+    skills: [hoc_van, ngoai_giao]
+    default_focus: nt_fc_truyen_day_ky_nang
+    event_tags: [nghi_thuc, cong_dong]
+    event_weights: { nghi_thuc: 2.0, cong_dong: 1.5 }
+    work_effects:
+      health_month: 0.01
+      stress_month: -0.03
+      skill_xp: { hoc_van: 1.4, ngoai_giao: 1.1 }
+    economy:
+      self_farm: false
+      income: { money_month: 0.24, skill: ngoai_giao, per_level: 0.07, ledger: luong_nghe }
+    join: { cost_money: 0, hint: 'Học cách chuẩn bị và thực hiện các nghi thức, tập tục gắn kết cộng đồng.' }
+    duties:
+      - Chuẩn bị địa điểm tụ họp, vật phẩm biểu tượng và hướng dẫn nghi thức theo tập quán
+      - Gìn giữ ký ức về tổ tiên, an ủi gia đình có người mất và củng cố tinh thần nhóm
+    exits:
+      - { to: nt_nguoi_gin_giu_chuyen_ke, hint: 'Tập trung lưu giữ và kể lại những câu chuyện truyền thống' }
+    ranks:
+      - id: nt_nghi_thuc_1
+        name: Người tham gia nghi thức
+        min_merit: 0
+        min_years: 0
+        stipend_food_month: 0.7
+        income_range: [2, 5]
+      - id: nt_nghi_thuc_2
+        name: Người học cách thực hiện
+        min_merit: 14
+        min_years: 1
+        min_skill: { skill: hoc_van, level: 2 }
+        stipend_food_month: 1.2
+        income_range: [5, 9]
+      - id: nt_nghi_thuc_3
+        name: Người được giao hướng dẫn hoạt động
+        min_merit: 36
+        min_years: 3
+        min_skill: { skill: hoc_van, level: 4 }
+        min_reputation: 8
+        stipend_food_month: 1.7
+        income_range: [9, 15]
+      - id: nt_nghi_thuc_4
+        name: Người gìn giữ và truyền dạy nghi thức
+        min_merit: 70
+        min_years: 6
+        min_skill: { skill: hoc_van, level: 5 }
+        min_reputation: 14
+        stipend_food_month: 2.3
+        income_range: [15, 22]
+
+# ── 12 VIỆC LÀM THÊM THEO MÙA (side_jobs) ──
+side_jobs:
+  # 01. Thu nhặt củi khô trước mùa mưa
+  - id: nt_sj_thu_nhat_cui
+    name: Thu nhặt củi khô trước mùa mưa
+    description: Gom cành khô và vỏ cây dự trữ quanh nơi trú để giữ lửa sưởi ấm và nấu nướng khi mưa kéo dài.
+    icon: la
+    seasons: [xuan, thu, dong]
+    income_money_month: 0.12
+    income_food_month: 0.2
+    health_month: -0.02
+    stress_month: 0.02
+    skill_xp: { sinh_ton: 2 }
+
+  # 02. Thu gom hạt, quả và củ khi vào mùa
+  - id: nt_sj_thu_gom_hat_qua
+    name: Thu gom hạt, quả và củ khi vào mùa
+    description: Tranh thủ mùa cây rừng ra quả và củ mài chắc bột để thu hái thêm lương thực cho gia đình.
+    icon: cay_lua
+    seasons: [ha, thu]
+    income_money_month: 0.1
+    income_food_month: 0.45
+    health_month: -0.01
+    stress_month: 0.01
+    skill_xp: { sinh_ton: 3 }
+
+  # 03. Phơi thực phẩm khi điều kiện thời tiết thích hợp
+  - id: nt_sj_phoi_thuc_pham
+    name: Phơi thực phẩm khi nắng ráo
+    description: Xắt lát thịt, cá, củ và trải hạt ra phơi nắng hoặc hun khói để thức ăn không bị thối hỏng.
+    icon: thoc
+    seasons: [xuan, ha, thu]
+    income_money_month: 0.12
+    income_food_month: 0.35
+    health_month: 0
+    stress_month: 0.01
+    skill_xp: { quan_tri: 2, sinh_ton: 1 }
+
+  # 04. Sửa nơi trú trước thời tiết xấu
+  - id: nt_sj_sua_noi_tru
+    name: Sửa nơi trú trước thời tiết xấu
+    description: Chằng buộc lại khung gỗ, đắp thêm đất đá và thay lớp lá che mái trước khi gió lạnh hay mưa lớn kéo về.
+    icon: nha
+    seasons: [thu, dong]
+    income_money_month: 0.15
+    income_food_month: 0.2
+    health_month: -0.02
+    stress_month: 0.02
+    skill_xp: { quan_tri: 2, sinh_ton: 1 }
+
+  # 05. Đánh cá theo sự thay đổi mực nước
+  - id: nt_sj_danh_ca_mua_nuoc
+    name: Đánh cá theo con nước
+    description: Ra bãi cạn hoặc cửa suối đặt bẫy, đâm cá khi mực nước rút hoặc cá kéo về theo mùa.
+    icon: ca
+    seasons: [xuan, ha, thu]
+    income_money_month: 0.12
+    income_food_month: 0.4
+    health_month: -0.02
+    stress_month: 0.01
+    skill_xp: { sinh_ton: 3 }
+
+  # 06. Thu gom đá thích hợp khi đến khu vực có nguồn nguyên liệu
+  - id: nt_sj_thu_gom_da
+    name: Thu gom đá nguyên liệu
+    description: Tìm nhặt những viên đá cuội, đá lửa có thớ tốt ven suối hoặc sườn núi mang về cho nhóm ghè đẽo.
+    icon: focus
+    seasons: [xuan, ha, thu]
+    income_money_month: 0.22
+    income_food_month: 0.1
+    health_month: -0.03
+    stress_month: 0.02
+    skill_xp: { quan_tri: 2, sinh_ton: 1 }
+
+  # 07. Phụ vận chuyển sản vật sau một chuyến kiếm ăn
+  - id: nt_sj_phu_van_chuyen
+    name: Phụ vận chuyển sản vật
+    description: Mang vác thịt thú, giỏ củ quả hoặc nguyên liệu từ bãi săn, bãi hái về khu cư trú cùng mọi người.
+    icon: trau
+    seasons: [xuan, ha, thu, dong]
+    income_money_month: 0.14
+    income_food_month: 0.35
+    health_month: -0.03
+    stress_month: 0.02
+    skill_xp: { sinh_ton: 2, quan_su: 1 }
+
+  # 08. Đan đồ dùng khi có thời gian và nguyên liệu
+  - id: nt_sj_dan_do_dung
+    name: Đan đồ dùng từ sợi thực vật
+    description: Ngồi bên bếp lửa tết dây buộc, đan giỏ và tấm lót từ vỏ cây, cỏ dẻo đã phơi khô.
+    icon: focus
+    seasons: [dong, xuan]
+    income_money_month: 0.2
+    income_food_month: 0.15
+    health_month: 0
+    stress_month: -0.02
+    skill_xp: { quan_tri: 3 }
+
+  # 09. Thu gom vật liệu che mái, chống ẩm
+  - id: nt_sj_vat_lieu_che_mai
+    name: Thu gom vật liệu che mái, chống ẩm
+    description: Cắt cỏ tranh, lá lớn, vỏ cây và gom tro khô để lót nền ngủ, chống ẩm ướt trong mùa mưa lạnh.
+    icon: nha
+    seasons: [thu, dong]
+    income_money_month: 0.12
+    income_food_month: 0.25
+    health_month: -0.01
+    stress_month: 0.01
+    skill_xp: { sinh_ton: 2, quan_tri: 1 }
+
+  # 10. Chăm sóc trẻ hoặc người bị thương khi gia đình thiếu nhân lực
+  - id: nt_sj_cham_soc_tre_nguoi_om
+    name: Phụ chăm sóc trẻ nhỏ và người bị thương
+    description: Ở lại nơi trú trông coi các em nhỏ, giữ lửa và đắp lá thuốc cho người đau yếu để người lớn yên tâm đi kiếm ăn.
+    icon: gia_dinh
+    seasons: [xuan, ha, thu, dong]
+    income_money_month: 0.1
+    income_food_month: 0.3
+    health_month: 0
+    stress_month: 0.01
+    skill_xp: { ngoai_giao: 2, hoc_van: 1 }
+
+  # 11. Hỗ trợ thu hoạch cây trồng tại cộng đồng có canh tác
+  - id: nt_sj_ho_tro_thu_hoach
+    name: Hỗ trợ thu hoạch cây lương thực
+    description: Cùng các gia đình ở cộng đồng canh tác cắt bông ngũ cốc, đập hạt và đem về sân phơi trước khi hạt rụng.
+    icon: cay_lua
+    seasons: [ha, thu]
+    condition:
+      any:
+        - { var: world.polity_id, op: 'in', value: [luoi_liem_mau_mo_8000bce, nam_a_nguyen_thuy_8000bce] }
+        - { has_property: nt_khu_cay_luong_thuc }
+    income_money_month: 0.15
+    income_food_month: 0.5
+    health_month: -0.02
+    stress_month: 0.02
+    skill_xp: { sinh_ton: 2, quan_tri: 2 }
+
+  # 12. Tham gia dựng nơi tụ họp hoặc công trình dùng chung
+  - id: nt_sj_dung_cong_trinh_chung
+    name: Tham gia dựng công trình dùng chung
+    description: Góp sức khiêng đá, đắp nền hoặc dựng mái tại điểm tụ họp chung của cộng đồng.
+    icon: moc_doi
+    seasons: [xuan, thu]
+    income_money_month: 0.18
+    income_food_month: 0.3
+    health_month: -0.03
+    stress_month: 0.02
+    skill_xp: { quan_tri: 2, ngoai_giao: 2 }

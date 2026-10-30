@@ -1,5 +1,586 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Xuất thân riêng của Thời Nguyên Thủy (Ví dụ quy hoạch: Thợ săn thị tộc, Người giữ lửa, Thợ ghè đá).
+# Xuất thân (15 Origins): Nhóm A (Săn bắt, hái lượm), Nhóm B (Định cư ban đầu), Nhóm C (Đặc thù địa lý).
 # ══════════════════════════════════════════════════════════════════════════════
-origins: []
+origins:
+  # ══════════════════ NHÓM A — CỘNG ĐỒNG SĂN BẮT, HÁI LƯỢM ══════════════════
+  # 01. Con của người săn thú
+  - id: nt_con_nguoi_san_thu
+    name: Con của người săn thú
+    description: 'Lớn lên cùng dấu chân thú, mùi khói bếp và những chuyến đi theo mùa. Lợi thế: dễ học quan sát, theo dấu, di chuyển và dùng công cụ. Bất lợi: nguy cơ tai nạn khi săn, thức ăn biến động theo mùa.'
+    culture: bac_au
+    start_age_options: [0, 6, 12, 16, 20, 27]
+    default_start_age: 0
+    birth_weight: 22
+    default_focus: nt_fc_san_bat_tim_thuc_an
+    default_career: nt_nguoi_san_thu
+    start_log: nt_start_01_san_thu
+    settlement: vung_sau_heo_lanh
+    player:
+      sex: any
+      health: [68, 86]
+      skills: { quan_su: [1, 3], sinh_ton: [1, 3] }
+      trait_count: 2
+    household:
+      money: [2, 5]
+      food: [18, 30]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_lao_mui_da, count: [1, 2] }
+        - { id: nt_dao_da_ghe, count: [1, 1] }
+        - { id: nt_bai_san_quen, count: [1, 2] }
+      members:
+        - { relation: father, age: [32, 44], health: [50, 72], skills: { quan_su: [3, 6], sinh_ton: [3, 5] } }
+        - { relation: mother, age: [30, 42], health: [58, 78], skills: { sinh_ton: [2, 5], quan_tri: [1, 3] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 82] }
+    village_npcs:
+      - { role: ba_ho, sex: m, age: [38, 55], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-10, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [-5, 15] }
+
+  # 02. Con của người hái lượm
+  - id: nt_con_nguoi_hai_luom
+    name: Con của người hái lượm
+    description: 'Từ nhỏ học phân biệt cây ăn được, cây gây độc, mùa quả chín và nơi có nguồn nước. Lợi thế: kiến thức thực vật, tìm thức ăn, bảo quản nguyên liệu. Bất lợi: dễ nhầm cây độc, phụ thuộc thảm thực vật hoang dã.'
+    culture: viet
+    start_age_options: [0, 6, 12, 16, 20]
+    default_start_age: 0
+    birth_weight: 22
+    default_focus: nt_fc_thu_hai_bao_quan
+    default_career: nt_nguoi_thu_hai
+    start_log: nt_start_02_hai_luom
+    settlement: vung_sau_heo_lanh
+    player:
+      sex: any
+      health: [65, 84]
+      skills: { sinh_ton: [2, 3], hoc_van: [0, 2] }
+      trait_count: 2
+    household:
+      money: [2, 5]
+      food: [22, 34]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_dung_cu_dao_go, count: [1, 2] }
+        - { id: nt_gio_dan, count: [1, 2] }
+        - { id: nt_khu_cu_cay_an, count: [1, 2] }
+      members:
+        - { relation: father, age: [32, 44], health: [56, 76], skills: { sinh_ton: [3, 5] } }
+        - { relation: mother, age: [30, 42], health: [58, 78], skills: { sinh_ton: [3, 6], hoc_van: [2, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [1, 2], health: [60, 80] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 55], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-5, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [-5, 15] }
+
+  # 03. Con của người đánh cá ven sông
+  - id: nt_con_nguoi_danh_ca_song
+    name: Con của người đánh cá ven sông
+    description: 'Sinh sống bên lưu vực sông, hồ và vùng đất ngập nước; sớm học nhận biết dòng chảy, dấu hiệu mưa lớn và nơi cá tập trung. Lợi thế: đánh cá, bơi lội. Bất lợi: lũ quét, đuối nước.'
+    culture: viet
+    start_age_options: [0, 6, 12, 16, 20, 48]
+    default_start_age: 0
+    birth_weight: 14
+    default_focus: nt_fc_thu_hai_bao_quan
+    default_career: nt_nguoi_danh_ca
+    start_log: nt_start_03_danh_ca_song
+    settlement: thi_tran_ben_song
+    player:
+      sex: any
+      health: [66, 85]
+      skills: { sinh_ton: [2, 3], muu_luoc: [0, 2] }
+      trait_count: 2
+    household:
+      money: [3, 6]
+      food: [22, 35]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_lao_dam_ca, count: [1, 2] }
+        - { id: nt_bay_ca, count: [1, 1] }
+        - { id: nt_bai_danh_ca, count: [1, 2] }
+      members:
+        - { relation: father, age: [32, 44], health: [56, 76], skills: { sinh_ton: [3, 6], muu_luoc: [2, 4] } }
+        - { relation: mother, age: [30, 42], health: [58, 78], skills: { sinh_ton: [2, 5], quan_tri: [2, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 82] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 55], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-5, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # 04. Con của cộng đồng ven biển
+  - id: nt_con_cong_dong_ven_bien
+    name: Con của cộng đồng ven biển
+    description: 'Lớn lên trên những bãi đá và bờ biển, thu nhặt sò, ốc, cua, đánh cá gần bờ và làm dụng cụ từ vỏ sò, xương. Lợi thế: hiểu tài nguyên biển và thời tiết. Bất lợi: sóng dữ, thiếu nước ngọt, biển xâm lấn.'
+    culture: bac_au
+    start_age_options: [0, 6, 12, 16, 20]
+    default_start_age: 0
+    birth_weight: 8
+    default_focus: nt_fc_thu_hai_bao_quan
+    default_career: nt_nguoi_danh_ca
+    start_log: nt_start_04_ven_bien
+    settlement: thi_tran_ben_song
+    player:
+      sex: any
+      health: [65, 84]
+      skills: { sinh_ton: [2, 3], thuong_mai: [0, 2] }
+      trait_count: 2
+    household:
+      money: [3, 6]
+      food: [20, 32]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_mui_nhon_nganh_xuong, count: [1, 2] }
+        - { id: nt_do_deo_trang_suc, count: [1, 1] }
+        - { id: nt_noi_nhat_nhuyen_the, count: [1, 2] }
+      members:
+        - { relation: father, age: [32, 45], health: [55, 75], skills: { sinh_ton: [3, 6] } }
+        - { relation: mother, age: [30, 42], health: [56, 76], skills: { sinh_ton: [3, 5], quan_tri: [1, 3] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 80] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 55], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-5, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # 05. Đứa trẻ của nhóm người di cư
+  - id: nt_dua_tre_nhom_di_cu
+    name: Đứa trẻ của nhóm người di cư
+    description: 'Di chuyển theo mùa qua nhiều địa hình, ít gắn bó cố định với một nơi. Lợi thế: thích nghi nhanh, định hướng và học nhiều cách sinh tồn. Bất lợi: khó tích lũy đồ nặng, nguy cơ lạc nhóm hoặc bị từ chối tại nơi đến.'
+    culture: bac_au
+    start_age_options: [0, 6, 10, 12, 16, 24]
+    default_start_age: 0
+    birth_weight: 10
+    default_focus: nt_fc_kham_pha_diem_kiem_an
+    default_career: nt_nguoi_tim_duong
+    start_log: nt_start_05_di_cu
+    settlement: vung_sau_heo_lanh
+    player:
+      sex: any
+      health: [64, 84]
+      skills: { sinh_ton: [2, 3], muu_luoc: [1, 2] }
+      trait_count: 2
+    household:
+      money: [2, 4]
+      food: [16, 28]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_mai_che_tam, count: [1, 1] }
+        - { id: nt_tui_dung_dung_cu, count: [1, 1] }
+        - { id: nt_vat_lieu_giu_lua, count: [1, 1] }
+        - { id: nt_tuyen_duong_nuoc, count: [1, 1] }
+      members:
+        - { relation: father, age: [31, 44], health: [55, 76], skills: { sinh_ton: [3, 6], muu_luoc: [2, 5] } }
+        - { relation: mother, age: [29, 41], health: [56, 76], skills: { sinh_ton: [3, 5], ngoai_giao: [1, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [58, 80] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 55], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [40, 58], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-5, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # ══════════════════ NHÓM B — CỘNG ĐỒNG ĐỊNH CƯ BAN ĐẦU ══════════════════
+  # 06. Con của người thu hái và trồng ngũ cốc (Tây Á)
+  - id: nt_con_nguoi_trong_ngu_coc
+    name: Con của người thu hái và trồng ngũ cốc
+    description: 'Sinh ra tại một cộng đồng Tây Á đang vừa thu hoạch ngũ cốc hoang vừa gieo trồng và xử lý hạt. Lợi thế: kiến thức cây lương thực và chế biến hạt. Bất lợi: phụ thuộc mùa vụ, sâu mọt và lao động dài ngày.'
+    culture: ai_cap_luong_ha
+    start_age_options: [0, 6, 12, 16, 19, 20]
+    default_start_age: 0
+    birth_weight: 8
+    default_focus: nt_fc_canh_tac_so_khai
+    default_career: nt_nguoi_khai_thac_ngu_coc
+    start_log: nt_start_06_ngu_coc
+    settlement: lang_nong
+    player:
+      sex: any
+      health: [65, 84]
+      skills: { sinh_ton: [1, 3], quan_tri: [1, 2] }
+      trait_count: 2
+    household:
+      money: [3, 7]
+      food: [24, 38]
+      debt: [0, 2]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_nha_vat_lieu_dia_phuong, count: [1, 1] }
+        - { id: nt_luoi_cat_manh_da, count: [1, 2] }
+        - { id: nt_da_nghien, count: [1, 1] }
+        - { id: nt_khu_cay_luong_thuc, count: [2, 3] }
+      members:
+        - { relation: father, age: [33, 45], health: [56, 76], skills: { sinh_ton: [3, 6], quan_tri: [2, 4] } }
+        - { relation: mother, age: [30, 42], health: [58, 78], skills: { sinh_ton: [3, 5], quan_tri: [2, 5] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [1, 2], health: [60, 82] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-5, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # 07. Con của người dựng nhà
+  - id: nt_con_nguoi_dung_nha
+    name: Con của người dựng nhà
+    description: 'Quen việc thu nhặt đá, đắp đất trộn, vận chuyển gỗ và bảo trì mái che tại cộng đồng định cư. Lợi thế: kỹ năng xây dựng và hợp tác lao động. Bất lợi: lao động nặng, dễ bị thương khi sạt tường hay khiêng đá.'
+    culture: ai_cap_luong_ha
+    start_age_options: [0, 6, 12, 16, 22]
+    default_start_age: 0
+    birth_weight: 5
+    default_focus: nt_fc_xay_dung_noi_tru
+    default_career: nt_nguoi_dung_noi_tru
+    start_log: nt_start_07_dung_nha
+    settlement: lang_nong
+    player:
+      sex: any
+      health: [66, 85]
+      skills: { quan_tri: [1, 3], sinh_ton: [1, 2] }
+      trait_count: 2
+    household:
+      money: [3, 7]
+      food: [20, 32]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_nha_vach_mai_nen, count: [1, 1] }
+        - { id: nt_riu_da, count: [1, 1] }
+        - { id: nt_cong_cu_sua_noi_tru, count: [1, 2] }
+      members:
+        - { relation: father, age: [34, 46], health: [54, 74], skills: { quan_tri: [3, 6], sinh_ton: [2, 5] } }
+        - { relation: mother, age: [31, 43], health: [58, 78], skills: { quan_tri: [2, 5], sinh_ton: [2, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 82] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [0, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [0, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # 08. Con của người chế tác đá
+  - id: nt_con_nguoi_che_tac_da
+    name: Con của người chế tác đá
+    description: 'Tiếp xúc từ nhỏ với đá lửa, đá cuội và cách ghè tạo lưỡi cắt, mũi nhọn. Lợi thế: dễ phát triển tay nghề chế tác và nhận biết chất lượng đá. Bất lợi: nguy cơ tổn thương tay mắt và thiếu nguồn đá tốt.'
+    culture: ai_cap_luong_ha
+    start_age_options: [0, 6, 12, 16, 20]
+    default_start_age: 0
+    birth_weight: 6
+    default_focus: nt_fc_che_tac_cong_cu
+    default_career: nt_nguoi_che_tac_da
+    start_log: nt_start_08_che_tac_da
+    settlement: lang_nong
+    player:
+      sex: any
+      health: [65, 83]
+      skills: { quan_tri: [2, 3], sinh_ton: [1, 2] }
+      trait_count: 2
+    household:
+      money: [4, 8]
+      food: [20, 32]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_cong_cu_che_tac_da, count: [1, 2] }
+        - { id: nt_dao_da_ghe, count: [1, 2] }
+        - { id: nt_vung_nguon_da_tot, count: [1, 1] }
+      members:
+        - { relation: father, age: [34, 46], health: [54, 74], skills: { quan_tri: [4, 6], sinh_ton: [2, 4] } }
+        - { relation: mother, age: [31, 43], health: [58, 78], skills: { sinh_ton: [2, 5], thuong_mai: [1, 3] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 80] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [0, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [0, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [5, 20] }
+
+  # 09. Con của người giữ kho thức ăn
+  - id: nt_con_nguoi_giu_kho
+    name: Con của người giữ kho thức ăn
+    description: 'Gia đình cùng cộng đồng phơi khô hạt, bảo vệ nơi cất giữ và quản lý nguồn dự trữ. Lợi thế: hiểu cách bảo quản và nhu cầu của nhiều hộ. Bất lợi: chịu áp lực phân chia và dễ bị nghi ngờ khi thức ăn ẩm mốc, thiếu hụt.'
+    culture: ai_cap_luong_ha
+    start_age_options: [0, 6, 12, 16, 32]
+    default_start_age: 0
+    birth_weight: 4
+    default_focus: nt_fc_thu_hai_bao_quan
+    default_career: nt_nguoi_bao_quan_thuc_an
+    start_log: nt_start_09_giu_kho
+    settlement: lang_nong
+    player:
+      sex: any
+      health: [66, 84]
+      skills: { quan_tri: [2, 3], ngoai_giao: [1, 2] }
+      trait_count: 2
+    household:
+      money: [4, 8]
+      food: [26, 40]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_nha_vach_mai_nen, count: [1, 1] }
+        - { id: nt_khu_phoi_bao_quan, count: [1, 1] }
+        - { id: nt_noi_cat_giu_thuc_pham, count: [1, 1] }
+        - { id: nt_gio_dan, count: [1, 2] }
+      members:
+        - { relation: father, age: [35, 48], health: [56, 76], skills: { quan_tri: [4, 6], ngoai_giao: [2, 5] } }
+        - { relation: mother, age: [32, 44], health: [58, 78], skills: { quan_tri: [3, 5], sinh_ton: [2, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 82] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [-10, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 20] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-10, 15] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # ══════════════════ NHÓM C — XUẤT THÂN ĐẶC THÙ THEO ĐỊA LÝ ══════════════════
+  # 10. Con của cư dân hang đá (Đông Nam Á — kỹ nghệ Hòa Bình)
+  - id: nt_con_cu_dan_hang_da
+    name: Con của cư dân hang đá
+    description: 'Sinh sống nơi miền núi đá vôi Đông Nam Á (kỹ nghệ đá Hòa Bình), quen đường núi, khe nước, hang tối và công cụ đá cuội. Lợi thế: tìm nơi trú ẩn và khai thác rừng. Bất lợi: lở đá, ẩm thấp, thức ăn phân tán.'
+    culture: viet
+    start_age_options: [0, 6, 12, 16, 20]
+    default_start_age: 0
+    birth_weight: 8
+    default_focus: nt_fc_san_bat_tim_thuc_an
+    default_career: nt_nguoi_thu_hai
+    start_log: nt_start_10_hang_da
+    settlement: vung_sau_heo_lanh
+    player:
+      sex: any
+      health: [65, 84]
+      skills: { sinh_ton: [2, 3], quan_su: [1, 2] }
+      trait_count: 2
+    household:
+      money: [2, 5]
+      food: [20, 32]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_hang_kho_sinh_hoat, count: [1, 1] }
+        - { id: nt_riu_da, count: [1, 2] }
+        - { id: nt_vat_lieu_giu_lua, count: [1, 1] }
+        - { id: nt_khu_cu_cay_an, count: [1, 1] }
+      members:
+        - { relation: father, age: [32, 45], health: [54, 74], skills: { sinh_ton: [3, 6], quan_su: [2, 5] } }
+        - { relation: mother, age: [30, 42], health: [56, 76], skills: { sinh_ton: [3, 6], hoc_van: [1, 3] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [58, 80] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 55], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [0, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [-5, 15] }
+
+  # 11. Con của cộng đồng ven hồ Sahara (Bắc Phi đầu thế Toàn Tân)
+  - id: nt_con_cong_dong_ho_sahara
+    name: Con của cộng đồng ven hồ Sahara
+    description: 'Lớn lên bên các vùng hồ và đồng cỏ Sahara đầu thế Toàn Tân; quen bờ hồ, bãi bùn, thú đến uống nước và mùa mưa biến đổi. Lợi thế: khai thác hồ và nhận biết nguồn nước. Bất lợi: hạn hán, động vật nguy hiểm, mực nước thất thường.'
+    culture: chau_phi
+    start_age_options: [0, 6, 12, 16, 18, 20]
+    default_start_age: 0
+    birth_weight: 7
+    default_focus: nt_fc_tim_nuoc_cui_nguyen_lieu
+    default_career: nt_nguoi_danh_ca
+    start_log: nt_start_11_ho_sahara
+    settlement: thi_tran_ben_song
+    player:
+      sex: any
+      health: [65, 84]
+      skills: { sinh_ton: [2, 3], quan_su: [1, 2] }
+      trait_count: 2
+    household:
+      money: [2, 5]
+      food: [20, 32]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_mui_nhon_nganh_xuong, count: [1, 2] }
+        - { id: nt_bai_danh_ca, count: [1, 1] }
+        - { id: nt_tuyen_duong_nuoc, count: [1, 1] }
+      members:
+        - { relation: father, age: [32, 44], health: [55, 75], skills: { sinh_ton: [3, 6], quan_su: [2, 5] } }
+        - { relation: mother, age: [30, 42], health: [56, 76], skills: { sinh_ton: [3, 5], muu_luoc: [1, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [58, 80] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 55], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [-5, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # 12. Con của người làm gốm sơ khai (Đông Á / Jōmon sớm)
+  - id: nt_con_nguoi_lam_gom
+    name: Con của người làm gốm sơ khai
+    description: 'Sinh ra trong cộng đồng săn bắt, hái lượm và đánh cá ở Đông Á có truyền thống gốm sớm (như Jōmon). Lợi thế: chế biến và lưu giữ thức ăn bằng đồ gốm. Bất lợi: đồ gốm dễ nứt vỡ, khó mang theo khi di chuyển xa.'
+    culture: nhat_ban
+    start_age_options: [0, 6, 12, 15, 16, 20]
+    default_start_age: 0
+    birth_weight: 5
+    default_focus: nt_fc_che_tac_cong_cu
+    default_career: nt_nguoi_lam_gom
+    start_log: nt_start_12_lam_gom
+    settlement: lang_nong
+    player:
+      sex: any
+      health: [66, 84]
+      skills: { quan_tri: [2, 3], sinh_ton: [1, 2] }
+      trait_count: 2
+    household:
+      money: [3, 7]
+      food: [22, 34]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_nha_vat_lieu_dia_phuong, count: [1, 1] }
+        - { id: nt_vat_dung_gom, count: [1, 2] }
+        - { id: nt_diem_hai_qua, count: [1, 1] }
+      members:
+        - { relation: father, age: [33, 45], health: [56, 76], skills: { sinh_ton: [3, 5], quan_tri: [2, 5] } }
+        - { relation: mother, age: [31, 43], health: [58, 78], skills: { quan_tri: [3, 6], hoc_van: [2, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 82] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [0, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [0, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # 13. Con của người tìm đá quý và nguyên liệu hiếm (Tây Á — mạng lưới obsidian)
+  - id: nt_con_nguoi_tim_da_quy
+    name: Con của người tìm đá quý và nguyên liệu hiếm
+    description: 'Gia đình tìm đá ghè sắc bén (như obsidian ở Tây Á), vận chuyển nguyên liệu và trao đổi với các cộng đồng láng giềng. Lợi thế: mở rộng quan hệ, khám phá địa hình và chế tác. Bất lợi: đường xa nguy hiểm, tranh chấp nguồn đá.'
+    culture: ai_cap_luong_ha
+    start_age_options: [0, 6, 12, 16, 18, 20]
+    default_start_age: 0
+    birth_weight: 4
+    default_focus: nt_fc_trao_doi_nguyen_lieu
+    default_career: nt_nguoi_trao_doi
+    start_log: nt_start_13_tim_da_quy
+    settlement: thi_tran_ben_song
+    player:
+      sex: any
+      health: [65, 84]
+      skills: { thuong_mai: [2, 3], sinh_ton: [1, 2] }
+      trait_count: 2
+    household:
+      money: [4, 9]
+      food: [20, 32]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_dao_da_ghe, count: [1, 2] }
+        - { id: nt_tui_dung_dung_cu, count: [1, 1] }
+        - { id: nt_vung_nguon_da_tot, count: [1, 1] }
+      members:
+        - { relation: father, age: [33, 45], health: [55, 75], skills: { thuong_mai: [3, 6], sinh_ton: [3, 5] } }
+        - { relation: mother, age: [30, 42], health: [58, 78], skills: { ngoai_giao: [2, 5], quan_tri: [2, 4] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 80] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [0, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 15] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [0, 15] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [5, 25] }
+
+  # 14. Con của người chăm sóc cộng đồng
+  - id: nt_con_nguoi_cham_soc
+    name: Con của người chăm sóc cộng đồng
+    description: 'Gia đình có người giàu kinh nghiệm chăm sóc người bị thương, hỗ trợ sinh nở và nhận biết lá thuốc tự nhiên. Lợi thế: được cộng đồng tin cậy và truyền kinh nghiệm chăm sóc. Bất lợi: kiến thức còn hạn chế trước bệnh nặng, nguy cơ lây nhiễm.'
+    culture: viet
+    start_age_options: [0, 6, 12, 16, 20]
+    default_start_age: 0
+    birth_weight: 4
+    default_focus: nt_fc_cham_soc_nuoi_day_tre
+    default_career: nt_nguoi_cham_soc
+    start_log: nt_start_14_cham_soc
+    settlement: lang_nong
+    player:
+      sex: any
+      health: [66, 84]
+      skills: { hoc_van: [2, 3], sinh_ton: [1, 2] }
+      trait_count: 2
+    household:
+      money: [3, 6]
+      food: [20, 32]
+      debt: [0, 0]
+      living_standard: dam_bac
+      properties:
+        - { id: nt_lan_vach_chan, count: [1, 1] }
+        - { id: nt_vat_dung_vo_cay, count: [1, 2] }
+        - { id: nt_khu_cu_cay_an, count: [1, 1] }
+      members:
+        - { relation: father, age: [34, 46], health: [56, 76], skills: { sinh_ton: [3, 5], ngoai_giao: [2, 4] } }
+        - { relation: mother, age: [32, 44], health: [58, 78], skills: { hoc_van: [3, 6], sinh_ton: [2, 5] } }
+        - { relation: sibling, age_offset: [-4, 4], count: [0, 2], health: [60, 82] }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [5, 20] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [5, 20] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [5, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [10, 25] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [5, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [0, 15] }
+
+  # 15. Đứa trẻ không còn người chăm sóc ruột thịt
+  - id: nt_dua_tre_khong_nguoi_than
+    name: Đứa trẻ không còn người chăm sóc ruột thịt
+    description: 'Cha mẹ hoặc người chăm sóc chính đã qua đời hay mất tích; lớn lên nhờ sự đùm bọc của họ hàng hoặc một gia đình khác trong nhóm. Lợi thế: học được nhiều kỹ năng từ các thành viên khác nhau. Bất lợi: nguy cơ thiếu thức ăn và chỗ dựa.'
+    culture: viet
+    start_age_options: [0, 5, 6, 12, 16, 20]
+    default_start_age: 6
+    birth_weight: 5
+    default_focus: nt_fc_phu_giup_noi_tru
+    default_career: nt_nguoi_thu_hai
+    start_log: nt_start_15_khong_nguoi_than
+    settlement: lang_nong
+    player:
+      sex: any
+      health: [58, 78]
+      skills: { sinh_ton: [1, 3], ngoai_giao: [1, 2] }
+      trait_count: 2
+    household:
+      money: [1, 4]
+      food: [14, 24]
+      debt: [0, 2]
+      living_standard: kho_cuc
+      properties:
+        - { id: nt_mai_che_tam, count: [1, 1] }
+        - { id: nt_dung_cu_dao_go, count: [1, 1] }
+        - { id: nt_gio_dan, count: [1, 1] }
+      members:
+        - { relation: sibling, age_offset: [6, 14], count: [1, 1], health: [58, 78], skills: { sinh_ton: [2, 4] } }
+    village_npcs:
+      - { role: ba_ho, sex: any, age: [38, 56], opinion: [-5, 15] }
+      - { role: ly_truong, sex: any, age: [42, 60], opinion: [0, 15] }
+      - { role: thay_do, sex: any, age: [45, 65], opinion: [0, 20] }
+      - { role: thay_lang, sex: any, age: [36, 58], opinion: [0, 20] }
+      - { role: hang_xom, sex: any, age: [22, 45], opinion: [0, 20] }
+      - { role: lai_buon, sex: any, age: [25, 48], opinion: [-5, 10] }

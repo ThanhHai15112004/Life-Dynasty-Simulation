@@ -1,5 +1,88 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Lối sống đặc thù (Lifestyles) của thời đại này.
+# Lối sống (Lifestyles) — 8 chiến lược sinh tồn linh hoạt tùy khí hậu, nguồn lợi và tổ chức cộng đồng.
 # ══════════════════════════════════════════════════════════════════════════════
-lifestyles: []
+lifestyles:
+  - id: nt_du_cu_theo_mua
+    name: Du cư theo mùa
+    description: Di chuyển theo nguồn thức ăn và đàn thú, tránh vùng tài nguyên cạn kiệt; nhưng khó tích trữ đồ dùng cồng kềnh.
+    icon: focus
+    skill_xp: { sinh_ton: 3, muu_luoc: 2 }
+    modifiers:
+      - { target: food.consumption, value: 0.94, op: mul }
+      - { target: living.cost, value: 0.9, op: mul }
+    event_weights: { san_bat: 1.3, kham_pha: 1.3 }
+
+  - id: nt_ban_dinh_cu
+    name: Bán định cư
+    description: Có nơi cư trú quen thuộc để quay về theo mùa nhưng vẫn linh hoạt di chuyển kiếm ăn; cần công sức duy trì nhiều điểm trú.
+    icon: nha
+    skill_xp: { sinh_ton: 2, quan_tri: 2 }
+    modifiers:
+      - { target: health.monthly, value: 0.04 }
+      - { target: living.cost, value: 1.05, op: mul }
+    event_weights: { sinh_ton: 1.2, gia_dinh: 1.15 }
+
+  - id: nt_dinh_cu_ven_nuoc
+    name: Định cư ven nguồn nước
+    description: Thuận lợi đánh cá, lấy nước ngọt và lưu trữ vật dụng; đối mặt nguy cơ lũ quét, ô nhiễm hoặc cạn kiệt nguồn lợi.
+    icon: thoc
+    skill_xp: { sinh_ton: 3, quan_tri: 1 }
+    modifiers:
+      - { target: harvest.yield, value: 1.06, op: mul }
+      - { target: health.monthly, value: 0.03 }
+    event_weights: { song_nuoc: 1.35, mua_mang: 1.15 }
+
+  - id: nt_dinh_cu_canh_tac
+    name: Định cư canh tác sơ khai
+    description: Dành công sức chăm sóc cây lương thực và hạt dự trữ tại các vùng phù hợp như Tây Á; tăng khả năng dự trữ khi vụ mùa thành công nhưng phụ thuộc chặt vào thời tiết.
+    icon: thoc
+    condition:
+      var: world.polity_id
+      op: '=='
+      value: luoi_liem_mau_mo_8000bce
+    skill_xp: { quan_tri: 3, sinh_ton: 2 }
+    modifiers:
+      - { target: harvest.yield, value: 1.12, op: mul }
+      - { target: stress.monthly, value: 0.04 }
+    event_weights: { mua_mang: 1.4, tinh_lang: 1.2 }
+
+  - id: nt_song_nho_rung_nui
+    name: Sống nhờ rừng núi
+    description: Khai thác đa dạng tài nguyên thực vật, củ rừng, đá và động vật hoang; đổi lại địa hình hiểm trở và khó vận chuyển.
+    icon: focus
+    skill_xp: { sinh_ton: 3, quan_su: 2 }
+    modifiers:
+      - { target: xp.sinh_ton, value: 1.1, op: mul }
+      - { target: death_risk, value: 1.04, op: mul }
+    event_weights: { san_bat: 1.3, hai_luom: 1.3 }
+
+  - id: nt_song_ven_bien
+    name: Sống ven biển
+    description: Khai thác cá gần bờ, nhuyễn thể và sản vật biển theo con nước; chịu rủi ro gió bão, thủy triều và biến đổi đường bờ biển.
+    icon: thoc
+    skill_xp: { sinh_ton: 3, thuong_mai: 1 }
+    modifiers:
+      - { target: food.consumption, value: 0.95, op: mul }
+      - { target: stress.monthly, value: 0.03 }
+    event_weights: { song_nuoc: 1.35, kham_pha: 1.2 }
+
+  - id: nt_song_mang_luoi_trao_doi
+    name: Sống theo mạng lưới trao đổi
+    description: Tiếp cận nguyên liệu đá tốt, vỏ sò và kỹ thuật chế tác từ các nhóm xa; đối mặt hiểm nguy trên đường đi và quan hệ dễ đổ vỡ.
+    icon: tien
+    skill_xp: { thuong_mai: 3, ngoai_giao: 2 }
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.12, op: mul }
+      - { target: death_risk, value: 1.03, op: mul }
+    event_weights: { trao_doi: 1.4, co_hoi: 1.25 }
+
+  - id: nt_gan_bo_cong_dong_dong
+    name: Gắn bó với một cộng đồng đông người
+    description: Dễ hợp tác dựng công trình, bảo vệ lẫn nhau và chăm sóc người yếu; nhưng xung đột chia phần và bệnh tật dễ lan trong nhóm.
+    icon: nha
+    skill_xp: { ngoai_giao: 3, quan_tri: 2 }
+    modifiers:
+      - { target: death_risk, value: 0.96, op: mul }
+      - { target: stress.monthly, value: 0.05 }
+    event_weights: { tinh_lang: 1.35, gia_dinh: 1.2 }

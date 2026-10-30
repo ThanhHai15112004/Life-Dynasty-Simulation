@@ -120,8 +120,10 @@ export function yearlyPeers(ctx: SimContext): void {
 export function checkReflection(ctx: SimContext): boolean {
   const { state } = ctx;
   const age = ageNow(ctx, player(ctx));
-  const r = activeStory(ctx).reflections.find((x) => x.age === age);
-  if (!r || state.reflectionDue || (state.reflections ?? []).some((x) => x.age === age)) return false;
+  const matches = activeStory(ctx).reflections.filter((x) => x.age === age);
+  if (matches.length === 0 || state.reflectionDue || (state.reflections ?? []).some((x) => x.age === age)) return false;
+  const idx = hashSeed(`${state.seed}::${state.playerId}::refl_${age}`) % matches.length;
+  const r = matches[idx]!;
   state.reflectionDue = { age: r.age, question: r.question };
   return true;
 }

@@ -1,5 +1,591 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Tài sản riêng của Thời Nguyên Thủy (Hang đá / Lều da thú, Bãi hái lượm ven sông, Chó săn thuần hóa, Rìu đá mài...).
+# 5. Tài sản (properties): Nhà ở 3 nhánh × 3 bậc, công cụ săn bắt, đánh cá,
+# lao động sinh hoạt và quyền tiếp cận nguồn lực kiếm ăn.
 # ══════════════════════════════════════════════════════════════════════════════
-properties: []
+properties:
+  # ══════════════════ A. NHÀ Ở — 3 NHÁNH × 3 BẬC ══════════════════
+  # 1) Nhánh cư trú di động
+  - id: nt_mai_che_tam
+    name: Mái che tạm bằng cành và lá
+    category: house
+    unit: nơi trú
+    description: Dựng nhanh bằng cành cây và lá rừng, tốn ít vật liệu nhưng chỉ che chắn gió mưa hạn chế.
+    value: 3
+    buyable: false
+    sellable: false
+    house_tier: 1
+    modifiers:
+      - { target: health.monthly, value: -0.04 }
+    scene: { layer: buildings, sprite: nha_tranh }
+
+  - id: nt_lan_vach_chan
+    name: Lán có vách chắn
+    category: house
+    unit: lán
+    description: Lán dựng khung gỗ có vách chắn gió mưa tốt hơn, cần thời gian và vật liệu gia cố.
+    value: 15
+    buyable: false
+    sellable: false
+    house_tier: 2
+    upgrade_from: nt_mai_che_tam
+    upgrade_cost: 12
+    upkeep_money_year: 0.2
+    modifiers:
+      - { target: health.monthly, value: 0.06 }
+      - { target: stress.monthly, value: -0.05 }
+    scene: { layer: buildings, sprite: nha_go }
+
+  - id: nt_noi_tru_theo_mua
+    name: Nơi trú theo mùa được gia cố
+    category: house
+    unit: khu trú
+    description: Khu trú theo mùa được gia cố vững chãi, có khu sinh hoạt, bếp lửa và nơi bố trí đồ dùng hợp lý.
+    value: 40
+    buyable: false
+    sellable: false
+    house_tier: 3
+    upgrade_from: nt_lan_vach_chan
+    upgrade_cost: 26
+    upkeep_money_year: 0.4
+    modifiers:
+      - { target: health.monthly, value: 0.14 }
+      - { target: stress.monthly, value: -0.12 }
+    scene: { layer: buildings, sprite: phu_nho }
+
+  # 2) Nhánh cư trú hang đá
+  - id: nt_mai_da_tru_tam
+    name: Mái đá trú tạm
+    category: house
+    unit: mái đá
+    description: Vòm đá tự nhiên làm nơi ngủ đơn giản, tránh được mưa lớn nhưng vẫn chịu ảnh hưởng ẩm lạnh của thời tiết.
+    value: 4
+    buyable: false
+    sellable: false
+    house_tier: 1
+    modifiers:
+      - { target: health.monthly, value: -0.03 }
+    scene: { layer: buildings, sprite: nha_tranh }
+
+  - id: nt_hang_kho_sinh_hoat
+    name: Hang khô có khu sinh hoạt
+    category: house
+    unit: hang
+    description: Hang đá khô ráo có chỗ nhóm lửa thông thoáng, góc giữ đồ dùng và khu chuẩn bị thức ăn.
+    value: 18
+    buyable: false
+    sellable: false
+    house_tier: 2
+    upgrade_from: nt_mai_da_tru_tam
+    upgrade_cost: 14
+    upkeep_money_year: 0.2
+    modifiers:
+      - { target: health.monthly, value: 0.08 }
+      - { target: stress.monthly, value: -0.06 }
+    scene: { layer: buildings, sprite: nha_go }
+
+  - id: nt_khu_tru_hang_to_chuc
+    name: Khu trú hang được tổ chức tốt
+    category: house
+    unit: khu hang
+    description: Các khu sinh hoạt trong hang được bố trí hợp lý, có rãnh thoát nước và nền lót giảm nguy cơ ẩm thấp, ngập lụt.
+    value: 46
+    buyable: false
+    sellable: false
+    house_tier: 3
+    upgrade_from: nt_hang_kho_sinh_hoat
+    upgrade_cost: 28
+    upkeep_money_year: 0.4
+    modifiers:
+      - { target: health.monthly, value: 0.16 }
+      - { target: stress.monthly, value: -0.14 }
+    scene: { layer: buildings, sprite: phu_nho }
+
+  # 3) Nhánh cư trú định cư
+  - id: nt_nha_vat_lieu_dia_phuong
+    name: Nhà đơn giản bằng vật liệu địa phương
+    category: house
+    unit: căn
+    description: Ngôi nhà dựng từ đất, đá hoặc gỗ địa phương, không gian nhỏ và cần sửa chữa thường xuyên sau mùa mưa.
+    value: 6
+    buyable: false
+    sellable: false
+    house_tier: 1
+    modifiers:
+      - { target: health.monthly, value: -0.02 }
+    scene: { layer: buildings, sprite: nha_tranh }
+
+  - id: nt_nha_vach_mai_nen
+    name: Nhà có vách, mái và nền tốt hơn
+    category: house
+    unit: căn
+    description: Nhà định cư có nền đắp cao, vách đất trộn hoặc kè đá và mái che chắc chắn, cải thiện rõ rệt sinh hoạt.
+    value: 24
+    buyable: false
+    sellable: false
+    house_tier: 2
+    upgrade_from: nt_nha_vat_lieu_dia_phuong
+    upgrade_cost: 18
+    upkeep_money_year: 0.3
+    modifiers:
+      - { target: health.monthly, value: 0.1 }
+      - { target: stress.monthly, value: -0.08 }
+    scene: { layer: buildings, sprite: nha_go }
+
+  - id: nt_nha_gia_co_luu_tru
+    name: Nhà được gia cố, có khu lưu trữ
+    category: house
+    unit: căn
+    description: Nơi trú định cư ổn định được gia cố bằng đất đá chắc chắn, có ngăn bảo quản hạt và thực phẩm dự trữ cho cả gia đình.
+    value: 58
+    buyable: false
+    sellable: false
+    house_tier: 3
+    upgrade_from: nt_nha_vach_mai_nen
+    upgrade_cost: 34
+    upkeep_money_year: 0.6
+    modifiers:
+      - { target: health.monthly, value: 0.18 }
+      - { target: stress.monthly, value: -0.15 }
+      - { target: food.consumption, value: 0.96, op: mul }
+    scene: { layer: buildings, sprite: phu_nho }
+
+  # ══════════════════ B. CÔNG CỤ SĂN BẮT (12) ══════════════════
+  - id: nt_lao_go
+    name: Lao gỗ có đầu nhọn
+    category: other
+    unit: cây
+    description: Thân gỗ thẳng được vót nhọn và hơ lửa cho cứng đầu, vũ khí cơ bản cho các chuyến săn gần.
+    value: 2
+    modifiers: [{ target: xp.quan_su, value: 1.03, op: mul }]
+
+  - id: nt_lao_mui_da
+    name: Lao gắn mũi đá
+    category: other
+    unit: cây
+    description: Cán gỗ buộc chặt mũi đá ghè sắc bén bằng dây gân thú hoặc sợi thực vật, tăng sức sát thương khi săn thú lớn.
+    value: 5
+    modifiers:
+      - { target: xp.quan_su, value: 1.06, op: mul }
+      - { target: harvest.yield, value: 1.03, op: mul }
+
+  - id: nt_cong_cu_phong_lao
+    name: Công cụ hỗ trợ phóng lao
+    category: other
+    unit: chiếc
+    description: Thanh gỗ có móc tựa giúp tăng lực đòn bẩy và tầm phóng lao ở những cộng đồng có truyền thống sử dụng.
+    value: 6
+    modifiers: [{ target: xp.quan_su, value: 1.07, op: mul }]
+
+  - id: nt_cung_ten
+    name: Cung và tên
+    category: other
+    unit: bộ
+    description: Cánh cung gỗ dẻo cùng ống tên gắn mũi đá hoặc xương, hiệu quả khi săn thú nhỏ và thú chạy nhanh.
+    value: 8
+    modifiers:
+      - { target: xp.quan_su, value: 1.08, op: mul }
+      - { target: harvest.yield, value: 1.04, op: mul }
+
+  - id: nt_mui_nhon_xuong
+    name: Mũi nhọn bằng xương hoặc sừng
+    category: other
+    unit: bó
+    description: Những mũi nhọn mài kỹ từ xương ống hoặc sừng thú, nhẹ và bền khi gắn vào đầu lao.
+    value: 3
+    modifiers: [{ target: xp.sinh_ton, value: 1.03, op: mul }]
+
+  - id: nt_dao_da_ghe
+    name: Dao đá ghè
+    category: other
+    unit: chiếc
+    description: Mảnh tước đá sắc dùng để xẻ thịt, cắt gân và xử lý con mồi ngay sau cuộc săn.
+    value: 3
+    modifiers: [{ target: xp.sinh_ton, value: 1.04, op: mul }]
+
+  - id: nt_cong_cu_nao_da
+    name: Công cụ nạo da
+    category: other
+    unit: chiếc
+    description: Lưỡi đá có rìa cong dùng để làm sạch mỡ và thịt bám trên da thú trước khi phơi thuộc.
+    value: 3
+    modifiers: [{ target: xp.quan_tri, value: 1.03, op: mul }]
+
+  - id: nt_bay_tu_nhien
+    name: Bẫy bằng vật liệu tự nhiên
+    category: other
+    unit: bộ
+    description: Bẫy thòng lọng và bẫy sập làm từ cành cây dẻo, đá nặng và dây sợi đặt trên lối thú đi ăn đêm.
+    value: 4
+    modifiers: [{ target: harvest.yield, value: 1.03, op: mul }]
+
+  - id: nt_day_buoc_san
+    name: Dây buộc dùng trong săn bắt
+    category: other
+    unit: cuộn
+    description: Dây bện từ sợi vỏ cây và gân thú khô, dùng để buộc công cụ, dựng bẫy và bó con mồi mang về.
+    value: 2
+
+  - id: nt_tui_dung_dung_cu
+    name: Túi đựng dụng cụ săn
+    category: other
+    unit: chiếc
+    description: Túi da thú hoặc sợi đan đeo bên người để giữ mũi đá dự phòng, đá lửa và dây buộc khi đi xa.
+    value: 3
+    modifiers: [{ target: xp.sinh_ton, value: 1.02, op: mul }]
+
+  - id: nt_bo_sua_chua
+    name: Bộ công cụ sửa chữa
+    category: other
+    unit: bộ
+    description: Hòn ghè nhỏ, dùi xương, nhựa cây và sợi buộc để kịp thời sửa lại cán lao hay mũi đá bị mẻ giữa đường.
+    value: 4
+    modifiers: [{ target: xp.quan_tri, value: 1.04, op: mul }]
+
+  - id: nt_cho_dong_hanh
+    name: Chó đồng hành
+    category: livestock
+    unit: con
+    description: Chó săn gắn bó với nhóm người, giúp đánh hơi dấu thú, báo động nguy hiểm ban đêm và hỗ trợ vây bắt.
+    value: 12
+    upkeep_food_month: 0.15
+    modifiers:
+      - { target: harvest.yield, value: 1.08, op: mul }
+      - { target: death_risk, value: 0.96, op: mul }
+    scene: { layer: props, sprite: trau, max_draw: 1 }
+
+  # ══════════════════ C. CÔNG CỤ ĐÁNH CÁ (8) ══════════════════
+  - id: nt_lao_dam_ca
+    name: Lao và mũi đâm cá
+    category: other
+    unit: cây
+    description: Cây lao nhẹ có nhiều chĩa hoặc mũi nhọn dùng để đâm cá ở vùng nước nông và ghềnh suối.
+    value: 3
+    modifiers: [{ target: xp.sinh_ton, value: 1.03, op: mul }]
+
+  - id: nt_mui_nhon_nganh_xuong
+    name: Mũi nhọn có ngạnh bằng xương
+    category: other
+    unit: chiếc
+    description: Mũi lao khắc ngạnh tỉ mỉ từ xương hoặc sừng, giữ chặt cá lớn không bị tuột khi vùng vẫy.
+    value: 4
+    modifiers: [{ target: harvest.yield, value: 1.03, op: mul }]
+
+  - id: nt_luoi_cau
+    name: Lưỡi câu nguyên thủy
+    category: other
+    unit: bộ
+    description: Lưỡi câu mài từ xương cong hoặc vỏ sò bền chắc, phù hợp với kỹ nghệ đánh bắt ven sông hồ.
+    value: 3
+
+  - id: nt_day_cau_soi
+    name: Dây câu bằng sợi
+    category: other
+    unit: cuộn
+    description: Dây xe mảnh nhưng dẻo dai từ sợi thực vật ngâm nước, dùng để câu cá hoặc buộc phao gỗ.
+    value: 2
+
+  - id: nt_bay_ca
+    name: Bẫy cá đơn giản
+    category: other
+    unit: chiếc
+    description: Lờ đan bằng cành dẻo và kè đá chắn dòng nước nông để đón cá theo con nước.
+    value: 4
+    modifiers: [{ target: harvest.yield, value: 1.04, op: mul }]
+
+  - id: nt_gio_dung_ca
+    name: Giỏ đựng cá
+    category: other
+    unit: chiếc
+    description: Giỏ đan thoáng nước giúp giữ cá, cua và nhuyễn thể tươi lâu khi mang từ bờ sông về nơi trú.
+    value: 2
+
+  - id: nt_vat_dung_lam_ca
+    name: Vật dụng xử lý và làm sạch cá
+    category: other
+    unit: bộ
+    description: Dao mảnh đá và phiến gỗ phẳng dùng để mổ cá, đánh vảy và xẻ phơi khô.
+    value: 3
+    modifiers: [{ target: food.consumption, value: 0.99, op: mul }]
+
+  - id: nt_phuong_tien_noi
+    name: Phương tiện nổi hoặc thuyền đơn giản
+    category: other
+    unit: chiếc
+    description: Bè kết từ thân gỗ nhẹ hoặc thuyền độc mộc khoét bằng lửa và rìu đá, giúp vượt sông và ra vùng nước sâu.
+    value: 16
+    upkeep_money_year: 0.3
+    modifiers:
+      - { target: harvest.yield, value: 1.08, op: mul }
+      - { target: xp.sinh_ton, value: 1.06, op: mul }
+
+  # ══════════════════ D. CÔNG CỤ LAO ĐỘNG & SINH HOẠT (18) ══════════════════
+  - id: nt_riu_da
+    name: Rìu đá hoặc công cụ chặt
+    category: other
+    unit: chiếc
+    description: Rìu đá cuội ghè đẽo hoặc mài lưỡi buộc vào cán gỗ chắc, dùng đốn cành, chặt củi và dựng nơi trú.
+    value: 5
+    modifiers: [{ target: xp.sinh_ton, value: 1.05, op: mul }]
+
+  - id: nt_cong_cu_nao_cat_khoan
+    name: Công cụ nạo, cắt và khoan
+    category: other
+    unit: bộ
+    description: Bộ mảnh tước và mũi khoan đá dùng để đục lỗ vỏ sò, gia công gỗ xương và cắt da.
+    value: 4
+    modifiers: [{ target: xp.quan_tri, value: 1.04, op: mul }]
+
+  - id: nt_da_nghien
+    name: Đá nghiền và bàn nghiền
+    category: other
+    unit: bộ
+    description: Phiến đá phẳng nặng cùng hòn nghiền tay để nghiền hạt ngũ cốc hoang, củ khô và khoáng chất.
+    value: 6
+    modifiers: [{ target: food.consumption, value: 0.97, op: mul }]
+
+  - id: nt_dung_cu_dap_hat
+    name: Dụng cụ đập hạt
+    category: other
+    unit: bộ
+    description: Hòn đá cuội vừa tay và phiến đá lõm dùng để đập vỡ vỏ hạt cứng và quả rừng.
+    value: 3
+
+  - id: nt_luoi_cat_manh_da
+    name: Lưỡi cắt gắn mảnh đá
+    category: other
+    unit: chiếc
+    description: Cán xương hoặc gỗ có rãnh gắn hàng mảnh đá nhỏ sắc bén, dùng cắt thân cỏ và thu hoạch bông hạt.
+    value: 5
+    modifiers: [{ target: harvest.yield, value: 1.05, op: mul }]
+
+  - id: nt_dung_cu_dao_go
+    name: Dụng cụ đào bằng gỗ
+    category: other
+    unit: cây
+    description: Gậy gỗ cứng vót nhọn đầu và nướng lửa, dùng đào củ mài, rễ cây ăn được và xới đất.
+    value: 2
+    modifiers: [{ target: harvest.yield, value: 1.02, op: mul }]
+
+  - id: nt_kim_xuong
+    name: Kim xương
+    category: other
+    unit: chiếc
+    description: Chiếc kim mài nhẵn từ mảnh xương nhỏ có đục lỗ xỏ sợi, giúp khâu ghép tấm da thú che ấm mùa lạnh.
+    value: 3
+    modifiers: [{ target: health.monthly, value: 0.03 }]
+
+  - id: nt_day_soi_thuc_vat
+    name: Dây sợi thực vật
+    category: other
+    unit: bó
+    description: Sợi vỏ cây và dây leo đã đập dập, phơi khô để sẵn sàng đan lát hoặc buộc vách lán.
+    value: 2
+
+  - id: nt_gio_dan
+    name: Giỏ đan
+    category: other
+    unit: chiếc
+    description: Giỏ đan từ tre nứa, cỏ lác hoặc cành mềm, giúp thu gom hạt, quả và củ rừng không bị rơi vãi.
+    value: 3
+    modifiers: [{ target: harvest.yield, value: 1.02, op: mul }]
+
+  - id: nt_tam_dan_trai
+    name: Tấm đan hoặc vật liệu trải
+    category: other
+    unit: tấm
+    description: Tấm cói và lá khô đan dày dùng trải chỗ nằm trong hang hoặc lán, giảm hơi ẩm từ mặt đất.
+    value: 3
+    modifiers: [{ target: health.monthly, value: 0.03 }]
+
+  - id: nt_vat_dung_vo_cay
+    name: Vật đựng làm từ vỏ cây
+    category: other
+    unit: chiếc
+    description: Khay và ống đựng uốn từ vỏ cây khô hoặc quả bầu, nhẹ nhàng khi di chuyển theo mùa.
+    value: 2
+
+  - id: nt_vat_dung_gom
+    name: Vật đựng gốm sơ khai
+    category: other
+    unit: chiếc
+    description: Nồi và bình đất sét nặn tay nung lửa ở những cộng đồng biết làm gốm, giúp đun nấu và trữ thức ăn tốt hơn.
+    value: 7
+    modifiers:
+      - { target: food.consumption, value: 0.96, op: mul }
+      - { target: health.monthly, value: 0.04 }
+
+  - id: nt_do_deo_trang_suc
+    name: Đồ đeo và trang sức vỏ sò, xương đá
+    category: other
+    unit: chuỗi
+    description: Vỏ sò đục lỗ, răng thú và hạt đá mài nhẵn mang ý nghĩa gắn kết, kỷ vật và trao đổi giữa các nhóm.
+    value: 6
+    modifiers: [{ target: xp.ngoai_giao, value: 1.05, op: mul }]
+
+  - id: nt_da_thu_xu_ly
+    name: Da thú đã được xử lý
+    category: other
+    unit: tấm
+    description: Tấm da thú đã nạo sạch, phơi khô và làm mềm để khoác giữ ấm, che cửa lán hoặc trao đổi nguyên liệu.
+    value: 5
+    modifiers: [{ target: health.monthly, value: 0.05 }]
+
+  - id: nt_vat_lieu_giu_lua
+    name: Vật liệu nhóm và giữ lửa
+    category: other
+    unit: bộ
+    description: Đá đánh lửa, gỗ quay lửa, bùi nhùi khô và ống giữ than hồng giúp gia đình không bị tắt bếp giữa mùa mưa lạnh.
+    value: 4
+    modifiers:
+      - { target: health.monthly, value: 0.05 }
+      - { target: stress.monthly, value: -0.04 }
+
+  - id: nt_cong_cu_che_tac_da
+    name: Công cụ chế tác đá
+    category: other
+    unit: bộ
+    description: Hòn ghè đá cứng, dùi sừng ép mảnh và tấm da lót đùi dành cho người chuyên ghè đẽo công cụ.
+    value: 5
+    modifiers: [{ target: xp.quan_tri, value: 1.06, op: mul }]
+
+  - id: nt_dung_cu_gia_cong_go
+    name: Dụng cụ gia công gỗ
+    category: other
+    unit: bộ
+    description: Lưỡi nạo đá, mũi đục xương và đá mài nhẵn để làm cán lao, cung gỗ và khung nơi trú.
+    value: 4
+    modifiers: [{ target: xp.sinh_ton, value: 1.04, op: mul }]
+
+  - id: nt_cong_cu_sua_noi_tru
+    name: Công cụ sửa chữa nơi trú
+    category: other
+    unit: bộ
+    description: Vồ gỗ đóng cọc, cuốc đất sừng hươu và dao cắt cỏ tranh giúp gia cố mái che, vách chắn trước mùa bão.
+    value: 4
+    modifiers: [{ target: living.cost, value: 0.96, op: mul }]
+
+  # ══════════════════ E. TÀI SẢN KIẾM ĂN & NGUỒN LỰC (12) ══════════════════
+  # Quyền tiếp cận / sử dụng địa điểm kiếm ăn được cộng đồng thừa nhận (không mặc định tự do mua bán như đất tư hữu)
+  - id: nt_diem_hai_qua
+    name: Điểm thu hái quả theo mùa
+    category: land
+    unit: điểm
+    description: Vạt rừng có nhiều cây quả và hạt ăn được theo mùa mà gia đình ghi nhớ đường đi và thời điểm chín.
+    value: 14
+    buyable: false
+    sellable: false
+    farmland: true
+
+  - id: nt_khu_cu_cay_an
+    name: Khu vực có củ và cây ăn được
+    category: land
+    unit: khoảnh
+    description: Bãi đất ven rừng giàu củ mài, rễ cây và rau rừng, cung cấp nguồn thức ăn thực vật ổn định.
+    value: 16
+    buyable: false
+    sellable: false
+    farmland: true
+
+  - id: nt_bai_san_quen
+    name: Bãi săn quen thuộc
+    category: land
+    unit: bãi
+    description: Vùng rừng và thung lũng nơi gia đình nắm rõ lối thú đi uống nước, hướng gió và chỗ ẩn nấp.
+    value: 18
+    buyable: false
+    sellable: false
+    farmland: true
+
+  - id: nt_diem_dat_bay
+    name: Điểm đặt bẫy
+    category: other
+    unit: tuyến
+    description: Các lối mòn ven suối và bìa rừng được gia đình duy trì hệ thống bẫy thú nhỏ quanh năm.
+    value: 10
+    buyable: false
+    sellable: false
+    income_money_year: 0.8
+    modifiers: [{ target: harvest.yield, value: 1.04, op: mul }]
+
+  - id: nt_bai_danh_ca
+    name: Bãi đánh cá gần nơi cư trú
+    category: land
+    unit: bãi
+    description: Khúc sông cạn, ghềnh nước hoặc bờ hồ nơi cá thường tụ về theo mùa nước lên xuống.
+    value: 16
+    buyable: false
+    sellable: false
+    farmland: true
+
+  - id: nt_noi_nhat_nhuyen_the
+    name: Nơi thu nhặt nhuyễn thể
+    category: land
+    unit: bãi
+    description: Bãi đá ven biển hoặc bờ sông giàu sò, ốc, trai, cua giúp gia đình kiếm ăn theo nhịp thủy triều.
+    value: 15
+    buyable: false
+    sellable: false
+    farmland: true
+
+  - id: nt_vung_nguon_da_tot
+    name: Vùng có nguồn đá tốt
+    category: other
+    unit: điểm
+    description: Khe núi hoặc bãi cuội có đá lửa, thạch anh hay đá sắc dễ ghè mảnh mà gia đình biết lối tiếp cận.
+    value: 14
+    buyable: false
+    sellable: false
+    income_money_year: 1.2
+    modifiers: [{ target: xp.thuong_mai, value: 1.05, op: mul }]
+
+  - id: nt_tuyen_duong_nuoc
+    name: Tuyến đường đến nguồn nước
+    category: other
+    unit: tuyến
+    description: Lối đi an toàn dẫn tới mạch nước ngọt, khe suối hoặc hồ nước không bị cạn vào mùa khô.
+    value: 12
+    buyable: false
+    sellable: false
+    modifiers:
+      - { target: health.monthly, value: 0.06 }
+      - { target: death_risk, value: 0.96, op: mul }
+
+  - id: nt_khu_phoi_bao_quan
+    name: Khu phơi và bảo quản thức ăn
+    category: other
+    unit: khu
+    description: Phiến đá cao thoáng nắng và giàn hun khói giúp làm khô thịt, cá, hạt trước khi cất giữ.
+    value: 8
+    upkeep_money_year: 0.1
+    modifiers: [{ target: food.consumption, value: 0.97, op: mul }]
+    scene: { layer: props, sprite: kho_lua, max_draw: 1 }
+
+  - id: nt_noi_cat_giu_thuc_pham
+    name: Nơi cất giữ hạt, củ và thực phẩm khô
+    category: other
+    unit: hầm
+    description: Hố trữ lót đá khô ráo hoặc ngăn cất giữ kín đáo giúp tránh chuột bọ, ẩm mốc phá hỏng nguồn dự trữ.
+    value: 10
+    upkeep_money_year: 0.1
+    modifiers: [{ target: food.consumption, value: 0.95, op: mul }]
+    scene: { layer: props, sprite: kho_lua, max_draw: 1 }
+
+  - id: nt_khu_cay_luong_thuc
+    name: Khu cây lương thực đang được chăm sóc
+    category: land
+    unit: khoảnh
+    description: Vạt đất có ngũ cốc hoặc đậu được nhổ cỏ, bảo vệ và gieo hạt lại qua các mùa ở những cộng đồng định cư sơ khai.
+    value: 20
+    farmland: true
+
+  - id: nt_nhom_dong_vat_quan_ly
+    name: Nhóm động vật được quản lý
+    category: livestock
+    unit: đàn nhỏ
+    description: Nhóm dê hoặc cừu đang trong quá trình được con người trông giữ và hạn chế bỏ chạy tại các vùng thích hợp ở Tây Á.
+    value: 18
+    upkeep_food_month: 0.25
+    income_money_year: 1.5
+    modifiers: [{ target: harvest.yield, value: 1.06, op: mul }]
+    scene: { layer: props, sprite: dan_ga, max_draw: 1 }

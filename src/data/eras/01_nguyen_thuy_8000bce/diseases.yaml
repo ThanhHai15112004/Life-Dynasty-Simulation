@@ -1,5 +1,396 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Bệnh tật & Thương tích đặc trưng Thời Nguyên Thủy (Nhiễm trùng vết cắn thú dữ, Sốt rét rừng sâu, Tê cóng mùa đông...).
+# Bệnh tật, thương tích (18 loại) & Trạng thái sức khỏe dài hạn (5 trạng thái).
 # ══════════════════════════════════════════════════════════════════════════════
-diseases: []
+diseases:
+  # ── 18 BỆNH TẬT VÀ THƯƠNG TÍCH ──
+  # 01. Vết thương nhiễm trùng
+  - id: nt_vet_thuong_nhiem_trung
+    name: Vết thương nhiễm trùng
+    description: Da bị rách, vết đâm hoặc tai nạn lao động làm vết thương sưng đau, phát sốt và suy yếu dần.
+    severity: nang
+    duration_months: [2, 4]
+    cure_cost: 1.5
+    cure_chance: 0.55
+    self_heal_chance_month: 0.22
+    mortality_cause: benh
+    monthly_chance: 0.0025
+    condition: { var: self.health, op: '<', value: 65 }
+    modifiers:
+      - { target: health.monthly, value: -1.6 }
+      - { target: stress.monthly, value: 0.8 }
+      - { target: death_risk, value: 1.25, op: mul }
+
+  # 02. Gãy xương
+  - id: nt_gay_xuong
+    name: Gãy xương
+    description: Chấn thương do ngã, săn bắt hoặc vận chuyển vật nặng khiến khả năng vận động bị hạn chế, cần người chăm sóc lâu dài.
+    severity: nang
+    duration_months: [3, 6]
+    cure_cost: 2.0
+    cure_chance: 0.5
+    self_heal_chance_month: 0.2
+    mortality_cause: tai_nan
+    monthly_chance: 0.0015
+    condition: { var: self.age, op: '>=', value: 8 }
+    modifiers:
+      - { target: health.monthly, value: -1.2 }
+      - { target: stress.monthly, value: 1.0 }
+      - { target: xp.all, value: 0.7, op: mul }
+
+  # 03. Tiêu chảy cấp
+  - id: nt_tieu_chay_cap
+    name: Tiêu chảy cấp
+    description: Do thức ăn hoặc nguồn nước nhiễm bẩn gây mất nước và suy kiệt nhanh, đặc biệt nguy hiểm với trẻ nhỏ.
+    severity: nang
+    duration_months: [1, 2]
+    cure_cost: 1.0
+    cure_chance: 0.6
+    self_heal_chance_month: 0.35
+    mortality_cause: benh
+    monthly_chance: 0.003
+    condition: { var: self.health, op: '<', value: 60 }
+    modifiers:
+      - { target: health.monthly, value: -1.8 }
+      - { target: stress.monthly, value: 0.7 }
+      - { target: death_risk, value: 1.3, op: mul }
+
+  # 04. Nhiễm ký sinh trùng đường ruột
+  - id: nt_ky_sinh_trung_ruot
+    name: Nhiễm ký sinh trùng đường ruột
+    description: Tiếp xúc mầm bệnh từ nước, đất hoặc thực phẩm chưa xử lý kỹ gây đau bụng, thiếu dinh dưỡng và suy yếu kéo dài.
+    severity: nhe
+    duration_months: [3, 6]
+    cure_cost: 1.0
+    cure_chance: 0.65
+    self_heal_chance_month: 0.25
+    mortality_cause: benh
+    monthly_chance: 0.0035
+    condition: { var: self.health, op: '<', value: 70 }
+    modifiers:
+      - { target: health.monthly, value: -0.7 }
+      - { target: stress.monthly, value: 0.4 }
+
+  # 05. Viêm nhiễm đường hô hấp
+  - id: nt_viem_ho_hap
+    name: Viêm nhiễm đường hô hấp
+    description: Ho, sốt và khó thở khi thời tiết lạnh ẩm kéo dài, đôi khi dẫn đến biến chứng nặng.
+    severity: nang
+    duration_months: [2, 4]
+    cure_cost: 1.4
+    cure_chance: 0.6
+    self_heal_chance_month: 0.28
+    mortality_cause: benh
+    monthly_chance: 0.003
+    condition:
+      all:
+        - { var: world.season, op: 'in', value: [dong, xuan] }
+        - { var: self.health, op: '<', value: 62 }
+    modifiers:
+      - { target: health.monthly, value: -1.4 }
+      - { target: stress.monthly, value: 0.6 }
+      - { target: death_risk, value: 1.2, op: mul }
+
+  # 06. Bệnh hoặc tổn thương răng miệng
+  - id: nt_benh_rang_mieng
+    name: Bệnh hoặc tổn thương răng miệng
+    description: Mòn răng do hạt cứng lẫn cát đá, chấn thương hoặc nhiễm trùng khiến việc nhai nuốt đau đớn.
+    severity: nhe
+    duration_months: [2, 5]
+    cure_cost: 0.8
+    cure_chance: 0.6
+    self_heal_chance_month: 0.3
+    mortality_cause: benh
+    monthly_chance: 0.0025
+    condition: { var: self.age, op: '>=', value: 20 }
+    modifiers:
+      - { target: health.monthly, value: -0.6 }
+      - { target: stress.monthly, value: 0.5 }
+
+  # 07. Suy dinh dưỡng
+  - id: nt_suy_dinh_duong
+    name: Suy dinh dưỡng
+    description: Thiếu thức ăn hoặc khẩu phần mất cân đối làm giảm sức lao động, chậm phát triển và tăng nguy cơ tử vong.
+    severity: nang
+    duration_months: [3, 6]
+    cure_cost: 1.5
+    cure_chance: 0.65
+    self_heal_chance_month: 0.2
+    mortality_cause: doi_ret
+    monthly_chance: 0.003
+    condition:
+      all:
+        - { var: household.living_standard, op: '==', value: kho_cuc }
+        - { var: self.health, op: '<', value: 58 }
+    modifiers:
+      - { target: health.monthly, value: -1.3 }
+      - { target: stress.monthly, value: 0.7 }
+      - { target: death_risk, value: 1.3, op: mul }
+
+  # 08. Ngộ độc thực vật hoặc nấm
+  - id: nt_ngo_doc_thuc_vat_nam
+    name: Ngộ độc thực vật hoặc nấm
+    description: Ăn nhầm củ, quả hoặc nấm có độc gây đau bụng dữ dội, choáng váng và suy kiệt cơ thể.
+    severity: nguy_kich
+    duration_months: [1, 2]
+    cure_cost: 1.8
+    cure_chance: 0.5
+    self_heal_chance_month: 0.3
+    mortality_cause: tai_nan
+    monthly_chance: 0.0012
+    modifiers:
+      - { target: health.monthly, value: -2.4 }
+      - { target: stress.monthly, value: 1.2 }
+      - { target: death_risk, value: 1.45, op: mul }
+
+  # 09. Rắn cắn hoặc động vật có độc
+  - id: nt_ran_can_dong_vat_doc
+    name: Rắn cắn hoặc động vật có độc
+    description: Tiếp xúc động vật nguy hiểm trong rừng, bụi cỏ hoặc khe đá gây sưng tấy, tổn thương mô và nguy hiểm tính mạng.
+    severity: nguy_kich
+    duration_months: [1, 3]
+    cure_cost: 2.0
+    cure_chance: 0.48
+    self_heal_chance_month: 0.22
+    mortality_cause: tai_nan
+    monthly_chance: 0.001
+    modifiers:
+      - { target: health.monthly, value: -2.5 }
+      - { target: stress.monthly, value: 1.3 }
+      - { target: death_risk, value: 1.5, op: mul }
+
+  # 10. Bỏng
+  - id: nt_bong_lua
+    name: Bỏng
+    description: Tổn thương do lửa bếp, than hồng hoặc vật nóng gây nhiễm trùng và hạn chế vận động.
+    severity: nang
+    duration_months: [2, 4]
+    cure_cost: 1.4
+    cure_chance: 0.58
+    self_heal_chance_month: 0.25
+    mortality_cause: tai_nan
+    monthly_chance: 0.0012
+    modifiers:
+      - { target: health.monthly, value: -1.4 }
+      - { target: stress.monthly, value: 0.9 }
+
+  # 11. Kiệt sức và mất nước
+  - id: nt_kiet_suc_mat_nuoc
+    name: Kiệt sức và mất nước
+    description: Di chuyển hoặc lao động kéo dài dưới nắng nóng và thiếu nước uống gây chóng mặt, ngất và suy kiệt.
+    severity: nang
+    duration_months: [1, 3]
+    cure_cost: 1.0
+    cure_chance: 0.72
+    self_heal_chance_month: 0.4
+    mortality_cause: lao_luc
+    monthly_chance: 0.0025
+    condition:
+      all:
+        - { var: world.season, op: '==', value: ha }
+        - { var: self.health, op: '<', value: 60 }
+    modifiers:
+      - { target: health.monthly, value: -1.5 }
+      - { target: stress.monthly, value: 0.8 }
+
+  # 12. Chấn thương do thú lớn
+  - id: nt_chan_thuong_thu_lon
+    name: Chấn thương do thú lớn
+    description: Tai nạn trong cuộc săn hoặc bị động vật hoang tấn công gây vết thương sâu và dập gãy xương.
+    severity: nguy_kich
+    duration_months: [3, 6]
+    cure_cost: 2.5
+    cure_chance: 0.45
+    self_heal_chance_month: 0.15
+    mortality_cause: tai_nan
+    monthly_chance: 0.0008
+    condition: { var: self.age, op: '>=', value: 12 }
+    modifiers:
+      - { target: health.monthly, value: -2.6 }
+      - { target: stress.monthly, value: 1.4 }
+      - { target: death_risk, value: 1.55, op: mul }
+
+  # 13. Biến chứng khi sinh
+  - id: nt_bien_chung_khi_sinh
+    name: Biến chứng khi sinh
+    description: Mất máu, khó sinh hoặc nhiễm trùng sau sinh nở trong điều kiện chăm sóc còn hết sức hạn chế.
+    severity: nguy_kich
+    duration_months: [1, 3]
+    cure_cost: 2.2
+    cure_chance: 0.48
+    self_heal_chance_month: 0.2
+    mortality_cause: benh
+    monthly_chance: 0.0008
+    condition:
+      all:
+        - { var: self.sex, op: '==', value: f }
+        - { var: self.age, op: 'between', value: [16, 42] }
+    modifiers:
+      - { target: health.monthly, value: -2.4 }
+      - { target: stress.monthly, value: 1.2 }
+      - { target: death_risk, value: 1.5, op: mul }
+
+  # 14. Bệnh lý ở trẻ nhỏ
+  - id: nt_benh_ly_tre_nho
+    name: Bệnh lý ở trẻ nhỏ
+    description: Nhiễm trùng, sốt cao hoặc thiếu dinh dưỡng ở trẻ nhỏ, ảnh hưởng tăng trưởng và đe dọa tính mạng.
+    severity: nang
+    duration_months: [1, 3]
+    cure_cost: 1.2
+    cure_chance: 0.55
+    self_heal_chance_month: 0.25
+    mortality_cause: soi
+    monthly_chance: 0.004
+    condition: { var: self.age, op: '<=', value: 11 }
+    modifiers:
+      - { target: health.monthly, value: -1.8 }
+      - { target: death_risk, value: 1.35, op: mul }
+
+  # 15. Đau và thoái hóa khớp
+  - id: nt_dau_thoai_hoa_khop
+    name: Đau và thoái hóa khớp
+    description: Đau nhức xương khớp do tuổi tác, mang vác nặng và ngủ nơi ẩm lạnh, hạn chế khả năng đi xa.
+    severity: nhe
+    duration_months: [4, 8]
+    cure_cost: 1.0
+    cure_chance: 0.5
+    self_heal_chance_month: 0.15
+    mortality_cause: gia_yeu
+    monthly_chance: 0.0035
+    condition: { var: self.age, op: '>=', value: 38 }
+    modifiers:
+      - { target: health.monthly, value: -0.6 }
+      - { target: stress.monthly, value: 0.5 }
+      - { target: xp.all, value: 0.85, op: mul }
+
+  # 16. Tổn thương mắt
+  - id: nt_ton_thuong_mat
+    name: Tổn thương mắt
+    description: Mảnh đá văng khi ghè, bụi bẩn, khói bếp hoặc tai nạn làm giảm thị lực và viêm nhiễm.
+    severity: nang
+    duration_months: [2, 5]
+    cure_cost: 1.4
+    cure_chance: 0.52
+    self_heal_chance_month: 0.2
+    mortality_cause: tai_nan
+    monthly_chance: 0.0012
+    modifiers:
+      - { target: health.monthly, value: -0.8 }
+      - { target: stress.monthly, value: 0.8 }
+      - { target: xp.all, value: 0.8, op: mul }
+
+  # 17. Ngạt khói
+  - id: nt_ngat_khoi
+    name: Ngạt khói
+    description: Nơi trú hoặc hang đá thiếu thông thoáng khi đốt lửa hay gặp cháy gây ho sặc, khó thở và suy yếu.
+    severity: nang
+    duration_months: [1, 2]
+    cure_cost: 1.0
+    cure_chance: 0.68
+    self_heal_chance_month: 0.4
+    mortality_cause: tai_nan
+    monthly_chance: 0.0015
+    condition: { var: world.season, op: '==', value: dong }
+    modifiers:
+      - { target: health.monthly, value: -1.5 }
+      - { target: stress.monthly, value: 0.7 }
+
+  # 18. Hạ thân nhiệt
+  - id: nt_ha_than_nhiet
+    name: Hạ thân nhiệt
+    description: Dầm mưa lạnh, thiếu nơi trú kín gió hoặc tấm che khô ráo khiến cơ thể mất sức nhanh chóng.
+    severity: nguy_kich
+    duration_months: [1, 2]
+    cure_cost: 1.2
+    cure_chance: 0.62
+    self_heal_chance_month: 0.3
+    mortality_cause: doi_ret
+    monthly_chance: 0.002
+    condition:
+      all:
+        - { var: world.season, op: '==', value: dong }
+        - { var: self.health, op: '<', value: 55 }
+    modifiers:
+      - { target: health.monthly, value: -2.2 }
+      - { target: stress.monthly, value: 1.0 }
+      - { target: death_risk, value: 1.4, op: mul }
+
+  # ── 05 TRẠNG THÁI SỨC KHỎE DÀI HẠN ──
+  # 19. Vết thương cũ
+  - id: nt_vet_thuong_cu
+    name: Vết thương cũ
+    description: Một chấn thương đã lành nhưng để lại cơn đau khi trái gió trở trời hoặc hạn chế vận động nặng.
+    severity: nhe
+    duration_months: [12, 24]
+    cure_cost: 1.5
+    cure_chance: 0.4
+    self_heal_chance_month: 0.08
+    mortality_cause: tai_nan
+    monthly_chance: 0
+    modifiers:
+      - { target: health.monthly, value: -0.35 }
+      - { target: stress.monthly, value: 0.3 }
+
+  # 20. Sức khỏe suy giảm sau đói
+  - id: nt_suy_giam_sau_doi
+    name: Sức khỏe suy giảm sau đói
+    description: Thiếu dinh dưỡng kéo dài làm giảm sức bền và khả năng hồi phục của cơ thể qua nhiều mùa.
+    severity: nhe
+    duration_months: [8, 16]
+    cure_cost: 1.5
+    cure_chance: 0.55
+    self_heal_chance_month: 0.12
+    mortality_cause: doi_ret
+    monthly_chance: 0
+    modifiers:
+      - { target: health.monthly, value: -0.45 }
+      - { target: death_risk, value: 1.12, op: mul }
+
+  # 21. Mất một phần khả năng vận động
+  - id: nt_mat_kha_nang_van_dong
+    name: Mất một phần khả năng vận động
+    description: Không còn chạy nhanh hay săn bắt đường xa như trước, nhưng vẫn có thể chế tác, trông coi nơi trú và truyền dạy kỹ năng.
+    severity: nang
+    duration_months: [18, 36]
+    cure_cost: 2.5
+    cure_chance: 0.3
+    self_heal_chance_month: 0.05
+    mortality_cause: tai_nan
+    monthly_chance: 0
+    modifiers:
+      - { target: health.monthly, value: -0.4 }
+      - { target: xp.quan_su, value: 0.65, op: mul }
+      - { target: xp.hoc_van, value: 1.15, op: mul }
+
+  # 22. Người sống sót sau tai nạn
+  - id: nt_song_sot_sau_tai_nan
+    name: Người sống sót sau tai nạn
+    description: Vượt qua biến cố sinh tử, mang vết sẹo lâu dài nhưng tích lũy kinh nghiệm đặc biệt để cảnh báo thế hệ trẻ.
+    severity: nhe
+    duration_months: [12, 24]
+    cure_cost: 1.0
+    cure_chance: 0.5
+    self_heal_chance_month: 0.1
+    mortality_cause: tai_nan
+    monthly_chance: 0
+    modifiers:
+      - { target: health.monthly, value: -0.2 }
+      - { target: xp.sinh_ton, value: 1.15, op: mul }
+      - { target: xp.hoc_van, value: 1.1, op: mul }
+
+  # 23. Tuổi già cần được hỗ trợ
+  - id: nt_tuoi_gia_can_ho_tro
+    name: Tuổi già cần được hỗ trợ
+    description: Sức lực suy giảm theo năm tháng; sự sống còn phụ thuộc nhiều hơn vào nguồn thức ăn và sự đùm bọc của gia đình, cộng đồng.
+    severity: nang
+    duration_months: [12, 36]
+    cure_cost: 1.5
+    cure_chance: 0.35
+    self_heal_chance_month: 0.05
+    mortality_cause: gia_yeu
+    monthly_chance: 0.002
+    condition: { var: self.age, op: '>=', value: 58 }
+    modifiers:
+      - { target: health.monthly, value: -0.8 }
+      - { target: death_risk, value: 1.2, op: mul }
+      - { target: xp.hoc_van, value: 1.2, op: mul }

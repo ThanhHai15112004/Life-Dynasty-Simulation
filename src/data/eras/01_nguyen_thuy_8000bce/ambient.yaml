@@ -1,32 +1,815 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Nguyên Thủy / Đá Mới.
+# Nhật ký dòng đời (ambient.yaml):
+# - 15 biến cố khởi đầu theo xuất thân (nt_start_01..15)
+# - Ghi đè thông báo hệ thống (sys.*) theo ngữ cảnh 8000 TCN
+# - 40 thông báo & nhật ký đời sống từ Mục 11.D theo các giai đoạn đời
 # ══════════════════════════════════════════════════════════════════════════════
 templates:
-  - id: amb_nguyen_thuy_ve_tranh_hang_da
+  # ══════════════════ 15 BIẾN CỐ KHỞI ĐẦU THEO XUẤT THÂN (MỤC 1) ══════════════════
+  - id: nt_start_01_san_thu
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người săn thú tại {world.settlement}. Vừa qua một người thân bị thương trong chuyến săn khiến gia đình mất đi nguồn thức ăn quan trọng.'
+
+  - id: nt_start_02_hai_luom
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người hái lượm tại {world.settlement}. Một bãi cây quen thuộc vừa bị lũ phá hủy, buộc gia đình phải tìm kiếm khu vực thu hái mới.'
+
+  - id: nt_start_03_danh_ca_song
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người đánh cá ven sông tại {world.settlement}. Một trận lũ vừa làm thay đổi dòng chảy và cuốn đi bãi đánh cá quen thuộc của gia đình.'
+
+  - id: nt_start_04_ven_bien
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, lớn lên trong cộng đồng ven biển tại {world.settlement}. Nước biển dâng dần đang làm hư hại khu cắm trại cũ của gia đình.'
+
+  - id: nt_start_05_di_cu
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, đứa trẻ của nhóm người di cư theo mùa tại {world.settlement}. Nhóm vừa quyết định không quay về bãi trú cũ, khiến gia đình đứng trước lựa chọn đi theo hay ở lại.'
+
+  - id: nt_start_06_ngu_coc
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người thu hái và trồng ngũ cốc tại {world.settlement}. Một vụ thu hoạch kém vừa qua khiến gia đình phải xin chia sẻ hạt từ các hộ khác.'
+
+  - id: nt_start_07_dung_nha
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người dựng nhà tại {world.settlement}. Những trận mưa lớn làm sạt một phần tường đất đá, buộc gia đình phải lựa chọn sửa lại nơi ở hay chuyển đi.'
+
+  - id: nt_start_08_che_tac_da
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người chế tác đá tại {world.settlement}. Một khối đá lạ vừa được đưa đến khu cư trú, mở ra cơ hội học kỹ thuật ghè tách mới.'
+
+  - id: nt_start_09_giu_kho
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người giữ kho thức ăn tại {world.settlement}. Một phần kho hạt vừa bị ẩm mốc và gia đình đang được cộng đồng yêu cầu giải thích nguyên nhân.'
+
+  - id: nt_start_10_hang_da
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của cư dân hang đá tại {world.settlement}. Một mùa mưa kéo dài làm nước tràn ngập nền hang, cả nhóm phải gấp rút tìm nơi trú mới.'
+
+  - id: nt_start_11_ho_sahara
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của cộng đồng ven hồ tại {world.settlement}. Mùa này mặt hồ cạn bất thường và các đàn thú hoang không còn tìm đến bờ nước như mọi năm.'
+
+  - id: nt_start_12_lam_gom
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người làm gốm sơ khai tại {world.settlement}. Một chiếc nồi đất vừa nứt toác trong lúc nung, nhưng người thân đã nhận ra cách trộn đất để cải thiện sản phẩm.'
+
+  - id: nt_start_13_tim_da_quy
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người tìm đá và nguyên liệu hiếm tại {world.settlement}. Người thân vừa mang về những mảnh đá obsidian sắc bén từ mạng lưới trao đổi xa, làm thay đổi vị thế của gia đình.'
+
+  - id: nt_start_14_cham_soc
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, con của người chăm sóc cộng đồng tại {world.settlement}. Một đứa trẻ trong nhóm đang sốt cao, buộc gia đình đối diện giới hạn của những cách chăm sóc quen thuộc.'
+
+  - id: nt_start_15_khong_nguoi_than
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, đứa trẻ không còn người chăm sóc ruột thịt tại {world.settlement}. Một gia đình trong nhóm đề nghị nhận bạn về sống cùng, nhưng bạn phải rời xa người từng đùm bọc mình.'
+
+  # ══════════════════ GHI ĐÈ THÔNG BÁO HỆ THỐNG (sys.*) — MỤC 11.D ══════════════════
+  - id: sys.khoi_dau
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: khoi_dau
+    variants:
+      - 'Bạn là {player.name}, {player.age} tuổi, sinh sống cùng cộng đồng tại {world.settlement}. Nguồn dự trữ của gia đình hiện có {household.food} {lex.food}.'
+
+  - id: sys.sinh_nhat
+    kind: bao_cao
+    importance: 1
+    icon: sinh_nhat
+    short: 'qua mùa thứ {age}'
+    variants:
+      - 'Thêm một mùa mưa nắng đi qua: bạn đã sống trọn {age} tuổi.'
+      - 'Người thân nhìn vết khắc bên vách đá: bạn vừa tròn {age} tuổi.'
+
+  - id: sys.giai_doan_doi
+    kind: he_thong
+    importance: 6
+    highlight: true
+    icon: moc_doi
+    variants:
+      - 'Bạn đã bước sang một giai đoạn mới của cuộc đời ({stage}).'
+      - 'Một chặng đời mới mở ra bên bếp lửa cộng đồng: {stage}.'
+
+  - id: sys.ky_nang_tang
+    kind: bao_cao
+    importance: 2
+    icon: ky_nang
+    short: '{skill} lên bậc {level}'
+    variants:
+      - 'Kinh nghiệm {skill} của bạn đã tăng (bậc {level}).'
+      - 'Qua nhiều ngày thực hành và quan sát, kỹ năng {skill} của bạn đạt bậc {level}.'
+
+  - id: sys.sinh_con
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Một đứa trẻ đã chào đời. Gia đình có thêm thành viên và trách nhiệm chăm sóc.'
+      - 'Gia đình có thêm một thành viên cần được chăm sóc bên bếp lửa.'
+
+  - id: sys.mac_benh
+    kind: he_thong
+    importance: 5
+    tone: buon
+    icon: benh
+    variants:
+      - 'Một thành viên trong gia đình đang bị bệnh ({title}).'
+      - 'Cơ thể suy yếu vì {title}, cần người thân ở bên chăm sóc và giữ ấm.'
+
+  - id: sys.khoi_benh
+    kind: bao_cao
+    importance: 3
+    tone: vui
+    icon: suc_khoe
+    variants:
+      - 'Sức khỏe của bạn đang phục hồi sau chấn thương và cơn bệnh ({title}).'
+      - 'Qua những ngày nghỉ ngơi bên bếp lửa, cơn {title} đã lui dần.'
+
+  - id: sys.nguoi_than_mat
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: buon
+    icon: tang
+    variants:
+      - '{call} từng chăm sóc và gắn bó với bạn đã qua đời ở tuổi {age} vì {cause}.'
+      - 'Bếp lửa lặng đi: {call} đã khép lại cuộc đời ở tuổi {age} vì {cause}.'
+    effects:
+      - { type: stress, value: 12 }
+
+  - id: sys.nguoi_lang_mat
+    kind: nguoi_quanh
+    importance: 3
+    tone: buon
+    icon: tang
+    variants:
+      - 'Một người từng cùng bạn lớn lên hoặc sinh sống trong cộng đồng ({call}) đã qua đời ở tuổi {age}.'
+      - '{call} trong nhóm không qua khỏi ở tuổi {age} vì {cause}.'
+
+  - id: sys.doi_kem
+    kind: he_thong
+    importance: 6
+    highlight: true
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Nguồn thức ăn dự trữ đang giảm nhanh. Cả gia đình phải đào rễ cây và nhặt hạt dại cầm hơi qua ngày.'
+      - 'Thức ăn trong khu vực trở nên khó tìm hơn, phần dự trữ đã cạn kiệt.'
+    effects:
+      - { type: stress, value: 6 }
+
+  - id: sys.diem_bao_om_yeu
+    kind: diem_bao
+    importance: 6
+    highlight: true
+    tone: buon
+    icon: benh
+    variants:
+      - 'Cơ thể bạn không còn hồi phục nhanh như trước. Cuộc đời bạn đang đi đến những năm cuối cùng.'
+      - 'Hơi thở nặng nhọc mỗi khi gió lạnh tràn về — cuộc đời bạn đang đi đến những năm cuối cùng.'
+
+  - id: sys.ket_hon
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Bạn và {partner} chính thức gắn bó bên nhau, cùng chia sẻ thức ăn và dựng nơi trú chung.'
+
+  - id: sys.lam_chu_ho
+    kind: he_thong
+    importance: 7
+    highlight: true
+    icon: nha
+    variants:
+      - 'Người trẻ trong gia đình đã có thể tự đảm nhiệm nhiều công việc — từ nay bạn gánh vác vai trò trụ cột nơi trú.'
+
+  # ══════════════════ 40 THÔNG BÁO & NHẬT KÝ ĐỜI SỐNG (MỤC 11.D) ══════════════════
+  # ── Sinh ra và tuổi thơ (01–08) ──
+  - id: nt_amb_01_dua_tre_chao_doi
+    kind: bao_cao
+    tags: [gia_dinh, tuoi_tho]
+    life_stages: [au_tho, thieu_thoi, thanh_nien, lap_nghiep]
+    weight: 3
+    importance: 2
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Một đứa trẻ đã chào đời. Gia đình có thêm thành viên và trách nhiệm chăm sóc.'
+
+  - id: nt_amb_02_mua_mua_dau_tien
     kind: chuyen_vat
-    tags: [gia_dinh]
-    weight: 9
-    cooldown_years: 2
+    tags: [thien_nhien, tuoi_tho]
+    life_stages: [au_tho, thieu_thoi]
+    weight: 4
+    importance: 2
+    icon: mua
+    variants:
+      - 'Mùa mưa đầu tiên đã đến. Nơi trú cần được kiểm tra.'
+
+  - id: nt_amb_03_nhan_biet_cay_an
+    kind: bao_cao
+    tags: [hai_luom, tuoi_tho]
+    life_stages: [au_tho, thieu_thoi]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn đã nhận biết thêm một loại cây có thể dùng làm thức ăn.'
+
+  - id: nt_amb_04_di_cung_chuyen_thu_hai
+    kind: nguoi_quanh
+    tags: [hai_luom, tuoi_tho]
+    life_stages: [au_tho, thieu_thoi]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Một người lớn đồng ý cho bạn đi cùng trong chuyến thu hái.'
+
+  - id: nt_amb_05_nhan_biet_dau_chan_thu
+    kind: bao_cao
+    tags: [san_bat, tuoi_tho]
+    life_stages: [au_tho, thieu_thoi]
+    weight: 4
+    importance: 2
+    icon: trang
+    variants:
+      - 'Bạn đã học được cách nhận biết một dấu chân thú.'
+
+  - id: nt_amb_06_ban_cung_tuoi_roi_di
+    kind: nguoi_quanh
+    tags: [quan_he, tuoi_tho]
+    life_stages: [au_tho, thieu_thoi]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: lang
+    variants:
+      - 'Người bạn cùng tuổi đã rời cộng đồng.'
+
+  - id: nt_amb_07_thanh_vien_bi_benh
+    kind: bao_cao
+    tags: [benh_tat, gia_dinh]
+    life_stages: [au_tho, thieu_thoi, thanh_nien]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: benh
+    variants:
+      - 'Một thành viên trong gia đình đang bị bệnh.'
+
+  - id: nt_amb_08_duoc_tang_cong_cu_nho
+    kind: nguoi_quanh
+    tags: [thu_cong, tuoi_tho]
+    life_stages: [au_tho, thieu_thoi]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn được tặng một công cụ nhỏ.'
+
+  # ── Nhật ký Ấu thơ bổ sung (đảm bảo độ dày >= 20 mẫu cho giai đoạn au_tho) ──
+  - id: nt_amb_au_09_am_ap_ben_bep_lua
+    kind: chuyen_vat
+    tags: [gia_dinh, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: nha
+    variants:
+      - 'Bạn nằm cuộn tròn trên tấm da thú khô cạnh bếp lửa, nghe tiếng củi nổ lách tách trong đêm lạnh.'
+
+  - id: nt_amb_au_10_nhin_nguoi_lon_ghe_da
+    kind: nguoi_quanh
+    tags: [thu_cong, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 4
+    importance: 2
+    icon: da
+    variants:
+      - 'Bạn ngồi nhìn người lớn gõ hai hòn đá vào nhau, tạo ra những mảnh tước sắc bén.'
+
+  - id: nt_amb_au_11_tap_buoc_bo_suoi
+    kind: chuyen_vat
+    tags: [thien_nhien, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 4
+    importance: 2
+    icon: nuoc
+    variants:
+      - 'Theo chân người chăm sóc ra bờ suối cạn, bạn chạm tay vào dòng nước mát lạnh và những viên cuội tròn.'
+
+  - id: nt_amb_au_12_nghe_tieng_thu_dem
+    kind: chuyen_vat
+    tags: [thien_nhien, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 3
+    importance: 2
+    icon: trang
+    variants:
+      - 'Tiếng thú hoang vọng về từ rừng sâu khiến bạn nép chặt vào lòng người thân suốt đêm.'
+
+  - id: nt_amb_au_13_an_cu_nuong_tro
+    kind: bao_cao
+    tags: [hai_luom, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 4
     importance: 2
     tone: vui
     icon: lua
-    short: 'nghe kể chuyện bên đống lửa bộ lạc'
     variants:
-      - 'Bên ánh lửa bập bùng trong hang đá, các bô lão kể lại truyền thuyết về tổ tiên và những mùa săn lớn.'
-      - 'Bạn ngồi ghè từng mảnh đá lửa bên bờ suối, chế tạo mũi giáo và lưỡi nạo da thú.'
-    effects: [{ type: skill_xp, skill: sinh_ton, value: 8 }]
+      - 'Người thân bóc vỏ một củ rừng nướng chín trong tro ấm rồi chia cho bạn từng miếng nhỏ.'
 
-  - id: amb_nguyen_thuy_mua_hai_luom
-    kind: bao_cao
-    tags: [ruong_dong]
-    weight: 8
-    cooldown_years: 2
-    importance: 2
-    tone: trung_tinh
-    icon: cay
-    short: 'hái lượm hạt dẻ và củ rừng tích trữ'
+  - id: nt_amb_au_14_choi_hat_va_vo_so
+    kind: chuyen_vat
+    tags: [tuoi_tho]
+    life_stages: [au_tho]
+    weight: 4
+    importance: 1
+    tone: vui
+    icon: dieu
     variants:
-      - 'Cả thị tộc chia nhau vào rừng hái quả mọng, đào củ mài và phơi khô thịt thú chuẩn bị cho mùa giá rét.'
-      - 'Những chiếc bình gốm thô nung trên bếp củi giúp gia đình cất giữ hạt khô không bị ẩm mốc.'
-    effects: [{ type: food, value: 4 }]
+      - 'Đám trẻ nhỏ trong khu trú xếp những chiếc vỏ sò và viên đá cuội thành hàng trên nền đất.'
+
+  - id: nt_amb_au_15_theo_lung_nguoi_me
+    kind: nguoi_quanh
+    tags: [gia_dinh, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 4
+    importance: 2
+    icon: gia_dinh
+    variants:
+      - 'Được địu bằng tấm da mềm khi người thân đi hái quả, bạn quen dần với mùi lá rừng và nắng sớm.'
+
+  - id: nt_amb_au_16_mua_gio_duoi_mai_da
+    kind: chuyen_vat
+    tags: [thien_nhien, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 3
+    importance: 2
+    icon: mua
+    variants:
+      - 'Mưa xối xả ngoài cửa hang nhưng bên trong vẫn khô ráo nhờ vách chắn và đống lửa được giữ kỹ.'
+
+  - id: nt_amb_au_17_nghe_chuyen_ke_co
+    kind: nguoi_quanh
+    tags: [truyen_thong, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 4
+    importance: 2
+    icon: sach
+    variants:
+      - 'Người lớn tuổi trong nhóm kể về những mùa băng giá xa xưa và con đường tổ tiên từng đi qua.'
+
+  - id: nt_amb_au_18_chia_phan_thit_san
+    kind: nguoi_quanh
+    tags: [san_bat, gia_dinh]
+    life_stages: [au_tho]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Đoàn săn trở về với con mồi lớn; mọi gia đình trong nhóm đều được chia một phần thịt tươi.'
+
+  - id: nt_amb_au_19_tap_dan_soi_co
+    kind: chuyen_vat
+    tags: [thu_cong, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 3
+    importance: 1
+    icon: la
+    variants:
+      - 'Bạn bắt chước người lớn xoắn những sợi cỏ khô thành đoạn dây nhỏ đầu tiên.'
+
+  - id: nt_amb_au_20_bong_chim_tren_troi
+    kind: chuyen_vat
+    tags: [thien_nhien, tuoi_tho]
+    life_stages: [au_tho]
+    weight: 3
+    importance: 1
+    icon: trang
+    variants:
+      - 'Đàn chim di cư bay rợp bầu trời báo hiệu một mùa mới đang về trên vùng đất cư trú.'
+
+  # ── Kỹ năng và nghề nghiệp (09–16) ──
+  - id: nt_amb_09_kinh_nghiem_che_tac_tang
+    kind: bao_cao
+    tags: [thu_cong, lao_dong]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Kinh nghiệm chế tác đá của bạn đã tăng.'
+
+  - id: nt_amb_10_hoan_thanh_cong_cu
+    kind: bao_cao
+    tags: [thu_cong, lao_dong]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn đã hoàn thành công cụ có thể sử dụng.'
+
+  - id: nt_amb_11_nguoi_kinh_nghiem_huong_dan
+    kind: nguoi_quanh
+    tags: [truyen_thong, hoc_hanh]
+    life_stages: [thieu_thoi, thanh_nien]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: sach
+    variants:
+      - 'Một người có kinh nghiệm đề nghị hướng dẫn bạn.'
+
+  - id: nt_amb_12_chua_du_suc_hoan_thanh
+    kind: bao_cao
+    tags: [lao_dong]
+    life_stages: [thieu_thoi, thanh_nien, trung_nien, tuoi_gia]
+    weight: 3
+    importance: 2
+    tone: buon
+    icon: dong
+    variants:
+      - 'Bạn chưa đủ sức hoàn thành công việc được giao.'
+
+  - id: nt_amb_13_chuyen_san_that_bai
+    kind: bao_cao
+    tags: [san_bat, nguy_hiem]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: kiem
+    variants:
+      - 'Một chuyến săn thất bại. Đoàn trở về mà không có đủ thức ăn.'
+
+  - id: nt_amb_14_tim_nguon_nguyen_lieu_moi
+    kind: bao_cao
+    tags: [thien_nhien, thu_cong]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn đã tìm ra một nguồn nguyên liệu mới.'
+
+  - id: nt_amb_15_nguoi_tre_muon_hoc_nghe
+    kind: nguoi_quanh
+    tags: [truyen_thong, gia_dinh]
+    life_stages: [lap_nghiep, trung_nien, tuoi_gia]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Một thành viên trẻ muốn học nghề từ bạn.'
+
+  - id: nt_amb_16_cong_cu_bi_hu_hong
+    kind: chuyen_vat
+    tags: [thu_cong, lao_dong]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 2
+    tone: buon
+    icon: da
+    variants:
+      - 'Công cụ của bạn đã bị hư hỏng.'
+
+  # ── Gia đình và xã hội (17–24) ──
+  - id: nt_amb_17_them_thanh_vien_can_cham_soc
+    kind: bao_cao
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 2
+    icon: gia_dinh
+    variants:
+      - 'Gia đình có thêm một thành viên cần được chăm sóc.'
+
+  - id: nt_amb_18_quan_he_cai_thien
+    kind: nguoi_quanh
+    tags: [quan_he, lang_xa]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: chen_tra
+    variants:
+      - 'Quan hệ giữa bạn và một người trong nhóm đã cải thiện.'
+
+  - id: nt_amb_19_mau_thuan_chia_thuc_an
+    kind: nguoi_quanh
+    tags: [lang_xa, quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: dong
+    variants:
+      - 'Một mâu thuẫn về việc chia sẻ thức ăn vừa xảy ra.'
+
+  - id: nt_amb_20_gia_dinh_khac_de_nghi_hop_tac
+    kind: nguoi_quanh
+    tags: [quan_he, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: lang
+    variants:
+      - 'Một gia đình khác đề nghị hợp tác.'
+
+  - id: nt_amb_21_duoc_moi_di_xa
+    kind: nguoi_quanh
+    tags: [buon_ban, thoi_co]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 3
+    importance: 2
+    icon: duong
+    variants:
+      - 'Bạn đã được mời tham gia chuyến đi xa.'
+
+  - id: nt_amb_22_nguoi_cham_soc_qua_doi
+    kind: nguoi_quanh
+    tags: [gia_dinh]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep]
+    weight: 2
+    importance: 4
+    tone: buon
+    icon: tang
+    variants:
+      - 'Người từng chăm sóc bạn đã qua đời.'
+
+  - id: nt_amb_23_nguoi_ban_cu_tro_lai
+    kind: nguoi_quanh
+    tags: [quan_he]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3
+    importance: 2
+    tone: vui
+    icon: chen_tra
+    variants:
+      - 'Một người bạn cũ đã trở lại.'
+
+  - id: nt_amb_24_nhom_nguoi_la_den_gan
+    kind: tin_the_gioi
+    tags: [lang_xa, tin_don]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    icon: tin_don
+    variants:
+      - 'Một nhóm người lạ đang đến gần nơi trú.'
+
+  # ── Môi trường và biến cố (25–32) ──
+  - id: nt_amb_25_nguon_nuoc_can_dan
+    kind: tin_the_gioi
+    tags: [thien_nhien]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: nuoc
+    variants:
+      - 'Nguồn nước quen thuộc đang cạn dần.'
+
+  - id: nt_amb_26_thuc_an_kho_tim
+    kind: tin_the_gioi
+    tags: [thien_nhien, mat_mua]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Thức ăn trong khu vực trở nên khó tìm hơn.'
+
+  - id: nt_amb_27_mua_lon_hu_hong_noi_tru
+    kind: chuyen_vat
+    tags: [thien_nhien, tai_hoa]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: mua
+    variants:
+      - 'Một cơn mưa lớn làm hư hỏng nơi trú.'
+
+  - id: nt_amb_28_dan_thu_di_chuyen
+    kind: tin_the_gioi
+    tags: [san_bat, thien_nhien]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    icon: trang
+    variants:
+      - 'Đàn thú thường xuất hiện tại khu vực này đã di chuyển.'
+
+  - id: nt_amb_29_du_tru_giam_nhanh
+    kind: bao_cao
+    tags: [gia_dinh, mat_mua]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: lua
+    variants:
+      - 'Nguồn thức ăn dự trữ đang giảm nhanh.'
+
+  - id: nt_amb_30_khu_vuc_moi_phat_hien
+    kind: tin_the_gioi
+    tags: [thien_nhien, co_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: vui
+    icon: duong
+    variants:
+      - 'Một khu vực mới đã được phát hiện.'
+
+  - id: nt_amb_31_thoi_tiet_thuan_loi
+    kind: chuyen_vat
+    tags: [thien_nhien, mua_mang]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Thời tiết thuận lợi giúp việc tìm thức ăn dễ dàng hơn.'
+
+  - id: nt_amb_32_du_tru_hu_hong
+    kind: bao_cao
+    tags: [gia_dinh, tai_hoa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Nguồn thực phẩm dự trữ có dấu hiệu hư hỏng.'
+
+  # ── Tuổi tác và vòng đời (33–40) ──
+  - id: nt_amb_33_buoc_sang_giai_doan_moi
+    kind: bao_cao
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3
+    importance: 2
+    icon: moc_doi
+    variants:
+      - 'Bạn đã bước sang một giai đoạn mới của cuộc đời.'
+
+  - id: nt_amb_34_suc_khoe_phuc_hoi
+    kind: bao_cao
+    tags: [benh_tat]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3
+    importance: 2
+    tone: vui
+    icon: suc_khoe
+    variants:
+      - 'Sức khỏe của bạn đang phục hồi sau chấn thương.'
+
+  - id: nt_amb_35_co_the_cham_hoi_phuc
+    kind: diem_bao
+    tags: [benh_tat]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: suc_khoe
+    variants:
+      - 'Cơ thể bạn không còn hồi phục nhanh như trước.'
+
+  - id: nt_amb_36_nguoi_cung_lon_len_qua_doi
+    kind: nguoi_quanh
+    tags: [quan_he]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    importance: 3
+    tone: buon
+    icon: tang
+    variants:
+      - 'Một người từng cùng bạn lớn lên đã qua đời.'
+
+  - id: nt_amb_37_nguoi_tre_tu_dam_nhiem
+    kind: nguoi_quanh
+    tags: [gia_dinh, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Người trẻ trong gia đình đã có thể tự đảm nhiệm nhiều công việc.'
+
+  - id: nt_amb_38_the_he_moi_hoc_ky_nang
+    kind: nguoi_quanh
+    tags: [truyen_thong, hoc_hanh]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: sach
+    variants:
+      - 'Một thế hệ mới đã bắt đầu học những kỹ năng bạn từng học.'
+
+  - id: nt_amb_39_khong_con_nho_noi_cu
+    kind: chuyen_vat
+    tags: [truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 3
+    importance: 2
+    icon: dong
+    variants:
+      - 'Nhiều người hiện nay không còn nhớ nơi cư trú cũ.'
+
+  - id: nt_amb_40_nhung_nam_cuoi_cung
+    kind: diem_bao
+    tags: [gia_dinh]
+    life_stages: [tuoi_gia]
+    weight: 4
+    importance: 3
+    tone: an_ui
+    icon: trang
+    variants:
+      - 'Cuộc đời bạn đang đi đến những năm cuối cùng.'

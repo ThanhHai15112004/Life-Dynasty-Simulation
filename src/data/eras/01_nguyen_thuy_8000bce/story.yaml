@@ -1,3 +1,515 @@
-# Lớp câu chuyện (bạn cùng lứa, mốc suy ngẫm, văn bia) — 01_nguyen_thuy_8000bce
-reflections: []
-epitaphs: []
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
+# 11. Câu chuyện đời và bạn cùng lứa (story.yaml):
+# - A. 18 kiểu người bạn sinh cùng thế hệ (peers.archetypes)
+# - C. 25 câu hỏi suy ngẫm theo cột mốc cuộc đời (reflections: tuổi 5, 15, 30, 50, 70)
+# - E. 16 văn bia cuối đời — lời kể của hậu thế (epitaphs)
+# ══════════════════════════════════════════════════════════════════════════════
+
+peers:
+  count: 4
+  icon: tre_em
+  milestone_importance: 2
+  death_importance: 5
+  death_text:
+    - '{name}, {label} từng lớn lên cùng bạn quanh bếp lửa, đã qua đời ở tuổi {age} vì {cause}.'
+    - 'Tin buồn truyền qua khu cư trú: {name} ({label}) không qua khỏi ở tuổi {age} vì {cause}.'
+    - 'Những người trong nhóm lặng lẽ chôn cất {name}, {label} sinh cùng mùa với bạn, mất năm {age} tuổi vì {cause}.'
+  death_causes:
+    - { cause: soi, weight: 5, max_age: 9 }
+    - { cause: benh, weight: 4 }
+    - { cause: sot_ret, weight: 2 }
+    - { cause: doi_ret, weight: 2 }
+    - { cause: lao_luc, weight: 1, min_age: 16 }
+    - { cause: tai_nan, weight: 2, min_age: 6 }
+    - { cause: gia_yeu, weight: 6, min_age: 55 }
+  archetypes:
+    # 01. Đứa trẻ có cha là thợ săn
+    - id: nt_peer_con_tho_san
+      label: đứa trẻ có cha là thợ săn
+      weight: 4
+      death_factor: 1.25
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) thường theo cha ra bìa rừng quan sát dấu chân thú trên đất ẩm.' }
+            - { weight: 2, text: '{name} ({label}) tập phóng mũi lao gỗ nhỏ vào thân cây mục cạnh khu trú.' }
+        - age: 15
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lần đầu được theo đoàn đi săn xa và rủ bạn cùng tập nhận biết hướng gió.' }
+            - { weight: 2, text: '{name} ({label}) mang về mảnh sừng thú đầu tiên sau chuyến đi săn cùng người lớn.' }
+        - age: 24
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành thợ săn giỏi, thường đi đầu trong những chuyến theo dấu thú lớn.' }
+            - { weight: 2, text: '{name} ({label}) bị thương nặng ở chân trong một cuộc săn, buộc phải chuyển sang ngồi ghè đá và chế tác công cụ.' }
+        - age: 40
+          chance: 0.7
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) truyền dạy cách đọc dấu thú và sửa mũi lao cho đám trẻ trong cộng đồng.' }
+
+    # 02. Đứa trẻ nhút nhát chuyên nhặt củ
+    - id: nt_peer_nhut_nhat_nhat_cu
+      label: đứa trẻ nhút nhát chuyên nhặt củ
+      weight: 3
+      death_factor: 1.05
+      milestones:
+        - age: 7
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) ít tham gia trò chơi tranh tài nhưng nhớ rất rõ từng bụi cây và hốc củ quanh nơi trú.' }
+            - { weight: 2, text: '{name} ({label}) lặng lẽ chia cho bạn mấy củ rừng đào được bên sườn đồi.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) phân biệt được nhiều loại lá và củ ăn được mà người khác thường bỏ sót.' }
+            - { weight: 2, text: '{name} ({label}) buồn lòng vì công việc nhặt củ của mình ít được đám thanh niên coi trọng.' }
+        - age: 26
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành người tìm thức ăn thực vật đáng tin cậy nhất mỗi khi mùa săn thất bát.' }
+            - { weight: 2, text: 'Vì thường bị xem nhẹ trong nhóm, {name} ({label}) đã rời đi để sống cùng người thân ở một cộng đồng khác.' }
+
+    # 03. Con của người dẫn đường
+    - id: nt_peer_con_nguoi_dan_duong
+      label: con của người dẫn đường
+      weight: 3
+      death_factor: 1.2
+      milestones:
+        - age: 9
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) từng đi qua nhiều địa điểm và kể cho bạn nghe những lối mòn ít ai biết.' }
+        - age: 17
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) chỉ cho bạn cách nhìn dáng núi và vệt nước để không bị lạc giữa rừng thưa.' }
+            - { weight: 2, text: '{name} ({label}) theo đoàn đi tìm nguồn đá mới ở bên kia thung lũng.' }
+        - age: 28
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành người dẫn đoàn giàu kinh nghiệm, đưa nhiều gia đình qua mùa khô hạn.' }
+            - { weight: 1, text: '{name} ({label}) bị lạc trong một chuyến đi xa giữa mùa mưa gió và không thấy quay về nơi trú.' }
+
+    # 04. Đứa trẻ hay chống đối
+    - id: nt_peer_hay_chong_doi
+      label: đứa trẻ hay chống đối
+      weight: 3
+      death_factor: 1.3
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) cãi nhau gay gắt với đám trẻ cùng lứa khi chia phần quả hái được.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: 'Sự cứng đầu khiến {name} ({label}) mất lòng vài người lớn khi làm việc chung.' }
+            - { weight: 2, text: '{name} ({label}) kiên quyết không bỏ chạy khi thú hoang tiến gần bãi kiếm ăn.' }
+        - age: 27
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: 'Dù hay bất đồng, {name} ({label}) là người không dễ đầu hàng trước nguy hiểm khi cả nhóm gặp hoạn nạn.' }
+            - { weight: 2, text: 'Sau một cuộc tranh cãi lớn về phần thức ăn, {name} ({label}) tách sang dựng lán ở rìa khu cư trú.' }
+
+    # 05. Người bạn có thể lực yếu
+    - id: nt_peer_the_luc_yeu
+      label: người bạn có thể lực yếu
+      weight: 3
+      death_factor: 1.4
+      milestones:
+        - age: 7
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) thường bị bỏ lại phía sau trong những trò chơi đòi hỏi sức bền, nhưng ngồi quan sát rất kỹ.' }
+        - age: 15
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) khéo tay đan sợi, làm kim xương và nhớ rõ từng dấu hiệu thời tiết.' }
+            - { weight: 2, text: '{name} ({label}) ốm liền mấy tuần mùa lạnh, nhờ cả nhóm chia sẻ thức ăn mới dần hồi phục.' }
+        - age: 26
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: 'Nhờ tay nghề chế tác tỉ mỉ và trí nhớ tốt, {name} ({label}) trở thành thành viên đóng góp quan trọng của nhóm.' }
+
+    # 06. Con của người chế tác đá
+    - id: nt_peer_con_che_tac_da
+      label: con của người chế tác đá
+      weight: 3
+      death_factor: 1.0
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: 'Từ nhỏ {name} ({label}) đã quen ngồi nhìn cha mẹ chọn đá và ghè tạo lưỡi cắt sắc bén.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tự tay ghè được lưỡi dao đá hoàn chỉnh đầu tiên mà không làm vỡ lõi đá.' }
+        - age: 28
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành người làm công cụ đá nổi bật, nhiều người mang nguyên liệu tới nhờ chế tác.' }
+            - { weight: 2, text: 'Một mảnh đá văng làm chấn thương bàn tay khiến {name} ({label}) phải bỏ nghề ghè đá, chuyển sang trông coi thức ăn.' }
+
+    # 07. Đứa trẻ mất gia đình
+    - id: nt_peer_mat_gia_dinh
+      label: đứa trẻ mất gia đình
+      weight: 3
+      death_factor: 1.35
+      milestones:
+        - age: 6
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) được các gia đình trong cộng đồng thay nhau chăm sóc và cho ăn qua mùa thiếu đói.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) luôn chịu khó phụ mọi việc quanh bếp lửa để đáp lại sự đùm bọc của nhóm.' }
+            - { weight: 2, text: '{name} ({label}) ngày càng gắn bó thân thiết với bạn sau những mùa cùng đi kiếm củi và nhặt quả.' }
+        - age: 25
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lập nơi trú riêng và trở thành người bạn đồng hành đáng tin cậy của gia đình bạn.' }
+            - { weight: 2, text: 'Những biến cố gia đình khiến {name} ({label}) theo một nhóm khác đi xa, dần xa cách nơi từng lớn lên.' }
+
+    # 08. Con của người đánh cá
+    - id: nt_peer_con_danh_ca
+      label: con của người đánh cá
+      weight: 3
+      death_factor: 1.15
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) lớn lên bên sông, bơi lội tự tin và rủ bạn ra bãi cạn đặt bẫy cá.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) dùng lao mũi xương có ngạnh bắt được những con cá lớn khi nước bắt đầu dâng.' }
+        - age: 26
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) tìm ra khúc sông nhiều cá, giúp các hộ ven nước có thêm nguồn thức ăn ổn định.' }
+            - { weight: 2, text: 'Một mùa lũ dữ cuốn mất bãi cá quen thuộc khiến gia đình {name} ({label}) phải chuyển chỗ ở lên vùng đất cao.' }
+
+    # 09. Đứa trẻ thường đi tìm đá lạ
+    - id: nt_peer_tim_da_la
+      label: đứa trẻ thường đi tìm đá lạ
+      weight: 2
+      death_factor: 1.15
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) suốt ngày nhặt những viên đá có màu sắc và độ sắc khác nhau dọc lòng suối cạn.' }
+        - age: 17
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) phát hiện một vỉa đá ghè rất tốt trên sườn đồi xa nơi cư trú.' }
+        - age: 27
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) thường tham gia các chuyến tìm nguồn nguyên liệu và trao đổi đá với những nhóm láng giềng.' }
+
+    # 10. Đứa trẻ có trí nhớ tốt
+    - id: nt_peer_tri_nho_tot
+      label: đứa trẻ có trí nhớ tốt
+      weight: 3
+      death_factor: 0.95
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) nhớ vanh vách những câu chuyện người lớn kể bên bếp lửa và mọi địa điểm từng đi qua.' }
+        - age: 22
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) giúp nhóm tìm lại nguồn nước cũ nhờ nhớ lời kể của một người già đã khuất.' }
+            - { weight: 2, text: '{name} ({label}) khăng khăng làm theo cách cũ trong trí nhớ nhưng hoàn cảnh đã đổi khác, khiến chuyến đi gặp khó khăn.' }
+        - age: 45
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: 'Khi tóc đã bạc, {name} ({label}) trở thành người truyền dạy kinh nghiệm và chuyện xưa cho thế hệ trẻ.' }
+
+    # 11. Con của người chăm khu cây lương thực (chỉ ở cộng đồng có canh tác phù hợp)
+    - id: nt_peer_con_cham_cay_luong_thuc
+      label: con của người chăm khu cây lương thực
+      condition: { var: world.polity_id, op: in, value: [luoi_liem_mau_mo_8000bce, nam_a_nguyen_thuy_8000bce] }
+      weight: 3
+      death_factor: 1.0
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) theo người nhà nhặt cỏ, đuổi chim và trông chừng bãi phơi hạt ngũ cốc.' }
+        - age: 18
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) quen công việc thu hoạch và cất giữ hạt khô qua mùa khắc nghiệt.' }
+        - age: 28
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) gắn bó nhiều năm với khu cư trú định cư và chăm sóc bãi cây lương thực của gia đình.' }
+            - { weight: 2, text: 'Sau hai vụ thu hoạch kém liên tiếp, {name} ({label}) lựa chọn rời khu định cư để theo lối sống di chuyển linh hoạt.' }
+
+    # 12. Đứa trẻ giỏi bắt chước tiếng chim
+    - id: nt_peer_bat_chuoc_tieng_chim
+      label: đứa trẻ giỏi bắt chước tiếng chim
+      weight: 3
+      death_factor: 1.15
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) bắt chước tiếng chim rừng giống đến mức người lớn cũng phải ngoái nhìn.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) nhạy bén nhận ra tiếng động lạ và sự thay đổi của khu rừng trước cơn giông.' }
+            - { weight: 2, text: '{name} ({label}) thiếu kiên nhẫn khi phải ngồi lâu đan sợi hay mài công cụ.' }
+        - age: 25
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành người theo dấu giỏi trong rừng sâu, thường báo hiệu cho đoàn săn bằng tiếng gọi quen thuộc.' }
+
+    # 13. Đứa trẻ rất khỏe
+    - id: nt_peer_rat_khoe
+      label: đứa trẻ rất khỏe
+      weight: 3
+      death_factor: 1.1
+      milestones:
+        - age: 9
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) vác được bó củi và tảng đá nặng hơn hẳn những đứa trẻ cùng tuổi.' }
+        - age: 17
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) luôn được người lớn giao mang vác vật nặng và dựng khung gỗ trong những chuyến chuyển chỗ trú.' }
+        - age: 29
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) là chỗ dựa sức vóc cho cả nhóm trong những mùa săn bắt và dựng nơi ở mới.' }
+            - { weight: 2, text: 'Dù thể chất vạm vỡ, {name} ({label}) vẫn bị một cơn sốt nặng quật ngã suốt mùa mưa và phải nhờ người thân chăm sóc.' }
+
+    # 14. Đứa trẻ đến từ cộng đồng khác
+    - id: nt_peer_den_tu_nhom_khac
+      label: đứa trẻ đến từ cộng đồng khác
+      weight: 3
+      death_factor: 1.15
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: 'Gia đình {name} ({label}) mới gia nhập khu cư trú, mang theo cách buộc công cụ và những tập quán khác lạ.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) chỉ cho bạn cách xử lý nguyên liệu mà nhóm cũ của họ từng làm.' }
+            - { weight: 2, text: '{name} ({label}) đôi khi bị một số người trong nhóm nghi ngại vì giọng nói và thói quen khác biệt.' }
+        - age: 26
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành cầu nối giúp cộng đồng học hỏi kỹ năng mới và giữ liên lạc với nhóm láng giềng.' }
+
+    # 15. Đứa trẻ luôn muốn rời làng
+    - id: nt_peer_muon_roi_lang
+      label: đứa trẻ luôn muốn rời nơi trú
+      weight: 2
+      death_factor: 1.3
+      milestones:
+        - age: 9
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) thường đứng trên gò cao nhìn về phía chân trời, không hài lòng với cuộc sống quanh quẩn nơi trú quen thuộc.' }
+        - age: 17
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) xin đi theo mọi chuyến tìm đường xa nhất của nhóm.' }
+        - age: 24
+          chance: 0.8
+          outcomes:
+            - { weight: 2, text: '{name} ({label}) theo một nhóm di chuyển đi về vùng đất mới và gửi tin về một bãi kiếm ăn trù phú.' }
+            - { weight: 2, text: '{name} ({label}) rời khu cư trú trong một mùa khô rồi biến mất hẳn khỏi cuộc đời bạn.' }
+
+    # 16. Đứa trẻ được mọi người quý mến
+    - id: nt_peer_duoc_quy_men
+      label: đứa trẻ được mọi người quý mến
+      weight: 3
+      death_factor: 1.0
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) hay chia sẻ thức ăn, sẵn lòng phụ giúp người già và có rất nhiều bạn.' }
+        - age: 18
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: 'Mỗi khi đám thanh niên bất đồng, {name} ({label}) thường là người đứng ra nói lời ôn hòa.' }
+        - age: 30
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành người hòa giải được nhiều gia đình tin cậy khi có tranh chấp.' }
+            - { weight: 2, text: 'Một quyết định phân chia thức ăn gây tranh cãi trong mùa đói khiến uy tín của {name} ({label}) bị lung lay.' }
+
+    # 17. Con của người làm gốm (chỉ ở khu vực Đông Á có kỹ nghệ gốm sớm)
+    - id: nt_peer_con_lam_gom
+      label: con của người làm gốm
+      condition: { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+      weight: 3
+      death_factor: 1.05
+      milestones:
+        - age: 8
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) thích ngồi bên bờ suối nhào đất sét và nặn những vật đựng nhỏ.' }
+        - age: 17
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) học cách trộn đất và canh lửa nung để bình gốm bớt nứt vỡ.' }
+        - age: 27
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) trở thành người chế tác đồ gốm lành nghề, giúp các gia đình nấu và giữ thức ăn tốt hơn.' }
+            - { weight: 2, text: 'Khi nhóm phải di chuyển sang vùng thiếu đất sét phù hợp, {name} ({label}) chuyển sang nghề đánh cá và đan giỏ.' }
+
+    # 18. Đứa trẻ từng sống sót qua nạn đói
+    - id: nt_peer_song_sot_nan_doi
+      label: đứa trẻ từng sống sót qua nạn đói
+      weight: 3
+      death_factor: 1.3
+      milestones:
+        - age: 7
+          chance: 0.85
+          outcomes:
+            - { weight: 3, text: 'Những năm đầu đời thiếu thức ăn khiến {name} ({label}) gầy gò và luôn nâng niu từng nắm hạt, mẩu củ khô.' }
+        - age: 16
+          chance: 0.8
+          outcomes:
+            - { weight: 3, text: '{name} ({label}) đặc biệt thận trọng trong việc phơi sấy và cất giữ thức ăn dự phòng.' }
+        - age: 26
+          chance: 0.75
+          outcomes:
+            - { weight: 3, text: 'Nhờ tính cẩn trọng tích trữ từ nhỏ, gia đình {name} ({label}) trụ vững qua một mùa khô khắc nghiệt.' }
+            - { weight: 2, text: 'Ám ảnh cảnh thiếu đói năm xưa, {name} ({label}) quyết định rời đi ngay khi nguồn thức ăn quanh vùng có dấu hiệu suy giảm.' }
+
+# ══════════════════ C. CÂU HỎI SUY NGẪM THEO CỘT MỐC CUỘC ĐỜI ══════════════════
+reflections:
+  # Tuổi 5 — Nhìn thế giới lần đầu
+  - { age: 5, question: 'Đâu là nơi ngươi thấy an toàn nhất?' }
+  - { age: 5, question: 'Ngươi sợ bóng tối, tiếng thú hay việc không còn ai ở bên?' }
+  - { age: 5, question: 'Ai là người đã dạy ngươi tìm thức ăn?' }
+  - { age: 5, question: 'Ngươi muốn lớn lên giống ai?' }
+  - { age: 5, question: 'Nếu có một ngày được đi xa, ngươi muốn nhìn thấy điều gì?' }
+
+  # Tuổi 15 — Trước ngưỡng trưởng thành
+  - { age: 15, question: 'Ngươi đã đủ khả năng tự kiếm sống chưa?' }
+  - { age: 15, question: 'Có điều gì người lớn làm mà ngươi vẫn chưa hiểu?' }
+  - { age: 15, question: 'Ngươi muốn đi theo con đường của gia đình hay thử một lối sống khác?' }
+  - { age: 15, question: 'Ai là người ngươi tin tưởng nhất?' }
+  - { age: 15, question: 'Nếu phải rời nơi đã lớn lên, ngươi sẽ mang theo thứ gì?' }
+
+  # Tuổi 30 — Những năm gánh vác
+  - { age: 30, question: 'Ngươi đã xây dựng được cuộc sống mình mong muốn chưa?' }
+  - { age: 30, question: 'Ai đang phụ thuộc vào những quyết định của ngươi?' }
+  - { age: 30, question: 'Thành tựu lớn nhất của ngươi đến từ kỹ năng, quan hệ hay may mắn?' }
+  - { age: 30, question: 'Điều gì ngươi từng tin khi trẻ nhưng nay không còn tin nữa?' }
+  - { age: 30, question: 'Nếu được chọn lại một lần, ngươi sẽ ở lại hay rời đi?' }
+
+  # Tuổi 50 — Những mùa đã qua
+  - { age: 50, question: 'Ngươi còn có thể làm những việc từng làm khi trẻ không?' }
+  - { age: 50, question: 'Những người quan trọng nhất trong đời ngươi hiện đang ở đâu?' }
+  - { age: 50, question: 'Điều gì ngươi đã truyền lại cho thế hệ sau?' }
+  - { age: 50, question: 'Có ai ngươi vẫn muốn gặp thêm một lần?' }
+  - { age: 50, question: 'Những năm đã qua khiến ngươi hối tiếc điều gì?' }
+
+  # Tuổi 70 — Lời kể cuối cùng
+  - { age: 70, question: 'Ngươi đã sống qua bao nhiêu mùa mà người thân không còn được chứng kiến?' }
+  - { age: 70, question: 'Ai sẽ nhớ câu chuyện của ngươi?' }
+  - { age: 70, question: 'Nếu những đứa trẻ hỏi cuộc đời có ý nghĩa gì, ngươi sẽ nói thế nào?' }
+  - { age: 70, question: 'Ngươi muốn người khác giữ lại điều gì sau khi mình rời đi?' }
+  - { age: 70, question: 'Có phải sống lâu cũng đồng nghĩa với sống một cuộc đời tốt đẹp?' }
+
+# ══════════════════ E. VĂN BIA CUỐI ĐỜI — LỜI KỂ CỦA HẬU THẾ ══════════════════
+epitaphs:
+  # 12. Cuộc đời người chết trẻ
+  - condition: { var: player.age, op: '<', value: 22 }
+    weight: 10
+    text: 'Người ấy chưa có đủ thời gian để hoàn thành những điều từng mong muốn. Một tai nạn đã kết thúc cuộc đời đang mở ra. Những người còn sống vẫn nhớ tiếng cười, những lời hứa và những ngày cùng lớn lên.'
+
+  # 11. Cuộc đời người sống rất lâu
+  - condition: { var: player.age, op: '>=', value: 65 }
+    weight: 8
+    text: 'Người ấy đã nhìn thấy những đứa trẻ lớn lên, trở thành cha mẹ rồi già đi. Nhiều người từng quen biết nay chỉ còn trong ký ức. Sống lâu giúp người ấy chứng kiến nhiều đổi thay, nhưng cũng đồng nghĩa phải trải qua nhiều lần chia ly.'
+
+  # 01. Cuộc đời người săn thú
+  - condition: { var: player.career, op: '==', value: nt_nguoi_san_thu }
+    weight: 6
+    text: 'Người ấy từng đi qua những khu rừng xa, biết dấu chân thú và từng trở về với thức ăn khi nhiều người đã tuyệt vọng. Đến khi không còn đủ sức cầm lao, người ấy dạy lớp trẻ cách lắng nghe khu rừng. Những chuyến săn vẫn tiếp tục sau khi người ấy qua đời.'
+
+  # 02. Cuộc đời người hái lượm
+  - condition: { var: player.career, op: 'in', value: [nt_nguoi_thu_hai, nt_nguoi_danh_ca] }
+    weight: 6
+    text: 'Người ấy không để lại công trình lớn. Nhưng nhiều gia đình từng sống qua mùa đói nhờ những nguồn cây mà người ấy tìm ra. Có những điều quan trọng với cuộc sống nhưng không bao giờ được ghi thành tên tuổi.'
+
+  # 03. Cuộc đời người cha hoặc mẹ
+  - condition: { var: player.children_count, op: '>=', value: 3 }
+    weight: 5
+    text: 'Người ấy dành phần lớn cuộc đời để chăm sóc gia đình. Những đứa trẻ từng được bế trong vòng tay nay đã có thể tự kiếm sống. Cuộc đời ấy không tránh khỏi mất mát, nhưng tình thương vẫn còn trong những người ở lại.'
+
+  # 04. Cuộc đời người chế tác
+  - condition: { var: player.career, op: 'in', value: [nt_nguoi_che_tac_da, nt_nguoi_che_tac_xuong_go, nt_nguoi_dan_soi, nt_nguoi_lam_gom] }
+    weight: 6
+    text: 'Bàn tay người ấy từng biến đá thô thành công cụ hữu ích. Một vài công cụ đã hỏng, những công cụ khác được người đời sau tiếp tục sử dụng. Kỹ thuật ấy còn sống ngay cả khi người tạo ra nó đã mất.'
+
+  # 05. Cuộc đời người dẫn đường
+  - condition: { var: player.career, op: 'in', value: [nt_nguoi_tim_duong, nt_nguoi_tim_nguon_nuoc, nt_nguoi_trao_doi] }
+    weight: 6
+    text: 'Người ấy biết những con đường mà nhiều người không dám đi. Có chuyến đi mang về thức ăn, có chuyến đi chỉ đem lại thương tích. Nhưng những tuyến đường được khám phá đã giúp người khác nhìn thấy thế giới xa hơn.'
+
+  # 06. Cuộc đời người định cư
+  - condition: { var: player.career, op: 'in', value: [nt_nguoi_khai_thac_ngu_coc, nt_nguoi_cham_giu_dong_vat, nt_nguoi_bao_quan_thuc_an] }
+    weight: 6
+    text: 'Người ấy sinh ra khi nơi này chỉ có vài chỗ trú. Khi qua đời, nhiều gia đình đã cùng sinh sống ở đây. Nơi cư trú có thể sẽ thay đổi trong tương lai, nhưng dấu vết một đời xây dựng vẫn còn.'
+
+  # 07. Cuộc đời người lưu lạc
+  - condition: { var: player.origin, op: 'in', value: [nt_dua_tre_nhom_di_cu, nt_dua_tre_khong_nguoi_than] }
+    weight: 5
+    text: 'Người ấy đã rời bỏ nhiều nơi và mất đi nhiều người thân. Sau những năm dài di chuyển, cuối cùng người ấy tìm được một cộng đồng sẵn lòng chia sẻ thức ăn và nơi trú. Không phải ai có quê hương cũng sinh ra ở đó.'
+
+  # 08. Cuộc đời người thất bại
+  - condition: { all: [{ var: player.sick, op: '==', value: true }, { var: player.satisfaction, op: '<', value: 45 }] }
+    weight: 5
+    text: 'Người ấy từng mong trở thành thợ săn giỏi, nhưng thương tích khiến ước mơ không thể thành. Nhiều năm sau, người ấy tìm được vai trò khác trong cộng đồng. Cuộc đời không đi theo mong muốn ban đầu, nhưng cũng không vì thế mà hoàn toàn vô nghĩa.'
+
+  # 09. Cuộc đời người bị lãng quên
+  - condition: { all: [{ var: player.reputation, op: '<', value: 10 }, { var: player.children_count, op: '==', value: 0 }] }
+    weight: 4
+    text: 'Không còn nhiều người nhớ tên người ấy. Những nơi từng đi qua đã thay đổi, và những người từng cùng sống phần lớn cũng không còn. Nhưng người ấy đã từng có một cuộc đời, với những mùa vui, nỗi đau và lựa chọn của riêng mình.'
+
+  # 10. Cuộc đời người được tin cậy
+  - condition: { var: player.reputation, op: '>=', value: 35 }
+    weight: 5
+    text: 'Trong những năm khó khăn, nhiều người từng tìm đến người ấy để hỏi ý kiến. Có quyết định mang lại bình yên, cũng có quyết định khiến người ấy phải hối tiếc. Khi người ấy qua đời, cộng đồng vẫn tiếp tục sống với kết quả của những lựa chọn đó.'
+
+  # 13. Cuộc đời người giữ gìn tri thức
+  - condition: { var: player.career, op: 'in', value: [nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_to_chuc_nghi_thuc, nt_nguoi_cham_soc] }
+    weight: 6
+    text: 'Người ấy dành nhiều năm truyền lại những hiểu biết học được từ người đi trước. Có điều được ghi nhớ, có điều biến mất theo thời gian. Nhưng những người trẻ từng lắng nghe đã mang một phần cuộc đời ấy đi tiếp.'
+
+  # 14. Cuộc đời người xây dựng
+  - condition: { var: player.career, op: '==', value: nt_nguoi_dung_noi_tru }
+    weight: 6
+    text: 'Những bức vách sẽ đổ, mái che sẽ mục và nơi cư trú rồi có thể bị bỏ hoang. Nhưng trong những mùa người ấy còn sống, công sức xây dựng đã giúp nhiều người có nơi tránh gió mưa. Đó là di sản của một đời lao động.'
+
+  # 15. Cuộc đời người hòa giải
+  - condition: { var: player.career, op: '==', value: nt_nguoi_dieu_hoa }
+    weight: 6
+    text: 'Người ấy từng đứng giữa những gia đình bất hòa. Không phải cuộc tranh cãi nào cũng kết thúc tốt đẹp, nhưng có những người đã cùng chia sẻ thức ăn thay vì quay lưng với nhau. Sự bình yên ấy không dễ nhìn thấy như một công trình đá, nhưng cũng cần rất nhiều công sức.'
+
+  # 16. Cuộc đời đầy biến cố (mặc định / bao quát)
+  - weight: 2
+    text: 'Người ấy sinh ra ở một nơi, lớn lên ở một nơi khác và chết giữa những người không cùng chung tuổi thơ. Đã từng có mùa thức ăn dồi dào, những ngày đói và những cuộc chia ly. Không ai có thể đoán trước cuộc đời ấy sẽ đi đến đâu.'

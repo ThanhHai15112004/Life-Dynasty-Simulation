@@ -1,99 +1,1676 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Sự kiện quyết định (Storylet) riêng cho Thời Nguyên Thủy / Đá Mới.
-# Mọi sự kiện trong file này tự động gắn nhãn `eras: [nguyen_thuy_8000bce]`.
+# 11.B. Sự kiện quyết định theo câu chuyện đời (events.yaml):
+# - Tuổi thơ (01..08 + các sự kiện tuổi thơ Mục 2)
+# - Tuổi thiếu niên (09..16 + sự kiện thiếu niên Mục 2)
+# - Tình huống chăm sóc cộng đồng (Mục 9: 01..07)
+# - Tuổi trưởng thành (17..28, bao gồm san_ban_thu_lon_nguyen_thuy)
+# - Tuổi trung niên và tuổi già (29..36)
 # ══════════════════════════════════════════════════════════════════════════════
 events:
-  - id: san_ban_thu_lon_nguyen_thuy
-    title: Dấu chân đàn thú lớn đầu mùa
+  # ══════════════════ TUỔI THƠ (0–11) — MỤC 11.B (01–08) ══════════════════
+  # 01. Mùa lạnh đầu tiên
+  - id: nt_ev_01_mua_lanh_dau_tien
+    title: Mùa lạnh đầu tiên
     text:
-      - 'Trinh sát của bộ lạc phát hiện dấu chân một đàn thú lớn đi qua thung lũng phía bắc. Nếu săn thành công, cả thị tộc sẽ dư dả thịt sấy khô và da thú suốt mùa lạnh, nhưng mũi lao đá rất dễ gãy trước thú dữ.'
-    tags: [co_hoi, quan_ngu]
+      - Gió lạnh kéo dài qua nhiều ngày, củi khô quanh khu cư trú trở nên khó tìm hơn.
+      - Người chăm sóc phải dành nhiều thời gian giữ cho nơi ngủ ấm hơn, trong khi nguồn dự trữ vơi dần.
+    tags: [thien_nhien, gia_dinh, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 6
+    importance: 5
+    icon: mua
+    options:
+      - id: nho_nguoi_than_giup
+        text: Dựa vào sự giúp đỡ của những hộ thân thuộc quanh bếp lửa chung
+        effects:
+          - { type: food, value: 2, ledger: su_kien }
+          - { type: stress, value: -3 }
+          - { type: skill_xp, skill: ngoai_giao, value: 8 }
+        result:
+          - Nhờ sự đùm bọc của các gia đình quanh bếp lửa, cả nhà vượt qua đợt giá lạnh đầu tiên bình an.
+      - id: phu_tim_cui_che_chan
+        text: Đi nhặt cành khô và phụ người lớn chèn lại vách chắn gió
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: health, value: -2 }
+        result:
+          - Bàn tay tê cóng vì gió lạnh, nhưng bạn học được cách tìm củi khô trong hốc đá và che chắn nơi ngủ.
+
+  # 02. Đêm mất lửa
+  - id: nt_ev_02_dem_mat_lua
+    title: Đêm mất lửa
+    text:
+      - Bếp lửa của gia đình tắt ngấm sau một trận mưa lớn bất ngờ.
+      - Người lớn loay hoay tìm bùi nhùi khô để tạo lại lửa hoặc sang xin than hồng từ nơi trú láng giềng.
+    tags: [gia_dinh, lang_xa, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 6
+    importance: 5
+    icon: nha
+    options:
+      - id: sang_xin_than_hong
+        text: Theo người lớn sang xin than hồng từ gia đình láng giềng
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+          - { type: stress, value: -2 }
+        result:
+          - Bạn tận mắt chứng kiến tầm quan trọng của việc duy trì quan hệ tốt với những người sống quanh mình.
+      - id: giu_vat_lieu_kho
+        text: Lục tìm phần vỏ cây và bùi nhùi được cất sâu dưới mái che
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: skill_xp, skill: quan_tri, value: 6 }
+        result:
+          - Ngọn lửa bùng lên trở lại từ nắm bùi nhùi khô, dạy bạn bài học nhớ đời về việc giữ vật liệu nhóm lửa.
+
+  # 03. Một quả lạ trong rừng
+  - id: nt_ev_03_qua_la_trong_rung
+    title: Một quả lạ trong rừng
+    text:
+      - Trong lúc đi theo người lớn, bạn nhìn thấy một chùm quả có màu sắc bắt mắt chưa từng ăn bao giờ.
+      - Người chăm sóc từng nghiêm giọng cảnh báo không được tự ý thử những loại quả và nấm chưa biết rõ.
+    tags: [hai_luom, thien_nhien, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_thu_hai, nt_nguoi_cham_soc, nt_nguoi_bao_quan_thuc_an] }
+        factor: 1.3
+    cooldown_years: 6
+    importance: 4
+    icon: la
+    options:
+      - id: mang_ve_hoi_nguoi_lon
+        text: Hái một cành nhỏ mang về hỏi người dạy dỗ trước khi đụng vào
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: skill_xp, skill: hoc_van, value: 8 }
+        result:
+          - Người lớn khen bạn biết thận trọng và chỉ rõ dấu hiệu trên lá để phân biệt cây độc với cây ăn được.
+      - id: len_nem_thu
+        text: Tò mò nếm thử một miếng nhỏ xem vị thế nào
+        chance: { base: 0.45, skill: sinh_ton, per_level: 0.05 }
+        success:
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+          - { type: food, value: 2, ledger: su_kien }
+        failure:
+          - { type: health, value: -8 }
+          - { type: stress, value: 5 }
+        success_result:
+          - May mắn đó là thứ quả rừng ăn được; bạn tìm thêm được một bụi quả mới cho gia đình.
+        failure_result:
+          - Vị chát đắng làm bạn đau bụng quặn thắt suốt đêm — từ đó bạn không bao giờ dám coi thường lời dặn của người đi trước.
+
+  # 04. Người bạn bị lạc
+  - id: nt_ev_04_nguoi_ban_bi_lac
+    title: Người bạn bị lạc
+    text:
+      - Sau một buổi chiều hái lượm gần bìa rừng, một đứa trẻ cùng lứa vẫn chưa trở về khi mặt trời sắp khuất.
+      - Những người lớn vội vã cầm lao và đuốc tổ chức tìm kiếm trước khi bóng tối buông xuống.
+    tags: [quan_he, thien_nhien, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_tim_duong, nt_nguoi_san_thu] }
+        factor: 1.3
+    cooldown_years: 8
+    importance: 5
+    icon: duong
+    options:
+      - id: chi_noi_nhin_thay_ban
+        text: Cố nhớ lại nơi cuối cùng nhìn thấy bạn và chỉ hướng cho người lớn
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 10 }
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+          - { type: reputation, value: 2 }
+        result:
+          - Nhờ trí nhớ chính xác của bạn về gốc cây và khe suối, đoàn tìm kiếm đã đưa được người bạn về trước khi trời tối hẳn.
+      - id: o_lai_giu_lua_bao_hieu
+        text: Ở lại khu trú chất thêm củi cho ngọn lửa cháy cao làm dấu hiệu
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+          - { type: stress, value: -2 }
+        result:
+          - Ánh lửa bập bùng và làn khói giúp đoàn tìm kiếm định hướng quay về an toàn trong đêm sương.
+
+  # 05. Một con vật đi theo
+  - id: nt_ev_05_con_vat_di_theo
+    title: Một con vật đi theo
+    text:
+      - Một con chó đã quen sống quanh nhóm người thường xuất hiện gần nơi trú mỗi khi có mùi thịt nướng.
+      - Bạn tìm cách tiếp cận và quan sát phản ứng của nó bên rìa bãi sinh hoạt.
+    tags: [san_bat, thien_nhien, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_san_thu, nt_nguoi_cham_giu_dong_vat] }
+        factor: 1.3
+    cooldown_years: 8
+    importance: 4
+    icon: trang
+    options:
+      - id: chia_phan_xuong_thit
+        text: Chia cho nó một mẩu xương và kiên nhẫn để nó quen hơi
+        effects:
+          - { type: food, value: -1, ledger: su_kien }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: stress, value: -4 }
+        result:
+          - Con vật dần quen tiếng bước chân bạn và thường sủa báo hiệu mỗi khi có động tĩnh lạ quanh nơi trú.
+      - id: giu_khoang_cach_quan_sat
+        text: Giữ khoảng cách an toàn, chỉ quan sát tập tính của nó như lời người lớn dặn
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 10 }
+        result:
+          - Bạn hiểu rằng động vật sống quanh nhóm tuy có ích nhưng vẫn cần sự thận trọng.
+
+  # 06. Tiếng động ngoài hang
+  - id: nt_ev_06_tieng_dong_ngoai_hang
+    title: Tiếng động ngoài nơi trú
+    text:
+      - Giữa đêm khuya có âm thanh sột soạt bất thường vọng lại từ phía ngoài cửa hang và hàng rào cành khô.
+      - Đó có thể là một con thú ăn đêm, người trong nhóm về muộn hoặc cành cây gãy vì gió.
+    tags: [nguy_hiem, thien_nhien, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 6
+    importance: 4
+    icon: trang
+    options:
+      - id: lay_nguoi_lon_day
+        text: Lặng lẽ chạm tay đánh thức người lớn và chỉ về phía có tiếng động
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: skill_xp, skill: muu_luoc, value: 6 }
+        result:
+          - Người lớn kịp thời cầm cây củi đang cháy xua đuổi một con thú hoang đang mò tìm thức ăn dự trữ.
+      - id: nam_yen_lang_nghe
+        text: Nằm im gần bếp lửa và lắng nghe nhịp bước chân cho tới khi tiếng động xa dần
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+          - { type: stress, value: 2 }
+        result:
+          - Tiếng bước chân lặng lẽ rời đi trong bóng tối; bạn học được cách phân biệt tiếng bước chân người và thú.
+
+  # 07. Lần đầu nhìn thấy người lạ
+  - id: nt_ev_07_lan_dau_thay_nguoi_la
+    title: Lần đầu nhìn thấy người lạ
+    text:
+      - Một nhóm nhỏ từ nơi khác đi ngang gần khu cư trú, mang theo những mũi đá và chuỗi vỏ sò khác lạ.
+      - Đứng sau lưng người thân, bạn vừa tò mò nhìn những vật dụng của họ vừa nghe người lớn bàn cách ứng xử.
+    tags: [quan_he, buon_ban, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_trao_doi, nt_nguoi_dieu_hoa] }
+        factor: 1.3
+    cooldown_years: 6
+    importance: 4
+    icon: duong
+    options:
+      - id: quan_sat_cong_cu_trang_suc
+        text: Chăm chú quan sát cách họ buộc mũi đá và trao đổi vật phẩm với người lớn
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 10 }
+          - { type: skill_xp, skill: ngoai_giao, value: 8 }
+        result:
+          - Bạn nhận ra ngoài cộng đồng của mình còn có những nhóm người với kỹ thuật và sản vật rất khác biệt.
+      - id: dung_canh_nguoi_than_canh_giac
+        text: Đứng sát bên người thân và giữ chừng mực trước người chưa quen biết
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 10 }
+        result:
+          - Cuộc gặp diễn ra ngắn ngủi nhưng bình yên; hai nhóm giữ khoảng cách tôn trọng rồi tiếp tục hành trình.
+
+  # 08. Món quà từ người già
+  - id: nt_ev_08_mon_qua_tu_nguoi_gia
+    title: Món quà từ người già
+    text:
+      - Một người lớn tuổi giàu kinh nghiệm trong nhóm gọi bạn lại bên bếp lửa và trao cho bạn một vật nhỏ tự tay làm.
+      - Đó là một lưỡi đá nhỏ đã mài cẩn thận cùng một hạt chuỗi bằng xương đục lỗ.
+    tags: [truyen_thong, gia_dinh, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_to_chuc_nghi_thuc] }
+        factor: 1.3
+    cooldown_years: 8
+    once_per_life: true
+    importance: 5
+    icon: sach
+    options:
+      - id: gin_giu_nhu_ky_vat
+        text: Đeo hạt xương bên người và lắng nghe câu chuyện về những mùa xưa cũ
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: stress, value: -4 }
+        result:
+          - Nhiều năm về sau, món quà giản dị ấy trở thành kỷ vật nhắc bạn nhớ về thế hệ đã nuôi dưỡng mình.
+      - id: dung_luoi_da_tap_lam_viec
+        text: Dùng ngay công cụ nhỏ ấy để tập cắt sợi và gọt cành gỗ
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 6 }
+        result:
+          - Bạn sớm quen tay sử dụng công cụ và được người già chỉ thêm cách giữ lưỡi đá lâu cùn.
+
+  # ══════════════════ SỰ KIỆN TUỔI THƠ BỔ SUNG TỪ MỤC 2 ══════════════════
+  # Bị ong đốt khi tìm mật và quả
+  - id: nt_ev_08b_bi_ong_dot
+    title: Tổ ong trên cành thấp
+    text:
+      - Khi vạch bụi cây tìm quả chín, bạn bất ngờ chạm phải một tổ ong rừng ẩn dưới tán lá.
+      - Đàn ong vù bay ra khiến lũ trẻ đi cùng hoảng hốt chạy tán loạn.
+    tags: [hai_luom, nguy_hiem, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu] }
+        factor: 1.2
+    cooldown_years: 6
+    importance: 4
+    icon: la
+    options:
+      - id: chay_ve_suoi_dap_bun
+        text: Lùi nhanh về phía khe suối và nhờ người lớn đắp lá mát giảm sưng
+        effects:
+          - { type: health, value: -3 }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        result:
+          - Vết ong đốt sưng tấy mấy ngày, nhưng từ đó bạn biết nhìn đường bay của ong để tránh nguy hiểm hoặc tìm mật.
+      - id: nho_vi_tri_bao_nguoi_lon
+        text: Ghi nhớ vị trí cái cây rồi về chỉ cho người có kinh nghiệm dùng khói lấy sáp và mật
+        effects:
+          - { type: food, value: 2, ledger: su_kien }
+          - { type: skill_xp, skill: muu_luoc, value: 10 }
+        result:
+          - Người lớn dùng khói cỏ khô lấy được một ít mật rừng ngọt lịm chia cho cả nhóm.
+
+  # Làm hỏng công cụ của người thân
+  - id: nt_ev_08c_lam_hong_cong_cu_nguoi_than
+    title: Làm mẻ lưỡi đá của người thân
+    text:
+      - Trong lúc tự ý cầm chiếc rìu đá của người lớn đập vào tảng đá cứng, bạn vô tình làm sứt một mảng lưỡi cắt.
+      - Đây là công cụ mà người thân đã mất nhiều ngày chọn đá và ghè sửa mới có được.
+    tags: [thu_cong, gia_dinh, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_che_tac_da, nt_nguoi_che_tac_xuong_go] }
+        factor: 1.3
+    cooldown_years: 6
+    importance: 4
+    icon: da
+    options:
+      - id: thu_nhan_va_ngoi_hoc_sua
+        text: Đưa công cụ bị mẻ cho người thân và xin ngồi cạnh học cách ghè sửa lại lưỡi
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: stress, value: 2 }
+        result:
+          - Người thân không trách nặng lời mà bắt bạn ngồi nhìn cách ghè lại mép đá bị sứt để hiểu công sức làm ra công cụ.
+      - id: di_nhat_da_cuoi_bu_lai
+        text: Ra bờ suối tìm mấy viên đá cuội tốt mang về đền lại
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        result:
+          - Bạn học được cách gõ thử vào viên đá để nghe tiếng đanh hay bở trước khi mang về nơi trú.
+
+  # Lần đầu nhìn thấy thú lớn & phát hiện vũng nước mới
+  - id: nt_ev_08d_thay_thu_lon_va_vung_nuoc
+    title: Vũng nước mới và bóng thú lớn
+    text:
+      - Khi theo người lớn đi qua sườn đồi sau mưa, bạn phát hiện một hốc đá trũng giữ được làn nước trong vắt.
+      - Trên bùn ẩm cạnh vũng nước in hằn dấu chân rất sâu của một con thú lớn vừa đi qua chưa lâu.
+    tags: [san_bat, thien_nhien, tuoi_tho]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_tim_nguon_nuoc, nt_nguoi_tim_duong] }
+        factor: 1.3
+    cooldown_years: 6
+    importance: 4
+    icon: nuoc
+    options:
+      - id: danh_dau_duong_den_vung_nuoc
+        text: Xếp mấy hòn đá làm dấu đường dẫn tới vũng nước mới
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: reputation, value: 2 }
+        result:
+          - Điểm nước nhỏ ấy giúp những người đi hái lượm quanh đồi có chỗ uống nước sạch suốt mùa nắng.
+      - id: quan_sat_dau_chan_thu_lon
+        text: Ngồi xuống đo thử độ sâu và hướng đi của dấu chân thú lớn cùng người đi săn
+        effects:
+          - { type: skill_xp, skill: quan_su, value: 10 }
+          - { type: skill_xp, skill: muu_luoc, value: 6 }
+        result:
+          - Lần đầu tiên bạn cảm nhận rõ cả sự hùng vĩ lẫn mối hiểm nguy luôn rình rập nơi rừng hoang.
+
+  # ══════════════════ TUỔI THIẾU NIÊN (12–15) — MỤC 11.B (09–16) ══════════════════
+  # 09. Mũi lao đầu tiên
+  - id: nt_ev_09_mui_lao_dau_tien
+    title: Mũi lao đầu tiên
+    text:
+      - Một người lớn trong nhóm hướng dẫn bạn tự tay buộc và chỉnh thẳng một mũi lao đơn giản.
+      - Lần thử đầu tiên cán gỗ dễ bị lệch và dây buộc chưa đủ chặt, đòi hỏi nhiều lần làm lại.
+    tags: [san_bat, thu_cong, hoc_hanh]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_san_thu, nt_nguoi_danh_ca, nt_nguoi_che_tac_xuong_go] }
+        factor: 1.3
+    cooldown_years: 6
+    importance: 5
+    icon: kiem
+    options:
+      - id: kien_nhan_buoc_va_thu_lai
+        text: Kiên nhẫn tháo ra buộc lại dây sợi cho tới khi mũi lao cân bằng
+        effects:
+          - { type: skill_xp, skill: quan_su, value: 12 }
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+        result:
+          - Sau nhiều lần hỏng, kinh nghiệm tích lũy từ thất bại giúp bạn cầm chắc mũi lao đầu tiên của đời mình.
+      - id: nho_nguoi_gioi_chi_cach_chon_go
+        text: Hỏi người thợ lâu năm cách hơ lửa uốn thẳng thân gỗ trước khi gắn mũi nhọn
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: skill_xp, skill: hoc_van, value: 8 }
+        result:
+          - Bạn học được bí quyết chọn cành gỗ dẻo và miết nhựa cây giúp mối buộc bền chắc hơn.
+
+  # 10. Cuộc săn không thành
+  - id: nt_ev_10_cuoc_san_khong_thanh
+    title: Cuộc săn không thành
+    text:
+      - Đoàn săn đi từ sáng sớm đến chiều muộn nhưng trở về với rất ít thức ăn.
+      - Nhìn những người lớn mệt mỏi bên bếp lửa, bạn nhận ra công sức bỏ ra không phải lúc nào cũng bảo đảm thành công.
+    tags: [san_bat, gia_dinh]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 5
+    importance: 5
+    icon: trang
+    options:
+      - id: chuyen_sang_hai_cu_bat_ca
+        text: Đề nghị cùng mọi người ra suối bắt cá nhỏ và đào củ bù vào bữa tối
+        effects:
+          - { type: food, value: 3, ledger: su_kien }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+        result:
+          - Giỏ củ rừng và cá nhỏ giúp cả nhà không phải đi ngủ với cái bụng đói sau ngày săn thất bát.
+      - id: nghe_phan_tich_ly_do_that_bai
+        text: Ngồi nghe những người đi săn rút kinh nghiệm vì sao đàn thú đánh hơi được
+        effects:
+          - { type: skill_xp, skill: quan_su, value: 10 }
+          - { type: skill_xp, skill: muu_luoc, value: 8 }
+        result:
+          - Bạn hiểu rõ hơn về hướng gió, tiếng bước chân và sự kiên nhẫn cần có trong mỗi chuyến đi.
+
+  # 11. Người bạn giỏi hơn mình
+  - id: nt_ev_11_nguoi_ban_gioi_hon
+    title: Người bạn giỏi hơn mình
+    text:
+      - Một người bạn cùng lứa học cách ghè đá và theo dấu nhanh hơn bạn thấy rõ, được người lớn khen ngợi trước mặt cả nhóm.
+      - Cảm giác cạnh tranh trỗi dậy trong lòng bạn sau buổi làm việc chung.
+    tags: [quan_he, hoc_hanh]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 6
+    importance: 4
+    icon: ky_nang
+    options:
+      - id: cung_hoc_hoi_lan_nhau
+        text: Chủ động rủ bạn cùng tập luyện và đổi kinh nghiệm mình biết
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+          - { type: stress, value: -3 }
+        result:
+          - Cả hai vừa ganh đua vừa chỉ dẫn cho nhau, tình bạn và tay nghề đều tiến bộ nhanh chóng.
+      - id: am_tham_tap_luyen_rieng
+        text: Âm thầm ở lại tập thêm mỗi chiều để không thua kém bạn cùng trang lứa
+        effects:
+          - { type: skill_xp, skill: quan_su, value: 14 }
+          - { type: stress, value: 3 }
+        result:
+          - Sự nỗ lực bền bỉ giúp đôi tay bạn vững vàng hơn qua từng mùa.
+
+  # 12. Mùa thức ăn khan hiếm
+  - id: nt_ev_12_mua_thuc_an_khan_hiem
+    title: Mùa thức ăn khan hiếm
+    text:
+      - Thời tiết khắc nghiệt khiến quả rừng và thú săn đều vắng bóng, gia đình buộc phải giảm khẩu phần mỗi ngày.
+      - Người thân bàn tính cách vượt qua những tuần thiếu hụt trước mắt.
+    tags: [mat_mua, gia_dinh]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 5
+    importance: 5
+    icon: mat_mua
+    options:
+      - id: phu_tim_hat_va_re_cay
+        text: Đi dọc các sườn đồi và bờ nước tìm thêm hạt khô, củ sâu dưới đất
+        effects:
+          - { type: food, value: 3, ledger: su_kien }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+        result:
+          - Những rễ cây và hạt dại bạn kiên trì đào bới đã giúp gia đình cầm cự qua lúc ngặt nghèo.
+      - id: o_nha_cham_nguoi_yeu
+        text: Nhường phần ăn cho trẻ nhỏ và phụ chăm sóc người yếu trong nhà
+        effects:
+          - { type: health, value: -3 }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+          - { type: reputation, value: 3 }
+        result:
+          - Cả nhà thương nhau vượt qua mùa đói, ai trong nhóm cũng quý tấm lòng biết nghĩ cho người thân của bạn.
+
+  # 13. Tiếng gọi từ bên kia sông
+  - id: nt_ev_13_tieng_goi_ben_kia_song
+    title: Tiếng gọi từ bên kia sông
+    text:
+      - Một nhóm cư trú bên kia sông đề nghị thanh niên trong nhóm bạn cùng tham gia một chuyến kiếm ăn chung ở vùng bãi bồi.
+      - Đây có thể là cơ hội học kỹ năng mới và kết bạn, nhưng cũng tiềm ẩn rủi ro khi đi xa nhà.
+    tags: [quan_he, thoi_co, nguy_hiem]
+    life_stages: [thieu_thoi]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 6
+    importance: 5
+    icon: nuoc
+    options:
+      - id: xin_phep_di_cung_doan
+        text: Xin phép người thân vượt sông tham gia chuyến kiếm ăn cùng nhóm bạn
+        chance: { base: 0.7, skill: sinh_ton, per_level: 0.05 }
+        success:
+          - { type: food, value: 4, ledger: su_kien }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+        failure:
+          - { type: health, value: -5 }
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+        success_result:
+          - Bạn học được cách đặt bẫy cá mới của nhóm bên kia sông và mang về phần thức ăn đáng kể.
+        failure_result:
+          - Dòng nước chảy xiết khiến bạn bị trầy xước khi lội qua bãi đá, nhưng chuyến đi vẫn cho bạn nhiều kinh nghiệm.
+      - id: kiem_an_quanh_vung_quen
+        text: Ở lại phụ gia đình khai thác những bãi kiếm ăn quen thuộc bên này sông
+        effects:
+          - { type: food, value: 2, ledger: su_kien }
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+        result:
+          - Bạn giữ an toàn cho bản thân và hoàn thành trọn vẹn phần việc được giao tại nơi trú.
+
+  # 14. Công cụ bị vỡ
+  - id: nt_ev_14_cong_cu_bi_vo
+    title: Công cụ bị vỡ
+    text:
+      - Giữa lúc đang làm việc, lưỡi đá trên công cụ quan trọng của bạn bị nứt vỡ làm đôi.
+      - Nếu không có dụng cụ thay thế, bạn sẽ khó tiếp tục phần việc của mình trong những ngày tới.
+    tags: [thu_cong, lao_dong]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_che_tac_da, nt_nguoi_che_tac_xuong_go, nt_nguoi_dan_soi] }
+        factor: 1.3
+    cooldown_years: 5
+    importance: 4
+    icon: da
+    options:
+      - id: tan_dung_manh_vo_che_tac_lai
+        text: Tận dụng mảnh đá vỡ để ghè lại thành lưỡi nạo nhỏ và buộc cán mới
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 6 }
+        result:
+          - "Bạn học được cách không bỏ phí nguyên liệu: mảnh đá gãy trở thành chiếc nạo da sắc bén."
+      - id: doi_cui_nho_nguoi_tho_ghe_giup
+        text: Mang một bó củi khô tới nhờ người thợ đá lành nghề trong nhóm làm giúp lưỡi mới
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+          - { type: skill_xp, skill: thuong_mai, value: 6 }
+        result:
+          - Người thợ vui vẻ nhận củi khô và vừa ghè lưỡi đá mới vừa chỉ cho bạn cách tránh gõ lệch tâm đá.
+
+  # 15. Người dạy nghề ra đi
+  - id: nt_ev_15_nguoi_day_nghe_ra_di
+    title: Người dạy nghề ra đi
+    text:
+      - Người lớn tuổi từng kiên nhẫn chỉ dạy kỹ năng sinh tồn và chế tác cho bạn không còn ở bên nữa.
+      - Bạn đứng trước khoảng trống lớn khi phải tự mình tiếp tục con đường học nghề.
+    tags: [truyen_thong, hoc_hanh]
+    life_stages: [thieu_thoi]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 8
+    once_per_life: true
+    importance: 6
+    icon: tang
+    options:
+      - id: tu_ren_luyen_theo_loi_dan
+        text: Tự mình thực hành lại từng thao tác mà người thầy đã truyền dạy
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+        result:
+          - Mỗi nhát ghè đá và mỗi bước chân trong rừng đều nhắc bạn nhớ những lời chỉ bảo quý giá năm xưa.
+      - id: xin_theo_hoc_mot_nguoi_khac
+        text: Tìm đến một thành viên giàu kinh nghiệm khác trong cộng đồng để xin học tiếp
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+        result:
+          - Người hướng dẫn mới có cách làm khác biệt, giúp bạn kết hợp được kinh nghiệm của cả hai người đi trước.
+
+  # 16. Tình cảm đầu đời
+  - id: nt_ev_16_tinh_cam_dau_doi
+    title: Tình cảm đầu đời
+    text:
+      - Qua những mùa cùng đi nhặt quả, lấy nước và ngồi quanh đống lửa, bạn bắt đầu quan tâm đặc biệt đến một người bạn cùng lứa.
+      - Mỗi khi đoàn chuẩn bị di chuyển hoặc chia việc, ánh mắt hai người thường tìm nhau.
+    tags: [quan_he, gia_dinh]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 6
+    once_per_life: true
+    importance: 5
+    icon: gia_dinh
+    options:
+      - id: tang_vat_nho_tu_lam
+        text: Tự tay đục một chiếc vỏ sò hoặc mài viên đá nhỏ tặng cho người ấy
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+          - { type: stress, value: -5 }
+        result:
+          - Người ấy mỉm cười nhận lấy món quà mộc mạc bên bếp lửa, để lại ký ức ấm áp của tuổi thiếu niên.
+      - id: cung_chia_se_cong_viec_nang
+        text: Lặng lẽ phụ giúp người ấy mang củi và nước mỗi khi đi làm về
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: stress, value: -4 }
+        result:
+          - Sự quan tâm chân thành qua từng việc nhỏ khiến hai gia đình thêm quý mến nhau.
+
+  # Phát hiện tài năng hoặc giới hạn thể chất (Mục 2 — thiếu niên)
+  - id: nt_ev_16b_tai_nang_va_gioi_han
+    title: Nhận ra điểm mạnh của bản thân
+    text:
+      - Sau một chuyến đi đường dài cùng nhóm, bạn nhận thấy rõ khả năng chịu đựng của cơ thể mình cũng như công việc mình làm tốt nhất.
+      - Người lớn hỏi bạn muốn đảm nhận vai trò nào nhiều hơn trong những mùa tới.
+    tags: [hoc_hanh, lao_dong]
+    life_stages: [thieu_thoi]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+    cooldown_years: 6
+    importance: 4
+    icon: moc_doi
+    options:
+      - id: ren_suc_ben_di_xa
+        text: Tập trung rèn sức bền, theo dấu và di chuyển qua địa hình khó
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: skill_xp, skill: quan_su, value: 10 }
+        result:
+          - Đôi chân bạn ngày càng dẻo dai trên những con đường rừng và sườn đá dốc.
+      - id: ren_tay_nghe_va_quan_sat
+        text: Phát huy sự tỉ mỉ trong chế tác công cụ, bảo quản thức ăn và ghi nhớ tri thức
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 10 }
+          - { type: skill_xp, skill: hoc_van, value: 10 }
+        result:
+          - Mọi người trong nhóm nhận ra bạn có đôi tay khéo léo và trí nhớ đáng tin cậy.
+
+  # ══════════════════ 7 TÌNH HUỐNG CHĂM SÓC CỘNG ĐỒNG (MỤC 9) ══════════════════
+  # Chăm sóc 01: Gia đình phân chia công việc để một người ở lại chăm người bị thương
+  - id: nt_ev_cs_01_phan_cong_cham_nguoi_bi_thuong
+    title: Cắt cử người ở lại bên bếp lửa
+    text:
+      - Một thành viên trong nhà bị thương nặng chưa thể đi lại, trong khi mùa thu hái và săn bắt đang vào lúc khẩn trương.
+      - Gia đình phải bàn cách phân chia công việc để vừa có người ở lại chăm sóc vừa không đứt bữa.
+    tags: [benh_tat, gia_dinh]
     life_stages: [thanh_nien, lap_nghiep, trung_nien]
-    condition:
-      all:
-        - { var: player.age, op: '>=', value: 14 }
-    weight: 14
-    cooldown_years: 3
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_cham_soc, nt_nguoi_bao_quan_thuc_an, nt_nguoi_dan_soi] }
+        factor: 1.4
+    cooldown_years: 5
+    importance: 5
+    icon: thuoc
+    options:
+      - id: o_lai_cham_va_lam_do_tai_cho
+        text: Tự mình ở lại rửa vết thương, giữ lửa và tranh thủ đan sợi, sửa công cụ tại nơi trú
+        effects:
+          - { type: food, value: -2, ledger: su_kien }
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: reputation, value: 3 }
+        result:
+          - Nhờ được giữ ấm và thay lá sạch đều đặn, vết thương của người thân bớt sưng tấy và dần khép miệng.
+      - id: di_kiem_an_gap_doi
+        text: Để người khác ở lại trông nom, còn mình nhận phần đi kiếm thức ăn bù cho cả hai
+        effects:
+          - { type: food, value: 2, ledger: su_kien }
+          - { type: health, value: -3 }
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+        result:
+          - Bạn gánh phần việc nặng ngoài rừng để người bị thương có đủ thức ăn bồi dưỡng.
+
+  # Chăm sóc 02: Người bệnh không đủ sức đi theo nhóm khi chuyển chỗ trú
+  - id: nt_ev_cs_02_nguoi_benh_khi_chuyen_cho_tru
+    title: Bước chân chậm lại trên đường chuyển trại
+    text:
+      - Khi cả nhóm chuẩn bị rời sang điểm cư trú theo mùa mới, một người đang ốm yếu không đủ sức tự đi bộ qua đoạn đèo dốc.
+      - Đoàn người dừng lại bàn cách xử trí trước khi trời đổ mưa.
+    tags: [benh_tat, lang_xa, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_dua_tre_nhom_di_cu, nt_con_nguoi_san_thu, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.3
+      - condition: { var: player.career, op: in, value: [nt_nguoi_tim_duong, nt_nguoi_cham_soc, nt_nguoi_dung_noi_tru] }
+        factor: 1.4
+    cooldown_years: 6
+    importance: 6
+    icon: duong
+    options:
+      - id: ket_cang_thay_nhau_khieng
+        text: Buộc cáng bằng cành gỗ và dây sợi để cùng các thành viên thay nhau khiêng người bệnh
+        effects:
+          - { type: health, value: -4 }
+          - { type: reputation, value: 5 }
+          - { type: skill_xp, skill: quan_tri, value: 10 }
+        result:
+          - Đoàn đi chậm hơn dự kiến nhưng không một ai bị bỏ lại phía sau trên con đường núi.
+      - id: dung_tram_nghi_tam_cho_bot_sot
+        text: Đề nghị một nhóm nhỏ dừng lại dưới mái đá kín gió vài ngày chờ người bệnh đỡ sốt rồi đi tiếp
+        effects:
+          - { type: food, value: -3, ledger: su_kien }
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: stress, value: -2 }
+        result:
+          - Sau mấy ngày nghỉ dưới mái đá khô ráo, người bệnh đã có thể vịn vai bạn tiếp tục cuộc hành trình.
+
+  # Chăm sóc 03: Cộng đồng tranh luận về việc chia thức ăn cho người không còn khả năng săn bắt
+  - id: nt_ev_cs_03_chia_thuc_an_nguoi_mat_suc_san
+    title: Phần thịt bên bếp lửa chung
+    text:
+      - Một cựu thợ săn từng đóng góp nhiều cho nhóm nay bị chấn thương cũ hành hạ, không còn theo đoàn đi săn được nữa.
+      - Trong mùa thức ăn eo hẹp, vài người trẻ bắt đầu phàn nàn về việc vẫn chia phần thịt như trước.
+    tags: [lang_xa, quan_he, benh_tat]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.origin, op: in, value: [nt_con_nguoi_san_thu, nt_con_nguoi_hai_luom, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_dua_tre_nhom_di_cu, nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_che_tac_da, nt_con_nguoi_giu_kho, nt_con_cu_dan_hang_da, nt_con_cong_dong_ho_sahara, nt_con_nguoi_lam_gom, nt_con_nguoi_tim_da_quy, nt_con_nguoi_cham_soc, nt_dua_tre_khong_nguoi_than] }
+        factor: 1.2
+      - condition: { var: player.career, op: in, value: [nt_nguoi_dieu_hoa, nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_to_chuc_nghi_thuc] }
+        factor: 1.4
+    cooldown_years: 6
+    importance: 6
+    icon: lang
+    options:
+      - id: len_tieng_bao_ve_va_giao_viec_tai_cho
+        text: Nhắc lại công sức năm xưa của họ và đề nghị để họ phụ sửa công cụ, dạy lớp trẻ tại nơi trú
+        effects:
+          - { type: reputation, value: 5 }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        result:
+          - Lời nói hợp tình hợp lý của bạn khiến mọi người tâm phục; người thợ săn già tiếp tục truyền dạy kinh nghiệm quý cho nhóm.
+      - id: trich_phan_nha_minh_bu_them
+        text: Tự nguyện san sẻ một phần thức ăn của gia đình mình để giữ hòa khí trong nhóm
+        effects:
+          - { type: food, value: -2, ledger: su_kien }
+          - { type: reputation, value: 4 }
+          - { type: stress, value: -3 }
+        result:
+          - Nghĩa cử sẻ chia của gia đình bạn làm dịu đi cuộc tranh cãi quanh bếp lửa.
+
+  # Chăm sóc 04: Một người phục hồi sau nhiều tháng và tìm cách đảm nhiệm công việc mới
+  - id: nt_ev_cs_04_tim_vai_tro_moi_sau_chan_thuong
+    title: Đôi tay tìm việc mới sau cơn bạo bệnh
+    text:
+      - Sau nhiều tháng dưỡng thương, một thành viên từng làm việc nặng đã qua cơn nguy kịch nhưng bước chân không còn nhanh nhẹn như xưa.
+      - Họ trăn trở tìm cách tiếp tục đóng góp cho gia đình và cộng đồng.
+    tags: [benh_tat, thu_cong, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_che_tac_da, nt_nguoi_che_tac_xuong_go, nt_nguoi_dan_soi, nt_nguoi_lam_gom, nt_nguoi_bao_quan_thuc_an] }
+        factor: 1.4
+    cooldown_years: 6
+    importance: 5
+    icon: da
+    options:
+      - id: huong_dan_che_tac_va_bao_quan
+        text: Cùng họ chuyển sang ghè đá, đan đồ đựng và trông coi việc phơi sấy thức ăn
+        effects:
+          - { type: food, value: 3, ledger: su_kien }
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: stress, value: -4 }
+        result:
+          - Không còn chạy theo thú rừng, họ lại trở thành người giữ kho và sửa công cụ khéo léo bậc nhất trong nhóm.
+      - id: nho_ho_truyen_day_tre_nho
+        text: Nhờ họ trông coi nơi trú và truyền dạy kinh nghiệm nhận biết thiên nhiên cho đám trẻ
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: reputation, value: 3 }
+        result:
+          - Đám trẻ học được cách tránh cây độc và nhận biết dấu thú nhờ những câu chuyện thực tế của người đi trước.
+
+  # Chăm sóc 05: Một đứa trẻ qua khỏi bệnh nặng nhưng cần thời gian dài để hồi phục
+  - id: nt_ev_cs_05_dua_tre_hoi_phuc_sau_benh
+    title: Hơi ấm trở lại sau cơn sốt dài
+    text:
+      - Một đứa trẻ trong nhà vừa vượt qua trận sốt và tiêu chảy nguy kịch, nhưng cơ thể vẫn rất gầy yếu.
+      - Những tuần tiếp theo sẽ quyết định đứa trẻ có phục hồi được sức vóc hay không.
+    tags: [benh_tat, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_cham_soc, nt_nguoi_thu_hai, nt_nguoi_danh_ca] }
+        factor: 1.4
+    cooldown_years: 6
+    importance: 5
+    icon: tre_em
+    options:
+      - id: danh_thuc_an_mem_va_nuoc_sach
+        text: Dành riêng phần thức ăn dễ tiêu, củ nấu kỹ và nước suối trong cho đứa trẻ
+        effects:
+          - { type: food, value: -3, ledger: su_kien }
+          - { type: stress, value: -5 }
+          - { type: skill_xp, skill: hoc_van, value: 8 }
+        result:
+          - Đứa trẻ dần hồng hào trở lại và bắt đầu chạy nhảy quanh bếp lửa khi mùa nắng tới.
+      - id: nho_nguoi_co_kinh_nghiem_theo_doi
+        text: Nhờ người giàu kinh nghiệm chăm sóc trong nhóm thường xuyên ghé thăm và tìm lá thảo mộc
+        effects:
+          - { type: food, value: -1, ledger: su_kien }
+          - { type: skill_xp, skill: ngoai_giao, value: 10 }
+        result:
+          - Sự tận tình của cả nhóm giúp đứa trẻ vượt qua giai đoạn suy yếu sau bệnh.
+
+  # Chăm sóc 06: Người chăm sóc bị kiệt sức vì phải làm việc thay cho nhiều thành viên khác
+  - id: nt_ev_cs_06_nguoi_cham_soc_kiet_suc
+    title: Gánh nặng của người giữ bếp lửa
+    text:
+      - Vì phải vừa chăm người ốm vừa gánh phần việc kiếm ăn thay cho nhiều thành viên trong nhà, sức lực của bạn gần như cạn kiệt.
+      - Một buổi sáng thức dậy, đầu óc bạn quay cuồng và chân tay rã rời.
+    tags: [benh_tat, lao_dong, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_cham_soc, nt_nguoi_khai_thac_ngu_coc, nt_nguoi_cham_giu_dong_vat, nt_nguoi_dung_noi_tru] }
+        factor: 1.4
+    cooldown_years: 6
+    importance: 5
+    icon: suc_khoe
+    options:
+      - id: mo_loi_xin_nhom_san_se_viec
+        text: Thẳng thắn nhờ các gia đình thân thuộc trong nhóm đỡ đần việc lấy củi và nước ít ngày
+        effects:
+          - { type: health, value: 4 }
+          - { type: stress, value: -6 }
+          - { type: skill_xp, skill: ngoai_giao, value: 8 }
+        result:
+          - Những người hàng xóm lặng lẽ mang củi và nước tới trước cửa lán, giúp bạn có thời gian nghỉ ngơi hồi sức.
+      - id: giam_bot_viec_xa_giu_suc
+        text: Tạm gác các chuyến đi xa, chỉ thu hái quanh nơi trú để giữ sức lâu dài
+        effects:
+          - { type: food, value: -2, ledger: su_kien }
+          - { type: health, value: 3 }
+          - { type: skill_xp, skill: quan_tri, value: 10 }
+        result:
+          - Bạn học cách điều chỉnh nhịp độ lao động để không gục ngã khi cả gia đình đang trông cậy vào mình.
+
+  # Chăm sóc 07: Một người có nhiều kinh nghiệm qua đời, khiến nhóm mất kiến thức quan trọng
+  - id: nt_ev_cs_07_nguoi_kinh_nghiem_qua_doi
+    title: Khoảng trống tri thức sau một đám tang
+    text:
+      - Một người lớn tuổi nắm giữ nhiều kinh nghiệm về nguồn nước mùa khô và cách xử lý thực vật độc vừa qua đời.
+      - Cả nhóm nhận ra nhiều hiểu biết chưa kịp truyền lại đầy đủ cho thế hệ sau.
+    tags: [truyen_thong, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 3.5
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_to_chuc_nghi_thuc, nt_nguoi_tim_nguon_nuoc, nt_nguoi_dieu_hoa] }
+        factor: 1.4
+    cooldown_years: 7
+    importance: 6
+    icon: tang
+    options:
+      - id: cung_moi_nguoi_khao_lai_tri_nho
+        text: Tập hợp những người từng đi cùng người quá cố để kể lại và ghép nối các kinh nghiệm còn nhớ
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 14 }
+          - { type: reputation, value: 4 }
+        result:
+          - Qua nhiều đêm kể lại bên bếp lửa, phần lớn tri thức về đường nước và cây rừng đã được giữ lại cho lớp trẻ.
+      - id: di_kiem_chung_lai_cac_diem_danh_dau
+        text: Trực tiếp dẫn một nhóm nhỏ đi kiểm tra lại các vách đá và khe nước người ấy từng nhắc tới
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+          - { type: skill_xp, skill: muu_luoc, value: 8 }
+        result:
+          - Bạn tìm thấy những hòn đá đánh dấu đường mòn của người quá cố và truyền lại cho những người đi đường kế tiếp.
+
+
+  # ══════════════════ TUỔI TRƯỞNG THÀNH (16–39) — MỤC 11.B (17–28) ══════════════════
+  # 17. Lựa chọn ở lại hay đi xa
+  - id: nt_ev_17_o_lai_hay_di_xa
+    title: Lựa chọn ở lại hay đi xa
+    text:
+      - Sau hai mùa nguồn thức ăn quanh khu trú suy giảm rõ rệt, một số gia đình quyết định thu gom hành trang rời đi tìm thung lũng mới.
+      - Những người khác muốn bám trụ thêm một mùa mưa nữa bên những hố trữ và bãi hái quen thuộc.
+    tags: [kinh_te, lang_xa, di_cu]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_trao_doi, nt_nguoi_tim_duong, nt_nguoi_san_thu, nt_nguoi_thu_hai, nt_nguoi_danh_ca, nt_nguoi_tim_nguon_nuoc] }
+        factor: 1.5
+    cooldown_years: 8
+    importance: 6
+    icon: duong
+    options:
+      - id: cung_nhom_di_xa
+        text: Thu gom hành trang đi cùng nhóm mở đường tìm vùng đất mới
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+          - { type: skill_xp, skill: muu_luoc, value: 8 }
+          - { type: food, value: 4, ledger: su_kien }
+        result:
+          - Chuyến di cư vất vả đưa bạn tới vùng suối mới nhiều cá và củ rừng hơn nơi cũ.
+      - id: o_lai_bam_tru
+        text: Ở lại bám trụ, đào sâu hố trữ và mở rộng tầm tìm kiếm quanh lán cũ
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 14 }
+          - { type: money, value: 3, ledger: su_kien }
+        result:
+          - Nhờ ít người cạnh tranh hơn, những gia đình ở lại vẫn đủ thức ăn vượt qua mùa khô.
+      - id: thuyet_phuc_do_duong_truoc
+        text: Đứng ra thuyết phục các gia đình cử đội dò đường trước khi quyết định
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: reputation, group: lang, value: 5 }
+        result:
+          - Lời đề nghị thận trọng của bạn giúp cộng đồng tránh được cảnh chia lìa vội vã.
+
+  # 18. Trách nhiệm đầu tiên
+  - id: nt_ev_18_trach_nhiem_dau_tien
+    title: Trách nhiệm đầu tiên
+    text:
+      - Người thợ già vốn phụ trách công việc chính trong nhóm bất ngờ đổ bệnh nặng không thể tiếp tục.
+      - Giữa lúc mùa vụ và chuyến săn đang gấp rút, mọi ánh mắt đều hướng về bạn đề nghị gánh vác vị trí ấy dù bạn chưa từng làm một mình.
+    tags: [nghe, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_khai_thac_ngu_coc, nt_nguoi_cham_giu_dong_vat, nt_nguoi_che_tac_da, nt_nguoi_che_tac_xuong_go, nt_nguoi_dan_soi, nt_nguoi_lam_gom] }
+        factor: 1.5
+    cooldown_years: 8
+    importance: 6
+    icon: nghe
+    options:
+      - id: nhan_trach_nhiem
+        text: Đứng ra nhận lấy phần việc nặng nhọc và làm hết sức mình
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 16 }
+          - { type: reputation, group: lang, value: 5 }
+          - { type: health, value: -2 }
+        result:
+          - Dù đôi tay còn lóng ngóng những ngày đầu, bạn thức khuya dậy sớm hoàn thành trọn vẹn phần việc được giao.
+      - id: vua_lam_vua_hoi_nguoi_gia
+        text: Nhận việc nhưng mỗi tối đều tới bên bếp lửa hỏi ý kiến người già
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 8 }
+          - { type: stress, value: -3 }
+        result:
+          - Sự khiêm tốn giúp bạn tránh được những sai lầm nghiêm trọng khi lần đầu tự tay điều phối công việc.
+      - id: de_nghi_chia_nho_viec
+        text: Đề nghị chia phần việc cho ba người trẻ cùng gánh vác
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+        result:
+          - Cách làm chung giúp cả nhóm trẻ cùng tiến bộ và gắn kết chặt chẽ hơn.
+
+  # 19. Một cuộc săn nguy hiểm (id giữ tương thích kiểm thử: san_ban_thu_lon_nguyen_thuy)
+  - id: san_ban_thu_lon_nguyen_thuy
+    title: Một cuộc săn nguy hiểm
+    text:
+      - Đoàn săn phát hiện dấu chân rướm máu của một con bò rừng khổng lồ gần hẻm đá.
+      - Tiếp tục truy kích có thể mang lại lượng thịt và da lớn cho cả khu cư trú, nhưng con thú đang bị kích động dữ dội và rất dễ húc trọng thương người áp sát.
+    tags: [nghe, thien_nhien, rui_ro]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 5
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_san_thu, nt_nguoi_dieu_hoa, nt_nguoi_tim_duong, nt_nguoi_dan_soi, nt_nguoi_che_tac_da, nt_nguoi_che_tac_xuong_go] }
+        factor: 1.8
+    cooldown_years: 6
     importance: 7
     icon: kiem
     options:
-      - id: dan_dau_toan_san_vay_bat
-        text: Cầm giáo đá dẫn đầu toán thợ săn trẻ dồn đàn thú vào hẻm núi
-        chance:
-          base: 0.65
-          skill: sinh_ton
-          per_level: 0.06
-        success:
-          - { type: food, value: 28 }
-          - { type: reputation, group: dan_lang, value: 10 }
-          - { type: skill_xp, skill: sinh_ton, value: 30 }
-          - { type: skill_xp, skill: quan_su, value: 20 }
-        failure:
-          - { type: food, value: 6 }
-          - { type: health, value: -10 }
-        success_result:
-          - 'Đàn thú sập bẫy trong hẻm đá, đêm ấy lửa trại bập bùng tiếng hát mừng chiến lợi phẩm.'
-        failure_result:
-          - 'Con thú đầu đàn vùng thoát làm bạn bị thương ở bả vai, chỉ thu được ít thịt nhỏ.'
-      - id: dat_bay_quanh_suoi_an_toan
-        text: Đào hố bẫy và hái lượm hạt rừng quanh bờ suối cho chắc ăn
+      - id: lao_len_phong_lao
+        text: Dẫn đầu mũi giáp công, áp sát phóng lao vào sườn con thú lớn
         effects:
-          - { type: food, value: 12 }
-          - { type: skill_xp, skill: sinh_ton, value: 18 }
+          - { type: skill_xp, skill: quan_su, value: 18 }
+          - { type: food, value: 8, ledger: su_kien }
+          - { type: money, value: 5, ledger: su_kien }
+          - { type: reputation, group: lang, value: 6 }
+          - { type: health, value: -4 }
         result:
-          - 'Không mạo hiểm đối đầu thú lớn, bạn vẫn mang về đủ thịt thú nhỏ và củ rừng cho gia đình.'
+          - Mũi lao đá cắm sâu vào mục tiêu giữa tiếng gầm vang vọng vách núi; cả đoàn reo hò khi con mồi đổ gục.
+      - id: dung_bay_va_lua_ep_goc
+        text: Dùng đuốc lửa và tiếng hú dồn con thú vào vách đá hẹp rồi mới tấn công
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 16 }
+          - { type: skill_xp, skill: quan_su, value: 8 }
+          - { type: food, value: 6, ledger: su_kien }
+          - { type: reputation, group: lang, value: 4 }
+        result:
+          - Kế hoạch vây ép bằng khói lửa giúp đoàn săn hạ gục con thú lớn mà không ai bị húc trọng thương.
+      - id: rut_lui_chon_con_moi_nho
+        text: Khuyên đoàn săn rút lui, chuyển sang bẫy đàn hươu nhỏ an toàn hơn
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: food, value: 3, ledger: su_kien }
+          - { type: health, value: 2 }
+        result:
+          - Lượng thịt mang về ít hơn mong đợi nhưng toàn bộ đội săn đều trở về nguyên vẹn bên bếp lửa.
 
-  - id: giu_lua_hang_da_mua_dong
-    title: Đêm băng giá giữ ngọn lửa thiêng
+  # 20. Mùa thu hoạch thất bại
+  - id: nt_ev_20_mua_thu_hoach_that_bai
+    title: Mùa thu hoạch thất bại
     text:
-      - 'Gió tuyết gào thét bên ngoài vách đá, củi khô trong lán đã gần cạn mà ngọn lửa chung của thị tộc đang lụi dần trong đêm đen.'
-    tags: [tai_hoa, gia_dinh]
-    months: [11, 12, 1, 2]
-    weight: 12
-    cooldown_years: 4
+      - Tại cộng đồng canh tác sơ khai, đợt gió khô nóng kéo dài khiến lượng hạt thu được thấp hơn mong đợi rất nhiều.
+      - "Cả nhóm đứng trước lựa chọn: ăn vào phần hạt giống dự trữ, tỏa đi tìm thức ăn tự nhiên hay sang xin hỗ trợ từ nhóm khác."
+    tags: [kinh_te, thien_nhien, nong_nghiep]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_khai_thac_ngu_coc, nt_nguoi_bao_quan_thuc_an, nt_nguoi_thu_hai, nt_nguoi_cham_giu_dong_vat, nt_nguoi_lam_gom, nt_nguoi_dung_noi_tru] }
+        factor: 1.5
+    cooldown_years: 7
+    importance: 6
+    icon: lua
+    options:
+      - id: to_chuc_hai_luom_bu_dap
+        text: Tạm gác việc đồng bãi, dẫn mọi người vào rừng sâu đào củ và hái hạt dẻ bù vào
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+          - { type: food, value: 4, ledger: su_kien }
+        result:
+          - Sự linh hoạt quay lại nguồn thức ăn hoang dã giúp gia đình bạn bù đắp phần hạt giống bị mất.
+      - id: giu_chat_hat_giong_an_de_sen
+        text: Kiên quyết giữ nguyên phần hạt giống cho năm sau, cả nhà thắt lưng buộc bụng
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 15 }
+          - { type: health, value: -2 }
+          - { type: money, value: 4, ledger: su_kien }
+        result:
+          - Nhờ giữ được hạt giống tốt trong chum đất, vụ gieo trồng mùa mưa năm sau phục hồi nhanh chóng.
+      - id: nho_ho_tro_cong_dong_lan_can
+        text: Mang công cụ đá và đồ đan sang đổi lương thực hoặc xin hỗ trợ từ nhóm lân cận
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 12 }
+          - { type: skill_xp, skill: ngoai_giao, value: 8 }
+          - { type: food, value: 3, ledger: su_kien }
+          - { type: money, value: -2, ledger: su_kien }
+        result:
+          - Bạn đổi những lưỡi rìu đá sắc bén lấy vài giỏ hạt khô từ cộng đồng ven suối.
+
+  # 21. Người lạ xin trú nhờ
+  - id: nt_ev_21_nguoi_la_xin_tru_nho
+    title: Người lạ xin trú nhờ
+    text:
+      - Chiều muộn, một người cùng gia đình nhỏ tả tơi từ vùng đồi phía tây tìm tới bìa trại xin được ở lại.
+      - Cộng đồng phải cân nhắc kỹ giữa nguồn lương thực hạn hẹp, sự an toàn và khả năng đóng góp của người mới.
+    tags: [lang_xa, ngoai_giao]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_dieu_hoa, nt_nguoi_to_chuc_nghi_thuc, nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_bao_quan_thuc_an, nt_nguoi_cham_soc] }
+        factor: 1.5
+    cooldown_years: 7
+    importance: 5
+    icon: nguoi
+    options:
+      - id: cho_o_lai_va_chia_viec
+        text: Đón họ vào lán, chia sẻ thức ăn và phân công họ phụ giúp kiếm củi, đan lát
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: reputation, group: lang, value: 5 }
+          - { type: food, value: -2, ledger: su_kien }
+        result:
+          - Gia đình người lạ cảm kích sự cưu mang và chỉ cho nhóm bạn cách bẫy chim nước rất hiệu quả.
+      - id: cho_tru_tam_ngan_ngay
+        text: Cho họ trú tạm dưới mái hiên vài ngày chờ tạnh mưa rồi chỉ đường đi tiếp
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+        result:
+          - Khi trời hửng nắng, gia đình người lạ để lại một chuỗi vỏ sò thay lời cảm ơn trước khi lên đường.
+      - id: canh_giac_tu_choi
+        text: Cẩn trọng từ chối cho vào trại vì sợ thiếu lương thực và rủi ro xung đột
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 10 }
+          - { type: stress, value: 2 }
+        result:
+          - Bạn đặt sự sinh tồn của người nhà lên trên hết giữa mùa khan hiếm khắc nghiệt.
+
+  # 22. Một đứa trẻ ra đời
+  - id: nt_ev_22_dua_tre_ra_doi
+    title: Một đứa trẻ ra đời
+    text:
+      - Tiếng khóc chào đời của một đứa trẻ vang lên trong lán nhỏ giữa đêm sương, mang lại niềm vui lớn cho gia đình.
+      - Tuy nhiên, nhu cầu chăm sóc, giữ ấm, thức ăn và sức khỏe của cả người sinh lẫn trẻ nhỏ cũng trở nên cấp thiết hơn bao giờ hết.
+    tags: [gia_dinh, suc_khoe]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_cham_soc, nt_nguoi_to_chuc_nghi_thuc, nt_nguoi_bao_quan_thuc_an, nt_nguoi_thu_hai, nt_nguoi_lam_gom] }
+        factor: 1.5
+    cooldown_years: 8
+    importance: 6
+    icon: tre
+    options:
+      - id: danh_tron_thoi_gian_cham_soc
+        text: Dành trọn những tuần đầu giữ ấm bếp lửa, nấu nước thảo mộc và túc trực bên gia đình
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: stress, value: -6 }
+          - { type: food, value: -2, ledger: su_kien }
+        result:
+          - Nhờ sự chăm sóc tận tình và bếp lửa luôn ấm áp, cả mẹ và bé đều vượt qua những ngày yếu ớt nhất.
+      - id: tang_cuong_kiem_thuc_an
+        text: Nỗ lực đi săn và thu hái gấp đôi để mang về thức ăn giàu dinh dưỡng nhất
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+          - { type: food, value: 4, ledger: su_kien }
+          - { type: health, value: -2 }
+        result:
+          - Bạn dầm sương vượt suối mang về những con cá tươi và mật ong rừng bồi dưỡng cho người thân.
+      - id: nho_nguoi_gia_va_cong_dong_phu_giup
+        text: Nhờ các bậc cao niên có kinh nghiệm đỡ đẻ và bà con trong nhóm cùng trông nom
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+          - { type: reputation, group: lang, value: 3 }
+        result:
+          - Các bà, các mẹ trong cộng đồng mang lá thuốc ấm và tấm da thú mềm sang phụ giúp gia đình bạn.
+
+  # 23. Người thân bị thương
+  - id: nt_ev_23_nguoi_than_bi_thuong
+    title: Người thân bị thương
+    text:
+      - Một người có vai trò quan trọng trong gia đình bị đá lở đè trúng chân và không thể lao động đi xa trong nhiều tháng.
+      - Gia đình phải phân chia lại toàn bộ công việc hoặc nhờ tới sự hỗ trợ của cộng đồng.
+    tags: [gia_dinh, suc_khoe]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_cham_soc, nt_nguoi_dung_noi_tru, nt_nguoi_danh_ca, nt_nguoi_tim_nguon_nuoc, nt_nguoi_dan_soi] }
+        factor: 1.5
+    cooldown_years: 7
+    importance: 6
+    icon: benh
+    options:
+      - id: ganh_vac_va_chua_tri
+        text: Vừa tự mình gánh vác công việc kiếm ăn, vừa kiên trì bó nẹp và đắp lá thuốc mỗi ngày
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+          - { type: health, value: -3 }
+          - { type: reputation, group: lang, value: 5 }
+        result:
+          - Những tháng ngày vất vả không làm bạn chùn bước; vết thương của người thân dần lành lại.
+      - id: sap_xep_viec_tai_cho
+        text: Sắp xếp để người thân ngồi tại lán đan lưới, ghè đá trong khi bạn đi kiếm thức ăn
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 14 }
+          - { type: money, value: 3, ledger: su_kien }
+        result:
+          - Người thân của bạn vẫn tạo ra những chiếc giỏ và mũi lao sắc bén ngay tại lán.
+      - id: xin_cong_dong_chia_se
+        text: Đề nghị nhóm cư trú chia sẻ bớt phần thức ăn chung và hứa sẽ bù lại vào mùa sau
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+          - { type: food, value: 3, ledger: su_kien }
+        result:
+          - Cộng đồng sẵn lòng san sẻ từng xâu cá khô giúp gia đình bạn không bị đứt bữa.
+
+  # 24. Chuyến trao đổi dài ngày
+  - id: nt_ev_24_chuyen_trao_doi_dai_ngay
+    title: Chuyến trao đổi dài ngày
+    text:
+      - Bạn đi theo đoàn vượt qua hai dãy đồi tới điểm hẹn trao đổi với một cộng đồng khác.
+      - Tại đây bạn bắt gặp những cách chế tác đá đen, bình gốm và tập quán mới, nhưng cũng phải đối mặt với rủi ro đường đi và quan hệ xa lạ.
+    tags: [kinh_te, ngoai_giao, di_cu]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_trao_doi, nt_nguoi_tim_duong, nt_nguoi_che_tac_da, nt_nguoi_lam_gom, nt_nguoi_tim_nguon_nuoc, nt_nguoi_che_tac_xuong_go] }
+        factor: 1.6
+    cooldown_years: 7
+    importance: 6
+    icon: cho
+    options:
+      - id: doi_cong_cu_va_hoc_ky_thuat
+        text: Trao đổi vật phẩm và chăm chú quan sát cách họ chế tác công cụ mới
+        effects:
+          - { type: skill_xp, skill: thuong_mai, value: 14 }
+          - { type: skill_xp, skill: hoc_van, value: 8 }
+          - { type: money, value: 5, ledger: su_kien }
+        result:
+          - Bạn mang về những phiến đá quý hiếm cùng bí quyết ghè ép tạo lưỡi sắc mà cộng đồng bạn chưa từng biết.
+      - id: ket_ban_va_lap_hen_mua_sau
+        text: Tặng quà làm quen và thiết lập lời hẹn trao đổi định kỳ mỗi mùa khô
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 16 }
+          - { type: reputation, group: lang, value: 5 }
+        result:
+          - Hai cộng đồng thống nhất lấy tảng đá lớn ven sông làm nơi gặp gỡ hòa bình hằng năm.
+      - id: can_trong_giu_khoang_cach
+        text: Chỉ đổi nhanh những thứ thiết yếu rồi rút về sớm để tránh bất trắc trên đường
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 12 }
+          - { type: food, value: 3, ledger: su_kien }
+        result:
+          - Bạn hoàn thành việc trao đổi gọn gàng và đưa cả đoàn về tới lán trước khi cơn mưa rừng đổ xuống.
+
+  # 25. Tranh chấp bãi kiếm ăn
+  - id: nt_ev_25_tranh_chap_bai_kiem_an
+    title: Tranh chấp bãi kiếm ăn
+    text:
+      - Hai nhóm cư trú cùng muốn sử dụng một khu vực nhiều quả chín và nguồn cá dồi dào.
+      - Tình hình có thể dẫn đến thỏa thuận chia sẻ, chủ động tránh nhau, căng thẳng kéo dài hoặc xung đột trực diện.
+    tags: [lang_xa, xung_dot, ngoai_giao]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_dieu_hoa, nt_nguoi_san_thu, nt_nguoi_danh_ca, nt_nguoi_thu_hai, nt_nguoi_to_chuc_nghi_thuc, nt_nguoi_cham_giu_dong_vat] }
+        factor: 1.5
+    cooldown_years: 7
+    importance: 6
+    icon: kiem
+    options:
+      - id: thuong_luong_chia_ranh_gioi
+        text: Tiến lên không cầm vũ khí, đề nghị lấy con suối nhỏ làm ranh giới chia đôi bãi kiếm ăn
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 16 }
+          - { type: reputation, group: lang, value: 6 }
+        result:
+          - Hai nhóm đồng ý chia khu vực khai thác, tránh được một cuộc đổ máu vô ích giữa rừng.
+      - id: dan_doan_ap_dao
+        text: Tập hợp những người khỏe mạnh cầm giáo đá dàn hàng buộc đối phương phải lùi bước
+        effects:
+          - { type: skill_xp, skill: quan_su, value: 16 }
+          - { type: food, value: 5, ledger: su_kien }
+          - { type: health, value: -3 }
+        result:
+          - Nhóm người kia phải thu lán rút về phía bên kia đồi sau màn đối đầu căng thẳng.
+      - id: chu_dong_lui_tim_bai_khac
+        text: Chủ động rút lui sang sườn núi phía bắc để bảo toàn lực lượng
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 12 }
+          - { type: stress, value: -2 }
+        result:
+          - Chuyến đi vòng vất vả hơn nhưng cả nhóm tìm được một thung lũng yên bình chưa có dấu chân người.
+
+  # 26. Người bạn cũ trở về
+  - id: nt_ev_26_nguoi_ban_cu_tro_ve
+    title: Người bạn cũ trở về
+    text:
+      - Một người từng rời cộng đồng xuất hiện trở lại sau nhiều năm bôn ba ở những vùng đất khác.
+      - Họ mang theo kiến thức, mối quan hệ mới nhưng cũng đang gặp khó khăn cần sự giúp đỡ của bạn.
+    tags: [lang_xa, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_trao_doi, nt_nguoi_dung_noi_tru, nt_nguoi_lam_gom] }
+        factor: 1.5
+    cooldown_years: 8
+    importance: 5
+    icon: nguoi
+    options:
+      - id: don_nhan_va_hoc_hoi
+        text: Mở rộng vòng tay đón bạn cũ về lán, cùng chia sẻ thức ăn và lắng nghe tri thức mới
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 15 }
+          - { type: stress, value: -4 }
+        result:
+          - Những đêm dài bên bếp lửa, người bạn kể cho bạn nghe về những ngôi làng xây bằng đá ở phương xa.
+      - id: giup_ban_dung_lan_rieng
+        text: Cùng mọi người giúp bạn cũ dựng một lán nhỏ và hòa nhập lại với cộng đồng
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: reputation, group: lang, value: 4 }
+        result:
+          - Nhờ sự bảo lãnh của bạn, cộng đồng nhanh chóng đón nhận lại người con đi xa trở về.
+      - id: hoi_ky_ve_tuyen_duong_moi
+        text: Hỏi kỹ về các nguồn đá, nguồn nước mà bạn ấy đã đi qua để ghi nhớ
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 14 }
+          - { type: skill_xp, skill: thuong_mai, value: 8 }
+        result:
+          - Bản đồ truyền miệng của cộng đồng được mở rộng thêm nhiều vùng đất mới.
+
+  # 27. Những dấu hiệu của mùa xấu
+  - id: nt_ev_27_dau_hieu_mua_xau
+    title: Những dấu hiệu của mùa xấu
+    text:
+      - "Thời tiết và nguồn thức ăn quanh vùng biến đổi bất lợi: nước suối rút nhanh và đàn chim bay đi sớm hơn thường lệ."
+      - Nhân vật có thể chuẩn bị di chuyển, thay đổi công việc hoặc tăng cường tích trữ nhiều hơn trước khi mùa khô ập tới.
+    tags: [thien_nhien, kinh_te]
+    life_stages: [thanh_nien, lap_nghiep]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_bao_quan_thuc_an, nt_nguoi_khai_thac_ngu_coc, nt_nguoi_cham_giu_dong_vat, nt_nguoi_tim_duong, nt_nguoi_dung_noi_tru] }
+        factor: 1.5
+    cooldown_years: 7
     importance: 6
     icon: mua
     options:
-      - id: vuot_gio_lanh_kiem_cui_kho
-        text: Khoác áo da thú lao ra rừng đêm tìm cành khô giữ cho lửa không tắt
+      - id: tang_cuong_tich_tru_khan_cap
+        text: Huy động cả nhà phơi khô thịt cá, đào thêm hố lót đá trữ hạt và củ rừng ngay lập tức
         effects:
-          - { type: health, value: -5 }
-          - { type: reputation, group: dan_lang, value: 8 }
-          - { type: skill_xp, skill: sinh_ton, value: 25 }
+          - { type: skill_xp, skill: quan_tri, value: 15 }
+          - { type: food, value: 5, ledger: su_kien }
         result:
-          - 'Đôi bàn tay tê cóng vì sương giá, nhưng ngọn lửa bùng lên sưởi ấm cả lán trại qua đêm dài.'
-      - id: chum_chan_da_thu_giu_am
-        text: Gom tro nóng ủ kín và quây kín tấm da thú giữ ấm cho người nhà
+          - Nhờ chuẩn bị từ sớm khi thức ăn còn dồi dào, kho dự trữ của gia đình bạn đầy ắp trước khi hạn hán xảy ra.
+      - id: chuyen_doi_cach_kiem_an
+        text: Chuyển sang khai thác các nguồn thức ăn chịu hạn như củ rừng sâu và nhuyễn thể ven sông lớn
         effects:
-          - { type: food, value: -4 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+          - { type: food, value: 3, ledger: su_kien }
+        result:
+          - Gia đình vẫn duy trì được bữa ăn đều đặn giữa lúc nhiều nơi khác thiếu đói.
+      - id: de_xuat_di_chuyen_tam_thoi
+        text: Đề xuất đưa cộng đồng tạm lánh lên vùng thung lũng cao gần nguồn suối đầu nguồn
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: reputation, group: lang, value: 5 }
+        result:
+          - Chuyến di chuyển kịp thời lên vùng thượng nguồn giúp cả nhóm luôn có nước mát và bóng cây che chở.
+
+  # 28. Một kỹ thuật được truyền lại
+  - id: nt_ev_28_ky_thuat_truyen_lai
+    title: Một kỹ thuật được truyền lại
+    text:
+      - Nhân vật bắt đầu dạy một người trẻ trong nhóm phương pháp chế tác công cụ hoặc tìm kiếm thức ăn mà mình tâm đắc nhất.
+      - Quá trình truyền dạy có thể thành công, gặp khó khăn hoặc được chính người học cải tiến thêm.
+    tags: [nghe, hoc_tap]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_che_tac_da, nt_nguoi_che_tac_xuong_go, nt_nguoi_dan_soi, nt_nguoi_lam_gom, nt_nguoi_dung_noi_tru, nt_nguoi_gin_giu_chuyen_ke] }
+        factor: 1.6
+    cooldown_years: 7
+    importance: 5
+    icon: nghe
+    options:
+      - id: tan_tinh_chi_day_tung_buoc
+        text: Kiên nhẫn cầm tay chỉ việc, truyền lại toàn bộ bí quyết cho lớp trẻ
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 15 }
+          - { type: reputation, group: lang, value: 6 }
+        result:
+          - Kỹ thuật của bạn trở thành tài sản chung nâng cao sức sống của cả cộng đồng.
+      - id: khuyen_khich_nguoi_hoc_cai_tien
+        text: Dạy nền tảng rồi khuyến khích người học tự thử nghiệm cách làm mới của riêng họ
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+          - { type: skill_xp, skill: quan_tri, value: 8 }
+          - { type: money, value: 4, ledger: su_kien }
+        result:
+          - Một người học trò trẻ đã nảy ra cách buộc dây gân thú kiểu mới giúp công cụ bền chắc hơn hẳn.
+      - id: chon_nguoi_kien_nhan_nhat
+        text: Thử thách lòng kiên nhẫn trước, chỉ truyền dạy sâu cho người thực sự bền bỉ
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 14 }
+          - { type: reputation, group: lang, value: 4 }
+        result:
+          - Người học trò vượt qua thử thách đã tiếp thu trọn vẹn từng chi tiết khó nhất mà không làm hỏng nguyên liệu quý.
+
+  # ══════════════════ TUỔI TRUNG NIÊN & TUỔI GIÀ (40+) — MỤC 11.B (29–36) ══════════════════
+  # 29. Sức lực không còn như trước
+  - id: nt_ev_29_suc_luc_khong_con_nhu_truoc
+    title: Sức lực không còn như trước
+    text:
+      - Một công việc từng quen thuộc như leo dốc mang nặng hay đi săn xa nay trở nên nặng nhọc hơn rất nhiều.
+      - Nhân vật phải quyết định chuyển sang công việc phù hợp hơn, nghỉ ngơi nhiều hơn hoặc cố gắng tiếp tục và chấp nhận rủi ro.
+    tags: [suc_khoe, nghe]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 5
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_san_thu, nt_nguoi_dieu_hoa, nt_nguoi_dung_noi_tru, nt_nguoi_trao_doi] }
+        factor: 1.5
+    cooldown_years: 8
+    importance: 6
+    icon: benh
+    options:
+      - id: chuyen_sang_viec_kheo_leo_tai_cho
+        text: Chuyển dần sang chế tác công cụ, đan lát và coi sóc kho dự trữ tại khu trại
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 14 }
+          - { type: health, value: 3 }
+        result:
+          - Sức khỏe của bạn ổn định hơn nhờ tránh được những đêm dầm sương ngoài rừng sâu.
+      - id: tap_trung_chi_huy_va_dan_dat
+        text: Đi cùng đoàn ở nhịp độ vừa phải để chỉ đường, đọc dấu vết và điều phối chiến thuật
+        effects:
+          - { type: skill_xp, skill: muu_luoc, value: 15 }
+          - { type: reputation, group: lang, value: 5 }
+        result:
+          - Đám thanh niên luôn lắng nghe từng hiệu lệnh giàu kinh nghiệm của bạn trong mỗi chuyến đi.
+      - id: co_gang_nhu_thoi_tre
+        text: Nén cơn đau khớp, cố gắng mang vác nặng để chứng tỏ mình chưa già
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 10 }
+          - { type: health, value: -5 }
+        result:
+          - Sự gắng sức quá mức khiến lưng và đầu gối bạn sưng tấy, phải nằm nghỉ bên bếp lửa nhiều ngày liền.
+
+  # 30. Người bạn đầu tiên qua đời
+  - id: nt_ev_30_nguoi_ban_dau_tien_qua_doi
+    title: Người bạn đầu tiên qua đời
+    text:
+      - Một người đồng hành cùng bạn từ thời thơ ấu đã trút hơi thở cuối cùng sau cơn bệnh nặng.
+      - Đứng bên bếp lửa, sự kiện này gợi lại những quyết định và biến cố hai người từng cùng nhau vượt qua.
+    tags: [lang_xa, gia_dinh]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_to_chuc_nghi_thuc, nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_cham_soc] }
+        factor: 1.5
+    cooldown_years: 10
+    importance: 6
+    icon: tang
+    options:
+      - id: to_chuc_nghi_thuc_trang_trong
+        text: Chuẩn bị đồ tùy táng bằng vỏ sò, thổ hoàng và kể lại cuộc đời bạn mình bên bếp lửa
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: reputation, group: lang, value: 5 }
           - { type: stress, value: -2 }
         result:
-          - 'Cả nhà nương tựa hơi ấm của nhau chờ đến khi mặt trời ló rạng.'
+          - Câu chuyện của bạn khiến lớp trẻ hiểu được thế hệ đi trước đã vượt qua những gì để giữ lấy khu cư trú hôm nay.
+      - id: cham_soc_gia_dinh_nguoi_ban
+        text: San sẻ thức ăn và nhận hướng dẫn cho con cháu của người bạn quá cố
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: food, value: -2, ledger: su_kien }
+          - { type: reputation, group: lang, value: 6 }
+        result:
+          - Con của người bạn coi bạn như bậc cha chú ruột thịt trong nhà.
+      - id: lang_le_khac_dau_ky_niem
+        text: Lặng lẽ khắc một ký hiệu lên vách đá nơi hai người từng ngồi trú mưa thuở nhỏ
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 12 }
+        result:
+          - Đường khắc mộc mạc trên đá lưu giữ dấu vết của một tình bạn đã đi trọn kiếp người.
 
-  - id: thu_thuan_hoa_hat_giong
-    title: Hạt cỏ dại nảy mầm bên bãi sông
+  # 31. Thế hệ trẻ chọn con đường khác
+  - id: nt_ev_31_the_he_tre_chon_duong_khac
+    title: Thế hệ trẻ chọn con đường khác
     text:
-      - 'Bạn nhận thấy những hạt ngũ cốc rơi vãi trên bãi phù sa ven sông năm ngoái nay mọc lên xanh tốt đều đặn. Nhiều người trong bộ lạc cho rằng cứ đi hái lượm tự nhiên là đủ, không cần mất công gieo hạt.'
-    tags: [ruong_dong, co_hoi]
-    weight: 11
-    cooldown_years: 6
-    once_per_life: true
-    importance: 8
-    icon: ruong
+      - Con cái hoặc người trẻ trong nhóm không muốn tiếp tục công việc và vai trò quen thuộc của bạn.
+      - Điều này có thể dẫn đến tranh cãi, thỏa hiệp hoặc việc người trẻ tách đi theo hướng mới.
+    tags: [gia_dinh, nghe]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_khai_thac_ngu_coc, nt_nguoi_cham_giu_dong_vat, nt_nguoi_san_thu, nt_nguoi_thu_hai] }
+        factor: 1.5
+    cooldown_years: 8
+    importance: 6
+    icon: tre
     options:
-      - id: kien_tri_khoanh_dat_gieo_hat
-        text: Dùng cuốc đá xới bãi đất ven sông, giữ lại hạt mẩy để gieo trồng
+      - id: ung_ho_va_trao_hanh_trang
+        text: Mỉm cười ủng hộ, tặng họ những công cụ tốt nhất và dặn dò cách giữ mình
         effects:
-          - { type: food, value: 20 }
-          - { type: skill_xp, skill: sinh_ton, value: 35 }
-          - { type: skill_xp, skill: quan_tri, value: 20 }
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: stress, value: -4 }
         result:
-          - 'Vụ thu hoạch đầu tiên từ mảnh đất tự gieo trồng khiến cả bộ lạc kinh ngạc.'
-      - id: doi_hat_giong_lay_cong_cu_da
-        text: Đem số hạt giống và đồ gốm nung đổi lấy rìu đá sắc bén từ bộ lạc láng giềng
+          - Sự cởi mở của bạn giúp người trẻ vững tin thử nghiệm con đường mới mà vẫn luôn hướng về gia đình.
+      - id: thoa_hiep_ket_hop_cu_moi
+        text: Đề nghị họ dành nửa mùa phụ việc chung của gia đình, nửa mùa thử nghiệm việc mới
         effects:
-          - { type: money, value: 6 }
-          - { type: skill_xp, skill: thuong_mai, value: 25 }
+          - { type: skill_xp, skill: quan_tri, value: 15 }
+          - { type: food, value: 3, ledger: su_kien }
         result:
-          - 'Những lưỡi rìu đá sắc lẹm giúp việc chặt gỗ dựng lán nhanh gấp đôi trước kia.'
+          - Cách sắp xếp hợp lý giúp gia đình vừa giữ được nguồn thu ổn định, vừa mở ra hướng phát triển mới.
+      - id: nghiem_khac_giu_nep_cu
+        text: Nghiêm khắc yêu cầu họ phải thành thạo nghề cũ của gia đình trước khi nghĩ tới chuyện khác
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: stress, value: 3 }
+        result:
+          - Người trẻ miễn cưỡng nghe theo lời bạn để giữ hòa khí, nhưng ánh mắt vẫn hướng về những vùng đất xa.
+
+  # 32. Khu cư trú bắt đầu thay đổi
+  - id: nt_ev_32_khu_cu_tru_thay_doi
+    title: Khu cư trú bắt đầu thay đổi
+    text:
+      - Khu vực kiếm ăn quen thuộc không còn như trước sau hàng chục mùa mưa nắng.
+      - Một số gia đình chuẩn bị rời đi lập trại mới, trong khi những người khác cố gắng cải tạo và duy trì nơi ở hiện tại.
+    tags: [lang_xa, kinh_te]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_dung_noi_tru, nt_nguoi_bao_quan_thuc_an, nt_nguoi_to_chuc_nghi_thuc] }
+        factor: 1.5
+    cooldown_years: 8
+    importance: 5
+    icon: nha
+    options:
+      - id: gop_suc_xay_dung_nen_tang_moi
+        text: Đóng góp kinh nghiệm quy hoạch kho dự trữ, rãnh thoát nước và bếp chung cho khu định cư
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 16 }
+          - { type: reputation, group: lang, value: 6 }
+        result:
+          - Những lời khuyên từng trải của bạn giúp khu nhà mới tránh được hướng gió lùa và ngập úng mùa mưa.
+      - id: giu_moi_lien_ket_giua_cac_nhom
+        text: Đứng ra làm cầu nối giữa những hộ ở lại và những hộ tách sang bãi mới
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 15 }
+          - { type: reputation, group: lang, value: 5 }
+        result:
+          - Các nhóm gia đình dù ở cách nhau một con suối vẫn thường xuyên qua lại đổi thức ăn và giúp nhau mùa vụ.
+      - id: luu_giu_ky_uc_buoi_ban_dau
+        text: Kể cho bọn trẻ nghe về hình dáng khu đất này thuở chỉ mới có vài bếp lửa sơ sài
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 14 }
+        result:
+          - Câu chuyện về buổi đầu dựng lán trở thành truyền thuyết cội nguồn của cả khu cư trú.
+
+  # 33. Người cuối cùng còn nhớ
+  - id: nt_ev_33_nguoi_cuoi_cung_con_nho
+    title: Người cuối cùng còn nhớ
+    text:
+      - Khi suối chính cạn khô và nguồn thức ăn quen thuộc khan hiếm, bạn nhận ra mình là một trong số ít người còn nhớ mạch nước ngầm, tuyến đường cổ và cách khử độc củ rừng từng dùng nhiều năm trước.
+      - Khi hoàn cảnh thay đổi, tri thức tưởng chừng đã ngủ quên ấy lại trở nên sống còn đối với cả cộng đồng.
+    tags: [hoc_tap, lang_xa, sinh_ton]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 5
+    weight_modifiers:
+      - condition: { var: player.career, op: in, value: [nt_nguoi_gin_giu_chuyen_ke, nt_nguoi_tim_duong, nt_nguoi_cham_soc, nt_nguoi_che_tac_da] }
+        factor: 1.6
+    cooldown_years: 9
+    importance: 7
+    icon: sach
+    options:
+      - id: dan_doan_nguoi_tre_di_tim
+        text: Chống gậy dẫn đám thanh niên tới tận nơi và chỉ dẫn tường tận cách xử lý
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 18 }
+          - { type: reputation, group: lang, value: 8 }
+          - { type: stress, value: -5 }
+        result:
+          - Dòng nước mát lành từ hốc đá cổ và cách ngâm khử độc củ rừng của bạn đã cứu cả khu trại khỏi cơn khát và cái đói.
+      - id: ve_so_do_va_chi_dan_chi_tiet
+        text: Vẽ sơ đồ trên nền đất và dặn kỹ từng dấu hiệu nhận biết để người trẻ tự đi tìm
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 16 }
+          - { type: reputation, group: lang, value: 6 }
+        result:
+          - Đám thanh niên làm theo đúng lời chỉ dẫn của bạn và mang về những bầu nước đầy cùng những giỏ củ rừng an toàn.
+      - id: truyen_lai_thanh_bai_ve
+        text: Truyền lại thành những câu vè ngắn gọn để con cháu đời sau không bao giờ quên nữa
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 16 }
+          - { type: reputation, group: lang, value: 6 }
+        result:
+          - Những câu vè chỉ đường và cách sơ chế thức ăn mùa hạn được bọn trẻ thuộc nằm lòng bên bếp lửa.
+
+  # 34. Mùa thu hoạch của con cháu
+  - id: nt_ev_34_mua_thu_hoach_cua_con_chau
+    title: Mùa thu hoạch của con cháu
+    text:
+      - Ngồi dưới mái hiên, bạn nhìn thấy thế hệ sau trở về với những giỏ hạt đầy, những xâu cá tươi và những công cụ sắc bén.
+      - Những công việc bạn từng vật lộn khi còn trẻ nay được con cháu hoàn thành vững vàng, mang lại cảm giác mãn nguyện và nhận ra thời đại đang đổi thay.
+    tags: [gia_dinh, kinh_te]
+    life_stages: [trung_nien, tuoi_gia]
+    weight: 4
+    cooldown_years: 8
+    importance: 6
+    icon: lua
+    options:
+      - id: khen_ngoi_va_chung_vui
+        text: Dành lời khen ngợi chân thành và cùng con cháu mở bữa ăn mừng ấm cúng
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+          - { type: stress, value: -6 }
+        result:
+          - Con cháu kính cẩn dâng phần thức ăn ngon nhất mời bạn bên bếp lửa rực hồng.
+      - id: nhac_nho_du_tru_cho_mua_kho
+        text: Mỉm cười chung vui nhưng không quên nhắc con cháu cất kỹ một phần vào hố dự trữ
+        effects:
+          - { type: skill_xp, skill: quan_tri, value: 12 }
+          - { type: food, value: 4, ledger: su_kien }
+        result:
+          - Con cháu vui vẻ nghe lời dặn của bạn, dành riêng những hạt chắc nhất và cá khô tốt nhất cho mùa lạnh.
+      - id: trao_lai_vat_gia_truyen
+        text: Nhân dịp này trao lại công cụ đá hoặc chuỗi vỏ sò quý nhất của mình cho người kế tục
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+          - { type: reputation, group: lang, value: 5 }
+        result:
+          - Người trẻ nâng niu kỷ vật thấm đẫm dấu vân tay của bạn với niềm tự hào sâu sắc.
+
+  # 35. Ngày không còn đi xa
+  - id: nt_ev_35_ngay_khong_con_di_xa
+    title: Ngày không còn đi xa
+    text:
+      - Sức khỏe và đôi chân đã mỏi khiến bạn không còn theo các đoàn đi xa vượt đồi lội suối như trước nữa.
+      - Trọng tâm cuộc sống của bạn nay chuyển hẳn sang những người ở gần, ký ức và việc truyền đạt kinh nghiệm bên mái lán.
+    tags: [suc_khoe, gia_dinh]
+    life_stages: [tuoi_gia]
+    weight: 5
+    cooldown_years: 10
+    importance: 6
+    icon: nha
+    options:
+      - id: cham_soc_tre_nho_va_giu_lua
+        text: Ở nhà trông nom lũ trẻ, giữ cho bếp lửa luôn ấm và chuẩn bị nước sạch đón đoàn về
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+          - { type: stress, value: -5 }
+        result:
+          - Khi đoàn người mệt mỏi trở về lúc chiều tà, bếp lửa ấm và nồi nước nóng của bạn là niềm an ủi lớn nhất.
+      - id: ti_man_sua_chua_do_dac
+        text: Ngồi dưới hiên tỉ mẩn mài lại từng mũi lao, vá lại từng tấm lưới cho con cháu
+        effects:
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+          - { type: money, value: 3, ledger: su_kien }
+        result:
+          - Dù không đi xa, dấu ấn đôi tay của bạn vẫn hiện diện trong từng chuyến đi của cộng đồng.
+      - id: ngam_nhin_bau_troi_suy_ngam
+        text: Ngồi trên phiến đá quen thuộc, ngắm nhìn mây trôi và chiêm nghiệm về chặng đường đã qua
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 14 }
+          - { type: health, value: 2 }
+        result:
+          - Tâm hồn bạn nhẹ nhõm, thư thái hòa cùng nhịp thở của đất trời buổi sơ khai.
+
+  # 36. Một lần cuối bên bếp lửa
+  - id: nt_ev_36_mot_lan_cuoi_ben_bep_lua
+    title: Một lần cuối bên bếp lửa
+    text:
+      - Đêm cuối mùa lạnh, cả khu cư trú quây quần đông đủ quanh bếp lửa lớn lắng nghe bạn.
+      - Bạn chọn cách kể lại câu chuyện quan trọng nhất của đời mình cho những người ngồi quanh ánh lửa.
+    tags: [gia_dinh, lang_xa]
+    life_stages: [tuoi_gia]
+    weight: 5
+    cooldown_years: 12
+    importance: 7
+    icon: sach
+    options:
+      - id: ke_ve_long_dung_cam_va_sinh_ton
+        text: Kể về những mùa khắc nghiệt nhất và dặn con cháu không bao giờ được bỏ cuộc trước thiên nhiên
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 16 }
+          - { type: reputation, group: lang, value: 8 }
+          - { type: stress, value: -6 }
+        result:
+          - Giọng kể trầm ấm của bạn hòa cùng tiếng củi nổ lách tách, thắp lên ngọn lửa nghị lực trong mắt những người trẻ.
+      - id: ke_ve_tinh_nguoi_va_su_se_chia
+        text: Nhắc nhở mọi người rằng con người chỉ sống sót được khi biết san sẻ từng nắm hạt và giữ ấm cho nhau
+        effects:
+          - { type: skill_xp, skill: ngoai_giao, value: 16 }
+          - { type: reputation, group: lang, value: 8 }
+          - { type: stress, value: -6 }
+        result:
+          - Những bàn tay quanh bếp lửa siết chặt lấy nhau khi nghe lời tâm huyết từ cả cuộc đời từng trải của bạn.
+      - id: chi_dan_nhung_vung_dat_va_tri_thuc
+        text: Truyền lại cặn kẽ những con đường, nguồn nước và bí quyết chế tác quý giá nhất mà mình biết
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 16 }
+          - { type: reputation, group: lang, value: 8 }
+        result:
+          - Những người trẻ chăm chú khắc ghi từng lời chỉ dẫn của bạn như nhận lấy kho báu vô hình của tiền nhân.

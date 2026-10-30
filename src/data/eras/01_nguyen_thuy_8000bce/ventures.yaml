@@ -1,5 +1,213 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Cơ nghiệp chung của thị tộc Thời Nguyên Thủy (Bếp lửa nung gốm, Bãi bẫy thú, Đập cá ven suối...).
+# Cơ nghiệp lớn (Ventures) — 8 thành tựu gia đình & cộng đồng qua 3 bậc phát triển.
 # ══════════════════════════════════════════════════════════════════════════════
-ventures: []
+ventures:
+  # 01. Khu dự trữ thức ăn
+  - id: nt_vn_khu_du_tru
+    name: Khu dự trữ thức ăn
+    description: 'Từ Bậc 1 (Dự trữ gia đình: thức ăn khô và hạt dự phòng) → Bậc 2 (Dự trữ qua mùa: tăng sức chứa, kiểm soát thất thoát) → Bậc 3 (Kho chung của nhiều hộ: cùng bảo trì và chia sẻ khi mùa xấu). Rủi ro: ẩm mốc, côn trùng, tranh cãi khi dự trữ cạn.'
+    icon: thoc
+    sector: nong_nghiep
+    capital_cost: 12
+    max_stage: 3
+    expand_cost_factor: 0.7
+    workers_needed: 1
+    hire_wage_year: 1.5
+    skill: quan_tri
+    skill_bonus_per_level: 0.06
+    base_revenue_year: 4.5
+    upkeep_year: 0.8
+    trade_sensitivity: 0.3
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.14
+      loss_min: 1.0
+      loss_max: 3.5
+    modifiers:
+      - { target: food.consumption, value: 0.92, op: mul }
+      - { target: xp.quan_tri, value: 1.1, op: mul }
+    scene_prop: kho_lua
+
+  # 02. Khu cư trú gia đình
+  - id: nt_vn_khu_cu_tru_gia_dinh
+    name: Khu cư trú gia đình
+    description: 'Từ Bậc 1 (Nơi trú ổn định: chỗ ngủ, khu sinh hoạt và giữ đồ) → Bậc 2 (Nơi trú mở rộng: che chắn tốt cho nhiều thành viên) → Bậc 3 (Khu trú nhiều thế hệ: duy trì và truyền quyền sử dụng trong nhóm thân thuộc). Rủi ro: thiên tai, cạn thức ăn, xung đột chỗ ở.'
+    icon: nha
+    sector: dich_vu
+    capital_cost: 14
+    max_stage: 3
+    expand_cost_factor: 0.75
+    workers_needed: 1
+    hire_wage_year: 1.5
+    skill: sinh_ton
+    skill_bonus_per_level: 0.05
+    base_revenue_year: 4.2
+    upkeep_year: 0.9
+    trade_sensitivity: 0.2
+    reputation_bonus_per_10: 0.03
+    risk:
+      chance_year: 0.12
+      loss_min: 1.0
+      loss_max: 3.0
+    modifiers:
+      - { target: health.monthly, value: 0.12 }
+      - { target: death_risk, value: 0.94, op: mul }
+
+  # 03. Nhóm săn bắt hợp tác
+  - id: nt_vn_nhom_san_hop_tac
+    name: Nhóm săn bắt hợp tác
+    description: 'Từ Bậc 1 (Nhóm săn nhỏ: vài người phối hợp kiếm ăn) → Bậc 2 (Nhóm săn thành thạo: có phân công và chia sẻ kết quả) → Bậc 3 (Mạng lưới săn theo mùa: nhiều người tham gia và truyền kinh nghiệm qua thế hệ). Rủi ro: thương tích tập thể, mâu thuẫn chia phần, săn quá mức.'
+    icon: quan_su
+    sector: quan_binh
+    capital_cost: 15
+    max_stage: 3
+    expand_cost_factor: 0.7
+    workers_needed: 2
+    hire_wage_year: 1.8
+    skill: quan_su
+    skill_bonus_per_level: 0.07
+    base_revenue_year: 6.0
+    upkeep_year: 1.2
+    trade_sensitivity: 0.4
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.18
+      loss_min: 1.5
+      loss_max: 4.5
+    modifiers:
+      - { target: xp.quan_su, value: 1.12, op: mul }
+      - { target: xp.sinh_ton, value: 1.1, op: mul }
+
+  # 04. Nhóm chế tác công cụ
+  - id: nt_vn_nhom_che_tac
+    name: Nhóm chế tác công cụ
+    description: 'Từ Bậc 1 (Bộ công cụ gia đình: đáp ứng nhu cầu thường ngày) → Bậc 2 (Nhóm chế tác có kinh nghiệm: cùng chuẩn bị nguyên liệu, sửa và làm công cụ) → Bậc 3 (Điểm chế tác được cộng đồng tín nhiệm: nhiều gia đình đến học hỏi và trao đổi). Rủi ro: thiếu đá tốt, tai nạn mảnh sắc.'
+    icon: focus
+    sector: thu_cong
+    capital_cost: 14
+    max_stage: 3
+    expand_cost_factor: 0.7
+    workers_needed: 1
+    hire_wage_year: 1.6
+    skill: quan_tri
+    skill_bonus_per_level: 0.07
+    base_revenue_year: 5.2
+    upkeep_year: 1.0
+    trade_sensitivity: 0.6
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.14
+      loss_min: 1.0
+      loss_max: 3.5
+    modifiers:
+      - { target: xp.quan_tri, value: 1.12, op: mul }
+
+  # 05. Mạng lưới trao đổi nguyên liệu
+  - id: nt_vn_mang_luoi_trao_doi
+    name: Mạng lưới trao đổi nguyên liệu
+    description: 'Từ Bậc 1 (Trao đổi với nhóm gần) → Bậc 2 (Liên hệ nhiều cộng đồng qua tuyến đi quen thuộc) → Bậc 3 (Mạng trao đổi liên vùng: sản vật như đá obsidian ở Tây Á được truyền qua nhiều nhóm đi rất xa). Rủi ro: đường đi nguy hiểm, quan hệ đổ vỡ, mất vật trao đổi.'
+    icon: tien
+    sector: thuong_mai
+    capital_cost: 16
+    max_stage: 3
+    expand_cost_factor: 0.75
+    workers_needed: 1
+    hire_wage_year: 1.8
+    skill: thuong_mai
+    skill_bonus_per_level: 0.08
+    base_revenue_year: 6.2
+    upkeep_year: 1.3
+    trade_sensitivity: 0.9
+    reputation_bonus_per_10: 0.05
+    risk:
+      chance_year: 0.17
+      loss_min: 1.5
+      loss_max: 5.0
+    modifiers:
+      - { target: xp.thuong_mai, value: 1.15, op: mul }
+      - { target: xp.ngoai_giao, value: 1.1, op: mul }
+    scene_prop: sap_hang
+
+  # 06. Khu khai thác và canh tác cây lương thực (Tây Á)
+  - id: nt_vn_khu_canh_tac
+    name: Khu khai thác và canh tác cây lương thực
+    description: 'Dành cho các cộng đồng Tây Á: Bậc 1 (Khu cây được chăm sóc) → Bậc 2 (Khu canh tác có chu kỳ: chọn hạt, chăm sóc và thu hoạch theo mùa) → Bậc 3 (Nguồn lương thực của nhiều gia đình cùng tổ chức lao động). Rủi ro: mất mùa liên tiếp, sâu mọt, thiếu nhân lực.'
+    icon: thoc
+    sector: nong_nghiep
+    condition:
+      var: world.polity_id
+      op: '=='
+      value: luoi_liem_mau_mo_8000bce
+    capital_cost: 15
+    max_stage: 3
+    expand_cost_factor: 0.75
+    workers_needed: 2
+    hire_wage_year: 1.6
+    skill: sinh_ton
+    skill_bonus_per_level: 0.07
+    base_revenue_year: 5.8
+    upkeep_year: 1.1
+    trade_sensitivity: 0.4
+    reputation_bonus_per_10: 0.04
+    risk:
+      chance_year: 0.16
+      loss_min: 1.2
+      loss_max: 4.2
+    modifiers:
+      - { target: harvest.yield, value: 1.12, op: mul }
+    scene_prop: kho_lua
+
+  # 07. Khu cư trú ven nước
+  - id: nt_vn_khu_cu_tru_ven_nuoc
+    name: Khu cư trú ven nước
+    description: 'Từ Bậc 1 (Bãi khai thác theo mùa: điểm đánh cá và nghỉ tạm) → Bậc 2 (Khu trú quen thuộc: có chỗ xử lý, phơi và cất giữ vật dụng) → Bậc 3 (Cụm cư trú hợp tác: nhiều gia đình cùng duy trì điểm khai thác chung). Rủi ro: lũ lớn, đổi dòng chảy, cạn nguồn cá.'
+    icon: thoc
+    sector: nong_nghiep
+    capital_cost: 13
+    max_stage: 3
+    expand_cost_factor: 0.7
+    workers_needed: 1
+    hire_wage_year: 1.5
+    skill: sinh_ton
+    skill_bonus_per_level: 0.06
+    base_revenue_year: 4.8
+    upkeep_year: 0.9
+    trade_sensitivity: 0.35
+    reputation_bonus_per_10: 0.03
+    risk:
+      chance_year: 0.15
+      loss_min: 1.0
+      loss_max: 3.8
+    modifiers:
+      - { target: food.consumption, value: 0.94, op: mul }
+    scene_prop: thuyen
+
+  # 08. Công trình cộng đồng bằng đá (Tây Á — kiểu Göbekli Tepe / Jericho)
+  - id: nt_vn_cong_trinh_da
+    name: Công trình cộng đồng bằng đá
+    description: 'Dành cho khu vực Tây Á (như truyền thống Göbekli Tepe / Jericho): Bậc 1 (Điểm tụ họp cho hoạt động chung) → Bậc 2 (Công trình dùng chung bằng đá hoặc đất) → Bậc 3 (Công trình lớn có ý nghĩa cộng đồng, đòi hỏi phối hợp lao động qua nhiều mùa).'
+    icon: moc_doi
+    sector: quan_hoc
+    condition:
+      var: world.polity_id
+      op: '=='
+      value: luoi_liem_mau_mo_8000bce
+    capital_cost: 20
+    max_stage: 3
+    expand_cost_factor: 0.8
+    workers_needed: 2
+    hire_wage_year: 2.0
+    skill: ngoai_giao
+    skill_bonus_per_level: 0.07
+    base_revenue_year: 6.5
+    upkeep_year: 1.5
+    trade_sensitivity: 0.25
+    reputation_bonus_per_10: 0.06
+    risk:
+      chance_year: 0.15
+      loss_min: 1.5
+      loss_max: 4.8
+    modifiers:
+      - { target: xp.ngoai_giao, value: 1.15, op: mul }
+      - { target: xp.hoc_van, value: 1.12, op: mul }

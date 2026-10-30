@@ -1,5 +1,475 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Tham vọng cả đời riêng của Thời Nguyên Thủy (Dẫn dắt thị tộc qua mùa băng giá, Thuần hóa đàn gia súc đầu tiên...).
+# Tham vọng cả đời (Ambitions) — 16 ước mơ sinh tồn, gia đình, tay nghề, uy tín và di sản.
 # ══════════════════════════════════════════════════════════════════════════════
-ambitions: []
+ambitions:
+  # 01. Người săn thú lão luyện
+  - id: nt_amb_san_thu_lao_luyen
+    name: Người săn thú lão luyện
+    description: Trở thành người có khả năng theo dấu và săn bắt những loài thú khó tiếp cận, được lớp trẻ tìm đến học hỏi.
+    icon: quan_su
+    traits: [can_dam, kien_nhan, tham_vong]
+    milestones:
+      - id: hoc_theo_dau
+        name: Thành thạo kỹ năng sinh tồn và chiến đấu săn bắt
+        condition:
+          all:
+            - { var: player.skill.sinh_ton, op: '>=', value: 2 }
+            - { var: player.skill.quan_su, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: tho_san_thanh_thao
+        name: Đạt kỹ năng săn bắt bậc cao và giữ sức khỏe bền bỉ
+        condition:
+          all:
+            - { var: player.skill.quan_su, op: '>=', value: 4 }
+            - { var: player.health, op: '>=', value: 55 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: dan_doan_san_lon
+        name: Trở thành người săn thú lão luyện được cộng đồng nể trọng
+        condition:
+          all:
+            - { var: player.skill.quan_su, op: '>=', value: 6 }
+            - { var: player.reputation, op: '>=', value: 15 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 02. Người dẫn đường qua vùng đất lạ
+  - id: nt_amb_dan_duong_vung_la
+    name: Người dẫn đường qua vùng đất lạ
+    description: Khám phá con đường an toàn đến những nguồn tài nguyên chưa được nhóm mình biết tới.
+    icon: focus
+    traits: [tu_do, can_dam, than_trong]
+    milestones:
+      - id: nho_duong_quen
+        name: Nắm vững kỹ năng định hướng và quan sát thiên nhiên
+        condition:
+          all:
+            - { var: player.skill.sinh_ton, op: '>=', value: 2 }
+            - { var: player.skill.muu_luoc, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: mo_loi_di_xa
+        name: Thông thuộc địa hình và gắn kết với các nhóm láng giềng
+        condition:
+          all:
+            - { var: player.skill.sinh_ton, op: '>=', value: 4 }
+            - { var: player.skill.ngoai_giao, op: '>=', value: 2 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: tuyen_duong_sinh_ton
+        name: Mở ra tuyến đường giúp cộng đồng tồn tại lâu dài
+        condition:
+          all:
+            - { var: player.skill.sinh_ton, op: '>=', value: 6 }
+            - { var: player.reputation, op: '>=', value: 15 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 03. Người giữ lửa cho nhiều thế hệ
+  - id: nt_amb_giu_lua_nhieu_the_he
+    name: Người giữ lửa cho nhiều thế hệ
+    description: Duy trì sự an toàn và ổn định của nơi cư trú, truyền kinh nghiệm sử dụng và bảo quản lửa qua nhiều mùa.
+    icon: nha
+    traits: [trong_gia_dinh, than_trong, trung_thanh]
+    milestones:
+      - id: giu_bep_am
+        name: Có vật liệu giữ lửa và nơi trú ổn định
+        condition:
+          all:
+            - { var: household.food_months, op: '>=', value: 2 }
+            - { var: player.skill.sinh_ton, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: mai_am_qua_mua
+        name: Lập gia đình và giữ bếp lửa ấm qua nhiều mùa
+        condition:
+          all:
+            - { var: player.married, op: '==', value: true }
+            - { var: household.food_months, op: '>=', value: 4 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: truyen_lua_con_chau
+        name: Có con cháu tiếp nối bên bếp lửa an toàn
+        condition:
+          all:
+            - { var: player.children_count, op: '>=', value: 2 }
+            - { var: player.age, op: '>=', value: 40 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 04. Gia đình vượt qua nhiều mùa đói
+  - id: nt_amb_vuot_nhieu_mua_doi
+    name: Gia đình vượt qua nhiều mùa đói
+    description: Nuôi dưỡng con cháu qua những thời kỳ thức ăn khan hiếm nhờ biết dự trữ, kiếm ăn đa dạng và tương trợ.
+    icon: thoc
+    traits: [trong_gia_dinh, kien_nhan, than_trong]
+    milestones:
+      - id: du_an_qua_mua
+        name: Dự trữ đủ lương thực cho ít nhất 4 tháng
+        condition: { var: household.food_months, op: '>=', value: 4 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: kho_du_tru_day
+        name: Dự trữ lương thực dồi dào và không mắc nợ
+        condition:
+          all:
+            - { var: household.food_months, op: '>=', value: 8 }
+            - { var: household.debt, op: '==', value: 0 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: gia_dinh_no_am
+        name: Nuôi dạy con cái khỏe mạnh với nguồn dự trữ vững vàng
+        condition:
+          all:
+            - { var: player.children_count, op: '>=', value: 2 }
+            - { var: household.food_months, op: '>=', value: 10 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 05. Người chế tác công cụ xuất sắc
+  - id: nt_amb_che_tac_xuat_sac
+    name: Người chế tác công cụ xuất sắc
+    description: Làm ra những công cụ đá, xương, gỗ hoặc đồ đựng bền chắc được nhiều người tin dùng và học theo.
+    icon: focus
+    traits: [kien_nhan, tham_vong, than_trong]
+    milestones:
+      - id: quen_tay_ghe_da
+        name: Rèn luyện tay nghề chế tác và quản lý nguyên liệu
+        condition: { var: player.skill.quan_tri, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: cong_cu_ben_chac
+        name: Tạo được công cụ sắc bền được láng giềng tìm đổi
+        condition:
+          all:
+            - { var: player.skill.quan_tri, op: '>=', value: 4 }
+            - { var: player.reputation, op: '>=', value: 8 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: bậc_thay_che_tac
+        name: Kỹ thuật chế tác lan truyền khắp cộng đồng
+        condition:
+          all:
+            - { var: player.skill.quan_tri, op: '>=', value: 6 }
+            - { var: player.reputation, op: '>=', value: 18 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 06. Người tìm ra nguồn nước
+  - id: nt_amb_tim_nguon_nuoc
+    name: Người tìm ra nguồn nước
+    description: Phát hiện hoặc duy trì một nguồn nước quan trọng giúp nơi cư trú tiếp tục tồn tại qua những mùa khô hạn.
+    icon: thoc
+    traits: [kien_nhan, nhan_tu, than_trong]
+    milestones:
+      - id: doc_dau_mach_nuoc
+        name: Hiểu địa hình, mùa mưa và dấu vết mạch nước
+        condition: { var: player.skill.sinh_ton, op: '>=', value: 3 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: giu_nguon_nuoc_sach
+        name: Kết hợp quan sát tự nhiên và tri thức tích lũy
+        condition:
+          all:
+            - { var: player.skill.sinh_ton, op: '>=', value: 5 }
+            - { var: player.skill.hoc_van, op: '>=', value: 2 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: cuu_nhom_khoi_han
+        name: Được cộng đồng kính trọng nhờ bảo đảm nguồn nước
+        condition:
+          all:
+            - { var: player.skill.sinh_ton, op: '>=', value: 6 }
+            - { var: player.reputation, op: '>=', value: 15 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 07. Người gắn kết những gia đình bất hòa
+  - id: nt_amb_gan_ket_bat_hoa
+    name: Người gắn kết những gia đình bất hòa
+    description: Chấm dứt những mối bất đồng kéo dài về thức ăn, nơi ở và khôi phục sự hợp tác trong cộng đồng.
+    icon: ngoai_giao
+    traits: [nhan_tu, hao_phong, trung_thanh]
+    milestones:
+      - id: lang_nghe_hai_ben
+        name: Biết lắng nghe và thương lượng khi có tranh cãi
+        condition: { var: player.skill.ngoai_giao, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: tieng_noi_cong_bang
+        name: Xây dựng uy tín và tiếng nói công tâm trong nhóm
+        condition:
+          all:
+            - { var: player.skill.ngoai_giao, op: '>=', value: 4 }
+            - { var: player.reputation, op: '>=', value: 12 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: hoa_giai_cong_dong
+        name: Gắn kết các gia đình cùng chung sống hòa thuận
+        condition:
+          all:
+            - { var: player.skill.ngoai_giao, op: '>=', value: 6 }
+            - { var: player.reputation, op: '>=', value: 22 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 08. Người xây dựng nơi trú bền vững
+  - id: nt_amb_xay_noi_tru_ben_vung
+    name: Người xây dựng nơi trú bền vững
+    description: Tạo dựng nơi ở an toàn, che chắn gió mưa cho gia đình và những thế hệ tiếp theo.
+    icon: nha
+    traits: [kien_nhan, trong_gia_dinh, than_trong]
+    milestones:
+      - id: dung_mai_che_vung
+        name: Thu gom vật liệu và nắm vững kỹ năng dựng nơi trú
+        condition:
+          all:
+            - { var: player.skill.quan_tri, op: '>=', value: 2 }
+            - { var: player.skill.sinh_ton, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: gia_co_vach_mai
+        name: Tích lũy nguồn lực để mở rộng và gia cố chỗ ở
+        condition: { var: household.net_worth, op: '>=', value: 25 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: khu_tru_nhieu_doi
+        name: Hoàn thiện khu cư trú bền vững cho cả gia đình
+        condition:
+          all:
+            - { var: household.net_worth, op: '>=', value: 45 }
+            - { var: player.children_count, op: '>=', value: 1 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 09. Người truyền lại tri thức
+  - id: nt_amb_truyen_lai_tri_thuc
+    name: Người truyền lại tri thức
+    description: Đảm bảo những hiểu biết về cây cối, mùa vụ, công cụ và chuyện kể không biến mất khi mình qua đời.
+    icon: hoc_van
+    traits: [kien_nhan, nhan_tu, mo_dao]
+    milestones:
+      - id: ghi_nho_chuyen_ke
+        name: Ghi nhớ chuyện kể và kinh nghiệm của người đi trước
+        condition: { var: player.skill.hoc_van, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: chi_day_lop_tre
+        name: Hướng dẫn người trẻ nhận biết thiên nhiên và chế tác
+        condition:
+          all:
+            - { var: player.skill.hoc_van, op: '>=', value: 4 }
+            - { var: player.age, op: '>=', value: 30 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: di_san_truyen_mieng
+        name: Trở thành người gìn giữ tri thức được cả nhóm tín nhiệm
+        condition:
+          all:
+            - { var: player.skill.hoc_van, op: '>=', value: 6 }
+            - { var: player.reputation, op: '>=', value: 16 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 10. Người tạo dựng quan hệ giữa các cộng đồng
+  - id: nt_amb_quan_he_cong_dong
+    name: Người tạo dựng quan hệ giữa các cộng đồng
+    description: Có những người quen biết và sẵn lòng hợp tác, trao đổi nguyên liệu ở nhiều vùng khác nhau.
+    icon: tien
+    traits: [nhan_tu, hao_phong, tu_do]
+    milestones:
+      - id: quen_nhom_lang_gieng
+        name: Tiếp xúc và trao đổi sản vật với nhóm láng giềng
+        condition: { var: player.skill.thuong_mai, op: '>=', value: 2 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: giu_chu_tin_trao_doi
+        name: Xây dựng lòng tin qua những chuyến đi xa
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 4 }
+            - { var: player.skill.ngoai_giao, op: '>=', value: 3 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: mang_luoi_lien_vung
+        name: Thiết lập mạng lưới hợp tác lâu dài giữa các cộng đồng
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 6 }
+            - { var: player.reputation, op: '>=', value: 18 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 11. Người làm chủ một nguồn thức ăn ổn định
+  - id: nt_amb_nguon_thuc_an_on_dinh
+    name: Người làm chủ một nguồn thức ăn ổn định
+    description: Duy trì khả năng kiếm ăn, chăm sóc cây lương thực hoặc dự trữ hiệu quả để giảm thiểu những năm thiếu đói.
+    icon: thoc
+    traits: [kien_nhan, than_trong, tham_vong]
+    milestones:
+      - id: nam_vung_mua_vu
+        name: Hiểu rõ chu kỳ mùa và nguồn thức ăn quanh vùng
+        condition: { var: player.skill.sinh_ton, op: '>=', value: 3 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: tich_tru_on_dinh
+        name: Duy trì lượng thức ăn dự trữ đủ cho 6 tháng
+        condition: { var: household.food_months, op: '>=', value: 6 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: chu_dong_nguon_luong
+        name: Làm chủ nguồn thức ăn vững chắc cho cả gia đình
+        condition:
+          all:
+            - { var: household.food_months, op: '>=', value: 10 }
+            - { var: household.net_worth, op: '>=', value: 35 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 12. Người có hậu duệ tiếp nối
+  - id: nt_amb_hau_due_tiep_noi
+    name: Người có hậu duệ tiếp nối
+    description: Nuôi dưỡng những người con hoặc người trẻ được mình chăm sóc, để họ đủ kỹ năng sống độc lập.
+    icon: nha
+    traits: [trong_gia_dinh, nhan_tu, kien_nhan]
+    milestones:
+      - id: don_thanh_vien_moi
+        name: Có con hoặc nhận chăm sóc đứa trẻ đầu tiên
+        condition: { var: player.children_count, op: '>=', value: 1 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: day_con_ky_nang
+        name: Nuôi dạy nhiều con cái và giữ gia đình đủ ăn
+        condition:
+          all:
+            - { var: player.children_count, op: '>=', value: 2 }
+            - { var: household.food_months, op: '>=', value: 3 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: the_he_tu_lap
+        name: Chứng kiến các con khôn lớn và tiếp nối gia đình
+        condition:
+          all:
+            - { var: player.children_count, op: '>=', value: 3 }
+            - { var: player.age, op: '>=', value: 42 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 13. Người lập một nơi cư trú mới
+  - id: nt_amb_lap_noi_cu_tru_moi
+    name: Người lập một nơi cư trú mới
+    description: Rời khu vực cũ hoặc mở rộng không gian sống để tìm nơi ở có nguồn nước và thức ăn tốt hơn.
+    icon: nha
+    traits: [tu_do, can_dam, tham_vong]
+    milestones:
+      - id: chuan_bi_hanh_trang
+        name: Rèn kỹ năng sinh tồn và chuẩn bị nguồn lực di chuyển
+        condition:
+          all:
+            - { var: player.skill.sinh_ton, op: '>=', value: 3 }
+            - { var: household.food_months, op: '>=', value: 3 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: dung_nen_dat_moi
+        name: Gây dựng nơi trú ổn định và tích lũy công cụ
+        condition: { var: household.net_worth, op: '>=', value: 30 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: diem_cu_tru_vung_vang
+        name: Hình thành khu cư trú mới được nhiều người biết đến
+        condition:
+          all:
+            - { var: household.net_worth, op: '>=', value: 50 }
+            - { var: player.reputation, op: '>=', value: 14 }
+        stress_relief: 10
+        satisfaction_bonus: 16
+
+  # 14. Người sống qua tuổi già
+  - id: nt_amb_song_qua_tuoi_gia
+    name: Người sống qua tuổi già
+    description: Sống đủ lâu để chứng kiến nhiều thế hệ trưởng thành và trở thành người lưu giữ ký ức của nhóm.
+    icon: suc_khoe
+    traits: [than_trong, an_phan, kien_nhan]
+    milestones:
+      - id: vuot_nguong_trung_nien
+        name: Sống khỏe mạnh bước qua tuổi 40
+        condition:
+          all:
+            - { var: player.age, op: '>=', value: 40 }
+            - { var: player.health, op: '>=', value: 45 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: bac_cao_nien_trong_nhom
+        name: Đạt tuổi 55 và được con cháu, cộng đồng chăm sóc
+        condition: { var: player.age, op: '>=', value: 55 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: chung_kien_nhieu_the_he
+        name: Chạm mốc 70 mùa mưa nắng — người giữ ký ức của cả cộng đồng
+        condition: { var: player.age, op: '>=', value: 70 }
+        stress_relief: 12
+        satisfaction_bonus: 20
+
+  # 15. Người đứng sau một công trình chung
+  - id: nt_amb_dung_sau_cong_trinh_chung
+    name: Người đứng sau một công trình chung
+    description: Góp phần tổ chức lao động và nguyên liệu để tạo dựng công trình được nhiều người sử dụng hoặc coi trọng.
+    icon: moc_doi
+    traits: [tham_vong, hao_phong, trung_thanh]
+    milestones:
+      - id: gop_suc_viec_chung
+        name: Đóng góp công sức và phối hợp cùng các gia đình
+        condition:
+          all:
+            - { var: player.skill.quan_tri, op: '>=', value: 2 }
+            - { var: player.reputation, op: '>=', value: 6 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: dieu_phoi_nhan_luc
+        name: Đủ uy tín và năng lực điều phối công việc tập thể
+        condition:
+          all:
+            - { var: player.skill.quan_tri, op: '>=', value: 4 }
+            - { var: player.skill.ngoai_giao, op: '>=', value: 3 }
+            - { var: player.reputation, op: '>=', value: 14 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: dau_an_cong_trinh
+        name: Hoàn thành công trình chung tồn tại lâu hơn một đời người
+        condition:
+          all:
+            - { var: player.skill.quan_tri, op: '>=', value: 5 }
+            - { var: player.reputation, op: '>=', value: 24 }
+        stress_relief: 10
+        satisfaction_bonus: 18
+
+  # 16. Người lưu lạc tìm được mái nhà
+  - id: nt_amb_luu_lac_tim_mai_nha
+    name: Người lưu lạc tìm được mái nhà
+    description: Từ một người mất gia đình hoặc rời nhóm cũ, tạo dựng lòng tin và xây dựng lại quan hệ thân thuộc nơi cộng đồng mới.
+    icon: nha
+    traits: [trong_gia_dinh, trung_thanh, nhan_tu]
+    milestones:
+      - id: duoc_nhom_chap_nhan
+        name: Giúp đỡ mọi người và tạo được thiện cảm ban đầu
+        condition: { var: player.reputation, op: '>=', value: 6 }
+        stress_relief: 6
+        satisfaction_bonus: 8
+      - id: lap_mai_am_rieng
+        name: Kết đôi hoặc có mái trú ổn định không còn lo đói rét
+        condition:
+          all:
+            - { var: player.married, op: '==', value: true }
+            - { var: household.food_months, op: '>=', value: 3 }
+        stress_relief: 8
+        satisfaction_bonus: 12
+      - id: que_huong_thu_hai
+        name: Có con cái và trở thành thành viên được cả cộng đồng tin cậy
+        condition:
+          all:
+            - { var: player.children_count, op: '>=', value: 1 }
+            - { var: player.reputation, op: '>=', value: 15 }
+        stress_relief: 10
+        satisfaction_bonus: 16

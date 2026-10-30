@@ -22,13 +22,22 @@ polities:
       literacy_rate: 0.0
       mortality_factor: 1.45
       wealth_factor: 0.85
-    origin_weights: { nong_dan: 90, thuong_nhan: 6, quy_toc_nho: 4 }
-    historical_fact: 'Theo khảo cổ học Đá Mới (HYDE 3.3), toàn thế giới năm 8000 TCN chỉ có khoảng 5 triệu người; gần một nửa trẻ sơ sinh không sống qua 5 tuổi.'
+    origin_weights:
+      nt_con_nguoi_trong_ngu_coc: 22
+      nt_con_nguoi_san_thu: 18
+      nt_con_nguoi_hai_luom: 16
+      nt_con_nguoi_dung_nha: 10
+      nt_con_nguoi_che_tac_da: 10
+      nt_con_nguoi_giu_kho: 8
+      nt_con_nguoi_tim_da_quy: 7
+      nt_con_nguoi_cham_soc: 5
+      nt_dua_tre_khong_nguoi_than: 4
+    historical_fact: 'Theo khảo cổ học Đá Mới tiền gốm (HYDE 3.3), toàn thế giới năm 8000 TCN chỉ có khoảng 5 triệu người; một số cộng đồng ở Lưỡi liềm Màu mỡ đã dựng làng định cư và bước đầu khai thác, trồng ngũ cốc.'
 
   - id: dong_a_hoang_ha_8000bce
     name: Lưu vực Hoàng Hà – Trường Giang & Bách Việt Cổ
     region_label: Đông Á & Đông Nam Á
-    description: Các bộ lạc Hòa Bình – Bắc Sơn và Bành Đầu Sơn sống bên sông lớn, bắt đầu thuần hóa lúa nước, kê và làm gốm thừng.
+    description: Các cộng đồng Hòa Bình ở Đông Nam Á sống nhờ rừng, sông suối, hang đá và các cộng đồng Đông Á (như Jōmon sớm) có truyền thống làm gốm rất sớm.
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: viet
@@ -45,13 +54,22 @@ polities:
       literacy_rate: 0.0
       mortality_factor: 1.45
       wealth_factor: 0.85
-    origin_weights: { nong_dan: 92, thuong_nhan: 5, quy_toc_nho: 3 }
-    historical_fact: 'Cư dân văn hóa Hòa Bình – Bắc Sơn tại Đông Nam Á và lưu vực Trường Giang là những người đầu tiên thuần hóa cây lúa nước cách đây gần 10.000 năm.'
+    origin_weights:
+      nt_con_cu_dan_hang_da: 22
+      nt_con_nguoi_hai_luom: 20
+      nt_con_nguoi_san_thu: 16
+      nt_con_nguoi_danh_ca_song: 14
+      nt_con_nguoi_lam_gom: 10
+      nt_con_cong_dong_ven_bien: 6
+      nt_con_nguoi_che_tac_da: 5
+      nt_con_nguoi_cham_soc: 4
+      nt_dua_tre_khong_nguoi_than: 3
+    historical_fact: 'Ở Đông Nam Á năm 8000 TCN, kỹ nghệ đá Hòa Bình gắn với săn bắt, hái lượm rừng nhiệt đới và cư trú hang đá; còn ở Đông Á (như Jōmon Nhật Bản), đồ gốm đã xuất hiện rất sớm trong các cộng đồng săn bắt – đánh cá.'
 
   - id: nam_a_nguyen_thuy_8000bce
     name: Tiểu lục địa Nam Á (Mehrgarh Sơ kỳ)
     region_label: Nam Á
-    description: Các bộ lạc săn bắt và trồng lúa mạch sớm tại chân đèo Bolan và lưu vực sông Ấn.
+    description: Các cộng đồng săn bắt, hái lượm và bước đầu khai thác hạt lương thực dọc các triền sông và chân đèo Nam Á.
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: an_do
@@ -68,13 +86,20 @@ polities:
       literacy_rate: 0.0
       mortality_factor: 1.48
       wealth_factor: 0.8
-    origin_weights: { nong_dan: 92, thuong_nhan: 5, quy_toc_nho: 3 }
-    historical_fact: 'Tại Nam Á thời Đá Mới, mật độ dân cư chỉ đạt chưa tới 1 người trên mỗi km², tập trung dọc các triền sông lớn.'
+    origin_weights:
+      nt_con_nguoi_hai_luom: 26
+      nt_con_nguoi_san_thu: 24
+      nt_con_nguoi_danh_ca_song: 16
+      nt_dua_tre_nhom_di_cu: 12
+      nt_con_nguoi_che_tac_da: 10
+      nt_con_nguoi_cham_soc: 6
+      nt_dua_tre_khong_nguoi_than: 6
+    historical_fact: 'Tại Nam Á đầu thế Toàn Tân, mật độ dân cư chỉ đạt chưa tới 1 người trên mỗi km², tập trung dọc các triền sông và sườn núi.'
 
   - id: chau_au_san_bat_8000bce
     name: Bộ lạc Săn bắt Châu Âu Hậu Băng Hà
     region_label: Châu Âu
-    description: Những nhóm thợ săn tuần lộc, hươu đỏ và đánh cá ven biển khi băng hà vừa rút về phương Bắc.
+    description: Những cộng đồng Đồ đá giữa (Mesolithic) sống nhờ rừng ôn đới, hồ, sông, biển và các loài thú hoang khi băng hà đã rút.
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: bac_au
@@ -91,13 +116,21 @@ polities:
       literacy_rate: 0.0
       mortality_factor: 1.5
       wealth_factor: 0.75
-    origin_weights: { nong_dan: 93, thuong_nhan: 4, quy_toc_nho: 3 }
-    historical_fact: 'Châu Âu thời kỳ Mesolithic (8000 TCN) hoàn toàn chưa có nông nghiệp; con người sống trong các trại lều di động từ 20–50 người.'
+    origin_weights:
+      nt_con_nguoi_san_thu: 28
+      nt_con_nguoi_hai_luom: 20
+      nt_con_nguoi_danh_ca_song: 16
+      nt_con_cong_dong_ven_bien: 14
+      nt_dua_tre_nhom_di_cu: 10
+      nt_con_nguoi_che_tac_da: 6
+      nt_con_nguoi_cham_soc: 3
+      nt_dua_tre_khong_nguoi_than: 3
+    historical_fact: 'Châu Âu thời kỳ Đồ đá giữa (8000 TCN) chưa phổ biến nông nghiệp; các cộng đồng sống nhờ rừng, sông hồ, bờ biển và di chuyển theo mùa.'
 
   - id: chau_phi_chau_my_8000bce
     name: Thảo nguyên Châu Phi & Bộ lạc Châu Mỹ Cổ
     region_label: Châu Phi & Châu Mỹ
-    description: Những cộng đồng săn bắt hái lượm trên Sahara Xanh ẩm ướt và các thung lũng cao nguyên Mesoamerica – Andes.
+    description: Những cộng đồng săn bắt, đánh cá và hái lượm quanh các vùng hồ, đồng cỏ Sahara đầu thế Toàn Tân và các thung lũng tự nhiên.
     bookmarks: [nguyen_thuy_8000bce]
     civilization: bo_lac_nguyen_thuy
     culture: chau_phi
@@ -114,8 +147,15 @@ polities:
       literacy_rate: 0.0
       mortality_factor: 1.5
       wealth_factor: 0.78
-    origin_weights: { nong_dan: 93, thuong_nhan: 4, quy_toc_nho: 3 }
-    historical_fact: 'Vào năm 8000 TCN, sa mạc Sahara vẫn là vùng thảo nguyên xanh tươi có hồ nước, voi và các bộ lạc chăn thả sinh sống.'
+    origin_weights:
+      nt_con_cong_dong_ho_sahara: 28
+      nt_con_nguoi_san_thu: 22
+      nt_con_nguoi_hai_luom: 20
+      nt_dua_tre_nhom_di_cu: 14
+      nt_con_nguoi_danh_ca_song: 8
+      nt_con_nguoi_cham_soc: 4
+      nt_dua_tre_khong_nguoi_than: 4
+    historical_fact: 'Trong đầu thế Toàn Tân (8000 TCN), nhiều vùng thuộc Sahara ẩm ướt hơn hiện nay với nguồn nước, đồng cỏ và các cộng đồng săn bắt, đánh cá, hái lượm.'
 
   # ════════════════════════ 2. BÌNH MINH VĂN MINH (2500 TCN) ════════════════════════
   - id: ai_cap_luong_ha_2500bce

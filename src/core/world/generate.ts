@@ -229,7 +229,8 @@ function emptyState(
 /** Tạo ván mới: người chơi, hộ gia đình theo xuất thân, vùng lãnh thổ & văn hóa thế giới. */
 export function generateNewGame(content: ContentBundle, opts: NewGameOptions, makeCtx: (s: GameState) => SimContext): GameState {
   const defaultBm = content.index.bookmark.get(content.defaultBookmarkId) ?? content.bookmarks[0];
-  const explicitWorld = Boolean(opts.bookmarkId || opts.polityId || opts.lottery);
+  const originEraBmId = opts.originId ? content.index.origin.get(opts.originId)?.eras?.[0] : undefined;
+  const explicitWorld = Boolean(opts.bookmarkId || opts.polityId || opts.lottery || (originEraBmId && originEraBmId !== content.defaultBookmarkId));
 
   // 1. Chọn Mốc thời đại (Bookmark)
   const bookmark =
@@ -239,7 +240,9 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
         ? content.index.bookmark.get(opts.bookmarkId)!
         : opts.polityId && content.index.polity.has(opts.polityId)
           ? (content.index.bookmark.get(content.index.polity.get(opts.polityId)!.bookmarks[0]) ?? defaultBm)
-          : defaultBm;
+          : originEraBmId && content.index.bookmark.has(originEraBmId)
+            ? content.index.bookmark.get(originEraBmId)!
+            : defaultBm;
 
   // 2. Chọn Vùng lãnh thổ / Quốc gia trên Thế giới (Polity)
   const bmPolities = bookmark ? content.polities.filter((p) => p.bookmarks.includes(bookmark.id)) : content.polities;

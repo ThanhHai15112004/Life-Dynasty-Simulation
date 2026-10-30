@@ -1,5 +1,168 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Tổ chức xã hội (Organizations) của thời đại này.
+# Tổ chức và cộng đồng (Organizations) — 8 hình thức tập hợp dựa trên thân thuộc, kinh nghiệm, uy tín và thỏa thuận.
 # ══════════════════════════════════════════════════════════════════════════════
-organizations: []
+organizations:
+  # 01. Nhóm gia đình mở rộng
+  - id: nt_org_nhom_gia_dinh
+    name: Nhóm gia đình mở rộng
+    kind: village_council
+    description: Những người có quan hệ thân thuộc hoặc chăm sóc sống gần nhau, chia sẻ công việc kiếm ăn, chăm trẻ, giữ công cụ và hỗ trợ khi gặp khó khăn.
+    settlement_id: lang_nong
+    join_cost_money: 0
+    initial_factors:
+      treasury: 12
+      morale: 70
+      security: 60
+      investment: 45
+      influence: 55
+    ranks:
+      - { rank: 0, name: Thành viên trẻ, min_contribution: 0, stipend_money_month: 0 }
+      - { rank: 1, name: Thành viên lao động, min_contribution: 15, stipend_money_month: 0.15 }
+      - { rank: 2, name: Người có kinh nghiệm, min_contribution: 40, stipend_money_month: 0.35 }
+      - { rank: 3, name: Người được tin cậy, min_contribution: 80, stipend_money_month: 0.65 }
+
+  # 02. Nhóm săn bắt theo mùa
+  - id: nt_org_nhom_san_theo_mua
+    name: Nhóm săn bắt theo mùa
+    kind: outlaw_stronghold
+    description: Các thành viên hợp tác tìm nơi săn, chuẩn bị mũi lao, phối hợp vây bắt và phân chia kết quả sau mỗi chuyến đi.
+    settlement_id: vung_sau_heo_lanh
+    join_cost_money: 0
+    entry_condition:
+      any:
+        - { var: player.skill.sinh_ton, op: '>=', value: 1 }
+        - { var: player.skill.quan_su, op: '>=', value: 1 }
+    initial_factors:
+      treasury: 14
+      morale: 72
+      security: 68
+      investment: 40
+      influence: 50
+    ranks:
+      - { rank: 0, name: Người hỗ trợ, min_contribution: 0, stipend_money_month: 0.1 }
+      - { rank: 1, name: Thành viên săn bắt, min_contribution: 18, stipend_money_month: 0.25 }
+      - { rank: 2, name: Người theo dấu lão luyện, min_contribution: 45, stipend_money_month: 0.5 }
+      - { rank: 3, name: Người điều phối chuyến đi, min_contribution: 90, stipend_money_month: 0.85 }
+
+  # 03. Cộng đồng cư trú ven sông
+  - id: nt_org_cong_dong_ven_song
+    name: Cộng đồng cư trú ven sông
+    kind: village_council
+    description: Nhiều gia đình sử dụng chung khu vực có nguồn nước và bãi cá, cùng giữ nơi trú, phơi thức ăn và chia sẻ thông tin về con nước.
+    settlement_id: thi_tran_ben_song
+    join_cost_money: 1
+    initial_factors:
+      treasury: 16
+      morale: 66
+      security: 58
+      investment: 50
+      influence: 55
+    ranks:
+      - { rank: 0, name: Người mới đến, min_contribution: 0, stipend_money_month: 0 }
+      - { rank: 1, name: Thành viên đã quen với địa điểm, min_contribution: 16, stipend_money_month: 0.18 }
+      - { rank: 2, name: Người có kinh nghiệm khai thác nguồn nước, min_contribution: 42, stipend_money_month: 0.4 }
+      - { rank: 3, name: Người được nhiều gia đình tin tưởng điều phối, min_contribution: 85, stipend_money_month: 0.75 }
+
+  # 04. Cộng đồng làng định cư sơ khai
+  - id: nt_org_lang_dinh_cu
+    name: Cộng đồng làng định cư sơ khai
+    kind: village_council
+    description: Những gia đình định cư tại Tây Á và các vùng phù hợp, cùng dự trữ thức ăn, bảo trì nơi trú, canh tác sơ khai và chăm sóc người yếu.
+    settlement_id: lang_nong
+    join_cost_money: 1
+    entry_condition:
+      var: world.polity_id
+      op: '=='
+      value: luoi_liem_mau_mo_8000bce
+    initial_factors:
+      treasury: 22
+      morale: 68
+      security: 64
+      investment: 58
+      influence: 62
+    ranks:
+      - { rank: 0, name: Thành viên gia đình cư trú, min_contribution: 0, stipend_money_month: 0.1 }
+      - { rank: 1, name: Người đóng góp lao động chung, min_contribution: 20, stipend_money_month: 0.25 }
+      - { rank: 2, name: Người có kỹ năng chuyên sâu, min_contribution: 50, stipend_money_month: 0.5 }
+      - { rank: 3, name: Người được tin cậy tham gia điều phối, min_contribution: 95, stipend_money_month: 0.9 }
+
+  # 05. Mạng lưới trao đổi giữa các nhóm
+  - id: nt_org_mang_luoi_trao_doi
+    name: Mạng lưới trao đổi giữa các nhóm
+    kind: merchant_guild
+    description: Những quan hệ xã hội giúp đá ghè, vỏ sò, công cụ và tri thức lưu chuyển giữa các cộng đồng qua những chuyến đi và quà tặng đáp lễ.
+    settlement_id: thi_tran_ben_song
+    join_cost_money: 2
+    entry_condition:
+      any:
+        - { var: player.skill.thuong_mai, op: '>=', value: 1 }
+        - { var: player.skill.ngoai_giao, op: '>=', value: 1 }
+    initial_factors:
+      treasury: 20
+      morale: 64
+      security: 55
+      investment: 60
+      influence: 58
+    ranks:
+      - { rank: 0, name: Người tham gia chuyến đi, min_contribution: 0, stipend_money_month: 0.12 }
+      - { rank: 1, name: Người biết tuyến đường, min_contribution: 20, stipend_money_month: 0.3 }
+      - { rank: 2, name: Người duy trì quan hệ với nhóm khác, min_contribution: 50, stipend_money_month: 0.55 }
+      - { rank: 3, name: Người có mạng lưới quen biết rộng và uy tín, min_contribution: 95, stipend_money_month: 0.95 }
+
+  # 06. Nhóm chế tác và truyền nghề
+  - id: nt_org_nhom_che_tac
+    name: Nhóm chế tác và truyền nghề
+    kind: merchant_guild
+    description: Những người có kỹ năng ghè đá, chuốt xương, làm gỗ, đan sợi hoặc làm gốm cùng làm việc và truyền dạy kinh nghiệm cho nhau.
+    settlement_id: lang_nong
+    join_cost_money: 1
+    initial_factors:
+      treasury: 15
+      morale: 68
+      security: 60
+      investment: 55
+      influence: 52
+    ranks:
+      - { rank: 0, name: Người học, min_contribution: 0, stipend_money_month: 0 }
+      - { rank: 1, name: Người chế tác, min_contribution: 18, stipend_money_month: 0.22 }
+      - { rank: 2, name: Người thành thạo, min_contribution: 45, stipend_money_month: 0.45 }
+      - { rank: 3, name: Người truyền kỹ thuật, min_contribution: 88, stipend_money_month: 0.8 }
+
+  # 07. Nhóm tổ chức nghi thức
+  - id: nt_org_nhom_nghi_thuc
+    name: Nhóm tổ chức nghi thức
+    kind: prefecture_office
+    description: Những thành viên chuẩn bị địa điểm, vật dụng và duy trì hoạt động mang ý nghĩa biểu tượng, tưởng nhớ người đã khuất hoặc tụ họp tập thể theo truyền thống địa phương.
+    settlement_id: phu_thanh
+    join_cost_money: 1
+    initial_factors:
+      treasury: 14
+      morale: 74
+      security: 62
+      investment: 45
+      influence: 65
+    ranks:
+      - { rank: 0, name: Người tham gia, min_contribution: 0, stipend_money_month: 0 }
+      - { rank: 1, name: Người hỗ trợ chuẩn bị, min_contribution: 18, stipend_money_month: 0.2 }
+      - { rank: 2, name: Người hướng dẫn hoạt động, min_contribution: 45, stipend_money_month: 0.45 }
+      - { rank: 3, name: Người gìn giữ truyền thống, min_contribution: 90, stipend_money_month: 0.8 }
+
+  # 08. Liên minh hợp tác giữa các nhóm
+  - id: nt_org_lien_minh_hop_tac
+    name: Liên minh hợp tác giữa các nhóm
+    kind: prefecture_office
+    description: Quan hệ hợp tác linh hoạt giữa những nhóm cùng chia sẻ vùng tài nguyên theo mùa, truyền tin tức, giúp đỡ khi thiếu ăn và giải quyết tranh chấp.
+    settlement_id: thi_tran_ben_song
+    join_cost_money: 2
+    initial_factors:
+      treasury: 18
+      morale: 66
+      security: 64
+      investment: 52
+      influence: 68
+    ranks:
+      - { rank: 0, name: Thành viên nhóm tham gia, min_contribution: 0, stipend_money_month: 0.1 }
+      - { rank: 1, name: Người mang thông tin, min_contribution: 20, stipend_money_month: 0.28 }
+      - { rank: 2, name: Người đại diện trong một cuộc thương lượng, min_contribution: 50, stipend_money_month: 0.55 }
+      - { rank: 3, name: Người được tín nhiệm điều phối hợp tác, min_contribution: 95, stipend_money_month: 0.9 }

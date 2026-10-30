@@ -4,10 +4,10 @@ default_bookmark: trung_co_1000ce
 
 bookmarks:
   - id: nguyen_thuy_8000bce
-    era_name: Thời Nguyên Thủy (Đá Mới)
+    era_name: Bình Minh Nhân Loại (Đầu thế Toàn Tân)
     year: -8000
     year_label: 8000 TCN
-    description: 'Bình minh của loài người sau Kỷ Băng Hà. Các bộ lạc săn bắt hái lượm bắt đầu thuần hóa lúa mì, lúa nước và dựng những xóm lều đầu tiên bên bờ sông lớn.'
+    description: 'Sinh tồn, gia đình, cộng đồng, khám phá, thích nghi với thiên nhiên và những bước chuyển đầu tiên sang đời sống định cư, sản xuất lương thực.'
     world_population_millions: 5
     default_life_expectancy: 24
     default_child_mortality: 0.46

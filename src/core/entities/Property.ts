@@ -32,7 +32,13 @@ export function mainHouse(h: Household, content: ContentBundle): PropertyType | 
 export function nextHouseUpgrade(h: Household, content: ContentBundle): PropertyType | undefined {
   const cur = mainHouse(h, content);
   if (!cur) return undefined;
-  return content.properties.find(
-    (p) => p.category === 'house' && (p.upgrade_from === cur.id || p.house_tier === (cur.house_tier ?? 0) + 1),
+  return (
+    content.properties.find((p) => p.category === 'house' && p.upgrade_from === cur.id) ??
+    content.properties.find(
+      (p) =>
+        p.category === 'house' &&
+        p.house_tier === (cur.house_tier ?? 0) + 1 &&
+        ((p.eras?.length ?? 0) === 0 || (cur.eras ?? []).some((e) => (p.eras ?? []).includes(e))),
+    )
   );
 }

@@ -1,5 +1,215 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Biên niên sử & Biến cố thời cuộc vĩ mô (Chronicle) của thời đại này.
+# Biên niên sử thế giới (Chronicle) — Tên niên đại: Thời Đất Mới (Khi Rừng Mọc Trên Đất Băng)
+# 16 quá trình lịch sử – môi trường khảo cổ ghi nhận quanh đầu thế Toàn Tân.
 # ══════════════════════════════════════════════════════════════════════════════
-entries: []
+start_reign: Thời Đất Mới
+
+entries:
+  # Biến cố 01 — Thế giới sau băng hà
+  - id: nt_ch_01_the_gioi_sau_bang_ha
+    years: [1, 25]
+    chance_per_year: 0.08
+    importance: 7
+    icon: tin_don
+    tone: trung_tinh
+    text:
+      - 'Kỷ băng hà cuối đã lùi xa. Những vùng đất từng quá lạnh đang dần ấm lên, rừng cây và đàn thú thay đổi đường di chuyển quanh vùng {world.settlement}, khiến những bãi săn cũ chuyển dịch và các nguồn cây mới xuất hiện.'
+    effects:
+      - { type: set_flag, flag: nt_rung_am_len, years: 3, label: 'Môi trường sau băng hà biến chuyển — bãi săn và nguồn cây thay đổi' }
+
+  # Biến cố 02 — Biển tiếp tục tiến vào đất liền
+  - id: nt_ch_02_bien_tien_vao_dat_lien
+    years: [3, 45]
+    chance_per_year: 0.06
+    importance: 7
+    icon: tin_don
+    tone: buon
+    text:
+      - 'Băng tan sau thời kỳ lạnh kéo dài khiến mực nước biển tiếp tục dâng dần trong đầu thế Toàn Tân. Một số bãi thấp ven bờ và lối mòn cũ bị nước mặn lấn vào, buộc các nhóm cư trú gần biển phải lùi khu cắm trại lên vùng đất cao hơn.'
+    effects:
+      - { type: set_flag, flag: nt_nuoc_bien_dang, years: 3, label: 'Đường bờ biển và bãi đánh cá ven bờ thay đổi' }
+
+  # Biến cố 03 — Rừng mở rộng
+  - id: nt_ch_03_rung_mo_rong
+    years: [5, 50]
+    chance_per_year: 0.07
+    reign: Khi Rừng Mọc Trên Đất Băng
+    importance: 7
+    icon: tin_don
+    tone: an_ui
+    text:
+      - 'Theo khí hậu ấm lên của thời kỳ {world.reign}, những vùng đất từng trống trải nay phủ dày cây cối hơn. Các thợ săn quanh {world.settlement} bắt đầu điều chỉnh cách theo dấu thú rừng và chế tác thêm công cụ gia công gỗ.'
+    effects:
+      - { type: food, value: 2, ledger: su_kien }
+
+  # Biến cố 04 — Những làng định cư ban đầu (Tây Á)
+  - id: nt_ch_04_lang_dinh_cu_ban_dau
+    years: [2, 40]
+    chance_per_year: 0.08
+    condition: { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+    importance: 7
+    icon: nha
+    tone: vui
+    text:
+      - 'Tại vùng Lưỡi liềm Màu mỡ Tây Á, nhiều cộng đồng đã duy trì nơi cư trú ổn định dựng bằng đất và đá. Các gia đình dùng chung không gian sinh hoạt, kho dự trữ và cùng chia sẻ trách nhiệm sửa chữa nơi ở qua từng mùa.'
+    effects:
+      - { type: reputation, group: dan_lang, value: 2 }
+
+  # Biến cố 05 — Câu chuyện về tháp đá ở Jericho (Tây Á)
+  - id: nt_ch_05_thap_da_jericho
+    years: [4, 55]
+    chance_per_year: 0.07
+    condition: { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+    importance: 8
+    icon: moc_doi
+    tone: trung_tinh
+    text:
+      - 'Những người đi xa kể về Jericho ở thung lũng Jordan, nơi một công trình tháp đá cao hơn tám mét đã được dựng lên bằng sức lao động phối hợp của nhiều người. Dù mục đích của công trình được hiểu theo nhiều cách, câu chuyện ấy vẫn truyền cảm hứng về sức mạnh hợp tác.'
+    effects:
+      - { type: skill_xp, skill: quan_tri, value: 8, who: player }
+
+  # Biến cố 06 — Những hạt giống được giữ lại (Tây Á)
+  - id: nt_ch_06_hat_giong_giu_lai
+    years: [3, 50]
+    chance_per_year: 0.08
+    condition: { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+    harvest_quality: duoc_mua
+    importance: 7
+    icon: thoc
+    tone: vui
+    text:
+      - 'Qua nhiều thế hệ thu hái và chọn lọc ở Tây Á, một số nhóm cư trú dành nhiều công sức giữ lại hạt ngũ cốc tốt để gieo trồng và chăm sóc theo mùa thay vì chỉ tìm cây mọc hoang.'
+    effects:
+      - { type: food, value: 4, ledger: su_kien }
+
+  # Biến cố 07 — Những bước đầu quản lý động vật (Tây Á)
+  - id: nt_ch_07_quan_ly_dong_vat
+    years: [6, 60]
+    chance_per_year: 0.07
+    condition: { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+    importance: 7
+    icon: focus
+    tone: trung_tinh
+    text:
+      - 'Tại một số cộng đồng Tây Á, con người đang từng bước thử nghiệm việc trông giữ và kiểm soát các nhóm động vật như dê, cừu. Có nhóm giữ được đàn qua mùa lạnh, cũng có nhóm thất bại khi đàn thú bỏ chạy hoặc thiếu thức ăn.'
+    effects:
+      - { type: skill_xp, skill: sinh_ton, value: 8, who: player }
+
+  # Biến cố 08 — Những công trình đá của vùng Thượng Lưỡng Hà (Tây Á / Göbekli Tepe)
+  - id: nt_ch_08_cong_trinh_da_thuong_luong_ha
+    years: [5, 60]
+    chance_per_year: 0.07
+    condition: { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+    importance: 8
+    icon: moc_doi
+    tone: vui
+    text:
+      - 'Ở vùng Thượng Lưỡng Hà (như Göbekli Tepe), nhiều nhóm người đã tụ họp, chế tác đá và dựng nên những trụ đá lớn khắc hình động vật hoang dã, khẳng định khả năng phối hợp lao động và truyền thống biểu tượng sâu sắc của các cộng đồng tiền sử.'
+    effects:
+      - { type: skill_xp, skill: ngoai_giao, value: 8, who: player }
+
+  # Biến cố 09 — Đá obsidian đi xa khỏi nguồn gốc (Tây Á)
+  - id: nt_ch_09_da_obsidian_di_xa
+    years: [4, 55]
+    chance_per_year: 0.07
+    condition: { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+    importance: 7
+    icon: tien
+    tone: vui
+    text:
+      - 'Những mảnh đá núi lửa obsidian đen bóng, sắc bén được truyền từ cộng đồng này sang cộng đồng khác qua mạng lưới trao đổi ở Tây Á, mang theo kỹ thuật ghè đá mới và những mối liên hệ liên vùng.'
+    effects:
+      - { type: skill_xp, skill: thuong_mai, value: 8, who: player }
+
+  # Biến cố 10 — Những chiếc bình đất được nung (Đông Á)
+  - id: nt_ch_10_binh_dat_duoc_nung
+    years: [2, 50]
+    chance_per_year: 0.08
+    condition: { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+    importance: 7
+    icon: focus
+    tone: vui
+    text:
+      - 'Tại Đông Á và quần đảo Nhật Bản thời Jōmon sớm, những cộng đồng sống bằng săn bắt, đánh cá và hái lượm tiếp tục nung những chiếc bình đất sét giúp đun nấu và chế biến hạt, nhuyễn thể hiệu quả hơn.'
+    effects:
+      - { type: food, value: 3, ledger: su_kien }
+
+  # Biến cố 11 — Đời sống trong những hang đá phương Nam (Đông Nam Á / Hòa Bình)
+  - id: nt_ch_11_hang_da_phuong_nam
+    years: [2, 50]
+    chance_per_year: 0.08
+    condition: { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+    importance: 7
+    icon: nha
+    tone: trung_tinh
+    text:
+      - 'Trong các thung lũng đá vôi phương Nam thuộc truyền thống Hòa Bình, các nhóm cư dân sử dụng công cụ đá cuội ghè đẽo, khai thác củ rừng, ốc suối và duy trì bếp lửa trong những hang khô và mái đá.'
+    effects:
+      - { type: skill_xp, skill: sinh_ton, value: 8, who: player }
+
+  # Biến cố 12 — Những vùng nước của Sahara xanh (Bắc Phi)
+  - id: nt_ch_12_vung_nuoc_sahara_xanh
+    years: [2, 50]
+    chance_per_year: 0.08
+    condition: { var: world.polity_id, op: '==', value: chau_phi_chau_my_8000bce }
+    importance: 7
+    icon: thoc
+    tone: trung_tinh
+    text:
+      - 'Trong giai đoạn ẩm ướt đầu thế Toàn Tân, nhiều vùng thuộc Bắc Phi và Sahara tồn tại các hồ nước và trảng cỏ theo mùa, nơi các cộng đồng dùng mũi lao xương có ngạnh để đánh cá và săn thú quanh nguồn nước.'
+    effects:
+      - { type: food, value: 3, ledger: su_kien }
+
+  # Biến cố 13 — Những đường mòn nối các cộng đồng
+  - id: nt_ch_13_duong_mon_noi_cong_dong
+    years: [6, 65]
+    chance_per_year: 0.06
+    once: false
+    cooldown_years: 14
+    importance: 6
+    icon: tin_don
+    tone: vui
+    text:
+      - 'Qua những lối mòn dọc bờ sông và sườn núi, các nhóm người gặp gỡ theo mùa để trao đổi đá ghè, vỏ sò, tin tức về đàn thú và kết nối hôn nhân giữa các gia đình.'
+    effects:
+      - { type: skill_xp, skill: ngoai_giao, value: 6, who: player }
+
+  # Biến cố 14 — Thức ăn dồi dào rồi suy giảm
+  - id: nt_ch_14_thuc_an_doi_dao_roi_suy_giam
+    years: [8, 70]
+    chance_per_year: 0.05
+    once: false
+    cooldown_years: 15
+    harvest_quality: mat_mua
+    importance: 7
+    icon: thoc
+    tone: buon
+    text:
+      - 'Sau nhiều mùa thuận lợi, nguồn thức ăn quanh vùng {world.settlement} sụt giảm rõ rệt do biến động thời tiết và khai thác liên tục. Các gia đình phải bàn việc chia sẻ dự trữ hoặc mở rộng phạm vi kiếm ăn.'
+    effects:
+      - { type: set_flag, flag: mat_mua, years: 1, label: 'Nguồn thức ăn tự nhiên quanh vùng suy giảm' }
+
+  # Biến cố 15 — Sự phát triển của các điểm tụ họp
+  - id: nt_ch_15_diem_tu_hop_phat_trien
+    years: [10, 75]
+    chance_per_year: 0.06
+    importance: 7
+    icon: moc_doi
+    tone: vui
+    text:
+      - 'Khi đến mùa thuận lợi, nhiều nhóm cư trú quanh vùng {world.settlement} tập hợp tại điểm hẹn chung để sửa chữa công trình, chia sẻ kinh nghiệm săn bắt và cử hành các nghi thức gắn kết cộng đồng.'
+    effects:
+      - { type: reputation, group: dan_lang, value: 3 }
+
+  # Biến cố 16 — Những thế hệ truyền lại thế giới của mình
+  - id: nt_ch_16_the_he_truyen_lai
+    years: [18, 90]
+    chance_per_year: 0.06
+    importance: 8
+    icon: hoc_van
+    tone: an_ui
+    text:
+      - 'Chưa có chữ viết để khắc ghi từng tên người, nhưng tri thức về mạch nước, mùa quả chín, cách ghè đá và giữ lửa vẫn truyền từ bàn tay người già sang thế hệ trẻ quanh bếp lửa {world.settlement}.'
+    effects:
+      - { type: skill_xp, skill: hoc_van, value: 10, who: player }

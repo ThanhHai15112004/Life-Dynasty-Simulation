@@ -55,6 +55,7 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   ensureRebellionState(raw as GameState);
   raw.organizations = raw.organizations ?? {};
   for (const def of content.organizations ?? []) {
+    if (def.eras && def.eras.length > 0 && !def.eras.includes(raw.bookmarkId!)) continue;
     if (!raw.organizations[def.id]) {
       raw.organizations[def.id] = {
         id: def.id,

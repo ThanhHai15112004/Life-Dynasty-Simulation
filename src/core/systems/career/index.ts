@@ -233,7 +233,7 @@ export function pickDefaultMemberCareer(ctx: SimContext, member: Character): str
   const settlement = state.world.settlementType;
   const validInSettlement = (id: string) => {
     const def = content.index.career.get(id);
-    if (!def || def.kind !== 'nghe') return false;
+    if (!def || def.kind !== 'nghe' || !inCurrentEra(ctx, def.eras)) return false;
     return def.settlement_types.length === 0 || def.settlement_types.includes(settlement);
   };
 
@@ -282,7 +282,7 @@ export function pickDefaultMemberCareer(ctx: SimContext, member: Character): str
     )
     .map((c) => c.id);
 
-  return fallbackPool.length > 0 ? rng.pick(fallbackPool) : 'nong_dan';
+  return fallbackPool.length > 0 ? rng.pick(fallbackPool) : (state.householdCareer || 'nong_dan');
 }
 
 /** [5] Đảm bảo mọi thành viên người lớn trong hộ đều có nghề riêng hợp lệ. */

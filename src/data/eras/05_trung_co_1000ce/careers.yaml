@@ -2724,6 +2724,7 @@ careers:
   # ── Chưa có nghề riêng (kind: trang_thai) — không có lương, hành động, thăng bậc ──
   - id: phu_gia_dinh
     name: Phụ việc nhà
+    eras: []
     kind: trang_thai
     sector: nong_nghiep
     depth: nhe
@@ -2737,6 +2738,7 @@ careers:
         name: Phụ giúp nghề nhà
   - id: that_nghiep
     name: Thất nghiệp
+    eras: []
     kind: trang_thai
     sector: dich_vu
     depth: nhe

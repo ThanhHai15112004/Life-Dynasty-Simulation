@@ -1,5 +1,484 @@
 # ══════════════════════════════════════════════════════════════════════════════
 # MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
-# Trọng tâm sống (Focus) riêng của Thời Nguyên Thủy (Theo dấu thú rừng, Ghè đá & Giữ lửa, Thuần hóa hạt giống...).
+# 2. Trọng tâm theo tuổi (focuses): Tuổi 6–11, 12–15, 16+ và 40+.
+# Kỹ năng được truyền qua quan sát, thực hành, vui chơi và sự hướng dẫn của cộng đồng.
 # ══════════════════════════════════════════════════════════════════════════════
-focuses: []
+focuses:
+  # ══════════════════ TUỔI 6–11: NHỮNG BƯỚC CHÂN ĐẦU TIÊN ══════════════════
+  - id: nt_fc_nhat_cu_qua
+    name: Nhặt củ và quả
+    description: Học nhận biết thực vật ăn được, phân biệt cây nguy hiểm và ghi nhớ những nơi thu hái quanh khu trú.
+    icon: la
+    life_stages: [thieu_thoi]
+    skill_xp: { sinh_ton: 5 }
+    modifiers:
+      - { target: harvest.yield, value: 1.03, op: mul }
+    event_weights: { hai_luom: 2.0, tuoi_tho: 1.5 }
+
+  - id: nt_fc_quan_sat_thien_nhien
+    name: Tập quan sát thiên nhiên
+    description: Nhận ra dấu chân thú, hướng gió, vệt nước, thời điểm mưa và những dấu hiệu thay đổi thời tiết.
+    icon: trang
+    life_stages: [thieu_thoi]
+    skill_xp: { sinh_ton: 4, muu_luoc: 1 }
+    modifiers:
+      - { target: death_risk, value: 0.96, op: mul }
+    event_weights: { thien_nhien: 2.0, san_bat: 1.4 }
+
+  - id: nt_fc_phu_giup_noi_tru
+    name: Phụ giúp nơi trú
+    description: Nhặt củi nhỏ, lấy nước trong phạm vi an toàn, hỗ trợ chuẩn bị thức ăn và giữ gìn vật dụng cho gia đình.
+    icon: nha
+    life_stages: [thieu_thoi]
+    skill_xp: { quan_tri: 3, sinh_ton: 2 }
+    modifiers:
+      - { target: food.consumption, value: 0.97, op: mul }
+    event_weights: { gia_dinh: 2.0, noi_tru: 1.5 }
+
+  - id: nt_fc_song_cung_nguoi_khac
+    name: Học cách sống cùng người khác
+    description: Chia thức ăn, kết bạn cùng lứa, giải quyết tranh cãi và lắng nghe những người giàu kinh nghiệm quanh bếp lửa.
+    icon: dieu
+    life_stages: [thieu_thoi]
+    skill_xp: { ngoai_giao: 4, quan_tri: 1 }
+    modifiers:
+      - { target: stress.monthly, value: -0.3 }
+    event_weights: { quan_he: 2.0, cong_dong: 1.6 }
+
+  - id: nt_fc_tro_choi_ren_ky_nang
+    name: Trò chơi và rèn kỹ năng
+    description: Tập ném mục tiêu, bắt chước cách theo dấu, chạy vượt địa hình, giữ thăng bằng và làm vật dụng đơn giản.
+    icon: kiem
+    life_stages: [thieu_thoi]
+    skill_xp: { quan_su: 3, sinh_ton: 2 }
+    modifiers:
+      - { target: health.monthly, value: 0.1 }
+    event_weights: { tuoi_tho: 1.8, san_bat: 1.5 }
+
+  # ── Trọng tâm tuổi 6–11 theo môi trường ──
+  - id: nt_fc_moi_truong_rung
+    name: Theo dấu đường rừng
+    description: Nhận biết tiếng chim báo động, các loài cây rừng, đường mòn thú đi và hốc đá trú mưa.
+    icon: la
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    skill_xp: { sinh_ton: 4, quan_su: 1 }
+    event_weights: { rung_nui: 2.0, san_bat: 1.4 }
+
+  - id: nt_fc_moi_truong_song
+    name: Tập bắt cá ven sông
+    description: Bắt cá nhỏ và tôm cua ở vùng nước cạn có người lớn trông coi, học phân biệt dòng chảy xoáy nguy hiểm.
+    icon: ca
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    skill_xp: { sinh_ton: 5 }
+    modifiers:
+      - { target: harvest.yield, value: 1.03, op: mul }
+    event_weights: { song_nuoc: 2.0 }
+
+  - id: nt_fc_moi_truong_bien
+    name: Nhặt sò và nhìn con nước
+    description: Nhặt sò ốc ven bờ, quan sát nhịp thủy triều lên xuống và tránh những bãi đá trơn trượt.
+    icon: ca
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    skill_xp: { sinh_ton: 4, muu_luoc: 1 }
+    event_weights: { ven_bien: 2.0 }
+
+  - id: nt_fc_lang_dinh_cu_tay_a
+    name: Chọn hạt và trông sân phơi
+    description: Học phân biệt hạt chắc, nhặt cỏ dại và trông chừng chim chóc quanh nơi phơi thực phẩm ở làng định cư.
+    icon: cay_lua
+    life_stages: [thieu_thoi]
+    condition:
+      any:
+        - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+        - { has_property: nt_khu_cay_luong_thuc }
+    skill_xp: { sinh_ton: 3, quan_tri: 2 }
+    event_weights: { canh_tac: 2.0, du_tru: 1.5 }
+
+  - id: nt_fc_cong_dong_lam_gom
+    name: Nhào đất và nặn vật nhỏ
+    description: Học chọn đất sét dẻo, nhặt sạch sỏi cát và tập nặn những vật đựng nhỏ bên bếp nung của gia đình.
+    icon: focus
+    life_stages: [thieu_thoi]
+    condition:
+      any:
+        - { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+        - { has_property: nt_vat_dung_gom }
+    skill_xp: { quan_tri: 3, sinh_ton: 2 }
+    event_weights: { che_tac: 2.0 }
+
+  # ══════════════════ TUỔI 12–15: HỌC ĐỂ SỐNG ══════════════════
+  - id: nt_fc_hoc_san_bat
+    name: Học săn bắt
+    description: Tập phóng lao, sử dụng cung tên ở những cộng đồng phù hợp, quan sát dấu vết và đi theo các chuyến săn gần.
+    icon: kiem
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { quan_su: 4, sinh_ton: 2 }
+    modifiers:
+      - { target: health.monthly, value: 0.08 }
+    event_weights: { san_bat: 2.2, nguy_hiem: 1.3 }
+
+  - id: nt_fc_hoc_che_tac
+    name: Học chế tác công cụ
+    description: Tập ghè đá tách mảnh, tạo lưỡi cắt, mài dụng cụ xương, đan sợi thực vật và sửa chữa đồ dùng hư hỏng.
+    icon: focus
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { quan_tri: 3, sinh_ton: 3 }
+    event_weights: { che_tac: 2.2 }
+
+  - id: nt_fc_khai_thac_thuc_an
+    name: Khai thác và xử lý thức ăn
+    description: Tìm cây ăn được theo mùa, đánh cá, xử lý thịt cá và làm khô thực phẩm để giữ qua mùa thiếu thốn.
+    icon: lua
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { sinh_ton: 5, quan_tri: 1 }
+    modifiers:
+      - { target: harvest.yield, value: 1.05, op: mul }
+    event_weights: { hai_luom: 1.8, du_tru: 1.6 }
+
+  - id: nt_fc_ren_suc_ben
+    name: Rèn sức bền đường dài
+    description: Tập đi bộ đường xa, mang vác vật dụng, vượt địa hình đèo dốc và thích nghi với nắng gió, mưa lạnh.
+    icon: trau
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { sinh_ton: 4, quan_su: 2 }
+    modifiers:
+      - { target: health.monthly, value: 0.14 }
+    event_weights: { di_cu: 1.8, kham_pha: 1.5 }
+
+  - id: nt_fc_xay_dung_quan_he
+    name: Xây dựng quan hệ cùng lứa
+    description: Học thỏa thuận, phối hợp với bạn bè cùng tuổi và tham gia gánh vác các công việc chung của nhóm cư trú.
+    icon: chen_tra
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { ngoai_giao: 4, muu_luoc: 2 }
+    modifiers:
+      - { target: stress.monthly, value: -0.2 }
+    event_weights: { quan_he: 2.2, cong_dong: 1.6 }
+
+  - id: nt_fc_hoc_truyen_thong
+    name: Học truyền thống và chuyện kể
+    description: Ghi nhớ những câu chuyện cổ bên đống lửa, dấu hiệu thiên nhiên và tri thức sinh tồn do thế hệ trước truyền lại.
+    icon: sach
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { hoc_van: 4, ngoai_giao: 2 }
+    event_weights: { tri_thuc: 2.2, nghi_thuc: 1.5 }
+
+  # ── Trọng tâm đặc biệt tuổi 12–15 ──
+  - id: nt_fc_tap_trong_cay
+    name: Tập trồng cây lương thực
+    description: Phụ chuẩn bị đất, giữ hạt giống và bảo vệ vạt ngũ cốc, đậu tại những cộng đồng có hoạt động canh tác sơ khai.
+    icon: cay_lua
+    life_stages: [thieu_thoi]
+    condition:
+      all:
+        - { var: player.age, op: '>=', value: 12 }
+        - any:
+            - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+            - { has_property: nt_khu_cay_luong_thuc }
+    skill_xp: { sinh_ton: 4, quan_tri: 2 }
+    modifiers:
+      - { target: harvest.yield, value: 1.06, op: mul }
+    event_weights: { canh_tac: 2.2 }
+
+  - id: nt_fc_theo_nhom_tim_da
+    name: Theo nhóm tìm đá và tuyến đổi
+    description: Đi theo người có kinh nghiệm để học cách nhận biết đá ghè tốt và ghi nhớ đường mòn trao đổi giữa các nhóm.
+    icon: tien
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { thuong_mai: 3, sinh_ton: 3 }
+    event_weights: { trao_doi: 2.0, kham_pha: 1.5 }
+
+  - id: nt_fc_tap_lam_gom
+    name: Tập làm gốm và canh lửa nung
+    description: Học tạo hình vật đựng từ đất sét và giữ nhiệt độ đống lửa nung tại cộng đồng đã có kỹ nghệ gốm.
+    icon: focus
+    life_stages: [thieu_thoi]
+    condition:
+      all:
+        - { var: player.age, op: '>=', value: 12 }
+        - any:
+            - { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+            - { has_property: nt_vat_dung_gom }
+    skill_xp: { quan_tri: 4, sinh_ton: 2 }
+    event_weights: { che_tac: 2.2 }
+
+  - id: nt_fc_cham_soc_nguoi_nho
+    name: Chăm sóc trẻ nhỏ và người yếu
+    description: Phụ giúp nuôi dưỡng các em nhỏ, đỡ đần người già hoặc người bị thương và chia sẻ trách nhiệm trong gia đình.
+    icon: gia_dinh
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { quan_tri: 3, ngoai_giao: 3 }
+    modifiers:
+      - { target: stress.monthly, value: -0.15 }
+    event_weights: { gia_dinh: 2.0, cham_soc: 1.8 }
+
+  - id: nt_fc_kham_pha_vung_la
+    name: Tham gia chuyến đi ngắn mở đường
+    description: Theo chân người dẫn đường khảo sát bên kia đồi hoặc bờ sông để tìm nguồn nước và bãi kiếm ăn mới.
+    icon: trang
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    skill_xp: { sinh_ton: 3, muu_luoc: 3 }
+    event_weights: { kham_pha: 2.2 }
+
+  # ══════════════════ TUỔI 16 TRỞ LÊN: CON ĐƯỜNG CỦA MỘT ĐỜI NGƯỜI ══════════════════
+  # ── Trọng tâm sinh tồn (01–06) ──
+  - id: nt_fc_san_bat_tim_thuc_an
+    name: Săn bắt và tìm kiếm thức ăn
+    description: Dồn sức theo dấu thú hoang, đặt bẫy và đánh bắt để mang nguồn đạm về nuôi sống gia đình cùng cộng đồng.
+    icon: kiem
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { sinh_ton: 4, quan_su: 3 }
+    modifiers:
+      - { target: harvest.yield, value: 1.1, op: mul }
+      - { target: health.monthly, value: -0.04 }
+    event_weights: { san_bat: 2.2, nguy_hiem: 1.3 }
+
+  - id: nt_fc_thu_hai_bao_quan
+    name: Thu hái, xử lý và bảo quản thực phẩm
+    description: Khai thác củ quả, hạt rừng và cá sông theo mùa, đồng thời phơi khô, hun khói để tích trữ qua tháng đói.
+    icon: cay_lua
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { sinh_ton: 5, quan_tri: 2 }
+    modifiers:
+      - { target: harvest.yield, value: 1.08, op: mul }
+      - { target: food.consumption, value: 0.95, op: mul }
+    event_weights: { hai_luom: 2.0, du_tru: 1.8 }
+
+  - id: nt_fc_che_tac_cong_cu
+    name: Chế tác và sửa chữa công cụ
+    description: Ghè đẽo đá, mài xương sừng, gia công gỗ và đan vật đựng phục vụ sinh hoạt cũng như trao đổi sản vật.
+    icon: focus
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { quan_tri: 4, sinh_ton: 3 }
+    modifiers:
+      - { target: living.cost, value: 0.94, op: mul }
+    event_weights: { che_tac: 2.2 }
+
+  - id: nt_fc_xay_dung_noi_tru
+    name: Xây dựng và duy trì nơi trú
+    description: Gia cố mái che, vách chắn, tổ chức không gian hang đá hoặc nhà đất để che chở gia đình trước mưa gió, giá lạnh.
+    icon: nha
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { quan_tri: 4, sinh_ton: 2 }
+    modifiers:
+      - { target: health.monthly, value: 0.12 }
+      - { target: death_risk, value: 0.94, op: mul }
+    event_weights: { noi_tru: 2.0, gia_dinh: 1.5 }
+
+  - id: nt_fc_tim_nuoc_cui_nguyen_lieu
+    name: Tìm nguồn nước, củi và nguyên liệu
+    description: Khảo sát khe suối, thu gom củi khô, sợi thực vật và đá ghè để khu cư trú không rơi vào cảnh cạn kiệt.
+    icon: la
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { sinh_ton: 5, muu_luoc: 1 }
+    modifiers:
+      - { target: harvest.yield, value: 1.06, op: mul }
+    event_weights: { thien_nhien: 1.8, kham_pha: 1.6 }
+
+  - id: nt_fc_bao_ve_gia_dinh
+    name: Bảo vệ gia đình trước nguy hiểm
+    description: Canh giữ nơi trú ban đêm, đề phòng thú dữ và bảo vệ người thân trong những cuộc chạm trán, tranh chấp bãi kiếm ăn.
+    icon: kiem
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    skill_xp: { quan_su: 5, sinh_ton: 2 }
+    modifiers:
+      - { target: death_risk, value: 0.9, op: mul }
+      - { target: stress.monthly, value: 0.08 }
+    event_weights: { nguy_hiem: 1.8, cong_dong: 1.5 }
+
+  # ── Trọng tâm phát triển (07–14) ──
+  - id: nt_fc_quan_he_doi_lua_gia_dinh
+    name: Xây dựng quan hệ đôi lứa và gia đình
+    description: Gắn kết với bạn đời, sẻ chia công việc kiếm ăn và giữ cho bếp lửa gia đình luôn ấm áp.
+    icon: gia_dinh
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    skill_xp: { ngoai_giao: 3, quan_tri: 3 }
+    modifiers:
+      - { target: stress.monthly, value: -0.3 }
+      - { target: food.consumption, value: 0.96, op: mul }
+    event_weights: { gia_dinh: 2.2, quan_he: 1.6 }
+
+  - id: nt_fc_cham_soc_nuoi_day_tre
+    name: Chăm sóc, nuôi dạy con trẻ
+    description: Bảo vệ trẻ nhỏ trước bệnh tật, hướng dẫn chúng phân biệt cây ăn được, dấu chân thú và cách sống cùng nhóm.
+    icon: gia_dinh
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { quan_tri: 3, ngoai_giao: 2, hoc_van: 1 }
+    modifiers:
+      - { target: stress.monthly, value: -0.2 }
+      - { target: health.monthly, value: 0.06 }
+    event_weights: { gia_dinh: 2.4, cham_soc: 1.6 }
+
+  - id: nt_fc_truyen_day_ky_nang
+    name: Truyền dạy kỹ năng cho người khác
+    description: Chỉ dẫn người trẻ cách ghè đá, theo dấu thú, đan giỏ và bảo quản thức ăn để tri thức không bị mai một.
+    icon: sach
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { hoc_van: 4, ngoai_giao: 2 }
+    event_weights: { tri_thuc: 2.2, cong_dong: 1.5 }
+
+  - id: nt_fc_xay_dung_uy_tin
+    name: Xây dựng uy tín trong cộng đồng
+    description: Sẵn lòng chia sẻ thức ăn khi khó khăn, công bằng khi phân chia công việc để nhận được sự tin cậy của các gia đình.
+    icon: chen_tra
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { ngoai_giao: 5, quan_tri: 2 }
+    modifiers:
+      - { target: stress.monthly, value: -0.15 }
+    event_weights: { cong_dong: 2.2, quan_he: 1.8 }
+
+  - id: nt_fc_hoc_ky_thuat_lang_gieng
+    name: Học kỹ thuật mới từ nhóm láng giềng
+    description: Quan sát và trao đổi kinh nghiệm chế tác công cụ, bảo quản thực phẩm hoặc dựng nơi trú với các nhóm người khác.
+    icon: sach
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    skill_xp: { hoc_van: 3, thuong_mai: 2, muu_luoc: 2 }
+    event_weights: { trao_doi: 2.0, tri_thuc: 1.8 }
+
+  - id: nt_fc_kham_pha_diem_kiem_an
+    name: Khám phá địa điểm kiếm ăn mới
+    description: Vượt qua những dãy đồi và khúc sông quen thuộc để tìm bãi săn, rừng quả hoặc nguồn nước dự phòng.
+    icon: trang
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    skill_xp: { sinh_ton: 4, muu_luoc: 3 }
+    modifiers:
+      - { target: harvest.yield, value: 1.06, op: mul }
+    event_weights: { kham_pha: 2.4, thien_nhien: 1.6 }
+
+  - id: nt_fc_trao_doi_nguyen_lieu
+    name: Tham gia trao đổi nguyên liệu
+    description: Mang đá sắc, vỏ sò, da thú hoặc đồ đan tới điểm gặp gỡ giữa các cộng đồng để đổi lấy vật liệu hiếm.
+    icon: tien
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { thuong_mai: 5, ngoai_giao: 2 }
+    event_weights: { trao_doi: 2.5, quan_he: 1.6 }
+    income: { money_month: 0.08, skill: thuong_mai, per_level: 0.025, trade_scaled: true, ledger: thu_khac }
+
+  - id: nt_fc_gop_suc_cong_trinh_chung
+    name: Góp sức xây dựng công trình chung
+    description: Cùng nhiều gia đình dựng nơi tụ họp, kè đá chắn lũ hoặc công trình cộng đồng mang ý nghĩa gắn kết lâu dài.
+    icon: nha
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    skill_xp: { quan_tri: 4, ngoai_giao: 2, sinh_ton: 1 }
+    event_weights: { cong_dong: 2.2, noi_tru: 1.8 }
+
+  # ── Trọng tâm đặc thù (15–20) ──
+  - id: nt_fc_canh_tac_so_khai
+    name: Canh tác sơ khai
+    description: Thử nghiệm chọn hạt giống không rụng, chuẩn bị vạt đất ẩm, chăm sóc và dự trữ hạt tại vùng thích hợp.
+    icon: cay_lua
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      any:
+        - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+        - { has_property: nt_khu_cay_luong_thuc }
+        - { var: player.career, op: '==', value: nt_nguoi_khai_thac_ngu_coc }
+    skill_xp: { sinh_ton: 5, quan_tri: 2 }
+    modifiers:
+      - { target: harvest.yield, value: 1.12, op: mul }
+    event_weights: { canh_tac: 2.5, du_tru: 1.6 }
+
+  - id: nt_fc_cham_giu_dong_vat
+    name: Chăm giữ động vật sơ khai
+    description: Quan sát tập tính, hạn chế đàn thú bỏ chạy và bảo vệ nhóm động vật đang dần được con người quản lý ở Tây Á.
+    icon: trau
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    condition:
+      any:
+        - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+        - { has_property: nt_nhom_dong_vat_quan_ly }
+        - { var: player.career, op: '==', value: nt_nguoi_cham_giu_dong_vat }
+    skill_xp: { sinh_ton: 5, quan_tri: 2 }
+    modifiers:
+      - { target: harvest.yield, value: 1.08, op: mul }
+    event_weights: { chan_giu: 2.4 }
+
+  - id: nt_fc_che_tac_chuyen_sau
+    name: Chế tác chuyên sâu
+    description: Dành trọn tâm sức cải tiến lưỡi đá, mũi xương hoặc đồ gốm để tạo ra những công cụ bền sắc được cả vùng tín nhiệm.
+    icon: focus
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { quan_tri: 5, thuong_mai: 2 }
+    event_weights: { che_tac: 2.5 }
+    income: { money_month: 0.06, skill: quan_tri, per_level: 0.02, trade_scaled: false, ledger: thu_khac }
+
+  - id: nt_fc_di_xa_trao_doi
+    name: Đi xa tìm đá và thăm nhóm khác
+    description: Thực hiện những chuyến đi dài ngày qua nhiều vùng địa hình để tiếp cận mỏ đá quý hiếm và duy trì mạng lưới trao đổi.
+    icon: tien
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    skill_xp: { thuong_mai: 4, sinh_ton: 2, muu_luoc: 2 }
+    event_weights: { trao_doi: 2.4, kham_pha: 2.0 }
+
+  - id: nt_fc_dan_dat_nhom
+    name: Dẫn dắt và điều phối nhóm
+    description: Đứng ra tổ chức các chuyến săn hợp tác, phân chia công việc tập thể và giữ sự đồng thuận khi di chuyển hay xây dựng.
+    icon: kiem
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { quan_tri: 4, ngoai_giao: 3 }
+    event_weights: { cong_dong: 2.4, san_bat: 1.5 }
+
+  - id: nt_fc_truyen_giu_tri_thuc
+    name: Truyền giữ tri thức và nghi thức
+    description: Dạy cách nhận biết thảo mộc, kể chuyện nguồn cội và hướng dẫn những hoạt động gắn kết tinh thần cộng đồng.
+    icon: hoi
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    skill_xp: { hoc_van: 5, ngoai_giao: 2 }
+    modifiers:
+      - { target: stress.monthly, value: -0.25 }
+    event_weights: { tri_thuc: 2.4, nghi_thuc: 2.0 }
+
+  # ══════════════════ TUỔI 40 TRỞ LÊN: KINH NGHIỆM VÀ DI SẢN ══════════════════
+  - id: nt_fc_di_san_truyen_nghe
+    name: Truyền lại kỹ năng cả đời tích lũy
+    description: Kèm cặp từng thao tác ghè đá, nhìn dấu thú, chọn cây thuốc cho lớp trẻ trong khi vẫn lao động vừa sức.
+    icon: sach
+    life_stages: [trung_nien, tuoi_gia]
+    skill_xp: { hoc_van: 4, quan_tri: 2 }
+    modifiers:
+      - { target: stress.monthly, value: -0.25 }
+    event_weights: { tri_thuc: 2.4, gia_dinh: 1.6 }
+
+  - id: nt_fc_di_san_hoa_giai
+    name: Hòa giải mâu thuẫn trong nhóm
+    description: Dùng uy tín và sự từng trải để lắng nghe, tháo gỡ bất đồng về thức ăn hay chỗ trú giữa các gia đình.
+    icon: chen_tra
+    life_stages: [trung_nien, tuoi_gia]
+    skill_xp: { ngoai_giao: 4, muu_luoc: 2 }
+    modifiers:
+      - { target: stress.monthly, value: -0.3 }
+    event_weights: { cong_dong: 2.4, quan_he: 2.0 }
+
+  - id: nt_fc_di_san_ghi_nho_thien_nhien
+    name: Ghi nhớ đường đi và biến đổi mùa
+    description: Nhắc nhở nhóm về những mạch nước ngầm, bãi trú tránh lũ và quy luật thời tiết qua nhiều thập kỷ đã sống.
+    icon: trang
+    life_stages: [trung_nien, tuoi_gia]
+    skill_xp: { hoc_van: 3, muu_luoc: 3 }
+    modifiers:
+      - { target: death_risk, value: 0.9, op: mul }
+      - { target: harvest.yield, value: 1.05, op: mul }
+    event_weights: { thien_nhien: 2.2, tri_thuc: 1.8 }
+
+  - id: nt_fc_di_san_ke_tuc
+    name: Chuẩn bị người kế tục vai trò
+    description: Chọn lựa và dẫn dắt người trẻ đủ năng lực tiếp nhận công việc, nguồn lực cùng uy tín mà mình đang đảm nhận.
+    icon: gia_dinh
+    life_stages: [trung_nien, tuoi_gia]
+    skill_xp: { quan_tri: 3, ngoai_giao: 3 }
+    modifiers:
+      - { target: stress.monthly, value: -0.35 }
+      - { target: health.monthly, value: 0.1 }
+    event_weights: { gia_dinh: 2.4, cong_dong: 1.8 }

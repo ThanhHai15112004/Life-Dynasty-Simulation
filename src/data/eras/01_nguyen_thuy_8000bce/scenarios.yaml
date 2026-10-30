@@ -1,2 +1,370 @@
-# Kịch bản dựng sẵn (Preset Scenarios) — 01_nguyen_thuy_8000bce
-scenarios: []
+# Kịch bản khởi đầu (Scenarios) — Thời đại: Bình Minh Nhân Loại (8000 TCN)
+# Gồm đầy đủ 15 kịch bản đặc thù trải khắp các vùng địa lý đầu thế Toàn Tân.
+
+scenarios:
+  # 01. Đứa trẻ bên bếp lửa (Châu Âu rừng ôn đới — Dễ)
+  - id: nt_kb_01_dua_tre_ben_bep_lua
+    eras: [nguyen_thuy_8000bce]
+    group: khoi_dau
+    title_key: scenario.nt_kb_01_dua_tre_ben_bep_lua.title
+    description_key: scenario.nt_kb_01_dua_tre_ben_bep_lua.desc
+    base:
+      originId: nt_con_nguoi_san_thu
+      bookmarkId: nguyen_thuy_8000bce
+      age: 6
+      sex: m
+    setup:
+      - type: money
+        value: 12
+      - type: food
+        value: 20
+      - type: property_add
+        property: nt_vat_lieu_giu_lua
+        count: 1
+    family_setup:
+      parents: both_alive
+      father_age: 28
+      father_career: nt_nguoi_san_thu
+      mother_age: 26
+      mother_career: nt_nguoi_thu_hai
+    auto_minor: false
+
+  # 02. Người cuối cùng trong hang (Đông Nam Á vùng núi đá vôi — Khó)
+  - id: nt_kb_02_nguoi_cuoi_cung_trong_hang
+    eras: [nguyen_thuy_8000bce]
+    group: vung_mien
+    title_key: scenario.nt_kb_02_nguoi_cuoi_cung_trong_hang.title
+    description_key: scenario.nt_kb_02_nguoi_cuoi_cung_trong_hang.desc
+    base:
+      originId: nt_con_cu_dan_hang_da
+      bookmarkId: nguyen_thuy_8000bce
+      age: 12
+      sex: m
+    setup:
+      - type: money
+        value: -4
+      - type: food
+        value: -15
+      - type: property_add
+        property: nt_mai_da_tru_tam
+        count: 1
+    family_setup:
+      parents: father_dead
+      mother_age: 42
+      mother_health: 65
+      mother_career: nt_nguoi_thu_hai
+    start_event: nt_ev_12_mua_thuc_an_khan_hiem
+    auto_minor: false
+
+  # 03. Những hạt giống đầu tiên (Tây Á — Trung bình)
+  - id: nt_kb_03_nhung_hat_giong_dau_tien
+    eras: [nguyen_thuy_8000bce]
+    group: kinh_te
+    title_key: scenario.nt_kb_03_nhung_hat_giong_dau_tien.title
+    description_key: scenario.nt_kb_03_nhung_hat_giong_dau_tien.desc
+    base:
+      originId: nt_con_nguoi_trong_ngu_coc
+      bookmarkId: nguyen_thuy_8000bce
+      age: 16
+      sex: f
+    setup:
+      - type: set_career
+        career: nt_nguoi_khai_thac_ngu_coc
+      - type: property_add
+        property: nt_noi_cat_giu_thuc_pham
+        count: 1
+      - type: property_add
+        property: nt_khu_cay_luong_thuc
+        count: 1
+    auto_minor: false
+
+  # 04. Người tìm đá đen (Tây Á vùng núi lửa — Trung bình)
+  - id: nt_kb_04_nguoi_tim_da_den
+    eras: [nguyen_thuy_8000bce]
+    group: nghe_nghiep
+    title_key: scenario.nt_kb_04_nguoi_tim_da_den.title
+    description_key: scenario.nt_kb_04_nguoi_tim_da_den.desc
+    base:
+      originId: nt_con_nguoi_tim_da_quy
+      bookmarkId: nguyen_thuy_8000bce
+      age: 18
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_trao_doi
+      - type: property_add
+        property: nt_vung_nguon_da_tot
+        count: 1
+      - type: property_add
+        property: nt_cong_cu_che_tac_da
+        count: 1
+    start_event: nt_ev_24_chuyen_trao_doi_dai_ngay
+    auto_minor: false
+
+  # 05. Mùa nước lớn (Sông và vùng ngập nước — Khó)
+  - id: nt_kb_05_mua_nuoc_lon
+    eras: [nguyen_thuy_8000bce]
+    group: vung_mien
+    title_key: scenario.nt_kb_05_mua_nuoc_lon.title
+    description_key: scenario.nt_kb_05_mua_nuoc_lon.desc
+    base:
+      originId: nt_con_nguoi_danh_ca_song
+      bookmarkId: nguyen_thuy_8000bce
+      age: 20
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_danh_ca
+      - type: food
+        value: -20
+      - type: property_add
+        property: nt_bay_ca
+        count: 1
+    start_event: nt_ev_17_o_lai_hay_di_xa
+    auto_minor: false
+
+  # 06. Những người dựng đá (Thượng Lưỡng Hà / Đông Nam Tiểu Á — Trung bình)
+  - id: nt_kb_06_nhung_nguoi_dung_da
+    eras: [nguyen_thuy_8000bce]
+    group: van_minh
+    title_key: scenario.nt_kb_06_nhung_nguoi_dung_da.title
+    description_key: scenario.nt_kb_06_nhung_nguoi_dung_da.desc
+    base:
+      originId: nt_con_nguoi_dung_nha
+      bookmarkId: nguyen_thuy_8000bce
+      age: 22
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_dung_noi_tru
+      - type: property_add
+        property: nt_riu_da
+        count: 1
+      - type: reputation
+        group: lang
+        value: 5
+    auto_minor: false
+
+  # 07. Đứa trẻ của hai cộng đồng (Tây Á hoặc Châu Âu — Trung bình)
+  - id: nt_kb_07_dua_tre_hai_cong_dong
+    eras: [nguyen_thuy_8000bce]
+    group: gia_dinh
+    title_key: scenario.nt_kb_07_dua_tre_hai_cong_dong.title
+    description_key: scenario.nt_kb_07_dua_tre_hai_cong_dong.desc
+    base:
+      originId: nt_dua_tre_nhom_di_cu
+      bookmarkId: nguyen_thuy_8000bce
+      age: 10
+      sex: f
+    setup:
+      - type: property_add
+        property: nt_do_deo_trang_suc
+        count: 1
+    family_setup:
+      parents: both_alive
+      father_age: 34
+      father_career: nt_nguoi_trao_doi
+      mother_age: 30
+      mother_career: nt_nguoi_khai_thac_ngu_coc
+    auto_minor: false
+
+  # 08. Người làm gốm bên rừng (Nhật Bản thời Jōmon sớm — Trung bình)
+  - id: nt_kb_08_nguoi_lam_gom_ben_rung
+    eras: [nguyen_thuy_8000bce]
+    group: van_minh
+    title_key: scenario.nt_kb_08_nguoi_lam_gom_ben_rung.title
+    description_key: scenario.nt_kb_08_nguoi_lam_gom_ben_rung.desc
+    base:
+      originId: nt_con_nguoi_lam_gom
+      bookmarkId: nguyen_thuy_8000bce
+      age: 15
+      sex: f
+    setup:
+      - type: set_career
+        career: nt_nguoi_lam_gom
+      - type: property_add
+        property: nt_vat_dung_gom
+        count: 2
+    auto_minor: false
+
+  # 09. Hồ nước giữa vùng đất rộng (Bắc Phi / Sahara đầu thế Toàn Tân — Khó)
+  - id: nt_kb_09_ho_nuoc_giua_vung_dat_rong
+    eras: [nguyen_thuy_8000bce]
+    group: vung_mien
+    title_key: scenario.nt_kb_09_ho_nuoc_giua_vung_dat_rong.title
+    description_key: scenario.nt_kb_09_ho_nuoc_giua_vung_dat_rong.desc
+    base:
+      originId: nt_con_cong_dong_ho_sahara
+      bookmarkId: nguyen_thuy_8000bce
+      age: 18
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_tim_nguon_nuoc
+      - type: property_add
+        property: nt_tuyen_duong_nuoc
+        count: 1
+    start_event: nt_ev_27_dau_hieu_mua_xau
+    auto_minor: false
+
+  # 10. Người không thể săn nữa (Cộng đồng săn bắt — Khó)
+  - id: nt_kb_10_nguoi_khong_the_san_nua
+    eras: [nguyen_thuy_8000bce]
+    group: suc_khoe
+    title_key: scenario.nt_kb_10_nguoi_khong_the_san_nua.title
+    description_key: scenario.nt_kb_10_nguoi_khong_the_san_nua.desc
+    base:
+      originId: nt_con_nguoi_san_thu
+      bookmarkId: nguyen_thuy_8000bce
+      age: 27
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_che_tac_da
+      - type: add_disease
+        disease: nt_mat_kha_nang_van_dong
+      - type: health
+        value: -15
+      - type: property_add
+        property: nt_cong_cu_che_tac_da
+        count: 1
+    start_event: nt_ev_cs_04_tim_vai_tro_moi_sau_chan_thuong
+    auto_minor: false
+
+  # 11. Người giữ nguồn dự trữ (Làng định cư sớm Tây Á — Khó)
+  - id: nt_kb_11_nguoi_giu_nguon_du_tru
+    eras: [nguyen_thuy_8000bce]
+    group: kinh_te
+    title_key: scenario.nt_kb_11_nguoi_giu_nguon_du_tru.title
+    description_key: scenario.nt_kb_11_nguoi_giu_nguon_du_tru.desc
+    base:
+      originId: nt_con_nguoi_giu_kho
+      bookmarkId: nguyen_thuy_8000bce
+      age: 32
+      sex: f
+    setup:
+      - type: set_career
+        career: nt_nguoi_bao_quan_thuc_an
+      - type: marry
+      - type: food
+        value: -25
+      - type: property_add
+        property: nt_noi_cat_giu_thuc_pham
+        count: 1
+    family_setup:
+      spouse_age: 34
+      spouse_career: nt_nguoi_khai_thac_ngu_coc
+      children:
+        - age: 6
+          sex: m
+        - age: 3
+          sex: f
+    start_event: nt_ev_20_mua_thu_hoach_that_bai
+    auto_minor: false
+
+  # 12. Cuộc đời bắt đầu từ mất mát (Bất kỳ khu vực nào — Rất khó)
+  - id: nt_kb_12_bat_dau_tu_mat_mat
+    eras: [nguyen_thuy_8000bce]
+    group: gia_dinh
+    title_key: scenario.nt_kb_12_bat_dau_tu_mat_mat.title
+    description_key: scenario.nt_kb_12_bat_dau_tu_mat_mat.desc
+    base:
+      originId: nt_dua_tre_khong_nguoi_than
+      bookmarkId: nguyen_thuy_8000bce
+      age: 5
+      sex: m
+    setup:
+      - type: money
+        value: -8
+      - type: food
+        value: -20
+      - type: stress
+        value: 20
+    family_setup:
+      parents: both_dead
+    auto_minor: false
+
+  # 13. Chuyến đi không có đường về (Rừng và núi Châu Âu — Rất khó)
+  - id: nt_kb_13_chuyen_di_khong_duong_ve
+    eras: [nguyen_thuy_8000bce]
+    group: vung_mien
+    title_key: scenario.nt_kb_13_chuyen_di_khong_duong_ve.title
+    description_key: scenario.nt_kb_13_chuyen_di_khong_duong_ve.desc
+    base:
+      originId: nt_dua_tre_nhom_di_cu
+      bookmarkId: nguyen_thuy_8000bce
+      age: 24
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_tim_duong
+      - type: food
+        value: -30
+      - type: property_add
+        property: nt_mai_che_tam
+        count: 1
+      - type: property_add
+        property: nt_lao_mui_da
+        count: 1
+    start_event: nt_ev_17_o_lai_hay_di_xa
+    auto_minor: false
+
+  # 14. Một nơi để già đi (Cộng đồng ven sông hoặc định cư sớm — Trung bình)
+  - id: nt_kb_14_mot_noi_de_gia_di
+    eras: [nguyen_thuy_8000bce]
+    group: gia_dinh
+    title_key: scenario.nt_kb_14_mot_noi_de_gia_di.title
+    description_key: scenario.nt_kb_14_mot_noi_de_gia_di.desc
+    base:
+      originId: nt_con_nguoi_danh_ca_song
+      bookmarkId: nguyen_thuy_8000bce
+      age: 48
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_gin_giu_chuyen_ke
+      - type: marry
+      - type: reputation
+        group: lang
+        value: 18
+      - type: property_add
+        property: nt_nha_vach_mai_nen
+        count: 1
+      - type: property_add
+        property: nt_vat_lieu_giu_lua
+        count: 1
+    family_setup:
+      spouse_age: 45
+      spouse_career: nt_nguoi_bao_quan_thuc_an
+      years_married: 26
+      children:
+        - age: 24
+          sex: m
+          career: nt_nguoi_danh_ca
+        - age: 19
+          sex: f
+          career: nt_nguoi_che_tac_xuong_go
+    start_event: nt_ev_29_suc_luc_khong_con_nhu_truoc
+    auto_minor: false
+
+  # 15. Không ai sinh ra để dẫn dắt (Cộng đồng cư trú Tây Á — Khó)
+  - id: nt_kb_15_khong_ai_sinh_ra_de_dan_dat
+    eras: [nguyen_thuy_8000bce]
+    group: he_thong
+    title_key: scenario.nt_kb_15_khong_ai_sinh_ra_de_dan_dat.title
+    description_key: scenario.nt_kb_15_khong_ai_sinh_ra_de_dan_dat.desc
+    base:
+      originId: nt_con_nguoi_trong_ngu_coc
+      bookmarkId: nguyen_thuy_8000bce
+      age: 19
+      sex: m
+    setup:
+      - type: set_career
+        career: nt_nguoi_dieu_hoa
+      - type: stress
+        value: 25
+      - type: property_add
+        property: nt_lao_mui_da
+        count: 1
+    start_event: nt_ev_25_tranh_chap_bai_kiem_an
+    auto_minor: false

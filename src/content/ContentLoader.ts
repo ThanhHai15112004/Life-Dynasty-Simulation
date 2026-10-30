@@ -343,6 +343,9 @@ export function loadContent(files: RawFile[]): ContentBundle {
       }
     }
   }
+  if (startReignByEra[defaultBookmarkId]) {
+    chronicle.startReign = startReignByEra[defaultBookmarkId];
+  }
 
   // Sự kiện không ghi giai đoạn đời: gán giai đoạn mặc định (sự kiện hẹn trước giữ nguyên để chuỗi không đứt)
   const defaultStages = (balance.director as Balance['director'] | undefined)?.default_event_life_stages ?? [];
