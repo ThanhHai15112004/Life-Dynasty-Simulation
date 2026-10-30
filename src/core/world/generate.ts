@@ -8,6 +8,10 @@ import { SAVE_VERSION, type GameState } from '../entities/World';
 import { generateVillageClans } from '../systems/ai';
 import { RngStream, newId, type SimContext } from '../systems/context';
 import { activeCulture, resolveCultureForYear } from '../systems/people';
+import { ensureOrganizations } from '../systems/organization';
+import { ensurePoliticsState } from '../systems/politics';
+import { ensureRebellionState } from '../systems/rebellion';
+import { ensureSocialState } from '../systems/social';
 import { initRegionSettlements } from './region';
 
 export interface NewGameOptions {
@@ -283,6 +287,9 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
 
   state.world.settlementName = rng.pick(culture.village_names);
   initRegionSettlements(ctx);
+  ensureSocialState(state);
+  ensurePoliticsState(state);
+  ensureRebellionState(state);
   const startAge = opts.startAge ?? origin.default_start_age;
 
   const hh = origin.household;
@@ -351,6 +358,7 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
 
   for (const npc of origin.village_npcs) spawnVillageNpc(ctx, npc);
   generateVillageClans(ctx);
+  ensureOrganizations(ctx);
 
   // Khởi tạo kỳ vọng tài sản ban đầu theo giá trị hộ lúc bắt đầu (GDD 01 §7.2)
   const initialPropVal = Object.entries(household.properties).reduce(

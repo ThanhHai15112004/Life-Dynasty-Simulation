@@ -29,23 +29,34 @@ function candidates(ctx: SimContext, spec: RoleSpec): Character[] {
     const c = spec.village_role ? villageNpc(ctx, spec.village_role) : undefined;
     return c ? [c] : [];
   }
-  const extendedKin =
-    spec.relation === 'father' || spec.relation === 'mother' || spec.relation === 'parent' || spec.relation === 'sibling';
+  if (spec.relation === 'father') {
+    const f = me.fatherId ? ctx.state.characters[me.fatherId] : undefined;
+    return f && f.alive ? [f] : [];
+  }
+  if (spec.relation === 'mother') {
+    const m = me.motherId ? ctx.state.characters[me.motherId] : undefined;
+    return m && m.alive ? [m] : [];
+  }
+  if (spec.relation === 'parent') {
+    const out: Character[] = [];
+    const f = me.fatherId ? ctx.state.characters[me.fatherId] : undefined;
+    if (f && f.alive) out.push(f);
+    const m = me.motherId ? ctx.state.characters[me.motherId] : undefined;
+    if (m && m.alive) out.push(m);
+    return out;
+  }
+  if (spec.relation === 'spouse') {
+    const sp = me.spouseId ? ctx.state.characters[me.spouseId] : undefined;
+    return sp && sp.alive ? [sp] : [];
+  }
+  const extendedKin = spec.relation === 'sibling';
   const source = extendedKin ? Object.values(ctx.state.characters).filter((c) => c.alive) : aliveMembers(ctx);
   return source.filter((c) => {
     if (c.id === me.id) return false;
     const rel = relationToPlayer(ctx, c);
     switch (spec.relation) {
-      case 'father':
-        return rel === 'father';
-      case 'mother':
-        return rel === 'mother';
-      case 'parent':
-        return rel === 'father' || rel === 'mother';
       case 'sibling':
         return rel === 'older_sibling' || rel === 'younger_sibling';
-      case 'spouse':
-        return rel === 'spouse';
       case 'child':
         return rel === 'child';
       default:
@@ -54,8 +65,11 @@ function candidates(ctx: SimContext, spec: RoleSpec): Character[] {
   });
 }
 
+const EMPTY_ROLES: Record<string, string> = {};
+
 /** Gán vai trò; trả null nếu thiếu vai trò bắt buộc. */
 export function bindRoles(ctx: SimContext, specs: readonly RoleSpec[], preset: Record<string, string> = {}): Record<string, string> | null {
+  if (specs.length === 0) return EMPTY_ROLES;
   const roles: Record<string, string> = {};
   const rng = ctx.rng.get(RngStream.Director);
   for (const spec of specs) {
@@ -66,7 +80,9 @@ export function bindRoles(ctx: SimContext, specs: readonly RoleSpec[], preset: R
     }
     const used = new Set(Object.values(roles));
     const pool = candidates(ctx, spec).filter(
-      (c) => !used.has(c.id) && evaluate(spec.condition, createResolver(ctx, { self: c.id, roles })),
+      (c) =>
+        !used.has(c.id) &&
+        (!spec.condition || evaluate(spec.condition, createResolver(ctx, { self: c.id, roles }))),
     );
     if (pool.length === 0) {
       if (spec.optional) continue;
@@ -87,15 +103,36 @@ export function onCooldown(ctx: SimContext, item: Selectable, history: History):
   return ctx.state.clock.monthIndex - h.lastMonthIndex < months;
 }
 
-/** Bộ phân giải không vai trò, dùng chung trong một lượt tính (đọc trạng thái trực tiếp nên không bị cũ). */
+/** Bộ phân giải không vai trò, có bộ nhớ đệm theo lượt SimContext trong selection. */
 const baseResolverCache = new WeakMap<SimContext, ReturnType<typeof createResolver>>();
+const stageCache = new WeakMap<SimContext, string>();
+
 function baseResolver(ctx: SimContext): ReturnType<typeof createResolver> {
   let r = baseResolverCache.get(ctx);
   if (!r) {
-    r = createResolver(ctx);
+    const inner = createResolver(ctx);
+    const valCache = new Map<string, ReturnType<typeof inner.get>>();
+    r = {
+      ...inner,
+      get(path: string) {
+        if (valCache.has(path)) return valCache.get(path);
+        const v = inner.get(path);
+        valCache.set(path, v);
+        return v;
+      },
+    };
     baseResolverCache.set(ctx, r);
   }
   return r;
+}
+
+function playerStageId(ctx: SimContext): string {
+  let s = stageCache.get(ctx);
+  if (!s) {
+    s = lifeStageOf(ctx, ageNow(ctx, player(ctx))).id;
+    stageCache.set(ctx, s);
+  }
+  return s;
 }
 
 /** Điều kiện có nhắc tới vai trò (role.*) không — không nhắc thì xét được trước khi gán vai trò. */
@@ -118,11 +155,12 @@ function referencesRoles(cond: Condition): boolean {
 /** Kiểm tra đủ điều kiện (không tính cooldown) và trả về vai trò đã gán. */
 export function eligibleRoles(ctx: SimContext, item: Selectable, preset: Record<string, string> = {}): Record<string, string> | null {
   const { state } = ctx;
-  const stage = lifeStageOf(ctx, ageNow(ctx, player(ctx))).id;
+  const stage = playerStageId(ctx);
   if (item.life_stages && !item.life_stages.includes(stage)) return null;
   if (item.months && !item.months.includes(state.clock.month)) return null;
+  if (!item.condition) return bindRoles(ctx, item.roles, preset);
   // Điều kiện không cần vai trò thì xét trước: tránh gán vai trò cho hàng trăm mẫu không đủ điều kiện
-  const early = item.condition !== undefined && !referencesRoles(item.condition);
+  const early = !referencesRoles(item.condition);
   if (early && !evaluate(item.condition, baseResolver(ctx))) return null;
   const roles = bindRoles(ctx, item.roles, preset);
   if (!roles) return null;
@@ -133,9 +171,11 @@ export function eligibleRoles(ctx: SimContext, item: Selectable, preset: Record<
 /** Trọng số = cơ bản × modifier hoàn cảnh × bộ lọc sự kiện của Focus (GDD 01 §5), nghề nhà và nơi ở. */
 export function weightOf(ctx: SimContext, item: Selectable, roles: Record<string, string>): number {
   const { state, content } = ctx;
-  const r = createResolver(ctx, { roles });
   let w = item.weight;
-  for (const wm of item.weight_modifiers) if (evaluate(wm.condition, r)) w *= wm.factor;
+  if (item.weight_modifiers.length > 0) {
+    const r = roles === EMPTY_ROLES ? baseResolver(ctx) : createResolver(ctx, { roles });
+    for (const wm of item.weight_modifiers) if (evaluate(wm.condition, r)) w *= wm.factor;
+  }
   const scaleFocus = (focusId: string | null, scale: number) => {
     const f = focusId ? content.index.focus.get(focusId) : undefined;
     if (!f) return;

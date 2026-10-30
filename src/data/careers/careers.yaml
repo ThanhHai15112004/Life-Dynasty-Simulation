@@ -180,8 +180,8 @@ careers:
       skill_xp: { thuong_mai: 1.5, ngoai_giao: 0.5 }
     economy:
       self_farm: false
-      family_wage_month: 0.28
-      income: { money_month: 0.2, skill: thuong_mai, per_level: 0.045, trade_scaled: true, capital: { rate_year: 0.08, max: 150 }, ledger: buon_ban }
+      family_wage_month: 0.26
+      income: { money_month: 0.18, skill: thuong_mai, per_level: 0.04, trade_scaled: true, capital: { rate_year: 0.05, max: 90 }, ledger: buon_ban }
     entry_condition:
       all:
         - { var: player.skill.thuong_mai, op: '>=', value: 2 }
@@ -1698,6 +1698,1028 @@ careers:
           - 'Nhà ấy nghèo quá, đỡ xong chẳng có gì trả công, bạn còn để lại mấy đồng mua cháo.'
           - 'Ca khó quá sức, phải cho người chạy đi mời thầy lang, bạn bị bà con trách là non tay.'
           - 'Thức trắng hai đêm liền, bạn về đến nhà là lả đi, mấy hôm sau mới gượng dậy được.'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # [3] 13 NGHỀ MỚI (Phase 9 — mở rộng lên 30 nghề đủ 6 khu vực kinh tế)
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  - id: tho_gom
+    name: Thợ gốm
+    description: Nhào đất sét bên bàn xoay, canh lửa lò nung suốt ba ngày ba đêm. Chum vại, bát đĩa ra lò men bóng đẹp thì thương lái các bến tranh nhau đặt mua.
+    icon: nha
+    sector: thu_cong
+    depth: vua
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly]
+    skills: [sinh_ton, thuong_mai]
+    default_focus: lam_an
+    event_tags: [lao_dong, buon_ban]
+    event_weights: { lao_dong: 1.5, buon_ban: 1.3 }
+    work_effects:
+      health_month: -0.02
+      stress_month: 0.03
+      skill_xp: { sinh_ton: 1.1, thuong_mai: 0.7 }
+    economy:
+      self_farm: false
+      family_wage_month: 0.25
+      income: { money_month: 0.36, skill: sinh_ton, per_level: 0.05, ledger: luong_nghe }
+    entry_condition:
+      any:
+        - { var: player.skill.sinh_ton, op: '>=', value: 2 }
+        - { var: player.sector_months, op: '>=', value: 12 }
+    join: { cost_money: 1.5, hint: 'Cần Sinh tồn bậc 2 và 1.5 quan dựng bàn xoay, mua đất sét trắng.' }
+    duties:
+      - Nhào đất, chuốt gốm và canh lửa lò bầu đúng độ
+      - Đóng gói chum vại giao cho thuyền buôn dưới bến
+    exits:
+      - to: thuong_nhan
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 5 }
+        hint: 'Có mối lái buôn sành sứ có thể chuyển sang làm Thương nhân'
+    ranks:
+      - id: tho_nhao_dat
+        name: Thợ nhào đất chuốt mộc
+        min_merit: 0
+        min_years: 0
+        income_range: [6, 11]
+        stipend_money_month: 0.45
+      - id: tho_chuot_gom
+        name: Thợ cả bàn xoay
+        min_merit: 25
+        min_years: 2
+        min_skill: { skill: sinh_ton, level: 3 }
+        income_range: [11, 20]
+        stipend_money_month: 0.85
+        modifiers:
+          - { target: xp.sinh_ton, value: 1.15, op: mul }
+      - id: chu_lo_bau
+        name: Nghệ nhân chủ lò gốm
+        min_merit: 60
+        min_years: 5
+        min_skill: { skill: sinh_ton, level: 5 }
+        income_range: [20, 36]
+        stipend_money_month: 1.5
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.2, op: mul }
+    actions:
+      - id: dot_me_gom_men_ngoc
+        name: Đốt mẻ gốm lớn xuất bến
+        description: Thức suốt ba đêm canh lửa lò bầu để ra mẻ bát đĩa, chum vại men tro bán cho thuyền buôn.
+        hint: 'Thu lời khá nếu lửa đều, rủi ro nứt mẻ khi củi ẩm'
+        cooldown_months: 5
+        cost_money: 1.5
+        chance:
+          base: 0.6
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 16 }
+        failure:
+          - { type: money, value: 1.5, ledger: luong_nghe }
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Mở cửa lò ra, hàng trăm chiếc bát men ngọc bóng loáng không một vết rạn, lái buôn trả tiền ngay tại sân.'
+          - 'Lửa lò chín đều, chum vại gõ vào kêu tiếng thanh như chuông, cả bến thuyền khen nức nở.'
+        failure_log:
+          - 'Củi ướt làm nhiệt lò sụt bất ngờ, non nửa mẻ gốm bị sống men phải đập bỏ.'
+          - 'Lửa bốc quá già ở bầu trên làm méo mất mấy chục chiếc bình hoa đặt riêng.'
+
+  - id: tho_det
+    name: Thợ dệt
+    description: Tiếng thoi đưa lách cách bên khung cửi suốt ngày đêm. Từ sợi bông sợi tơ dệt nên tấm vải tấm lụa mịn màng nuôi sống cả gia đình.
+    icon: tien
+    sector: thu_cong
+    depth: vua
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [sinh_ton, thuong_mai]
+    default_focus: lam_an
+    event_tags: [lao_dong, buon_ban]
+    event_weights: { lao_dong: 1.4, buon_ban: 1.4 }
+    work_effects:
+      health_month: -0.01
+      stress_month: 0.02
+      skill_xp: { sinh_ton: 1.0, thuong_mai: 0.8 }
+    economy:
+      self_farm: false
+      family_wage_month: 0.25
+      income: { money_month: 0.35, skill: sinh_ton, per_level: 0.05, ledger: luong_nghe }
+    entry_condition:
+      any:
+        - { var: player.skill.sinh_ton, op: '>=', value: 2 }
+        - { var: player.sector_months, op: '>=', value: 12 }
+    join: { cost_money: 1.5, hint: 'Cần Sinh tồn bậc 2 và 1.5 quan sắm khung cửi, guồng quay tơ.' }
+    duties:
+      - Ươm tơ, kéo sợi và dệt vải giao đúng hẹn cho khách buôn
+      - Giữ sợi khô ráo và nhuộm màu bền đẹp
+    exits:
+      - to: thuong_nhan
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 5 }
+        hint: 'Nắm nguồn tơ lụa có thể mở hiệu buôn vải làm Thương nhân'
+    ranks:
+      - id: tho_keo_soi
+        name: Thợ quay tơ kéo sợi
+        min_merit: 0
+        min_years: 0
+        income_range: [6, 11]
+        stipend_money_month: 0.45
+      - id: tho_det_lua
+        name: Thợ dệt lành nghề
+        min_merit: 25
+        min_years: 2
+        min_skill: { skill: sinh_ton, level: 3 }
+        income_range: [11, 20]
+        stipend_money_month: 0.85
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.15, op: mul }
+      - id: nghe_nhan_det_gam
+        name: Nghệ nhân dệt gấm vóc
+        min_merit: 60
+        min_years: 5
+        min_skill: { skill: sinh_ton, level: 5 }
+        income_range: [20, 36]
+        stipend_money_month: 1.5
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.25, op: mul }
+    actions:
+      - id: det_lua_hoa_mua_cuoi
+        name: Dệt lụa hoa cung ứng mùa cưới
+        description: Thức khuya đưa thoi dệt những tấm lụa hoa, lĩnh tơ mịn màng bán cho các nhà sắm lễ cưới hỏi.
+        hint: 'Lời tốt và tăng công trạng nghề dệt'
+        cooldown_months: 5
+        cost_money: 1.5
+        chance:
+          base: 0.62
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+        failure:
+          - { type: money, value: 1.5, ledger: luong_nghe }
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Tấm lụa dệt ra mịn như nước chảy, nhà phú hộ mua liền mấy cây về may áo cưới.'
+          - 'Sợi tơ năm nay vàng óng, dệt đến đâu thương khách đặt cọc lấy hết đến đó.'
+        failure_log:
+          - 'Mưa ẩm làm tơ bị rối và ố màu, phải hạ giá bán như vải thường.'
+          - 'Khung cửi gãy thoi giữa chừng, trễ mất phiên chợ lớn trên huyện.'
+
+  - id: tang_ni
+    name: Tăng ni / Tu hành
+    description: Nương bóng cửa thiền hoặc đạo quán, sớm tối tụng kinh gõ mõ, chép kinh và bốc thuốc từ bi cứu khổ. Tâm tịnh ít ưu phiền, được thập phương tín thí kính trọng.
+    icon: binh_yen
+    sector: y_dao
+    depth: vua
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [hoc_van, ngoai_giao]
+    default_focus: le_chua
+    event_tags: [hoc_hanh, lang_xa]
+    event_weights: { hoc_hanh: 1.4, lang_xa: 1.5 }
+    work_effects:
+      health_month: 0.05
+      stress_month: -0.08
+      skill_xp: { hoc_van: 1.0, ngoai_giao: 0.8 }
+    economy:
+      self_farm: false
+      family_wage_month: 0.15
+      income: { money_month: 0.3, skill: hoc_van, per_level: 0.05, ledger: luong_nghe }
+    entry_condition:
+      all:
+        - { var: player.wanted, op: '==', value: 0 }
+        - { var: player.skill.hoc_van, op: '>=', value: 1 }
+    join: { cost_money: 0, hint: 'Cần biết chữ nghĩa cơ bản và không vướng truy nã.' }
+    duties:
+      - Tụng kinh cầu an, coi sóc hương đèn chùa làng
+      - Chép kinh sách và khuyên giải chuyện bất hòa trong thôn xóm
+    exits:
+      - to: thay_lang
+        condition: { var: player.skill.hoc_van, op: '>=', value: 2 }
+        hint: 'Am hiểu y lý nhà chùa có thể mở tiệm bốc thuốc làm Thầy lang'
+      - to: si_tu
+        condition: { var: player.skill.hoc_van, op: '>=', value: 3 }
+        hint: 'Đọc thông kinh sách có thể hoàn tục đi thi Khoa cử'
+    ranks:
+      - id: tieu_chua
+        name: Người giữ hương đèn
+        min_merit: 0
+        min_years: 0
+        income_range: [5, 9]
+        stipend_money_month: 0.35
+        stipend_food_month: 0.6
+      - id: tang_nhan_tri_su
+        name: Tri sự chùa làng
+        min_merit: 25
+        min_years: 2
+        min_skill: { skill: hoc_van, level: 3 }
+        income_range: [9, 17]
+        stipend_money_month: 0.75
+        stipend_food_month: 0.8
+        modifiers:
+          - { target: stress.monthly, value: -0.1 }
+      - id: tru_tri_danh_lam
+        name: Bậc chân tu đức trọng
+        min_merit: 60
+        min_years: 5
+        min_skill: { skill: hoc_van, level: 4 }
+        min_reputation: 12
+        income_range: [16, 30]
+        stipend_money_month: 1.3
+        stipend_food_month: 1.0
+        modifiers:
+          - { target: stress.monthly, value: -0.2 }
+          - { target: xp.hoc_van, value: 1.15, op: mul }
+    actions:
+      - id: lap_dan_cau_an
+        name: Lập đàn cầu an giải hạn
+        description: Đứng chủ lễ đàn tràng cầu mưa thuận gió hòa và bình an cho bá tánh thập phương.
+        hint: 'Tăng mạnh danh tiếng làng xã, giảm căng thẳng và nhận lộc cúng dường'
+        cooldown_months: 6
+        chance:
+          base: 0.65
+          skill: hoc_van
+          per_level: 0.05
+        success:
+          - { type: money, value: 3.5, ledger: luong_nghe }
+          - { type: career_merit, value: 14 }
+          - { type: reputation, group: dan_lang, value: 5 }
+          - { type: stress, value: -6 }
+        failure:
+          - { type: money, value: 1, ledger: luong_nghe }
+          - { type: stress, value: 2 }
+        success_log:
+          - 'Tiếng chuông chùa ngân vang trầm ấm, dân làng thành tâm lễ bái, lộc cúng dường đầy ắp.'
+          - 'Sau buổi lễ lòng người an định, các cụ bô lão hết lời cảm tạ công đức.'
+        failure_log:
+          - 'Gặp ngày mưa gió bất chợt, khách thập phương đến dự lễ thưa thớt.'
+          - 'Đàn lễ kéo dài làm bạn khản giọng mỏi gối, chỉ thu được chút ít hương đăng.'
+
+  - id: chu_quan
+    name: Chủ quán trọ
+    description: Mở quán cơm rượu và chỗ trọ chân bên đường cái quan hoặc bến chợ. Khách thương hồ, sĩ tử, sai nha qua lại nườm nượp, vừa thu tiền trọ vừa thạo tin tức bốn phương.
+    icon: ngoai_giao
+    sector: dich_vu
+    depth: vua
+    settlement_types: [thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [thuong_mai, ngoai_giao]
+    default_focus: kinh_doanh
+    event_tags: [buon_ban, tin_don]
+    event_weights: { buon_ban: 1.5, tin_don: 1.7 }
+    work_effects:
+      health_month: -0.02
+      stress_month: 0.05
+      skill_xp: { thuong_mai: 1.0, ngoai_giao: 1.0 }
+    economy:
+      self_farm: false
+      family_wage_month: 0.25
+      income: { money_month: 0.4, skill: ngoai_giao, per_level: 0.055, trade_scaled: true, ledger: buon_ban }
+    entry_condition:
+      all:
+        - { var: player.skill.ngoai_giao, op: '>=', value: 2 }
+        - { var: household.money, op: '>=', value: 3 }
+    join: { cost_money: 3, hint: 'Cần Ngoại giao bậc 2 và 3 quan thuê mặt bằng, sắm bàn ghế chõng tre.' }
+    duties:
+      - Đón tiếp khách trọ đường xa, lo cơm rượu chu đáo
+      - Giữ an ninh trong quán và trình sổ khách vãng lai khi tuần đinh hỏi
+    exits:
+      - to: thuong_nhan
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 3 }
+            - { var: household.money, op: '>=', value: 6 }
+        hint: 'Quen biết thương khách khắp nơi có thể hùn vốn đi buôn lớn làm Thương nhân'
+    ranks:
+      - id: chu_quan_nuoc
+        name: Chủ quán cơm đầu bến
+        min_merit: 0
+        min_years: 0
+        income_range: [7, 13]
+        stipend_money_month: 0.55
+      - id: chu_khach_diem
+        name: Chủ khách điếm ven đường quan
+        min_merit: 25
+        min_years: 2
+        min_skill: { skill: ngoai_giao, level: 3 }
+        income_range: [13, 24]
+        stipend_money_month: 1.0
+        modifiers:
+          - { target: xp.ngoai_giao, value: 1.15, op: mul }
+      - id: chu_tuu_lau
+        name: Chủ tửu lầu danh tiếng
+        min_merit: 65
+        min_years: 5
+        min_skill: { skill: thuong_mai, level: 4 }
+        income_range: [22, 42]
+        stipend_money_month: 1.7
+        modifiers:
+          - { target: xp.thuong_mai, value: 1.2, op: mul }
+    actions:
+      - id: don_doan_khach_khoa_thi
+        name: Mở tiệc đón đoàn khách lớn
+        description: Chuẩn bị rượu ngon và phòng trọ sạch sẽ đón đoàn thương khách hoặc sĩ tử trẩy kinh.
+        hint: 'Thu tiền trọ hậu hĩnh và nghe ngóng nhiều tin tức quý'
+        cooldown_months: 5
+        cost_money: 1.5
+        chance:
+          base: 0.62
+          skill: ngoai_giao
+          per_level: 0.05
+        success:
+          - { type: money, value: 5, ledger: buon_ban }
+          - { type: career_merit, value: 14 }
+          - { type: skill_xp, skill: ngoai_giao, value: 16 }
+        failure:
+          - { type: money, value: 1.5, ledger: buon_ban }
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Khách trọ kín hết các buồng, rượu cất trong chum rót ra không ngớt, tiền đồng đếm mỏi tay.'
+          - 'Đoàn thương khách tấm tắc khen cơm dẻo canh ngọt, trước khi đi còn thưởng thêm tiền trà.'
+        failure_log:
+          - 'Gặp đám khách say rượu đập vỡ mấy bộ bát đĩa, trừ tiền đền xong chẳng lời bao nhiêu.'
+          - 'Tháng này đường sá vắng vẻ, thức ăn chuẩn bị sẵn ế mất một nửa.'
+
+  - id: o_do
+    name: Ở đợ
+    description: Vì gia cảnh túng quẫn phải vào ở đợ giúp việc vặt, gánh nước, bổ củi, hầu hạ trong nhà phú hộ. Cơm ngày hai bữa không lo đói nhưng phận làm thuê trăm bề tủi cực.
+    icon: lao_dong
+    sector: dich_vu
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [sinh_ton, ngoai_giao]
+    default_focus: lam_an
+    event_tags: [lao_dong, lang_xa]
+    event_weights: { lao_dong: 1.6, lang_xa: 1.3 }
+    work_effects:
+      health_month: -0.03
+      stress_month: 0.07
+      skill_xp: { sinh_ton: 1.0, ngoai_giao: 0.5 }
+    economy:
+      self_farm: true
+    join: { cost_money: 0, hint: 'Không cần vốn liếng, vào làm người giúp việc cho nhà giàu để có cơm ăn áo mặc.' }
+    duties:
+      - Gánh nước, bổ củi, quét dọn và hầu hạ theo sai bảo của chủ nhà
+    exits:
+      - to: lam_thue
+        hint: 'Xin ra ngoài làm công nhật tự do'
+      - to: ban_rong
+        condition: { var: household.money, op: '>=', value: 1 }
+        hint: 'Dành dụm chút tiền thưởng Tết để ra chợ Bán rong'
+    ranks:
+      - id: gia_dinh_moi
+        name: Người ở mới vào
+        min_merit: 0
+        min_years: 0
+        income_range: [3, 6]
+        stipend_money_month: 0.3
+        stipend_food_month: 0.7
+      - id: gia_nhan_quen_viec
+        name: Gia nhân thạo việc
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: sinh_ton, level: 2 }
+        income_range: [6, 10]
+        stipend_money_month: 0.55
+        stipend_food_month: 0.8
+      - id: quan_gia_tin_can
+        name: Quản gia trông coi việc vặt
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: quan_tri, level: 2 }
+        income_range: [10, 16]
+        stipend_money_month: 0.95
+        stipend_food_month: 1.0
+    actions:
+      - id: lo_co_ban_tiec_nha_chu
+        name: Quán xuyến tiệc lớn nhà chủ
+        description: Thức khuya dậy sớm phụ bếp và sắp cỗ đám giỗ lớn cho nhà chủ để kiếm tiền thưởng.
+        hint: 'Được thưởng tiền và thức ăn nếu làm khéo'
+        cooldown_months: 4
+        chance:
+          base: 0.65
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 2, ledger: lam_thue }
+          - { type: food, value: 4, ledger: thu_khac }
+          - { type: career_merit, value: 12 }
+        failure:
+          - { type: stress, value: 5 }
+        success_log:
+          - 'Mâm cỗ tươm tất, chủ nhà mát mặt trước họ hàng nên thưởng cho bạn cả gói phần lớn và tiền đồng.'
+          - 'Bạn chạy việc nhanh nhẹn suốt buổi tiệc, khách khứa ai cũng khen nhà chủ có người ở tháo vát.'
+        failure_log:
+          - 'Lỡ tay làm rơi vỡ chiếc đĩa sứ, bị bà chủ mắng nhiếc suốt cả buổi chiều.'
+          - 'Chạy bàn mỏi rã rời cả chân mà lúc tan tiệc chỉ được chia chút cơm nguội.'
+
+  - id: chan_vit
+    name: Chăn vịt chạy đồng
+    description: Lùa đàn vịt hàng trăm con đi mót thóc rơi trên những cánh đồng vừa gặt xong. Nay ngủ lều bãi này, mai dựng chòi đồng khác, bán trứng vịt kiếm tiền qua ngày.
+    icon: lua
+    sector: nong_nghiep
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    skills: [sinh_ton]
+    default_focus: lam_an
+    event_tags: [ruong_dong, lao_dong]
+    event_weights: { ruong_dong: 1.6, lao_dong: 1.3 }
+    work_effects:
+      health_month: -0.02
+      stress_month: 0.02
+      skill_xp: { sinh_ton: 1.3 }
+    economy:
+      self_farm: true
+    join: { cost_money: 0.5, hint: 'Cần 0.5 quan mua đàn vịt con và cây sào lùa vịt.' }
+    duties:
+      - Lùa vịt đi ăn đồng xa và nhặt trứng mỗi sáng sớm
+      - Canh chừng chồn cáo ban đêm ngoài chòi vịt
+    exits:
+      - to: nong_dan
+        condition: { var: household.farmland, op: '>=', value: 1 }
+        hint: 'Tích cóp mua được ruộng có thể quay về làm Nông dân'
+      - to: ban_rong
+        hint: 'Đem trứng vịt và vịt thịt ra chợ Bán rong'
+    ranks:
+      - id: chan_vit_thue
+        name: Người giữ vịt thuê
+        min_merit: 0
+        min_years: 0
+        income_range: [4, 8]
+        stipend_money_month: 0.4
+        stipend_food_month: 0.6
+      - id: chu_dan_vit_de
+        name: Chủ đàn vịt đẻ
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: sinh_ton, level: 2 }
+        income_range: [8, 14]
+        stipend_money_month: 0.7
+        stipend_food_month: 0.85
+      - id: trum_vit_chay_dong
+        name: Trùm vịt chạy đồng liên tổng
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: sinh_ton, level: 3 }
+        income_range: [12, 20]
+        stipend_money_month: 1.05
+        stipend_food_month: 1.1
+    actions:
+      - id: lua_vit_dong_xa
+        name: Lùa đàn vịt sang đồng mới gặt
+        description: Đưa đàn vịt sang cánh đồng làng bên vừa gặt rộ để vịt ăn thóc rơi đẻ sai trứng.
+        hint: 'Thu tiền bán trứng và thêm thức ăn cải thiện'
+        cooldown_months: 4
+        chance:
+          base: 0.62
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: food, value: 4, ledger: thu_hoach }
+          - { type: career_merit, value: 12 }
+        failure:
+          - { type: money, value: 0.5, ledger: luong_nghe }
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Thóc rơi nhiều vô kể, đàn vịt no căng diều, sáng nào nhặt trứng cũng đầy hai sọt lớn.'
+          - 'Lái buôn trứng đến tận chòi thu mua, bạn vừa có tiền vừa giữ lại được mấy chục quả muối ăn dần.'
+        failure_log:
+          - 'Tuần đinh làng bên ra đuổi vì sợ vịt làm đục nước mương, phải lùa đàn chạy về giữa đêm.'
+          - 'Chồn hoang mò vào chòi lúc nửa đêm làm đàn vịt hoảng loạn thất lạc mất mấy con.'
+
+  - id: phu_khuan_vac
+    name: Phu khuân vác bến sông
+    description: Đôi vai trần chai sần vác từng bao gạo, kiện muối từ thuyền lớn lên kho bến sông. Việc nặng nhọc nhất bến chợ nhưng lúc nào có thuyền cập bến là có tiền tươi.
+    icon: lao_dong
+    sector: dich_vu
+    depth: nhe
+    settlement_types: [thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [sinh_ton, quan_su]
+    default_focus: ren_luyen
+    event_tags: [lao_dong, buon_ban]
+    event_weights: { lao_dong: 1.7, buon_ban: 1.2 }
+    work_effects:
+      health_month: -0.06
+      stress_month: 0.06
+      skill_xp: { sinh_ton: 1.1, quan_su: 0.5 }
+    economy:
+      self_farm: false
+      family_wage_month: 0.2
+      income: { money_month: 0.35, skill: sinh_ton, per_level: 0.045, ledger: lam_thue }
+    join: { cost_money: 0, hint: 'Chỉ cần đôi vai khỏe mạnh ra bến thuyền xin vác hàng.' }
+    duties:
+      - Bốc dỡ hàng hóa từ thuyền buôn lên bến và vào kho
+    exits:
+      - to: chu_do
+        condition: { var: household.money, op: '>=', value: 3 }
+        hint: 'Thuộc bến bãi và tích đủ vốn có thể mua đò làm Chủ đò'
+      - to: linh
+        condition: { var: player.health, op: '>=', value: 55 }
+        hint: 'Sức vóc dẻo dai có thể đầu quân đi Lính'
+    ranks:
+      - id: phu_ben_moi
+        name: Phu vác hàng lẻ
+        min_merit: 0
+        min_years: 0
+        income_range: [5, 9]
+        stipend_money_month: 0.5
+      - id: phu_kho_khoe
+        name: Phu vác chính kho bến
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: sinh_ton, level: 2 }
+        income_range: [9, 15]
+        stipend_money_month: 0.85
+      - id: dau_ben_boc_xep
+        name: Cai đội bốc xếp bến sông
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: quan_tri, level: 2 }
+        income_range: [14, 23]
+        stipend_money_month: 1.25
+    actions:
+      - id: boc_do_thuyen_buon_lon
+        name: Nhận bốc dỡ đoàn thuyền buôn lớn
+        description: Cùng anh em thức trắng đêm chuyển hàng trăm bao thóc muối từ đoàn thuyền lớn vào kho kịp trước cơn mưa.
+        hint: 'Kiếm tiền công hậu nhưng rất tốn sức'
+        cooldown_months: 4
+        chance:
+          base: 0.6
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 3, ledger: lam_thue }
+          - { type: career_merit, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+        failure:
+          - { type: money, value: 1, ledger: lam_thue }
+          - { type: health, value: -5 }
+        success_log:
+          - 'Hàng vào kho khô ráo trước khi mưa đổ xuống, chủ thuyền mừng rỡ thưởng thêm tiền rượu.'
+          - 'Đôi vai dẻo dai giúp bạn vác được nhiều thẻ hàng nhất bến, tiền công đếm nặng cả túi.'
+        failure_log:
+          - 'Cầu ván trơn trượt làm bạn hụt chân trật khớp cổ chân, phải nghỉ làm mấy ngày.'
+          - 'Vác nặng dưới nắng gắt suốt buổi trưa khiến bạn xây xẩm mặt mày.'
+
+  - id: lam_muoi
+    name: Diêm dân làm muối
+    description: Bán mặt cho đất bán lưng cho trời trên những ô ruộng muối nắng cháy. Nước mặn phơi qua nắng gắt kết thành hạt muối trắng ngần, bán cho thương lái chở đi khắp xứ.
+    icon: nang
+    sector: nong_nghiep
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    skills: [sinh_ton, thuong_mai]
+    default_focus: lam_an
+    event_tags: [lao_dong, buon_ban]
+    event_weights: { lao_dong: 1.5, buon_ban: 1.3 }
+    work_effects:
+      health_month: -0.04
+      stress_month: 0.04
+      skill_xp: { sinh_ton: 1.2, thuong_mai: 0.5 }
+    economy:
+      self_farm: true
+    join: { cost_money: 0.5, hint: 'Cần 0.5 quan sửa sang sân phơi và sắm trang cào muối.' }
+    duties:
+      - Dẫn nước mặn vào ô phơi, cào muối khi nắng to và nộp thuế muối
+    exits:
+      - to: thuong_nhan
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 5 }
+        hint: 'Có nguồn muối tại chỗ có thể vươn lên làm Thương nhân buôn muối'
+    ranks:
+      - id: phu_cao_muoi
+        name: Người cào muối thuê
+        min_merit: 0
+        min_years: 0
+        income_range: [5, 9]
+        stipend_money_month: 0.45
+        stipend_food_month: 0.4
+      - id: chu_o_muoi
+        name: Chủ sân phơi muối
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: sinh_ton, level: 2 }
+        income_range: [9, 16]
+        stipend_money_month: 0.85
+        stipend_food_month: 0.5
+      - id: trum_muoi_ben_bai
+        name: Chủ vựa muối đầu bến
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: thuong_mai, level: 2 }
+        income_range: [14, 24]
+        stipend_money_month: 1.25
+        stipend_food_month: 0.6
+    actions:
+      - id: phoi_me_muoi_nang_gat
+        name: Tranh thủ đợt nắng hạn phơi muối lớn
+        description: Huy động cả nhà ra đồng muối suốt đợt nắng gắt để thu hoạch mẻ muối trắng hạt to.
+        hint: 'Thuận lợi nhất khi trời nắng hoặc hạn, mang lại tiền mặt khá'
+        cooldown_months: 4
+        chance:
+          base: 0.6
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 3, ledger: luong_nghe }
+          - { type: career_merit, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 14 }
+        failure:
+          - { type: money, value: 0.8, ledger: luong_nghe }
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Nắng như đổ lửa suốt năm ngày, muối kết tinh trắng xóa mặt ô, cào lên chất đầy kho.'
+          - 'Hạt muối năm nay săn chắc và sạch, thuyền buôn trả giá cao hơn hẳn mọi vụ.'
+        failure_log:
+          - 'Muối vừa chớm kết hạt thì mây đen kéo tới đổ mưa rào, công sức cả tuần tan thành nước.'
+          - 'Giá muối ngoài bến đang sụt, bán cả gánh chỉ đủ đong vài đấu gạo.'
+
+  - id: kiem_cui_nghe
+    name: Tiều phu kiếm củi
+    description: Sáng vác rìu lên núi đốn củi khô, hầm than củi, chiều gánh xuống chợ bán. Quanh năm làm bạn với rừng xanh, tuy vất vả nhưng chẳng lo thiếu củi đun và tiền đong gạo.
+    icon: lua
+    sector: nong_nghiep
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song]
+    skills: [sinh_ton]
+    default_focus: lam_an
+    event_tags: [lao_dong, nguy_hiem]
+    event_weights: { lao_dong: 1.6, nguy_hiem: 1.2 }
+    work_effects:
+      health_month: -0.03
+      stress_month: 0.02
+      skill_xp: { sinh_ton: 1.4 }
+    economy:
+      self_farm: true
+    join: { cost_money: 0, hint: 'Chỉ cần chiếc rìu sắt và đôi chân khỏe leo đồi.' }
+    duties:
+      - Đốn củi khô, đốt lò than củi và gánh xuống chợ phiên
+    exits:
+      - to: tho_moc
+        condition: { var: player.skill.sinh_ton, op: '>=', value: 2 }
+        hint: 'Sành các loại gỗ rừng có thể học nghề làm Thợ mộc'
+      - to: thao_khau
+        condition: { var: player.health, op: '>=', value: 50 }
+        hint: 'Thông thuộc đường rừng núi có thể gia nhập Thảo khấu khi túng quẫn'
+    ranks:
+      - id: tieu_phu_ven_doi
+        name: Tiều phu đốn củi ven đồi
+        min_merit: 0
+        min_years: 0
+        income_range: [4, 8]
+        stipend_money_month: 0.45
+        stipend_food_month: 0.5
+      - id: tho_ham_than
+        name: Thợ đốt than củi rừng sâu
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: sinh_ton, level: 2 }
+        income_range: [8, 14]
+        stipend_money_month: 0.75
+        stipend_food_month: 0.6
+      - id: trum_go_cui
+        name: Người dẫn đoàn lấy gỗ củi
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: sinh_ton, level: 4 }
+        income_range: [12, 20]
+        stipend_money_month: 1.1
+        stipend_food_month: 0.7
+    actions:
+      - id: dot_lo_than_mua_dong
+        name: Hầm mẻ than củi bán mùa lạnh
+        description: Gom gỗ chắc trên đồi đắp lò hầm than suốt tuần lễ để bán cho các lò rèn và nhà giàu sưởi ấm.
+        hint: 'Kiếm lời khá vào mùa thu đông'
+        cooldown_months: 4
+        chance:
+          base: 0.62
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 2.5, ledger: luong_nghe }
+          - { type: career_merit, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        failure:
+          - { type: money, value: 0.6, ledger: luong_nghe }
+          - { type: health, value: -4 }
+        success_log:
+          - 'Than ra lò đen bóng, gõ kêu đanh tiếng, lò rèn đầu huyện mua trọn cả mẻ.'
+          - 'Trời trở gió bấc, gánh than vừa xuống tới cổng chợ đã bán sạch veo.'
+        failure_log:
+          - 'Vách lò bị hở gió làm gỗ cháy thành tro trắng, thu về chẳng được mấy sọt than.'
+          - 'Đường rừng mưa trơn trượt, gánh củi nặng làm bạn ngã trầy xước cả đầu gối.'
+
+  - id: nau_ruou
+    name: Thợ nấu rượu
+    description: Đồ nếp ủ men lá, chưng cất từng giọt rượu nếp trong vắt thơm nồng. Rượu bán lấy tiền mặt, bỗng rượu lại dùng nuôi lợn, khéo xoay xở thì quanh năm có đồng ra đồng vào.
+    icon: tien
+    sector: thu_cong
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly]
+    skills: [sinh_ton, thuong_mai]
+    default_focus: kinh_doanh
+    event_tags: [buon_ban, lang_xa]
+    event_weights: { buon_ban: 1.5, lang_xa: 1.3 }
+    work_effects:
+      health_month: -0.01
+      stress_month: 0.02
+      skill_xp: { thuong_mai: 1.0, sinh_ton: 0.6 }
+    economy:
+      self_farm: true
+    join: { cost_money: 1, hint: 'Cần 1 quan sắm nồi đồng chưng cất, chum ủ và men rượu.' }
+    duties:
+      - Ủ cơm rượu đúng ngày và canh lửa chưng cất rượu nếp
+      - Giao rượu cho các quán nước và đám cưới, đám giỗ trong vùng
+    exits:
+      - to: chu_quan
+        condition:
+          all:
+            - { var: player.skill.ngoai_giao, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 3 }
+        hint: 'Có sẵn rượu ngon có thể mở rộng thành Chủ quán trọ'
+      - to: thuong_nhan
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 5 }
+        hint: 'Đủ vốn và bạn hàng có thể bước lên làm Thương nhân'
+    ranks:
+      - id: lo_ruou_nho
+        name: Lò rượu xóm nhỏ
+        min_merit: 0
+        min_years: 0
+        income_range: [5, 10]
+        stipend_money_month: 0.5
+      - id: tho_cat_ruou_ngon
+        name: Thợ cất rượu nếp cái
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: thuong_mai, level: 2 }
+        income_range: [10, 17]
+        stipend_money_month: 0.85
+      - id: chu_lo_ruou_danh_tieng
+        name: Chủ lò rượu nức tiếng cả vùng
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: thuong_mai, level: 3 }
+        income_range: [15, 26]
+        stipend_money_month: 1.3
+    actions:
+      - id: cat_me_ruou_nep_tet
+        name: Cất mẻ rượu nếp hương phục vụ hội làng
+        description: Chọn nếp cái hoa vàng ủ men thuốc bắc, chưng cất mẻ rượu ngon bán vào dịp đình đám lễ Tết.
+        hint: 'Lời tốt và tăng uy tín nghề nấu rượu'
+        cooldown_months: 4
+        cost_food: 2
+        chance:
+          base: 0.64
+          skill: thuong_mai
+          per_level: 0.05
+        success:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: career_merit, value: 12 }
+          - { type: skill_xp, skill: thuong_mai, value: 14 }
+        failure:
+          - { type: money, value: 0.8, ledger: buon_ban }
+          - { type: stress, value: 3 }
+        success_log:
+          - 'Mở nắp chum hương rượu thơm lừng cả ngõ, khách quen mang bầu đến đong nườm nượp.'
+          - 'Ban khánh tiết đình làng đặt mua liền năm vò lớn để dâng lễ và đãi bô lão.'
+        failure_log:
+          - 'Trời trở lạnh bất ngờ làm men ủ không dậy, mẻ rượu bị chua phải đổ cho lợn ăn.'
+          - 'Canh lửa quá tay làm khê đáy nồi, rượu ám mùi khói bán chẳng được giá.'
+
+  - id: do_te
+    name: Đồ tể
+    description: Mổ lợn pha thịt từ lúc gà chưa gáy sáng để kịp bày phản ngoài chợ phiên. Nghề vất vả, tay lấm máu mỡ nhưng thu nhập khá và nhà chẳng bao giờ thiếu miếng thịt.
+    icon: lao_dong
+    sector: thu_cong
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [sinh_ton, thuong_mai]
+    default_focus: kinh_doanh
+    event_tags: [buon_ban, lao_dong]
+    event_weights: { buon_ban: 1.5, lao_dong: 1.4 }
+    work_effects:
+      health_month: 0.02
+      stress_month: 0.04
+      skill_xp: { sinh_ton: 0.9, thuong_mai: 0.8 }
+    economy:
+      self_farm: true
+    join: { cost_money: 1, hint: 'Cần 1 quan sắm bộ dao bầu, thớt gỗ nghiến và vốn bắt lợn.' }
+    duties:
+      - Đi khắp thôn xóm bắt lợn và mổ thịt bán mỗi phiên chợ
+    exits:
+      - to: thuong_nhan
+        condition:
+          all:
+            - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 5 }
+        hint: 'Tích đủ vốn có thể buôn gia súc lớn làm Thương nhân'
+    ranks:
+      - id: tho_phu_mo_lon
+        name: Thợ phụ lò mổ
+        min_merit: 0
+        min_years: 0
+        income_range: [6, 10]
+        stipend_money_month: 0.5
+        stipend_food_month: 0.5
+      - id: chu_phan_thit
+        name: Chủ phản thịt chợ phiên
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: thuong_mai, level: 2 }
+        income_range: [10, 18]
+        stipend_money_month: 0.9
+        stipend_food_month: 0.7
+      - id: trum_lo_mo_huyen
+        name: Chủ lò mổ cung ứng cả chợ huyện
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: thuong_mai, level: 3 }
+        income_range: [16, 28]
+        stipend_money_month: 1.35
+        stipend_food_month: 0.9
+    actions:
+      - id: mo_lon_dip_cuoi_hoi
+        name: Nhận mổ cỗ lớn dịp cưới hỏi
+        description: Bắt lợn béo và đứng ra pha thịt, làm giò chả cho đám cưới hoặc việc làng lớn.
+        hint: 'Lời khá và có thêm phần thịt mang về nhà'
+        cooldown_months: 4
+        cost_money: 1
+        chance:
+          base: 0.64
+          skill: sinh_ton
+          per_level: 0.05
+        success:
+          - { type: money, value: 3.5, ledger: buon_ban }
+          - { type: food, value: 3, ledger: thu_khac }
+          - { type: career_merit, value: 12 }
+        failure:
+          - { type: money, value: 1, ledger: buon_ban }
+          - { type: stress, value: 3 }
+        success_log:
+          - 'Tay dao thoăn thoắt pha thịt đều tăm tắp, cỗ giò chả giòn ngon ai ăn cũng tấm tắc hỏi tên.'
+          - 'Phản thịt chợ sớm bán đắt như tôm tươi, chưa đến đứng bóng đã chỉ còn trơ cái thớt.'
+        failure_log:
+          - 'Mua nhầm con lợn ốm, thịt đem ra chợ bị ế phải hạ giá bán tháo.'
+          - 'Trời nắng oi ả làm thịt xuống màu nhanh, cuối buổi đành muối mặn mang về.'
+
+  - id: thay_boi
+    name: Thầy bói / Địa lý
+    description: Bấm độn quẻ dịch, coi ngày lành tháng tốt cưới hỏi, làm nhà và xem thế đất phong thủy. Khéo ăn khéo nói và hiểu lòng người thì đi đâu cũng có gia chủ rước đón.
+    icon: sach
+    sector: y_dao
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [hoc_van, ngoai_giao, muu_luoc]
+    default_focus: giao_luu
+    event_tags: [tin_don, lang_xa]
+    event_weights: { tin_don: 1.6, lang_xa: 1.4 }
+    work_effects:
+      health_month: 0.01
+      stress_month: 0.02
+      skill_xp: { ngoai_giao: 1.0, muu_luoc: 0.6 }
+    economy:
+      self_farm: true
+    entry_condition:
+      any:
+        - { var: player.skill.hoc_van, op: '>=', value: 1 }
+        - { var: player.skill.ngoai_giao, op: '>=', value: 2 }
+    join: { cost_money: 0.5, hint: 'Cần biết chút chữ nghĩa hoặc khéo ăn nói và 0.5 quan sắm ống quẻ, sách lịch.' }
+    duties:
+      - Xem ngày giờ cưới hỏi, động thổ và gieo quẻ cầu may tại chợ phiên
+    exits:
+      - to: thay_lang
+        condition: { var: player.skill.hoc_van, op: '>=', value: 2 }
+        hint: 'Đọc thêm y thư có thể chuyển sang làm Thầy lang'
+      - to: nha_lai
+        condition: { var: player.skill.hoc_van, op: '>=', value: 2 }
+        hint: 'Thạo việc giấy tờ và giao thiệp có thể xin làm Nha lại'
+    ranks:
+      - id: thay_que_cho_phien
+        name: Thầy quẻ đầu chợ
+        min_merit: 0
+        min_years: 0
+        income_range: [5, 9]
+        stipend_money_month: 0.45
+      - id: thay_coi_ngay_tot
+        name: Thầy tướng số quen mặt
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: ngoai_giao, level: 2 }
+        income_range: [9, 16]
+        stipend_money_month: 0.85
+      - id: thay_dia_ly_danh_tieng
+        name: Thầy địa lý phong thủy
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: hoc_van, level: 3 }
+        income_range: [15, 26]
+        stipend_money_month: 1.3
+    actions:
+      - id: coi_huong_nha_phu_ho
+        name: Xem thế đất dựng nhà cho hộ khá giả
+        description: Cầm la bàn đi tầm long điểm huyệt, chọn hướng cất nhà hoặc đặt mộ phần cho gia chủ.
+        hint: 'Nhận tiền lễ hậu nếu phán hợp ý gia chủ'
+        cooldown_months: 5
+        chance:
+          base: 0.62
+          skill: ngoai_giao
+          per_level: 0.05
+        success:
+          - { type: money, value: 3, ledger: luong_nghe }
+          - { type: career_merit, value: 13 }
+          - { type: skill_xp, skill: ngoai_giao, value: 14 }
+        failure:
+          - { type: reputation, group: dan_lang, value: -3 }
+          - { type: stress, value: 4 }
+        success_log:
+          - 'Lời bạn phân tích mạch đất thấu tình đạt lý, gia chủ gật gù tâm phục khẩu phục và biếu phong bao dày.'
+          - 'Ngày lành bạn chọn trời nắng đẹp rực rỡ, đám cưới diễn ra suôn sẻ nên hai họ đều gửi lễ tạ.'
+        failure_log:
+          - 'Chọn nhầm ngày động thổ đúng hôm mưa dầm, gia chủ cằn nhằn cắt mất nửa tiền lễ.'
+          - 'Hai thầy địa lý cãi nhau ngay trên bãi đất, gia chủ đổi ý mời người khác.'
+
+  - id: hat_rong
+    name: Đào kép hát rong
+    description: Ôm đàn bầu, phách tre theo gánh hát chèo, hát xẩm đi biểu diễn khắp các chiếu đình hội xuân và chợ phiên. Đời cầm ca rày đây mai đó, đem tiếng đàn câu hát mua vui cho thiên hạ.
+    icon: ngoai_giao
+    sector: dich_vu
+    depth: nhe
+    settlement_types: [lang_nong, thi_tran_ben_song, phu_thanh, huyen_ly, kinh_thanh]
+    skills: [ngoai_giao, sinh_ton]
+    default_focus: giao_luu
+    event_tags: [lang_xa, tin_don]
+    event_weights: { lang_xa: 1.5, tin_don: 1.5 }
+    work_effects:
+      health_month: -0.02
+      stress_month: -0.03
+      skill_xp: { ngoai_giao: 1.3, sinh_ton: 0.5 }
+    economy:
+      self_farm: true
+    join: { cost_money: 0.5, hint: 'Cần 0.5 quan sắm cây đàn, bộ phách để theo phường hát.' }
+    duties:
+      - Biểu diễn tại các kỳ hội làng, chợ phiên và tiệc khao vọng
+    exits:
+      - to: chu_quan
+        condition:
+          all:
+            - { var: player.skill.ngoai_giao, op: '>=', value: 2 }
+            - { var: household.money, op: '>=', value: 3 }
+        hint: 'Quen biết rộng rãi và có vốn có thể dừng chân mở quán làm Chủ quán trọ'
+    ranks:
+      - id: nguoi_cam_phach
+        name: Đào kép mới vào gánh
+        min_merit: 0
+        min_years: 0
+        income_range: [4, 8]
+        stipend_money_month: 0.45
+      - id: kep_chinh_chieu_cheo
+        name: Đào kép chính chiếu đình
+        min_merit: 20
+        min_years: 2
+        min_skill: { skill: ngoai_giao, level: 2 }
+        income_range: [9, 16]
+        stipend_money_month: 0.85
+      - id: trum_phuong_hat
+        name: Trùm phường bát âm
+        min_merit: 50
+        min_years: 4
+        min_skill: { skill: ngoai_giao, level: 4 }
+        income_range: [14, 25]
+        stipend_money_month: 1.3
+    actions:
+      - id: hat_chau_hoi_xuan
+        name: Đem gánh hát diễn hội đình mùa xuân
+        description: Trải chiếu trước sân đình diễn tích trò cổ suốt đêm hội làng để nhận tiền thưởng trống chầu.
+        hint: 'Thu tiền thưởng hậu và giảm căng thẳng'
+        cooldown_months: 5
+        chance:
+          base: 0.64
+          skill: ngoai_giao
+          per_level: 0.05
+        success:
+          - { type: money, value: 3, ledger: luong_nghe }
+          - { type: career_merit, value: 13 }
+          - { type: stress, value: -5 }
+          - { type: skill_xp, skill: ngoai_giao, value: 15 }
+        failure:
+          - { type: money, value: 0.5, ledger: luong_nghe }
+          - { type: stress, value: 3 }
+        success_log:
+          - 'Tiếng trống chầu giòn giã suốt canh khuya, các cụ bô lão ném thẻ thưởng đỏ cả mặt chiếu.'
+          - 'Giọng hát ngọt ngào làm cả sân đình lặng đi, tan canh hát bà con còn vây quanh biếu quà.'
+        failure_log:
+          - 'Đang diễn giữa chừng thì mưa lớn ập xuống, khán giả chạy tán loạn, gánh hát đành cuốn chiếu.'
+          - 'Khản cổ mất tiếng đúng đêm hội lớn, tiền thưởng chia nhau chẳng đủ tiền ăn đường.'
 
   # ── Chưa có nghề riêng (kind: trang_thai) — không có lương, hành động, thăng bậc ──
   - id: phu_gia_dinh

@@ -33,7 +33,10 @@ import {
   settleInheritance,
   splitPlayerHousehold,
 } from '../systems/family';
-import { addOpinionChange, changeFavor, changeReputation } from '../systems/social';
+import { addHook, addOpinionChange, addSecret, changeDread, changeFavor, changeReputation } from '../systems/social';
+import { ensureOrganizations } from '../systems/organization';
+import { ensurePoliticsState } from '../systems/politics';
+import { ensureRebellionState } from '../systems/rebellion';
 import { changeFilialPiety, changeScholarlyPrestige, setExamDegree } from '../systems/status';
 import {
   cancelActiveTrip,
@@ -338,6 +341,55 @@ export function applyEffects(ctx: SimContext, effects: readonly Effect[], b: Bin
             e.months,
           );
           break;
+        case 'add_secret': {
+          const ownerChar = e.owner && e.owner !== 'player' ? r.character(e.owner) : undefined;
+          addSecret(ctx, {
+            ownerId: ownerChar ? ownerChar.id : 'player',
+            kind: e.kind,
+            label: e.label ? fillTemplate(e.label, r.token) : undefined,
+            severity: e.severity,
+          });
+          break;
+        }
+        case 'add_hook': {
+          const targetChar =
+            (e.role ? r.character(e.role) : undefined) ??
+            Object.values(state.village)
+              .map((id) => state.characters[id])
+              .find((c) => c?.alive);
+          if (targetChar) {
+            addHook(ctx, {
+              targetId: targetChar.id,
+              direction: e.direction ?? 'on_npc',
+              strength: e.strength ?? 'weak',
+              reason: e.reason ? fillTemplate(e.reason, r.token) : undefined,
+            });
+          }
+          break;
+        }
+        case 'dread':
+          changeDread(ctx, e.value);
+          break;
+        case 'org_contribution': {
+          const orgs = ensureOrganizations(ctx);
+          const targetOrg = e.org
+            ? orgs[e.org]
+            : Object.values(orgs).find((o) => o.playerRank >= 0) ?? Object.values(orgs)[0];
+          if (targetOrg) {
+            targetOrg.playerContribution = Math.max(0, targetOrg.playerContribution + e.value);
+          }
+          break;
+        }
+        case 'mandate': {
+          const pol = ensurePoliticsState(state);
+          pol.mandateOfHeaven = clamp(pol.mandateOfHeaven + e.value, 0, 100);
+          break;
+        }
+        case 'rebellion_progress': {
+          const reb = ensureRebellionState(state);
+          reb.progress = clamp(reb.progress + e.value, 0, 100);
+          break;
+        }
         case 'schedule_event':
           state.scheduled.push({
             eventId: e.event,

@@ -1,0 +1,92 @@
+# [10] Hệ thống Tổ chức Fractal & Ủy quyền (Phase 10 — GDD 03 §10)
+# 4 tổ chức đại diện 4 trục quyền lực vùng: Hội đồng hương lão (Làng), Thương hội bến sông (Thị trấn), Trại thảo khấu (Rừng núi), Nha môn Phủ thành (Phủ)
+organizations:
+  - id: hoi_dong_lang
+    name: Hội đồng Hương lão
+    kind: village_council
+    description: Cơ quan tự trị của làng xã, điều phối việc đình đám, đắp đê, phân chia công điền và giữ gìn hương ước.
+    settlement_id: lang_nong
+    join_cost_money: 3
+    entry_condition:
+      all:
+        - { var: player.age, op: '>=', value: 20 }
+        - { var: player.reputation, op: '>=', value: 5 }
+    initial_factors:
+      treasury: 35
+      morale: 65
+      security: 60
+      investment: 45
+      influence: 55
+    ranks:
+      - { rank: 0, name: Hương đinh có tiếng nói, min_contribution: 0, stipend_money_month: 0 }
+      - { rank: 1, name: Hương mục trông việc đình, min_contribution: 30, stipend_money_month: 0.3 }
+      - { rank: 2, name: Phó lý / Thứ chỉ, min_contribution: 70, stipend_money_month: 0.7 }
+      - { rank: 3, name: Tiên chỉ / Chánh tổng, min_contribution: 130, stipend_money_month: 1.5 }
+
+  - id: thuong_hoi
+    name: Thương hội Bến sông
+    kind: merchant_guild
+    description: Liên minh các nhà buôn lớn nhỏ kiểm soát giá cả bến bãi, bảo hộ đoàn thuyền và cho vay vốn buôn đường dài.
+    settlement_id: thi_tran_ben_song
+    join_cost_money: 8
+    entry_condition:
+      any:
+        - { var: player.skill.thuong_mai, op: '>=', value: 2 }
+        - { var: household.ventures_count, op: '>=', value: 1 }
+    initial_factors:
+      treasury: 80
+      morale: 60
+      security: 55
+      investment: 65
+      influence: 60
+    ranks:
+      - { rank: 0, name: Hội viên buôn chuyến, min_contribution: 0, stipend_money_month: 0.2 }
+      - { rank: 1, name: Chấp sự bến bãi, min_contribution: 35, stipend_money_month: 0.6 }
+      - { rank: 2, name: Phó hội trưởng, min_contribution: 80, stipend_money_month: 1.2 }
+      - { rank: 3, name: Đại hội chủ Thương hội, min_contribution: 150, stipend_money_month: 2.5 }
+
+  - id: bang_thao_khau
+    name: Nghĩa trại Rừng Xanh
+    kind: outlaw_stronghold
+    description: Sơn trại tụ nghĩa nơi đèo cao rừng thẳm, thu tiền mãi lộ và che chở những kẻ bất mãn với quan phủ.
+    settlement_id: lang_nong
+    join_cost_money: 0
+    entry_condition:
+      any:
+        - { var: player.career, op: '==', value: thao_khau }
+        - { var: player.wanted, op: '>', value: 0 }
+        - { var: player.skill.quan_su, op: '>=', value: 3 }
+    initial_factors:
+      treasury: 40
+      morale: 70
+      security: 65
+      investment: 35
+      influence: 45
+    ranks:
+      - { rank: 0, name: Huynh đệ nhập trại, min_contribution: 0, stipend_money_month: 0.2 }
+      - { rank: 1, name: Đầu mục tuần sơn, min_contribution: 30, stipend_money_month: 0.6 }
+      - { rank: 2, name: Nhị đương gia, min_contribution: 75, stipend_money_month: 1.3 }
+      - { rank: 3, name: Đại đương gia tổng trại, min_contribution: 140, stipend_money_month: 2.6 }
+
+  - id: nha_mon_phu
+    name: Nha môn Phủ thành
+    kind: prefecture_office
+    description: Bộ máy quan lại và nha dịch cai quản toàn phủ, nắm quyền thu thuế, xét xử kiện tụng và điều động binh đinh.
+    settlement_id: phu_thanh
+    join_cost_money: 5
+    entry_condition:
+      any:
+        - { var: player.exam_degree, op: '!=', value: none }
+        - { var: player.career, op: 'in', value: [si_tu, nha_lai, linh] }
+        - { var: player.skill.quan_tri, op: '>=', value: 3 }
+    initial_factors:
+      treasury: 120
+      morale: 60
+      security: 75
+      investment: 55
+      influence: 80
+    ranks:
+      - { rank: 0, name: Thư lại nha môn, min_contribution: 0, stipend_money_month: 0.4 }
+      - { rank: 1, name: Đề lại / Quản cơ, min_contribution: 40, stipend_money_month: 0.9 }
+      - { rank: 2, name: Đồng tri phủ, min_contribution: 90, stipend_money_month: 1.8 }
+      - { rank: 3, name: Chánh đường Quan phủ, min_contribution: 160, stipend_money_month: 3.2 }

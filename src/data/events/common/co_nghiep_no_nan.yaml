@@ -246,3 +246,191 @@ events:
           - { type: stress, value: -4 }
         result:
           - 'Nể mặt các bậc bô lão và lệ làng không cho phép tính lãi quá vốn gốc (nhất bản nhất lợi), {role.chu_no.call} đành gạch bỏ phần lãi vượt mức.'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # [9] SỰ KIỆN CHI TIẾT CHO 7 CƠ NGHIỆP & ĐẦU TƯ GIA TỘC (Phase 9 — #16, #43)
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  - id: kt_sap_nho_cua_hieu_tranh_cho
+    title: Tranh giành mặt bằng sạp chợ và cửa hiệu
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 2
+    weight: 3.5
+    tags: [buon_ban, kinh_te]
+    weight_modifiers:
+      - { condition: { var: player.origin, op: 'in', value: [nong_dan, thuong_nhan, quy_toc_nho] }, factor: 1.3 }
+      - { condition: { var: player.career, op: 'in', value: [nong_dan, thuong_nhan, linh, thao_khau] }, factor: 1.2 }
+    text:
+      - 'Phiên chợ đầu tháng đông đúc, một tay buôn từ nơi khác đến muốn lấn vị trí bày hàng đẹp nhất ngay lối vào chợ, nơi sạp nhỏ và cửa hiệu quen thuộc đang đón khách.'
+    options:
+      - id: d_dung_luat_thuong_hoi
+        text: 'Mời ban quản chợ và Thương hội ra phân xử theo lệ bến bãi'
+        effects:
+          - { type: money, value: 3, ledger: buon_ban }
+          - { type: org_contribution, value: 10 }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        result:
+          - 'Theo đúng sổ lệ của chợ, vị trí mặt tiền được giữ vững, khách khứa thấy bạn đàng hoàng càng thêm tin tưởng.'
+      - id: d_hop_tac_chia_nguon_hang
+        text: 'Rủ tay buôn kia cùng ghép nguồn hàng sỉ để đôi bên cùng có lợi'
+        effects:
+          - { type: money, value: 4, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 14 }
+        result:
+          - 'Thêm bạn bớt thù, hai bên chia nhau mỗi người một mặt hàng chủ lực, doanh thu tăng vọt.'
+
+  - id: kt_hieu_buon_thuyen_buon_hop_dong
+    title: Thương vụ giao hàng đường thủy cho đại hiệu buôn
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 2
+    weight: 3.5
+    tags: [buon_ban, thoi_co]
+    weight_modifiers:
+      - { condition: { var: player.origin, op: 'in', value: [nong_dan, thuong_nhan, quy_toc_nho] }, factor: 1.3 }
+      - { condition: { var: player.career, op: 'in', value: [nong_dan, thuong_nhan, linh, thao_khau] }, factor: 1.2 }
+    text:
+      - 'Đoàn thuyền buôn đường sông và hiệu buôn lớn trên bến đang cần gom gấp một lô nông sản, vải vóc và đồ thủ công để kịp con nước xuôi về phủ.'
+    options:
+      - id: d_nhan_cung_ung_chuyen_lon
+        text: 'Đứng ra gom hàng quanh vùng giao cho đoàn thuyền buôn'
+        chance:
+          base: 0.62
+          skill: thuong_mai
+          per_level: 0.05
+        success:
+          - { type: money, value: 5.5, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 15 }
+          - { type: reputation, group: thuong_gioi, value: 5 }
+        failure:
+          - { type: money, value: 1.5, ledger: buon_ban }
+          - { type: stress, value: 4 }
+        success_result:
+          - 'Lô hàng giao đúng hẹn trước lúc thuyền nhổ neo, bạn thu về khoản tiền hoa hồng hậu hĩnh.'
+        failure_result:
+          - 'Mưa gió làm việc gom hàng chậm trễ, chỉ giao được một phần nhỏ.'
+      - id: d_gui_ke_hang_di_ban
+        text: 'Chỉ gửi ké một kiện hàng nhỏ theo thuyền để chia sẻ rủi ro'
+        effects:
+          - { type: money, value: 2.8, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 10 }
+        result:
+          - 'Chuyến thuyền đi về bình an, phần hàng gửi ké sinh lời đều đặn.'
+
+  - id: kt_lo_gom_xuong_moc_don_dat_hang
+    title: Đặt hàng lò gốm và xưởng mộc tu bổ dinh thự
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 2
+    weight: 3.5
+    tags: [kinh_te, lao_dong]
+    weight_modifiers:
+      - { condition: { var: player.origin, op: 'in', value: [nong_dan, thuong_nhan, quy_toc_nho] }, factor: 1.3 }
+      - { condition: { var: player.career, op: 'in', value: [nong_dan, linh, thao_khau, tho_moc, tho_gom] }, factor: 1.2 }
+    text:
+      - 'Các nhà hào phú trong phủ đang đồng loạt tu sửa từ đường và dinh thự, cần đặt số lượng lớn gạch ngói, chum sành từ lò gốm và cột kèo chạm khắc từ xưởng mộc.'
+    options:
+      - id: d_nhan_thau_vat_lieu
+        text: 'Đứng ra kết nối thợ lò gốm và xưởng mộc cung ứng vật liệu'
+        effects:
+          - { type: money, value: 4.5, ledger: co_nghiep }
+          - { type: skill_xp, skill: quan_tri, value: 14 }
+          - { type: reputation, group: dan_lang, value: 4 }
+        result:
+          - 'Gạch ngói và gỗ chạm giao đến đâu được nghiệm thu đến đó, tiền công chia đều ai cũng phấn khởi.'
+      - id: d_kiem_tra_chat_luong_nghiem
+        text: 'Đích thân giám sát từng mẻ gạch và thớ gỗ để lấy tiếng thơm lâu dài'
+        effects:
+          - { type: money, value: 3, ledger: co_nghiep }
+          - { type: scholarly_prestige, value: 4 }
+          - { type: skill_xp, skill: quan_tri, value: 16 }
+        result:
+          - 'Các bậc danh gia tấm tắc khen ngợi sự chỉn chu của bạn, uy tín gia tộc tăng cao.'
+
+  - id: kt_quan_ruou_ben_song_tin_mat
+    title: Chuyện mật đàm bên bàn rượu chiều cuối thu
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 2
+    weight: 3.5
+    tags: [tin_don, buon_ban]
+    weight_modifiers:
+      - { condition: { var: player.origin, op: 'in', value: [nong_dan, thuong_nhan, quy_toc_nho] }, factor: 1.3 }
+      - { condition: { var: player.career, op: 'in', value: [nong_dan, linh, thao_khau, thuong_nhan, si_tu] }, factor: 1.2 }
+    text:
+      - 'Tại quán rượu đầu bến sông, mấy viên sai nha và lái buôn đường dài vừa nâng chén vừa bàn tán chuyện thuế khóa và những thương vụ ngầm trong phủ.'
+    options:
+      - id: d_moi_ruou_nghe_tin
+        text: 'Gọi một vò rượu nếp ngon sang mời để hỏi kỹ đầu đuôi câu chuyện'
+        effects:
+          - { type: money, value: -1, ledger: sinh_hoat }
+          - { type: add_secret, kind: buon_lau, label: 'Mối buôn lậu muối qua trạm tuần sông', severity: 2 }
+          - { type: add_hook, strength: weak, reason: 'Nắm thóp chuyện làm ăn của lái buôn đầu bến' }
+          - { type: skill_xp, skill: muu_luoc, value: 15 }
+        result:
+          - 'Men rượu vào lời ra, bạn nắm được cả bí mật làm ăn lẫn điểm yếu của đám lái buôn trên bến.'
+      - id: d_ban_hang_cho_khach_ruou
+        text: 'Nhân lúc khách đang cao hứng, chào bán đặc sản của nhà'
+        effects:
+          - { type: money, value: 3.5, ledger: buon_ban }
+          - { type: skill_xp, skill: ngoai_giao, value: 12 }
+        result:
+          - 'Khách đang vui vẻ liền mua sạch số hàng bạn mang theo mà không hề mặc cả.'
+
+  - id: kt_dau_tu_chung_phuong_buon
+    title: Hùn vốn lập chuyến hàng liên tổng
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 2
+    weight: 3.5
+    tags: [kinh_te, buon_ban]
+    weight_modifiers:
+      - { condition: { var: player.origin, op: 'in', value: [nong_dan, thuong_nhan, quy_toc_nho] }, factor: 1.3 }
+      - { condition: { var: player.career, op: 'in', value: [nong_dan, linh, thao_khau, thuong_nhan, si_tu] }, factor: 1.2 }
+    text:
+      - 'Mấy hộ làm ăn có uy tín trong vùng rủ nhau góp vốn chung để thuê xe trâu và thuyền chở nông sản, tơ lụa đi bán tận kinh kỳ, chia lời theo cổ phần.'
+    options:
+      - id: d_gop_von_cung_di
+        text: 'Góp 4 quan tiền và cử người đi theo giám sát chuyến hàng'
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: 4.5, ledger: buon_ban }
+          - { type: org_contribution, value: 10 }
+          - { type: skill_xp, skill: thuong_mai, value: 14 }
+        result:
+          - 'Chuyến hàng chung thắng lợi trở về, phần cổ tức chia ra khiến ai nấy đều hài lòng.'
+      - id: d_gop_suc_ap_tai
+        text: 'Không bỏ tiền mặt mà nhận phần trông coi kho bãi và áp tải hàng'
+        effects:
+          - { type: money, value: 2.5, ledger: lam_thue }
+          - { type: skill_xp, skill: quan_su, value: 12 }
+          - { type: reputation, group: dan_lang, value: 4 }
+        result:
+          - 'Nhờ bạn trông coi cẩn mật, chuyến hàng không suy suyển một cân, được chia phần công xứng đáng.'
+
+  - id: kt_giu_the_dien_danh_gia
+    title: Lễ khao vọng và việc họ tộc cuối mùa
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    cooldown_years: 2
+    weight: 3.5
+    tags: [van_minh, gia_dinh]
+    weight_modifiers:
+      - { condition: { var: player.origin, op: 'in', value: [nong_dan, thuong_nhan, quy_toc_nho] }, factor: 1.4 }
+      - { condition: { var: player.career, op: 'in', value: [nong_dan, linh, thao_khau, thuong_nhan, si_tu] }, factor: 1.2 }
+    text:
+      - 'Đến kỳ họp họ và khao vọng đầu xuân, các bậc trưởng lão bàn chuyện tu bổ nhà thờ họ và lập quỹ khuyến học cho con em trong tộc.'
+    options:
+      - id: d_dong_gop_hau_hinh
+        text: 'Đóng góp 3 quan tiền để làm rạng danh gia phong'
+        condition: { var: household.money, op: '>=', value: 3 }
+        effects:
+          - { type: money, value: -3, ledger: su_kien }
+          - { type: scholarly_prestige, value: 6 }
+          - { type: filial_piety, value: 6 }
+          - { type: reputation, group: dan_lang, value: 6 }
+        result:
+          - 'Tên gia đình bạn được khắc trang trọng lên bia đá từ đường, cả tổng đều nể trọng.'
+      - id: d_gop_cong_viet_gia_pha
+        text: 'Nhận việc chép lại gia phả và trông coi việc lễ nghi'
+        effects:
+          - { type: scholarly_prestige, value: 4 }
+          - { type: filial_piety, value: 4 }
+          - { type: skill_xp, skill: hoc_van, value: 14 }
+        result:
+          - 'Cuốn gia phả được chép lại rõ ràng mạch lạc, các cụ trong họ hết lời khen ngợi.'

@@ -18,6 +18,7 @@ import { ChronicleModal } from '../Chronicle/ChronicleModal';
 import { FamilyTreeModal } from '../Family/FamilyTreeModal';
 import { LifeSummary } from '../LifeSummary/LifeSummary';
 import { RegionMapModal } from '../Map/RegionMapModal';
+import { OrganizationModal } from '../Organization/OrganizationModal';
 import { PropertiesPanel } from '../Properties/PropertiesPanel';
 import { RelationsModal } from '../Relations/RelationsModal';
 import { SuccessionModal } from '../Succession/SuccessionModal';
@@ -36,6 +37,7 @@ type ActiveModal =
   | 'family_tree'
   | 'properties'
   | 'relations'
+  | 'organization'
   | 'map'
   | 'chronicle';
 
@@ -178,6 +180,11 @@ export function LifeHud({ hud }: { hud: HudView }) {
             {t('subscreen.relations')}
           </button>
         )}
+        {showCareer && (
+          <button className="small" onClick={() => setModal('organization')}>
+            {t('subscreen.organization')}
+          </button>
+        )}
         {showMapBtn && (
           <button className="small" onClick={() => setModal('map')}>
             {t('subscreen.map')}
@@ -294,6 +301,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
         </Modal>
       )}
       {modal === 'relations' && <RelationsModal hud={hud} onClose={() => setModal(null)} />}
+      {modal === 'organization' && <OrganizationModal hud={hud} onClose={() => setModal(null)} />}
       {modal === 'map' && <RegionMapModal hud={hud} onClose={() => setModal(null)} />}
       {modal === 'chronicle' && <ChronicleModal hud={hud} onClose={() => setModal(null)} />}
 
@@ -309,7 +317,7 @@ export function LifeHud({ hud }: { hud: HudView }) {
         snap.showBirthCard && !hud.gameOver && <BirthCardModal card={hud.story.birthCard} />
       )}
       {hud.gameOver &&
-        (hud.dynasty.playMode === 'dynasty' && hud.succession ? (
+        ((hud.dynasty.playMode === 'dynasty' || hud.dynasty.playMode === 'legacy_of_ages') && hud.succession ? (
           <SuccessionModal summary={hud.gameOver} succession={hud.succession} dynasty={hud.dynasty} />
         ) : (
           <LifeSummary summary={hud.gameOver} />

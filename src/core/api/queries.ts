@@ -7,8 +7,11 @@ import { StatTarget } from '../engine/statTargets';
 import { fullName } from '../entities/Character';
 import type { ClanTie, DynastyFeud, PastLifeRecord, UnfinishedWish } from '../entities/Dynasty';
 import type { LedgerEntry, LedgerYear } from '../entities/Household';
+import type { DelegationPolicy, OrganizationFactors } from '../entities/Organization';
+import type { RebellionStageId } from '../entities/Polity';
+import type { ProvinceState } from '../entities/Province';
 import { farmlandOf, holdingsOf } from '../entities/Property';
-import type { CareerHistoryEntry, LogYear, PendingEvent, Resolution } from '../entities/World';
+import type { CareerHistoryEntry, HookState, LogYear, PendingEvent, Resolution, SchemeState, SecretState } from '../entities/World';
 import { aliveClanMembers } from '../systems/ai';
 import type { SimContext } from '../systems/context';
 import {
@@ -63,7 +66,11 @@ import {
   sideJobAvailable,
 } from '../systems/career';
 import { computeSummaryAxes, type SummaryAxisView } from '../systems/happiness';
+import { canJoinOrganization, ensureOrganizations } from '../systems/organization';
+import { ensurePoliticsState } from '../systems/politics';
+import { ensureRebellionState } from '../systems/rebellion';
 import { xpToNext } from '../systems/skills';
+import { ensureSocialState } from '../systems/social';
 import { currentCivilization, currentStatusRank } from '../systems/status';
 import { ambitionAvailable, focusAvailable } from './commands';
 import { getLifeCard, getStoryView, type LifeCardView, type StoryView } from './storyQueries';
@@ -140,6 +147,8 @@ export interface HudView {
     diseases: { id: string; name: string; description: string; severity: string; remainingMonths: number }[];
     traits: { id: string; name: string; description: string }[];
     skills: { id: string; name: string; level: number; xp: number; next: number; bandKey: string }[];
+    /** [1] Ký ức cá nhân đang còn ảnh hưởng tâm lý. */
+    memories: { id: string; label: string; importance: number; moodDelta: number; remainingMonths: number }[];
   };
   household: {
     money: number;
@@ -503,6 +512,68 @@ export interface HudView {
   matchmaking: MatchmakingView;
   /** [7] Bản đồ vùng 3 điểm (Làng nông – Thị trấn bến sông – Phủ thành), đi buôn chuyến, chuyển nhà & dịch bệnh. */
   region: RegionView;
+  /** [A] Quyền lực mềm: Uy hiếp, Bí mật, Nắm thóp & Mưu sự nhiều tháng. */
+  social: {
+    dread: number;
+    secrets: SecretState[];
+    hooks: HookState[];
+    activeScheme: SchemeState | null;
+  };
+  /** [C] Hệ thống Tổ chức Fractal & Ủy quyền (Phase 10). */
+  organizations: OrganizationView[];
+  /** [D] Hệ thống Chính trị Vương triều, Thiên mệnh, Phe phái, Tỉnh & Nổi dậy 8 giai đoạn (Phase 11). */
+  politics: PoliticsView;
+}
+
+export interface OrganizationView {
+  id: string;
+  name: string;
+  kind: string;
+  description: string;
+  settlementId: string;
+  joinCostMoney: number;
+  canJoin: boolean;
+  playerRank: number;
+  playerRankName: string | null;
+  nextRankName: string | null;
+  nextRankMinContribution: number | null;
+  playerContribution: number;
+  stipendMoneyMonth: number;
+  factors: OrganizationFactors;
+  delegation: {
+    deputyId: string | null;
+    deputyName: string | null;
+    policy: DelegationPolicy;
+    deputyLoyalty: number;
+    monthsDelegated: number;
+  };
+  availableDeputies: { id: string; name: string; call: string; loyalty: number }[];
+}
+
+export interface PoliticsView {
+  mandateOfHeaven: number;
+  imperialTreasury: number;
+  imperialArmy: number;
+  alignedFactionId: string | null;
+  factions: {
+    id: string;
+    name: string;
+    influence: number;
+    favorWithPlayer: number;
+  }[];
+  provinces: ProvinceState[];
+  rebellion: {
+    stage: RebellionStageId;
+    stageIndex: number;
+    progress: number;
+    grievance: number;
+    followers: number;
+    supplies: number;
+    secrecy: number;
+    legitimacy: number;
+    promise: 'chia_ruong' | 'xoa_thue' | 'tru_gian';
+    playerJoined: boolean;
+  };
 }
 
 export interface RegionNodeView {
@@ -953,7 +1024,7 @@ export function getHudView(ctx: SimContext): HudView {
     ...state.scheduled
       .filter((s) => s.label)
       .map((s) => ({ text: s.label!, monthsLeft: s.dueMonthIndex - state.clock.monthIndex })),
-  ];
+  ].slice(0, 3);
 
   const culture = activeCulture(ctx);
   const calendarStyle: 'can_chi' | 'bce_ce' =
@@ -1062,6 +1133,13 @@ export function getHudView(ctx: SimContext): HudView {
         xp: me.skills[s.id]?.xp ?? 0,
         next: xpToNext(ctx, me.skills[s.id]?.level ?? 0),
         bandKey: pickBand(display.skill_bands, me.skills[s.id]?.level ?? 0).key,
+      })),
+      memories: (me.memories ?? []).map((m) => ({
+        id: m.id,
+        label: m.label,
+        importance: m.importance,
+        moodDelta: m.moodDelta,
+        remainingMonths: m.remainingMonths,
       })),
     },
     household: {
@@ -1645,10 +1723,108 @@ export function getHudView(ctx: SimContext): HudView {
     gameOver: state.gameOver ? getLifeSummary(ctx) : null,
     story: getStoryView(ctx),
     dynasty: getDynastyView(ctx),
-    succession: state.gameOver && state.playMode === 'dynasty' ? getSuccessionView(ctx) : null,
+    succession:
+      state.gameOver && (state.playMode === 'dynasty' || state.playMode === 'legacy_of_ages')
+        ? getSuccessionView(ctx)
+        : null,
     villageClans: getVillageClansView(ctx),
     matchmaking: getMatchmakingView(ctx),
     region: getRegionView(ctx),
+    social: (() => {
+      const soc = ensureSocialState(state);
+      return {
+        dread: soc.dread,
+        secrets: soc.secrets,
+        hooks: soc.hooks,
+        activeScheme: soc.activeScheme,
+      };
+    })(),
+    organizations: getOrganizationsView(ctx),
+    politics: getPoliticsView(ctx),
+  };
+}
+
+export function getOrganizationsView(ctx: SimContext): OrganizationView[] {
+  const orgs = ensureOrganizations(ctx);
+  const { state, content } = ctx;
+  const deputies = Object.values(state.village)
+    .map((id) => state.characters[id])
+    .filter((c): c is NonNullable<typeof c> => Boolean(c?.alive))
+    .map((c) => ({
+      id: c.id,
+      name: fullName(c),
+      call: callOf(ctx, c),
+      loyalty: clamp(65 + Math.round(c.opinionOfPlayer * 0.3) + (c.favorWithPlayer ?? 0) * 3, 20, 100),
+    }));
+
+  return (content.organizations ?? []).map((def) => {
+    const org = orgs[def.id]!;
+    const rIdx = org.playerRank;
+    const curRank = rIdx >= 0 ? def.ranks[rIdx] : undefined;
+    const nextRank = rIdx >= 0 && rIdx < 3 ? def.ranks[rIdx + 1] : undefined;
+    const deputyChar = org.delegation.deputyId ? state.characters[org.delegation.deputyId] : undefined;
+
+    return {
+      id: def.id,
+      name: def.name,
+      kind: def.kind,
+      description: def.description,
+      settlementId: def.settlement_id,
+      joinCostMoney: def.join_cost_money,
+      canJoin: canJoinOrganization(ctx, def.id),
+      playerRank: rIdx,
+      playerRankName: curRank?.name ?? null,
+      nextRankName: nextRank?.name ?? null,
+      nextRankMinContribution: nextRank?.min_contribution ?? null,
+      playerContribution: Math.round(org.playerContribution),
+      stipendMoneyMonth: curRank?.stipend_money_month ?? 0,
+      factors: { ...org.factors },
+      delegation: {
+        deputyId: org.delegation.deputyId,
+        deputyName: deputyChar ? callOf(ctx, deputyChar) : null,
+        policy: org.delegation.policy,
+        deputyLoyalty: org.delegation.deputyLoyalty,
+        monthsDelegated: org.delegation.monthsDelegated,
+      },
+      availableDeputies: deputies,
+    };
+  });
+}
+
+export function getPoliticsView(ctx: SimContext): PoliticsView {
+  const pol = ensurePoliticsState(ctx.state);
+  const reb = ensureRebellionState(ctx.state);
+  const lang = ctx.content.lang[ctx.content.balance.display.default_language] ?? {};
+  const stages: RebellionStageId[] = [
+    'none',
+    'cam_phan',
+    'ket_noi',
+    'to_chuc',
+    'cho_thoi',
+    'khoi_nghia',
+    'lan_rong',
+    'ket_cuc',
+    'hau_noi_day',
+  ];
+  return {
+    mandateOfHeaven: pol.mandateOfHeaven,
+    imperialTreasury: pol.imperialTreasury,
+    imperialArmy: pol.imperialArmy,
+    alignedFactionId: pol.alignedFactionId,
+    factions: Object.values(pol.factions).map((f) => ({
+      id: f.id,
+      name: lang[f.name] ?? f.name,
+      influence: f.influence,
+      favorWithPlayer: f.favorWithPlayer,
+    })),
+    provinces: Object.values(pol.provinces).map((p) => ({
+      ...p,
+      name: lang[p.name] ?? p.name,
+    })),
+    rebellion: {
+      ...reb,
+      stageIndex: Math.max(0, stages.indexOf(reb.stage)),
+    },
   };
 }
 

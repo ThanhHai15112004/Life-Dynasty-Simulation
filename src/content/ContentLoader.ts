@@ -15,6 +15,7 @@ import {
   diseaseFileSchema,
   focusFileSchema,
   langSchema,
+  organizationFileSchema,
   originSchema,
   polityFileSchema,
   propertyFileSchema,
@@ -38,6 +39,7 @@ import {
   type FateMode,
   type Focus,
   type LangPack,
+  type OrganizationDef,
   type Origin,
   type PlayMode,
   type Polity,
@@ -65,6 +67,7 @@ export interface ContentBundle {
   focuses: Focus[];
   properties: PropertyType[];
   ventures: VentureDef[];
+  organizations: OrganizationDef[];
   diseases: Disease[];
   ambitions: Ambition[];
   careers: Career[];
@@ -91,6 +94,7 @@ export interface ContentBundle {
     focus: Map<string, Focus>;
     property: Map<string, PropertyType>;
     venture: Map<string, VentureDef>;
+    organization: Map<string, OrganizationDef>;
     disease: Map<string, Disease>;
     ambition: Map<string, Ambition>;
     career: Map<string, Career>;
@@ -195,6 +199,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const focuses = collect('focuses', focusFileSchema, 'focuses');
   const properties = collect('properties', propertyFileSchema, 'properties');
   const ventures = collect('ventures', ventureFileSchema, 'ventures');
+  const organizations = collect('organizations', organizationFileSchema, 'organizations');
   const diseases = collect('diseases', diseaseFileSchema, 'diseases');
   const ambitions = collect('ambitions', ambitionFileSchema, 'ambitions');
   const careerFiles = single('careers', careerFileSchema);
@@ -255,6 +260,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     focus: indexBy(focuses, 'focuses'),
     property: indexBy(properties, 'properties'),
     venture: indexBy(ventures, 'ventures'),
+    organization: indexBy(organizations, 'organizations'),
     disease: indexBy(diseases, 'diseases'),
     ambition: indexBy(ambitions, 'ambitions'),
     career: indexBy(careers, 'careers'),
@@ -287,6 +293,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     focuses,
     properties,
     ventures,
+    organizations,
     diseases,
     ambitions,
     careers,

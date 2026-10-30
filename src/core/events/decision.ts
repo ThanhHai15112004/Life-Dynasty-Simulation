@@ -32,8 +32,33 @@ function shownRange(ctx: SimContext, p: number, skill: string | undefined): [num
 
 /** [1] Số phương án người chơi thấy được lúc này — dưới 2 thì sự kiện không cho chọn thật, không được hiện. */
 export function shownOptionCount(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): number {
-  const r = createResolver(ctx, { roles });
-  return ev.options.filter((o) => evaluate(o.condition, r)).length;
+  let r: ReturnType<typeof createResolver> | undefined;
+  let count = 0;
+  for (const o of ev.options) {
+    if (!o.condition) {
+      count += 1;
+    } else {
+      if (!r) r = createResolver(ctx, { roles });
+      if (evaluate(o.condition, r)) count += 1;
+    }
+  }
+  return count;
+}
+
+/** Kiểm tra nhanh sự kiện có ít nhất 2 phương án khả dụng không (dừng sớm ngay khi đủ 2). */
+export function hasAtLeastTwoOptions(ctx: SimContext, ev: DecisionEvent, roles: Record<string, string>): boolean {
+  let r: ReturnType<typeof createResolver> | undefined;
+  let count = 0;
+  for (const o of ev.options) {
+    if (!o.condition) {
+      count += 1;
+    } else {
+      if (!r) r = createResolver(ctx, { roles });
+      if (evaluate(o.condition, r)) count += 1;
+    }
+    if (count >= 2) return true;
+  }
+  return false;
 }
 
 /** Dựng thẻ sự kiện (lời kể, phương án khả dụng, khoảng xác suất) và ghi lịch sử đã gặp. */

@@ -24,6 +24,9 @@ export const RngStream = {
   Region: 'region',
   /** Bạn cùng lứa sống song song (luồng riêng để không làm lệch các hệ thống khác). */
   Peers: 'peers',
+  Social: 'social',
+  Organization: 'organization',
+  Politics: 'politics',
 } as const;
 
 export function createContext(state: GameState, content: ContentBundle): SimContext {

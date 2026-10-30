@@ -9,6 +9,10 @@ play_modes:
     name_key: play_mode.one_life.name
     desc_key: play_mode.one_life.desc
     succession: false
+  - id: legacy_of_ages
+    name_key: play_mode.legacy_of_ages.name
+    desc_key: play_mode.legacy_of_ages.desc
+    succession: true
 
 default_mode: doi_thuc
 modes:

@@ -36,7 +36,7 @@ household:
   members:
     - { relation: father, age: [40, 50], health: [55, 75], skills: { thuong_mai: [4, 7] } }
     - { relation: mother, age: [36, 46], health: [58, 78], skills: { thuong_mai: [3, 5] } }
-    - { relation: sibling, count: [0, 2], age_offset: [-8, 5], health: [60, 80] }
+    - { relation: sibling, count: [1, 2], age_offset: [-5, 6], health: [60, 80] }
 village_npcs:
   - { role: ba_ho, sex: m, age: [45, 62], opinion: [0, 15] }
   - { role: ly_truong, sex: m, age: [50, 65], opinion: [0, 10] }

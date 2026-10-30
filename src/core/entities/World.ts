@@ -3,9 +3,57 @@ import type { ExamDegreeId } from '@content/schemas';
 import type { Character } from './Character';
 import type { DynastyState, NpcClan } from './Dynasty';
 import type { Household, LedgerYear, Purse } from './Household';
+import type { OrganizationState } from './Organization';
+import type { PolityState, RebellionState } from './Polity';
 import type { ActiveTrip, Settlement } from './Settlement';
 
-export const SAVE_VERSION = 6;
+export const SAVE_VERSION = 7;
+
+export interface SecretState {
+  id: string;
+  /** 'player' hoặc id của NPC bị nắm bí mật. */
+  ownerId: string;
+  ownerName: string;
+  /** Loại bí mật: 'no_ngam' | 'gian_lan' | 'tinh_rieng' | 'am_muu' | 'tham_o'. */
+  kind: string;
+  label: string;
+  severity: number;
+  exposed: boolean;
+}
+
+export interface HookState {
+  id: string;
+  /** ID của NPC liên quan. */
+  targetId: string;
+  targetName: string;
+  /** 'on_npc' (người chơi nắm thóp NPC) hoặc 'on_player' (NPC nắm thóp người chơi). */
+  direction: 'on_npc' | 'on_player';
+  /** 'weak' (nhỏ, dùng 1 lần) hoặc 'strong' (lớn, ép việc trọng đại). */
+  strength: 'weak' | 'strong';
+  reason: string;
+  expiresYear: number;
+}
+
+export type SchemeKind = 'tim_bi_mat' | 'boi_nho' | 'ket_than' | 'ung_ho_lang' | 'ep_hon_su';
+
+export interface SchemeState {
+  id: string;
+  kind: SchemeKind;
+  targetId: string;
+  targetName: string;
+  /** Tiến độ 0..100%. */
+  progress: number;
+  /** Độ kín đáo 0..100% (thấp dễ bại lộ). */
+  secrecy: number;
+  monthsElapsed: number;
+}
+
+export interface SocialState {
+  secrets: SecretState[];
+  hooks: HookState[];
+  activeScheme: SchemeState | null;
+  dread: number;
+}
 
 export interface CareerHistoryEntry {
   careerId: string;
@@ -196,6 +244,16 @@ export interface GameState {
     baselineWealth: number;
     ambitionBonus: number;
   };
+  /** [1] Số tháng chờ trước khi có thể bùng phát khủng hoảng tâm lý (Mental Break) tiếp theo. */
+  mentalBreakCooldown?: number;
+  /** [1] Quyền lực mềm: Bí mật, Nắm thóp, Mưu sự nhiều tháng & Uy hiếp (GDD 03 §6). */
+  social?: SocialState;
+  /** [2] Các tổ chức trong vùng & cơ chế quản lý Fractal / Ủy quyền (Phase 10 — GDD 03 §10). */
+  organizations?: Record<string, OrganizationState>;
+  /** [3] Phong trào nổi dậy 8 giai đoạn từ dưới lên (Phase 11 — GDD 03 §12). */
+  rebellion?: RebellionState;
+  /** [3] Chính trị vương triều, Thiên mệnh, Phe phái & Các tỉnh (Phase 11 — GDD 03 §11). */
+  politics?: PolityState;
   /** [1] Trạng thái Khuôn văn minh (Quan liêu Nho giáo: Hiếu đạo, Danh vọng sĩ phu, Khoa cử, Cư tang). */
   civilization: {
     id: string;

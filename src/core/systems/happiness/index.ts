@@ -1,16 +1,34 @@
 // [1] Mô hình Hạnh phúc tâm lý 3 tầng, Tham vọng cả đời & Tổng kết đời 5 trục độc lập (GDD 01 §6–7)
 // Luật hệ giá trị và công thức các trục nằm ở data/balance/life.yaml — code chỉ cộng dồn.
 import { clamp, pickBand } from '@shared/curve';
+import type { Character, CharacterMemory } from '../../entities/Character';
 import { evaluate } from '../../engine/RuleEvaluator';
 import { writeTemplate } from '../../events/journal';
 import { SystemLog } from '../../events/systemLogKeys';
-import type { SimContext } from '../context';
+import { RngStream, type SimContext } from '../context';
 import { householdNetWorth } from '../economy/helpers';
 import { aliveChildrenOf } from '../family';
+import { healthCap } from '../life/health';
 import { ageNow, player } from '../people';
 import { createResolver } from '../resolver';
+import { changeReputation } from '../social';
 
 export { householdNetWorth };
+
+/** Ghi nhận một ký ức cá nhân có thời hạn và tác động cảm xúc cho nhân vật (tối đa 8 ký ức gần nhất). */
+export function addCharacterMemory(c: Character, mem: CharacterMemory): void {
+  if (!c.memories) c.memories = [];
+  const existingIdx = c.memories.findIndex((m) => m.id === mem.id);
+  if (existingIdx >= 0) {
+    c.memories[existingIdx] = mem;
+  } else {
+    c.memories.push(mem);
+    if (c.memories.length > 8) {
+      c.memories.sort((a, b) => b.importance - a.importance);
+      c.memories.length = 8;
+    }
+  }
+}
 
 export interface SummaryAxisView {
   id: string;
@@ -45,6 +63,13 @@ export function monthlyHappiness(ctx: SimContext): void {
           state.ambition.achievedMilestones.push(ms.id);
           me.stress = clamp(me.stress - ms.stress_relief, 0, content.balance.life.stress.max);
           state.happiness.ambitionBonus += ms.satisfaction_bonus;
+          addCharacterMemory(me, {
+            id: `amb_${ms.id}`,
+            label: `${amb.name} — ${ms.name}`,
+            importance: 8,
+            moodDelta: 6,
+            remainingMonths: 36,
+          });
           writeTemplate(ctx, SystemLog.AmbitionMilestone, {
             params: { title: `${amb.name} — ${ms.name}` },
           });
@@ -66,6 +91,13 @@ export function monthlyHappiness(ctx: SimContext): void {
           me.stress = clamp(me.stress - ms.stress_relief, 0, content.balance.life.stress.max);
           state.happiness.ambitionBonus += ms.satisfaction_bonus;
           state.dynasty.prestige += 15;
+          addCharacterMemory(me, {
+            id: `wish_${wish.id}`,
+            label: wish.text,
+            importance: 9,
+            moodDelta: 8,
+            remainingMonths: 48,
+          });
           writeTemplate(ctx, SystemLog.WishFulfilled, {
             params: { title: wish.text, ancestor: wish.fromName },
           });
@@ -73,6 +105,44 @@ export function monthlyHappiness(ctx: SimContext): void {
       }
     }
   }
+
+  // 1c) Suy giảm ký ức cá nhân hàng tháng & Kiểm tra Khủng hoảng tâm lý (Mental Break khi stress >= ngưỡng)
+  if (me.memories && me.memories.length > 0) {
+    for (const m of me.memories) m.remainingMonths -= 1;
+    me.memories = me.memories.filter((m) => m.remainingMonths > 0);
+  }
+  state.mentalBreakCooldown = Math.max(0, (state.mentalBreakCooldown ?? 0) - 1);
+  const stressCfg = content.balance.life.stress;
+  if (me.stress >= stressCfg.mental_break_threshold && (state.mentalBreakCooldown ?? 0) <= 0) {
+    const rng = ctx.rng.get(RngStream.Social);
+    const pool = stressCfg.mental_break_types;
+    const brk = pool.length > 0 ? rng.pick(pool) : undefined;
+    me.stress = clamp(me.stress - stressCfg.mental_break_relief, 0, stressCfg.max);
+    state.mentalBreakCooldown = stressCfg.mental_break_cooldown_months;
+    if (brk) {
+      if (brk.health_delta !== 0) {
+        me.health = clamp(me.health + brk.health_delta, 1, healthCap(ctx, me));
+      }
+      if (brk.reputation_delta !== 0) {
+        changeReputation(ctx, 'dan_lang', brk.reputation_delta);
+      }
+      addCharacterMemory(me, {
+        id: `mb_${brk.id}`,
+        label: brk.name,
+        importance: 7,
+        moodDelta: brk.mood_delta,
+        remainingMonths: brk.memory_months,
+      });
+      writeTemplate(ctx, SystemLog.MentalBreak, {
+        params: { title: brk.name },
+      });
+    }
+  }
+  const memoryMoodBonus = clamp(
+    (me.memories ?? []).reduce((sum, m) => sum + m.moodDelta, 0),
+    -18,
+    18,
+  );
 
   // 2) Tính Tâm trạng (Mood) trung hạn và Mãn nguyện đời (Life Satisfaction = Thực tế - Kỳ vọng + Giá trị sống)
   const wealthGap = (householdNetWorth(ctx) - state.happiness.baselineWealth) * hCfg.wealth_factor;
@@ -90,7 +160,7 @@ export function monthlyHappiness(ctx: SimContext): void {
 
   const [mLo, mHi] = hCfg.mood_wealth_clamp;
   const [sLo, sHi] = hCfg.satisfaction_wealth_clamp;
-  const mood = clamp(hCfg.start + healthBonus - stressPenalty + clamp(wealthGap, mLo, mHi), hCfg.min, hCfg.max);
+  const mood = clamp(hCfg.start + healthBonus - stressPenalty + memoryMoodBonus + clamp(wealthGap, mLo, mHi), hCfg.min, hCfg.max);
   const satisfaction = clamp(
     hCfg.start +
       clamp(wealthGap, sLo, sHi) +

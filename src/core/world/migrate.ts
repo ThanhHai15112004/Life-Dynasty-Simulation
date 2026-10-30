@@ -2,6 +2,9 @@
 import type { ContentBundle } from '@content/ContentLoader';
 import { ageOf } from '../entities/Character';
 import { SAVE_VERSION, type GameState } from '../entities/World';
+import { ensurePoliticsState } from '../systems/politics';
+import { ensureRebellionState } from '../systems/rebellion';
+import { ensureSocialState } from '../systems/social';
 
 export function migrateState(raw: Partial<GameState>, content: ContentBundle): GameState {
   const origin = content.index.origin.get(raw.originId ?? '') ?? content.origins[0];
@@ -46,6 +49,31 @@ export function migrateState(raw: Partial<GameState>, content: ContentBundle): G
   raw.reflectionDue = raw.reflectionDue ?? null;
   raw.reputation = raw.reputation ?? {};
   raw.happiness = raw.happiness ?? { mood: happy.start, satisfaction: happy.start, baselineWealth: 0, ambitionBonus: 0 };
+  raw.mentalBreakCooldown = raw.mentalBreakCooldown ?? 0;
+  ensureSocialState(raw as GameState);
+  ensurePoliticsState(raw as GameState);
+  ensureRebellionState(raw as GameState);
+  raw.organizations = raw.organizations ?? {};
+  for (const def of content.organizations ?? []) {
+    if (!raw.organizations[def.id]) {
+      raw.organizations[def.id] = {
+        id: def.id,
+        name: def.name,
+        kind: def.kind,
+        settlementId: def.settlement_id,
+        leaderId: 'npc',
+        playerRank: -1,
+        playerContribution: 0,
+        factors: { ...def.initial_factors },
+        delegation: {
+          deputyId: null,
+          policy: 'balanced',
+          deputyLoyalty: 75,
+          monthsDelegated: 0,
+        },
+      };
+    }
+  }
   raw.career = {
     id: origin.default_career,
     since: 0,

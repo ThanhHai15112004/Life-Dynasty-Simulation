@@ -165,6 +165,18 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         const amb = state.ambition.id ? content.index.ambition.get(state.ambition.id) : undefined;
         return amb ? state.ambition.achievedMilestones.length / amb.milestones.length : 0;
       }
+      case 'dread':
+        return c.id === state.playerId ? (state.social?.dread ?? 0) : 0;
+      case 'secrets_count':
+        return c.id === state.playerId ? (state.social?.secrets.filter((s) => !s.exposed).length ?? 0) : 0;
+      case 'hooks_count':
+        return c.id === state.playerId
+          ? (state.social?.hooks.filter((hk) => hk.direction === 'on_npc').length ?? 0)
+          : 0;
+      case 'memories_count':
+        return c.memories?.length ?? 0;
+      case 'has_active_scheme':
+        return c.id === state.playerId ? state.social?.activeScheme !== null && state.social?.activeScheme !== undefined : false;
       default:
         throw new UnknownVariableError(path);
     }
@@ -224,6 +236,16 @@ export function createResolver(ctx: SimContext, b: Bindings = {}): StateResolver
         if (key === 'fate_mode') return state.fateMode;
         if (key === 'play_mode') return state.playMode;
         if (key === 'bad_luck') return state.badLuckCounter ?? 0;
+        if (key === 'mandate_of_heaven') return state.politics?.mandateOfHeaven ?? 78;
+        if (key === 'rebellion_stage') return state.rebellion?.stage ?? 'none';
+        if (key === 'rebellion_grievance') return state.rebellion?.grievance ?? 0;
+        if (key === 'rebellion_joined') return Boolean(state.rebellion?.playerJoined);
+        if (key === 'aligned_faction') return state.politics?.alignedFactionId ?? '';
+        if (key === 'in_any_org') return Object.values(state.organizations ?? {}).some((o) => o.playerRank >= 0);
+        if (key.startsWith('org_rank.')) {
+          const orgId = key.slice(9);
+          return state.organizations?.[orgId]?.playerRank ?? -1;
+        }
         throw new UnknownVariableError(path);
       }
       case 'dynasty': {

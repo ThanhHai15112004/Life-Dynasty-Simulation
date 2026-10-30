@@ -15,6 +15,15 @@ export interface ActiveDisease {
   treatedAt?: number;
 }
 
+/** [1] Ký ức cá nhân có trọng số cảm xúc và suy giảm theo thời gian (GDD 02 §2.1). */
+export interface CharacterMemory {
+  id: string;
+  label: string;
+  importance: number;
+  moodDelta: number;
+  remainingMonths: number;
+}
+
 export interface Character {
   id: string;
   familyName: string;
@@ -77,6 +86,8 @@ export interface Character {
   careerMonths?: number;
   /** [5] Công trạng tích lũy trong nghề của thành viên trong hộ (Phase 5). */
   careerMerit?: number;
+  /** [1] Danh sách ký ức cá nhân đang còn ảnh hưởng tâm lý (suy giảm dần theo tháng). */
+  memories?: CharacterMemory[];
 }
 
 /** Tuổi tính theo tháng sinh: qua tháng sinh của năm nay mới tăng tuổi. */

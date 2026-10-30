@@ -174,14 +174,47 @@ export class AudioManager {
     this.noteIndex += 1;
 
     const vol = (this.settings.musicVolume / 100) * track.gain;
-    this.playTone(ctx, freq, 0.35, track.wave, vol);
+    // Giai điệu ngũ cung chính kèm âm bồi quãng năm/quãng tám trầm ấm như tiếng đàn tranh / sáo trúc
+    this.playTone(ctx, freq, 0.48, track.wave, vol);
+    if (this.noteIndex % 2 === 0) {
+      this.playTone(ctx, freq * 0.5, 0.72, 'sine', vol * 0.45, 0.04);
+    }
+    if (this.noteIndex % 4 === 0) {
+      this.playTone(ctx, freq * 1.5, 0.28, 'sine', vol * 0.25, 0.12);
+    }
 
-    // Chèn âm thanh môi trường nhẹ vào nhịp
-    if (this.settings.ambientVolume > 0 && this.noteIndex % 3 === 0) {
+    // Chèn âm thanh môi trường sống động (mưa rơi, gió đồng quê, tiếng chim/gà gáy, sóng nước, chợ phiên)
+    if (this.settings.ambientVolume > 0 && this.noteIndex % 2 === 0) {
       const amb = this.config.ambient[this.currentAmbient] ?? DEFAULT_AUDIO_CONFIG.ambient.dong_que;
       const ambVol = (this.settings.ambientVolume / 100) * amb.gain;
-      this.playTone(ctx, amb.baseFreq, 0.18, 'sine', ambVol);
+      this.playAmbientLayer(ctx, this.currentAmbient, amb.baseFreq, ambVol);
     }
+  }
+
+  private playAmbientLayer(ctx: AudioContext, kind: AmbientKind, baseFreq: number, gainValue: number): void {
+    if (kind === 'mua') {
+      // Tiếng hạt mưa rơi liên hồi
+      this.playTone(ctx, baseFreq * 1.15, 0.09, 'triangle', gainValue * 0.8, 0);
+      this.playTone(ctx, baseFreq * 0.85, 0.11, 'sine', gainValue * 0.7, 0.14);
+      return;
+    }
+    if (kind === 'dong_que') {
+      // Tiếng gió đồng và tiếng chim/gà gáy xa xăm
+      this.playTone(ctx, baseFreq, 0.24, 'sine', gainValue * 0.75, 0);
+      if (this.noteIndex % 6 === 0) {
+        this.playTone(ctx, 587.33, 0.1, 'sine', gainValue * 0.65, 0.08);
+        this.playTone(ctx, 659.25, 0.14, 'sine', gainValue * 0.65, 0.18);
+      }
+      return;
+    }
+    if (kind === 'cho') {
+      // Nhịp rộn ràng phố chợ bến sông
+      this.playTone(ctx, baseFreq, 0.12, 'triangle', gainValue * 0.8, 0);
+      this.playTone(ctx, baseFreq * 1.25, 0.12, 'sine', gainValue * 0.65, 0.12);
+      return;
+    }
+    // Sóng nước vỗ mạn thuyền
+    this.playTone(ctx, baseFreq, 0.32, 'sine', gainValue * 0.85, 0);
   }
 
   playSfx(kind: SfxKind): void {

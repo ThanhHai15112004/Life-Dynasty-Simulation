@@ -24,6 +24,14 @@ health:
 stress:
   max: 100
   start: 20
+  mental_break_threshold: 90
+  mental_break_cooldown_months: 18
+  mental_break_relief: 28
+  mental_break_types:
+    - { id: dap_pha, name: Đập phá đồ đạc trút giận, mood_delta: -6, memory_months: 18, health_delta: -2, reputation_delta: -2 }
+    - { id: chim_trong_men_ruou, name: Tìm quên nơi quán rượu, mood_delta: -5, memory_months: 18, health_delta: -3, reputation_delta: -1 }
+    - { id: khep_minh_tinh_tam, name: Đóng cửa khép mình tịnh tâm, mood_delta: -3, memory_months: 12, health_delta: 0, reputation_delta: 0 }
+    - { id: gat_gong_nguoi_nha, name: Trút cơn nóng giận lên người nhà, mood_delta: -7, memory_months: 24, health_delta: 0, reputation_delta: -2 }
 
 mortality:
   # Tỷ lệ chết mỗi NĂM theo tuổi khi sức khỏe bình thường; engine tự quy ra tháng.
@@ -304,6 +312,6 @@ career_v2:
   family_member_merit_month: 0.6
   family_member_income_share: 0.45
   upbringing_career_pools:
-    di_hoc: [si_tu, thay_lang, nha_lai]
-    hoc_nghe: [tho_moc, tho_ren, ban_rong, thuong_nhan, linh]
-    phu_viec_nha: [nong_dan, ta_dien, lam_thue, ngu_dan, chu_do]
+    di_hoc: [si_tu, thay_lang, nha_lai, tang_ni, thay_boi]
+    hoc_nghe: [tho_moc, tho_ren, tho_gom, tho_det, ban_rong, thuong_nhan, linh, chu_quan, nau_ruou, do_te, hat_rong]
+    phu_viec_nha: [nong_dan, ta_dien, lam_thue, ngu_dan, chu_do, o_do, chan_vit, phu_khuan_vac, lam_muoi, kiem_cui_nghe]

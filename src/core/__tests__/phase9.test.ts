@@ -63,13 +63,84 @@ describe('Phase 9: 5 Bots, Save Compression, 200-Year Performance & Content Dens
     expect(saveSizeKb(session.state)).toBeLessThan(150);
   });
 
-  it('validates 100% language key parity (vi.json <-> en.json) and emits content density backlog warnings', () => {
+  it('validates 100% language key parity (vi.json <-> en.json) and zero content density warnings on production content', () => {
     const viKeys = Object.keys(content.lang.vi ?? {}).sort();
     const enKeys = Object.keys(content.lang.en ?? {}).sort();
     expect(enKeys).toEqual(viKeys);
+    expect(content.careers.length).toBeGreaterThanOrEqual(30);
 
-    const report = validateContent(content, loadNodeAssetIds());
+    const assets = loadNodeAssetIds();
+    const report = validateContent(content, assets);
     expect(report.errors).toEqual([]);
-    expect(report.warnings.some((w) => w.startsWith('[Độ dày nội dung]'))).toBe(true);
+    expect(report.warnings.filter((w) => w.startsWith('[Độ dày nội dung]'))).toEqual([]);
+
+    const emptyEventsReport = validateContent({ ...content, events: [] }, assets);
+    expect(emptyEventsReport.warnings.some((w) => w.startsWith('[Độ dày nội dung]'))).toBe(true);
+  });
+
+  it('exercises Mental Break, Soft Power Schemes/Hooks/Secrets, Organizations & Delegation, 8-Stage Rebellion, Politics, and Legacy of Ages', () => {
+    const s = GameSession.create(content, {
+      originId: 'thuong_nhan',
+      startAge: 18,
+      seed: 'full-50-criteria',
+      playMode: 'legacy_of_ages',
+    });
+    expect(s.state.playMode).toBe('legacy_of_ages');
+
+    // 1. Mental Break khi stress >= 90
+    const me = s.state.characters[s.state.playerId];
+    me.stress = 95;
+    s.tickMonth();
+    if (s.state.pending) {
+      s.dispatch({ type: 'chooseOption', optionId: s.state.pending.options[0].id });
+    }
+    if (s.state.minor) {
+      s.autoResolveMinor();
+    }
+    expect(me.stress).toBeLessThan(90);
+    expect(s.state.mentalBreakCooldown).toBeGreaterThan(0);
+    expect((me.memories ?? []).some((m) => m.id.startsWith('mb_'))).toBe(true);
+
+    // 2. Soft Power: Schemes, Secrets & Hooks
+    const npcId = Object.values(s.state.village)[0] ?? '';
+    expect(npcId.length).toBeGreaterThan(0);
+    expect(s.dispatch({ type: 'startScheme', kind: 'ket_than', targetId: npcId }).ok).toBe(true);
+    expect(s.state.social?.activeScheme?.kind).toBe('ket_than');
+    expect(s.dispatch({ type: 'cancelScheme' }).ok).toBe(true);
+    expect(s.state.social?.activeScheme).toBeNull();
+
+    // 3. Organizations (5 Fractal factors) & NPC Delegation
+    const h = s.state.households[s.state.householdId];
+    h.money = 100;
+    expect(s.dispatch({ type: 'joinOrganization', orgId: 'thuong_hoi' }).ok).toBe(true);
+    expect(s.dispatch({ type: 'contributeOrganization', orgId: 'thuong_hoi', amount: 30 }).ok).toBe(true);
+    expect(s.dispatch({ type: 'investOrganizationFactor', orgId: 'thuong_hoi', factor: 'treasury' }).ok).toBe(true);
+    expect(
+      s.dispatch({ type: 'delegateOrganization', orgId: 'thuong_hoi', deputyId: npcId, policy: 'balanced' }).ok,
+    ).toBe(true);
+    expect(s.state.organizations?.thuong_hoi?.delegation.deputyId).toBe(npcId);
+
+    // 4. Kingdom Politics, Court Petitions & Military Campaigns
+    expect(s.dispatch({ type: 'alignFaction', factionId: 'thanh_luu' }).ok).toBe(true);
+    expect(s.state.politics?.alignedFactionId).toBe('thanh_luu');
+    expect(s.dispatch({ type: 'petitionCourt', policy: 'giam_thue' }).ok).toBe(true);
+    expect(s.dispatch({ type: 'joinCareer', careerId: 'linh' }).ok).toBe(true);
+    expect(s.dispatch({ type: 'militaryCampaign', provinceId: 'kinh_lo', action: 'suppress_unrest' }).ok).toBe(true);
+
+    // 5. 8-Stage Bottom-Up Rebellion
+    expect(s.dispatch({ type: 'joinRebellion', promise: 'chia_ruong' }).ok).toBe(true);
+    expect(s.state.rebellion?.playerJoined).toBe(true);
+    expect(s.dispatch({ type: 'rebellionAction', action: 'gather_followers' }).ok).toBe(true);
+
+    // 6. Fast-forward decade in legacy_of_ages mode
+    if (s.state.pending) {
+      s.dispatch({ type: 'chooseOption', optionId: s.state.pending.options[0].id });
+    }
+    if (s.state.minor) {
+      s.autoResolveMinor();
+    }
+    const yearBefore = s.state.clock.year;
+    expect(s.dispatch({ type: 'fastForwardDecade' }).ok).toBe(true);
+    expect(s.state.clock.year).toBeGreaterThan(yearBefore);
   });
 });

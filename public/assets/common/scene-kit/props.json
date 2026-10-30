@@ -452,6 +452,53 @@
         "w": "stone_light",
         "O": "outline"
       }
+    },
+    "lo_gom_viet": {
+      "key": {
+        "T": "tile",
+        "t": "tile_dark",
+        "F": "cloth_red",
+        "Y": "gold",
+        "S": "stone_dark"
+      },
+      "rows": [
+        "......tttttt......",
+        "....ttTTTTTTtt....",
+        "...tTTTTTTTTTTt...",
+        "..tTTTFFFFFFTTTt..",
+        "..tTTFFYYYYFFTTt..",
+        "..SSSSSSSSSSSSSS.."
+      ]
+    },
+    "khung_cui_viet": {
+      "key": {
+        "D": "wood_dark",
+        "d": "wood",
+        "R": "cloth_red",
+        "Y": "cloth_yellow"
+      },
+      "rows": [
+        "..DD..........DD..",
+        "..DDDDDDDDDDDDDD..",
+        "..DD.RRRRYYYY.DD..",
+        "..DD.YYYYRRRR.DD..",
+        "..dd..........dd.."
+      ]
+    },
+    "co_nghia_quan": {
+      "key": {
+        "P": "wood_dark",
+        "R": "cloth_red",
+        "Y": "gold"
+      },
+      "rows": [
+        ".PYYYYYY.",
+        ".PRRRRRR.",
+        ".PRRYYRR.",
+        ".PRRRRRR.",
+        ".P.......",
+        ".P......."
+      ]
     }
   }
 }

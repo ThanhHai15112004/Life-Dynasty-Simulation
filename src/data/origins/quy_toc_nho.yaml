@@ -25,13 +25,13 @@ player:
   skills: { hoc_van: [2, 5], quan_tri: [1, 3], ngoai_giao: [1, 3] }
   trait_count: 2
 household:
-  money: [10, 18]
-  food: [35, 50]
-  debt: [8, 16]
+  money: [8, 15]
+  food: [30, 44]
+  debt: [14, 24]
   living_standard: du_day
   properties:
     - { id: phu_nho, count: [1, 1] }
-    - { id: ruong, count: [9, 13] }   # [1.5] đủ ruộng phát canh để thu tô là nguồn sống chính
+    - { id: ruong, count: [6, 9] }   # [1.5] đủ ruộng phát canh để thu tô là nguồn sống chính
     - { id: trau, count: [1, 1] }
   members:
     - { relation: father, age: [42, 54], health: [50, 70], skills: { hoc_van: [5, 8], quan_tri: [3, 6] } }

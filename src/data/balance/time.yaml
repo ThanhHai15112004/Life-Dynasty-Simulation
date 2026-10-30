@@ -1,8 +1,8 @@
 # [0] Nhịp thời gian (GDD 01 §3.1): game tự trôi, có Pause / Auto-pause
 start_year: 1042
 start_month: 1
-# Một tháng game ở tốc độ 1× kéo dài bao nhiêu mili-giây thực (5000 → một năm ≈ 1 phút)
-ms_per_month_at_1x: 5000
+# Một tháng game ở tốc độ 1× kéo dài bao nhiêu mili-giây thực (2900 → một đời ~28–38 phút)
+ms_per_month_at_1x: 2900
 speeds: [1, 2, 3, 5, 8]
 default_speed_index: 0
 autosave_every_years: 1

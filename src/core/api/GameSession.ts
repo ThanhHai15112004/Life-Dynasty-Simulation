@@ -18,10 +18,14 @@ import { monthlyFamily, yearlyHouseholdSplit } from '../systems/family';
 import { monthlyHappiness, recordLifeYear, yearlyHappiness } from '../systems/happiness';
 import { monthlyLife, yearlyVillage } from '../systems/life';
 import { monthlyOpportunity, yearlyOpportunity } from '../systems/opportunity';
+import { monthlyOrganization, yearlyOrganization } from '../systems/organization';
+import { yearlyPolitics } from '../systems/politics';
+import { monthlyRebellion, yearlyRebellion } from '../systems/rebellion';
 import { monthlySkills } from '../systems/skills';
 import { monthlySocial } from '../systems/social';
 import { checkReflection, createPeers, yearlyPeers } from '../systems/story';
 import { computeStatusRank, monthlyStatus } from '../systems/status';
+import { yearlyEraTransition } from '../world/era';
 import { generateNewGame, type NewGameOptions } from '../world/generate';
 import { monthlyRegion, yearlyRegion } from '../world/region';
 import { applyScenario } from '../world/scenario';
@@ -140,7 +144,10 @@ export class GameSession {
   tickMonth(): TickReport {
     const empty: TickReport = { newYear: false, decision: false, gameOver: !!this._state.gameOver, deaths: [], cutscenes: [], minor: false, reflection: false };
     if (this.blocked) return { ...empty, decision: this._state.pending !== null, minor: this._state.minor !== null };
-    const aliveBefore = new Set(Object.values(this._state.characters).filter((c) => c.alive).map((c) => c.id));
+    const hBefore = this._state.households[this._state.householdId];
+    const aliveBefore = new Set(
+      (hBefore?.memberIds ?? []).filter((id) => this._state.characters[id]?.alive),
+    );
     const reflectionBefore = this._state.reflectionDue;
 
     const info = this.withContext((ctx) =>
@@ -153,7 +160,7 @@ export class GameSession {
     );
 
     const deaths = [...aliveBefore].filter(
-      (id) => !this._state.characters[id].alive && this._state.characters[id].householdId === this._state.householdId,
+      (id) => !this._state.characters[id]?.alive && this._state.characters[id]?.householdId === this._state.householdId,
     );
     return {
       newYear: info.yearEnded && !this._state.gameOver,
@@ -203,6 +210,8 @@ function monthly(ctx: SimContext): void {
   monthlyStatus(ctx);
   monthlyEconomy(ctx);
   monthlySocial(ctx);
+  monthlyOrganization(ctx);
+  monthlyRebellion(ctx);
   monthlyHappiness(ctx);
   expireFlags(ctx);
   directorMonthly(ctx);
@@ -213,6 +222,10 @@ function yearEnd(ctx: SimContext): void {
   yearlyEconomy(ctx);
   yearlyVillage(ctx);
   yearlyVillageClans(ctx);
+  yearlyOrganization(ctx);
+  yearlyPolitics(ctx);
+  yearlyRebellion(ctx);
+  yearlyEraTransition(ctx);
   yearlyPeers(ctx);
   yearlyHappiness(ctx);
   directorYearEnd(ctx);

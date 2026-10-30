@@ -434,7 +434,7 @@ export class GameStore {
       this.notifications.emit('gameOver', {});
       this.audio.playSfx('death');
       const nextHud = s.read(getHudView);
-      if (s.state.playMode !== 'dynasty' || nextHud.succession?.extinct) {
+      if ((s.state.playMode !== 'dynasty' && s.state.playMode !== 'legacy_of_ages') || nextHud.succession?.extinct) {
         void this.saves.remove(AUTO_SLOT).then(() => this.refreshSaveSlots());
       } else {
         void this.save(AUTO_SLOT);

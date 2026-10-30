@@ -712,3 +712,42 @@ export const chronicleFileSchema = z
     entries: z.array(chronicleEntrySchema).min(1),
   })
   .strict();
+
+/** [10] Hệ thống Tổ chức Fractal & Ủy quyền (Phase 10 — GDD 03 §10). */
+export const organizationRankSchema = z
+  .object({
+    rank: z.number().int().min(0).max(3),
+    name: z.string(),
+    min_contribution: z.number().min(0).default(0),
+    stipend_money_month: z.number().min(0).default(0),
+  })
+  .strict();
+
+export const organizationDefSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    kind: z.enum(['village_council', 'merchant_guild', 'outlaw_stronghold', 'prefecture_office']),
+    description: z.string(),
+    settlement_id: z.string(),
+    join_cost_money: z.number().min(0).default(0),
+    entry_condition: conditionSchema.optional(),
+    initial_factors: z
+      .object({
+        treasury: z.number().min(0),
+        morale: z.number().min(0).max(100),
+        security: z.number().min(0).max(100),
+        investment: z.number().min(0).max(100),
+        influence: z.number().min(0).max(100),
+      })
+      .strict(),
+    ranks: z.array(organizationRankSchema).length(4),
+  })
+  .strict();
+
+export const organizationFileSchema = z
+  .object({
+    organizations: z.array(organizationDefSchema).min(1),
+  })
+  .strict();
+export type OrganizationDef = z.infer<typeof organizationDefSchema>;

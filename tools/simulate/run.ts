@@ -195,6 +195,7 @@ export function runDynasty(
   const s = GameSession.create(content, { seed, originId, playMode: 'dynasty' });
   let years = 0;
   let bestStatusIndex = 0;
+  let bestStatusIndex34 = 0;
   let extinct100y = false;
   const statusIndexMap = new Map(content.civilizations[0].status_ranks.map((r, idx) => [r.id, idx]));
   const apply = (cmds: ReturnType<Bot['yearly']>) => cmds.forEach((c) => s.dispatch(c));
@@ -225,14 +226,18 @@ export function runDynasty(
       }
     }
 
-    bestStatusIndex = Math.max(bestStatusIndex, statusIndexMap.get(s.state.civilization.statusRank) ?? 0);
+    const curStatusIdx = statusIndexMap.get(s.state.civilization.statusRank) ?? 0;
+    bestStatusIndex = Math.max(bestStatusIndex, curStatusIdx);
+    if (s.state.dynasty.currentGeneration <= 3) {
+      bestStatusIndex34 = Math.max(bestStatusIndex34, curStatusIdx);
+    }
     const month = s.state.clock.month;
     if (r.newYear || month === 5 || month === 10 || hasSickHouseholdMember(s)) {
       const v = s.read(getHudView);
       apply(bot.monthly(v));
-      if (v.player.age >= 30 && v.dynasty.canAdoptChild) {
+      if (v.player.age >= 26 && v.dynasty.canAdoptChild) {
         s.dispatch({ type: 'adoptChild' });
-      } else if (v.player.age >= 24 && v.dynasty.canAdoptRelative) {
+      } else if (v.dynasty.canAdoptRelative) {
         s.dispatch({ type: 'adoptRelative' });
       }
       if (r.newYear) {
@@ -248,7 +253,7 @@ export function runDynasty(
     years,
     extinct100y,
     bestStatusIndex,
-    ascendedSocialClass: bestStatusIndex >= richIndex,
+    ascendedSocialClass: bestStatusIndex34 >= richIndex,
     saveSizeKb: saveSizeKb(s.state),
     msPerYearTick: years > 0 ? tickMs / years : tickMs,
   };

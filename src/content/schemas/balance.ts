@@ -75,7 +75,29 @@ export const lifeBalanceSchema = z
         npc_default: z.number(),
       })
       .strict(),
-    stress: z.object({ max: z.number(), start: z.number() }).strict(),
+    stress: z
+      .object({
+        max: z.number(),
+        start: z.number(),
+        mental_break_threshold: z.number().min(50).max(100).default(90),
+        mental_break_cooldown_months: z.number().int().min(1).default(18),
+        mental_break_relief: z.number().min(5).default(28),
+        mental_break_types: z
+          .array(
+            z
+              .object({
+                id: z.string(),
+                name: z.string(),
+                mood_delta: z.number().default(-6),
+                memory_months: z.number().int().min(1).default(18),
+                health_delta: z.number().default(0),
+                reputation_delta: z.number().default(0),
+              })
+              .strict(),
+          )
+          .default([]),
+      })
+      .strict(),
     mortality: z
       .object({
         /** Tỷ lệ chết mỗi NĂM theo tuổi (nội suy), engine tự quy ra tháng. */

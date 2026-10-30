@@ -95,10 +95,11 @@ status_ranks:
     description: Dư dả của cải trong vùng nhưng nếu chưa có chữ nghĩa vẫn bị coi là "giàu mà chưa sang".
     condition:
       any:
-        - { var: household.net_worth, op: '>=', value: 1200 }
-        - { var: household.farmland, op: '>=', value: 20 }
-        - { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.career_rank, op: '>=', value: 3 }] }
-        - { all: [{ var: player.career, op: '==', value: nong_dan }, { var: player.career_rank, op: '>=', value: 3 }, { var: household.farmland, op: '>=', value: 14 }] }
+        - { var: household.net_worth, op: '>=', value: 2350 }
+        - { var: household.farmland, op: '>=', value: 28 }
+        - { all: [{ var: player.career, op: '==', value: thuong_nhan }, { var: player.career_rank, op: '>=', value: 4 }, { var: household.net_worth, op: '>=', value: 1950 }] }
+        - { all: [{ var: player.career, op: '==', value: nong_dan }, { var: player.career_rank, op: '>=', value: 3 }, { var: household.farmland, op: '>=', value: 10 }] }
+        - { all: [{ var: player.career_sector, op: '==', value: thu_cong }, { var: player.career_rank, op: '>=', value: 2 }, { var: household.net_worth, op: '>=', value: 420 }] }
     modifiers:
       - { target: stress.monthly, value: -0.1 }
   - id: si_phu
@@ -106,8 +107,7 @@ status_ranks:
     description: Người có học vị Khoa cử, được miễn sưu dịch và ngồi chiếu trên ở đình làng.
     condition:
       any:
-        - { var: player.exam_degree, op: '!=', value: none }
-        - { var: player.scholarly_prestige, op: '>=', value: 60 }
+        - { var: player.exam_degree, op: 'in', value: [sinh_do, huong_cong, tien_si] }
     modifiers:
       - { target: stress.monthly, value: -0.15 }
       - { target: xp.ngoai_giao, value: 1.1, op: mul }

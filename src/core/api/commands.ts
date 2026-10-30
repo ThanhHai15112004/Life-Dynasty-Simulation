@@ -1,9 +1,12 @@
 // [0] Các lệnh người chơi gửi vào lõi. UI/bot chỉ được đổi trạng thái qua đây.
+import type { DelegationPolicy, OrganizationFactorKey } from '../entities/Organization';
 import { addLedger } from '../entities/Household';
+import type { SchemeKind } from '../entities/World';
 import { evaluate } from '../engine/RuleEvaluator';
 import { fireDecision, resolveDecision } from '../events/decision';
+import { writeTemplate } from '../events/journal';
 import { eligibleRoles } from '../events/selection';
-import { Ledger } from '../events/systemLogKeys';
+import { Ledger, SystemLog } from '../events/systemLogKeys';
 import { resolveMinor } from '../events/decision';
 import { careerAvailable, changeCareer, executeCareerAction, setMemberCareer, setSideJob } from '../systems/career';
 import type { SimContext } from '../systems/context';
@@ -32,9 +35,20 @@ import {
 } from '../systems/family';
 import { focusAvailable } from '../systems/focus';
 import { infectCharacter, treatDisease, treatmentBlock } from '../systems/life';
+import { dispatchMilitaryCampaign } from '../systems/military';
+import {
+  contributeToOrganization,
+  delegateOrganization,
+  investOrganizationFactor,
+  joinOrganization,
+} from '../systems/organization';
 import { player, playerHousehold } from '../systems/people';
+import { alignWithFaction, petitionCourt } from '../systems/politics';
+import { executeRebellionAction, joinRebellion } from '../systems/rebellion';
 import { createResolver } from '../systems/resolver';
+import { cancelScheme, exposeSecret, startScheme, useHook } from '../systems/social';
 import { answerReflection } from '../systems/story';
+import { yearlyEraTransition } from '../world/era';
 import {
   appointPrefectureOfficial,
   cancelActiveTrip,
@@ -81,6 +95,24 @@ export type Command =
   | { type: 'startTradeTrip'; targetSettlementId: string; cargoMoney: number }
   | { type: 'cancelTrip' }
   | { type: 'appointOfficial' }
+  // [A] Quyền lực mềm: Mưu sự, Nắm thóp, Bí mật
+  | { type: 'startScheme'; kind: SchemeKind; targetId: string }
+  | { type: 'cancelScheme' }
+  | { type: 'useHook'; hookId: string; action: 'extort_money' | 'force_support' | 'forgive_debt' }
+  | { type: 'exposeSecret'; secretId: string }
+  // [C] Hệ thống Tổ chức Fractal & Ủy quyền (Phase 10)
+  | { type: 'joinOrganization'; orgId: string }
+  | { type: 'contributeOrganization'; orgId: string; amount: number }
+  | { type: 'investOrganizationFactor'; orgId: string; factor: OrganizationFactorKey }
+  | { type: 'delegateOrganization'; orgId: string; deputyId: string | null; policy: DelegationPolicy }
+  // [D] Hệ thống Vương quốc, Chính trị, Quân sự & Nổi dậy 8 giai đoạn (Phase 11)
+  | { type: 'joinRebellion'; promise?: 'chia_ruong' | 'xoa_thue' | 'tru_gian' }
+  | { type: 'rebellionAction'; action: 'gather_followers' | 'stockpile_supplies' | 'keep_secrecy' | 'advance_stage' }
+  | { type: 'alignFaction'; factionId: string }
+  | { type: 'petitionCourt'; policy: 'giam_thue' | 'chan_te' | 'tang_binh' }
+  | { type: 'militaryCampaign'; provinceId: string; action: 'suppress_unrest' | 'fortify_border' }
+  // [E] Chế độ Xuyên Thời Đại (Phase 13)
+  | { type: 'fastForwardDecade'; years?: number }
   // [1] Lệnh Dev (chỉ chạy khi cờ dev bật)
   | { type: 'devTriggerEvent'; eventId: string }
   | { type: 'devModifyStat'; stat: 'money' | 'food' | 'debt' | 'health' | 'stress'; delta: number }
@@ -127,7 +159,7 @@ export function ambitionAvailable(ctx: SimContext, ambitionId: string): boolean 
 export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
   const { state, content } = ctx;
   if (cmd.type === 'chooseHeir') {
-    if (!state.gameOver || state.playMode !== 'dynasty') return fail('game_over');
+    if (!state.gameOver || (state.playMode !== 'dynasty' && state.playMode !== 'legacy_of_ages')) return fail('game_over');
     return transitionToHeir(ctx, cmd.heirId) ? ok : fail('invalid_heir');
   }
   if (state.gameOver) return fail('game_over');
@@ -361,6 +393,71 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
 
     case 'appointOfficial': {
       return appointPrefectureOfficial(ctx) ? ok : fail('action_unavailable');
+    }
+
+    case 'startScheme': {
+      return startScheme(ctx, cmd.kind, cmd.targetId) ? ok : fail('action_unavailable');
+    }
+
+    case 'cancelScheme': {
+      return cancelScheme(ctx) ? ok : fail('action_unavailable');
+    }
+
+    case 'useHook': {
+      return useHook(ctx, cmd.hookId, cmd.action) ? ok : fail('action_unavailable');
+    }
+
+    case 'exposeSecret': {
+      return exposeSecret(ctx, cmd.secretId) ? ok : fail('action_unavailable');
+    }
+
+    case 'joinOrganization': {
+      return joinOrganization(ctx, cmd.orgId) ? ok : fail('action_unavailable');
+    }
+
+    case 'contributeOrganization': {
+      return contributeToOrganization(ctx, cmd.orgId, cmd.amount) ? ok : fail('not_enough_money');
+    }
+
+    case 'investOrganizationFactor': {
+      return investOrganizationFactor(ctx, cmd.orgId, cmd.factor) ? ok : fail('action_unavailable');
+    }
+
+    case 'delegateOrganization': {
+      return delegateOrganization(ctx, cmd.orgId, cmd.deputyId, cmd.policy) ? ok : fail('action_unavailable');
+    }
+
+    case 'joinRebellion': {
+      return joinRebellion(ctx, cmd.promise) ? ok : fail('action_unavailable');
+    }
+
+    case 'rebellionAction': {
+      return executeRebellionAction(ctx, cmd.action) ? ok : fail('action_unavailable');
+    }
+
+    case 'alignFaction': {
+      return alignWithFaction(ctx, cmd.factionId) ? ok : fail('action_unavailable');
+    }
+
+    case 'petitionCourt': {
+      return petitionCourt(ctx, cmd.policy) ? ok : fail('not_enough_money');
+    }
+
+    case 'militaryCampaign': {
+      return dispatchMilitaryCampaign(ctx, cmd.provinceId, cmd.action) ? ok : fail('action_unavailable');
+    }
+
+    case 'fastForwardDecade': {
+      const years = Math.max(1, Math.min(10, Math.floor(cmd.years ?? 5)));
+      state.clock.year += years;
+      state.clock.monthIndex += years * content.balance.calendar.months_per_year;
+      h.money += years * 2;
+      addLedger(h, Ledger.OtherIncome, years * 2, 0);
+      yearlyEraTransition(ctx);
+      writeTemplate(ctx, SystemLog.DecadeFastForward, {
+        params: { amount: years },
+      });
+      return ok;
     }
 
     // ── Lệnh Dev ──

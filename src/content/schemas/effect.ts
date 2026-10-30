@@ -81,6 +81,12 @@ export type Effect =
   | { type: 'start_trip'; target: string; kind?: 'buon_chuyen' | 'ung_thi' | 'cong_vu'; cargo?: number }
   | { type: 'end_trip'; cancel?: boolean }
   | { type: 'trigger_epidemic'; settlement?: string; disease?: string; months?: number }
+  | { type: 'add_secret'; owner?: string; kind: string; label?: string; severity?: number }
+  | { type: 'add_hook'; role?: string; direction?: 'on_npc' | 'on_player'; strength?: 'weak' | 'strong'; reason?: string }
+  | { type: 'dread'; value: number }
+  | { type: 'org_contribution'; org?: string; value: number }
+  | { type: 'mandate'; value: number }
+  | { type: 'rebellion_progress'; value: number }
   | { type: 'log'; text: string[]; importance: number }
   | { type: 'chance'; p: number; then: Effect[]; else: Effect[] };
 
@@ -249,6 +255,28 @@ export const effectSchema: z.ZodType<Effect, z.ZodTypeDef, unknown> = z.lazy(() 
         months: z.number().int().positive().optional(),
       })
       .strict(),
+    z
+      .object({
+        type: z.literal('add_secret'),
+        owner: z.string().optional(),
+        kind: z.string(),
+        label: z.string().optional(),
+        severity: z.number().int().min(1).max(10).optional(),
+      })
+      .strict(),
+    z
+      .object({
+        type: z.literal('add_hook'),
+        role: z.string().optional(),
+        direction: z.enum(['on_npc', 'on_player']).optional(),
+        strength: z.enum(['weak', 'strong']).optional(),
+        reason: z.string().optional(),
+      })
+      .strict(),
+    z.object({ type: z.literal('dread'), value: z.number() }).strict(),
+    z.object({ type: z.literal('org_contribution'), org: z.string().optional(), value: z.number() }).strict(),
+    z.object({ type: z.literal('mandate'), value: z.number() }).strict(),
+    z.object({ type: z.literal('rebellion_progress'), value: z.number() }).strict(),
     z
       .object({
         type: z.literal('log'),

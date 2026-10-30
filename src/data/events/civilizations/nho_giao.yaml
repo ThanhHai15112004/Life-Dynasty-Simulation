@@ -12,8 +12,8 @@ events:
         - { var: player.exam_degree, op: 'in', value: [none, sinh_do] }
         - { var: player.skill.hoc_van, op: '>=', value: 3 }
         - { var: player.mourning_months, op: '==', value: 0 }
-    weight: 8
-    cooldown_years: 3
+    weight: 7
+    cooldown_years: 4
     tension: 6
     importance: 7
     icon: sach
@@ -28,10 +28,10 @@ events:
             - { var: household.money, op: '>=', value: 2 }
             - { var: player.skill.hoc_van, op: '>=', value: 5 }
         chance:
-          base: 0.05
+          base: 0.025
           skill: hoc_van
-          per_level: 0.04
-          max: 0.6
+          per_level: 0.022
+          max: 0.28
         effects:
           - { type: money, value: -2, ledger: su_kien }
           - { type: stress, value: 4 }
@@ -53,10 +53,10 @@ events:
             - { var: household.money, op: '>=', value: 1 }
             - { var: player.exam_degree, op: '==', value: none }
         chance:
-          base: 0.15
+          base: 0.045
           skill: hoc_van
-          per_level: 0.05
-          max: 0.7
+          per_level: 0.023
+          max: 0.28
         effects:
           - { type: money, value: -1, ledger: su_kien }
         success:

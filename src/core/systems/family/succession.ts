@@ -708,7 +708,7 @@ export function canAdoptRelative(ctx: SimContext): { ok: boolean; cost: number }
   const me = player(ctx);
   const law = currentCivilization(ctx).succession;
   const cost = law.distant_relative.cost_money;
-  if (!me.alive || ageNow(ctx, me) < ctx.content.balance.life.adult_age) {
+  if (!me.alive) {
     return { ok: false, cost };
   }
   const hasHeir = getHeirCandidates(ctx, me).length > 0;

@@ -6,7 +6,7 @@ import type { LogEntry } from '../entities/World';
 import { RngStream, type SimContext } from '../systems/context';
 import { selfFarms } from '../systems/economy/helpers';
 import { ageNow, lifeStageOf, player } from '../systems/people';
-import { fireDecision, fireMinor, shownOptionCount } from './decision';
+import { fireDecision, fireMinor, hasAtLeastTwoOptions } from './decision';
 import { currentLogYear, pushLog, writeTemplate } from './journal';
 import { eligibleRoles, onCooldown, weightOf } from './selection';
 import { LogKind, SystemLog } from './systemLogKeys';
@@ -39,7 +39,7 @@ function fireScheduled(ctx: SimContext): boolean {
     const ev = content.index.event.get(s.eventId);
     if (!ev) continue;
     const roles = eligibleRoles(ctx, { ...ev, months: undefined }, s.roles);
-    if (!roles || shownOptionCount(ctx, ev, roles) < 2) continue;
+    if (!roles || !hasAtLeastTwoOptions(ctx, ev, roles)) continue;
     fireDecision(ctx, ev, roles);
     return true;
   }
@@ -60,7 +60,7 @@ function tryRandomDecision(ctx: SimContext): void {
   const urgent = content.events
     .filter((ev) => ev.priority && !ev.minor && !onCooldown(ctx, ev, state.eventHistory))
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
-    .find((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
+    .find((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && hasAtLeastTwoOptions(ctx, x.ev, x.roles));
   if (urgent) {
     fireDecision(ctx, urgent.ev, urgent.roles);
     return;
@@ -79,7 +79,7 @@ function tryRandomDecision(ctx: SimContext): void {
     .filter((ev) => !ev.scheduled_only && !ev.minor && underCap(ev.id) && !onCooldown(ctx, ev, state.eventHistory))
     .filter((ev) => !(majorBlocked && ev.importance >= major.min_importance))
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
-    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
+    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && hasAtLeastTwoOptions(ctx, x.ev, x.roles));
   const repeat = (id: string) => Math.pow(d.repeat_weight_factor, seen(id));
   const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
   if (pick) {
@@ -112,7 +112,7 @@ function tryMinor(ctx: SimContext): void {
     .filter((ev) => ev.minor && !onCooldown(ctx, ev, state.eventHistory))
     .filter((ev) => m.max_repeats_per_life === 0 || seen(ev.id) < m.max_repeats_per_life)
     .map((ev) => ({ ev, roles: eligibleRoles(ctx, ev) }))
-    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && shownOptionCount(ctx, x.ev, x.roles) >= 2);
+    .filter((x): x is { ev: (typeof x)['ev']; roles: Record<string, string> } => x.roles !== null && hasAtLeastTwoOptions(ctx, x.ev, x.roles));
   const pick = rng.weighted(pool, (x) => weightOf(ctx, x.ev, x.roles) * repeat(x.ev.id));
   if (pick) fireMinor(ctx, pick.ev, pick.roles);
 }

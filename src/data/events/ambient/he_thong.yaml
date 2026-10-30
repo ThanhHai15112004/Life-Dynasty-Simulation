@@ -668,6 +668,148 @@ templates:
     variants:
       - 'Trời trở gió mát lành, cơn dịch {title} ở {stage} cuối cùng đã lắng dịu, chợ bến họp lại bình thường.'
       - 'Sau mấy tháng hoành hành, dịch {title} tại {stage} đã lui hẳn, dân tình thở phào nhẹ nhõm.'
+  # [A–E] Tâm lý sâu, Quyền lực mềm, Tổ chức Fractal, Nổi dậy, Chính trị & Chuyển giao Thời đại
+  - id: sys.khung_hoang_tam_ly
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: buon
+    icon: buon
+    variants:
+      - 'Căng thẳng dồn nén đến tột độ khiến bạn bùng phát cơn khủng hoảng ({title}), sau cơn bộc phát tâm trí dần dịu lại nhưng để lại vết hằn trong lòng.'
+      - 'Quá sức chịu đựng trước trăm bề lo toan, bạn rơi vào cơn khủng hoảng tâm lý ({title}).'
+  - id: sys.muu_su_thanh_cong
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Mưu sự "{title}" nhắm vào {call} đã thành công mỹ mãn sau nhiều tháng âm thầm sắp đặt!'
+      - 'Kế sách "{title}" đối với {call} đã thu về kết quả đúng như toan tính của bạn.'
+  - id: sys.muu_su_bai_lo
+    kind: he_thong
+    importance: 6
+    tone: buon
+    icon: nguy_hiem
+    variants:
+      - 'Mưu sự "{title}" nhắm vào {call} bất ngờ bị bại lộ, khiến thanh danh và quan hệ của bạn sứt mẻ.'
+      - 'Tai vách mạch rừng: toan tính "{title}" với {call} đã lộ tẩy giữa chừng.'
+  - id: sys.dung_nam_thop
+    kind: bao_cao
+    importance: 6
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Bạn đem chuyện nắm thóp ra gây sức ép, buộc {call} phải nhượng bộ ({title}).'
+      - 'Trước điểm yếu bị nắm giữ, {call} đành chấp thuận yêu cầu của bạn ({title}).'
+  - id: sys.lo_bi_mat
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: buon
+    icon: tin_don
+    variants:
+      - 'Chuyện kín "{title}" của {call} bị phơi bày khắp vùng, người đời bàn tán xôn xao.'
+      - 'Bí mật "{title}" liên quan tới {call} đã vỡ lở, gây chấn động cả xóm giềng.'
+  - id: sys.gia_nhap_to_chuc
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Bạn chính thức gia nhập {title} với bậc "{stage}", mở ra mạng lưới thế lực mới trong vùng.'
+      - 'Ghi tên vào sổ {title}, bạn bắt đầu chặng đường mới ở vị trí "{stage}".'
+  - id: sys.thang_chuc_to_chuc
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Nhờ uy tín và cống hiến nổi bật trong {title}, bạn được suy tôn lên bậc "{stage}"!'
+      - 'Trong kỳ họp lớn của {title}, bạn chính thức bước lên vị trí "{stage}".'
+  - id: sys.uy_quyen_to_chuc
+    kind: bao_cao
+    importance: 5
+    tone: trung_tinh
+    icon: nha
+    variants:
+      - 'Bạn giao quyền điều hành {title} cho {call} theo phương châm "{stage}".'
+      - 'Tin tưởng giao phó việc thường nhật của {title} cho {call} ({stage}).'
+  - id: sys.cap_duoi_tham_o
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: buon
+    icon: no_nan
+    variants:
+      - 'Người được ủy quyền tại {title} là {call} đã lạm quyền biển thủ {money} {lex.currency} công quỹ!'
+      - 'Kiểm toán sổ sách {title}, bạn phát hiện {call} âm thầm tư túi {money} {lex.currency}.'
+  - id: sys.noi_day_chuyen_giai_doan
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: trung_tinh
+    icon: nguy_hiem
+    variants:
+      - 'Ngọn lửa bất mãn lan rộng: phong trào nổi dậy trong vùng chuyển sang giai đoạn "{title}"!'
+      - 'Thời thế chuyển vần: làn sóng phản kháng của dân nghèo đã bước vào giai đoạn "{title}".'
+  - id: sys.khoi_nghia_thanh_cong
+    kind: he_thong
+    importance: 9
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Cờ nghĩa tung bay trên thành lũy! Cuộc khởi nghĩa thắng lợi vang dội, trật tự mới ({title}) được thiết lập khắp vùng.'
+      - 'Sau bao tháng ngày nằm gai nếm mật, nghĩa quân đã làm chủ tình thế ({title})!'
+  - id: sys.khoi_nghia_that_bai
+    kind: he_thong
+    importance: 8
+    highlight: true
+    tone: buon
+    icon: nguy_hiem
+    variants:
+      - 'Đại quân triều đình ập tới đàn áp dữ dội, phong trào khởi nghĩa ({title}) tan rã trong khói lửa.'
+      - 'Lực bất tòng tâm trước binh hùng tướng mạnh của quan quân, cuộc nổi dậy ({title}) bị dập tắt.'
+  - id: sys.thien_menh_bien_dong
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: trung_tinh
+    icon: tin_don
+    variants:
+      - 'Thiên mệnh vương triều biến động ({title}): lòng dân và thế cuộc bốn phương đang đổi chiều.'
+      - 'Khắp phố phường râm ran bàn tán chuyện quốc sự: Thiên mệnh triều đình hiện ở mức {title}.'
+  - id: sys.ket_phe_phai
+    kind: he_thong
+    importance: 7
+    highlight: true
+    tone: vui
+    icon: sach
+    variants:
+      - 'Bạn chính thức kết giao và đứng vào hàng ngũ phe "{title}" nơi quan trường.'
+      - 'Tìm được chỗ dựa chính trị vững chắc, bạn liên kết cùng phe "{title}".'
+  - id: sys.chuyen_giao_thoi_dai
+    kind: he_thong
+    importance: 9
+    highlight: true
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Bánh xe lịch sử chuyển mình sang kỷ nguyên mới: thế giới bước vào thời đại "{title}"!'
+      - 'Một thời đại mới mở ra trước mắt dòng tộc bạn: "{title}"!'
+  - id: sys.tua_nhanh_thap_nien
+    kind: he_thong
+    importance: 6
+    highlight: true
+    tone: trung_tinh
+    icon: binh_yen
+    variants:
+      - 'Gia đạo êm ấm, cơ nghiệp vững vàng: {amount} năm bình yên trôi qua như một cái chớp mắt của lịch sử.'
+      - 'Dòng họ ổn định phát triển qua {amount} năm thăng trầm của thời cuộc.'
 
 
 

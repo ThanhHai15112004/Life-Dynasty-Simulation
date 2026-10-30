@@ -43,7 +43,8 @@
       "accentColor": "#ffd166",
       "secondaryColor": "#fff3b0",
       "particleCount": 18,
-      "particle": { "w": 2, "h": 2, "alpha": 0.8 }
+      "particle": { "w": 2, "h": 2, "alpha": 0.8 },
+      "bannerSprite": "den_long"
     },
     "tang_le": {
       "overlayTint": "#cfd6df",
@@ -51,7 +52,8 @@
       "accentColor": "#e2e8f0",
       "secondaryColor": "#94a3b8",
       "particleCount": 20,
-      "particle": { "w": 1, "h": 4, "alpha": 0.65 }
+      "particle": { "w": 1, "h": 4, "alpha": 0.65 },
+      "bannerSprite": "den_long"
     },
     "thu_hoach_lon": {
       "overlayTint": "#f4b942",
@@ -59,7 +61,8 @@
       "accentColor": "#f4b942",
       "secondaryColor": "#e07a5f",
       "particleCount": 24,
-      "particle": { "w": 2, "h": 2, "alpha": 0.8 }
+      "particle": { "w": 2, "h": 2, "alpha": 0.8 },
+      "bannerSprite": "kho_lua_viet"
     },
     "lu_lut": {
       "overlayTint": "#1d3557",
@@ -68,6 +71,24 @@
       "secondaryColor": "#457b9d",
       "particleCount": 36,
       "particle": { "w": 1, "h": 3, "alpha": 0.75 }
+    },
+    "khoi_nghia": {
+      "overlayTint": "#b91c1c",
+      "overlayAlpha": 0.2,
+      "accentColor": "#ef4444",
+      "secondaryColor": "#f59e0b",
+      "particleCount": 32,
+      "particle": { "w": 2, "h": 3, "alpha": 0.85 },
+      "bannerSprite": "co_nghia_quan"
+    },
+    "chuyen_thoi_dai": {
+      "overlayTint": "#3b82f6",
+      "overlayAlpha": 0.18,
+      "accentColor": "#93c5fd",
+      "secondaryColor": "#fbbf24",
+      "particleCount": 30,
+      "particle": { "w": 2, "h": 2, "alpha": 0.85 },
+      "bannerSprite": "den_long"
     }
   }
 }

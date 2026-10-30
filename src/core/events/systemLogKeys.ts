@@ -68,6 +68,22 @@ export const SystemLog = {
   QuietYearModern: 'sys.nam_yen_hien_dai',
   QuietYearRiver: 'sys.nam_yen_song_nuoc',
   QuietYearTown: 'sys.nam_yen_pho_cho',
+  MentalBreak: 'sys.khung_hoang_tam_ly',
+  SchemeSucceeded: 'sys.muu_su_thanh_cong',
+  SchemeFailed: 'sys.muu_su_bai_lo',
+  HookUsed: 'sys.dung_nam_thop',
+  SecretExposed: 'sys.lo_bi_mat',
+  OrgJoined: 'sys.gia_nhap_to_chuc',
+  OrgPromoted: 'sys.thang_chuc_to_chuc',
+  OrgDelegated: 'sys.uy_quyen_to_chuc',
+  OrgDeputyBetrayed: 'sys.cap_duoi_tham_o',
+  RebellionStageUp: 'sys.noi_day_chuyen_giai_doan',
+  RebellionVictory: 'sys.khoi_nghia_thanh_cong',
+  RebellionCrushed: 'sys.khoi_nghia_that_bai',
+  MandateChanged: 'sys.thien_menh_bien_dong',
+  FactionAligned: 'sys.ket_phe_phai',
+  EraTransition: 'sys.chuyen_giao_thoi_dai',
+  DecadeFastForward: 'sys.tua_nhanh_thap_nien',
 } as const;
 
 /** Khóa danh mục sổ sách (nhãn ở data/lang: ledger.<khóa>). */
