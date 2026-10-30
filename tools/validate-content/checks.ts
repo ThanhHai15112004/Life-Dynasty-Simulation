@@ -258,6 +258,7 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     content.chronicle.entries.forEach((x) => checkEras(x.eras, `chronicle.${x.id}`));
     content.events.forEach((x) => checkEras(x.eras, `events.${x.id}`));
     content.ambient.forEach((x) => checkEras(x.eras, `ambient.${x.id}`));
+    content.scenarios.forEach((x) => checkEras(x.eras, `scenarios.${x.id}`));
   }
 
   for (const l of content.lifestyles) {
@@ -392,11 +393,21 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
     need(civ.metropolitan_exam_offset_years < civ.exam_interval_years, `civilizations.${civ.id}: thi Hội phải mở trước khoa thi Hương kế tiếp`);
   }
 
-  // ── Lớp câu chuyện (story.yaml) ──
+  // ── Lớp câu chuyện (story.yaml theo từng thời đại) ──
   const causeIds = new Set(content.balance.life.mortality.causes.map((c) => c.id));
-  for (const dc of content.story.peers.death_causes) need(causeIds.has(dc.cause), `story.peers.death_causes: nguyên nhân lạ "${dc.cause}"`);
-  need(content.story.peers.archetypes.length >= content.story.peers.count, `story.peers: count lớn hơn số gia cảnh (mỗi người một gia cảnh)`);
-  for (const r of content.story.reflections) need(r.question.trim().length > 0, `story.reflections[${r.age}]: câu hỏi trống`);
+  for (const [eraId, st] of Object.entries(content.storyByEra)) {
+    for (const dc of st.peers.death_causes) need(causeIds.has(dc.cause), `story[${eraId}].peers.death_causes: nguyên nhân lạ "${dc.cause}"`);
+    need(st.peers.archetypes.length >= st.peers.count, `story[${eraId}].peers: count lớn hơn số gia cảnh (mỗi người một gia cảnh)`);
+    for (const r of st.reflections) need(r.question.trim().length > 0, `story[${eraId}].reflections[${r.age}]: câu hỏi trống`);
+  }
+  for (const [eraId, map] of content.index.ambientByEra) {
+    for (const t of map.values()) {
+      const roles = new Set(t.roles.map((r) => r.id));
+      t.roles.forEach((r) => checkRole(r, `ambient[${eraId}].${t.id}`));
+      Object.keys(t.trait_reactions).forEach((x) => trait(x, `ambient[${eraId}].${t.id}.trait_reactions`));
+      checkEffects(t.effects, `ambient[${eraId}].${t.id}`, roles);
+    }
+  }
   need(content.origins.some((o) => o.birth_weight > 0), 'origins: cần ít nhất một xuất thân có birth_weight > 0 để bốc thăm');
 
   // ── Chạy thử điều kiện DSL và token văn bản trên một ván thật ──
@@ -428,10 +439,21 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       }
     };
 
-    content.story.epitaphs.forEach((e, i) => {
-      tryCond(e.condition, `story.epitaphs[${i}]`, []);
-      tryText(e.text, `story.epitaphs[${i}]`, [], false);
-    });
+    for (const [eraId, st] of Object.entries(content.storyByEra)) {
+      st.epitaphs.forEach((e, i) => {
+        tryCond(e.condition, `story[${eraId}].epitaphs[${i}]`, []);
+        tryText(e.text, `story[${eraId}].epitaphs[${i}]`, [], false);
+      });
+    }
+    for (const [eraId, map] of content.index.ambientByEra) {
+      for (const t of map.values()) {
+        const ids = t.roles.map((r) => r.id);
+        tryCond(t.condition, `ambient[${eraId}].${t.id}`, ids);
+        t.weight_modifiers.forEach((m, i) => tryCond(m.condition, `ambient[${eraId}].${t.id}.weight_modifiers[${i}]`, ids));
+        t.roles.forEach((r) => tryCond(r.condition, `ambient[${eraId}].${t.id}.roles.${r.id}`, ids));
+        [...t.variants, t.short ?? '', ...Object.values(t.trait_reactions)].forEach((x) => tryText(x, `ambient[${eraId}].${t.id}`, ids, true));
+      }
+    }
 
     for (const ev of content.events) {
       const ids = ev.roles.map((r) => r.id);

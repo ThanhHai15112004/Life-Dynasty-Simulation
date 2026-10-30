@@ -19,8 +19,11 @@ export const scenarioSchema = z.object({
   group: scenarioGroupSchema,
   title_key: z.string().min(1),
   description_key: z.string().min(1),
+  /** Danh sách id thời đại (bookmark.id) áp dụng kịch bản này. Nếu bỏ trống: áp dụng mọi thời đại. */
+  eras: z.array(z.string()).optional(),
   base: z.object({
     originId: z.string().min(1),
+    bookmarkId: z.string().optional(),
     age: z.number().int().min(0).max(100).optional(),
     sex: z.enum(['m', 'f']).optional(),
     seed: z.string().optional(),
@@ -122,6 +125,7 @@ export const scenarioSchema = z.object({
 export type Scenario = z.infer<typeof scenarioSchema>;
 
 export const scenarioFileSchema = z.object({
-  scenarios: z.array(scenarioSchema),
+  eras: z.array(z.string()).optional(),
+  scenarios: z.array(scenarioSchema).default([]),
 });
 

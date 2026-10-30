@@ -69,7 +69,7 @@ templates:
     icon: tien
     short: 'bán {amount} {lex.food} lấy tiền tiêu'
     variants:
-      - 'Hết tiền mặt chi dùng, nhà đem bán {amount} {lex.food} dự trữ ngoài chợ.'
+      - 'Cạn ngân quỹ chi dùng, nhà đem đổi {amount} {lex.food} dự trữ lấy {lex.currency}.'
       - 'Ngân quỹ cạn, gia đình đổi {amount} {lex.food} lương thực lấy tiền sinh hoạt.'
   - id: sys.bi_xiet_no
     kind: he_thong
@@ -89,8 +89,8 @@ templates:
     tone: buon
     icon: mat_mua
     variants:
-      - 'Kho trống, chẳng ai cho vay thêm. Cả nhà đói lả, ăn rau má cầm hơi.'
-      - 'Nợ ngập đầu, không còn ai cho vay. Bữa cơm chỉ còn nồi cháo cám.'
+      - 'Dự trữ trống rỗng, chẳng còn nơi vay mượn. Cả nhà đói lả, phải kiếm rễ cây rau dại cầm hơi.'
+      - 'Cạn kiệt cái ăn, không còn ai cứu giúp. Bữa ăn cả nhà chỉ còn chút thức ăn hẩm hiu.'
     effects:
       - { type: stress, value: 6 }
   - id: sys.nguoi_than_mat
@@ -110,14 +110,14 @@ templates:
     tone: buon
     icon: tang
     variants:
-      - '{call} trong làng qua đời ở tuổi {age}.'
-      - 'Làng có đám tang: {call} mất vì {cause}, thọ {age} tuổi.'
+      - '{call} quanh vùng qua đời ở tuổi {age}.'
+      - 'Tin buồn trong cộng đồng: {call} mất vì {cause}, thọ {age} tuổi.'
   - id: sys.nguoi_lang_moi
     kind: nguoi_quanh
     importance: 2
     icon: lang
     variants:
-      - '{call} lên làm {title} của làng.'
+      - '{call} đảm nhận vai trò {title} trong cộng đồng.'
   - id: sys.lam_chu_ho
     kind: he_thong
     importance: 7
@@ -327,7 +327,7 @@ templates:
     icon: tien
     short: 'bán {amount} {lex.food} dư được {money} {lex.currency}'
     variants:
-      - 'Sau vụ thu hoạch, nhà giữ lại đủ ăn, đem {amount} {lex.food} dư ra chợ bán được {money} {lex.currency}.'
+      - 'Sau mùa thu hoạch, nhà giữ lại đủ ăn, đem {amount} {lex.food} dư đi trao đổi thu về {money} {lex.currency}.'
       - 'Kho dự trữ đã đầy, {amount} {lex.food} dư bán cho thương lái thu về {money} {lex.currency}.'
   - id: sys.mua_them_cua
     kind: he_thong
@@ -344,7 +344,7 @@ templates:
     highlight: true
     icon: nha
     variants:
-      - '{call} tuổi đã cao, gọi bạn lại giao chìa khóa và sổ sách. Từ nay bạn là chủ hộ, lo liệu việc nhà.'
+      - '{call} tuổi đã cao, gọi bạn lại giao quyền trông coi gia sản. Từ nay bạn là chủ hộ, lo liệu việc nhà.'
       - 'Thấy bạn đã vững vàng, {call} giao lại việc nhà. Từ nay bạn làm chủ hộ, gánh vác gia đình.'
   - id: sys.chua_khoi
     kind: bao_cao
@@ -353,8 +353,8 @@ templates:
     icon: binh_yen
     short: 'chạy chữa cho {call}, khỏi {title}'
     variants:
-      - 'Bỏ ra {money} {lex.currency} mời thầy thuốc cứu chữa cho {call}. Sau đợt điều trị, cơn {title} lui hẳn.'
-      - 'Thầy thuốc thăm khám, kê đơn với chi phí {money} {lex.currency}. Chẳng bao lâu {call} đã khỏi {title}.'
+      - 'Bỏ ra {money} {lex.currency} chạy chữa thuốc thang cho {call}. Sau đợt điều trị, cơn {title} lui hẳn.'
+      - 'Người chữa bệnh thăm khám, cứu chữa với chi phí {money} {lex.currency}. Chẳng bao lâu {call} đã khỏi {title}.'
   - id: sys.chua_khong_do
     kind: bao_cao
     importance: 4
@@ -432,7 +432,7 @@ templates:
     icon: nha
     variants:
       - '{prev} qua đời khi bạn còn thơ ấu. {call} đứng ra làm người giám hộ, thay bạn trông coi việc nhà Đời thứ {generation} cho đến ngày trưởng thành.'
-      - 'Bạn bước vào Đời thứ {generation} khi tuổi còn nhỏ. Mọi việc đồng áng, sổ sách tạm giao cho {call} giám hộ.'
+      - 'Bạn bước vào Đời thứ {generation} khi tuổi còn nhỏ. Mọi việc sinh kế trong nhà tạm giao cho {call} giám hộ.'
   - id: sys.nhan_con_nuoi
     kind: he_thong
     importance: 8
@@ -440,7 +440,7 @@ templates:
     tone: vui
     icon: sinh_nhat
     variants:
-      - 'Lập lễ trước bàn thờ gia tiên, bạn nhận {call} ({age} tuổi) làm con nuôi để nối dõi tông đường.'
+      - 'Trước sự chứng kiến của người thân, bạn nhận {call} ({age} tuổi) làm con nuôi để nối dõi dòng tộc.'
       - 'Từ nay {call} ({age} tuổi) chính thức mang họ nhà bạn, sớm hôm quây quần dưới mái nhà.'
   - id: sys.don_chau_ho
     kind: he_thong
@@ -449,7 +449,7 @@ templates:
     tone: vui
     icon: nha
     variants:
-      - 'Bạn đón {call} ({age} tuổi) từ chi xa về ở cùng, truyền dạy nếp nhà để ngày sau có người hương khói.'
+      - 'Bạn đón {call} ({age} tuổi) từ nhánh họ xa về ở cùng, truyền dạy nếp nhà để ngày sau có người nối nghiệp.'
       - 'Họ tộc chứng giám: {call} ({age} tuổi) được đón về lập tự, tiếp nối huyết mạch dòng họ.'
   - id: sys.hoan_thanh_di_nguyen
     kind: he_thong
@@ -458,7 +458,7 @@ templates:
     tone: vui
     icon: moc_doi
     variants:
-      - 'Trước bàn thờ tổ tiên, bạn kính cẩn thắp nén hương báo công: di nguyện "{title}" của {ancestor} nay đã trọn vẹn!'
+      - 'Tưởng nhớ bậc tiền nhân, bạn tự hào báo công: di nguyện "{title}" của {ancestor} nay đã trọn vẹn!'
       - 'Nỗi trăn trở "{title}" từ thời {ancestor} để lại đã được bạn hoàn thành viên mãn, rạng danh dòng họ.'
   - id: sys.chon_huong_nuoi_con
     kind: he_thong
@@ -475,8 +475,8 @@ templates:
     tone: vui
     icon: cuoi
     variants:
-      - 'Trầu cau thắm nghĩa: bạn đứng ra lo liệu hôn sự cho {call} kết duyên cùng {partner} (họ {clan}), hai họ từ nay kết tình thông gia.'
-      - 'Mâm cỗ rộn ràng khắp xóm: {call} nên duyên vợ chồng với {partner} nhà họ {clan}.'
+      - 'Lễ nghĩa vẹn toàn: bạn đứng ra lo liệu hôn sự cho {call} kết duyên cùng {partner} (nhánh {clan}), hai nhà từ nay kết tình thông gia.'
+      - 'Ngày vui rộn ràng khắp xóm: {call} nên duyên vợ chồng với {partner} nhà họ {clan}.'
     effects:
       - { type: stress, value: -5 }
   - id: sys.con_cai_loi_hon_su
@@ -486,7 +486,7 @@ templates:
     icon: buon
     variants:
       - '{call} nhất quyết cãi lời, không chịu cuộc hôn sự sắp đặt với {partner} nhà họ {clan}, khiến không khí trong nhà nặng nề.'
-      - 'Dù bạn đã tính chuyện trầu cau với họ {clan}, {call} vẫn một mực khước từ mối duyên cùng {partner}.'
+      - 'Dù bạn đã tính chuyện hôn ước với nhà {clan}, {call} vẫn một mực khước từ mối duyên cùng {partner}.'
   - id: sys.chon_nghe_tay_trai
     kind: he_thong
     importance: 3
@@ -606,8 +606,8 @@ templates:
     tone: vui
     icon: nha
     variants:
-      - 'Thu xếp hành trang và sổ sách, cả nhà dời sang định cư tại {title}, mở ra một trang đời mới.'
-      - 'Chuyến xe chở đồ đạc lăn bánh rời chốn cũ: gia đình bạn chính thức chuyển nhà tới {title}.'
+      - 'Thu xếp hành trang và gia sản, cả nhà dời sang định cư tại {title}, mở ra một trang đời mới.'
+      - 'Mang theo đồ đạc rời chốn cũ: gia đình bạn chính thức chuyển nơi cư ngụ tới {title}.'
   - id: sys.di_buon_chuyen
     kind: bao_cao
     importance: 5
@@ -649,8 +649,8 @@ templates:
     tone: buon
     icon: om
     variants:
-      - 'Tin dữ lan khắp vùng: dịch {title} bất ngờ bùng phát tại {stage}, dân tình đóng cửa đốt bồ kết phòng bệnh.'
-      - 'Khí độc uế tạp bốc lên: bệnh dịch {title} bùng lên ở {stage}, chợ búa vắng tanh, ai nấy đều lo sợ.'
+      - 'Tin dữ lan khắp vùng: dịch {title} bất ngờ bùng phát tại {stage}, dân tình hạn chế qua lại để phòng bệnh.'
+      - 'Mầm bệnh lan nhanh: dịch {title} bùng lên ở {stage}, đường sá vắng lặng, ai nấy đều lo sợ.'
   - id: sys.dich_lan_truyen
     kind: he_thong
     importance: 8
@@ -666,7 +666,7 @@ templates:
     tone: vui
     icon: binh_yen
     variants:
-      - 'Trời trở gió mát lành, cơn dịch {title} ở {stage} cuối cùng đã lắng dịu, chợ bến họp lại bình thường.'
+      - 'Trời trở gió mát lành, cơn dịch {title} ở {stage} cuối cùng đã lắng dịu, nhịp sống trở lại bình thường.'
       - 'Sau mấy tháng hoành hành, dịch {title} tại {stage} đã lui hẳn, dân tình thở phào nhẹ nhõm.'
   # [A–E] Tâm lý sâu, Quyền lực mềm, Tổ chức Fractal, Nổi dậy, Chính trị & Chuyển giao Thời đại
   - id: sys.khung_hoang_tam_ly
@@ -772,8 +772,8 @@ templates:
     tone: buon
     icon: nguy_hiem
     variants:
-      - 'Đại quân triều đình ập tới đàn áp dữ dội, phong trào khởi nghĩa ({title}) tan rã trong khói lửa.'
-      - 'Lực bất tòng tâm trước binh hùng tướng mạnh của quan quân, cuộc nổi dậy ({title}) bị dập tắt.'
+      - 'Lực lượng cầm quyền ập tới đàn áp dữ dội, phong trào nổi dậy ({title}) tan rã trong khói lửa.'
+      - 'Lực bất tòng tâm trước sức mạnh áp đảo của phe thống trị, cuộc nổi dậy ({title}) bị dập tắt.'
   - id: sys.thien_menh_bien_dong
     kind: he_thong
     importance: 7
@@ -781,8 +781,8 @@ templates:
     tone: trung_tinh
     icon: tin_don
     variants:
-      - 'Thiên mệnh vương triều biến động ({title}): lòng dân và thế cuộc bốn phương đang đổi chiều.'
-      - 'Khắp phố phường râm ran bàn tán chuyện quốc sự: Thiên mệnh triều đình hiện ở mức {title}.'
+      - 'Uy quyền cai trị biến động ({title}): lòng người và thế cuộc bốn phương đang đổi chiều.'
+      - 'Khắp nơi râm ran bàn tán chuyện thời cuộc: tính chính danh của phe cầm quyền hiện ở mức {title}.'
   - id: sys.ket_phe_phai
     kind: he_thong
     importance: 7

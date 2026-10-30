@@ -13,6 +13,7 @@ import {
   cultureSchema,
   decisionEventFileSchema,
   diseaseFileSchema,
+  eraStoryFileSchema,
   focusFileSchema,
   langSchema,
   lifestyleFileSchema,
@@ -22,7 +23,6 @@ import {
   propertyFileSchema,
   religionFileSchema,
   scenarioFileSchema,
-  storySchema,
   settlementTypeFileSchema,
   skillFileSchema,
   traitFileSchema,
@@ -87,8 +87,9 @@ export interface ContentBundle {
   cultures: Culture[];
   religions: Religion[];
   events: DecisionEvent[];
-  /** Lớp câu chuyện: bạn cùng lứa, mốc suy ngẫm, văn bia (src/data/story/). */
+  /** Lớp câu chuyện mặc định và theo từng thời đại: bạn cùng lứa, mốc suy ngẫm, văn bia (src/data/eras/<NN>/story.yaml). */
   story: StoryContent;
+  storyByEra: Record<string, StoryContent>;
   ambient: AmbientTemplate[];
   scenarios: Scenario[];
   lang: Record<string, LangPack>;
@@ -115,6 +116,8 @@ export interface ContentBundle {
     religion: Map<string, Religion>;
     event: Map<string, DecisionEvent>;
     ambient: Map<string, AmbientTemplate>;
+    /** Ghi đè mẫu thông báo hệ thống (sys.*) riêng theo từng thời đại (bookmarkId -> Map<templateId, AmbientTemplate>). */
+    ambientByEra: Map<string, Map<string, AmbientTemplate>>;
     scenario: Map<string, Scenario>;
     livingStandard: Map<string, Balance['living_standards']['levels'][number]>;
     lifeStage: Map<string, Balance['life']['life_stages'][number]>;
@@ -241,8 +244,10 @@ export function loadContent(files: RawFile[]): ContentBundle {
   };
   const events: DecisionEvent[] = [];
   const ambient = collect('events/ambient', ambientFileSchema, 'templates');
-  const scenarios = collect('scenarios', scenarioFileSchema, 'scenarios');
+  const ambientByEra = new Map<string, Map<string, AmbientTemplate>>();
+  const scenarios: Scenario[] = [];
   const origins: Origin[] = [];
+  const storyByEra: Record<string, StoryContent> = {};
 
   // Nạp các gói nội dung riêng theo từng Thời đại tại src/data/eras/<NN_bookmark_id>/
   const eraFolders: string[] = [];
@@ -256,6 +261,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     const eraBookmarkId = folderName.replace(/^\d+_/, '');
     if (!eraFolders.includes(eraBookmarkId)) eraFolders.push(eraBookmarkId);
     const defaultEraList = [eraBookmarkId];
+    if (!ambientByEra.has(eraBookmarkId)) ambientByEra.set(eraBookmarkId, new Map());
 
     for (const f of groups.get(dir) ?? []) {
       const name = baseName(f.path);
@@ -300,13 +306,39 @@ export function loadContent(files: RawFile[]): ContentBundle {
         }
       } else if (name === 'ambient' || name.startsWith('ambient_')) {
         const parsed = parseFile(f, ambientFileSchema);
-        if (parsed) ambient.push(...applyDefaultEras(parsed.templates, parsed.eras ?? defaultEraList));
+        if (parsed) {
+          const eraMap = ambientByEra.get(eraBookmarkId)!;
+          for (const t of applyDefaultEras(parsed.templates, parsed.eras ?? defaultEraList)) {
+            if (t.id.startsWith('sys.')) {
+              if (eraMap.has(t.id)) issues.push(`${f.path}: trùng id thông báo hệ thống "${t.id}" trong cùng thời đại`);
+              eraMap.set(t.id, t);
+            } else {
+              ambient.push(t);
+            }
+          }
+        }
       } else if (name === 'events' || name.startsWith('events_')) {
         const parsed = parseFile(f, decisionEventFileSchema);
         if (parsed) events.push(...applyDefaultEras(parsed.events, parsed.eras ?? defaultEraList));
+      } else if (name === 'story' || name.startsWith('story_')) {
+        const parsed = parseFile(f, eraStoryFileSchema);
+        if (parsed && parsed.peers) {
+          if (parsed.epitaphs.length === 0) {
+            issues.push(`${f.path}: khi đã khai báo peers thì epitaphs phải có ít nhất 1 câu văn bia`);
+          } else {
+            storyByEra[eraBookmarkId] = {
+              peers: parsed.peers,
+              reflections: parsed.reflections,
+              epitaphs: parsed.epitaphs,
+            };
+          }
+        }
+      } else if (name === 'scenarios' || name.startsWith('scenarios_')) {
+        const parsed = parseFile(f, scenarioFileSchema);
+        if (parsed) scenarios.push(...applyDefaultEras(parsed.scenarios, parsed.eras ?? defaultEraList));
       } else {
         issues.push(
-          `${f.path}: tên file trong thư mục thời đại không hợp lệ "${name}" (chỉ hỗ trợ origins, focuses, lifestyles, careers, properties, ventures, organizations, ambitions, diseases, chronicle, ambient, events)`,
+          `${f.path}: tên file trong thư mục thời đại không hợp lệ "${name}" (chỉ hỗ trợ origins, focuses, lifestyles, careers, properties, ventures, organizations, ambitions, diseases, chronicle, ambient, events, story, scenarios)`,
         );
       }
     }
@@ -321,8 +353,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
     a.id === 'viet' ? -1 : b.id === 'viet' ? 1 : a.id.localeCompare(b.id),
   );
   const religions = collect('religions', religionFileSchema, 'religions');
-  const storyFiles = single('story', storySchema);
-  if (storyFiles.length !== 1) issues.push(`src/data/story/: cần đúng một file (đang có ${storyFiles.length})`);
+  const defaultStory = storyByEra[defaultBookmarkId] ?? Object.values(storyByEra)[0];
+  if (!defaultStory) issues.push('src/data/eras/: cần ít nhất một file story.yaml có đầy đủ peers và epitaphs');
 
   const lang: Record<string, LangPack> = {};
   for (const f of groups.get('lang') ?? []) {
@@ -361,6 +393,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     religion: indexBy(religions, 'religions'),
     event: indexBy(events, 'events'),
     ambient: indexBy(ambient, 'events/ambient'),
+    ambientByEra,
     scenario: indexBy(scenarios, 'scenarios'),
     livingStandard: indexBy((balance.living_standards as Balance['living_standards'] | undefined)?.levels ?? [], 'living_standards'),
     lifeStage: indexBy((balance.life as Balance['life'] | undefined)?.life_stages ?? [], 'life_stages'),
@@ -372,7 +405,8 @@ export function loadContent(files: RawFile[]): ContentBundle {
   if (issues.length > 0) throw new ContentError(issues);
 
   return {
-    story: storyFiles[0],
+    story: defaultStory,
+    storyByEra,
     balance: balance as Balance,
     skills,
     traits,

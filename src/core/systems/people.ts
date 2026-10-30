@@ -205,9 +205,13 @@ export function villageNpc(ctx: SimContext, role: string): Character | undefined
   return c?.alive ? c : undefined;
 }
 
+/** Mốc thời đại (bookmark.id) đang hoạt động trong ván chơi. */
+export function currentBookmarkId(ctx: SimContext): string {
+  return ctx.state.bookmarkId ?? ctx.content.defaultBookmarkId;
+}
+
 /** Kiểm tra một mục nội dung (sự kiện, nghề, trọng tâm, tài sản...) có thuộc mốc thời đại đang chơi hay không. */
 export function inCurrentEra(ctx: SimContext, eras?: readonly string[]): boolean {
   if (!eras || eras.length === 0) return true;
-  const bmId = ctx.state.bookmarkId ?? ctx.content.defaultBookmarkId;
-  return eras.includes(bmId);
+  return eras.includes(currentBookmarkId(ctx));
 }

@@ -1,4 +1,5 @@
 // Lớp câu chuyện của một đời: bạn cùng lứa sống song song, mốc dừng lại suy ngẫm, câu văn bia (src/data/story/)
+import type { StoryContent } from '@content/schemas';
 import { clamp, interpolate } from '@shared/curve';
 import { fillTemplate } from '@shared/template';
 import type { PeerState } from '../../entities/World';
@@ -9,13 +10,17 @@ import { LogKind } from '../../events/systemLogKeys';
 import { RngStream, newId, type SimContext } from '../context';
 import { currentFateMode } from '../life';
 import { polityMortalityFactor } from '../life/mortality';
-import { activeCulture, ageNow, player } from '../people';
+import { activeCulture, ageNow, currentBookmarkId, player } from '../people';
 import { createResolver } from '../resolver';
+
+function activeStory(ctx: SimContext): StoryContent {
+  return ctx.content.storyByEra?.[currentBookmarkId(ctx)] ?? ctx.content.story;
+}
 
 /** Sinh bạn cùng lứa cho đời đang chơi: các gia cảnh khác nhau, cùng năm sinh với người chơi. */
 export function createPeers(ctx: SimContext): void {
-  const { state, content } = ctx;
-  const cfg = content.story.peers;
+  const { state } = ctx;
+  const cfg = activeStory(ctx).peers;
   const culture = activeCulture(ctx);
   const rng = ctx.rng.get(RngStream.Peers);
   const me = player(ctx);
@@ -55,7 +60,7 @@ function peerText(template: string, p: PeerState, age: number, cause = ''): stri
 /** Cuối năm: mỗi người bạn cùng lứa còn sống có thể qua đời (cùng bảng tử vong, nhân theo gia cảnh) hoặc có chuyện ở mốc tuổi. */
 export function yearlyPeers(ctx: SimContext): void {
   const { state, content } = ctx;
-  const cfg = content.story.peers;
+  const cfg = activeStory(ctx).peers;
   const m = content.balance.life.mortality;
   const rng = ctx.rng.get(RngStream.Peers);
   for (const p of state.peers ?? []) {
@@ -113,9 +118,9 @@ export function yearlyPeers(ctx: SimContext): void {
 
 /** Đầu năm: đến mốc tuổi suy ngẫm thì đặt câu hỏi chờ (giao diện dừng thời gian để hỏi). Trả true nếu vừa đặt. */
 export function checkReflection(ctx: SimContext): boolean {
-  const { state, content } = ctx;
+  const { state } = ctx;
   const age = ageNow(ctx, player(ctx));
-  const r = content.story.reflections.find((x) => x.age === age);
+  const r = activeStory(ctx).reflections.find((x) => x.age === age);
   if (!r || state.reflectionDue || (state.reflections ?? []).some((x) => x.age === age)) return false;
   state.reflectionDue = { age: r.age, question: r.question };
   return true;
@@ -134,7 +139,7 @@ export function answerReflection(ctx: SimContext, text: string, maxLength: numbe
 /** Câu văn bia cuối đời: chọn theo điều kiện + trọng số (tất định theo seed của đời). */
 export function pickEpitaph(ctx: SimContext): string {
   const r = createResolver(ctx);
-  const pool = ctx.content.story.epitaphs.filter((e) => evaluate(e.condition, r));
+  const pool = activeStory(ctx).epitaphs.filter((e) => evaluate(e.condition, r));
   if (pool.length === 0) return '';
   // Không dùng luồng RNG chung: truy vấn chỉ đọc không được làm lệch trạng thái — băm seed + người chơi
   const total = pool.reduce((s, e) => s + e.weight, 0);

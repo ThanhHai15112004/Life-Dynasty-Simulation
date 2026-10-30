@@ -87,4 +87,24 @@ export const storySchema = z
   })
   .strict();
 
+export const eraStoryFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    peers: storySchema.shape.peers.optional(),
+    reflections: storySchema.shape.reflections.default([]),
+    epitaphs: z
+      .array(
+        z
+          .object({
+            condition: conditionSchema.optional(),
+            weight: z.number().positive().default(1),
+            text: z.string(),
+          })
+          .strict(),
+      )
+      .default([]),
+  })
+  .strict();
+
 export type StoryContent = z.infer<typeof storySchema>;
+export type EraStoryFile = z.infer<typeof eraStoryFileSchema>;

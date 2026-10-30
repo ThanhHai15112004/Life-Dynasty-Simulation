@@ -22,7 +22,7 @@ npm run simulate     # xem KPI cân bằng có lệch không
 | `balance/scene.yaml` | Luật suy ra tình trạng cảnh và hiệu ứng hạt |
 | `skills/`, `traits/`, `cultures/`, `religions/` | 7 kỹ năng, 16 tính cách, văn hóa (họ tên, cách xưng hô), tôn giáo dùng chung |
 | `civilizations/`, `world/` | Khuôn văn minh (`nho_giao.yaml`, `bo_lac_nguyen_thuy.yaml`...), loại khu định cư (`settlement_types.yaml`), mốc lịch sử (`world/bookmarks/`) |
-| `eras/<NN_bookmark_id>/` | Trọn bộ 12 file nội dung riêng theo từng Thời đại: `origins.yaml`, `focuses.yaml`, `lifestyles.yaml`, `careers.yaml`, `properties.yaml`, `ventures.yaml`, `organizations.yaml`, `ambitions.yaml`, `diseases.yaml`, `chronicle.yaml`, `ambient.yaml`, `events.yaml` |
+| `eras/<NN_bookmark_id>/` | Trọn bộ 14 file nội dung riêng theo từng Thời đại: `origins.yaml`, `focuses.yaml`, `lifestyles.yaml`, `careers.yaml`, `properties.yaml`, `ventures.yaml`, `organizations.yaml`, `ambitions.yaml`, `diseases.yaml`, `chronicle.yaml`, `ambient.yaml` (hỗ trợ ghi đè `sys.*` theo thời đại), `events.yaml`, `story.yaml`, `scenarios.yaml` |
 | `events/ambient/he_thong.yaml` | Mẫu thông báo hệ thống dùng chung mọi thời đại (`sys.*`, đừng đổi id) |
 | `lang/vi.json`, `lang/en.json` | Chữ giao diện |
 

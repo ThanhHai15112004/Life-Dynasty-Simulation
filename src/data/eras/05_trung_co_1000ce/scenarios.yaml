@@ -1,0 +1,1428 @@
+# Kịch bản dựng sẵn (Preset Scenarios) — Thời Trung Cổ 1000 SCN
+scenarios:
+  - id: moi_cuoi_vo_mang_thai
+    group: gia_dinh
+    title_key: scenario.moi_cuoi_vo_mang_thai.title
+    description_key: scenario.moi_cuoi_vo_mang_thai.desc
+    base:
+      originId: nong_dan
+      age: 20
+      sex: m
+    setup:
+      - type: marry
+    family_setup:
+      spouse_age: 18
+      spouse_pregnant: true
+    auto_minor: false
+  - id: nhieu_con_nho
+    group: gia_dinh
+    title_key: scenario.nhieu_con_nho.title
+    description_key: scenario.nhieu_con_nho.desc
+    base:
+      originId: nong_dan
+      age: 30
+      sex: m
+    setup:
+      - type: marry
+      - type: food
+        value: -50
+    family_setup:
+      spouse_age: 28
+      children:
+        - age: 1
+          sex: m
+        - age: 3
+          sex: f
+        - age: 5
+          sex: m
+        - age: 7
+          sex: f
+    auto_minor: false
+  - id: cha_me_sap_giao_nha
+    group: gia_dinh
+    title_key: scenario.cha_me_sap_giao_nha.title
+    description_key: scenario.cha_me_sap_giao_nha.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+    setup:
+      - type: marry
+    auto_minor: false
+  - id: goa_vo
+    group: gia_dinh
+    title_key: scenario.goa_vo.title
+    description_key: scenario.goa_vo.desc
+    base:
+      originId: nong_dan
+      age: 36
+      sex: m
+    family_setup:
+      children:
+        - age: 4
+          sex: m
+        - age: 8
+          sex: f
+    setup:
+      - type: stress
+        value: 45
+    auto_minor: false
+  - id: vua_cuoi_con_o_chung
+    group: gia_dinh
+    title_key: scenario.vua_cuoi_con_o_chung.title
+    description_key: scenario.vua_cuoi_con_o_chung.desc
+    base:
+      originId: nong_dan
+      age: 22
+      sex: m
+    setup:
+      - type: marry
+      - type: money
+        value: 20
+      - type: property_add
+        property: ruong
+        count: 4
+    family_setup:
+      spouse_age: 20
+      years_married: 2
+      siblings:
+        - age: 25
+          sex: m
+    start_event: gd_xin_ra_o_rieng
+    auto_minor: false
+  - id: cha_sap_mat_3_con
+    group: gia_dinh
+    title_key: scenario.cha_sap_mat_3_con.title
+    description_key: scenario.cha_sap_mat_3_con.desc
+    base:
+      originId: nong_dan
+      age: 28
+      sex: m
+    setup:
+      - type: marry
+      - type: money
+        value: 40
+      - type: property_add
+        property: ruong
+        count: 8
+    family_setup:
+      parents: mother_dead
+      father_age: 68
+      father_health: 12
+      spouse_age: 25
+      siblings:
+        - age: 24
+          sex: m
+        - age: 21
+          sex: m
+    auto_minor: false
+  - id: mat_khong_di_chuc
+    group: gia_dinh
+    title_key: scenario.mat_khong_di_chuc.title
+    description_key: scenario.mat_khong_di_chuc.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+    setup:
+      - type: marry
+      - type: money
+        value: 35
+      - type: property_add
+        property: ruong
+        count: 6
+    family_setup:
+      parents: both_dead
+      spouse_age: 24
+      siblings:
+        - age: 29
+          sex: m
+        - age: 22
+          sex: m
+    start_event: gd_tranh_chap_di_san
+    auto_minor: false
+  - id: con_thu_ra_rieng_tay_trang
+    group: gia_dinh
+    title_key: scenario.con_thu_ra_rieng_tay_trang.title
+    description_key: scenario.con_thu_ra_rieng_tay_trang.desc
+    base:
+      originId: nong_dan
+      age: 23
+      sex: m
+    setup:
+      - type: marry
+    family_setup:
+      spouse_age: 21
+      years_married: 2
+      siblings:
+        - age: 27
+          sex: m
+      split_household: true
+    auto_minor: false
+  - id: so_phan_khac_nghiet_test
+    group: suc_khoe
+    title_key: scenario.so_phan_khac_nghiet_test.title
+    description_key: scenario.so_phan_khac_nghiet_test.desc
+    base:
+      originId: nong_dan
+      age: 20
+      sex: m
+      seed: fate-test-seed
+      fateMode: khac_nghiet
+    setup:
+      - type: marry
+    family_setup:
+      spouse_age: 19
+    auto_minor: false
+  - id: truyen_doi_68_tuoi_3_con
+    group: gia_dinh
+    title_key: scenario.truyen_doi_68_tuoi_3_con.title
+    description_key: scenario.truyen_doi_68_tuoi_3_con.desc
+    base:
+      originId: nong_dan
+      age: 68
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 45
+      - type: property_add
+        property: ruong
+        count: 8
+      - type: health
+        value: -55
+        who: player
+      - type: set_ambition
+        ambition: ruong_co_trau_day
+    family_setup:
+      parents: both_dead
+      spouse_age: 64
+      siblings: []
+      children:
+        - age: 38
+          sex: m
+        - age: 33
+          sex: m
+        - age: 28
+          sex: f
+    auto_minor: false
+  - id: mat_con_truong_5_tuoi
+    group: gia_dinh
+    title_key: scenario.mat_con_truong_5_tuoi.title
+    description_key: scenario.mat_con_truong_5_tuoi.desc
+    base:
+      originId: nong_dan
+      age: 32
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 25
+      - type: property_add
+        property: ruong
+        count: 4
+      - type: health
+        value: -65
+        who: player
+      - type: add_disease
+        disease: lao_luc_benh
+        who: player
+    family_setup:
+      parents: both_dead
+      spouse_age: 28
+      children:
+        - age: 5
+          sex: m
+    auto_minor: false
+  - id: khong_con_chi_co_chau_ho
+    group: gia_dinh
+    title_key: scenario.khong_con_chi_co_chau_ho.title
+    description_key: scenario.khong_con_chi_co_chau_ho.desc
+    base:
+      originId: nong_dan
+      age: 66
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: money
+        value: 30
+      - type: property_add
+        property: ruong
+        count: 5
+      - type: health
+        value: -55
+        who: player
+    family_setup:
+      parents: both_dead
+      siblings: []
+      nephews:
+        - age: 19
+          sex: m
+    auto_minor: false
+  - id: tuyet_tu_hoan_toan
+    group: gia_dinh
+    title_key: scenario.tuyet_tu_hoan_toan.title
+    description_key: scenario.tuyet_tu_hoan_toan.desc
+    base:
+      originId: nong_dan
+      age: 72
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: health
+        value: -65
+        who: player
+    family_setup:
+      parents: both_dead
+      siblings: []
+    auto_minor: false
+  - id: doi_thu_3_co_to_tien
+    group: gia_dinh
+    title_key: scenario.doi_thu_3_co_to_tien.title
+    description_key: scenario.doi_thu_3_co_to_tien.desc
+    base:
+      originId: nong_dan
+      age: 22
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 35
+      - type: property_add
+        property: ruong
+        count: 6
+    family_setup:
+      parents: both_dead
+      spouse_age: 20
+      ancestors_count: 2
+      unfinished_wish:
+        id: wish_ancestor_2
+        text: "Ruộng cò bay thẳng cánh: Dựng nhà gỗ ba gian, sống đời sung túc"
+        ambitionId: ruong_co_trau_day
+        milestoneId: nha_go_sung_tuc
+    start_event: gd_di_nguyen_cha_ong
+    auto_minor: false
+  - id: nguoi_ke_nong_nay
+    group: gia_dinh
+    title_key: scenario.nguoi_ke_nong_nay.title
+    description_key: scenario.nguoi_ke_nong_nay.desc
+    base:
+      originId: nong_dan
+      age: 65
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: add_trait
+        trait: nong_nay
+        who: player
+      - type: money
+        value: 30
+      - type: property_add
+        property: ruong
+        count: 5
+    family_setup:
+      parents: both_dead
+      spouse_age: 60
+      children:
+        - age: 24
+          sex: m
+      heir_traits:
+        - nong_nay
+        - can_dam
+    start_event: gd_ngay_dau_lam_chu_sau_tang
+    auto_minor: false
+  - id: con_gai_16_tuoi_ga
+    group: gia_dinh
+    title_key: scenario.con_gai_16_tuoi_ga.title
+    description_key: scenario.con_gai_16_tuoi_ga.desc
+    base:
+      originId: nong_dan
+      age: 40
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 45
+      - type: property_add
+        property: ruong
+        count: 6
+    family_setup:
+      parents: both_dead
+      spouse_age: 37
+      children:
+        - age: 16
+          sex: f
+          upbringing: phu_viec_nha
+          traits:
+            - tu_do
+            - kien_nhan
+        - age: 11
+          sex: m
+          upbringing: di_hoc
+    auto_minor: false
+  - id: ba_nha_cung_mai_moi
+    group: gia_dinh
+    title_key: scenario.ba_nha_cung_mai_moi.title
+    description_key: scenario.ba_nha_cung_mai_moi.desc
+    base:
+      originId: nong_dan
+      age: 42
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 60
+      - type: property_add
+        property: ruong
+        count: 8
+    family_setup:
+      parents: both_dead
+      spouse_age: 39
+      children:
+        - age: 18
+          sex: m
+          upbringing: hoc_nghe
+          traits:
+            - kien_nhan
+            - trung_thanh
+        - age: 16
+          sex: f
+          upbringing: phu_viec_nha
+          traits:
+            - trong_gia_dinh
+      matchmaking_suitors: 3
+    start_event: gd_ba_moi_dam_ngo
+    auto_minor: false
+  - id: dang_co_thu_voi_mot_ho
+    group: gia_dinh
+    title_key: scenario.dang_co_thu_voi_mot_ho.title
+    description_key: scenario.dang_co_thu_voi_mot_ho.desc
+    base:
+      originId: nong_dan
+      age: 38
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 40
+      - type: property_add
+        property: ruong
+        count: 6
+    family_setup:
+      parents: both_dead
+      spouse_age: 35
+      children:
+        - age: 14
+          sex: m
+          upbringing: di_hoc
+        - age: 9
+          sex: f
+          upbringing: phu_viec_nha
+      clan_feud:
+        reason: Tranh chấp bờ ruộng hương hỏa và xích mích việc làng từ đời cha ông
+        grudge: 70
+    auto_minor: false
+  - id: con_trai_hoc_gioi_di_thi
+    group: gia_dinh
+    title_key: scenario.con_trai_hoc_gioi_di_thi.title
+    description_key: scenario.con_trai_hoc_gioi_di_thi.desc
+    base:
+      originId: nong_dan
+      age: 41
+      sex: m
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 50
+      - type: property_add
+        property: ruong
+        count: 6
+    family_setup:
+      parents: both_dead
+      spouse_age: 38
+      children:
+        - age: 16
+          sex: m
+          upbringing: di_hoc
+          skills:
+            hoc_van: 4
+            ngoai_giao: 2
+          traits:
+            - kien_nhan
+            - tham_vong
+        - age: 10
+          sex: m
+          upbringing: phu_viec_nha
+    start_event: gd_con_trai_xin_di_thi
+    auto_minor: false
+  - id: tua_50_nam_xem_lang
+    group: gia_dinh
+    title_key: scenario.tua_50_nam_xem_lang.title
+    description_key: scenario.tua_50_nam_xem_lang.desc
+    base:
+      originId: nong_dan
+      age: 18
+      sex: m
+      fateMode: binh_lang
+      playMode: dynasty
+    setup:
+      - type: marry
+      - type: money
+        value: 80
+      - type: food
+        value: 120
+      - type: property_add
+        property: ruong
+        count: 10
+      - type: health
+        value: 30
+        who: player
+    family_setup:
+      parents: both_dead
+      spouse_age: 18
+      children:
+        - age: 2
+          sex: m
+    fast_forward_years: 50
+    auto_minor: true
+  - id: khoi_dau_nong_dan_0
+    group: khoi_dau
+    title_key: scenario.khoi_dau_nong_dan_0.title
+    description_key: scenario.khoi_dau_nong_dan_0.desc
+    base:
+      originId: nong_dan
+      age: 0
+    auto_minor: false
+  - id: khoi_dau_nong_dan_6
+    group: khoi_dau
+    title_key: scenario.khoi_dau_nong_dan_6.title
+    description_key: scenario.khoi_dau_nong_dan_6.desc
+    base:
+      originId: nong_dan
+      age: 6
+    auto_minor: false
+  - id: khoi_dau_nong_dan_16
+    group: khoi_dau
+    title_key: scenario.khoi_dau_nong_dan_16.title
+    description_key: scenario.khoi_dau_nong_dan_16.desc
+    base:
+      originId: nong_dan
+      age: 16
+    auto_minor: false
+  - id: khoi_dau_thuong_nhan_0
+    group: khoi_dau
+    title_key: scenario.khoi_dau_thuong_nhan_0.title
+    description_key: scenario.khoi_dau_thuong_nhan_0.desc
+    base:
+      originId: thuong_nhan
+      age: 0
+    auto_minor: false
+  - id: khoi_dau_thuong_nhan_6
+    group: khoi_dau
+    title_key: scenario.khoi_dau_thuong_nhan_6.title
+    description_key: scenario.khoi_dau_thuong_nhan_6.desc
+    base:
+      originId: thuong_nhan
+      age: 6
+    auto_minor: false
+  - id: khoi_dau_thuong_nhan_16
+    group: khoi_dau
+    title_key: scenario.khoi_dau_thuong_nhan_16.title
+    description_key: scenario.khoi_dau_thuong_nhan_16.desc
+    base:
+      originId: thuong_nhan
+      age: 16
+    auto_minor: false
+  - id: khoi_dau_quan_lai_0
+    group: khoi_dau
+    title_key: scenario.khoi_dau_quan_lai_0.title
+    description_key: scenario.khoi_dau_quan_lai_0.desc
+    base:
+      originId: quy_toc_nho
+      age: 0
+    auto_minor: false
+  - id: khoi_dau_quan_lai_6
+    group: khoi_dau
+    title_key: scenario.khoi_dau_quan_lai_6.title
+    description_key: scenario.khoi_dau_quan_lai_6.desc
+    base:
+      originId: quy_toc_nho
+      age: 6
+    auto_minor: false
+  - id: khoi_dau_quan_lai_16
+    group: khoi_dau
+    title_key: scenario.khoi_dau_quan_lai_16.title
+    description_key: scenario.khoi_dau_quan_lai_16.desc
+    base:
+      originId: quy_toc_nho
+      age: 16
+    auto_minor: false
+  - id: ngheo_ngap_no
+    group: kinh_te
+    title_key: scenario.ngheo_ngap_no.title
+    description_key: scenario.ngheo_ngap_no.desc
+    base:
+      originId: nong_dan
+      age: 24
+    setup:
+      - type: debt
+        value: 80
+      - type: food
+        value: -999
+      - type: stress
+        value: 40
+    auto_minor: false
+  - id: phu_ho_nhieu_ruong
+    group: kinh_te
+    title_key: scenario.phu_ho_nhieu_ruong.title
+    description_key: scenario.phu_ho_nhieu_ruong.desc
+    base:
+      originId: nong_dan
+      age: 40
+    setup:
+      - type: property_add
+        property: ruong
+        count: 30
+      - type: money
+        value: 150
+      - type: food
+        value: 200
+      - type: reputation
+        group: dan_lang
+        value: 20
+    auto_minor: false
+  - id: nha_buon_von_lon
+    group: kinh_te
+    title_key: scenario.nha_buon_von_lon.title
+    description_key: scenario.nha_buon_von_lon.desc
+    base:
+      originId: thuong_nhan
+      age: 30
+    setup:
+      - type: money
+        value: 250
+      - type: property_add
+        property: sap_hang
+        count: 2
+    world_setup:
+      foodPrice: 1.5
+    auto_minor: false
+  - id: doi_giap_hat
+    group: kinh_te
+    title_key: scenario.doi_giap_hat.title
+    description_key: scenario.doi_giap_hat.desc
+    base:
+      originId: nong_dan
+      age: 28
+    setup:
+      - type: food
+        value: -999
+      - type: money
+        value: -999
+    world_setup:
+      harvestQuality: mat_mua
+      foodPrice: 1.8
+    auto_minor: false
+  - id: kho_thoc_day_lai_buon
+    group: kinh_te
+    title_key: scenario.kho_thoc_day_lai_buon.title
+    description_key: scenario.kho_thoc_day_lai_buon.desc
+    base:
+      originId: nong_dan
+      age: 35
+    setup:
+      - type: food
+        value: 300
+      - type: property_add
+        property: ruong
+        count: 15
+    world_setup:
+      foodPrice: 0.8
+    auto_minor: false
+  - id: co_sap_nho
+    group: kinh_te
+    title_key: scenario.co_sap_nho.title
+    description_key: scenario.co_sap_nho.desc
+    base:
+      originId: thuong_nhan
+      age: 24
+    family_setup:
+      parents: both_dead
+      siblings: []
+    setup:
+      - type: set_career
+        career: thuong_nhan
+        rank: 0
+        months: 24
+      - type: venture_add
+        venture: sap_nho
+        stage: 1
+        health: 85
+      - type: money
+        value: 55
+      - type: skill_xp
+        skill: thuong_mai
+        value: 45
+    auto_minor: false
+  - id: hieu_buon_sap_pha_san
+    group: kinh_te
+    title_key: scenario.hieu_buon_sap_pha_san.title
+    description_key: scenario.hieu_buon_sap_pha_san.desc
+    base:
+      originId: thuong_nhan
+      age: 38
+    family_setup:
+      parents: both_dead
+      siblings: []
+    setup:
+      - type: set_career
+        career: thuong_nhan
+        rank: 1
+        months: 96
+      - type: venture_add
+        venture: hieu_buon
+        stage: 2
+        health: 22
+      - type: debt
+        value: 45
+      - type: money
+        value: 25
+    start_event: kt_co_nghiep_sa_sut
+    auto_minor: false
+  - id: thua_ke_xuong_gom
+    group: kinh_te
+    title_key: scenario.thua_ke_xuong_gom.title
+    description_key: scenario.thua_ke_xuong_gom.desc
+    base:
+      originId: nong_dan
+      age: 26
+      playMode: dynasty
+    family_setup:
+      parents: both_dead
+      siblings: []
+      ancestors_count: 1
+    setup:
+      - type: set_career
+        career: tho_moc
+        rank: 1
+        months: 48
+      - type: venture_add
+        venture: lo_gom
+        stage: 2
+        health: 82
+      - type: upgrade_house
+        target: nha_go
+      - type: money
+        value: 40
+      - type: skill_xp
+        skill: quan_tri
+        value: 70
+    auto_minor: false
+  - id: gia_cao_bat_thuong
+    group: kinh_te
+    title_key: scenario.gia_cao_bat_thuong.title
+    description_key: scenario.gia_cao_bat_thuong.desc
+    base:
+      originId: thuong_nhan
+      age: 30
+    family_setup:
+      parents: both_dead
+      siblings: []
+    setup:
+      - type: set_career
+        career: thuong_nhan
+        rank: 1
+        months: 60
+      - type: venture_add
+        venture: cua_hieu
+        stage: 1
+        health: 88
+      - type: venture_add
+        venture: thuyen_buon
+        stage: 1
+        health: 85
+      - type: money
+        value: 65
+    world_setup:
+      tradeIndex: 1.55
+      foodPrice: 1.35
+    start_event: kt_co_nghiep_thoi_co_lon
+    auto_minor: false
+  - id: chu_no_den_doi
+    group: kinh_te
+    title_key: scenario.chu_no_den_doi.title
+    description_key: scenario.chu_no_den_doi.desc
+    base:
+      originId: nong_dan
+      age: 32
+    family_setup:
+      parents: both_dead
+      siblings: []
+    setup:
+      - type: npc_loan_add
+        kind: borrowed
+        amount: 40
+        overdue_years: 2
+      - type: money
+        value: 15
+      - type: property_add
+        property: ruong
+        count: 2
+    start_event: kt_chu_no_den_doi
+    auto_minor: false
+  - id: linh_chien_dich
+    group: nghe_nghiep
+    title_key: scenario.linh_chien_dich.title
+    description_key: scenario.linh_chien_dich.desc
+    base:
+      originId: nong_dan
+      age: 22
+      sex: m
+    setup:
+      - type: set_career
+        career: linh
+      - type: skill_xp
+        skill: quan_su
+        value: 120
+        who: player
+      - type: stress
+        value: 30
+    auto_minor: false
+  - id: thao_khau_truy_na
+    group: nghe_nghiep
+    title_key: scenario.thao_khau_truy_na.title
+    description_key: scenario.thao_khau_truy_na.desc
+    base:
+      originId: nong_dan
+      age: 27
+      sex: m
+    setup:
+      - type: set_career
+        career: thao_khau
+      - type: wanted
+        value: 60
+      - type: skill_xp
+        skill: muu_luoc
+        value: 100
+        who: player
+    auto_minor: false
+  - id: si_tu_thi_huong
+    group: nghe_nghiep
+    title_key: scenario.si_tu_thi_huong.title
+    description_key: scenario.si_tu_thi_huong.desc
+    base:
+      originId: quy_toc_nho
+      age: 21
+      sex: m
+    setup:
+      - type: set_career
+        career: si_tu
+      - type: skill_xp
+        skill: hoc_van
+        value: 180
+        who: player
+      - type: scholarly_prestige
+        value: 40
+    auto_minor: false
+  - id: quan_van_nham_chuc
+    group: nghe_nghiep
+    title_key: scenario.quan_van_nham_chuc.title
+    description_key: scenario.quan_van_nham_chuc.desc
+    base:
+      originId: quy_toc_nho
+      age: 28
+      sex: m
+    setup:
+      - type: set_exam_degree
+        degree: huong_cong
+      - type: set_career
+        career: si_tu
+        months: 60
+      - type: career_merit
+        value: 45
+      - type: scholarly_prestige
+        value: 60
+      - type: filial_piety
+        value: 30
+      - type: reputation
+        group: dan_lang
+        value: 25
+    auto_minor: false
+  - id: nghe_ta_dien
+    group: nghe_nghiep
+    title_key: scenario.nghe_ta_dien.title
+    description_key: scenario.nghe_ta_dien.desc
+    base:
+      originId: nong_dan
+      age: 24
+      sex: m
+    setup:
+      - type: property_remove
+        property: ruong
+        count: 3
+      - type: set_career
+        career: ta_dien
+        months: 24
+      - type: career_merit
+        value: 15
+    start_event: ta_dien_chia_thoc_mua_gat
+    auto_minor: false
+  - id: nghe_lam_thue
+    group: nghe_nghiep
+    title_key: scenario.nghe_lam_thue.title
+    description_key: scenario.nghe_lam_thue.desc
+    base:
+      originId: nong_dan
+      age: 22
+      sex: m
+    setup:
+      - type: property_remove
+        property: ruong
+        count: 3
+      - type: set_career
+        career: lam_thue
+        months: 18
+      - type: skill_xp
+        skill: sinh_ton
+        value: 60
+        who: player
+    start_event: lam_thue_dap_de_mua_lu
+    auto_minor: false
+  - id: nghe_tho_moc
+    group: nghe_nghiep
+    title_key: scenario.nghe_tho_moc.title
+    description_key: scenario.nghe_tho_moc.desc
+    base:
+      originId: nong_dan
+      age: 28
+      sex: m
+    setup:
+      - type: skill_xp
+        skill: sinh_ton
+        value: 90
+        who: player
+      - type: set_career
+        career: tho_moc
+        months: 36
+      - type: career_merit
+        value: 28
+    start_event: tho_moc_cham_vi_keo_dinh
+    auto_minor: false
+  - id: nghe_tho_ren
+    group: nghe_nghiep
+    title_key: scenario.nghe_tho_ren.title
+    description_key: scenario.nghe_tho_ren.desc
+    base:
+      originId: nong_dan
+      age: 29
+      sex: m
+    setup:
+      - type: skill_xp
+        skill: sinh_ton
+        value: 100
+        who: player
+      - type: set_career
+        career: tho_ren
+        months: 36
+      - type: career_merit
+        value: 28
+    start_event: tho_ren_don_hang_nong_cu
+    auto_minor: false
+  - id: nghe_thay_lang
+    group: nghe_nghiep
+    title_key: scenario.nghe_thay_lang.title
+    description_key: scenario.nghe_thay_lang.desc
+    base:
+      originId: quy_toc_nho
+      age: 34
+      sex: m
+    setup:
+      - type: skill_xp
+        skill: hoc_van
+        value: 110
+        who: player
+      - type: skill_xp
+        skill: sinh_ton
+        value: 60
+        who: player
+      - type: set_career
+        career: thay_lang
+        months: 48
+      - type: career_merit
+        value: 30
+    start_event: thay_lang_chua_benh_nha_giau
+    auto_minor: false
+  - id: nghe_ngu_dan
+    group: nghe_nghiep
+    title_key: scenario.nghe_ngu_dan.title
+    description_key: scenario.nghe_ngu_dan.desc
+    base:
+      originId: nong_dan
+      age: 25
+      sex: m
+    setup:
+      - type: skill_xp
+        skill: sinh_ton
+        value: 75
+        who: player
+      - type: set_career
+        career: ngu_dan
+        months: 30
+      - type: career_merit
+        value: 22
+    start_event: ngu_dan_luong_ca_mua_nuoc_noi
+    auto_minor: false
+  - id: nghe_chu_do
+    group: nghe_nghiep
+    title_key: scenario.nghe_chu_do.title
+    description_key: scenario.nghe_chu_do.desc
+    base:
+      originId: thuong_nhan
+      age: 31
+      sex: m
+    setup:
+      - type: skill_xp
+        skill: sinh_ton
+        value: 80
+        who: player
+      - type: skill_xp
+        skill: ngoai_giao
+        value: 75
+        who: player
+      - type: set_career
+        career: chu_do
+        months: 36
+      - type: career_merit
+        value: 28
+    start_event: chu_do_khach_sang_qua_song_dem
+    auto_minor: false
+  - id: nghe_nha_lai
+    group: nghe_nghiep
+    title_key: scenario.nghe_nha_lai.title
+    description_key: scenario.nghe_nha_lai.desc
+    base:
+      originId: quy_toc_nho
+      age: 30
+      sex: m
+    setup:
+      - type: skill_xp
+        skill: quan_tri
+        value: 110
+        who: player
+      - type: set_career
+        career: nha_lai
+        months: 36
+      - type: career_merit
+        value: 32
+    start_event: nha_lai_tranh_chap_ruong_ranh
+    auto_minor: false
+  - id: nghe_ban_rong
+    group: nghe_nghiep
+    title_key: scenario.nghe_ban_rong.title
+    description_key: scenario.nghe_ban_rong.desc
+    base:
+      originId: thuong_nhan
+      age: 23
+      sex: f
+    setup:
+      - type: skill_xp
+        skill: thuong_mai
+        value: 70
+        who: player
+      - type: set_career
+        career: ban_rong
+        months: 24
+      - type: career_merit
+        value: 22
+    start_event: ban_rong_moi_hang_khan_hiem
+    auto_minor: false
+  - id: nghe_ba_do
+    group: nghe_nghiep
+    title_key: scenario.nghe_ba_do.title
+    description_key: scenario.nghe_ba_do.desc
+    base:
+      originId: nong_dan
+      age: 36
+      sex: f
+    setup:
+      - type: skill_xp
+        skill: sinh_ton
+        value: 90
+        who: player
+      - type: skill_xp
+        skill: ngoai_giao
+        value: 80
+        who: player
+      - type: set_career
+        career: ba_do
+        months: 48
+      - type: career_merit
+        value: 25
+    start_event: ba_do_ca_sinh_doi_dem_mua
+    auto_minor: false
+  - id: lam_20_nam_sap_len_bac
+    group: nghe_nghiep
+    title_key: scenario.lam_20_nam_sap_len_bac.title
+    description_key: scenario.lam_20_nam_sap_len_bac.desc
+    base:
+      originId: nong_dan
+      age: 42
+      sex: m
+    setup:
+      - type: skill_xp
+        skill: sinh_ton
+        value: 260
+        who: player
+      - type: reputation
+        group: dan_lang
+        value: 14
+      - type: set_career
+        career: tho_moc
+        months: 240
+      - type: career_merit
+        value: 60
+    start_event: tho_moc_cham_vi_keo_dinh
+    auto_minor: false
+  - id: bi_bat_linh
+    group: nghe_nghiep
+    title_key: scenario.bi_bat_linh.title
+    description_key: scenario.bi_bat_linh.desc
+    base:
+      originId: nong_dan
+      age: 21
+      sex: m
+    setup:
+      - type: set_career
+        career: nong_dan
+        months: 36
+      - type: money
+        value: 9
+    start_event: sk_bi_bat_linh_khan_cap
+    auto_minor: false
+  - id: mua_nong_nhan_nghe_tay_trai
+    group: nghe_nghiep
+    title_key: scenario.mua_nong_nhan_nghe_tay_trai.title
+    description_key: scenario.mua_nong_nhan_nghe_tay_trai.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+    setup:
+      - type: set_career
+        career: nong_dan
+        months: 48
+      - type: set_side_job
+        side_job: dan_lat
+    family_setup:
+      parents: both_dead
+    auto_minor: false
+  - id: nha_ba_nguoi_ba_nghe
+    group: nghe_nghiep
+    title_key: scenario.nha_ba_nguoi_ba_nghe.title
+    description_key: scenario.nha_ba_nguoi_ba_nghe.desc
+    base:
+      originId: nong_dan
+      age: 38
+      sex: m
+    setup:
+      - type: marry
+      - type: skill_xp
+        skill: sinh_ton
+        value: 110
+        who: player
+      - type: set_career
+        career: tho_moc
+        months: 96
+      - type: career_merit
+        value: 35
+    family_setup:
+      parents: both_dead
+      spouse_age: 35
+      spouse_career: ban_rong
+      siblings: []
+      children:
+        - sex: m
+          age: 18
+          upbringing: di_hoc
+          career: nha_lai
+          skills:
+            hoc_van: 3
+            quan_tri: 2
+        - sex: f
+          age: 16
+          upbringing: hoc_nghe
+          career: ba_do
+          skills:
+            sinh_ton: 2
+            ngoai_giao: 2
+    auto_minor: false
+  - id: van_dau_tien_huong_dan
+    group: he_thong
+    title_key: scenario.van_dau_tien_huong_dan.title
+    description_key: scenario.van_dau_tien_huong_dan.desc
+    base:
+      originId: nong_dan
+      age: 6
+      sex: m
+      seed: phase8_van_dau_tien
+      fateMode: binh_lang
+      playMode: dynasty
+    setup:
+      - type: money
+        value: 4
+      - type: food
+        value: 12
+      - type: set_ambition
+        ambition: gia_dinh_am_em
+    auto_minor: false
+  - id: nap_save_phien_ban_cu
+    group: he_thong
+    title_key: scenario.nap_save_phien_ban_cu.title
+    description_key: scenario.nap_save_phien_ban_cu.desc
+    base:
+      originId: thuong_nhan
+      age: 24
+      sex: m
+      seed: phase8_save_cu
+      playMode: dynasty
+    setup:
+      - type: money
+        value: 18
+      - type: food
+        value: 25
+      - type: set_career
+        career: thuong_nhan
+        rank: 1
+        months: 24
+      - type: set_ambition
+        ambition: phu_thuong_mot_vung
+      - type: marry
+    family_setup:
+      ancestors_count: 1
+      children:
+        - age: 3
+          sex: m
+    fast_forward_years: 2
+    auto_minor: false
+  - id: save_hong_phuc_hoi
+    group: he_thong
+    title_key: scenario.save_hong_phuc_hoi.title
+    description_key: scenario.save_hong_phuc_hoi.desc
+    base:
+      originId: quy_toc_nho
+      age: 18
+      sex: m
+      seed: phase8_save_hong
+      playMode: dynasty
+    setup:
+      - type: money
+        value: 12
+      - type: skill_xp
+        skill: hoc_van
+        value: 120
+      - type: set_ambition
+        ambition: khoa_bang_vinh_quy
+    auto_minor: false
+  - id: om_nang_chua_chua
+    group: suc_khoe
+    title_key: scenario.om_nang_chua_chua.title
+    description_key: scenario.om_nang_chua_chua.desc
+    base:
+      originId: nong_dan
+      age: 32
+    setup:
+      - type: add_disease
+        disease: sot_ret
+        who: player
+      - type: health
+        value: -50
+      - type: stress
+        value: 50
+    auto_minor: false
+  - id: 70_tuoi_suc_yeu
+    group: suc_khoe
+    title_key: scenario.70_tuoi_suc_yeu.title
+    description_key: scenario.70_tuoi_suc_yeu.desc
+    base:
+      originId: nong_dan
+      age: 70
+    setup:
+      - type: health
+        value: -60
+      - type: add_trait
+        trait: than_trong
+        who: player
+    auto_minor: false
+  - id: dich_benh_trong_lang
+    group: suc_khoe
+    title_key: scenario.dich_benh_trong_lang.title
+    description_key: scenario.dich_benh_trong_lang.desc
+    base:
+      originId: nong_dan
+      age: 26
+    setup:
+      - type: add_disease
+        disease: ta_ly
+        who: player
+      - type: health
+        value: -35
+    world_setup:
+      weather: mua_ngap
+    auto_minor: false
+  - id: dang_cu_tang
+    group: van_minh
+    title_key: scenario.dang_cu_tang.title
+    description_key: scenario.dang_cu_tang.desc
+    base:
+      originId: nong_dan
+      age: 25
+      sex: m
+    setup:
+      - type: filial_piety
+        value: 40
+      - type: stress
+        value: 35
+    family_setup:
+      parents: father_dead
+    auto_minor: false
+  - id: doi_vua_loan_lac
+    group: van_minh
+    title_key: scenario.doi_vua_loan_lac.title
+    description_key: scenario.doi_vua_loan_lac.desc
+    base:
+      originId: quy_toc_nho
+      age: 32
+      sex: m
+    setup:
+      - type: set_career
+        career: si_tu
+      - type: stress
+        value: 50
+    world_setup:
+      foodPrice: 2
+    auto_minor: false
+  - id: bat_dau_bien_co
+    group: van_minh
+    title_key: scenario.bat_dau_bien_co.title
+    description_key: scenario.bat_dau_bien_co.desc
+    base:
+      originId: nong_dan
+      age: 20
+      sex: m
+    start_event: kt_giap_hat_gia_len
+    auto_minor: false
+  - id: vung_chuyen_ra_thi_tran
+    group: vung_mien
+    title_key: scenario.vung_chuyen_ra_thi_tran.title
+    description_key: scenario.vung_chuyen_ra_thi_tran.desc
+    base:
+      originId: nong_dan
+      age: 26
+      sex: m
+      seed: phase7_chuyen_nha
+    setup:
+      - type: money
+        value: 32
+      - type: food
+        value: 40
+      - type: property_add
+        property: ruong
+        count: 4
+      - type: skill_xp
+        skill: thuong_mai
+        value: 180
+      - type: marry
+    family_setup:
+      parents: both_dead
+    start_event: sk_chuyen_ra_thi_tran
+  - id: vung_quan_van_nham_chuc
+    group: vung_mien
+    title_key: scenario.vung_quan_van_nham_chuc.title
+    description_key: scenario.vung_quan_van_nham_chuc.desc
+    base:
+      originId: quy_toc_nho
+      age: 29
+      sex: m
+      seed: phase7_nham_chuc_phu
+    setup:
+      - type: money
+        value: 24
+      - type: debt
+        value: -30
+      - type: skill_xp
+        skill: hoc_van
+        value: 420
+      - type: skill_xp
+        skill: quan_tri
+        value: 220
+      - type: set_exam_degree
+        degree: huong_cong
+      - type: set_career
+        career: si_tu
+        rank: 2
+        months: 48
+      - type: scholarly_prestige
+        value: 25
+      - type: marry
+    family_setup:
+      parents: both_dead
+    start_event: sk_quan_van_nham_chuc_phu
+  - id: vung_dich_bung_thi_tran
+    group: vung_mien
+    title_key: scenario.vung_dich_bung_thi_tran.title
+    description_key: scenario.vung_dich_bung_thi_tran.desc
+    base:
+      originId: thuong_nhan
+      age: 27
+      sex: m
+      seed: phase7_dich_thi_tran
+    setup:
+      - type: money
+        value: 20
+      - type: food
+        value: 35
+      - type: trigger_epidemic
+        settlement: thi_tran_ben_song
+        disease: ta_ly
+        months: 5
+    family_setup:
+      parents: both_dead
+    start_event: sk_dich_bung_thi_tran
+  - id: vung_di_buon_nha_co_viec
+    group: vung_mien
+    title_key: scenario.vung_di_buon_nha_co_viec.title
+    description_key: scenario.vung_di_buon_nha_co_viec.desc
+    base:
+      originId: thuong_nhan
+      age: 28
+      sex: m
+      seed: phase7_di_buon_nha_co_viec
+    setup:
+      - type: money
+        value: 25
+      - type: set_career
+        career: thuong_nhan
+        rank: 1
+        months: 36
+      - type: marry
+      - type: start_trip
+        target: phu_thanh
+        kind: buon_chuyen
+        cargo: 8
+      - type: set_flag
+        flag: nha_co_viec_khi_di_xa
+        years: 1
+    family_setup:
+      parents: both_dead
+      children:
+        - age: 5
+          sex: m
+    start_event: sk_di_buon_nha_co_viec

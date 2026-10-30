@@ -3,7 +3,7 @@ import type { AmbientTemplate } from '@content/schemas';
 import { fillTemplate } from '@shared/template';
 import type { LogEntry, LogYear } from '../entities/World';
 import { RngStream, type SimContext } from '../systems/context';
-import { ageNow, player } from '../systems/people';
+import { ageNow, currentBookmarkId, player } from '../systems/people';
 import { createResolver, type Bindings } from '../systems/resolver';
 import { applyEffects } from './effects';
 
@@ -31,9 +31,10 @@ function pickVariant(ctx: SimContext, t: AmbientTemplate): number {
   return ctx.rng.get(RngStream.Ambient).pick(choices);
 }
 
-/** Viết một mẫu (hệ thống hoặc thường) vào nhật ký, áp tác động nhỏ của mẫu. */
+/** Viết một mẫu (hệ thống hoặc thường) vào nhật ký, áp tác động nhỏ của mẫu (ưu tiên mẫu ghi đè theo thời đại nếu có). */
 export function writeTemplate(ctx: SimContext, templateId: string, b: Bindings = {}): LogEntry | undefined {
-  const t = ctx.content.index.ambient.get(templateId);
+  const eraOverride = ctx.content.index.ambientByEra?.get(currentBookmarkId(ctx))?.get(templateId);
+  const t = eraOverride ?? ctx.content.index.ambient.get(templateId);
   if (!t) return undefined;
   const r = createResolver(ctx, b);
   const variant = pickVariant(ctx, t);

@@ -77,6 +77,7 @@ export class GameSession {
     const seed = overrides?.seed || scenario.base.seed || scenario.id;
     const opts: NewGameOptions = {
       seed,
+      bookmarkId: scenario.base.bookmarkId ?? scenario.eras?.[0],
       originId: scenario.base.originId,
       startAge: scenario.base.age,
       sex: scenario.base.sex,
