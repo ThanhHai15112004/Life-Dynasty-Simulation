@@ -1,0 +1,68 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 08: CÁCH MẠNG CÔNG NGHIỆP (1850 CN — cong_nghiep_1850ce)
+# Sự kiện quyết định (Storylet) riêng cho Thời Cách Mạng Công Nghiệp (Châu Âu Victoria, Bắc Mỹ, Đại Nam nhà Nguyễn, Thanh mạt, Ấn Độ thuộc Anh).
+# Mọi sự kiện trong file này tự động gắn nhãn `eras: [cong_nghiep_1850ce]`.
+# ══════════════════════════════════════════════════════════════════════════════
+events:
+  - id: tieng_coi_nha_may_hoi_nuoc
+    title: Tiếng còi xưởng máy hơi nước
+    text:
+      - 'Những ống khói gạch cao vút mọc lên bên rìa thị trấn, tiếng máy hơi nước chạy ầm ầm suốt ngày đêm. Các xưởng dệt và xưởng cơ khí đang rầm rộ tuyển nhân công với mức lương trả bằng tiền mặt đều đặn.'
+    tags: [nghe_nghiep, buoc_ngoat]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.age, op: between, value: [15, 50] }
+    weight: 13
+    cooldown_years: 4
+    importance: 7
+    icon: tien
+    options:
+      - id: xin_vao_lam_cong_nhan_xuong_may
+        text: Vào xưởng máy làm việc theo ca để có đồng lương cố định
+        effects:
+          - { type: set_career, career: lam_thue }
+          - { type: money, value: 8 }
+          - { type: health, value: -4 }
+          - { type: skill_xp, skill: quan_tri, value: 20 }
+        result:
+          - 'Nhịp sống của bạn giờ đây xoay quanh tiếng còi tầm và những guồng máy quay không nghỉ.'
+      - id: cung_cap_than_cui_va_luong_thuc
+        text: Đứng ngoài nhận chở than củi và bán cơm nước cho công nhân xưởng máy
+        effects:
+          - { type: money, value: 6 }
+          - { type: skill_xp, skill: thuong_mai, value: 25 }
+        result:
+          - 'Hàng trăm thợ máy tan ca mỗi chiều mang lại nguồn khách đông đúc cho gánh hàng của bạn.'
+
+  - id: duong_sat_va_ben_cang_moi
+    title: Tuyến đường sắt và bến tàu hơi nước mở thông
+    text:
+      - 'Đoàn tàu lửa và tàu thủy hơi nước bắt đầu chạy qua vùng, rút ngắn hành trình đi các thành phố lớn từ cả tháng trời xuống chỉ còn vài ngày.'
+    tags: [buon_ban, co_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 11
+    cooldown_years: 5
+    importance: 7
+    icon: thuyen
+    options:
+      - id: chuyen_hang_theo_tau_moi
+        text: Nhanh nhạy gửi nông sản và hàng hóa đi tiêu thụ ở thành phố lớn
+        effects:
+          - { type: money, value: 11 }
+          - { type: skill_xp, skill: thuong_mai, value: 28 }
+        result:
+          - 'Nhờ vận chuyển nhanh, hàng của bạn tới phố lớn vẫn tươi mới và bán được giá rất cao.'
+      - id: mua_ve_tau_len_thanh_pho
+        text: Mua vé tàu đưa gia đình lên đô thị lớn tìm cơ hội mới
+        condition:
+          all:
+            - { var: world.is_urban, op: '==', value: false }
+            - { var: player.is_head, op: '==', value: true }
+            - { var: household.money, op: '>=', value: 5 }
+        effects:
+          - { type: money, value: -5 }
+          - { type: relocate_settlement, settlement: phu_thanh, free: true }
+          - { type: set_flag, flag: o_nha_thue, years: 8, label: 'Đang thuê nhà nơi đô thị' }
+        result:
+          - 'Chuyến tàu đưa gia đình bạn rời quê hương tiến thẳng vào nhịp sống công nghiệp sôi động.'

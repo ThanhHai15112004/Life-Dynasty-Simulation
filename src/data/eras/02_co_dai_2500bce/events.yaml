@@ -1,0 +1,42 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 02: CỔ ĐẠI ĐỒ ĐỒNG (2500 TCN — co_dai_2500bce)
+# Sự kiện quyết định (Storylet) riêng cho Thời Cổ Đại Đồ Đồng (Lưỡng Hà, Ai Cập, Ấn Hà, Hoàng Hà, Văn Lang sơ kỳ).
+# Mọi sự kiện trong file này tự động gắn nhãn `eras: [co_dai_2500bce]`.
+# ══════════════════════════════════════════════════════════════════════════════
+events:
+  - id: co_dai_dap_de_tri_thuy
+    title: Lệnh triệu tập đắp đê ngăn lũ sông lớn
+    text:
+      - 'Nước lũ đầu nguồn dâng cao đe dọa nhấn chìm toàn bộ cánh đồng lúa mạch và kho thóc của thành bang. Quan coi kho phát thẻ gỗ triệu tập mọi đinh tráng ra bờ sông đắp đê và đào kênh dẫn nước.'
+    tags: [ruong_dong, quan_ngu]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 12
+    cooldown_years: 4
+    importance: 7
+    icon: nuoc
+    options:
+      - id: dan_dau_doi_dao_kenh
+        text: Vác cuốc đồng ra tuyến đầu chỉ huy việc gia cố mặt đê
+        chance:
+          base: 0.65
+          skill: quan_tri
+          per_level: 0.06
+        success:
+          - { type: food, value: 18 }
+          - { type: reputation, group: dan_lang, value: 10 }
+          - { type: skill_xp, skill: quan_tri, value: 28 }
+        failure:
+          - { type: health, value: -8 }
+          - { type: food, value: 6 }
+        success_result:
+          - 'Con đê đất vững chãi giữ trọn mùa màng, bạn được quan coi kho ban thưởng thóc giống và tấm vải lanh.'
+        failure_result:
+          - 'Dòng nước xoáy làm sạt một đoạn kè khiến bạn bị trầy xước khắp mình, may mà vẫn giữ được đê chính.'
+      - id: nop_thoc_thay_xuat_phu
+        text: Nộp một phần thóc dự trữ vào kho đền thờ để xin miễn lao dịch nặng
+        condition: { var: household.food, op: '>=', value: 12 }
+        effects:
+          - { type: food, value: -12 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Viên thư lại khắc tên hộ của bạn lên thẻ đất sét xác nhận đã hoàn thành nghĩa vụ mùa lũ.'

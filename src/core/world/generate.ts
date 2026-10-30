@@ -151,7 +151,7 @@ function emptyState(
       tradeIndex: content.balance.opportunity.start_trade_index,
       militaryAlert: content.balance.opportunity.military_alerts[0].id,
       patrolLevel: content.balance.opportunity.start_patrol_level,
-      reignName: content.chronicle.startReign,
+      reignName: content.chronicle.startReignByEra[bookmarkId] ?? content.chronicle.startReign,
       reignStartYear: startYear,
       alertLock: null,
     },
@@ -251,10 +251,14 @@ export function generateNewGame(content: ContentBundle, opts: NewGameOptions, ma
         ? (Rng.fromSeed(`${opts.seed}::world_polity`).weighted(candidatePolities, (p) => p.population_weight) ?? candidatePolities[0])
         : (candidatePolities.find((p) => p.id === 'dai_viet_nha_ly_1000ce' || p.culture === 'viet') ?? candidatePolities[0]);
 
-  // 3. Chọn Xuất thân (Origin) theo phân tầng thực tế của vùng hoặc birth_weight mặc định
+  // 3. Chọn Xuất thân (Origin) theo mốc thời đại, phân tầng thực tế của vùng hoặc birth_weight mặc định
+  const eraOrigins = bookmark
+    ? content.origins.filter((o) => !o.eras || o.eras.length === 0 || o.eras.includes(bookmark.id))
+    : content.origins.filter((o) => !o.eras || o.eras.length === 0);
+  const candidateOrigins = eraOrigins.length > 0 ? eraOrigins : content.origins;
   const origin = opts.lottery
-    ? Rng.fromSeed(`${opts.seed}::lottery`).weighted(content.origins, (o) => polity?.origin_weights?.[o.id] ?? o.birth_weight)
-    : (content.index.origin.get(opts.originId ?? '') ?? content.origins[0]);
+    ? Rng.fromSeed(`${opts.seed}::lottery`).weighted(candidateOrigins, (o) => polity?.origin_weights?.[o.id] ?? o.birth_weight)
+    : (content.index.origin.get(opts.originId ?? '') ?? candidateOrigins[0]);
   if (!origin) throw new Error('Không có xuất thân nào trong src/data/origins');
 
   const cultureId = explicitWorld && polity ? polity.culture : origin.culture;

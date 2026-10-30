@@ -6,10 +6,11 @@ import { getHudView } from '../api/queries';
 import { marryPlayer } from '../systems/family';
 import { earnPersonal, ownMoney } from '../systems/economy/purse';
 import { cureCharacter, infectCharacter, kill } from '../systems/life';
-import { player, playerHousehold } from '../systems/people';
+import { inCurrentEra, player, playerHousehold } from '../systems/people';
 import { changeFilialPiety, examStage, setExamDegree } from '../systems/status';
 import { applyEffects } from '../events/effects';
 import { fireMinor } from '../events/decision';
+import { eligibleRoles } from '../events/selection';
 import { deserialize, serialize } from '../engine/SaveSystem';
 
 const content = loadNodeContent();
@@ -614,6 +615,59 @@ describe('GameSession', () => {
     expect(r1.state.polityId).toBe(r2.state.polityId);
     expect(r1.state.cultureId).toBe(r2.state.cultureId);
     expect(r1.state.civilization.id).toBe(r2.state.civilization.id);
+  });
+
+  it('[9 Eras] Tách biệt gói nội dung của 9 Thời đại trong src/data/eras/', () => {
+    expect(content.eraFolders).toEqual([
+      'nguyen_thuy_8000bce',
+      'co_dai_2500bce',
+      'co_dien_500bce',
+      'de_che_100ce',
+      'trung_co_1000ce',
+      'trung_co_1250ce',
+      'can_dai_1600ce',
+      'cong_nghiep_1850ce',
+      'hien_dai_2025ce',
+    ]);
+
+    const preEv = content.index.event.get('san_ban_thu_lon_nguyen_thuy')!;
+    const modEv = content.index.event.get('ky_thi_tuyen_sinh_hien_dai')!;
+    const feuEv = content.index.event.get('ta_dien_chia_thoc_mua_gat')!;
+    expect(preEv.eras).toEqual(['nguyen_thuy_8000bce']);
+    expect(modEv.eras).toEqual(['hien_dai_2025ce']);
+    expect(feuEv.eras).toContain('trung_co_1000ce');
+    expect(feuEv.eras).not.toContain('nguyen_thuy_8000bce');
+    expect(feuEv.eras).not.toContain('hien_dai_2025ce');
+
+    const pre = GameSession.create(content, {
+      lottery: true,
+      bookmarkId: 'nguyen_thuy_8000bce',
+      startAge: 18,
+      seed: 'era-filter-pre',
+    });
+    pre.read((ctx) => {
+      expect(inCurrentEra(ctx, preEv.eras)).toBe(true);
+      expect(inCurrentEra(ctx, modEv.eras)).toBe(false);
+      expect(inCurrentEra(ctx, feuEv.eras)).toBe(false);
+      expect(eligibleRoles(ctx, preEv)).not.toBeNull();
+      expect(eligibleRoles(ctx, modEv)).toBeNull();
+      expect(eligibleRoles(ctx, feuEv)).toBeNull();
+    });
+
+    const mod = GameSession.create(content, {
+      lottery: true,
+      bookmarkId: 'hien_dai_2025ce',
+      startAge: 18,
+      seed: 'era-filter-mod',
+    });
+    mod.read((ctx) => {
+      expect(inCurrentEra(ctx, modEv.eras)).toBe(true);
+      expect(inCurrentEra(ctx, preEv.eras)).toBe(false);
+      expect(inCurrentEra(ctx, feuEv.eras)).toBe(false);
+      expect(eligibleRoles(ctx, modEv)).not.toBeNull();
+      expect(eligibleRoles(ctx, preEv)).toBeNull();
+      expect(eligibleRoles(ctx, feuEv)).toBeNull();
+    });
   });
 });
 

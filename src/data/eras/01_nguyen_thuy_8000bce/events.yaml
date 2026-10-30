@@ -1,0 +1,99 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
+# Sự kiện quyết định (Storylet) riêng cho Thời Nguyên Thủy / Đá Mới.
+# Mọi sự kiện trong file này tự động gắn nhãn `eras: [nguyen_thuy_8000bce]`.
+# ══════════════════════════════════════════════════════════════════════════════
+events:
+  - id: san_ban_thu_lon_nguyen_thuy
+    title: Dấu chân đàn thú lớn đầu mùa
+    text:
+      - 'Trinh sát của bộ lạc phát hiện dấu chân một đàn thú lớn đi qua thung lũng phía bắc. Nếu săn thành công, cả thị tộc sẽ dư dả thịt sấy khô và da thú suốt mùa lạnh, nhưng mũi lao đá rất dễ gãy trước thú dữ.'
+    tags: [co_hoi, quan_ngu]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.age, op: '>=', value: 14 }
+    weight: 14
+    cooldown_years: 3
+    importance: 7
+    icon: kiem
+    options:
+      - id: dan_dau_toan_san_vay_bat
+        text: Cầm giáo đá dẫn đầu toán thợ săn trẻ dồn đàn thú vào hẻm núi
+        chance:
+          base: 0.65
+          skill: sinh_ton
+          per_level: 0.06
+        success:
+          - { type: food, value: 28 }
+          - { type: reputation, group: dan_lang, value: 10 }
+          - { type: skill_xp, skill: sinh_ton, value: 30 }
+          - { type: skill_xp, skill: quan_su, value: 20 }
+        failure:
+          - { type: food, value: 6 }
+          - { type: health, value: -10 }
+        success_result:
+          - 'Đàn thú sập bẫy trong hẻm đá, đêm ấy lửa trại bập bùng tiếng hát mừng chiến lợi phẩm.'
+        failure_result:
+          - 'Con thú đầu đàn vùng thoát làm bạn bị thương ở bả vai, chỉ thu được ít thịt nhỏ.'
+      - id: dat_bay_quanh_suoi_an_toan
+        text: Đào hố bẫy và hái lượm hạt rừng quanh bờ suối cho chắc ăn
+        effects:
+          - { type: food, value: 12 }
+          - { type: skill_xp, skill: sinh_ton, value: 18 }
+        result:
+          - 'Không mạo hiểm đối đầu thú lớn, bạn vẫn mang về đủ thịt thú nhỏ và củ rừng cho gia đình.'
+
+  - id: giu_lua_hang_da_mua_dong
+    title: Đêm băng giá giữ ngọn lửa thiêng
+    text:
+      - 'Gió tuyết gào thét bên ngoài vách đá, củi khô trong lán đã gần cạn mà ngọn lửa chung của thị tộc đang lụi dần trong đêm đen.'
+    tags: [tai_hoa, gia_dinh]
+    months: [11, 12, 1, 2]
+    weight: 12
+    cooldown_years: 4
+    importance: 6
+    icon: mua
+    options:
+      - id: vuot_gio_lanh_kiem_cui_kho
+        text: Khoác áo da thú lao ra rừng đêm tìm cành khô giữ cho lửa không tắt
+        effects:
+          - { type: health, value: -5 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: sinh_ton, value: 25 }
+        result:
+          - 'Đôi bàn tay tê cóng vì sương giá, nhưng ngọn lửa bùng lên sưởi ấm cả lán trại qua đêm dài.'
+      - id: chum_chan_da_thu_giu_am
+        text: Gom tro nóng ủ kín và quây kín tấm da thú giữ ấm cho người nhà
+        effects:
+          - { type: food, value: -4 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Cả nhà nương tựa hơi ấm của nhau chờ đến khi mặt trời ló rạng.'
+
+  - id: thu_thuan_hoa_hat_giong
+    title: Hạt cỏ dại nảy mầm bên bãi sông
+    text:
+      - 'Bạn nhận thấy những hạt ngũ cốc rơi vãi trên bãi phù sa ven sông năm ngoái nay mọc lên xanh tốt đều đặn. Nhiều người trong bộ lạc cho rằng cứ đi hái lượm tự nhiên là đủ, không cần mất công gieo hạt.'
+    tags: [ruong_dong, co_hoi]
+    weight: 11
+    cooldown_years: 6
+    once_per_life: true
+    importance: 8
+    icon: ruong
+    options:
+      - id: kien_tri_khoanh_dat_gieo_hat
+        text: Dùng cuốc đá xới bãi đất ven sông, giữ lại hạt mẩy để gieo trồng
+        effects:
+          - { type: food, value: 20 }
+          - { type: skill_xp, skill: sinh_ton, value: 35 }
+          - { type: skill_xp, skill: quan_tri, value: 20 }
+        result:
+          - 'Vụ thu hoạch đầu tiên từ mảnh đất tự gieo trồng khiến cả bộ lạc kinh ngạc.'
+      - id: doi_hat_giong_lay_cong_cu_da
+        text: Đem số hạt giống và đồ gốm nung đổi lấy rìu đá sắc bén từ bộ lạc láng giềng
+        effects:
+          - { type: money, value: 6 }
+          - { type: skill_xp, skill: thuong_mai, value: 25 }
+        result:
+          - 'Những lưỡi rìu đá sắc lẹm giúp việc chặt gỗ dựng lán nhanh gấp đôi trước kia.'

@@ -48,6 +48,8 @@ export const focusSchema = z
     name: z.string(),
     description: z.string(),
     icon: z.string().default('focus'),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng trọng tâm này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     /** [1] Giai đoạn đời có trọng tâm này (mỗi giai đoạn một bộ lựa chọn riêng). */
     life_stages: z.array(z.string()).min(1),
     /** Điều kiện khả dụng (nghề nhà, nơi ở, tuổi...) — biến `player.*`, `household.*`. */
@@ -61,13 +63,20 @@ export const focusSchema = z
     income: incomeSpecSchema.optional(),
   })
   .strict();
-export const focusFileSchema = z.object({ focuses: z.array(focusSchema).min(1) }).strict();
+export const focusFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    focuses: z.array(focusSchema).default([]),
+  })
+  .strict();
 export type Focus = z.infer<typeof focusSchema>;
 
 export const propertySchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng tài sản này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     /** Tên hiển thị tùy biến theo khuôn văn minh / thời đại (ví dụ: hien_dai, phong_kien_au, bo_lac_nguyen_thuy). */
     names_by_civ: z.record(z.string(), z.string()).default({}),
     category: z.enum(['land', 'livestock', 'house', 'other']),
@@ -94,7 +103,12 @@ export const propertySchema = z
       .optional(),
   })
   .strict();
-export const propertyFileSchema = z.object({ properties: z.array(propertySchema).min(1) }).strict();
+export const propertyFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    properties: z.array(propertySchema).default([]),
+  })
+  .strict();
 export type PropertyType = z.infer<typeof propertySchema>;
 
 const memberSpecSchema = z
@@ -125,6 +139,8 @@ export const originSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng xuất thân này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     /** Tên xuất thân tùy biến theo khuôn văn minh / thời đại. */
     names_by_civ: z.record(z.string(), z.string()).default({}),
     description: z.string(),
@@ -164,6 +180,12 @@ export const originSchema = z
       .object({ filial_piety: z.number().optional(), scholarly_prestige: z.number().optional() })
       .strict()
       .default({}),
+  })
+  .strict();
+export const originFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    origins: z.array(originSchema).default([]),
   })
   .strict();
 export type Origin = z.infer<typeof originSchema>;
@@ -277,6 +299,8 @@ export const diseaseSchema = z
     id: z.string(),
     name: z.string(),
     description: z.string(),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng bệnh này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     severity: z.enum(['nhe', 'nang', 'nguy_kich']).default('nhe'),
     duration_months: range,
     cure_cost: z.number().min(0).default(1),
@@ -290,7 +314,12 @@ export const diseaseSchema = z
     modifiers: z.array(modifierDefSchema).default([]),
   })
   .strict();
-export const diseaseFileSchema = z.object({ diseases: z.array(diseaseSchema).min(1) }).strict();
+export const diseaseFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    diseases: z.array(diseaseSchema).default([]),
+  })
+  .strict();
 export type Disease = z.infer<typeof diseaseSchema>;
 
 /** [1] Tham vọng cả đời & các mốc phụ (GDD 01 §6). */
@@ -311,13 +340,20 @@ export const ambitionSchema = z
     name: z.string(),
     description: z.string(),
     icon: z.string().default('moc_doi'),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng tham vọng này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     condition: conditionSchema.optional(),
     /** Tính cách ưu tiên chọn tham vọng này (hoặc cộng thêm mãn nguyện khi hoàn thành). */
     traits: z.array(z.string()).default([]),
     milestones: z.array(ambitionMilestoneSchema).min(2).max(5),
   })
   .strict();
-export const ambitionFileSchema = z.object({ ambitions: z.array(ambitionSchema).min(1) }).strict();
+export const ambitionFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    ambitions: z.array(ambitionSchema).default([]),
+  })
+  .strict();
 export type Ambition = z.infer<typeof ambitionSchema>;
 
 /** [1] Hợp đồng nghề & Thành phần lắp ghép (GDD 04 §4–5) + [5] Nghề nghiệp v2 (ngành, độ sâu, thâm niên, nghề tay trái, lối ra). */
@@ -405,6 +441,8 @@ export const sideJobSchema = z
     name: z.string(),
     description: z.string(),
     icon: z.string().default('focus'),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng nghề tay trái này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     /** Các mùa nông nhàn có thể làm nghề tay trái này (vd: ['dong', 'xuan']). */
     seasons: z.array(z.string()).min(1),
     /** Khu định cư có việc này (rỗng = mọi nơi đều có). */
@@ -423,6 +461,8 @@ export const careerSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng nghề này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     /** Tên nghề tùy biến theo khuôn văn minh / thời đại. */
     names_by_civ: z.record(z.string(), z.string()).default({}),
     description: z.string(),
@@ -475,7 +515,8 @@ export const careerSchema = z
   .strict();
 export const careerFileSchema = z
   .object({
-    careers: z.array(careerSchema).min(1),
+    eras: z.array(z.string()).optional(),
+    careers: z.array(careerSchema).default([]),
     side_jobs: z.array(sideJobSchema).default([]),
   })
   .strict();
@@ -633,6 +674,8 @@ export const ventureSchema = z
     name: z.string(),
     description: z.string(),
     icon: z.string().default('focus'),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng cơ nghiệp này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     sector: z.enum(careerSectors).default('thuong_mai'),
     /** Nơi có thể mở cơ nghiệp (trống = mọi khu định cư). */
     settlement_types: z.array(z.string()).default([]),
@@ -675,13 +718,20 @@ export const ventureSchema = z
     scene_prop: z.string().optional(),
   })
   .strict();
-export const ventureFileSchema = z.object({ ventures: z.array(ventureSchema).min(1) }).strict();
+export const ventureFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    ventures: z.array(ventureSchema).default([]),
+  })
+  .strict();
 export type VentureDef = z.infer<typeof ventureSchema>;
 
 /** [1] Biên niên vương triều (giả tưởng): biến cố thế giới chạy song song với đời nhân vật. */
 export const chronicleEntrySchema = z
   .object({
     id: z.string(),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng biến cố biên niên này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     /** Khoảng năm (tính từ năm bắt đầu ván) biến cố có thể xảy ra. */
     years: range.default([0, 9999]),
     /** Xác suất mỗi đầu năm khi đủ điều kiện. */
@@ -707,9 +757,10 @@ export const chronicleEntrySchema = z
 export type ChronicleEntry = z.infer<typeof chronicleEntrySchema>;
 export const chronicleFileSchema = z
   .object({
+    eras: z.array(z.string()).optional(),
     /** Niên hiệu lúc bắt đầu ván (file đầu tiên có trường này được dùng). */
     start_reign: z.string().optional(),
-    entries: z.array(chronicleEntrySchema).min(1),
+    entries: z.array(chronicleEntrySchema).default([]),
   })
   .strict();
 
@@ -727,6 +778,8 @@ export const organizationDefSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng tổ chức này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     kind: z.enum(['village_council', 'merchant_guild', 'outlaw_stronghold', 'prefecture_office']),
     description: z.string(),
     settlement_id: z.string(),
@@ -747,7 +800,31 @@ export const organizationDefSchema = z
 
 export const organizationFileSchema = z
   .object({
-    organizations: z.array(organizationDefSchema).min(1),
+    eras: z.array(z.string()).optional(),
+    organizations: z.array(organizationDefSchema).default([]),
   })
   .strict();
 export type OrganizationDef = z.infer<typeof organizationDefSchema>;
+
+/** [3] Lối sống đặc thù theo từng thời đại (GDD 04 §8): gắn với hoàn cảnh/nghề/tầng lớp, cộng XP và hệ số sự kiện. */
+export const lifestyleSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    icon: z.string().default('focus'),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng lối sống này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
+    condition: conditionSchema.optional(),
+    skill_xp: z.record(z.string(), z.number()).default({}),
+    modifiers: z.array(modifierDefSchema).default([]),
+    event_weights: z.record(z.string(), z.number()).default({}),
+  })
+  .strict();
+export const lifestyleFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    lifestyles: z.array(lifestyleSchema).default([]),
+  })
+  .strict();
+export type Lifestyle = z.infer<typeof lifestyleSchema>;

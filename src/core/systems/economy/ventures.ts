@@ -10,7 +10,7 @@ import { bindRoles, eligibleRoles } from '../../events/selection';
 import { Ledger, SystemLog } from '../../events/systemLogKeys';
 import { changeClanRelation, syncClanFeuds } from '../ai';
 import { newId, RngStream, type SimContext } from '../context';
-import { aliveMembers, callOf, player, playerHousehold, villageNpc } from '../people';
+import { aliveMembers, callOf, inCurrentEra, player, playerHousehold, villageNpc } from '../people';
 import { createResolver } from '../resolver';
 import { localTradeFactor, spareWorkers } from './helpers';
 
@@ -105,7 +105,7 @@ export function isUpgradeTargetVenture(ctx: SimContext, ventureId: string): bool
 export function canOpenVenture(ctx: SimContext, ventureId: string): boolean {
   const { content, state } = ctx;
   const def = content.index.venture.get(ventureId);
-  if (!def) return false;
+  if (!def || !inCurrentEra(ctx, def.eras)) return false;
   if (isUpgradeTargetVenture(ctx, ventureId)) return false;
   if (def.settlement_types.length > 0 && !def.settlement_types.includes(state.world.settlementType)) {
     return false;

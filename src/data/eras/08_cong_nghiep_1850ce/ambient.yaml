@@ -1,0 +1,18 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 08: CÁCH MẠNG CÔNG NGHIỆP (1850 CN — cong_nghiep_1850ce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Cách Mạng Công Nghiệp.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_thoi_cong_nghiep_khoi_may
+    kind: tin_the_gioi
+    tags: [buon_ban]
+    weight: 9
+    cooldown_years: 2
+    importance: 2
+    tone: trung_tinh
+    icon: tin_don
+    short: 'nhịp sống thời máy móc công nghiệp'
+    variants:
+      - 'Tiếng còi tàu hỏa rền vang từ phía nhà ga, mang theo báo chí và hàng hóa sản xuất hàng loạt từ các đô thị lớn.'
+      - 'Đèn đường và những xưởng dệt chạy máy hơi nước đang làm thay đổi diện mạo cả vùng.'
+    effects: [{ type: skill_xp, skill: quan_tri, value: 6 }]

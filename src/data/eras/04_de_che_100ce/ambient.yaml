@@ -1,0 +1,18 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 04: ĐỈNH CAO ĐẾ CHẾ CỔ ĐẠI (100 CN — de_che_100ce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Đế Chế Cổ Đại.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_de_che_dai_lo_quan_doan
+    kind: tin_the_gioi
+    tags: [buon_ban]
+    weight: 8
+    cooldown_years: 3
+    importance: 2
+    tone: trung_tinh
+    icon: tin_don
+    short: 'nghe chuyện thương đoàn trên đại lộ đế chế'
+    variants:
+      - 'Trên đại lộ lát đá của đế chế, từng đoàn xe ngựa và lạc đà nối đuôi nhau chở lụa, gốm và hương liệu đi khắp bốn phương.'
+      - 'Đội quân đồn trú biên viễn vừa đổi ca gác, giữ cho tuyến đường giao thương xuyên lục địa thông suốt.'
+    effects: [{ type: skill_xp, skill: ngoai_giao, value: 5 }]

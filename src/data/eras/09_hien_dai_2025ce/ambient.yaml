@@ -1,0 +1,19 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 09: THẾ GIỚI HIỆN ĐẠI 8 TỶ NGƯỜI (2025 CN — hien_dai_2025ce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Hiện Đại.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_hien_dai_nhip_song_so
+    kind: chuyen_vat
+    tags: [buon_ban]
+    weight: 10
+    cooldown_years: 2
+    importance: 2
+    tone: trung_tinh
+    icon: tin_don
+    short: 'hối hả trong nhịp sống hiện đại'
+    variants:
+      - 'Một năm trôi qua giữa dòng xe cộ tấp nập, hóa đơn sinh hoạt và những bản tin kinh tế thế giới cập nhật từng giờ.'
+      - 'Tan ca chiều muộn dưới ánh đèn cao áp, bạn ghé mua vội túi đồ ăn về chuẩn bị bữa tối cho gia đình.'
+      - 'Những khu phố mới, trường học và bệnh viện hiện đại mọc lên ngày một nhiều quanh nơi bạn sống.'
+    effects: [{ type: skill_xp, skill: quan_tri, value: 6 }]

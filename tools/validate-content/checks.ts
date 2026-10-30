@@ -236,6 +236,36 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
         `bookmarks.${bm.id}: không có vùng lãnh thổ (polity) nào hoạt động ở mốc này`,
       );
     }
+    for (const eraId of content.eraFolders) {
+      need(idx.bookmark.has(eraId), `src/data/eras/: thư mục thời đại "${eraId}" không khớp với bookmark id nào trong bookmarks.yaml`);
+    }
+    const checkEras = (eras: readonly string[] | undefined, where: string) => {
+      if (!eras) return;
+      for (const bmId of eras) {
+        need(idx.bookmark.has(bmId), `${where}.eras: mốc thời đại lạ "${bmId}"`);
+      }
+    };
+    content.origins.forEach((x) => checkEras(x.eras, `origins.${x.id}`));
+    content.focuses.forEach((x) => checkEras(x.eras, `focuses.${x.id}`));
+    content.lifestyles.forEach((x) => checkEras(x.eras, `lifestyles.${x.id}`));
+    content.careers.forEach((x) => checkEras(x.eras, `careers.${x.id}`));
+    content.sideJobs.forEach((x) => checkEras(x.eras, `side_jobs.${x.id}`));
+    content.properties.forEach((x) => checkEras(x.eras, `properties.${x.id}`));
+    content.ventures.forEach((x) => checkEras(x.eras, `ventures.${x.id}`));
+    content.organizations.forEach((x) => checkEras(x.eras, `organizations.${x.id}`));
+    content.ambitions.forEach((x) => checkEras(x.eras, `ambitions.${x.id}`));
+    content.diseases.forEach((x) => checkEras(x.eras, `diseases.${x.id}`));
+    content.chronicle.entries.forEach((x) => checkEras(x.eras, `chronicle.${x.id}`));
+    content.events.forEach((x) => checkEras(x.eras, `events.${x.id}`));
+    content.ambient.forEach((x) => checkEras(x.eras, `ambient.${x.id}`));
+  }
+
+  for (const l of content.lifestyles) {
+    Object.keys(l.skill_xp).forEach((s) => skill(s, `lifestyles.${l.id}.skill_xp`));
+    l.modifiers.forEach((m) => target(m.target, `lifestyles.${l.id}.modifiers`));
+  }
+  for (const org of content.organizations) {
+    need(idx.settlementType.has(org.settlement_id), `organizations.${org.id}: khu định cư lạ "${org.settlement_id}"`);
   }
 
   for (const p of content.polities) {
@@ -429,6 +459,8 @@ export function validateContent(content: ContentBundle, assets?: AssetIds): Vali
       c.weight_modifiers.forEach((m, i) => tryCond(m.condition, `mortality.${c.id}.weight_modifiers[${i}]`, []));
     }
     for (const f of content.focuses) tryCond(f.condition, `focuses.${f.id}`, []);
+    for (const l of content.lifestyles) tryCond(l.condition, `lifestyles.${l.id}`, []);
+    for (const org of content.organizations) tryCond(org.entry_condition, `organizations.${org.id}.entry_condition`, []);
     content.balance.economy.auto_invest.forEach((r, i) => tryCond(r.condition, `economy.auto_invest[${i}]`, []));
     for (const d of content.diseases) tryCond(d.condition, `diseases.${d.id}`, []);
     for (const a of content.ambitions) {

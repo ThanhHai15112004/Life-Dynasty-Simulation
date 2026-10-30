@@ -1,0 +1,18 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 02: CỔ ĐẠI ĐỒ ĐỒNG (2500 TCN — co_dai_2500bce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Cổ Đại Đồ Đồng.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_co_dai_phu_sa_mua_lu
+    kind: bao_cao
+    tags: [ruong_dong]
+    weight: 8
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: ruong
+    short: 'đón lớp phù sa màu mỡ sau mùa nước nổi'
+    variants:
+      - 'Mùa lũ rút đi để lại lớp bùn phù sa đen nhánh trên khắp cánh đồng ven sông, báo hiệu một vụ mùa bội thu.'
+      - 'Trong lò đúc bên rìa thành bang, ánh lửa nấu đồng đỏ rực suốt đêm để đúc lưỡi cày và mũi giáo.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 6 }]

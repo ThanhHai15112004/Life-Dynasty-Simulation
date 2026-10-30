@@ -61,6 +61,8 @@ export const decisionEventSchema = z
     title: z.string(),
     text: z.array(z.string()).min(1),
     tags: z.array(z.string()).default([]),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng sự kiện này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     life_stages: z.array(z.string()).optional(),
     months: z.array(z.number().int().min(1).max(12)).optional(),
     condition: conditionSchema.optional(),
@@ -91,6 +93,8 @@ export const ambientTemplateSchema = z
     id: z.string(),
     kind: z.enum(ambientKinds),
     tags: z.array(z.string()).default([]),
+    /** Danh sách mốc thời đại (bookmark id) áp dụng mẫu nhật ký này; bỏ trống = mọi thời đại. */
+    eras: z.array(z.string()).optional(),
     life_stages: z.array(z.string()).optional(),
     months: z.array(z.number().int().min(1).max(12)).optional(),
     condition: conditionSchema.optional(),
@@ -114,5 +118,15 @@ export const ambientTemplateSchema = z
   .strict();
 export type AmbientTemplate = z.infer<typeof ambientTemplateSchema>;
 
-export const decisionEventFileSchema = z.object({ events: z.array(decisionEventSchema) }).strict();
-export const ambientFileSchema = z.object({ templates: z.array(ambientTemplateSchema) }).strict();
+export const decisionEventFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    events: z.array(decisionEventSchema).default([]),
+  })
+  .strict();
+export const ambientFileSchema = z
+  .object({
+    eras: z.array(z.string()).optional(),
+    templates: z.array(ambientTemplateSchema).default([]),
+  })
+  .strict();

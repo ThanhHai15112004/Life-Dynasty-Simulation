@@ -2,12 +2,12 @@
 // lọc theo nghề nhà / nơi ở; khi lựa chọn cũ không còn hợp (lớn lên, đổi nghề) thì tự chọn lại.
 import { evaluate } from '../../engine/RuleEvaluator';
 import type { SimContext } from '../context';
-import { ageNow, lifeStageOf, player } from '../people';
+import { ageNow, inCurrentEra, lifeStageOf, player } from '../people';
 import { createResolver } from '../resolver';
 
 export function focusAvailable(ctx: SimContext, focusId: string): boolean {
   const f = ctx.content.index.focus.get(focusId);
-  if (!f) return false;
+  if (!f || !inCurrentEra(ctx, f.eras)) return false;
   const stage = lifeStageOf(ctx, ageNow(ctx, player(ctx)));
   return stage.can_choose_focus && f.life_stages.includes(stage.id) && evaluate(f.condition, createResolver(ctx));
 }

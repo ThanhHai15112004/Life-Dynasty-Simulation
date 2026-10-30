@@ -1,0 +1,41 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 04: ĐỈNH CAO ĐẾ CHẾ CỔ ĐẠI (100 CN — de_che_100ce)
+# Sự kiện quyết định (Storylet) riêng cho Thời Đế Chế Cổ Đại (La Mã Pax Romana, Đông Hán, Kushan, Parthia, Giao Chỉ).
+# Mọi sự kiện trong file này tự động gắn nhãn `eras: [de_che_100ce]`.
+# ══════════════════════════════════════════════════════════════════════════════
+events:
+  - id: doan_lac_da_con_duong_to_lua
+    title: Đoàn thương lữ đi qua ốc đảo Con đường Tơ lụa
+    text:
+      - 'Một đoàn thương lữ lớn chở lụa là, thủy tinh La Mã, hương liệu và ngựa tốt đang dừng chân nghỉ ngơi tại trạm dịch. Các trưởng đoàn cần người thông thuộc địa hình hoặc hùn vốn cho chặng đường xuyên qua vùng biên viễn.'
+    tags: [buon_ban, co_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 12
+    cooldown_years: 4
+    importance: 7
+    icon: thuyen
+    options:
+      - id: gop_von_gui_hang_theo_doan
+        text: Gửi kiện hàng đặc sản địa phương theo đoàn thương lữ để chia lãi
+        condition: { var: household.money, op: '>=', value: 5 }
+        chance:
+          base: 0.68
+          skill: thuong_mai
+          per_level: 0.05
+        success:
+          - { type: money, value: 14 }
+          - { type: skill_xp, skill: thuong_mai, value: 28 }
+        failure:
+          - { type: money, value: -3 }
+        success_result:
+          - 'Đoàn thương lữ trở về vào mùa thu, mang theo túi tiền vàng lời gấp gần ba lần vốn bỏ ra.'
+        failure_result:
+          - 'Bão cát làm đoàn hàng về trễ, trừ chi phí bảo quản chỉ còn thu hồi được một phần vốn.'
+      - id: dan_duong_va_tiep_luong
+        text: Cung cấp lương thảo, nước ngọt và dẫn đường qua vùng hiểm trở
+        effects:
+          - { type: money, value: 6 }
+          - { type: skill_xp, skill: ngoai_giao, value: 20 }
+          - { type: skill_xp, skill: sinh_ton, value: 15 }
+        result:
+          - 'Trưởng đoàn hậu tạ bạn bằng những đồng bạc sáng loáng và tấm thảm dệt tinh xảo.'

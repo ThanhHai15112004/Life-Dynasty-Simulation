@@ -5,6 +5,7 @@ import { evaluate } from '../../engine/RuleEvaluator';
 import { applyEffects } from '../../events/effects';
 import { pushLog } from '../../events/journal';
 import { RngStream, type SimContext } from '../context';
+import { inCurrentEra } from '../people';
 import { createResolver } from '../resolver';
 
 /** Tiền tố sourceId của dòng nhật ký biên niên (queries dùng để lọc). */
@@ -19,6 +20,7 @@ export function yearlyChronicle(ctx: SimContext): void {
   const startYear = state.generationStartYear ?? content.balance.time.start_year;
   const elapsed = state.clock.year - startYear;
   for (const entry of content.chronicle.entries) {
+    if (!inCurrentEra(ctx, entry.eras)) continue;
     const last = state.chronicle[entry.id];
     if (last !== undefined && (entry.once || state.clock.year - last < entry.cooldown_years)) continue;
     if (elapsed < entry.years[0] || elapsed > entry.years[1]) continue;

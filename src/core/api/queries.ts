@@ -43,7 +43,7 @@ import { healthCap, treatmentBlock } from '../systems/life';
 import { lifeExpectancyAtBirth } from '../systems/life/mortality';
 import { CHRONICLE_SOURCE_PREFIX } from '../systems/chronicle';
 import { computeFor } from '../systems/modifiers';
-import { activeCulture, ageGroupOf, ageNow, aliveMembers, callOf, eraStyleOf, householdHead, lifeStageOf, player, playerHousehold, relationToPlayer, type EraStyle } from '../systems/people';
+import { activeCulture, ageGroupOf, ageNow, aliveMembers, callOf, eraStyleOf, householdHead, inCurrentEra, lifeStageOf, player, playerHousehold, relationToPlayer, type EraStyle } from '../systems/people';
 import { createResolver, seasonOf } from '../systems/resolver';
 import {
   activeSettlementId,
@@ -1340,7 +1340,7 @@ export function getHudView(ctx: SimContext): HudView {
       sellPrice: sellPrice(ctx),
       tradeAmounts: content.balance.economy.trade_amounts,
       buyable: content.properties
-        .filter((p) => p.buyable)
+        .filter((p) => p.buyable && inCurrentEra(ctx, p.eras))
         .map((p) => ({ id: p.id, name: propNameOf(ctx, p), unit: p.unit, value: p.value, description: propDescOf(ctx, p) })),
       propertySellFactor: content.balance.economy.property_sell_factor,
     },
@@ -1387,7 +1387,7 @@ export function getHudView(ctx: SimContext): HudView {
         };
       }),
       openable: content.ventures
-        .filter((v) => !isUpgradeTargetVenture(ctx, v.id) && !(h.ventures ?? []).some((o) => o.id === v.id))
+        .filter((v) => inCurrentEra(ctx, v.eras) && !isUpgradeTargetVenture(ctx, v.id) && !(h.ventures ?? []).some((o) => o.id === v.id))
         .map((v) => ({
           id: v.id,
           name: v.name,
@@ -1485,18 +1485,20 @@ export function getHudView(ctx: SimContext): HudView {
     ambition: {
       currentId: state.ambition.id,
       achievedMilestones: state.ambition.achievedMilestones,
-      options: content.ambitions.map((a) => ({
-        id: a.id,
-        name: a.name,
-        description: a.description,
-        icon: a.icon,
-        available: ambitionAvailable(ctx, a.id),
-        milestones: a.milestones.map((m) => ({
-          id: m.id,
-          name: m.name,
-          achieved: state.ambition.achievedMilestones.includes(m.id),
+      options: content.ambitions
+        .filter((a) => inCurrentEra(ctx, a.eras))
+        .map((a) => ({
+          id: a.id,
+          name: a.name,
+          description: a.description,
+          icon: a.icon,
+          available: ambitionAvailable(ctx, a.id),
+          milestones: a.milestones.map((m) => ({
+            id: m.id,
+            name: m.name,
+            achieved: state.ambition.achievedMilestones.includes(m.id),
+          })),
         })),
-      })),
     },
     relations: Object.entries(state.village)
       .map(([role, id]) => {
@@ -1597,17 +1599,19 @@ export function getHudView(ctx: SimContext): HudView {
           currentId: state.career.sideJobId,
           currentName: curSj?.name ?? null,
           activeThisMonth: isSideJobActiveThisMonth(ctx),
-          options: content.sideJobs.map((sj) => ({
-            id: sj.id,
-            name: sj.name,
-            description: sj.description,
-            icon: sj.icon,
-            seasons: sj.seasons,
-            seasonNames: sj.seasons.map((sId) => cal.seasons.find((s) => s.id === sId)?.name ?? sId),
-            incomeMoneyMonth: sj.income_money_month,
-            stressMonth: sj.stress_month,
-            available: sideJobAvailable(ctx, sj.id),
-          })),
+          options: content.sideJobs
+            .filter((sj) => inCurrentEra(ctx, sj.eras))
+            .map((sj) => ({
+              id: sj.id,
+              name: sj.name,
+              description: sj.description,
+              icon: sj.icon,
+              seasons: sj.seasons,
+              seasonNames: sj.seasons.map((sId) => cal.seasons.find((s) => s.id === sId)?.name ?? sId),
+              incomeMoneyMonth: sj.income_money_month,
+              stressMonth: sj.stress_month,
+              available: sideJobAvailable(ctx, sj.id),
+            })),
         },
         familyCareers: aliveMembers(ctx, h)
           .filter((m) => ageNow(ctx, m) >= adultAge)
@@ -1668,7 +1672,7 @@ export function getHudView(ctx: SimContext): HudView {
           };
         }),
         availableCareers: content.careers
-          .filter((c) => c.id !== state.career.id && c.kind === 'nghe')
+          .filter((c) => c.id !== state.career.id && c.kind === 'nghe' && inCurrentEra(ctx, c.eras))
           .map((c) => {
             const firstRank = c.ranks[0];
             const lastRank = c.ranks[c.ranks.length - 1] ?? firstRank;
@@ -1757,8 +1761,10 @@ export function getOrganizationsView(ctx: SimContext): OrganizationView[] {
       loyalty: clamp(65 + Math.round(c.opinionOfPlayer * 0.3) + (c.favorWithPlayer ?? 0) * 3, 20, 100),
     }));
 
-  return (content.organizations ?? []).map((def) => {
-    const org = orgs[def.id]!;
+  return (content.organizations ?? [])
+    .filter((def) => inCurrentEra(ctx, def.eras) && Boolean(orgs[def.id]))
+    .map((def) => {
+      const org = orgs[def.id]!;
     const rIdx = org.playerRank;
     const curRank = rIdx >= 0 ? def.ranks[rIdx] : undefined;
     const nextRank = rIdx >= 0 && rIdx < 3 ? def.ranks[rIdx + 1] : undefined;

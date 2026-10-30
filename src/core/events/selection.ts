@@ -4,13 +4,14 @@ import type { Character } from '../entities/Character';
 import { evaluate } from '../engine/RuleEvaluator';
 import { RngStream, type SimContext } from '../systems/context';
 import { currentFateMode } from '../systems/life';
-import { ageNow, aliveMembers, lifeStageOf, player, relationToPlayer, villageNpc } from '../systems/people';
+import { ageNow, aliveMembers, inCurrentEra, lifeStageOf, player, relationToPlayer, villageNpc } from '../systems/people';
 import { createResolver } from '../systems/resolver';
 
 /** Phần chung giữa sự kiện quyết định và mẫu nhật ký thường. */
 export interface Selectable {
   id: string;
   tags: string[];
+  eras?: string[];
   life_stages?: string[];
   months?: number[];
   condition?: Condition;
@@ -155,6 +156,7 @@ function referencesRoles(cond: Condition): boolean {
 /** Kiểm tra đủ điều kiện (không tính cooldown) và trả về vai trò đã gán. */
 export function eligibleRoles(ctx: SimContext, item: Selectable, preset: Record<string, string> = {}): Record<string, string> | null {
   const { state } = ctx;
+  if (!inCurrentEra(ctx, item.eras)) return null;
   const stage = playerStageId(ctx);
   if (item.life_stages && !item.life_stages.includes(stage)) return null;
   if (item.months && !item.months.includes(state.clock.month)) return null;

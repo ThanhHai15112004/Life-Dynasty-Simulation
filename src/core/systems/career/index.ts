@@ -10,7 +10,7 @@ import { pushLog, writeTemplate } from '../../events/journal';
 import { Ledger, LogKind, SystemLog } from '../../events/systemLogKeys';
 import { RngStream, type SimContext } from '../context';
 import { earnPersonal, isPlayerHead, mergePurse, selfFarms } from '../economy';
-import { ageNow, aliveMembers, callOf, householdHead, player, playerHousehold } from '../people';
+import { ageNow, aliveMembers, callOf, householdHead, inCurrentEra, player, playerHousehold } from '../people';
 import { createResolver, seasonOf } from '../resolver';
 import { addSkillXp } from '../skills';
 
@@ -19,10 +19,10 @@ export function hasRealCareer(ctx: SimContext): boolean {
   return ctx.content.index.career.get(ctx.state.career.id)?.kind === 'nghe';
 }
 
-/** [5] Nghề này có mở tại loại khu định cư hiện tại không (danh sách rỗng = ở đâu cũng có). */
+/** [5] Nghề này có mở tại loại khu định cư và mốc thời đại hiện tại không (danh sách rỗng = ở đâu cũng có). */
 export function careerInSettlement(ctx: SimContext, careerId: string): boolean {
   const c = ctx.content.index.career.get(careerId);
-  if (!c) return false;
+  if (!c || !inCurrentEra(ctx, c.eras)) return false;
   if (c.settlement_types.length === 0) return true;
   return c.settlement_types.includes(ctx.state.world.settlementType);
 }
@@ -191,7 +191,7 @@ export function checkPromotion(ctx: SimContext): boolean {
 /** [5] Kiểm tra nghề tay trái có khả dụng tại nơi ở hiện tại và cho người chơi không. */
 export function sideJobAvailable(ctx: SimContext, sideJobId: string): boolean {
   const sj = ctx.content.index.sideJob.get(sideJobId);
-  if (!sj) return false;
+  if (!sj || !inCurrentEra(ctx, sj.eras)) return false;
   if (ageNow(ctx, player(ctx)) < ctx.content.balance.life.adult_age) return false;
   if (sj.settlement_types.length > 0 && !sj.settlement_types.includes(ctx.state.world.settlementType)) return false;
   return evaluate(sj.condition, createResolver(ctx));

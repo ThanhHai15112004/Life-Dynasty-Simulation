@@ -1,0 +1,32 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 01: BÌNH MINH NHÂN LOẠI (8000 TCN — nguyen_thuy_8000bce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Nguyên Thủy / Đá Mới.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_nguyen_thuy_ve_tranh_hang_da
+    kind: chuyen_vat
+    tags: [gia_dinh]
+    weight: 9
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: lua
+    short: 'nghe kể chuyện bên đống lửa bộ lạc'
+    variants:
+      - 'Bên ánh lửa bập bùng trong hang đá, các bô lão kể lại truyền thuyết về tổ tiên và những mùa săn lớn.'
+      - 'Bạn ngồi ghè từng mảnh đá lửa bên bờ suối, chế tạo mũi giáo và lưỡi nạo da thú.'
+    effects: [{ type: skill_xp, skill: sinh_ton, value: 8 }]
+
+  - id: amb_nguyen_thuy_mua_hai_luom
+    kind: bao_cao
+    tags: [ruong_dong]
+    weight: 8
+    cooldown_years: 2
+    importance: 2
+    tone: trung_tinh
+    icon: cay
+    short: 'hái lượm hạt dẻ và củ rừng tích trữ'
+    variants:
+      - 'Cả thị tộc chia nhau vào rừng hái quả mọng, đào củ mài và phơi khô thịt thú chuẩn bị cho mùa giá rét.'
+      - 'Những chiếc bình gốm thô nung trên bếp củi giúp gia đình cất giữ hạt khô không bị ẩm mốc.'
+    effects: [{ type: food, value: 4 }]

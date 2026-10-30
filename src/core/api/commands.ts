@@ -42,7 +42,7 @@ import {
   investOrganizationFactor,
   joinOrganization,
 } from '../systems/organization';
-import { player, playerHousehold } from '../systems/people';
+import { inCurrentEra, player, playerHousehold } from '../systems/people';
 import { alignWithFaction, petitionCourt } from '../systems/politics';
 import { executeRebellionAction, joinRebellion } from '../systems/rebellion';
 import { createResolver } from '../systems/resolver';
@@ -152,8 +152,14 @@ const fail = (error: CommandError): CommandResult => ({ ok: false, error });
 
 export function ambitionAvailable(ctx: SimContext, ambitionId: string): boolean {
   const a = ctx.content.index.ambition.get(ambitionId);
-  if (!a) return false;
+  if (!a || !inCurrentEra(ctx, a.eras)) return false;
   return evaluate(a.condition, createResolver(ctx));
+}
+
+export function lifestyleAvailable(ctx: SimContext, lifestyleId: string): boolean {
+  const l = ctx.content.index.lifestyle.get(lifestyleId);
+  if (!l || !inCurrentEra(ctx, l.eras)) return false;
+  return evaluate(l.condition, createResolver(ctx));
 }
 
 export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
@@ -268,7 +274,7 @@ export function executeCommand(ctx: SimContext, cmd: Command): CommandResult {
 
     case 'buyProperty': {
       const p = content.index.property.get(cmd.id);
-      if (!p?.buyable) return fail('not_tradeable');
+      if (!p?.buyable || !inCurrentEra(ctx, p.eras)) return fail('not_tradeable');
       if (p.value > h.money) return fail('not_enough_money');
       h.money -= p.value;
       h.properties[p.id] = (h.properties[p.id] ?? 0) + 1;

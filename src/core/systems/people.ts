@@ -204,3 +204,10 @@ export function villageNpc(ctx: SimContext, role: string): Character | undefined
   const c = id ? ctx.state.characters[id] : undefined;
   return c?.alive ? c : undefined;
 }
+
+/** Kiểm tra một mục nội dung (sự kiện, nghề, trọng tâm, tài sản...) có thuộc mốc thời đại đang chơi hay không. */
+export function inCurrentEra(ctx: SimContext, eras?: readonly string[]): boolean {
+  if (!eras || eras.length === 0) return true;
+  const bmId = ctx.state.bookmarkId ?? ctx.content.defaultBookmarkId;
+  return eras.includes(bmId);
+}

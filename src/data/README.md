@@ -20,14 +20,11 @@ npm run simulate     # xem KPI cân bằng có lệch không
 | `balance/modifiers.yaml` | Modifier có điều kiện (mùa đông, nợ nần, tuổi tác...) |
 | `balance/display.yaml` | Dải chữ (sức khỏe "Khá"...), luật "Việc dang dở", ngôn ngữ mặc định |
 | `balance/scene.yaml` | Luật suy ra tình trạng cảnh và hiệu ứng hạt |
-| `focuses/`, `skills/`, `traits/`, `properties/` | Focus, 7 kỹ năng, 16 tính cách, loại tài sản |
-| `origins/`, `cultures/` | 3 Xuất thân (`nong_dan`, `thuong_nhan`, `quy_toc_nho`), văn hóa (tên, cách xưng hô) |
-| `careers/`, `ambitions/`, `diseases/` | 5 Nghề lắp ghép (`nong_dan`, `thuong_nhan`, `linh`, `thao_khau`, `si_tu`), tham vọng cả đời, bệnh tật |
-| `chronicle/` | Biên niên vương triều giả tưởng: đổi vua, chiến tranh, nạn đói, dịch, chính sự — chạy song song đời nhân vật |
-| `civilizations/`, `world/` | Khuôn văn minh (`nho_giao.yaml`: học vị, thang địa vị, cư tang), loại khu định cư (`settlement_types.yaml`) |
-| `events/common/`, `events/careers/`, `events/crossover/`, `events/civilizations/` | Sự kiện quyết định (làng xã, theo nghề, giao thoa nghề, khuôn văn minh) |
-| `events/ambient/` | Mẫu nhật ký dòng đời; `he_thong.yaml` là mẫu do mô phỏng tự gọi (đừng đổi id) |
-| `lang/vi.json` | Chữ giao diện |
+| `skills/`, `traits/`, `cultures/`, `religions/` | 7 kỹ năng, 16 tính cách, văn hóa (họ tên, cách xưng hô), tôn giáo dùng chung |
+| `civilizations/`, `world/` | Khuôn văn minh (`nho_giao.yaml`, `bo_lac_nguyen_thuy.yaml`...), loại khu định cư (`settlement_types.yaml`), mốc lịch sử (`world/bookmarks/`) |
+| `eras/<NN_bookmark_id>/` | Trọn bộ 12 file nội dung riêng theo từng Thời đại: `origins.yaml`, `focuses.yaml`, `lifestyles.yaml`, `careers.yaml`, `properties.yaml`, `ventures.yaml`, `organizations.yaml`, `ambitions.yaml`, `diseases.yaml`, `chronicle.yaml`, `ambient.yaml`, `events.yaml` |
+| `events/ambient/he_thong.yaml` | Mẫu thông báo hệ thống dùng chung mọi thời đại (`sys.*`, đừng đổi id) |
+| `lang/vi.json`, `lang/en.json` | Chữ giao diện |
 
 ## Điều kiện (DSL)
 

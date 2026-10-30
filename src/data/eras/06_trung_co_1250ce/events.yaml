@@ -1,0 +1,64 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 06: BÃO TÁP THẾ KỶ XIII (1250 CN — trung_co_1250ce)
+# Sự kiện quyết định (Storylet) riêng cho Thời Bão Táp Thế Kỷ XIII (Đại Việt nhà Trần, Đế quốc Mông Cổ, Nam Tống, Hậu kỳ Thập tự chinh).
+# ══════════════════════════════════════════════════════════════════════════════
+eras: [co_dien_500bce, de_che_100ce, trung_co_1000ce, trung_co_1250ce, can_dai_1600ce]
+events:
+  - id: di_cu_thao_nguyen_mua_dong
+    title: Chuyển trại tránh gió tuyết thảo nguyên
+    text:
+      - 'Cỏ trên vùng đồng bằng đã ngả vàng khô héo, gió bắc bắt đầu mang theo mùi tuyết lạnh. Các trưởng lão bàn tính ngày nhổ lều nỉ di chuyển đàn gia súc về thung lũng khuất gió.'
+    tags: [gia_dinh, sinh_ton]
+    condition:
+      all:
+        - { var: world.civilization_id, op: '==', value: du_muc }
+    weight: 12
+    cooldown_years: 3
+    importance: 6
+    icon: trau
+    options:
+      - id: di_som_chiem_bai_co_tot
+        text: Hạ lều nỉ lên đường sớm để giữ bãi cỏ ấm gần nguồn nước
+        effects:
+          - { type: food, value: 14 }
+          - { type: skill_xp, skill: sinh_ton, value: 24 }
+        result:
+          - 'Đàn cừu và ngựa của gia đình bạn béo khỏe suốt mùa đông nhờ bãi cỏ kín gió.'
+      - id: doi_da_thu_lay_tra_muoi
+        text: Ghé điểm giao thương biên giới đổi lông cừu lấy gạch trà và muối
+        effects:
+          - { type: money, value: 7, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 20 }
+        result:
+          - 'Những bánh trà nóng giúp cả gia đình ấm bụng trong lều nỉ giữa đêm tuyết.'
+
+  - id: hoi_cho_lanh_dia_au_chau
+    title: Phiên chợ hội mùa thu trước cổng thành
+    text:
+      - 'Lãnh chúa và giáo khu mở phiên chợ hội lớn bên ngoài tường đá. Thương nhân mang len dạ, rượu vang, phô mai và nông cụ sắt từ khắp các vùng đổ về trao đổi.'
+    tags: [buon_ban, le_hoi]
+    condition:
+      all:
+        - { var: world.civilization_id, op: '==', value: phong_kien_au }
+        - { var: world.year, op: '<', value: 1900 }
+    weight: 12
+    cooldown_years: 3
+    importance: 6
+    icon: cho
+    options:
+      - id: bay_sap_doi_hang_len_da
+        text: Đem sản vật của gia đình ra đổi lấy vải len và tiền bạc
+        effects:
+          - { type: money, value: 8, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 22 }
+          - { type: stress, value: -3 }
+        result:
+          - 'Phiên chợ nhộn nhịp tiếng đàn phong cầm, bạn bán hết hàng và mua được tấm áo dạ dày cho mùa đông.'
+      - id: xin_nhan_khoan_dat_trang_vien
+        text: Xin gặp quản gia trang viên nhận làm thêm việc rèn đúc và chở hàng
+        effects:
+          - { type: money, value: 5, ledger: luong_nghe }
+          - { type: reputation, group: dan_lang, value: 6 }
+          - { type: skill_xp, skill: quan_tri, value: 18 }
+        result:
+          - 'Quản gia hài lòng với sự tháo vát của bạn và giao thêm mối hàng cố định.'

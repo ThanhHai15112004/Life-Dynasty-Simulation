@@ -15,8 +15,9 @@ import {
   diseaseFileSchema,
   focusFileSchema,
   langSchema,
+  lifestyleFileSchema,
   organizationFileSchema,
-  originSchema,
+  originFileSchema,
   polityFileSchema,
   propertyFileSchema,
   religionFileSchema,
@@ -39,6 +40,7 @@ import {
   type FateMode,
   type Focus,
   type LangPack,
+  type Lifestyle,
   type OrganizationDef,
   type Origin,
   type PlayMode,
@@ -65,6 +67,7 @@ export interface ContentBundle {
   skills: Skill[];
   traits: Trait[];
   focuses: Focus[];
+  lifestyles: Lifestyle[];
   properties: PropertyType[];
   ventures: VentureDef[];
   organizations: OrganizationDef[];
@@ -76,8 +79,10 @@ export interface ContentBundle {
   settlementTypes: SettlementType[];
   bookmarks: Bookmark[];
   defaultBookmarkId: string;
+  /** Danh sách mốc thời đại được khai báo qua thư mục con trong src/data/eras/<NN_bookmark_id>/. */
+  eraFolders: string[];
   polities: Polity[];
-  chronicle: { startReign: string; entries: ChronicleEntry[] };
+  chronicle: { startReign: string; startReignByEra: Record<string, string>; entries: ChronicleEntry[] };
   origins: Origin[];
   cultures: Culture[];
   religions: Religion[];
@@ -92,6 +97,7 @@ export interface ContentBundle {
     skill: Map<string, Skill>;
     trait: Map<string, Trait>;
     focus: Map<string, Focus>;
+    lifestyle: Map<string, Lifestyle>;
     property: Map<string, PropertyType>;
     venture: Map<string, VentureDef>;
     organization: Map<string, OrganizationDef>;
@@ -166,17 +172,31 @@ export function loadContent(files: RawFile[]): ContentBundle {
     return result.data;
   };
 
-  const collect = <T, K extends string>(
+  const applyDefaultEras = <T>(items: T[], defaultEras?: string[]): T[] => {
+    if (!defaultEras || defaultEras.length === 0) return items;
+    for (const item of items) {
+      const rec = item as Record<string, unknown>;
+      if (!rec.eras) rec.eras = [...defaultEras];
+    }
+    return items;
+  };
+
+  const collect = <P extends object, K extends keyof P & string>(
     dir: string,
-    schema: ZodType<Record<K, T[]>, ZodTypeDef, unknown>,
+    schema: ZodType<P, ZodTypeDef, unknown>,
     key: K,
-  ): T[] => {
-    const out: T[] = [];
+    folderEras?: string[],
+  ): P[K] extends (infer Item)[] ? Item[] : never => {
+    const out: unknown[] = [];
     for (const f of groups.get(dir) ?? []) {
       const parsed = parseFile(f, schema);
-      if (parsed) out.push(...parsed[key]);
+      if (parsed) {
+        const list = parsed[key] as unknown as unknown[];
+        const fileEras = (parsed as { eras?: string[] }).eras;
+        out.push(...applyDefaultEras(list, fileEras ?? folderEras));
+      }
     }
-    return out;
+    return out as P[K] extends (infer Item)[] ? Item[] : never;
   };
 
   const single = <T>(dir: string, schema: ZodType<T, ZodTypeDef, unknown>): T[] =>
@@ -196,15 +216,15 @@ export function loadContent(files: RawFile[]): ContentBundle {
 
   const skills = collect('skills', skillFileSchema, 'skills');
   const traits = collect('traits', traitFileSchema, 'traits');
-  const focuses = collect('focuses', focusFileSchema, 'focuses');
-  const properties = collect('properties', propertyFileSchema, 'properties');
-  const ventures = collect('ventures', ventureFileSchema, 'ventures');
-  const organizations = collect('organizations', organizationFileSchema, 'organizations');
-  const diseases = collect('diseases', diseaseFileSchema, 'diseases');
-  const ambitions = collect('ambitions', ambitionFileSchema, 'ambitions');
-  const careerFiles = single('careers', careerFileSchema);
-  const careers = careerFiles.flatMap((f) => f.careers);
-  const sideJobs = careerFiles.flatMap((f) => f.side_jobs);
+  const focuses: Focus[] = [];
+  const lifestyles: Lifestyle[] = [];
+  const properties: PropertyType[] = [];
+  const ventures: VentureDef[] = [];
+  const organizations: OrganizationDef[] = [];
+  const diseases: Disease[] = [];
+  const ambitions: Ambition[] = [];
+  const careers: Career[] = [];
+  const sideJobs: SideJob[] = [];
   const civilizations = single('civilizations', civilizationSchema).sort((a, b) =>
     a.id === 'nho_giao' ? -1 : b.id === 'nho_giao' ? 1 : a.id.localeCompare(b.id),
   );
@@ -213,25 +233,90 @@ export function loadContent(files: RawFile[]): ContentBundle {
   const bookmarks = bookmarkFiles.flatMap((f) => f.bookmarks);
   const defaultBookmarkId = bookmarkFiles.find((f) => f.default_bookmark)?.default_bookmark ?? bookmarks[0]?.id ?? '';
   const polities = collect('world/polities', polityFileSchema, 'polities');
-  const chronicleFiles = single('chronicle', chronicleFileSchema);
+  const startReignByEra: Record<string, string> = {};
   const chronicle = {
-    startReign: chronicleFiles.find((f) => f.start_reign)?.start_reign ?? '',
-    entries: chronicleFiles.flatMap((f) => f.entries),
+    startReign: '',
+    startReignByEra,
+    entries: [] as ChronicleEntry[],
   };
-  const events = [
-    ...collect('events/common', decisionEventFileSchema, 'events'),
-    ...collect('events/careers', decisionEventFileSchema, 'events'),
-    ...collect('events/crossover', decisionEventFileSchema, 'events'),
-    ...collect('events/civilizations', decisionEventFileSchema, 'events'),
-  ];
+  const events: DecisionEvent[] = [];
+  const ambient = collect('events/ambient', ambientFileSchema, 'templates');
+  const scenarios = collect('scenarios', scenarioFileSchema, 'scenarios');
+  const origins: Origin[] = [];
+
+  // Nạp các gói nội dung riêng theo từng Thời đại tại src/data/eras/<NN_bookmark_id>/
+  const eraFolders: string[] = [];
+  const eraDirNames = [...groups.keys()].filter((d) => d.startsWith('eras/')).sort();
+  for (const dir of eraDirNames) {
+    const folderName = dir.slice('eras/'.length);
+    if (folderName.includes('/')) {
+      issues.push(`src/data/${dir}: thư mục thời đại chỉ hỗ trợ 1 cấp con trực tiếp dưới src/data/eras/`);
+      continue;
+    }
+    const eraBookmarkId = folderName.replace(/^\d+_/, '');
+    if (!eraFolders.includes(eraBookmarkId)) eraFolders.push(eraBookmarkId);
+    const defaultEraList = [eraBookmarkId];
+
+    for (const f of groups.get(dir) ?? []) {
+      const name = baseName(f.path);
+      if (name === 'origins' || name.startsWith('origins_')) {
+        const parsed = parseFile(f, originFileSchema);
+        if (parsed) origins.push(...applyDefaultEras(parsed.origins, parsed.eras ?? defaultEraList));
+      } else if (name === 'focuses' || name.startsWith('focuses_')) {
+        const parsed = parseFile(f, focusFileSchema);
+        if (parsed) focuses.push(...applyDefaultEras(parsed.focuses, parsed.eras ?? defaultEraList));
+      } else if (name === 'lifestyles' || name.startsWith('lifestyles_')) {
+        const parsed = parseFile(f, lifestyleFileSchema);
+        if (parsed) lifestyles.push(...applyDefaultEras(parsed.lifestyles, parsed.eras ?? defaultEraList));
+      } else if (name === 'careers' || name.startsWith('careers_')) {
+        const parsed = parseFile(f, careerFileSchema);
+        if (parsed) {
+          careers.push(...applyDefaultEras(parsed.careers, parsed.eras ?? defaultEraList));
+          sideJobs.push(...applyDefaultEras(parsed.side_jobs, parsed.eras ?? defaultEraList));
+        }
+      } else if (name === 'properties' || name.startsWith('properties_')) {
+        const parsed = parseFile(f, propertyFileSchema);
+        if (parsed) properties.push(...applyDefaultEras(parsed.properties, parsed.eras ?? defaultEraList));
+      } else if (name === 'ventures' || name.startsWith('ventures_')) {
+        const parsed = parseFile(f, ventureFileSchema);
+        if (parsed) ventures.push(...applyDefaultEras(parsed.ventures, parsed.eras ?? defaultEraList));
+      } else if (name === 'organizations' || name.startsWith('organizations_')) {
+        const parsed = parseFile(f, organizationFileSchema);
+        if (parsed) organizations.push(...applyDefaultEras(parsed.organizations, parsed.eras ?? defaultEraList));
+      } else if (name === 'ambitions' || name.startsWith('ambitions_')) {
+        const parsed = parseFile(f, ambitionFileSchema);
+        if (parsed) ambitions.push(...applyDefaultEras(parsed.ambitions, parsed.eras ?? defaultEraList));
+      } else if (name === 'diseases' || name.startsWith('diseases_')) {
+        const parsed = parseFile(f, diseaseFileSchema);
+        if (parsed) diseases.push(...applyDefaultEras(parsed.diseases, parsed.eras ?? defaultEraList));
+      } else if (name === 'chronicle' || name.startsWith('chronicle_')) {
+        const parsed = parseFile(f, chronicleFileSchema);
+        if (parsed) {
+          if (parsed.start_reign) {
+            startReignByEra[eraBookmarkId] = parsed.start_reign;
+            if (!chronicle.startReign) chronicle.startReign = parsed.start_reign;
+          }
+          chronicle.entries.push(...applyDefaultEras(parsed.entries, parsed.eras ?? defaultEraList));
+        }
+      } else if (name === 'ambient' || name.startsWith('ambient_')) {
+        const parsed = parseFile(f, ambientFileSchema);
+        if (parsed) ambient.push(...applyDefaultEras(parsed.templates, parsed.eras ?? defaultEraList));
+      } else if (name === 'events' || name.startsWith('events_')) {
+        const parsed = parseFile(f, decisionEventFileSchema);
+        if (parsed) events.push(...applyDefaultEras(parsed.events, parsed.eras ?? defaultEraList));
+      } else {
+        issues.push(
+          `${f.path}: tên file trong thư mục thời đại không hợp lệ "${name}" (chỉ hỗ trợ origins, focuses, lifestyles, careers, properties, ventures, organizations, ambitions, diseases, chronicle, ambient, events)`,
+        );
+      }
+    }
+  }
+
   // Sự kiện không ghi giai đoạn đời: gán giai đoạn mặc định (sự kiện hẹn trước giữ nguyên để chuỗi không đứt)
   const defaultStages = (balance.director as Balance['director'] | undefined)?.default_event_life_stages ?? [];
   if (defaultStages.length > 0) {
     for (const ev of events) if (!ev.life_stages && !ev.scheduled_only) ev.life_stages = [...defaultStages];
   }
-  const ambient = collect('events/ambient', ambientFileSchema, 'templates');
-  const scenarios = collect('scenarios', scenarioFileSchema, 'scenarios');
-  const origins = single('origins', originSchema);
   const cultures = single('cultures', cultureSchema).sort((a, b) =>
     a.id === 'viet' ? -1 : b.id === 'viet' ? 1 : a.id.localeCompare(b.id),
   );
@@ -258,6 +343,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     skill: indexBy(skills, 'skills'),
     trait: indexBy(traits, 'traits'),
     focus: indexBy(focuses, 'focuses'),
+    lifestyle: indexBy(lifestyles, 'lifestyles'),
     property: indexBy(properties, 'properties'),
     venture: indexBy(ventures, 'ventures'),
     organization: indexBy(organizations, 'organizations'),
@@ -291,6 +377,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     skills,
     traits,
     focuses,
+    lifestyles,
     properties,
     ventures,
     organizations,
@@ -302,6 +389,7 @@ export function loadContent(files: RawFile[]): ContentBundle {
     settlementTypes,
     bookmarks,
     defaultBookmarkId,
+    eraFolders,
     polities,
     chronicle,
     origins,

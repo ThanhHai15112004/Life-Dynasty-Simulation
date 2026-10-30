@@ -1,0 +1,18 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 07: KỶ NGUYÊN ĐẠI HÀNG HẢI & CẬN ĐẠI (1600 CN — can_dai_1600ce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Cận Đại.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_can_dai_thuyen_buom_cap_cang
+    kind: tin_the_gioi
+    tags: [buon_ban]
+    weight: 8
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: thuyen
+    short: 'ngắm thuyền buồm viễn dương tấp nập ngoài thương cảng'
+    variants:
+      - 'Ngoài bến cảng, những chiếc thuyền buồm ba cột chở đầy gốm sứ, hạt tiêu và bạc nén nối đuôi nhau ra khơi theo gió mùa.'
+      - 'Khách thương hồ từ khắp Đông Tây tụ hội về phố cảng, mang theo những giống cây trồng và kỹ thuật chế tác mới lạ.'
+    effects: [{ type: skill_xp, skill: thuong_mai, value: 6 }]

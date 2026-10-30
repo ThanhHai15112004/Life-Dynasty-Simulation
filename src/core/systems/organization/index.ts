@@ -10,7 +10,7 @@ import type {
 import { writeTemplate } from '../../events/journal';
 import { Ledger, SystemLog } from '../../events/systemLogKeys';
 import { RngStream, type SimContext } from '../context';
-import { callOf, player, playerHousehold } from '../people';
+import { callOf, inCurrentEra, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 import { changeReputation } from '../social';
 
@@ -19,13 +19,14 @@ function langText(ctx: SimContext, key: string, fallback = key): string {
   return lang[key] ?? fallback;
 }
 
-/** Khởi tạo 4 tổ chức trong vùng từ dữ liệu organizations.yaml nếu chưa có. */
+/** Khởi tạo các tổ chức trong vùng thuộc thời đại hiện tại từ dữ liệu organizations.yaml nếu chưa có. */
 export function ensureOrganizations(ctx: SimContext): Record<string, OrganizationState> {
   if (!ctx.state.organizations) {
     ctx.state.organizations = {};
   }
   const orgs = ctx.state.organizations;
   for (const def of ctx.content.organizations ?? []) {
+    if (!inCurrentEra(ctx, def.eras)) continue;
     if (!orgs[def.id]) {
       const villageLeader =
         def.kind === 'village_council'
@@ -56,7 +57,7 @@ export function canJoinOrganization(ctx: SimContext, orgId: string): boolean {
   const orgs = ensureOrganizations(ctx);
   const org = orgs[orgId];
   const def = ctx.content.index.organization.get(orgId);
-  if (!org || !def || org.playerRank >= 0) return false;
+  if (!org || !def || !inCurrentEra(ctx, def.eras) || org.playerRank >= 0) return false;
   const h = playerHousehold(ctx);
   if (h.money < def.join_cost_money) return false;
   if (def.entry_condition && !evaluate(def.entry_condition, createResolver(ctx))) return false;

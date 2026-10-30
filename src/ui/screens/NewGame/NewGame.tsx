@@ -19,8 +19,12 @@ export function NewGame() {
   const totalEraPopWeight = eraPolities.reduce((s, p) => s + p.population_weight, 0) || 1;
   const [polityId, setPolityId] = useState<string>('any');
   const currentPolity = eraPolities.find((p) => p.id === polityId);
-  const [originId, setOriginId] = useState(onboarding.recommended_origin || (origins[0]?.id ?? ''));
-  const origin = origins.find((o) => o.id === originId) ?? origins[0];
+  const eraOrigins = currentBookmark
+    ? origins.filter((o) => !o.eras || o.eras.length === 0 || o.eras.includes(currentBookmark.id))
+    : origins.filter((o) => !o.eras || o.eras.length === 0);
+  const availableOrigins = eraOrigins.length > 0 ? eraOrigins : origins;
+  const [originId, setOriginId] = useState(onboarding.recommended_origin || (availableOrigins[0]?.id ?? ''));
+  const origin = availableOrigins.find((o) => o.id === originId) ?? availableOrigins[0] ?? origins[0];
   const [startAge, setStartAge] = useState(origin?.default_start_age ?? 0);
   const [sex, setSex] = useState<'any' | 'm' | 'f'>('any');
   const [playMode, setPlayMode] = useState(store.content.balance.fate_modes.default_play_mode);
@@ -32,6 +36,17 @@ export function NewGame() {
   const handleSelectBookmark = (id: string) => {
     setBookmarkId(id);
     setPolityId('any');
+    const nextBm = bookmarks.find((b) => b.id === id);
+    const nextPool = nextBm
+      ? origins.filter((o) => !o.eras || o.eras.length === 0 || o.eras.includes(nextBm.id))
+      : origins.filter((o) => !o.eras || o.eras.length === 0);
+    const validPool = nextPool.length > 0 ? nextPool : origins;
+    if (!validPool.some((o) => o.id === originId) && validPool[0]) {
+      setOriginId(validPool[0].id);
+      if (!validPool[0].start_age_options.includes(startAge)) {
+        setStartAge(validPool[0].default_start_age);
+      }
+    }
   };
 
   const handleSelectOrigin = (id: string) => {
@@ -185,8 +200,8 @@ export function NewGame() {
 
       <h4>{t('menu.origin')}</h4>
       <div className="row">
-        {origins.map((o) => (
-          <button key={o.id} className={o.id === originId ? 'active' : ''} onClick={() => handleSelectOrigin(o.id)}>
+        {availableOrigins.map((o) => (
+          <button key={o.id} className={o.id === origin.id ? 'active' : ''} onClick={() => handleSelectOrigin(o.id)}>
             <span>{o.name}</span>
             {o.id === onboarding.recommended_origin && (
               <span className="tag soft">{t('newgame.recommended_badge')}</span>

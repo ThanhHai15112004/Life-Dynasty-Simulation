@@ -1,0 +1,18 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 03: THỜI TRỤC CỔ ĐIỂN (500 TCN — co_dien_500bce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Trục Cổ Điển.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_co_dien_ruc_ro_thanh_bang
+    kind: tin_the_gioi
+    tags: [hoc_hanh]
+    weight: 8
+    cooldown_years: 2
+    importance: 2
+    tone: vui
+    icon: sach
+    short: 'nghe tiếng rèn sắt và giảng học nơi thành bang'
+    variants:
+      - 'Nông cụ bằng sắt giúp việc vỡ hoang nhanh hơn hẳn thời đồ đồng, ngoài chợ đã xuất hiện những đồng tiền đúc đầu tiên.'
+      - 'Các môn sinh tụ họp dưới hiên học viện, sôi nổi bàn luận về luật pháp, triết học và binh thư.'
+    effects: [{ type: skill_xp, skill: hoc_van, value: 6 }]

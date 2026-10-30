@@ -6,7 +6,7 @@ import { writeTemplate } from '../../events/journal';
 import { Ledger, SystemLog } from '../../events/systemLogKeys';
 import { RngStream, type SimContext } from '../context';
 import { monthlyMoneyNeed } from '../economy/helpers';
-import { aliveMembers, callOf, householdHead, playerHousehold } from '../people';
+import { aliveMembers, callOf, householdHead, inCurrentEra, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 import { activeSettlementId } from '../../world/region';
 import { currentFateMode } from './mortality';
@@ -132,7 +132,7 @@ export function monthlyDiseases(ctx: SimContext): void {
 
     const r = createResolver(ctx, { self: c.id });
     for (const def of ctx.content.diseases) {
-      if (def.monthly_chance <= 0) continue;
+      if (def.monthly_chance <= 0 || !inCurrentEra(ctx, def.eras)) continue;
       if (c.diseases.some((d) => d.id === def.id)) continue;
       if (!evaluate(def.condition, r)) continue;
       if (rng.chance(def.monthly_chance * boost * currentFateMode(ctx).disease_factor)) {

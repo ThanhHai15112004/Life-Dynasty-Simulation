@@ -12,7 +12,7 @@ import { RngStream, type SimContext } from '../context';
 import { computeHousehold } from '../modifiers';
 import { careerSeniorityFactor, memberMonthlyCareerIncome, playerSectorMonths } from '../career';
 import { currentFateMode } from '../life';
-import { ageNow, aliveMembers, householdHead, player, playerHousehold } from '../people';
+import { ageNow, aliveMembers, householdHead, inCurrentEra, player, playerHousehold } from '../people';
 import { createResolver } from '../resolver';
 import {
   buyPrice,
@@ -347,7 +347,7 @@ function autoInvest(ctx: SimContext): void {
   const monthCost = levelYearCost(ctx, h.livingStandard) / 12;
   for (const rule of content.balance.economy.auto_invest) {
     const p = content.index.property.get(rule.property);
-    if (!p?.buyable || !evaluate(rule.condition, r)) continue;
+    if (!p?.buyable || !inCurrentEra(ctx, p.eras) || !evaluate(rule.condition, r)) continue;
     if (h.money - p.value < monthCost * rule.keep_months) continue;
     h.money -= p.value;
     h.properties[p.id] = (h.properties[p.id] ?? 0) + 1;

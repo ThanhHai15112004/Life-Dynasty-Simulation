@@ -1,0 +1,41 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 03: THỜI TRỤC CỔ ĐIỂN (500 TCN — co_dien_500bce)
+# Sự kiện quyết định (Storylet) riêng cho Thời Trục Cổ Điển (Hy Lạp, Ba Tư, Xuân Thu - Chiến Quốc, Maurya, Văn Lang - Âu Lạc).
+# Mọi sự kiện trong file này tự động gắn nhãn `eras: [co_dien_500bce]`.
+# ══════════════════════════════════════════════════════════════════════════════
+events:
+  - id: co_dien_tranh_bien_hoc_thuat
+    title: Cuộc luận bàn của các học giả tại quảng trường
+    text:
+      - 'Một đoàn hiền triết và du thuyết gia dừng chân tại thành bang, mở cuộc tranh biện công khai về đạo trị nước và lẽ sống của con người. Đông đảo dân chúng và môn sinh vây quanh lắng nghe.'
+    tags: [hoc_hanh, van_minh]
+    life_stages: [thieu_thoi, thanh_nien, lap_nghiep, trung_nien]
+    weight: 12
+    cooldown_years: 4
+    importance: 7
+    icon: sach
+    options:
+      - id: dung_len_doi_dap_triet_ly
+        text: Mạnh dạn bước lên đặt câu hỏi và đối đáp cùng vị hiền triết
+        chance:
+          base: 0.6
+          skill: hoc_van
+          per_level: 0.06
+        success:
+          - { type: skill_xp, skill: hoc_van, value: 35 }
+          - { type: skill_xp, skill: ngoai_giao, value: 25 }
+          - { type: reputation, group: dan_lang, value: 8 }
+        failure:
+          - { type: skill_xp, skill: hoc_van, value: 18 }
+          - { type: stress, value: 3 }
+        success_result:
+          - 'Lập luận sắc bén của bạn khiến vị học giả gật đầu tán thưởng trước toàn thể đám đông.'
+        failure_result:
+          - 'Câu hỏi hóc búa của bậc thầy làm bạn lúng túng, nhưng cũng mở ra cho bạn nhiều suy ngẫm sâu sắc.'
+      - id: ghi_chep_loi_day_vao_the_tre
+        text: Chăm chú lắng nghe và chép lại những lời dạy cốt yếu lên thẻ tre, cuộn da
+        effects:
+          - { type: skill_xp, skill: hoc_van, value: 24 }
+          - { type: stress, value: -2 }
+        result:
+          - 'Những dòng ghi chép quý giá ấy trở thành kim chỉ nam cho việc học tập của bạn suốt nhiều năm.'

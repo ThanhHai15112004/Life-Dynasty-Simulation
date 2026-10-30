@@ -9,10 +9,10 @@ try {
   for (const w of warnings) console.warn(`⚠  ${w}`);
   for (const e of errors) console.error(`✖  ${e}`);
   console.log(
-    `\nNội dung: ${content.bookmarks.length} mốc thời đại, ${content.polities.length} vùng thế giới, ${content.civilizations.length} khuôn văn minh, ${content.cultures.length} văn hóa, ${content.religions.length} tôn giáo, ${content.origins.length} xuất thân, ${content.careers.length} nghề, ` +
+    `\nNội dung: ${content.bookmarks.length} mốc thời đại (${content.eraFolders.length} ngăn src/data/eras/), ${content.polities.length} vùng thế giới, ${content.civilizations.length} khuôn văn minh, ${content.cultures.length} văn hóa, ${content.religions.length} tôn giáo, ${content.origins.length} xuất thân, ${content.careers.length} nghề, ` +
       `${content.events.length} sự kiện quyết định, ${content.ambient.length} mẫu nhật ký, ` +
-      `${content.focuses.length} Focus, ${content.ambitions.length} tham vọng, ${content.diseases.length} bệnh, ` +
-      `${content.properties.length} tài sản, ${content.ventures.length} cơ nghiệp, ${content.traits.length} tính cách.`,
+      `${content.focuses.length} Focus, ${content.lifestyles.length} lối sống, ${content.organizations.length} tổ chức, ${content.ambitions.length} tham vọng, ${content.diseases.length} bệnh, ` +
+      `${content.properties.length} tài sản, ${content.ventures.length} cơ nghiệp, ${content.chronicle.entries.length} biên niên, ${content.traits.length} tính cách.`,
   );
   console.log(errors.length === 0 ? `✔  Hợp lệ (${warnings.length} cảnh báo)` : `✖  ${errors.length} lỗi`);
   process.exit(errors.length === 0 ? 0 : 1);

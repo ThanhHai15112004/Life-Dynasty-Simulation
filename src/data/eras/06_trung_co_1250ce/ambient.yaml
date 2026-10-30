@@ -1,0 +1,18 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 06: BÃO TÁP THẾ KỶ XIII (1250 CN — trung_co_1250ce)
+# Mẫu nhật ký thường (Ambient Life Log) riêng cho Thời Bão Táp Thế Kỷ XIII.
+# ══════════════════════════════════════════════════════════════════════════════
+templates:
+  - id: amb_trung_co_2_ky_binh_bien_ai
+    kind: tin_the_gioi
+    tags: [quan_ngu]
+    weight: 8
+    cooldown_years: 2
+    importance: 2
+    tone: trung_tinh
+    icon: kiem
+    short: 'nghe tin trống trận và dân binh luyện võ'
+    variants:
+      - 'Khắp các hương ấp, trai tráng tập hợp bên sân đình rèn luyện cung nỏ và giáo dài đề phòng giặc phương xa.'
+      - 'Ngựa trạm phi nước đại qua đường cái quan, mang theo mệnh lệnh phòng thủ biên thùy.'
+    effects: [{ type: skill_xp, skill: quan_su, value: 6 }]

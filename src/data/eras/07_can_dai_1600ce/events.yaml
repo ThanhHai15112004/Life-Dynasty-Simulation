@@ -1,0 +1,69 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# MỐC 07: KỶ NGUYÊN ĐẠI HÀNG HẢI & CẬN ĐẠI (1600 CN — can_dai_1600ce)
+# Sự kiện quyết định (Storylet) riêng cho Thời Cận Đại (Thương cảng Phố Hiến - Hội An, Đế chế Mughal, Minh mạt, Ottoman, Châu Âu Phục Hưng).
+# Mọi sự kiện trong file này tự động gắn nhãn `eras: [can_dai_1600ce]`.
+# ══════════════════════════════════════════════════════════════════════════════
+events:
+  - id: hoi_phuong_tho_thu_cong
+    title: Quy ước của Phường hội và Thương quán cảng thị
+    text:
+      - 'Các bậc thầy trong phường hội địa phương mở đợt sát hạch tay nghề và kết nạp thành viên chính thức để cung ứng hàng cho các thương thuyền ngoại quốc. Có con dấu của phường hội thì hàng làm ra bán được giá cao, nhưng phải đóng lệ phí hằng năm.'
+    tags: [nghe_nghiep, buon_ban]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien, tuoi_gia]
+    weight: 11
+    cooldown_years: 5
+    importance: 6
+    icon: tien
+    options:
+      - id: nop_le_phi_thi_tay_nghe
+        text: Nộp lệ phí và dốc sức chế tác sản phẩm mẫu để gia nhập phường hội
+        condition: { var: household.money, op: '>=', value: 4 }
+        effects:
+          - { type: money, value: -4 }
+          - { type: career_merit, value: 20 }
+          - { type: reputation, group: dan_lang, value: 8 }
+          - { type: skill_xp, skill: quan_tri, value: 25 }
+        result:
+          - 'Tác phẩm của bạn được các trưởng lão phường hội gật đầu công nhận.'
+      - id: tu_lam_tu_ban_ngoai_cho
+        text: Không cần danh hiệu phường hội, tự bán hàng giá mềm cho dân thường
+        effects:
+          - { type: money, value: 4 }
+          - { type: skill_xp, skill: thuong_mai, value: 18 }
+        result:
+          - 'Dù không vào phường hội lớn, khách bình dân vẫn tìm đến bạn vì giá cả phải chăng.'
+
+  - id: can_dai_thuong_thuyen_vien_duong
+    title: Thương thuyền ngoại quốc cập bến mua tơ lụa và gốm sứ
+    text:
+      - 'Những chiếc thuyền buồm lớn giương cờ hiệu phương xa vừa thả neo ngoài thương cảng, mang theo bạc nén và vũ khí hỏa mai để thu mua tơ sống, đường phổi và đồ gốm.'
+    tags: [buon_ban, co_hoi]
+    life_stages: [thanh_nien, lap_nghiep, trung_nien]
+    weight: 12
+    cooldown_years: 4
+    importance: 7
+    icon: thuyen
+    options:
+      - id: gom_to_lua_ban_cho_tau_buon
+        text: Đem vốn thu gom tơ lụa và hương liệu bán trực tiếp cho thương đoàn ngoại quốc
+        condition: { var: household.money, op: '>=', value: 6 }
+        chance:
+          base: 0.65
+          skill: thuong_mai
+          per_level: 0.06
+        success:
+          - { type: money, value: 15, ledger: buon_ban }
+          - { type: skill_xp, skill: thuong_mai, value: 30 }
+        failure:
+          - { type: money, value: -2, ledger: buon_ban }
+        success_result:
+          - 'Thuyền trưởng ngoại quốc trả cho bạn những thỏi bạc trắng ngần đúng giá thương cảng.'
+        failure_result:
+          - 'Phiên dịch viên ép giá khiến chuyến hàng chỉ hòa vốn sau khi trừ thuế bến.'
+      - id: nhan_boc_vac_va_dan_hoa_tieu
+        text: Nhận chở hàng ra tàu lớn và làm hoa tiêu dẫn luồng cửa biển
+        effects:
+          - { type: money, value: 6, ledger: luong_nghe }
+          - { type: skill_xp, skill: ngoai_giao, value: 20 }
+        result:
+          - 'Bạn học thêm được vài câu giao tiếp của khách buôn phương xa và có khoản tiền công rủng rỉnh.'
