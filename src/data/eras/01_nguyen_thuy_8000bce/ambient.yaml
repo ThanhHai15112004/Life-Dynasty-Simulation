@@ -813,3 +813,2319 @@ templates:
     icon: trang
     variants:
       - 'Cuộc đời bạn đang đi đến những năm cuối cùng.'
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # ĐỢT 2 — MỤC 13: 180 CHUYỆN THƯỜNG NGÀY (6 GIAI ĐOẠN TUỔI × 30 MẪU)
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  # ────────────────────────── TUỔI 0–5: ẤU THƠ (01–30) ──────────────────────────
+  - id: nt_m13_au_01
+    kind: chuyen_vat
+    tags: [tuoi_tho, gia_dinh, thien_nhien]
+    life_stages: [au_tho]
+    condition: { var: player.age, op: '<=', value: 1 }
+    once_per_life: true
+    weight: 5
+    importance: 3
+    icon: mua
+    variants:
+      - 'Bạn chào đời trong một đêm mưa lớn, khi cả gia đình đang trú dưới mái che.'
+
+  - id: nt_m13_au_02
+    kind: nguoi_quanh
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: nha
+    variants:
+      - 'Người chăm sóc bế bạn đến gần bếp lửa để giữ ấm trong một buổi tối lạnh.'
+
+  - id: nt_m13_au_03
+    kind: chuyen_vat
+    tags: [tuoi_tho, thien_nhien]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: trang
+    variants:
+      - 'Bạn lần đầu nghe tiếng một con thú lớn vọng lại từ khu rừng.'
+
+  - id: nt_m13_au_04
+    kind: nguoi_quanh
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Một người lớn tuổi trong nhóm thường đến chơi và giúp chăm sóc bạn.'
+
+  - id: nt_m13_au_05
+    kind: bao_cao
+    tags: [tuoi_tho, benh_tat]
+    life_stages: [au_tho]
+    cooldown_years: 5
+    weight: 3
+    importance: 3
+    tone: an_ui
+    icon: benh
+    variants:
+      - 'Bạn bị sốt nhiều ngày khiến gia đình lo lắng, nhưng cuối cùng đã hồi phục.'
+
+  - id: nt_m13_au_06
+    kind: nguoi_quanh
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 3
+    importance: 3
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Một đứa trẻ khác chào đời trong gia đình và trở thành người cùng bạn lớn lên.'
+
+  - id: nt_m13_au_07
+    kind: chuyen_vat
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 1
+    tone: an_ui
+    icon: nha
+    variants:
+      - 'Bạn thường ngủ thiếp đi trong lúc người thân chuẩn bị thức ăn.'
+
+  - id: nt_m13_au_08
+    kind: bao_cao
+    tags: [tuoi_tho, di_cu]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 3
+    importance: 2
+    icon: duong
+    variants:
+      - 'Gia đình phải chuyển nơi trú và mang bạn theo trên một chuyến đường dài.'
+
+  - id: nt_m13_au_09
+    kind: bao_cao
+    tags: [tuoi_tho]
+    life_stages: [au_tho]
+    condition: { var: player.age, op: 'between', value: [1, 2] }
+    once_per_life: true
+    weight: 5
+    importance: 2
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Bạn bắt đầu tập đi trên nền đất gồ ghề gần chỗ ở.'
+
+  - id: nt_m13_au_10
+    kind: nguoi_quanh
+    tags: [tuoi_tho, thien_nhien]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Một đứa trẻ lớn hơn thường đưa bạn ra xem đàn chim kiếm ăn.'
+
+  - id: nt_m13_au_11
+    kind: chuyen_vat
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 3
+    importance: 1
+    icon: dong
+    variants:
+      - 'Bạn làm rơi một vật đựng thức ăn khiến người chăm sóc phải dọn dẹp.'
+
+  - id: nt_m13_au_12
+    kind: chuyen_vat
+    tags: [tuoi_tho, thien_nhien]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    icon: mua
+    variants:
+      - 'Bạn rất sợ tiếng sấm và thường tìm đến người thân mỗi khi trời mưa.'
+
+  - id: nt_m13_au_13
+    kind: nguoi_quanh
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: dieu
+    variants:
+      - 'Một người thân tặng bạn món đồ nhỏ làm từ vỏ sò hoặc xương.'
+
+  - id: nt_m13_au_14
+    kind: chuyen_vat
+    tags: [tuoi_tho, thien_nhien]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 3
+    importance: 2
+    tone: buon
+    icon: la
+    variants:
+      - 'Bạn bị ong đốt trong lúc chơi gần bụi cây và khóc suốt buổi chiều.'
+
+  - id: nt_m13_au_15
+    kind: bao_cao
+    tags: [tuoi_tho, mat_mua]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Gia đình trải qua một mùa thức ăn khan hiếm, khiến việc chăm sóc trẻ nhỏ trở nên khó khăn.'
+
+  - id: nt_m13_au_16
+    kind: bao_cao
+    tags: [tuoi_tho, quan_he]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Bạn bắt đầu nhận ra những người thường xuyên sống cùng mình.'
+
+  - id: nt_m13_au_17
+    kind: chuyen_vat
+    tags: [tuoi_tho, thien_nhien]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: trang
+    variants:
+      - 'Một con chó quen với cộng đồng thường nằm gần nơi bạn chơi.'
+
+  - id: nt_m13_au_18
+    kind: chuyen_vat
+    tags: [tuoi_tho]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 1
+    icon: dong
+    variants:
+      - 'Bạn bị ngã khi cố bước qua một thân cây nằm dưới đất.'
+
+  - id: nt_m13_au_19
+    kind: nguoi_quanh
+    tags: [tuoi_tho, sinh_ton]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: nha
+    variants:
+      - 'Người chăm sóc dạy bạn tránh xa khu vực có lửa.'
+
+  - id: nt_m13_au_20
+    kind: chuyen_vat
+    tags: [tuoi_tho]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 1
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn thích nghịch những viên đá tròn và cành cây nhỏ.'
+
+  - id: nt_m13_au_21
+    kind: tin_the_gioi
+    tags: [tuoi_tho, trao_doi]
+    life_stages: [au_tho]
+    cooldown_years: 5
+    weight: 3
+    importance: 2
+    icon: duong
+    variants:
+      - 'Một nhóm người lạ ghé qua nơi cư trú, mang theo những vật dụng bạn chưa từng thấy.'
+
+  - id: nt_m13_au_22
+    kind: chuyen_vat
+    tags: [tuoi_tho, thien_nhien]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: nuoc
+    variants:
+      - 'Bạn lần đầu theo người lớn đến một con suối gần nơi ở.'
+
+  - id: nt_m13_au_23
+    kind: nguoi_quanh
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: dieu
+    variants:
+      - 'Một người thân thường bắt chước tiếng chim để khiến bạn bật cười.'
+
+  - id: nt_m13_au_24
+    kind: nguoi_quanh
+    tags: [tuoi_tho, quan_he]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 1
+    icon: tre_em
+    variants:
+      - 'Bạn và một đứa trẻ khác tranh nhau một món đồ chơi bằng gỗ.'
+
+  - id: nt_m13_au_25
+    kind: nguoi_quanh
+    tags: [tuoi_tho, gia_dinh]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: tang
+    variants:
+      - 'Một thành viên lớn tuổi trong gia đình qua đời, khiến không khí nơi trú trở nên trầm lắng.'
+
+  - id: nt_m13_au_26
+    kind: bao_cao
+    tags: [tuoi_tho, nguy_hiem]
+    life_stages: [au_tho]
+    once_per_life: true
+    weight: 3
+    importance: 3
+    icon: duong
+    variants:
+      - 'Bạn bị lạc khỏi tầm nhìn của người lớn trong một lúc ngắn và khiến mọi người hoảng hốt.'
+
+  - id: nt_m13_au_27
+    kind: bao_cao
+    tags: [tuoi_tho, hai_luom]
+    life_stages: [au_tho]
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Một mùa quả chín đem đến nhiều thức ăn hơn cho gia đình.'
+
+  - id: nt_m13_au_28
+    kind: bao_cao
+    tags: [tuoi_tho, lao_dong]
+    life_stages: [au_tho]
+    condition: { var: player.age, op: '>=', value: 3 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn bắt đầu biết phụ nhặt những cành củi nhỏ ở gần nơi trú.'
+
+  - id: nt_m13_au_29
+    kind: nguoi_quanh
+    tags: [tuoi_tho, sinh_ton]
+    life_stages: [au_tho]
+    condition: { var: player.age, op: '>=', value: 3 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: lang
+    variants:
+      - 'Người thân chỉ cho bạn cách nhận biết tiếng gọi quen thuộc của các thành viên trong nhóm.'
+
+  - id: nt_m13_au_30
+    kind: bao_cao
+    tags: [tuoi_tho, moc_doi]
+    life_stages: [au_tho]
+    condition: { var: player.age, op: '==', value: 5 }
+    once_per_life: true
+    weight: 6
+    importance: 3
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Khi tròn năm tuổi, bạn đã quen với những con đường ngắn quanh nơi mình lớn lên.'
+
+  # ────────────────────────── TUỔI 6–11: NHI ĐỒNG (01–30) ──────────────────────────
+  - id: nt_m13_nd_01
+    kind: bao_cao
+    tags: [hai_luom, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn theo người lớn đi nhặt quả và lần đầu tự tìm được một bụi cây có quả ăn được.'
+
+  - id: nt_m13_nd_02
+    kind: bao_cao
+    tags: [san_bat, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: trang
+    variants:
+      - 'Bạn học cách phân biệt dấu chân thú trên nền đất ẩm.'
+
+  - id: nt_m13_nd_03
+    kind: nguoi_quanh
+    tags: [quan_he, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Một người bạn cùng tuổi rủ bạn thi ném những viên đá nhỏ vào một thân cây.'
+
+  - id: nt_m13_nd_04
+    kind: bao_cao
+    tags: [thu_cong, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: da
+    variants:
+      - 'Bạn làm gãy một dụng cụ và được hướng dẫn cách sử dụng cẩn thận hơn.'
+
+  - id: nt_m13_nd_05
+    kind: chuyen_vat
+    tags: [thien_nhien, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    icon: nuoc
+    variants:
+      - 'Bạn nhìn thấy một con thú đang uống nước nhưng không dám đến gần.'
+
+  - id: nt_m13_nd_06
+    kind: bao_cao
+    tags: [hai_luom, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn học cách nhận ra thời điểm một loại quả bắt đầu chín.'
+
+  - id: nt_m13_nd_07
+    kind: nguoi_quanh
+    tags: [lao_dong, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: la
+    variants:
+      - 'Một người lớn dạy bạn cách mang củi mà không làm rơi.'
+
+  - id: nt_m13_nd_08
+    kind: bao_cao
+    tags: [thu_cong, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn tìm được một viên đá sắc và đem về cho người chế tác công cụ.'
+
+  - id: nt_m13_nd_09
+    kind: chuyen_vat
+    tags: [thien_nhien, quan_he]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    icon: mua
+    variants:
+      - 'Bạn và bạn thân bị mưa lớn giữ lại giữa đường trong một chuyến hái lượm.'
+
+  - id: nt_m13_nd_10
+    kind: nguoi_quanh
+    tags: [san_bat, nguy_hiem]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: buon
+    icon: benh
+    variants:
+      - 'Bạn lần đầu nhìn thấy một người bị thương trở về từ chuyến săn.'
+
+  - id: nt_m13_nd_11
+    kind: nguoi_quanh
+    tags: [hoc_hanh, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: ky_nang
+    variants:
+      - 'Một thành viên trong nhóm khen ngợi khả năng quan sát của bạn.'
+
+  - id: nt_m13_nd_12
+    kind: bao_cao
+    tags: [sinh_ton, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: duong
+    variants:
+      - 'Bạn học cách tìm đường trở về từ một bãi kiếm ăn gần nơi trú.'
+
+  - id: nt_m13_nd_13
+    kind: chuyen_vat
+    tags: [thien_nhien, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    icon: la
+    variants:
+      - 'Bạn phát hiện một tổ chim nhưng được nhắc không nên đến quá gần.'
+
+  - id: nt_m13_nd_14
+    kind: nguoi_quanh
+    tags: [cham_soc, gia_dinh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: suc_khoe
+    variants:
+      - 'Bạn giúp mang thức ăn về cho một người đang bị bệnh.'
+
+  - id: nt_m13_nd_15
+    kind: nguoi_quanh
+    tags: [quan_he, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: duong
+    variants:
+      - 'Một người bạn chuyển đi cùng gia đình khiến bạn buồn nhiều ngày.'
+
+  - id: nt_m13_nd_16
+    kind: bao_cao
+    tags: [thu_cong, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn học cách làm một sợi dây đơn giản từ vật liệu thực vật.'
+
+  - id: nt_m13_nd_17
+    kind: bao_cao
+    tags: [gia_dinh, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Bạn lần đầu tham gia chuẩn bị thức ăn cho cả nhóm.'
+
+  - id: nt_m13_nd_18
+    kind: chuyen_vat
+    tags: [thien_nhien, nguy_hiem]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 3
+    importance: 2
+    icon: da
+    variants:
+      - 'Bạn tìm thấy dấu vết một trận lở đất gần đường đi quen thuộc.'
+
+  - id: nt_m13_nd_19
+    kind: nguoi_quanh
+    tags: [truyen_thong, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    icon: sach
+    variants:
+      - 'Bạn được một người lớn tuổi kể về khu cư trú mà nhóm đã bỏ lại nhiều năm trước.'
+
+  - id: nt_m13_nd_20
+    kind: nguoi_quanh
+    tags: [quan_he, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 3
+    importance: 2
+    icon: dong
+    variants:
+      - 'Bạn và một người bạn tranh cãi về phần thức ăn được chia.'
+
+  - id: nt_m13_nd_21
+    kind: bao_cao
+    tags: [hai_luom, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: la
+    variants:
+      - 'Bạn học được rằng một số loại cây trông giống nhau nhưng không thể ăn như nhau.'
+
+  - id: nt_m13_nd_22
+    kind: bao_cao
+    tags: [noi_tru, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    icon: nha
+    variants:
+      - 'Bạn phụ sửa mái che sau một trận mưa lớn.'
+
+  - id: nt_m13_nd_23
+    kind: nguoi_quanh
+    tags: [gia_dinh, tuoi_tho]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Bạn lần đầu được giao trông chừng một đứa trẻ nhỏ hơn trong lúc người lớn làm việc gần đó.'
+
+  - id: nt_m13_nd_24
+    kind: bao_cao
+    tags: [thien_nhien, kham_pha]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: nuoc
+    variants:
+      - 'Bạn tìm thấy một lối đi ngắn dẫn đến nguồn nước quen thuộc.'
+
+  - id: nt_m13_nd_25
+    kind: nguoi_quanh
+    tags: [quan_he, thu_cong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 3
+    importance: 2
+    icon: da
+    variants:
+      - 'Một người khác nhận nhầm công cụ của bạn và hai bên phải nhờ người lớn giải quyết.'
+
+  - id: nt_m13_nd_26
+    kind: bao_cao
+    tags: [thu_cong, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: ky_nang
+    variants:
+      - 'Bạn học cách giữ một vật dụng bằng xương không bị gãy khi sử dụng.'
+
+  - id: nt_m13_nd_27
+    kind: bao_cao
+    tags: [song_nuoc, hai_luom]
+    life_stages: [thieu_thoi]
+    condition:
+      all:
+        - { var: player.age, op: '<=', value: 11 }
+        - any:
+            - { var: player.origin, op: in, value: [nt_con_cong_dong_ven_bien, nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ho_sahara] }
+            - { has_property: nt_noi_nhat_nhuyen_the }
+            - { has_property: nt_bai_danh_ca }
+    once_per_life: true
+    weight: 5
+    importance: 3
+    tone: vui
+    icon: nuoc
+    variants:
+      - 'Bạn phát hiện một bãi nhuyễn thể mới khi đi cùng người lớn ở vùng ven biển.'
+
+  - id: nt_m13_nd_28
+    kind: bao_cao
+    tags: [canh_tac, lao_dong]
+    life_stages: [thieu_thoi]
+    condition:
+      all:
+        - { var: player.age, op: '<=', value: 11 }
+        - any:
+            - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+            - { var: player.origin, op: in, value: [nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_giu_kho, nt_con_nguoi_tim_da_quy] }
+            - { has_property: nt_khu_cay_luong_thuc }
+    cooldown_years: 4
+    weight: 5
+    importance: 2
+    icon: lua
+    variants:
+      - 'Bạn giúp thu gom hạt sau một ngày làm việc dài tại khu cư trú Tây Á.'
+
+  - id: nt_m13_nd_29
+    kind: tin_the_gioi
+    tags: [trao_doi, thu_cong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '<=', value: 11 }
+    cooldown_years: 4
+    weight: 3
+    importance: 2
+    icon: da
+    variants:
+      - 'Bạn nhìn thấy một nhóm người sử dụng công cụ có hình dạng khác những thứ mình quen.'
+
+  - id: nt_m13_nd_30
+    kind: bao_cao
+    tags: [moc_doi, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '==', value: 11 }
+    once_per_life: true
+    weight: 6
+    importance: 3
+    tone: vui
+    icon: moc_doi
+    variants:
+      - 'Khi bước sang tuổi mười một, bạn đã có thể tự đảm nhiệm một số công việc nhỏ mà không cần nhắc nhở.'
+
+  # ────────────────────────── TUỔI 12–15: THIẾU NIÊN (01–30) ──────────────────────────
+  - id: nt_m13_tn_01
+    kind: bao_cao
+    tags: [san_bat, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 5
+    importance: 3
+    tone: vui
+    icon: kiem
+    variants:
+      - 'Bạn lần đầu được tham gia một chuyến săn ngắn cùng người có kinh nghiệm.'
+
+  - id: nt_m13_tn_02
+    kind: bao_cao
+    tags: [thu_cong, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: da
+    variants:
+      - 'Bạn thử chế tác một công cụ đá nhưng làm hỏng phần nguyên liệu tốt.'
+
+  - id: nt_m13_tn_03
+    kind: nguoi_quanh
+    tags: [quan_he, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    icon: ky_nang
+    variants:
+      - 'Một người bạn cùng tuổi đã làm việc thành thạo hơn bạn trong một số công việc.'
+
+  - id: nt_m13_tn_04
+    kind: nguoi_quanh
+    tags: [hai_luom, gia_dinh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Bạn được giao dẫn vài đứa trẻ nhỏ đi thu hái ở khu vực an toàn.'
+
+  - id: nt_m13_tn_05
+    kind: bao_cao
+    tags: [thu_cong, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: da
+    variants:
+      - 'Bạn bắt đầu nhận ra mình thích chế tác công cụ hơn đi săn.'
+
+  - id: nt_m13_tn_06
+    kind: bao_cao
+    tags: [sinh_ton, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: dong
+    variants:
+      - 'Một chuyến kiếm ăn thất bại khiến bạn hiểu rằng công sức không phải lúc nào cũng mang lại kết quả.'
+
+  - id: nt_m13_tn_07
+    kind: nguoi_quanh
+    tags: [thien_nhien, quan_he]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: mua
+    variants:
+      - 'Bạn và một người bạn cùng học cách nhận biết những dấu hiệu thời tiết.'
+
+  - id: nt_m13_tn_08
+    kind: bao_cao
+    tags: [thu_cong, benh_tat]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: benh
+    variants:
+      - 'Bạn bị thương nhẹ trong lúc thử sử dụng công cụ sắc.'
+
+  - id: nt_m13_tn_09
+    kind: nguoi_quanh
+    tags: [hoc_hanh, truyen_thong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: sach
+    variants:
+      - 'Một người lớn tuổi khen ngợi sự kiên nhẫn của bạn.'
+
+  - id: nt_m13_tn_10
+    kind: bao_cao
+    tags: [suc_khoe, di_cu]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 3
+    importance: 2
+    icon: duong
+    variants:
+      - 'Bạn nhận thấy mình khó theo kịp những người có thể lực tốt trong chuyến đi dài.'
+
+  - id: nt_m13_tn_11
+    kind: bao_cao
+    tags: [san_bat, thu_cong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: kiem
+    variants:
+      - 'Bạn lần đầu được giao chuẩn bị một phần dụng cụ cho chuyến săn.'
+
+  - id: nt_m13_tn_12
+    kind: nguoi_quanh
+    tags: [quan_he]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: gia_dinh
+    variants:
+      - 'Một người bạn bắt đầu dành nhiều thời gian cho người mình có cảm tình.'
+
+  - id: nt_m13_tn_13
+    kind: bao_cao
+    tags: [noi_tru, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    icon: nha
+    variants:
+      - 'Bạn tham gia vận chuyển vật liệu khi nơi trú được sửa chữa.'
+
+  - id: nt_m13_tn_14
+    kind: nguoi_quanh
+    tags: [thu_cong, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Một thành viên trong nhóm chỉ cho bạn cách nhận biết đá có chất lượng tốt.'
+
+  - id: nt_m13_tn_15
+    kind: bao_cao
+    tags: [du_tru, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Bạn học được cách bảo quản một loại thức ăn lâu hơn trước.'
+
+  - id: nt_m13_tn_16
+    kind: bao_cao
+    tags: [gia_dinh, di_cu]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: duong
+    variants:
+      - 'Bạn bắt đầu có ý kiến riêng về việc gia đình nên ở lại hay di chuyển.'
+
+  - id: nt_m13_tn_17
+    kind: tin_the_gioi
+    tags: [kham_pha, trao_doi]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    icon: tin_don
+    variants:
+      - 'Một người lạ từ nhóm khác kể cho bạn nghe về một vùng đất xa.'
+
+  - id: nt_m13_tn_18
+    kind: nguoi_quanh
+    tags: [lang_xa, thien_nhien]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: nuoc
+    variants:
+      - 'Bạn chứng kiến cuộc tranh cãi giữa những người lớn về nguồn nước.'
+
+  - id: nt_m13_tn_19
+    kind: nguoi_quanh
+    tags: [quan_he, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: lang
+    variants:
+      - 'Bạn và người từng chơi cùng thuở nhỏ nay ít gặp nhau vì đảm nhiệm công việc khác.'
+
+  - id: nt_m13_tn_20
+    kind: nguoi_quanh
+    tags: [gia_dinh, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    icon: suc_khoe
+    variants:
+      - 'Một người thân nhờ bạn thay họ hoàn thành công việc trong lúc bị thương.'
+
+  - id: nt_m13_tn_21
+    kind: bao_cao
+    tags: [hai_luom, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn tham gia một chuyến thu hái dài và trở về với nhiều kinh nghiệm mới.'
+
+  - id: nt_m13_tn_22
+    kind: nguoi_quanh
+    tags: [quan_he, ngoai_giao]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: chen_tra
+    variants:
+      - 'Bạn nhận ra một người bạn giỏi giao tiếp hơn mình dù không mạnh khỏe bằng.'
+
+  - id: nt_m13_tn_23
+    kind: chuyen_vat
+    tags: [san_bat, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    cooldown_years: 3
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: trang
+    variants:
+      - 'Một chiếc bẫy bạn phụ làm không bắt được con vật nào trong nhiều ngày.'
+
+  - id: nt_m13_tn_24
+    kind: bao_cao
+    tags: [san_bat, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: kiem
+    variants:
+      - 'Bạn thấy người lớn xử lý một cuộc săn thành công và hiểu thêm về cách sử dụng từng phần của con vật.'
+
+  - id: nt_m13_tn_25
+    kind: bao_cao
+    tags: [canh_tac, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition:
+      all:
+        - { var: player.age, op: '>=', value: 12 }
+        - any:
+            - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+            - { var: player.origin, op: in, value: [nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_giu_kho, nt_con_nguoi_tim_da_quy] }
+            - { has_property: nt_khu_cay_luong_thuc }
+    once_per_life: true
+    weight: 5
+    importance: 3
+    tone: vui
+    icon: lua
+    variants:
+      - 'Bạn được hướng dẫn cách chuẩn bị hạt cho mùa tiếp theo tại một cộng đồng canh tác Tây Á.'
+
+  - id: nt_m13_tn_26
+    kind: bao_cao
+    tags: [thu_cong, hoc_hanh]
+    life_stages: [thieu_thoi]
+    condition:
+      all:
+        - { var: player.age, op: '>=', value: 12 }
+        - any:
+            - { var: player.origin, op: '==', value: nt_con_nguoi_lam_gom }
+            - { var: player.career, op: '==', value: nt_nguoi_lam_gom }
+            - { has_property: nt_vat_dung_gom }
+            - { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+    once_per_life: true
+    weight: 5
+    importance: 3
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn học cách tạo hình một vật đựng bằng đất tại cộng đồng Jōmon có kỹ nghệ gốm.'
+
+  - id: nt_m13_tn_27
+    kind: bao_cao
+    tags: [song_nuoc, thien_nhien]
+    life_stages: [thieu_thoi]
+    condition:
+      all:
+        - { var: player.age, op: '>=', value: 12 }
+        - any:
+            - { var: player.origin, op: in, value: [nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_con_cong_dong_ho_sahara] }
+            - { var: player.career, op: '==', value: nt_nguoi_danh_ca }
+            - { has_property: nt_bai_danh_ca }
+    cooldown_years: 3
+    weight: 5
+    importance: 2
+    icon: nuoc
+    variants:
+      - 'Bạn phát hiện những dấu hiệu mực nước thay đổi tại bãi đánh cá quen thuộc.'
+
+  - id: nt_m13_tn_28
+    kind: nguoi_quanh
+    tags: [gia_dinh, truyen_thong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: lang
+    variants:
+      - 'Bạn chứng kiến một người lớn tuổi không còn đủ sức tham gia chuyến đi như trước.'
+
+  - id: nt_m13_tn_29
+    kind: nguoi_quanh
+    tags: [quan_he, nghe]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '>=', value: 12 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: ky_nang
+    variants:
+      - 'Một người bạn quyết định học nghề khác với truyền thống gia đình mình.'
+
+  - id: nt_m13_tn_30
+    kind: bao_cao
+    tags: [moc_doi, lao_dong]
+    life_stages: [thieu_thoi]
+    condition: { var: player.age, op: '==', value: 15 }
+    once_per_life: true
+    weight: 6
+    importance: 3
+    icon: moc_doi
+    variants:
+      - 'Khi gần tuổi mười sáu, bạn bắt đầu được giao nhiều trách nhiệm hơn và hiểu rõ hậu quả của những sai lầm.'
+
+  # ────────────────────────── TUỔI 16–30: THANH NIÊN (01–30) ──────────────────────────
+  - id: nt_m13_thn_01
+    kind: bao_cao
+    tags: [sinh_ton, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 5
+    importance: 3
+    tone: vui
+    icon: duong
+    variants:
+      - 'Bạn hoàn thành chuyến kiếm ăn đầu tiên mà không cần người thân trực tiếp hướng dẫn.'
+
+  - id: nt_m13_thn_02
+    kind: nguoi_quanh
+    tags: [gia_dinh, thu_cong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: vui
+    icon: da
+    variants:
+      - 'Một người lớn tuổi giao cho bạn sử dụng một công cụ quan trọng của gia đình.'
+
+  - id: nt_m13_thn_03
+    kind: nguoi_quanh
+    tags: [quan_he, trao_doi]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: chen_tra
+    variants:
+      - 'Bạn gặp một người từ cộng đồng khác và bắt đầu duy trì quan hệ thân thiết.'
+
+  - id: nt_m13_thn_04
+    kind: bao_cao
+    tags: [mat_mua, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: buon
+    icon: mat_mua
+    variants:
+      - 'Bạn trải qua mùa thức ăn thiếu thốn đầu tiên với trách nhiệm của một người trưởng thành.'
+
+  - id: nt_m13_thn_05
+    kind: nguoi_quanh
+    tags: [quan_he, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Một người bạn thân lập gia đình hoặc bắt đầu cuộc sống đôi lứa riêng.'
+
+  - id: nt_m13_thn_06
+    kind: bao_cao
+    tags: [nghe, ky_nang]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: vui
+    icon: ky_nang
+    variants:
+      - 'Bạn nhận ra tay nghề của mình đã vượt qua một số người từng hướng dẫn.'
+
+  - id: nt_m13_thn_07
+    kind: nguoi_quanh
+    tags: [kham_pha, thien_nhien]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: nuoc
+    variants:
+      - 'Bạn được mời tham gia chuyến tìm kiếm nguồn nước mới.'
+
+  - id: nt_m13_thn_08
+    kind: bao_cao
+    tags: [benh_tat, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: suc_khoe
+    variants:
+      - 'Một chấn thương nhẹ khiến bạn phải nghỉ công việc thường làm vài ngày.'
+
+  - id: nt_m13_thn_09
+    kind: bao_cao
+    tags: [noi_tru, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: nha
+    variants:
+      - 'Bạn và người thân cùng dựng lại nơi trú đã xuống cấp.'
+
+  - id: nt_m13_thn_10
+    kind: nguoi_quanh
+    tags: [truyen_thong, thu_cong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Một người trẻ hơn đề nghị bạn hướng dẫn họ sử dụng công cụ.'
+
+  - id: nt_m13_thn_11
+    kind: nguoi_quanh
+    tags: [lang_xa, quan_he]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: dong
+    variants:
+      - 'Bạn chứng kiến một cuộc tranh cãi về việc phân chia nguồn thức ăn.'
+
+  - id: nt_m13_thn_12
+    kind: bao_cao
+    tags: [thu_cong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn bắt đầu tích lũy một bộ công cụ riêng phục vụ công việc.'
+
+  - id: nt_m13_thn_13
+    kind: bao_cao
+    tags: [san_bat, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Một chuyến săn thành công giúp gia đình có thêm thức ăn trong nhiều ngày.'
+
+  - id: nt_m13_thn_14
+    kind: tin_the_gioi
+    tags: [hai_luom, thien_nhien]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: la
+    variants:
+      - 'Bạn nhận thấy nguồn quả quen thuộc đang giảm so với những mùa trước.'
+
+  - id: nt_m13_thn_15
+    kind: bao_cao
+    tags: [sinh_ton, lang_xa]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: duong
+    variants:
+      - 'Bạn được giao dẫn một nhóm nhỏ đến khu vực kiếm ăn quen thuộc.'
+
+  - id: nt_m13_thn_16
+    kind: nguoi_quanh
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: tang
+    variants:
+      - 'Một người thân qua đời khiến trách nhiệm trong gia đình thay đổi.'
+
+  - id: nt_m13_thn_17
+    kind: bao_cao
+    tags: [quan_he, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Bạn bắt đầu nghĩ đến việc gắn bó lâu dài với một người mình yêu mến.'
+
+  - id: nt_m13_thn_18
+    kind: nguoi_quanh
+    tags: [lang_xa]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: lang
+    variants:
+      - 'Một gia đình mới đến cư trú gần nhóm của bạn.'
+
+  - id: nt_m13_thn_19
+    kind: bao_cao
+    tags: [thu_cong, kham_pha]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn tìm được loại đá phù hợp để chế tác công cụ hơn nguyên liệu cũ.'
+
+  - id: nt_m13_thn_20
+    kind: nguoi_quanh
+    tags: [quan_he]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 3
+    importance: 2
+    tone: vui
+    icon: chen_tra
+    variants:
+      - 'Một người bạn cũ bất ngờ trở về sau nhiều năm xa cách.'
+
+  - id: nt_m13_thn_21
+    kind: bao_cao
+    tags: [lang_xa, thien_nhien]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: nuoc
+    variants:
+      - 'Bạn và những người khác cùng sửa đường đi đến nguồn nước.'
+
+  - id: nt_m13_thn_22
+    kind: bao_cao
+    tags: [song_nuoc, kham_pha]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.age, op: '<=', value: 30 }
+        - any:
+            - { var: player.origin, op: in, value: [nt_con_nguoi_danh_ca_song, nt_con_cong_dong_ven_bien, nt_con_cong_dong_ho_sahara] }
+            - { var: player.career, op: '==', value: nt_nguoi_danh_ca }
+            - { has_property: nt_bai_danh_ca }
+    cooldown_years: 5
+    weight: 5
+    importance: 2
+    tone: vui
+    icon: nuoc
+    variants:
+      - 'Bạn phát hiện một điểm đánh cá thuận lợi sau khi dòng nước thay đổi.'
+
+  - id: nt_m13_thn_23
+    kind: bao_cao
+    tags: [trao_doi, hoc_hanh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: duong
+    variants:
+      - 'Bạn tham gia một chuyến trao đổi nguyên liệu và trở về với kiến thức mới.'
+
+  - id: nt_m13_thn_24
+    kind: nguoi_quanh
+    tags: [cham_soc, gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: suc_khoe
+    variants:
+      - 'Bạn phải chăm sóc người thân trong lúc người đó không thể lao động.'
+
+  - id: nt_m13_thn_25
+    kind: bao_cao
+    tags: [canh_tac, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.age, op: '<=', value: 30 }
+        - any:
+            - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+            - { var: player.origin, op: in, value: [nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_giu_kho, nt_con_nguoi_tim_da_quy] }
+            - { var: player.career, op: '==', value: nt_nguoi_khai_thac_ngu_coc }
+            - { has_property: nt_khu_cay_luong_thuc }
+    cooldown_years: 4
+    weight: 5
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Bạn tham gia thu hoạch hạt tại một cộng đồng canh tác Tây Á.'
+
+  - id: nt_m13_thn_26
+    kind: chuyen_vat
+    tags: [thu_cong, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition:
+      all:
+        - { var: player.age, op: '<=', value: 30 }
+        - any:
+            - { var: player.origin, op: '==', value: nt_con_nguoi_lam_gom }
+            - { var: player.career, op: '==', value: nt_nguoi_lam_gom }
+            - { has_property: nt_vat_dung_gom }
+            - { var: world.polity_id, op: '==', value: dong_a_hoang_ha_8000bce }
+    cooldown_years: 5
+    weight: 5
+    importance: 2
+    tone: buon
+    icon: da
+    variants:
+      - 'Một chiếc nồi gốm bạn chế tác bị nứt trong lúc nung tại cộng đồng Jōmon.'
+
+  - id: nt_m13_thn_27
+    kind: bao_cao
+    tags: [lang_xa, lao_dong]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: duong
+    variants:
+      - 'Bạn có cơ hội trở thành người điều phối một chuyến đi nhưng vẫn chưa tự tin vào khả năng của mình.'
+
+  - id: nt_m13_thn_28
+    kind: nguoi_quanh
+    tags: [gia_dinh]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: '<=', value: 30 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Gia đình đón thêm một đứa trẻ và phải thay đổi cách phân chia công việc.'
+
+  - id: nt_m13_thn_29
+    kind: bao_cao
+    tags: [moc_doi]
+    life_stages: [thanh_nien, lap_nghiep]
+    condition: { var: player.age, op: 'between', value: [24, 30] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: trang
+    variants:
+      - 'Bạn nhận ra một số dự định thời thiếu niên không còn phù hợp với cuộc sống hiện tại.'
+
+  - id: nt_m13_thn_30
+    kind: bao_cao
+    tags: [moc_doi]
+    life_stages: [lap_nghiep]
+    condition: { var: player.age, op: '==', value: 30 }
+    once_per_life: true
+    weight: 6
+    importance: 3
+    icon: moc_doi
+    variants:
+      - 'Khi bước sang tuổi ba mươi, bạn đã chứng kiến nhiều thay đổi về con người và nơi cư trú.'
+
+  # ────────────────────────── TUỔI 31–50: TRUNG NIÊN (01–30) ──────────────────────────
+  - id: nt_m13_trn_01
+    kind: nguoi_quanh
+    tags: [truyen_thong, hoc_hanh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: sach
+    variants:
+      - 'Một người trẻ đề nghị bạn truyền dạy kỹ năng đã tích lũy qua nhiều năm.'
+
+  - id: nt_m13_trn_02
+    kind: chuyen_vat
+    tags: [thu_cong, lao_dong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: da
+    variants:
+      - 'Bạn phát hiện công cụ yêu thích của mình đã mòn sau thời gian dài sử dụng.'
+
+  - id: nt_m13_trn_03
+    kind: nguoi_quanh
+    tags: [gia_dinh, suc_khoe]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: suc_khoe
+    variants:
+      - 'Một người thân không còn đủ sức tham gia công việc như trước.'
+
+  - id: nt_m13_trn_04
+    kind: bao_cao
+    tags: [gia_dinh, lao_dong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: gia_dinh
+    variants:
+      - 'Bạn phải phân chia thời gian giữa kiếm ăn và chăm sóc gia đình.'
+
+  - id: nt_m13_trn_05
+    kind: nguoi_quanh
+    tags: [quan_he, lang_xa]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: chen_tra
+    variants:
+      - 'Một người từng bất hòa với bạn đề nghị cùng hợp tác trong chuyến kiếm ăn.'
+
+  - id: nt_m13_trn_06
+    kind: nguoi_quanh
+    tags: [gia_dinh, truyen_thong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Bạn chứng kiến đứa trẻ từng được mình chăm sóc nay đã biết tự kiếm sống.'
+
+  - id: nt_m13_trn_07
+    kind: tin_the_gioi
+    tags: [san_bat, thien_nhien]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: trang
+    variants:
+      - 'Một bãi săn cũ không còn nhiều thú như những năm trước.'
+
+  - id: nt_m13_trn_08
+    kind: bao_cao
+    tags: [thien_nhien, hoc_hanh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn nhận thấy mình có thể dự đoán một số thay đổi theo mùa tốt hơn khi còn trẻ.'
+
+  - id: nt_m13_trn_09
+    kind: nguoi_quanh
+    tags: [lang_xa, noi_tru]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: nha
+    variants:
+      - 'Một gia đình khác hỏi ý kiến bạn về việc chọn nơi trú.'
+
+  - id: nt_m13_trn_10
+    kind: bao_cao
+    tags: [noi_tru, gia_dinh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: nha
+    variants:
+      - 'Bạn và người thân cùng sửa lại chỗ ở để phù hợp với gia đình đông thành viên hơn.'
+
+  - id: nt_m13_trn_11
+    kind: nguoi_quanh
+    tags: [quan_he, di_cu]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 3
+    importance: 2
+    tone: buon
+    icon: duong
+    variants:
+      - 'Một người bạn cùng tuổi quyết định rời cộng đồng để sống cùng người thân ở nơi khác.'
+
+  - id: nt_m13_trn_12
+    kind: nguoi_quanh
+    tags: [lang_xa, ngoai_giao]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: chen_tra
+    variants:
+      - 'Bạn được nhờ giải quyết tranh cãi giữa hai thành viên trẻ.'
+
+  - id: nt_m13_trn_13
+    kind: nguoi_quanh
+    tags: [truyen_thong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: buon
+    icon: tang
+    variants:
+      - 'Bạn chứng kiến một người từng dạy mình qua đời.'
+
+  - id: nt_m13_trn_14
+    kind: bao_cao
+    tags: [thu_cong, truyen_thong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Bạn bắt đầu sử dụng công cụ được cải tiến bởi thế hệ trẻ.'
+
+  - id: nt_m13_trn_15
+    kind: nguoi_quanh
+    tags: [gia_dinh, nghe]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: ky_nang
+    variants:
+      - 'Một người thân muốn học nghề khác với nghề gia đình thường làm.'
+
+  - id: nt_m13_trn_16
+    kind: bao_cao
+    tags: [sinh_ton, lang_xa]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 3
+    icon: duong
+    variants:
+      - 'Bạn được giao hướng dẫn nhóm tìm thức ăn trong mùa khan hiếm.'
+
+  - id: nt_m13_trn_17
+    kind: diem_bao
+    tags: [suc_khoe, lao_dong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [36, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: suc_khoe
+    variants:
+      - 'Một công việc từng rất dễ dàng nay khiến bạn mệt mỏi hơn.'
+
+  - id: nt_m13_trn_18
+    kind: bao_cao
+    tags: [du_tru, gia_dinh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: lua
+    variants:
+      - 'Bạn phải quyết định nên dành nguồn thức ăn dự trữ cho những nhu cầu nào của gia đình.'
+
+  - id: nt_m13_trn_19
+    kind: nguoi_quanh
+    tags: [quan_he, truyen_thong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: chen_tra
+    variants:
+      - 'Một người bạn từ thời thơ ấu kể lại kỷ niệm mà bạn gần như đã quên.'
+
+  - id: nt_m13_trn_20
+    kind: chuyen_vat
+    tags: [noi_tru, lang_xa]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: nha
+    variants:
+      - 'Bạn chứng kiến khu cư trú thay đổi sau nhiều lần xây dựng và sửa chữa.'
+
+  - id: nt_m13_trn_21
+    kind: chuyen_vat
+    tags: [truyen_thong, lang_xa]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [35, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: sach
+    variants:
+      - 'Một thế hệ trẻ bắt đầu không còn nhớ những người từng lập nơi trú này.'
+
+  - id: nt_m13_trn_22
+    kind: bao_cao
+    tags: [canh_tac, truyen_thong]
+    life_stages: [lap_nghiep, trung_nien]
+    condition:
+      all:
+        - { var: player.age, op: 'between', value: [31, 50] }
+        - any:
+            - { var: world.polity_id, op: '==', value: luoi_liem_mau_mo_8000bce }
+            - { var: player.origin, op: in, value: [nt_con_nguoi_trong_ngu_coc, nt_con_nguoi_dung_nha, nt_con_nguoi_giu_kho, nt_con_nguoi_tim_da_quy] }
+            - { var: player.career, op: '==', value: nt_nguoi_khai_thac_ngu_coc }
+            - { has_property: nt_khu_cay_luong_thuc }
+    cooldown_years: 5
+    weight: 5
+    importance: 2
+    tone: vui
+    icon: lua
+    variants:
+      - 'Bạn hướng dẫn cách chọn hạt cho mùa tiếp theo ở một làng canh tác Tây Á.'
+
+  - id: nt_m13_trn_23
+    kind: bao_cao
+    tags: [di_cu, suc_khoe]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [35, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: duong
+    variants:
+      - 'Một chuyến đi xa khiến bạn nhận ra mình không còn thích di chuyển liên tục như trước.'
+
+  - id: nt_m13_trn_24
+    kind: nguoi_quanh
+    tags: [quan_he, gia_dinh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: chen_tra
+    variants:
+      - 'Bạn gặp lại người từng giúp đỡ gia đình mình trong mùa đói nhiều năm trước.'
+
+  - id: nt_m13_trn_25
+    kind: nguoi_quanh
+    tags: [truyen_thong, hoc_hanh]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: tre_em
+    variants:
+      - 'Một người trẻ mắc sai lầm giống hệt bạn khi mới trưởng thành.'
+
+  - id: nt_m13_trn_26
+    kind: bao_cao
+    tags: [quan_he, lang_xa]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: lang
+    variants:
+      - 'Bạn nhận thấy những mối quan hệ trong cộng đồng quan trọng không kém kỹ năng kiếm ăn.'
+
+  - id: nt_m13_trn_27
+    kind: tin_the_gioi
+    tags: [thien_nhien, di_cu]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 6
+    weight: 3
+    importance: 3
+    tone: buon
+    icon: duong
+    variants:
+      - 'Gia đình phải thay đổi nơi cư trú sau một biến cố môi trường.'
+
+  - id: nt_m13_trn_28
+    kind: nguoi_quanh
+    tags: [gia_dinh, cham_soc]
+    life_stages: [lap_nghiep, trung_nien]
+    condition: { var: player.age, op: 'between', value: [31, 50] }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Bạn giúp chăm sóc một đứa trẻ mới sinh trong gia đình mở rộng.'
+
+  - id: nt_m13_trn_29
+    kind: bao_cao
+    tags: [moc_doi]
+    life_stages: [trung_nien]
+    condition: { var: player.age, op: 'between', value: [42, 50] }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: trang
+    variants:
+      - 'Bạn nhận ra một số mục tiêu lớn đã đạt được nhưng nhiều ước mơ khác sẽ không thể thực hiện.'
+
+  - id: nt_m13_trn_30
+    kind: bao_cao
+    tags: [moc_doi, truyen_thong]
+    life_stages: [trung_nien]
+    condition: { var: player.age, op: '==', value: 50 }
+    once_per_life: true
+    weight: 6
+    importance: 3
+    icon: moc_doi
+    variants:
+      - 'Khi bước sang tuổi năm mươi, bạn bắt đầu suy nghĩ nhiều hơn về những gì mình sẽ truyền lại.'
+
+  # ────────────────────────── TUỔI 51+: LÃO NIÊN (01–30) ──────────────────────────
+  - id: nt_m13_ln_01
+    kind: chuyen_vat
+    tags: [gia_dinh, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: nha
+    variants:
+      - 'Bạn thức dậy sớm và ngồi bên bếp lửa khi những người trẻ chuẩn bị đi kiếm ăn.'
+
+  - id: nt_m13_ln_02
+    kind: nguoi_quanh
+    tags: [truyen_thong, kham_pha]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: duong
+    variants:
+      - 'Một đứa trẻ hỏi bạn về con đường mà nhóm từng đi qua nhiều năm trước.'
+
+  - id: nt_m13_ln_03
+    kind: chuyen_vat
+    tags: [thu_cong, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: da
+    variants:
+      - 'Bạn tìm thấy công cụ cũ đã không còn được sử dụng.'
+
+  - id: nt_m13_ln_04
+    kind: nguoi_quanh
+    tags: [truyen_thong, thu_cong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Một người trẻ đề nghị bạn chỉ cách làm một công cụ đơn giản.'
+
+  - id: nt_m13_ln_05
+    kind: diem_bao
+    tags: [suc_khoe]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: suc_khoe
+    variants:
+      - 'Bạn nhận ra mình không thể đi xa như thời thanh niên.'
+
+  - id: nt_m13_ln_06
+    kind: nguoi_quanh
+    tags: [quan_he]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 5
+    weight: 4
+    importance: 3
+    tone: buon
+    icon: tang
+    variants:
+      - 'Một người bạn cùng thế hệ qua đời sau một thời gian đau ốm.'
+
+  - id: nt_m13_ln_07
+    kind: nguoi_quanh
+    tags: [truyen_thong, gia_dinh]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: sach
+    variants:
+      - 'Bạn kể cho những đứa trẻ nghe về nơi cư trú cũ.'
+
+  - id: nt_m13_ln_08
+    kind: nguoi_quanh
+    tags: [gia_dinh, cham_soc]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: lua
+    variants:
+      - 'Một thành viên trong gia đình đem thức ăn đến vì bạn không thể tự đi kiếm ăn hôm đó.'
+
+  - id: nt_m13_ln_09
+    kind: bao_cao
+    tags: [thien_nhien, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn vẫn nhận biết được dấu hiệu thay đổi mùa dù thị lực đã kém đi.'
+
+  - id: nt_m13_ln_10
+    kind: nguoi_quanh
+    tags: [truyen_thong, thu_cong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: da
+    variants:
+      - 'Một đứa trẻ làm hỏng công cụ và bạn nhớ lại sai lầm tương tự khi còn nhỏ.'
+
+  - id: nt_m13_ln_11
+    kind: chuyen_vat
+    tags: [quan_he, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: buon
+    icon: trang
+    variants:
+      - 'Bạn nhận thấy phần lớn những người mình quen khi trẻ đã chuyển đi hoặc qua đời.'
+
+  - id: nt_m13_ln_12
+    kind: nguoi_quanh
+    tags: [truyen_thong, thu_cong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: da
+    variants:
+      - 'Một người trẻ tự hào khoe công cụ mà bạn từng chỉ cách chế tác.'
+
+  - id: nt_m13_ln_13
+    kind: bao_cao
+    tags: [gia_dinh, lao_dong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    icon: lua
+    variants:
+      - 'Bạn tham gia chuẩn bị thức ăn gần nơi trú thay vì đi xa như trước.'
+
+  - id: nt_m13_ln_14
+    kind: chuyen_vat
+    tags: [thien_nhien, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: mua
+    variants:
+      - 'Một cơn mưa lớn khiến bạn nhớ lại trận lũ từng trải qua nhiều năm trước.'
+
+  - id: nt_m13_ln_15
+    kind: nguoi_quanh
+    tags: [truyen_thong, lang_xa]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: sach
+    variants:
+      - 'Bạn được nhờ kể lại nguyên nhân hai nhóm cư trú từng bất hòa.'
+
+  - id: nt_m13_ln_16
+    kind: nguoi_quanh
+    tags: [truyen_thong, lao_dong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    icon: ky_nang
+    variants:
+      - 'Người trẻ muốn thay đổi cách làm mà bạn đã quen dùng suốt nhiều năm.'
+
+  - id: nt_m13_ln_17
+    kind: chuyen_vat
+    tags: [di_cu, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: duong
+    variants:
+      - 'Bạn nhận ra một tuyến đường từng rất quan trọng nay ít người sử dụng.'
+
+  - id: nt_m13_ln_18
+    kind: nguoi_quanh
+    tags: [gia_dinh, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: tre_em
+    variants:
+      - 'Một đứa cháu hoặc người trẻ thân thiết bắt đầu học theo những thói quen của bạn.'
+
+  - id: nt_m13_ln_19
+    kind: nguoi_quanh
+    tags: [lang_xa, di_cu]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: lang
+    variants:
+      - 'Bạn được mời tham gia bàn bạc về việc chuyển nơi cư trú.'
+
+  - id: nt_m13_ln_20
+    kind: nguoi_quanh
+    tags: [gia_dinh, cham_soc]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: nha
+    variants:
+      - 'Một người thân giúp bạn sửa chỗ ngủ để dễ dàng sinh hoạt hơn.'
+
+  - id: nt_m13_ln_21
+    kind: chuyen_vat
+    tags: [gia_dinh, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: gia_dinh
+    variants:
+      - 'Bạn nhìn thấy nhiều thế hệ cùng chuẩn bị thức ăn bên bếp lửa.'
+
+  - id: nt_m13_ln_22
+    kind: nguoi_quanh
+    tags: [san_bat, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 3
+    tone: vui
+    icon: kiem
+    variants:
+      - 'Một người trẻ lần đầu dẫn đoàn săn thành công bằng kỹ năng từng học từ bạn.'
+
+  - id: nt_m13_ln_23
+    kind: chuyen_vat
+    tags: [gia_dinh, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: trang
+    variants:
+      - 'Bạn nghĩ về một người đã mất từ rất lâu nhưng vẫn nhớ rõ giọng nói của họ.'
+
+  - id: nt_m13_ln_24
+    kind: nguoi_quanh
+    tags: [lang_xa, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    icon: lang
+    variants:
+      - 'Một gia đình mới đến cư trú và không biết gì về những biến cố cũ của nhóm.'
+
+  - id: nt_m13_ln_25
+    kind: nguoi_quanh
+    tags: [hai_luom, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 5
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: la
+    variants:
+      - 'Bạn được hỏi về một loại cây mà nhiều người trẻ không còn nhận biết.'
+
+  - id: nt_m13_ln_26
+    kind: bao_cao
+    tags: [benh_tat, lao_dong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: buon
+    icon: suc_khoe
+    variants:
+      - 'Một ngày đau khớp khiến bạn phải từ chối công việc thường làm.'
+
+  - id: nt_m13_ln_27
+    kind: bao_cao
+    tags: [truyen_thong, thu_cong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: ky_nang
+    variants:
+      - 'Bạn phát hiện thế hệ trẻ đã cải thiện một kỹ thuật mà mình từng truyền dạy.'
+
+  - id: nt_m13_ln_28
+    kind: nguoi_quanh
+    tags: [truyen_thong, lang_xa]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    cooldown_years: 4
+    weight: 4
+    importance: 2
+    tone: an_ui
+    icon: sach
+    variants:
+      - 'Bạn dành một buổi chiều kể chuyện cũ cho những người còn muốn lắng nghe.'
+
+  - id: nt_m13_ln_29
+    kind: chuyen_vat
+    tags: [noi_tru, truyen_thong]
+    life_stages: [trung_nien, tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 51 }
+    once_per_life: true
+    weight: 4
+    importance: 2
+    tone: vui
+    icon: nha
+    variants:
+      - 'Bạn nhìn thấy nơi mình từng giúp dựng lên đang được sửa chữa cho thế hệ sau.'
+
+  - id: nt_m13_ln_30
+    kind: diem_bao
+    tags: [moc_doi, truyen_thong]
+    life_stages: [tuoi_gia]
+    condition: { var: player.age, op: '>=', value: 55 }
+    once_per_life: true
+    weight: 6
+    importance: 3
+    tone: an_ui
+    icon: trang
+    variants:
+      - 'Trong một buổi tối yên tĩnh, bạn nhận ra cuộc đời mình đã trải qua nhiều mùa hơn từng tưởng tượng.'
+
